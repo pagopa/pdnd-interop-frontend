@@ -756,7 +756,8 @@
       "outcome": {
         "error": "The risk analysis could not be signed. Please try again!",
         "versionChanged": "Another reviewer has modified this risk analysis. Reload the page to see the updated version and decide whether to approve it.",
-        "alreadyApproved": "This risk analysis has already been approved by another reviewer. Reload the page to see the approved risk analysis."
+        "alreadyApproved": "This risk analysis has already been approved by another reviewer. Reload the page to see the approved risk analysis.",
+        "alreadyRejected": "This risk analysis has already been rejected by another reviewer. Reload the page to see the rejected risk analysis."
       }
     },
     "rejectRiskAnalysis": {

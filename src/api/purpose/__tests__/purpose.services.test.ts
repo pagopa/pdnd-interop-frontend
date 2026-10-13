@@ -79,6 +79,15 @@ describe('PurposeServices', () => {
         PurposeServices.signRiskAnalysis({ purposeId: 'purpose-id', metadataVersionToSign: 3 }),
       method: 'post',
     },
+    {
+      name: 'reject',
+      request: () =>
+        PurposeServices.rejectRiskAnalysis({
+          purposeId: 'purpose-id',
+          rejectionReason: 'A valid rejection reason',
+        }),
+      method: 'post',
+    },
   ] satisfies Array<{ name: string; request: () => Promise<unknown>; method: 'put' | 'post' }>
 
   describe.each(operations)('$name after a concurrent approval', ({ request, method }) => {
@@ -99,7 +108,16 @@ describe('PurposeServices', () => {
       await expect(request()).rejects.toThrow('Risk analysis already approved')
     })
 
-    it.each(['REJECTED', 'ASSIGNED'] as const)(
+    it('explains that the analysis is already rejected', async () => {
+      vi.mocked(axiosInstance[method]).mockRejectedValueOnce(conflict)
+      vi.mocked(axiosInstance.get).mockResolvedValueOnce({
+        data: createMockPurpose({ reviewerWorkflow: { reviewers: [], signingState: 'REJECTED' } }),
+        headers: {},
+      })
+      await expect(request()).rejects.toThrow('Risk analysis already rejected')
+    })
+
+    it.each(['SUBMITTED', 'ASSIGNED'] as const)(
       'preserves the original error for %s',
       async (signingState) => {
         vi.mocked(axiosInstance[method]).mockRejectedValueOnce(conflict)

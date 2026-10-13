@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import RiskAnalysisSummaryPage from '../RiskAnalysisSummary.page'
-import { mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
+import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 
 const mockPurposeId = 'test-purpose-id'
 const navigateMock = vi.fn()
@@ -23,6 +24,7 @@ type MockedPurposeData = {
   }
   rulesetExpiration: string
   reviewerWorkflow?: {
+    signingState?: RiskAnalysisSigningState
     reviewers: Array<{ userId: string }>
   }
 }
@@ -43,6 +45,18 @@ const basePurposeData: MockedPurposeData = {
 }
 
 let mockedPurposeData: MockedPurposeData = basePurposeData
+let isPurposeLoading = false
+let isPurposeFetching = false
+
+const { markNotificationsAsReadMock } = vi.hoisted(() => ({
+  markNotificationsAsReadMock: vi.fn(),
+}))
+
+vi.mock('@/api/notification/notification.services', () => ({
+  NotificationServices: {
+    markNotificationsAsReadByEntityId: markNotificationsAsReadMock,
+  },
+}))
 
 mockUseParams({
   purposeId: mockPurposeId,
@@ -65,7 +79,8 @@ vi.mock('@tanstack/react-query', async () => {
     ...actual,
     useQuery: () => ({
       data: mockedPurposeData,
-      isLoading: false,
+      isLoading: isPurposeLoading,
+      isFetching: isPurposeFetching,
     }),
   }
 })
@@ -91,7 +106,144 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteKey('SUBSCRIBE_RISK_ANALYSIS_SUMMARY')
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: 'reviewer-1' } })
     mockedPurposeData = basePurposeData
+    isPurposeLoading = false
+    isPurposeFetching = false
+  })
+
+  it('should mark notifications as read when the assigned reviewer opens the submitted analysis', async () => {
+    mockRouteKey('SUBSCRIBE_RISK_ANALYSIS_APPROVAL')
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: { signingState: 'SUBMITTED', reviewers: [{ userId: 'reviewer-1' }] },
+    }
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: mockPurposeId })
+    })
+  })
+
+  it('should mark notifications for the route entity regardless of reviewer assignment', async () => {
+    mockRouteKey('SUBSCRIBE_RISK_ANALYSIS_APPROVAL')
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: { signingState: 'SUBMITTED', reviewers: [{ userId: 'reviewer-2' }] },
+    }
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: mockPurposeId })
+    })
+  })
+
+  it('should mark notifications for the route entity while the purpose is loading', async () => {
+    mockRouteKey('SUBSCRIBE_RISK_ANALYSIS_APPROVAL')
+    isPurposeLoading = true
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: { signingState: 'SUBMITTED', reviewers: [{ userId: 'reviewer-1' }] },
+    }
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: mockPurposeId })
+    })
+  })
+
+  it.each(['SUBSCRIBE_RISK_ANALYSIS_APPROVAL', 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'])(
+    'should redirect the assigned reviewer from %s to signed details without approval controls',
+    (routeKey) => {
+      mockRouteKey(routeKey)
+      mockedPurposeData = {
+        ...basePurposeData,
+        reviewerWorkflow: { signingState: 'SIGNED', reviewers: [{ userId: 'reviewer-1' }] },
+      }
+
+      renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+        params: { purposeId: mockPurposeId },
+        replace: true,
+      })
+      expect(screen.queryByRole('button', { name: 'approveBtn' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'rejectBtn' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'editDraft' })).not.toBeInTheDocument()
+    }
+  )
+
+  it('should wait for the signed state refetch before redirecting', () => {
+    mockRouteKey('SUBSCRIBE_RISK_ANALYSIS_APPROVAL')
+    isPurposeFetching = true
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: { signingState: 'SIGNED', reviewers: [{ userId: 'reviewer-1' }] },
+    }
+
+    const { rerender } = renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(navigateMock).not.toHaveBeenCalled()
+    expect(screen.queryByRole('button', { name: 'approveBtn' })).not.toBeInTheDocument()
+
+    isPurposeFetching = false
+    rerender(<RiskAnalysisSummaryPage />)
+
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+      params: { purposeId: mockPurposeId },
+      replace: true,
+    })
+  })
+
+  it('should keep the summary flow for an admin who is not an assigned reviewer', () => {
+    mockUseJwt()
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: { signingState: 'SIGNED', reviewers: [{ userId: 'reviewer-1' }] },
+    }
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(navigateMock).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: 'editDraft' })).toBeInTheDocument()
+  })
+
+  it.each([
+    { routeKey: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL', expanded: 'true' },
+    { routeKey: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY', expanded: 'false' },
+  ])('should start card 2 with aria-expanded=$expanded for $routeKey', ({ routeKey, expanded }) => {
+    mockRouteKey(routeKey)
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByRole('button', { name: '2 riskAnalysisSection.title' })).toHaveAttribute(
+      'aria-expanded',
+      expanded
+    )
   })
 
   it('should render summary page title', () => {
