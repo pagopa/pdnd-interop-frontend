@@ -11,6 +11,7 @@ import { debounce } from 'lodash'
 import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdatesBanner'
 import { MIPagination } from '@pagopa/mui-italia'
 import { usePagination } from '@/hooks/usePagination'
+import { Box } from '@mui/material'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -77,12 +78,14 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       <ProductUpdatesBanner />
       <Filters {...filtersHandlers} />
       <EServiceCatalogWrapper params={queryParams} />
-      <MIPagination
-        page={paginationProps.page}
-        itemsPerPageOptions={paginationProps.itemsPerPageOptions}
-        count={getTotalPageCount(data?.pagination.totalCount)}
-        onChange={(_, page) => paginationProps.onPageChange(page)}
-      />
+      <Box mt={3}>
+        <MIPagination
+          page={paginationProps.page}
+          itemsPerPageOptions={paginationProps.itemsPerPageOptions}
+          count={getTotalPageCount(data?.pagination.totalCount)}
+          onChange={(_, page) => paginationProps.onPageChange(page)}
+        />
+      </Box>
     </PageContainer>
   )
 }
