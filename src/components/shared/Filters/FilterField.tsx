@@ -9,7 +9,7 @@ import {
   RHFNewAutocompleteSingle,
   RHFNewAutocompleteMultiple,
   RHFNewSelect,
-  RHFSwitch,
+  RHFNewSwitch,
   RHFNewTextField,
 } from '../react-hook-form-inputs'
 import { RHFDatePicker } from '../react-hook-form-inputs/RHFDatePicker'
@@ -27,7 +27,7 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
       return <RHFNewTextField name={field.name} label={field.label} type="number" />
     })
     .with('boolean', () => {
-      return <RHFSwitch name={field.name} label={field.label} infoLabel={field.description} />
+      return <RHFNewSwitch name={field.name} label={field.label} description={field.description} />
     })
     .with('datepicker', () => {
       return (

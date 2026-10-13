@@ -6,7 +6,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { Pagination, useAutocompleteTextInput, usePagination } from '@pagopa/interop-fe-commons'
 import type {
   CatalogFilterPayload,
-  EServiceDescriptorState,
   EServiceProducerCategory,
   RequesterDelegationRole,
   EServiceMode,
@@ -223,8 +222,22 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
           .with('ASYNC', () => {
             mappedFilters[key] = true
           })
+          .otherwise(() => {
+            mappedFilters[key] = undefined
+          })
         return
       }
+
+      if (key === 'mode' && value === 'ALL') {
+        mappedFilters[key] = undefined
+        return
+      }
+
+      if (key === 'requesterDelegationRoles' && value === 'ALL') {
+        mappedFilters[key] = undefined
+        return
+      }
+
       if (
         value === null ||
         value === false ||
@@ -285,7 +298,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 const EServiceCatalogWrapper: React.FC<{ params: { limit: number; offset: number } }> = ({
   params,
 }) => {
-  const { data, isFetching } = useQuery(EServiceQueries.getCatalogList(params))
+  const { data, isFetching } = useQuery(EServiceQueries.queryCatalogList(params))
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
   return <EServiceCatalogGrid eservices={data?.results} />

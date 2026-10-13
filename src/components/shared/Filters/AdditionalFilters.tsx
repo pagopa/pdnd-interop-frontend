@@ -148,7 +148,9 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
               </Stack>
               {sections.map((section) => (
                 <Stack key={section.title} spacing={2} sx={{ mb: 4 }}>
-                  <Typography variant="h6">{section.title}</Typography>
+                  <Typography fontSize={'16px'} fontWeight={700}>
+                    {section.title}
+                  </Typography>
                   {section.fields.map((field) => (
                     <FilterField key={field.name} field={field} />
                   ))}
