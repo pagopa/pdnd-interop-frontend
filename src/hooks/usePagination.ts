@@ -1,11 +1,24 @@
+import { createParser, useQueryState } from 'nuqs'
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { z } from 'zod'
 
-const paramsSchema = z.coerce.number().int().positive()
-const limitSchema = paramsSchema.max(50).catch(10)
-const offsetSchema = paramsSchema.catch(0)
+const limitValueSchema = z.coerce.number().int().positive().max(50)
+const limitSchema = limitValueSchema.catch(10)
+const offsetValueSchema = z.coerce.number().int().nonnegative()
+const offsetSchema = offsetValueSchema.catch(0)
 const defaultOptions = [10, 24, 36]
+
+const limitParser = createParser({
+  parse: (data) => limitSchema.parse(data),
+  serialize: (data) => String(data),
+})
+
+const offsetParser = createParser({
+  parse: (data) => offsetSchema.parse(data),
+  serialize: (data) => String(data),
+})
+
 /**
  * @description
  * This hook is used to manage the pagination state keeping it in sync with the url params.
@@ -31,45 +44,63 @@ const defaultOptions = [10, 24, 36]
  *
  */
 export function usePagination(options?: { limit: number; limitOptions?: number[] }) {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
+  const defaultLimit = limitSchema.parse(options?.limit)
 
-  const offset = offsetSchema.parse(searchParams.get('offset'))
-  const limit = limitSchema.parse(searchParams.get('limit') || options?.limit)
+  const [limitParam, setLimit] = useQueryState(
+    'limit',
+    limitParser.withDefault(defaultLimit).withOptions({
+      history: 'push',
+      scroll: true,
+      clearOnDefault: false,
+    })
+  )
+  const [offsetParam, setOffset] = useQueryState(
+    'offset',
+    offsetParser.withDefault(0).withOptions({
+      history: 'push',
+      scroll: true,
+    })
+  )
+
+  React.useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const rawLimit = searchParams.get('limit')
+    const rawOffset = searchParams.get('offset')
+
+    if (rawLimit === null || !limitValueSchema.safeParse(rawLimit).success) {
+      setLimit(defaultLimit)
+    }
+
+    if (
+      rawOffset !== null &&
+      (rawOffset.trim() === '' || !offsetValueSchema.safeParse(rawOffset).success)
+    ) {
+      setOffset(0)
+    }
+  }, [defaultLimit, location.search, setLimit, setOffset])
+
   const limitOptions = options?.limitOptions || defaultOptions
 
-  const pageNum = Math.ceil(offset / limit) + 1
+  const pageNum = Math.ceil(offsetParam / limitParam) + 1
 
   const handlePageChange = React.useCallback(
     (newPage: number) => {
       if (newPage < 1) {
         throw new Error(`Number of page ${newPage} is not valid`)
       }
-      window.scroll(0, 0)
-      const newOffset = (newPage - 1) * limit
 
-      // Syncs the new offset to the "offset" search param
-      if (newOffset > 0) {
-        setSearchParams((searchParams) => {
-          searchParams.set('offset', newOffset.toString())
-          return searchParams
-        })
-        return
-      }
-
-      // Removes the search param "offset" if the offset is 0 (page == 1)
-      setSearchParams((searchParams) => {
-        searchParams.delete('offset')
-        return searchParams
-      })
+      const newOffset = (newPage - 1) * limitParam
+      setOffset(newOffset)
     },
-    [limit, setSearchParams]
+    [limitParam, setOffset]
   )
 
   const getTotalPageCount = React.useCallback(
     (totalCount: number | undefined) => {
-      return Math.ceil((totalCount ?? 0) / limit)
+      return Math.ceil((totalCount ?? 0) / limitParam)
     },
-    [limit]
+    [limitParam]
   )
 
   const handleLimitChange = React.useCallback(
@@ -78,20 +109,16 @@ export function usePagination(options?: { limit: number; limitOptions?: number[]
         throw new Error(`Number of items per page ${newLimit} is not valid`)
       }
 
-      window.scroll(0, 0)
-      setSearchParams((searchParams) => {
-        searchParams.set('limit', newLimit.toString())
-        searchParams.delete('offset')
-        return searchParams
-      })
+      setLimit(newLimit)
+      setOffset(0)
     },
-    [setSearchParams]
+    [setLimit, setOffset]
   )
 
-  const paginationParams = { limit, offset }
+  const paginationParams = { limit: limitParam, offset: offsetParam }
 
   const itemsPerPageOptions = {
-    limit,
+    limit: limitParam,
     options: limitOptions,
     onLimitChange: handleLimitChange,
   }
