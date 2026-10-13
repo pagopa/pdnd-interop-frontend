@@ -644,8 +644,8 @@
             "label": "Data exchange",
             "options": {
               "ALL": "All",
-              "SYNC": "Sincrono",
-              "ASYNC": "Asincrono / massivo"
+              "SYNC": "Synchronous",
+              "ASYNC": "Asynchronous / bulk"
             }
           },
           "modeField": {
