@@ -10,10 +10,8 @@ import { ThemeProvider } from '@mui/system'
 import { theme } from '@pagopa/interop-fe-commons'
 
 const switchProps = {
-  standard: {
-    label: 'label',
-    name: 'test',
-  },
+  label: 'label',
+  name: 'test',
 }
 
 const WithTheme = ({ children }: PropsWithChildren) => (
@@ -58,7 +56,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const switchResult = render(
       <WithTheme>
         <TestInputWrapper>
-          <RHFNewSwitch {...switchProps.standard} />
+          <RHFNewSwitch {...switchProps} />
         </TestInputWrapper>
       </WithTheme>
     )
@@ -81,7 +79,7 @@ describe('RHFNewSwitch Accessibility', () => {
     render(
       <WithTheme>
         <TestInputWrapper>
-          <RHFNewSwitch name={switchProps.standard.name} label={testLabel} />
+          <RHFNewSwitch name={switchProps.name} label={testLabel} />
         </TestInputWrapper>
       </WithTheme>
     )

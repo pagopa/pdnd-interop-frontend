@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, type SwitchProps as MUISwitchProps } from '@mui/material'
+import { FormControl } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
