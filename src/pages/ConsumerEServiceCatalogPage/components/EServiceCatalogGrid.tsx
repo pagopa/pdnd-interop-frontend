@@ -1,12 +1,16 @@
-import { Grid, Alert } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Stack } from '@mui/material'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { PREFETCH_STALE_TIME, SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
 import { EServiceQueries } from '@/api/eservice'
 import { AVATAR_BASEPATH, STAGE } from '@/config/env'
 import { EServiceCatalogCard, EServiceCatalogCardSkeleton } from './EServiceCatalogCard'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { ErrorIcon } from '@/icons/ErrorIcon'
+import { theme } from '@pagopa/mui-italia'
 
 type EServiceCatalogGridProps = { eservices: Array<CatalogEService> | undefined }
 
@@ -16,7 +20,28 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
 
   const isEmpty = !eservices || eservices.length === 0
 
-  if (isEmpty) return <Alert severity="info">{t('noDataLabel')}</Alert>
+  if (isEmpty)
+    return (
+      <NoItemResults padding={1} borderRadius={0}>
+        <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>
+          <ErrorIcon />
+          <Stack alignItems="center">
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.colors.neutral.grey[650],
+              }}
+            >
+              {t('noResultsTitle')}
+            </Typography>
+            <Typography variant="caption" sx={{ color: theme.colors.neutral.grey[650] }}>
+              {t('noResultsDescription')}
+            </Typography>
+          </Stack>
+        </Stack>
+      </NoItemResults>
+    )
 
   const handlePrefetch = (eservice: CatalogEService) => {
     if (!eservice.activeDescriptor) return

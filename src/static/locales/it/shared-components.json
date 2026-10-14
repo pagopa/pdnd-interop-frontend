@@ -387,7 +387,9 @@
     "navigationMenu": "Menù di navigazione"
   },
   "table": {
-    "noDataLabel": "Questa ricerca non ha prodotto risultati"
+    "noDataLabel": "Questa ricerca non ha prodotto risultati",
+    "noResultsTitle": "Non ci sono risultati per questa ricerca",
+    "noResultsDescription": "Cerca con un’altra parola o usa altri filtri."
   },
   "downloadableDocumentList": {
     "noDataLabel": "Nessun documento disponibile"
