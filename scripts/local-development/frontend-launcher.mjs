@@ -26,20 +26,26 @@ export function createFrontendLauncher({ runtime, request = requestJson, pause: 
   }
 
   return {
-    start: () =>
+    start: ({ stopOnFailure = false } = {}) =>
       runtime.exclusive(async () => {
-        const previous = await runtime.status()
-        if (!previous.running) await runtime.install()
-        await waitForDashboard({ request: checkedRequest, pause: checkedPause })
-        await action({ type: 'infra.start' })
-        await action({ type: 'preset.start', id: 'frontend-full' })
-        await action({ type: 'seed' })
-        const identity = await runtime.identity()
-        await token(identity.tenantKey, identity.userKey)
-        if (previous.running) await runtime.stop()
-        await runtime.start('local')
-        await runtime.smoke()
-        await runtime.browserChecks()
+        await runtime.reportStartup({ state: 'running' })
+        try {
+          const previous = await runtime.status()
+          if (!previous.running) await runtime.install()
+          await waitForDashboard({ request: checkedRequest, pause: checkedPause })
+          await action({ type: 'infra.start' })
+          await action({ type: 'preset.start', id: 'frontend-full' })
+          await action({ type: 'seed' })
+          const identity = await runtime.identity()
+          await token(identity.tenantKey, identity.userKey)
+          if (previous.running) await runtime.stop()
+          await runtime.start('local')
+          await runtime.smoke()
+          await runtime.browserChecks()
+        } catch (error) {
+          if (stopOnFailure) await runtime.stop()
+          throw error
+        }
       }),
     stop: () =>
       runtime.exclusive(async () => {
@@ -84,14 +90,10 @@ export async function serveFrontend({
   }
   signals.once('SIGINT', shutdown)
   signals.once('SIGTERM', shutdown)
-  await runtime.reportStartup({ state: 'running' })
   try {
-    await launcher.start()
-    await runtime.reportStartup({ state: 'passed' })
+    await launcher.start({ stopOnFailure: true })
     console.log('Frontend ready: http://localhost:3000/ui/it/')
   } catch (error) {
-    await runtime.reportStartup({ state: 'failed', error: error.message })
-    await runtime.stop()
     reportError(error)
     console.error(
       'The frontend container remains available. Fix the error and retry pnpm local:start.'

@@ -70,6 +70,20 @@ it('keeps the selected token and identity in frontend files with private permiss
   expect(await runtime.identity()).toEqual({ tenantKey: 'comune', userKey: 'reviewer' })
 })
 
+it('records accepted lifecycle outcomes before releasing its lock', async () => {
+  const { runtime } = await fixture()
+  await runtime.exclusive(() => runtime.start('dev'))
+  expect(await runtime.startup()).toEqual({ state: 'passed' })
+  await runtime.exclusive(() => runtime.stop())
+  expect(await runtime.startup()).toEqual({ state: 'stopped' })
+  await expect(
+    runtime.exclusive(async () => {
+      throw new Error('Accepted command failed')
+    })
+  ).rejects.toThrow('Accepted command failed')
+  expect(await runtime.startup()).toEqual({ state: 'failed', error: 'Accepted command failed' })
+})
+
 it('rejects overlapping lifecycle commands, recovers a stale claim and releases its lock on failure', async () => {
   const { root, runtime } = await fixture()
   let finish

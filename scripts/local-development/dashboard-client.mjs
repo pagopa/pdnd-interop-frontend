@@ -103,27 +103,13 @@ async function main([command, value, user]) {
     } else if (command === 'serve') {
       await serveFrontend({ runtime, launcher })
     } else if (command === 'start') {
-      await runtime.reportStartup({ state: 'running' })
-      try {
-        await launcher.start()
-        await runtime.reportStartup({ state: 'passed' })
-      } catch (error) {
-        await runtime.reportStartup({ state: 'failed', error: error.message })
-        throw error
-      }
+      await launcher.start()
     } else {
-      try {
-        if (command === 'frontend.stop') await runtime.exclusive(() => runtime.stop())
-        else if (command === 'identity') await launcher.selectIdentity(value, user)
-        else if (command === 'use-local' || command === 'use-dev')
-          await launcher.useMode(command.slice(4))
-        else await launcher[command]()
-        const running = (await runtime.status()).running
-        await runtime.reportStartup({ state: running ? 'passed' : 'stopped' })
-      } catch (error) {
-        await runtime.reportStartup({ state: 'failed', error: error.message })
-        throw error
-      }
+      if (command === 'frontend.stop') await runtime.exclusive(() => runtime.stop())
+      else if (command === 'identity') await launcher.selectIdentity(value, user)
+      else if (command === 'use-local' || command === 'use-dev')
+        await launcher.useMode(command.slice(4))
+      else await launcher[command]()
     }
   } else {
     const action =

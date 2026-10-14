@@ -3,6 +3,10 @@ import { expect, it, vi } from 'vitest'
 import { readFile } from 'node:fs/promises'
 import * as client from './frontend-launcher.mjs'
 import { EventEmitter } from 'node:events'
+import { mkdtemp, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { createFrontendRuntime } from './frontend-runtime.mjs'
 
 function fixture({ ready = true, failedAction } = {}) {
   const events = []
@@ -52,6 +56,7 @@ function fixture({ ready = true, failedAction } = {}) {
     stop: async () => events.push('vite:stop'),
     smoke: async () => events.push('smoke'),
     browserChecks: async () => events.push('browser-checks'),
+    reportStartup: vi.fn(),
   }
   return { events, actions, request, runtime }
 }
@@ -127,34 +132,91 @@ it('restarts existing Vite after refreshing its token without reinstalling depen
   expect(events.slice(-4)).toEqual(['vite:stop', 'vite:local', 'smoke', 'browser-checks'])
 })
 
-it('keeps the editor container alive after failed startup and registers shutdown before setup', async () => {
-  const signals = new EventEmitter()
-  const runtime = { reportStartup: vi.fn(), stop: vi.fn(), shutdown: vi.fn(async () => {}) }
-  const clearKeepAlive = vi.fn()
-  const reportError = vi.fn()
-  const launcher = {
-    start: async () => {
-      expect(signals.listenerCount('SIGTERM')).toBe(1)
+it.each([true, false])(
+  'records an accepted startup failure and cleans Vite only for serve=%s',
+  async (serve) => {
+    const root = await mkdtemp(join(tmpdir(), 'interop-frontend-start-'))
+    const runtime = createFrontendRuntime({ root })
+    const stop = vi.spyOn(runtime, 'stop')
+    const signals = new EventEmitter()
+    const clearKeepAlive = vi.fn()
+    runtime.shutdown = vi.fn(async () => {})
+    runtime.install = async () => {
+      if (serve) expect(signals.listenerCount('SIGTERM')).toBe(1)
+      expect(await runtime.startup()).toEqual({ state: 'running' })
+      await expect(runtime.exclusive(async () => {})).rejects.toThrow(
+        'Another frontend lifecycle command'
+      )
       throw new Error('Dependency install failed')
-    },
+    }
+    const launcher = client.createFrontendLauncher({ runtime })
+    try {
+      if (serve) {
+        await client.serveFrontend({
+          runtime,
+          launcher,
+          signals,
+          keepAlive: () => 'timer',
+          clearKeepAlive,
+          reportError: vi.fn(),
+        })
+      } else {
+        await expect(launcher.start()).rejects.toThrow('Dependency install failed')
+      }
+      expect(await runtime.startup()).toEqual({
+        state: 'failed',
+        error: 'Dependency install failed',
+      })
+      expect(stop).toHaveBeenCalledTimes(serve ? 1 : 0)
+      if (serve) {
+        expect(clearKeepAlive).not.toHaveBeenCalled()
+        signals.emit('SIGTERM')
+        await Promise.resolve()
+        expect(runtime.shutdown).toHaveBeenCalledOnce()
+        expect(clearKeepAlive).toHaveBeenCalledWith('timer')
+      }
+    } finally {
+      await rm(root, { recursive: true, force: true })
+    }
   }
-  await client.serveFrontend({
-    runtime,
-    launcher,
-    signals,
-    keepAlive: () => 'timer',
-    clearKeepAlive,
-    reportError,
+)
+
+it('does not report failure or stop the active owner when a concurrent serve cannot acquire the lock', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'interop-frontend-serve-'))
+  const runtime = createFrontendRuntime({ root })
+  const stop = vi.spyOn(runtime, 'stop')
+  const reportError = vi.fn()
+  let finish
+  let entered
+  const ready = new Promise((resolve) => {
+    entered = resolve
   })
-  expect(runtime.reportStartup).toHaveBeenLastCalledWith({
-    state: 'failed',
-    error: 'Dependency install failed',
+  const active = runtime.exclusive(async () => {
+    await runtime.reportStartup({ state: 'running' })
+    entered()
+    await new Promise((resolve) => {
+      finish = resolve
+    })
   })
-  expect(clearKeepAlive).not.toHaveBeenCalled()
-  signals.emit('SIGTERM')
-  await Promise.resolve()
-  expect(runtime.shutdown).toHaveBeenCalledOnce()
-  expect(clearKeepAlive).toHaveBeenCalledWith('timer')
+  try {
+    await ready
+    await client.serveFrontend({
+      runtime,
+      launcher: client.createFrontendLauncher({ runtime }),
+      signals: new EventEmitter(),
+      keepAlive: () => undefined,
+      reportError,
+    })
+    expect(reportError).toHaveBeenCalledWith(
+      expect.objectContaining({ message: 'Another frontend lifecycle command is running' })
+    )
+    expect(await runtime.startup()).toEqual({ state: 'running' })
+    expect(stop).not.toHaveBeenCalled()
+  } finally {
+    finish?.()
+    await active
+    await rm(root, { recursive: true, force: true })
+  }
 })
 
 it('aborts dashboard readiness immediately when the runtime starts shutting down', async () => {

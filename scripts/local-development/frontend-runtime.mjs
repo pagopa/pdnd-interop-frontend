@@ -204,10 +204,22 @@ export function createFrontendRuntime({
     await mkdir(stateRoot, { recursive: true })
     const release = await claimLifecycleLock(join(stateRoot, 'lifecycle.lock'))
     try {
-      return await task()
+      try {
+        const result = await task()
+        await reportStartup({ state: (await status()).running ? 'passed' : 'stopped' })
+        return result
+      } catch (error) {
+        await reportStartup({ state: 'failed', error: error.message })
+        throw error
+      }
     } finally {
       await release()
     }
+  }
+
+  async function reportStartup(state) {
+    await mkdir(stateRoot, { recursive: true })
+    await writeFile(join(stateRoot, 'startup.json'), JSON.stringify(state))
   }
 
   function run(script, args = []) {
@@ -266,9 +278,6 @@ export function createFrontendRuntime({
     },
     logs: async () => await readFile(join(stateRoot, 'vite.log'), 'utf8'),
     startup: async () => (await readJson(join(stateRoot, 'startup.json'))) ?? { state: 'pending' },
-    reportStartup: async (state) => {
-      await mkdir(stateRoot, { recursive: true })
-      await writeFile(join(stateRoot, 'startup.json'), JSON.stringify(state))
-    },
+    reportStartup,
   }
 }
