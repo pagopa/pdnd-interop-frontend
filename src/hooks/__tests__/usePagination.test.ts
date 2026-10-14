@@ -34,7 +34,7 @@ describe('usePagination', () => {
     vi.restoreAllMocks()
   })
 
-  it('uses and writes the default limit, offset, and limit options', async () => {
+  it('uses the default limit, offset, and limit options without writing defaults to the URL', () => {
     const { result, onUrlUpdate } = renderPagination()
 
     expect(result.current.paginationParams).toEqual({ limit: 10, offset: 0 })
@@ -48,12 +48,10 @@ describe('usePagination', () => {
       },
     })
 
-    await waitFor(() =>
-      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe('limit=10')
-    )
+    expect(onUrlUpdate).not.toHaveBeenCalled()
   })
 
-  it('uses and writes supplied defaults and pagination options when URL params are absent', async () => {
+  it('uses supplied defaults and pagination options without writing defaults to the URL', () => {
     const { result, onUrlUpdate } = renderPagination(undefined, {
       limit: 24,
       limitOptions: [12, 24, 48],
@@ -66,9 +64,7 @@ describe('usePagination', () => {
       onLimitChange: expect.any(Function),
     })
 
-    await waitFor(() =>
-      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe('limit=24')
-    )
+    expect(onUrlUpdate).not.toHaveBeenCalled()
   })
 
   it('reads limit and offset from the URL and calculates the current page', () => {
@@ -78,15 +74,13 @@ describe('usePagination', () => {
     expect(result.current.paginationProps.page).toBe(3)
   })
 
-  it('corrects invalid URL params and limits greater than 50', async () => {
+  it('removes invalid URL params when an offset is present', async () => {
     const { result, onUrlUpdate } = renderPagination({ limit: '51', offset: '-4' }, { limit: 24 })
 
     expect(result.current.paginationParams).toEqual({ limit: 24, offset: 0 })
     expect(result.current.paginationProps.page).toBe(1)
 
-    await waitFor(() =>
-      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe('limit=24')
-    )
+    await waitFor(() => expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe(''))
   })
 
   it('calculates total pages for counts, zero, and an undefined count', () => {
@@ -105,7 +99,6 @@ describe('usePagination', () => {
     await waitFor(() =>
       expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
         filter: 'active',
-        limit: '10',
         offset: '20',
       })
     )
@@ -121,7 +114,6 @@ describe('usePagination', () => {
     await waitFor(() =>
       expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
         filter: 'active',
-        limit: '10',
       })
     )
     expect(result.current.paginationParams.offset).toBe(0)
