@@ -89,7 +89,8 @@ commands are rejected by a Linux kernel lock, which is released when the command
 Refreshing a token restarts Vite so its environment receives the new token.
 
 After reset, run `pnpm local:start` to seed and start again. Reset removes local
-infrastructure data, not either checkout. Ordinary frontend stop leaves unrelated
+event store, SQL readmodels, DynamoDB, Kafka, Redis, RustFS and backend seed state;
+both Git checkouts are preserved. Ordinary frontend stop leaves unrelated
 backend packages alone. The dashboard controls other backend packages, watch
 mode, presets and infrastructure.
 

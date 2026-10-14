@@ -61,10 +61,12 @@ export default defineConfig(({ mode }) => {
       allowedHosts:
         process.env.INTEROP_FRONTEND_PORT === '5173' ? ['host.docker.internal'] : undefined,
       hmr: process.env.INTEROP_FRONTEND_PORT === '5173' ? { clientPort: 3000 } : undefined,
-      watch:
-        process.env.INTEROP_FRONTEND_POLLING === 'true'
+      watch: {
+        ignored: ['**/.pnpm-store/**'],
+        ...(process.env.INTEROP_FRONTEND_POLLING === 'true'
           ? { usePolling: true, interval: 500 }
-          : undefined,
+          : {}),
+      },
       proxy: {
         ...(isLocalDevelopment
           ? {
@@ -102,7 +104,6 @@ export default defineConfig(({ mode }) => {
           '**/api/attribute/**',
           '**/api/auth/**',
           '**/api/client/**',
-          '**/api/eservice/**',
           '**/api/party/**',
           '**/api/purpose/**',
           '**/api/voucher/**',

@@ -1,10 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { ProductUpdatesServices } from './productUpdates.services'
 
-function getProductUpdatesJson() {
+function getProductUpdatesJson(language: string) {
   return queryOptions({
-    queryKey: ['GetProductUpdatesJson'],
-    queryFn: ProductUpdatesServices.getProductUpdatesJson,
+    queryKey: ['GetProductUpdatesJson', language],
+    queryFn: () => ProductUpdatesServices.getProductUpdatesJson(language),
     throwOnError: false,
     retry: false,
     staleTime: Infinity,

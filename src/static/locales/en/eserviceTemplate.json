@@ -329,7 +329,7 @@
             "certified": "Certified Attributes",
             "verified": "Verified Attributes",
             "declared": "Declared Attributes",
-            "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+            "certifiedDescription": "These are attributes recognized by certified sources such as IPA. Among the most commonly used, for example, are Municipalities and their Consortia and Associations, Provinces and their Consortia and Associations, and Public Service Managers. <1>Learn more about which attributes to use</1>.",
             "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
             "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required."
           }
