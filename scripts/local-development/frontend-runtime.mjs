@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
-import { mkdir, open, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, open, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { createConnection } from 'node:net'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -17,14 +17,31 @@ async function readJson(path) {
   }
 }
 
-async function ownsProcess(pid, owner) {
+async function ownsProcessGroup(group, owner) {
   try {
-    const environment = await readFile(`/proc/${pid}/environ`, 'utf8')
-    const stat = await readFile(`/proc/${pid}/stat`, 'utf8')
-    return (
-      environment.split('\0').includes(`INTEROP_FRONTEND_OWNER=${owner}`) &&
-      !stat.slice(stat.lastIndexOf(')') + 2).startsWith('Z')
+    const members = await Promise.all(
+      (await readdir('/proc'))
+        .filter((pid) => /^\d+$/.test(pid))
+        .map(async (pid) => {
+          let fields
+          try {
+            const stat = await readFile(`/proc/${pid}/stat`, 'utf8')
+            fields = stat.slice(stat.lastIndexOf(')') + 2).split(' ')
+          } catch {
+            return undefined
+          }
+          if (fields[0] === 'Z' || Number(fields[2]) !== group) return undefined
+          try {
+            const environment = await readFile(`/proc/${pid}/environ`, 'utf8')
+            return environment.split('\0').includes(`INTEROP_FRONTEND_OWNER=${owner}`)
+          } catch (error) {
+            return error.code === 'ENOENT' ? undefined : false
+          }
+        })
     )
+    // The leader can exit before Vite. Every live member must still belong to
+    // this runtime before signalling a group that might otherwise be reused.
+    return members.includes(true) && !members.includes(false)
   } catch {
     return false
   }
@@ -96,7 +113,7 @@ export function createFrontendRuntime({
   root = defaultRoot,
   environment = process.env,
   spawnProcess = spawn,
-  owns = ownsProcess,
+  owns = ownsProcessGroup,
   signal = process.kill.bind(process),
   available = portAvailable,
   probe = fetch,
@@ -129,6 +146,7 @@ export function createFrontendRuntime({
       Number.isSafeInteger(state.pid) &&
       state.pid > 0 &&
       typeof state.owner === 'string' &&
+      state.owner.length > 0 &&
       (await owns(state.pid, state.owner))
     )
     return { ...state, running }
@@ -136,13 +154,19 @@ export function createFrontendRuntime({
 
   async function stop() {
     const state = await status()
-    if (state.running) {
-      kill(state.pid, 'SIGTERM')
+    const waitForStop = async () => {
       for (let attempt = 0; attempt < 50 && (await owns(state.pid, state.owner)); attempt += 1) {
         await wait(100)
       }
-      // A grandchild can survive even after the process-group leader exits.
-      kill(state.pid, 'SIGKILL')
+    }
+    if (state.running && (await owns(state.pid, state.owner))) {
+      kill(state.pid, 'SIGTERM')
+      await waitForStop()
+      if (await owns(state.pid, state.owner)) {
+        kill(state.pid, 'SIGKILL')
+        await waitForStop()
+      }
+      if (await owns(state.pid, state.owner)) throw new Error('Frontend process group did not stop')
     }
     await rm(processFile, { force: true })
   }
