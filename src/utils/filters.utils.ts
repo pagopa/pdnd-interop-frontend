@@ -1,4 +1,4 @@
-import type { FilterFields, FilterFieldsValues, FilterFieldValue } from '@/types/filters.types'
+import type { FilterFields, FilterFieldsValues } from '@/types/filters.types'
 import { match } from 'ts-pattern'
 
 const getDefaultValue = (type: string) => {

@@ -1,5 +1,11 @@
 export type ActiveFilters = Array<FilterOption & { type: FilterFieldType; filterKey: string }>
-export type FilterFieldValue = Array<FilterOption> | FilterOption | string | (Date | null) | boolean
+export type FilterFieldValue =
+  | Array<FilterOption>
+  | FilterOption
+  | string
+  | (Date | null)
+  | boolean
+  | number
 
 export type FilterFieldsValues = Record<string, FilterFieldValue>
 export type FilterFieldType =

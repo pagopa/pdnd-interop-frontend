@@ -56,12 +56,16 @@ const getParsers = <T>(
         )
       })
       .with('autocomplete-multiple', () => {
-        parsers[field.name] = parseAsArrayOf(
-          parseAsStringLiteral(
-            (field as AutocompleteFilterFieldOptions).options.map((option) => option.value)
-          )
-        )
+        // parsers[field.name] = parseAsArrayOf(
+        //   parseAsStringLiteral(
+        //     (field as AutocompleteFilterFieldOptions).options.map((option) => option.value)
+        //   )
+        // )
+        // We are using parseAsString here because when using parseAsStringLiteral, the query param is not being parsed correctly when the value is not in the options list(when fetching the list of value from bff).
+        // This is because parseAsStringLiteral only allows values that are in the options list. So we are using parseAsString here to allow any value to be passed in the query param.
+        parsers[field.name] = parseAsArrayOf(parseAsString)
       })
+
       .with('select-single', () => {
         parsers[field.name] = parseAsStringLiteral(
           (field as SelectFilterFieldOptions).options.map((option) => option.value)

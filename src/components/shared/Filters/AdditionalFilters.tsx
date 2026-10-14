@@ -44,10 +44,11 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  const values = getFiltersValues(
-    sections.flatMap((section) => section.fields),
-    filters
-  )
+  const additionals = useMemo(() => {
+    return sections.flatMap((section) => section.fields)
+  }, [sections])
+
+  const values = getFiltersValues(additionals, filters)
 
   const formMethods = useForm<FilterFieldsValues>({
     values,
@@ -56,8 +57,8 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   const { reset, getValues } = formMethods
 
   const defaultValues = useMemo(() => {
-    return getFiltersDefaultValues(sections.flatMap((section) => section.fields))
-  }, [sections])
+    return getFiltersDefaultValues(additionals)
+  }, [additionals])
 
   const activeFiltersCount = useMemo(() => {
     return getActiveFiltersCount(filters)

@@ -9,7 +9,6 @@ import type {
   RequesterDelegationRole,
   EServiceMode,
   EServiceSortBy,
-  GetEServicesCatalogParams,
 } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -206,7 +205,8 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   )
 
   const sorting = useSorting(
-    sortByOptions.map((sortBy) => ({ value: sortBy, label: tEservice(`sorting.${sortBy}`) }))
+    sortByOptions.map((sortBy) => ({ value: sortBy, label: tEservice(`sorting.${sortBy}`) })),
+    sortByOptions[1]
   )
 
   const { sortBy } = sorting

@@ -6,10 +6,12 @@ export type SortOption = {
   value: string
 }
 
-export const useSorting = (options: SortOption[]) => {
+export const useSorting = (options: SortOption[], defaultValue?: string) => {
   const [sortBy, setSortBy] = useQueryState(
     'sortBy',
-    parseAsStringLiteral(options.map((option) => option.value)).withDefault(options[0].value)
+    parseAsStringLiteral(options.map((option) => option.value)).withDefault(
+      defaultValue ?? options[0].value
+    )
   )
 
   const onSortingChange = useCallback(

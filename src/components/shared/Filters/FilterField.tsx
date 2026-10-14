@@ -1,6 +1,7 @@
 import type {
   AutocompleteFilterFieldOptions,
   DatepickerFilterFieldOptions,
+  NumericFilterFieldOptions,
   SelectFilterFieldOptions,
   FilterField as TFilterField,
 } from '@/types/filters.types'
@@ -24,7 +25,17 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
       return <RHFNewTextField name={field.name} label={field.label} />
     })
     .with('numeric', () => {
-      return <RHFNewTextField name={field.name} label={field.label} type="number" />
+      return (
+        <RHFNewTextField
+          name={field.name}
+          label={field.label}
+          type="number"
+          inputProps={{
+            min: (field as NumericFilterFieldOptions).min,
+            max: (field as NumericFilterFieldOptions).max,
+          }}
+        />
+      )
     })
     .with('boolean', () => {
       return <RHFNewSwitch name={field.name} label={field.label} description={field.description} />

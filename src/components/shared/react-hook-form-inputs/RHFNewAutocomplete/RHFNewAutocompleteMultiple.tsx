@@ -23,7 +23,7 @@ type RHFNewAutocompleteMultipleProps<T> = Omit<
 
 export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleProps<T>) {
   const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T>[]>([])
-  const hasSetOptions = React.useRef(false)
+  // const hasSetOptions = React.useRef(false)
 
   const { watch } = useFormContext()
   const selectedValues = watch(props.name) as Array<T>
@@ -38,9 +38,9 @@ export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleP
    * */
 
   React.useEffect(() => {
-    if (hasSetOptions.current) return
+    // if (hasSetOptions.current) return
     if (selectedValues.length !== internalState.length && props.options.length > 0) {
-      hasSetOptions.current = true
+      // hasSetOptions.current = true
       const selectedOptions = props.options.filter((option) =>
         selectedValues.some((value) => isEqual(value, option.value))
       )
