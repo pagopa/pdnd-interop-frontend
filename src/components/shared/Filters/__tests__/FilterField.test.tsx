@@ -61,7 +61,22 @@ describe('FilterField', () => {
 
   it('renders a number text field for numeric', () => {
     renderField({ type: 'numeric' })
-    expect(mocks.textField).toHaveBeenCalledWith({ name: 'f', label: 'Label', type: 'number' })
+    expect(mocks.textField).toHaveBeenCalledWith({
+      name: 'f',
+      label: 'Label',
+      type: 'number',
+      inputProps: { min: undefined, max: undefined },
+    })
+  })
+
+  it('forwards min and max to the numeric input', () => {
+    renderField({ type: 'numeric', min: 1, max: 10 })
+    expect(mocks.textField).toHaveBeenCalledWith({
+      name: 'f',
+      label: 'Label',
+      type: 'number',
+      inputProps: { min: 1, max: 10 },
+    })
   })
 
   it('renders a switch for boolean', () => {
