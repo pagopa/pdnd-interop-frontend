@@ -1,44 +1,18 @@
 {
   "name": "PDND Interop full stack",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "initializeCommand": ["bash", ".devcontainer/initialize.sh"],
-  "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached",
+  "dockerComposeFile": [
+    "../../interop-be-monorepo/docker/docker-compose.yml",
+    "../../interop-be-monorepo/.local-development/dashboard/compose.yml",
+    "../.local-development/frontend/compose.yml"
+  ],
+  "service": "frontend",
+  "runServices": ["dashboard", "frontend"],
   "workspaceFolder": "${localWorkspaceFolder}",
-  "mounts": [
-    "source=${localWorkspaceFolder}/../interop-be-monorepo,target=${localWorkspaceFolder}/../interop-be-monorepo,type=bind,consistency=cached",
-    "source=interop-frontend-node-modules,target=${localWorkspaceFolder}/node_modules,type=volume",
-    "source=interop-backend-node-modules,target=${localWorkspaceFolder}/../interop-be-monorepo/node_modules,type=volume",
-    "source=interop-devcontainer-pnpm-store,target=/home/node/.local/share/pnpm,type=volume",
-    "source=interop-playwright-browsers,target=/home/node/.cache/ms-playwright,type=volume"
-  ],
-  "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-  },
-  "runArgs": [
-    "--add-host=host.docker.internal:host-gateway",
-    "--volumes-from=interop-backend-workspace-modules"
-  ],
-  "appPort": ["3000:5173"],
-  "containerEnv": {
-    "INTEROP_DEVCONTAINER": "true",
-    "INTEROP_AUTO_START": "${localEnv:INTEROP_AUTO_START}"
-  },
-  "postCreateCommand": ["bash", ".devcontainer/scripts/setup.sh"],
-  "postStartCommand": ["bash", ".devcontainer/scripts/post-start.sh"],
-  "forwardPorts": [5173],
-  "portsAttributes": {
-    "3000": {
-      "label": "Catalog backend (internal only)",
-      "onAutoForward": "ignore"
-    },
-    "5173": {
-      "label": "PDND Interop frontend",
-      "onAutoForward": "openBrowser",
-      "protocol": "http"
-    }
-  },
+  "initializeCommand": ["bash", ".devcontainer/initialize.sh"],
+  "overrideCommand": false,
+  "shutdownAction": "none",
+  "remoteUser": "node",
+  "updateRemoteUserUID": false,
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },

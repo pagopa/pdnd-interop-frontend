@@ -5,17 +5,18 @@ import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
 import { configDefaults } from 'vitest/config'
-import { resolveBackendProxy } from './scripts/local-development/vite-config.mjs'
-import { localDashboardPlugin } from './scripts/local-development/vite-dashboard-plugin.mjs'
+import {
+  resolveBackendProxy,
+  resolveDashboardTarget,
+} from './scripts/local-development/vite-config.mjs'
+import { localRuntimeConfigPlugin } from './scripts/local-development/vite-runtime-config-plugin.mjs'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const isLocalDevelopment = process.env.INTEROP_LOCAL_DEVELOPMENT === 'true'
   const localDevelopmentPlugins = isLocalDevelopment
     ? [
-        localDashboardPlugin({
-          frontendRoot: __dirname,
-          backendRoot: path.resolve(__dirname, '../interop-be-monorepo'),
+        localRuntimeConfigPlugin({
           selfcareLoginUrl: process.env.SELFCARE_LOGIN_URL,
         }),
       ]
@@ -67,6 +68,15 @@ export default defineConfig(({ mode }) => {
           : {}),
       },
       proxy: {
+        ...(isLocalDevelopment
+          ? {
+              '/__local-dashboard/api': {
+                target: resolveDashboardTarget(process.env.INTEROP_DASHBOARD_URL),
+                // Preserve the browser origin for the dashboard mutation guard.
+                changeOrigin: false,
+              },
+            }
+          : {}),
         '/0.0/backend-for-frontend': {
           ...resolveBackendProxy(process.env.INTEROP_BACKEND_TARGET),
           changeOrigin: true,

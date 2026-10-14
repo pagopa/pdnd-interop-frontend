@@ -1,94 +1,19 @@
 import { expect, test } from '@playwright/test'
 
-test.beforeAll(async ({ browser, baseURL }) => {
-  // An HTTP response from Vite does not mean the lazy dashboard has rendered.
-  // Give the first load its own budget before running the browser checks.
-  test.setTimeout(120_000)
-
-  const page = await browser.newPage({ baseURL })
-  try {
-    await page.goto('/ui/local-dashboard/', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByRole('heading', { name: 'Ambiente locale' })).toBeVisible({
-      timeout: 90_000,
-    })
-  } finally {
-    await page.close()
-  }
-})
-
-test('shows local services and searches their logs', async ({ page }) => {
-  await page.goto('/ui/local-dashboard/')
-
-  await expect(page.getByRole('heading', { name: 'Ambiente locale' })).toBeVisible()
-  await expect(page.getByText('pagopa-interop-catalog-process', { exact: true })).toBeVisible()
-
-  const startupPanel = page
-    .getByRole('heading', { name: /Avvio dell/ })
-    .locator('..')
-    .locator('..')
-  const searchPanel = page
-    .locator('.MuiPaper-root')
-    .filter({ has: page.getByRole('searchbox', { name: 'Cerca nei log' }) })
-  const servicesPanel = page.getByRole('heading', { name: 'Servizi' }).locator('..').locator('..')
-  const logsPanel = page.getByRole('heading', { name: 'Log' }).locator('..').locator('..')
-  const cardsContainer = servicesPanel.locator('..')
-  const [startupBox, searchBox, servicesBox, logsBox, cardsBox] = await Promise.all([
-    startupPanel.boundingBox(),
-    searchPanel.boundingBox(),
-    servicesPanel.boundingBox(),
-    logsPanel.boundingBox(),
-    cardsContainer.boundingBox(),
-  ])
-
-  expect(startupBox).not.toBeNull()
-  expect(searchBox).not.toBeNull()
-  expect(servicesBox).not.toBeNull()
-  expect(logsBox).not.toBeNull()
-  expect(cardsBox).not.toBeNull()
-  expect(startupBox?.y ?? 0).toBeLessThan(searchBox?.y ?? 0)
-  expect(searchBox?.y ?? 0).toBeLessThan(servicesBox?.y ?? 0)
-  expect(Math.abs((servicesBox?.x ?? 0) - (startupBox?.x ?? 0))).toBeLessThanOrEqual(1)
-  expect((logsBox?.x ?? 0) + (logsBox?.width ?? 0)).toBeLessThanOrEqual(
-    (startupBox?.x ?? 0) + (startupBox?.width ?? 0) + 1
-  )
-  expect((servicesBox?.y ?? 0) + (servicesBox?.height ?? 0)).toBeLessThanOrEqual(
-    (cardsBox?.y ?? 0) + (cardsBox?.height ?? 0) + 1
-  )
-
-  const [rootBox, dashboardBox] = await Promise.all([
-    page.locator('#root').boundingBox(),
-    page.getByTestId('local-development-dashboard').boundingBox(),
-  ])
-  expect(rootBox).not.toBeNull()
-  expect(dashboardBox).not.toBeNull()
-  expect(rootBox?.height ?? 0).toBeGreaterThanOrEqual((dashboardBox?.height ?? 0) - 1)
-
-  const pageLayout = await page.evaluate(() => ({
-    documentHeight: document.documentElement.scrollHeight,
-    viewportHeight: window.innerHeight,
-  }))
-  expect(pageLayout.documentHeight).toBeLessThanOrEqual(pageLayout.viewportHeight)
-
-  const main = page.getByRole('main')
-  const mainLayout = await main.evaluate((element) => ({
-    clientHeight: element.clientHeight,
-    scrollHeight: element.scrollHeight,
-  }))
-  expect(mainLayout.scrollHeight).toBeGreaterThan(mainLayout.clientHeight)
-
-  const headerYBeforeScroll = (await page.getByRole('banner').boundingBox())?.y
-  await main.evaluate((element) => {
-    element.scrollTop = element.scrollHeight
-  })
-  const headerYAfterScroll = (await page.getByRole('banner').boundingBox())?.y
-  expect(headerYAfterScroll).toBe(headerYBeforeScroll)
-
-  const renderedLogRows = page.getByRole('list', { name: 'Log' }).getByRole('listitem')
-  await expect(renderedLogRows.first()).toBeVisible()
-  expect(await renderedLogRows.count()).toBeLessThan(50)
-
-  await page.getByRole('searchbox', { name: 'Cerca nei log' }).fill('Local infrastructure is ready')
-  await expect(page.getByText('Local infrastructure is ready', { exact: false })).toBeVisible()
+// The dashboard is served independently of the Vite frontend.
+test('serves the backend dashboard and its API on their own origin', async ({ request }) => {
+  const dashboardUrl = process.env.PLAYWRIGHT_DASHBOARD_URL ?? 'http://localhost:8076'
+  const health = await request.get(`${dashboardUrl}/health`)
+  expect(health.ok()).toBe(true)
+  expect(await health.json()).toEqual({ status: 'ok' })
+  const shell = await request.get(dashboardUrl)
+  expect(shell.ok()).toBe(true)
+  expect(shell.headers()['content-type']).toContain('text/html')
+  const status = await request.get(`${dashboardUrl}/__local-dashboard/api/status`)
+  expect(status.ok()).toBe(true)
+  const runtime = await status.json()
+  expect(runtime).not.toHaveProperty('frontendAvailable')
+  expect(runtime).not.toHaveProperty('mode')
 })
 
 test('selects a local tenant and role-specific user from the local identity route', async ({
