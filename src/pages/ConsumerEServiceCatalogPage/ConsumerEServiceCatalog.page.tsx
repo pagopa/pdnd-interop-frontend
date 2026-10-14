@@ -3,18 +3,15 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
-import {
-  Filters,
-  Pagination,
-  useAutocompleteTextInput,
-  useFilters,
-  usePagination,
-} from '@pagopa/interop-fe-commons'
+import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
 import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdatesBanner'
+import { MIPagination } from '@pagopa/mui-italia'
+import { usePagination } from '@/hooks/usePagination'
+import { Box } from '@mui/material'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -32,7 +29,10 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
+    limit: 9,
+    limitOptions: [9],
+  })
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
   >([
@@ -78,10 +78,14 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       <ProductUpdatesBanner />
       <Filters {...filtersHandlers} />
       <EServiceCatalogWrapper params={queryParams} />
-      <Pagination
-        {...paginationProps}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
+      <Box mt={3}>
+        <MIPagination
+          page={paginationProps.page}
+          itemsPerPageOptions={paginationProps.itemsPerPageOptions}
+          count={getTotalPageCount(data?.pagination.totalCount)}
+          onChange={(_, page) => paginationProps.onPageChange(page)}
+        />
+      </Box>
     </PageContainer>
   )
 }
