@@ -31,7 +31,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
     limit: 9,
-    limitOptions: [9],
+    limitOptions: [9, 12, 15, 18, 21],
   })
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
