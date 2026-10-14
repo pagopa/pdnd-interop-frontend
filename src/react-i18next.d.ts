@@ -20,6 +20,7 @@ import type developerToolsNs from '@/static/locales/en/developer-tools.json'
 import type sidebarNs from '@/static/locales/en/sidebar.json'
 import type notificationNs from '@/static/locales/en/notification.json'
 import type purposeTemplateNs from '@/static/locales/en/purposeTemplate.json'
+import type localDevelopmentDashboardNs from '@/static/locales/en/local-development-dashboard.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -47,6 +48,7 @@ declare module 'i18next' {
       sidebar: typeof sidebarNs
       notification: typeof notificationNs
       purposeTemplate: typeof purposeTemplateNs
+      'local-development-dashboard': typeof localDevelopmentDashboardNs
     }
   }
 }
