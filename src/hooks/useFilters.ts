@@ -19,6 +19,7 @@ import {
 } from 'nuqs'
 import { useCallback } from 'react'
 import { match } from 'ts-pattern'
+import { useOffset } from './usePagination'
 
 type ParsersFor<T> = { [K in keyof T]: ParserBuilder<T[K]> }
 
@@ -95,15 +96,19 @@ export const useFilters = <TFiltersParams extends FiltersParams>(
     history: 'push',
   })
 
+  const [_, setOffset] = useOffset()
+
   const onChangeActiveFilters = useCallback<FiltersHandler>(
     (values: FilterFieldsValues) => {
       setFilters((previous) => ({ ...previous, ...values }))
+      setOffset(null)
     },
-    [setFilters]
+    [setFilters, setOffset]
   )
 
   const onResetActiveFilters = useCallback(() => {
     setFilters(null)
+    setOffset(null)
   }, [setFilters])
 
   return {
