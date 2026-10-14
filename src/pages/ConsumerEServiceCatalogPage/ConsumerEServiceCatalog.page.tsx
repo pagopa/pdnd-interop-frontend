@@ -3,16 +3,15 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
-import { Pagination, useAutocompleteTextInput, usePagination } from '@pagopa/interop-fe-commons'
 import type {
   CatalogFilterPayload,
   EServiceProducerCategory,
   RequesterDelegationRole,
   EServiceMode,
   EServiceSortBy,
+  GetEServicesCatalogParams,
 } from '@/api/api.generatedTypes'
-import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
-import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
+import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
@@ -21,6 +20,9 @@ import { useFilters } from '@/hooks/useFilters'
 import { useSorting } from '@/hooks/useSorting'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
 import { match } from 'ts-pattern'
+import { MIPagination } from '@pagopa/mui-italia'
+import { usePagination } from '@/hooks/usePagination'
+import { Box } from '@mui/material'
 
 const producerCategoriesOptions: EServiceProducerCategory[] = [
   'ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI',
@@ -51,9 +53,6 @@ const sortByOptions: EServiceSortBy[] = [
   'NAME_ASC',
   'NAME_DESC',
 ]
-import { MIPagination } from '@pagopa/mui-italia'
-import { usePagination } from '@/hooks/usePagination'
-import { Box } from '@mui/material'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -71,7 +70,6 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
   const { filters, ...handlers } = useFilters<
     Omit<CatalogFilterPayload, 'limit' | 'offset' | 'sortBy'>
   >(
@@ -270,26 +268,11 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
     return mappedFilters
   }, [filters])
+
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
     limit: 9,
     limitOptions: [9],
   })
-  const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
-  >([
-    {
-      name: 'q',
-      label: tEservice('nameField.label'),
-      type: 'freetext',
-    },
-    {
-      name: 'producersIds',
-      label: tEservice('providerField.label'),
-      type: 'autocomplete-multiple',
-      options: producersOptions,
-      onTextInputChange: setProducersAutocompleteInput,
-    },
-  ])
 
   // Only e-service published or suspended can be shown in the catalog
   // const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
@@ -324,12 +307,6 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
         results={data?.pagination.totalCount}
       />
       <EServiceCatalogWrapper params={query} />
-      <Pagination
-        {...paginationProps}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
-      <Filters {...filtersHandlers} />
-      <EServiceCatalogWrapper params={queryParams} />
       <Box mt={3}>
         <MIPagination
           page={paginationProps.page}
