@@ -45,7 +45,15 @@ export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleP
         selectedValues.some((value) => isEqual(value, option.value))
       )
 
-      setInternalState(selectedOptions)
+      // When the selected values are not found in the options, it means that the options are not loaded or not available
+      const missingValues: Array<T> = selectedValues.filter(
+        (option) => !selectedOptions.some((selectedOption) => isEqual(selectedOption.value, option))
+      )
+
+      setInternalState([
+        ...selectedOptions,
+        ...missingValues.map((value) => ({ label: String(value), value })),
+      ])
     }
   }, [selectedValues, props.options, internalState])
 
