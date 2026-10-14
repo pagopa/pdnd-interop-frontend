@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent, waitFor } from '@testing-library/react'
 import RiskAnalysisInfoCompilePage from '../RiskAnalysisInfoCompile.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
@@ -15,6 +15,16 @@ const reviewer1Id = 'reviewer-1-id'
 const reviewer2Id = 'reviewer-2-id'
 const reviewer1AssignmentDate = '2026-01-10T12:00:00.000Z'
 const reviewer2AssignmentDate = '2026-02-20T12:00:00.000Z'
+
+const { markNotificationsAsReadMock } = vi.hoisted(() => ({
+  markNotificationsAsReadMock: vi.fn(),
+}))
+
+vi.mock('@/api/notification/notification.services', () => ({
+  NotificationServices: {
+    markNotificationsAsReadByEntityId: markNotificationsAsReadMock,
+  },
+}))
 
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockNavigate)
 
@@ -41,6 +51,78 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
 describe('RiskAnalysisInfoCompilePage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseJwt()
+  })
+
+  it('should mark notifications as read when the assigned reviewer opens the compilation entry page', async () => {
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer1Id } })
+    useQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        reviewerWorkflow: {
+          signingState: 'ASSIGNED',
+          reviewers: [{ userId: reviewer1Id, name: 'Mario', familyName: 'Rossi' }],
+        },
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: 'purpose-id-001' })
+    })
+  })
+
+  it('should mark notifications on entry without waiting for the purpose or repeating on load', async () => {
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer1Id } })
+    useQueryMock.mockReturnValue({ data: undefined, isLoading: true })
+
+    const { rerender } = renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: 'purpose-id-001' })
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        reviewerWorkflow: {
+          signingState: 'ASSIGNED',
+          reviewers: [{ userId: reviewer1Id, name: 'Mario', familyName: 'Rossi' }],
+        },
+      }),
+      isLoading: false,
+    })
+    rerender(<RiskAnalysisInfoCompilePage />)
+
+    expect(markNotificationsAsReadMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('should mark notifications for the route entity regardless of reviewer assignment', async () => {
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer2Id } })
+    useQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        reviewerWorkflow: {
+          signingState: 'ASSIGNED',
+          reviewers: [{ userId: reviewer1Id, name: 'Mario', familyName: 'Rossi' }],
+        },
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: 'purpose-id-001' })
+    })
   })
 
   it('should render page title', () => {

@@ -119,8 +119,7 @@
       },
       "editAssignmentDialog": {
         "title": "Modifica assegnazione",
-        "modeChosen": "Hai scelto la modalità {{mode}}.",
-        "modeTransition": "Stai passando da {{from}} a {{to}}.",
+        "modeChosen": "Hai scelto la modalità <strong>{{mode}}</strong>.",
         "selectedReviewersLabel": "Chi hai selezionato",
         "removedReviewersLabel": "Chi hai rimosso",
         "riskAnalysisLossWarning": "Se confermi, perderai tutte le informazioni dell’analisi del rischio già compilate."
@@ -214,8 +213,8 @@
       "requiredFieldErrorReviewer": "Compila per proseguire",
       "requestApprovalDialog": {
         "title": "Richiedi approvazione",
-        "description_one": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore <strong>{{reviewerNames}}</strong> e non potrai più fare modifiche.",
-        "description_other": "Se confermi, assegnerai l’approvazione dell’analisi del rischio ai valutatori <strong>{{reviewerNames}}</strong> e non potrai più fare modifiche.",
+        "description_one": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore <strong>{{reviewerNames}}</strong>.",
+        "description_other": "Se confermi, assegnerai l’approvazione dell’analisi del rischio ai valutatori <strong>{{reviewerNames}}</strong>.",
         "proceedLabel": "Conferma"
       }
     },
@@ -680,7 +679,7 @@
         "label": "Assegnata a"
       }
     },
-    "beginCompileBtn": "Inizia la compilazione"
+    "beginCompileBtn": "Compila analisi del rischio"
   },
   "riskAnalysisDetails": {
     "backToListBtn": "Torna alle analisi del rischio",
@@ -689,7 +688,6 @@
       "details": "Dettagli finalità",
       "riskAnalysis": "Analisi del rischio"
     },
-    "signedAlert": "Non puoi più modificare l’analisi del rischio perché è stata approvata.",
     "rejectedAlert": {
       "label": "L’analisi del rischio di questa finalità è stata rifiutata.",
       "action": "Leggi motivazione"

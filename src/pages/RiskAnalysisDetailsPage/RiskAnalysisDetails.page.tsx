@@ -5,7 +5,7 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useNavigate, useParams } from '@/router'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Alert, Grid, Tab } from '@mui/material'
+import { Grid, Tab } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
@@ -109,11 +109,7 @@ const RiskAnalysisDetailsPage: React.FC = () => {
     >
       {purpose && concludedSigningState ? (
         <>
-          {concludedSigningState === 'SIGNED' ? (
-            <Alert severity="info" sx={{ mb: 3 }}>
-              {t('signedAlert')}
-            </Alert>
-          ) : (
+          {concludedSigningState === 'REJECTED' && (
             <RiskAnalysisDetailsRejectedAlert
               rejectionReason={purpose.reviewerWorkflow?.rejectionReason ?? ''}
             />
