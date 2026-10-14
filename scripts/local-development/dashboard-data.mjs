@@ -28,7 +28,7 @@ const STARTUP_CHECKS = [
   },
 ]
 
-const SUCCESSFUL_ONE_SHOT_SERVICES = new Set(['dynamodb-migrations', 'minio-seed'])
+const SUCCESSFUL_ONE_SHOT_SERVICES = new Set(['dynamodb-migrations', 'rustfs-seed'])
 
 export function deriveOverallState({
   startupState,

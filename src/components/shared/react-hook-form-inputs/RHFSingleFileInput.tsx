@@ -23,6 +23,7 @@ export type RHFSingleFileInputProps = Omit<
   onValueChange?: (value: File | null) => void
   drawerStyle?: boolean
   dropzoneLabel?: string
+  fileType?: 'generic' | 'rest' | 'soap' | 'eserviceImport'
 }
 
 export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
@@ -33,6 +34,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   onValueChange,
   drawerStyle = false,
   dropzoneLabel,
+  fileType = 'generic',
   ...props
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'singleFileInput' })
@@ -47,7 +49,11 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   }
 
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper
+      error={error}
+      sx={sx}
+      infoLabel={infoLabel ?? t(`dropzone.allowedExtensions.${fileType}`)}
+    >
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, tCommon)}

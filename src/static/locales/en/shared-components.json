@@ -218,7 +218,7 @@
     "producer": {
       "title": "Producer Delegation Revocation",
       "content": {
-        "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the service requests and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
+        "description": "If you confirm, the delegated entity <strong>{{delegateName}}</strong> will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, as well as the consumption requests and the associated purposes. If archive requests were present, they will be cancelled. The e-service will now be managed by your organization. Do you have doubts? <1>Read the guide</1>.",
         "checkbox": "I have read and I want to proceed with the revocation"
       },
       "actions": {
@@ -238,7 +238,9 @@
   },
   "dialogRequestRiskAnalysisCompilation": {
     "title": "Request compilation and approval",
-    "description": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to change this choice."
+    "description_one": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerNames}}</strong> and you will no longer be able to change this choice.",
+    "description_other": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewers <strong>{{reviewerNames}}</strong> and you will no longer be able to change this choice.",
+    "descriptionWithRiskAnalysis": "If you confirm, you will assign the compilation and approval of the risk analysis to {{reviewerNames}} and lose all the risk analysis information already entered."
   },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Reject Publication",
@@ -298,20 +300,32 @@
   },
   "dialogCancelEserviceArchiving": {
     "title": "Cancel e-service archiving",
+    "titleDelegate": "Cancel archiving request",
+    "titleDelegateApproved": "Cancel archiving request",
     "description": "This e-service will no longer be archived.",
+    "descriptionDelegate": "On {{date}} you requested archiving of this e-service from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
+    "descriptionDelegateApproved": "This e-service will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
+    "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {
-      "cancelArchiving": "Cancel archiving"
+      "cancelArchiving": "Cancel archiving",
+      "keepArchivingDelegate": "Keep archiving request",
+      "cancelArchivingDelegate": "Cancel archiving request",
+      "cancelApproved": "Cancel",
+      "closeApproved": "Close"
     }
   },
   "dialogArchiveEservice": {
     "title": "Archive e-service",
+    "titleDelegate": "Request e-service archiving",
     "content": {
       "advice": {
         "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, a notice period will begin during which the e-service will remain active to allow users to adapt.",
+        "descriptionDelegate": "By archiving the e-service, all versions will be archived and draft or approval-pending versions will be deleted.\n\nTo archive an e-service received by delegation, you must request approval from the delegating institution {{name}}.\n\nIf the delegating institution approves the request, a notice period will begin during which the e-service will remain active to allow users to adapt.",
         "gracePeriodDescription": "If a version is already being archived, you can archive the entire e-service only after the scheduled archiving date for that version."
       },
       "confirm": {
         "description": "All users will be informed of the date and the reason for the archiving.",
+        "descriptionDelegate": "When the delegating institution {{name}} approves the request, all users will be informed about the archiving date and reason.",
         "form": {
           "label": "Archiving reason",
           "infoLabel": "Explain why you chose to archive the e-service. If you wish, suggest an alternative e-service. Both information will be shared with users. Minimum 10 characters, maximum 250 characters."
@@ -321,29 +335,45 @@
     },
     "actions": {
       "back": "Back",
-      "forward": "Forward"
+      "forward": "Forward",
+      "requestArchiving": "Request archiving"
     }
   },
   "dialogCancelVersionArchiving": {
     "title": "Cancel version archiving",
+    "titleDelegate": "Cancel archiving request",
+    "titleDelegateApproved": "Cancel archiving request",
     "description": "This version will no longer be archived.",
+    "descriptionDelegate": "On {{date}} you requested archiving of this e-service version from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
+    "descriptionDelegateApproved": "This e-service version will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
+    "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {
       "keepArchiving": "Keep archiving",
-      "cancelArchiving": "Cancel archiving"
+      "keepArchivingDelegate": "Keep archiving request",
+      "cancelArchiving": "Cancel archiving",
+      "cancelArchivingDelegate": "Cancel archiving request",
+      "cancelApproved": "Cancel",
+      "closeApproved": "Close"
     }
   },
   "dialogArchiveVersion": {
     "title": "Archive version",
+    "titleDelegate": "Request version archiving",
     "content": {
       "description": "If you confirm this choice, a notice period will begin during which the version will remain active to allow users to adapt.",
+      "descriptionDelegate": "To archive the version of this e-service received by delegation, you must request approval from the delegating institution {{name}}.\n\nIf the delegating institution approves the request, a notice period will begin during which the version will remain active to allow consumers to adapt.",
       "alert": "Actual archiving may require additional technical time as users continue to exchange data. See the <1>documentation</1> for further details."
+    },
+    "actions": {
+      "requestArchiving": "Request archiving"
     }
   },
   "archiveGracePeriod": {
     "label": "Select the notice period duration",
     "option": "{{days}} days",
     "optionRecommended": "{{days}} days (recommended)",
-    "archiveDate": "Archiving will occur on <strong>{{date}}</strong>. You can only cancel archiving before this date."
+    "archiveDate": "Archiving will occur on <strong>{{date}}</strong>. You can only cancel archiving before this date.",
+    "archiveDateDelegate": "You can request to cancel archiving only while the archiving phase is in progress."
   },
   "copyToClipboardButton": {
     "copy": "Copy",
@@ -372,7 +402,13 @@
   "singleFileInput": {
     "dropzone": {
       "button": "Upload file",
-      "label": "Drag the file here or click to select it from your computer"
+      "label": "Drag the file here or click to select it from your computer",
+      "allowedExtensions": {
+        "generic": "You can only upload files with extension .pdf, .json, .md, .yaml, .yml, .txt, .xsd, .wsdl, .xml",
+        "rest": "You can only upload files with extension .yaml, .json",
+        "soap": "You can only upload files with extension .wsdl, .xml",
+        "eserviceImport": "You can only upload files with extension .zip"
+      }
     },
     "loadingLabel": "Uploading..."
   },
@@ -407,12 +443,7 @@
     "bodyMultipleDay": "PDND Interoperabilità will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
   "productUpdatesBanner": {
-    "title": "What's new on PDND: archiving and new roles",
-    "body": "You can now archive obsolete versions of an e-service or an entire e-service. Two new roles are also available: Validator, to approve or fill in the risk analysis, and Viewer, to view an organization's activities on PDND.",
-    "action1Label": "How archiving works",
-    "action1AriaLabel": "How archiving works, opens in a new tab",
-    "action2Label": "How the new roles work",
-    "action2AriaLabel": "How the new roles work, opens in a new tab"
+    "linkAriaLabel": "{{label}}, opens in a new tab"
   },
   "attributeContainer": {
     "descriptionLabel": "Description",
@@ -424,9 +455,11 @@
     "actions": {
       "customizeThreshold": "Customize threshold",
       "changeThreshold": "Change threshold",
+      "removeThreshold": "Remove threshold",
       "inspectAttributeDetails": "Attribute details",
       "modifyCertifiedDiscreteAttribute": "Modify attribute"
     },
+    "removeThresholdSuccess": "You removed the certified attribute API call threshold.",
 
     "na": "n/a"
   },
@@ -650,6 +683,7 @@
     "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher",
     "SUBSCRIBE_RISK_ANALYSIS_LIST": "Risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Purpose information",
+    "SUBSCRIBE_RISK_ANALYSIS_DETAILS": "Purpose",
     "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Summary",
     "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Risk analysis approved",

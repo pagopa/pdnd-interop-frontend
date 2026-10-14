@@ -59,9 +59,16 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
       { id: purposeTemplateId },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
-            params: {
-              purposeTemplateId,
+          navigate('SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU', {
+            params: { purposeTemplateId },
+            state: {
+              title: t('publishThankYou.title'),
+              description: t('publishThankYou.description'),
+              buttonLabel: t('publishThankYou.action'),
+              closeRouteKey: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
+              closeRouteParams: {
+                purposeTemplateId,
+              },
             },
           })
         },

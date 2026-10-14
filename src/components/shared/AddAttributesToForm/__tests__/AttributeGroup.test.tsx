@@ -5,14 +5,17 @@ import { vi, describe, it, expect } from 'vitest'
 import { renderWithApplicationContext, ReactHookFormWrapper } from '@/utils/testing.utils'
 import { createMockDescriptorAttribute } from '@/../__mocks__/data/attribute.mocks'
 import type { DescriptorAttribute } from '@/api/api.generatedTypes'
+import { useFormContext } from 'react-hook-form'
 
 vi.mock('@/components/layout/containers', () => ({
   AttributeContainer: ({
     attribute,
     onRemove,
+    onRemoveThreshold,
   }: {
     attribute: DescriptorAttribute
     onRemove?: (id: string, name: string) => void
+    onRemoveThreshold?: VoidFunction
   }) => (
     <div data-testid={`attribute-container-${attribute.id}`}>
       {attribute.name}
@@ -22,6 +25,11 @@ vi.mock('@/components/layout/containers', () => ({
           onClick={() => onRemove(attribute.id, attribute.name)}
         >
           remove
+        </button>
+      )}
+      {onRemoveThreshold && (
+        <button data-testid={`remove-threshold-${attribute.id}`} onClick={onRemoveThreshold}>
+          remove threshold
         </button>
       )}
     </div>
@@ -77,6 +85,11 @@ const emptyFormValues = {
   },
 }
 
+const FormValuesObserver = () => {
+  const { watch } = useFormContext()
+  return <output data-testid="form-values">{JSON.stringify(watch())}</output>
+}
+
 const renderComponent = (
   props: Partial<React.ComponentProps<typeof AttributeGroup>> = {},
   formValues = defaultFormValues
@@ -94,6 +107,7 @@ const renderComponent = (
   return renderWithApplicationContext(
     <ReactHookFormWrapper defaultValues={formValues}>
       <AttributeGroup {...defaultProps} />
+      <FormValuesObserver />
     </ReactHookFormWrapper>,
     { withReactQueryContext: true }
   )
@@ -164,5 +178,25 @@ describe('AttributeGroup', () => {
 
     // After removing the last attribute, autocomplete should show due to state change
     expect(screen.getByTestId('attribute-autocomplete')).toBeInTheDocument()
+  })
+
+  it('should remove a customized threshold from the form attribute', () => {
+    const attributeWithThreshold = createMockDescriptorAttribute({
+      id: 'attr-with-threshold',
+      dailyCallsPerConsumer: 100,
+    })
+    const formValues = {
+      attributes: {
+        certified: [[attributeWithThreshold]] as Array<Array<DescriptorAttribute>>,
+        verified: [] as Array<Array<DescriptorAttribute>>,
+        declared: [] as Array<Array<DescriptorAttribute>>,
+      },
+    }
+
+    renderComponent({ group: [attributeWithThreshold], withThreshold: true }, formValues)
+    fireEvent.click(screen.getByTestId('remove-threshold-attr-with-threshold'))
+
+    expect(screen.getByTestId('form-values')).not.toHaveTextContent('dailyCallsPerConsumer')
+    expect(screen.getByText('removeThresholdSuccess')).toBeInTheDocument()
   })
 })

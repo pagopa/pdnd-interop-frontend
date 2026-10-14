@@ -47,6 +47,7 @@ type AttributeContainerProps<
   checked?: boolean
   onRemove?: (id: string, name: string) => void
   onCustomizeThreshold?: VoidFunction
+  onRemoveThreshold?: VoidFunction
   hideThreshold?: boolean
   onOpenConfigDrawer?: VoidFunction
 }
@@ -67,6 +68,7 @@ export const AttributeContainer = <
   checked,
   onRemove,
   onCustomizeThreshold,
+  onRemoveThreshold,
   hideThreshold,
   onOpenConfigDrawer,
 }: AttributeContainerProps<TAttribute>) => {
@@ -107,6 +109,14 @@ export const AttributeContainer = <
         label: t('actions.changeThreshold'),
       }
       actions.push(customizeThresholdAction)
+    }
+
+    if (onRemoveThreshold && attribute.dailyCallsPerConsumer !== undefined) {
+      const removeThresholdAction: ActionItemButton = {
+        action: onRemoveThreshold,
+        label: t('actions.removeThreshold'),
+      }
+      actions.push(removeThresholdAction)
     }
 
     const inspectAttributeDetails: ActionItemButton = {

@@ -79,7 +79,12 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
 
   const displayError = getDisplayError(error)
 
-  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+  const isConsumerReadOnlySuggestedValues =
+    isFromPurposeTemplate && type === 'consumer' && suggestedValues.length > 0 && !isEditable
+
+  const currentFieldName = isConsumerReadOnlySuggestedValues ? suggestedValueConsumerName : name
+
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(currentFieldName, {
     label,
     infoLabel,
     error: displayError,
@@ -131,7 +136,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   if (isFromPurposeTemplate) {
     return (
       <RiskAnalysisInputWrapper
-        name={name}
+        name={currentFieldName}
         label={label}
         infoLabel={infoLabel}
         error={displayError}
@@ -142,7 +147,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         type={type}
         isAssignedToTemplateUsersSwitch={true}
       >
-        {type === 'consumer' && suggestedValues.length > 0 && !isEditable ? (
+        {isConsumerReadOnlySuggestedValues ? (
           // Show select only if there are suggestedValues AND question is not editable
           <RHFSelect
             name={suggestedValueConsumerName}
@@ -158,6 +163,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
             render={({ field: { ref, onChange, ...fieldProps } }) => (
               <OutlinedInput
                 {...props}
+                id={currentFieldName}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 multiline={multiline}
                 rows={multiline ? 6 : undefined}
@@ -253,6 +259,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         render={({ field: { ref, onChange, ...fieldProps } }) => (
           <OutlinedInput
             {...props}
+            id={currentFieldName}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
             multiline={multiline}
             rows={multiline ? 6 : undefined}

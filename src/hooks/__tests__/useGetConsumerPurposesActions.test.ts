@@ -156,7 +156,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(cloneAction).toBeTruthy()
   })
 
-  it('should navigate to the purpose summary page on clone action success', async () => {
+  it('should navigate to the purpose edit flow on clone action success', async () => {
     const purposeMock = createMockPurpose({
       id: 'e8a8153e-9ab2-4aeb-a14c-96aebd4fa049',
       currentVersion: { state: 'SUSPENDED' },
@@ -176,7 +176,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     })
 
     await waitFor(() => {
-      expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/riepilogo')
+      expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/modifica')
     })
   })
   it('should return only clone action when purpose is rejected in DELIVER mode', () => {
