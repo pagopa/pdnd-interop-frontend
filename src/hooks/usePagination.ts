@@ -68,7 +68,7 @@ export function usePagination(options?: { limit: number; limitOptions?: number[]
     const rawLimit = searchParams.get('limit')
     const rawOffset = searchParams.get('offset')
 
-    if (rawOffset !== null && !limitValueSchema.safeParse(rawLimit).success) {
+    if (rawLimit !== null && !limitValueSchema.safeParse(rawLimit).success) {
       setLimit(null, { history: 'replace' })
     }
 
@@ -78,7 +78,7 @@ export function usePagination(options?: { limit: number; limitOptions?: number[]
     ) {
       setOffset(null, { history: 'replace' })
     }
-  }, [defaultLimit, defaultOffset, location.search, setLimit, setOffset])
+  }, [location.search, setLimit, setOffset])
 
   const limitOptions = options?.limitOptions || defaultOptions
 
