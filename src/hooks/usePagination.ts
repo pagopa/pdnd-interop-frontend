@@ -46,18 +46,18 @@ const offsetParser = createParser({
 export function usePagination(options?: { limit: number; limitOptions?: number[] }) {
   const location = useLocation()
   const defaultLimit = limitSchema.parse(options?.limit)
+  const defaultOffset = offsetSchema.parse(0)
 
   const [limitParam, setLimit] = useQueryState(
     'limit',
     limitParser.withDefault(defaultLimit).withOptions({
       history: 'push',
       scroll: true,
-      clearOnDefault: false,
     })
   )
   const [offsetParam, setOffset] = useQueryState(
     'offset',
-    offsetParser.withDefault(0).withOptions({
+    offsetParser.withDefault(defaultOffset).withOptions({
       history: 'push',
       scroll: true,
     })
@@ -68,17 +68,17 @@ export function usePagination(options?: { limit: number; limitOptions?: number[]
     const rawLimit = searchParams.get('limit')
     const rawOffset = searchParams.get('offset')
 
-    if (rawLimit === null || !limitValueSchema.safeParse(rawLimit).success) {
-      setLimit(defaultLimit)
+    if (rawOffset !== null && !limitValueSchema.safeParse(rawLimit).success) {
+      setLimit(null, { history: 'replace' })
     }
 
     if (
       rawOffset !== null &&
       (rawOffset.trim() === '' || !offsetValueSchema.safeParse(rawOffset).success)
     ) {
-      setOffset(0)
+      setOffset(null, { history: 'replace' })
     }
-  }, [defaultLimit, location.search, setLimit, setOffset])
+  }, [defaultLimit, defaultOffset, location.search, setLimit, setOffset])
 
   const limitOptions = options?.limitOptions || defaultOptions
 
