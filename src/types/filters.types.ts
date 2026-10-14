@@ -17,7 +17,7 @@ export type FilterFieldType =
   | 'select-single'
   | 'select-multiple'
   | 'boolean'
-export type FiltersParams = Record<string, string | string[] | boolean>
+export type FiltersParams = Record<string, string | string[] | boolean | number | Date>
 export type FiltersHandlers = {
   fields: FilterFields
   filters: FilterFieldsValues

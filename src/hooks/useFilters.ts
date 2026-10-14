@@ -109,7 +109,7 @@ export const useFilters = <TFiltersParams extends FiltersParams>(
   const onResetActiveFilters = useCallback(() => {
     setFilters(null)
     setOffset(null)
-  }, [setFilters])
+  }, [setFilters, setOffset])
 
   return {
     fields,

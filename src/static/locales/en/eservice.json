@@ -649,7 +649,7 @@
             }
           },
           "modeField": {
-            "label": "Deliver or receives data",
+            "label": "Deliver or receive data",
             "options": {
               "ALL": "All",
               "DELIVER": "Deliver data",
