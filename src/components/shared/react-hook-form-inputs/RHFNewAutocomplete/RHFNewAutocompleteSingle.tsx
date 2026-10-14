@@ -6,7 +6,7 @@ import RHFNewAutocompleteBase, {
   type RHFAutocompleteInput,
 } from './RHFNewAutocompleteBase'
 
-export type RHFAutocompleteSingleProps<T> = Omit<
+export type RHFNewAutocompleteSingleProps<T> = Omit<
   RHFNewAutocompleteBaseProps<RHFAutocompleteInput<T>, false>,
   | 'onChange'
   | 'value'
@@ -23,7 +23,7 @@ export type RHFAutocompleteSingleProps<T> = Omit<
   }>
 }
 
-export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>) {
+export function RHFNewAutocompleteSingle<T>(props: RHFNewAutocompleteSingleProps<T>) {
   const { watch } = useFormContext()
   const value = watch(props.name) as T
   const hasSetOptions = React.useRef(false)

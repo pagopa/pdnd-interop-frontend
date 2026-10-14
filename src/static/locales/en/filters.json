@@ -1,0 +1,14 @@
+{
+  "button": "Search",
+  "results": "results",
+  "remove": "Remove filters",
+  "additionals": {
+    "trigger": "Filters",
+    "title": "Filters",
+    "subtitle": "Use the filters for a more specific search.",
+    "actions": {
+      "reset": "Reset filters",
+      "apply": "Apply filters"
+    }
+  }
+}

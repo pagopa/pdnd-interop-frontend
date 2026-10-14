@@ -19,6 +19,16 @@ const offsetParser = createParser({
   serialize: (data) => String(data),
 })
 
+export const useOffset = () => {
+  return useQueryState(
+    'offset',
+    offsetParser.withDefault(offsetSchema.parse(0)).withOptions({
+      history: 'push',
+      scroll: true,
+    })
+  )
+}
+
 /**
  * @description
  * This hook is used to manage the pagination state keeping it in sync with the url params.
@@ -46,7 +56,6 @@ const offsetParser = createParser({
 export function usePagination(options?: { limit: number; limitOptions?: number[] }) {
   const location = useLocation()
   const defaultLimit = limitSchema.parse(options?.limit)
-  const defaultOffset = offsetSchema.parse(0)
 
   const [limitParam, setLimit] = useQueryState(
     'limit',
@@ -55,13 +64,8 @@ export function usePagination(options?: { limit: number; limitOptions?: number[]
       scroll: true,
     })
   )
-  const [offsetParam, setOffset] = useQueryState(
-    'offset',
-    offsetParser.withDefault(defaultOffset).withOptions({
-      history: 'push',
-      scroll: true,
-    })
-  )
+
+  const [offsetParam, setOffset] = useOffset()
 
   React.useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
