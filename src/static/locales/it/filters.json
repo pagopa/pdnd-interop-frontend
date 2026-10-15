@@ -1,6 +1,6 @@
 {
   "button": "Cerca",
-  "results": "risultati",
+  "results": "<1>{{count}}</1> risultati",
   "remove": "Rimuovi filtri",
   "additionals": {
     "trigger": "Filtri",

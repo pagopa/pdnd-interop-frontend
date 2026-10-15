@@ -38,7 +38,17 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
       )
     })
     .with('boolean', () => {
-      return <RHFNewSwitch name={field.name} label={field.label} description={field.description} />
+      return (
+        <RHFNewSwitch
+          name={field.name}
+          label={field.label}
+          description={field.description}
+          sx={{
+            pl: '1.125rem',
+            m: '0 !important',
+          }}
+        />
+      )
     })
     .with('datepicker', () => {
       return (

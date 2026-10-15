@@ -148,7 +148,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
           {
             name: 'asyncExchange',
             label: tEservice('filters.side.techSpec.asyncExchangeField.label'),
-            type: 'select-single',
+            type: 'autocomplete-single',
             options: [
               {
                 label: tEservice('filters.side.techSpec.asyncExchangeField.options.ALL'),
@@ -167,7 +167,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
           {
             name: 'mode',
             label: tEservice('filters.side.techSpec.modeField.label'),
-            type: 'select-single',
+            type: 'autocomplete-single',
             options: eserviceModesOptions.map((mode) => ({
               label: tEservice(`filters.side.techSpec.modeField.options.${mode}`),
               value: mode,
@@ -183,7 +183,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
             label: tEservice(
               'filters.side.delegationAndSignalHub.requesterDelegationRolesField.label'
             ),
-            type: 'select-single',
+            type: 'autocomplete-single',
             options: requesterDelegationRolesOptions.map((role) => ({
               label: tEservice(
                 `filters.side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`

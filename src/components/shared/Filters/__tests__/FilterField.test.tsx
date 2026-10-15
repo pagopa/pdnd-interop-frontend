@@ -86,6 +86,10 @@ describe('FilterField', () => {
       name: 'f',
       label: 'Label',
       description: 'desc',
+      sx: {
+        pl: '1.125rem',
+        m: '0 !important',
+      },
     })
   })
 

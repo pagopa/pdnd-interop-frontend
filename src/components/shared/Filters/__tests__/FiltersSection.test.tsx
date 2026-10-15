@@ -41,7 +41,11 @@ vi.mock('../../SortBy', () => ({
 }))
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
+  useTranslation: () => ({
+    t: (key: string, opts?: { count?: number }) =>
+      opts?.count !== undefined ? `${key}:${opts.count}` : key,
+  }),
+  Trans: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }))
 
 const defaultProps = {
@@ -71,11 +75,10 @@ describe('FiltersSection', () => {
 
   it('shows 0 results by default and the given number when provided', () => {
     const { rerender } = render(<FiltersSection {...defaultProps} />)
-    expect(screen.getByText('0')).toBeInTheDocument()
-    expect(screen.getByText('results')).toBeInTheDocument()
+    expect(screen.getByText('results:0')).toBeInTheDocument()
 
     rerender(<FiltersSection {...defaultProps} results={42} />)
-    expect(screen.getByText('42')).toBeInTheDocument()
+    expect(screen.getByText('results:42')).toBeInTheDocument()
   })
 
   it('does not render AdditionalFilters when additionals is undefined or empty', () => {
