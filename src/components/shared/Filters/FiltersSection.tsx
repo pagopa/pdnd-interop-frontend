@@ -10,7 +10,7 @@ import { MIButton as Button } from '@pagopa/mui-italia'
 import { AdditionalFilters } from './AdditionalFilters'
 import { Filters } from './Filters'
 import { SortBy } from '../SortBy'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { getActiveFiltersCount } from '@/utils/filters.utils'
 
@@ -68,10 +68,7 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
               </Button>
             )}
             <Typography variant="body2">
-              <Typography component={'span'} fontWeight={700} fontSize={'1rem'}>
-                {results ?? 0}
-              </Typography>{' '}
-              {t('results')}
+              <Trans components={{ 1: <strong /> }}>{t('results', { count: results ?? 0 })}</Trans>
             </Typography>
           </Stack>
           {sorting && sorting.options.length > 0 && <SortBy {...sorting} />}

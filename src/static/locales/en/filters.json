@@ -1,6 +1,6 @@
 {
   "button": "Search",
-  "results": "results",
+  "results": "<1>{{count}}</1> results",
   "remove": "Remove filters",
   "additionals": {
     "trigger": "Filters",
