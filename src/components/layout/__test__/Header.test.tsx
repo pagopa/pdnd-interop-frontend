@@ -23,10 +23,11 @@ const mockTFunction = (key: string) => key
 
 const spyUseErrorData = vi.spyOn(useErrorData, 'useErrorData')
 
-vi.mock('@pagopa/mui-italia', () => {
+vi.mock('@pagopa/mui-italia', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@pagopa/mui-italia')>()
+
   return {
-    theme: vi.fn(),
-    CopyToClipboardButton: vi.fn(),
+    ...actual,
     HeaderAccount: ({
       onLogin,
       onAssistanceClick,

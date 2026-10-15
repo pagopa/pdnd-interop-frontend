@@ -580,6 +580,12 @@
     }
   },
   "list": {
+    "sorting": {
+      "CREATED_AT_ASC": "Dal meno recente",
+      "CREATED_AT_DESC": "Dal più recente",
+      "NAME_ASC": "Nome e-service A-Z",
+      "NAME_DESC": "Nome e-service Z-A"
+    },
     "filters": {
       "nameField": {
         "label": "Cerca per nome"
@@ -589,6 +595,83 @@
       },
       "consumerField": {
         "label": "Cerca per fruitore"
+      },
+      "side": {
+        "rapidSelection": {
+          "title": "Selezione rapida",
+          "onlyActiveEServicesField": {
+            "label": "E-service attivi",
+            "description": "Escludi gli e-service sospesi"
+          },
+          "availableForRequesterField": {
+            "label": "Fruibili dal tuo ente",
+            "description": "In base agli attributi"
+          },
+          "subscribedByrequesterField": {
+            "label": "Già in fruizione",
+            "description": "Con richiesta attiva"
+          },
+          "producerCategoriesField": {
+            "label": "Categoria erogatore",
+            "options": {
+              "ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI": "Altre Pubbliche Amministrazioni locali",
+              "AZIENDE_OSPEDALIERE_ASL": "Aziende Ospedaliere e ASL",
+              "COMUNI": "Comuni",
+              "PROVINCE_CITTA_METROPOLITANE": "Province e Città Metropolitane",
+              "PUBBLICHE_AMMINISTRAZIONI_CENTRALI": "Pubbliche Amministrazioni Centrali",
+              "ENTI_NAZIONALI_PREVIDENZA_ASSISTENZA": "Enti Nazionali di Previdenza e Assistenza Sociale",
+              "REGIONI_PROVINCE_AUTONOME": "Regioni e Province Autonome",
+              "CONSORZI_ASSOCIAZIONI_REGIONALI": "Consorzi e associazioni regionali",
+              "SCUOLE": "Scuole",
+              "UNIVERSITA_AFAM": "Università e AFAM",
+              "ISTITUTI_RICERCA": "Istituti di ricerca",
+              "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI": "Stazioni Appaltanti e Gestori di pubblici servizi"
+            }
+          }
+        },
+        "template": {
+          "title": "Template",
+          "onlyTemplateInstancesField": {
+            "label": "Creati da template"
+          },
+          "hasLinkedPurposeTemplatesField": {
+            "label": "Con template finalità collegati"
+          }
+        },
+        "techSpec": {
+          "title": "Specifiche tecniche",
+          "asyncExchangeField": {
+            "label": "Scambio dati",
+            "options": {
+              "ALL": "Tutti",
+              "SYNC": "Sincrono",
+              "ASYNC": "Asincrono / massivo"
+            }
+          },
+          "modeField": {
+            "label": "Eroga o riceve dati",
+            "options": {
+              "ALL": "Tutti",
+              "DELIVER": "Eroga dati",
+              "RECEIVE": "Riceve dati"
+            }
+          }
+        },
+        "delegationAndSignalHub": {
+          "title": "Deleghe e notifiche modifica dati",
+          "requesterDelegationRolesField": {
+            "label": "Deleghe",
+            "options": {
+              "ALL": "Tutti",
+              "DELEGATE": "E-service ricevuti in delega",
+              "DELEGATOR": "E-service affidati in delega"
+            }
+          },
+          "onlySignalHubEnabledField": {
+            "label": "Signal Hub",
+            "description": "Con servizio di notifica in caso di variazione dati"
+          }
+        }
       }
     },
     "drawers": {
@@ -619,7 +702,9 @@
         }
       }
     },
-    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
+    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile",
+    "inspectCollection": "Vedi raccolta",
+    "collectionBadge": "{{ count }} e-service"
   },
   "read": {
     "dialogs": {

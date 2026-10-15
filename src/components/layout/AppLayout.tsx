@@ -23,7 +23,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
           py: 2,
           ...sx,
         }}
-        bgcolor="#FAFAFA"
+        bgcolor={theme.colors.neutral.grey[50]}
       >
         <Box sx={{ maxWidth: 920, mx: 'auto', height: '100%' }}>{children}</Box>
       </Box>
@@ -44,7 +44,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
           px: 3,
           py: 2,
           height: '100%',
-          bgcolor: '#FAFAFA',
+          bgcolor: theme.colors.neutral.grey[50],
         }}
       >
         <Box component="main" sx={{ maxWidth: 1280 }}>
