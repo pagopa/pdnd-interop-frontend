@@ -82,6 +82,37 @@ it('starts the frontend container through ordered backend APIs, persists its tok
   ])
 })
 
+it('keeps the container available while waiting for the dashboard API before backend actions', async () => {
+  const { events, request, runtime } = fixture()
+  let ready
+  const dashboardReady = new Promise((resolve) => {
+    ready = resolve
+  })
+  const waitingRequest = vi.fn(async (path, body) => {
+    if (path === 'health') await dashboardReady
+    return request(path, body)
+  })
+  const signals = new EventEmitter()
+  const serving = client.serveFrontend({
+    runtime,
+    launcher: client.createFrontendLauncher({ runtime, request: waitingRequest }),
+    signals,
+    keepAlive: () => undefined,
+  })
+  try {
+    await vi.waitFor(() => expect(waitingRequest).toHaveBeenCalledWith('health'))
+    expect(events).toEqual(['install'])
+    expect(request).not.toHaveBeenCalled()
+    expect(runtime.reportStartup).toHaveBeenCalledWith({ state: 'running' })
+    expect(signals.listenerCount('SIGTERM')).toBe(1)
+  } finally {
+    ready()
+    await serving
+  }
+  expect(events).toContain('vite:local')
+  expect(events).toContain('browser-checks')
+})
+
 it('aborts before seed/token/Vite when a backend operation fails', async () => {
   const { events, request, runtime } = fixture({ failedAction: 'preset.start' })
   await expect(client.createFrontendLauncher({ request, runtime }).start()).rejects.toThrow(

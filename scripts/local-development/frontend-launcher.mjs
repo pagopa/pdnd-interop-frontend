@@ -32,7 +32,9 @@ export function createFrontendLauncher({ runtime, request = requestJson, pause: 
         try {
           const previous = await runtime.status()
           if (!previous.running) await runtime.install()
+          console.log('Waiting for the backend dashboard API')
           await waitForDashboard({ request: checkedRequest, pause: checkedPause })
+          console.log('Backend dashboard API is ready')
           await action({ type: 'infra.start' })
           await action({ type: 'preset.start', id: 'frontend-full' })
           await action({ type: 'seed' })

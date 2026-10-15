@@ -108,7 +108,7 @@ it('generates a frontend-only mount and volumes on the shared Compose network', 
   expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')
   expect(service.ports).toEqual(['3000:5173'])
   expect(service.init).toBe(true)
-  expect(service.depends_on.dashboard.condition).toBe('service_healthy')
+  expect(service.depends_on.dashboard.condition).toBe('service_started')
 })
 
 it('validates the devcontainer model and build targets without explicitly enabling profiles', async ({

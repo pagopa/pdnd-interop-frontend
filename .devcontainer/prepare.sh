@@ -25,7 +25,7 @@ json_string() {
   printf ',"environment":{"INTEROP_FE_ROOT":'
   json_string "$FRONTEND_ROOT"
   printf ',"INTEROP_DEVCONTAINER":"true","INTEROP_FRONTEND_RUNTIME":"true","INTEROP_DASHBOARD_URL":"http://dashboard:8076","INTEROP_LOCAL_BACKEND_TARGET":"http://dashboard:3600","INTEROP_SELFCARE_URL":"http://host.docker.internal:8006","INTEROP_FRONTEND_PORT":"5173","LOCAL_UID":"%s","LOCAL_GID":"%s"},' "$(id -u)" "$(id -g)"
-  printf '"extra_hosts":["host.docker.internal:host-gateway"],"ports":["3000:5173"],"depends_on":{"dashboard":{"condition":"service_healthy"}},"volumes":[{"type":"bind","source":'
+  printf '"extra_hosts":["host.docker.internal:host-gateway"],"ports":["3000:5173"],"depends_on":{"dashboard":{"condition":"service_started"}},"volumes":[{"type":"bind","source":'
   json_string "$FRONTEND_ROOT"
   printf ',"target":'
   json_string "$FRONTEND_ROOT"

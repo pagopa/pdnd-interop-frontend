@@ -30,6 +30,9 @@ frontend overlay at `.local-development/frontend/compose.yml`. An existing
 backend-only overlay and its startup settings are preserved. Compose starts
 `dashboard` and `frontend` on the same network; only the frontend image is rebuilt
 by routine frontend starts.
+The frontend container starts as soon as the dashboard container is running,
+so VS Code can attach during backend setup. Its launcher waits for the dashboard
+HTTP API before requesting any backend actions.
 
 The frontend entrypoint installs dependencies and Chromium. Its launcher then
 calls the dashboard API in order: infrastructure start, the `frontend-full`
