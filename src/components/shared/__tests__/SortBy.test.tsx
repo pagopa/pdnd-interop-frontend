@@ -48,12 +48,15 @@ describe('SortBy', () => {
     expect(screen.getAllByRole('menuitem')).toHaveLength(2)
   })
 
-  it('calls onSortingChange with the option value when an item is clicked', () => {
+  it('calls onSortingChange with the option value and close the menu when an item is clicked', () => {
     render(<SortBy options={options} sortBy="name" onSortingChange={onSortingChange} />)
     fireEvent.click(screen.getByRole('button', { name: 'Name' }))
     fireEvent.click(screen.getByRole('menuitem', { name: 'Date' }))
 
     expect(onSortingChange).toHaveBeenCalledTimes(1)
     expect(onSortingChange).toHaveBeenCalledWith('date')
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    expect(screen.getByRole('button')).not.toHaveAttribute('aria-expanded')
+    expect(screen.getByRole('button')).not.toHaveAttribute('aria-controls')
   })
 })
