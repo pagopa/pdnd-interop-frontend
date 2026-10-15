@@ -18,7 +18,7 @@ json_string() {
 
 # Dev Containers validates Compose before selecting services or enabling profiles.
 {
-  printf '{"services":{"frontend":{"profiles":["dashboard"],"init":true,"build":{"context":'
+  printf '{"services":{"dashboard":{"environment":{"DASHBOARD_FRONTEND_URL":"http://frontend:8077","DASHBOARD_AUTOSTART":"false"}},"frontend":{"profiles":["dashboard"],"init":true,"build":{"context":'
   json_string "$FRONTEND_ROOT/.devcontainer"
   printf '},"working_dir":'
   json_string "$FRONTEND_ROOT"

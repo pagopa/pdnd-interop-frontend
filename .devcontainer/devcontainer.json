@@ -20,7 +20,8 @@
     "vscode": {
       "settings": {
         "remote.restoreForwardedPorts": false,
-        "remote.forwardOnOpen": false
+        "remote.forwardOnOpen": false,
+        "task.allowAutomaticTasks": "on"
       },
       "extensions": [
         "dbaeumer.vscode-eslint",

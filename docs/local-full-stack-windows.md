@@ -228,7 +228,14 @@ passed based only on Ubuntu tests.
 
 1. Create/rebuild from the WSL filesystem following the steps above. Confirm
    separate dependency volumes mount, frontend setup/checks pass, and dashboard APIs complete.
-2. In Windows Edge/Chrome, open the frontend on `localhost:3000` and dashboard on `localhost:8076`.
+2. Confirm that attachment presents the **Full stack: startup logs** terminal,
+   with frontend installation and infrastructure/backend orchestration output,
+   and opens the dashboard at `/#/status` in the default Windows browser.
+   Reopen the container window and check that the task opens the page again; if
+   VS Code restores the existing task after a reload, restart it to reopen the page.
+   Check phase progress before setup
+   finishes and completed results afterwards. In Windows Edge/Chrome, open the
+   frontend on `localhost:3000` and dashboard on `localhost:8076`.
    Confirm the dashboard shows services and logs, and the UI shows `Comune Demo`
    and the seeded `Catalogo Demo` e-service.
 3. Switch tenant/user through the local identity page. Confirm API calls use

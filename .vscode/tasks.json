@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Full stack: startup logs",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/scripts/local-development/follow-startup.sh"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "runOptions": { "runOn": "folderOpen", "instanceLimit": 1 },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": false,
+        "showReuseMessage": false
+      }
+    }
+  ]
+}

@@ -94,7 +94,10 @@ it('generates a frontend-only mount and volumes on the shared Compose network', 
   const config = JSON.parse(
     await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
   )
-  expect(Object.keys(config.services)).toEqual(['frontend'])
+  expect(Object.keys(config.services)).toEqual(['dashboard', 'frontend'])
+  expect(config.services.dashboard).toEqual({
+    environment: { DASHBOARD_FRONTEND_URL: 'http://frontend:8077', DASHBOARD_AUTOSTART: 'false' },
+  })
   const service = config.services.frontend
   expect(service.environment).toMatchObject({
     INTEROP_DASHBOARD_URL: 'http://dashboard:8076',

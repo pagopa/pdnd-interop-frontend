@@ -4,6 +4,9 @@ The backend owns the standalone dashboard at <http://localhost:8076>. A separate
 frontend container runs VS Code, Vite and frontend checks. It mounts only the
 frontend checkout and serves <http://localhost:3000/ui/it/>. The dashboard works
 without the frontend checkout or container and remains available when Vite stops.
+The frontend Compose overlay enables the optional full-stack status page at
+<http://localhost:8076/#/status>, including frontend startup phases and logs.
+Standalone backend configuration stays unchanged.
 
 ## Prerequisites
 
@@ -29,7 +32,9 @@ The host initializer prepares a missing backend Compose configuration and the
 frontend overlay at `.local-development/frontend/compose.yml`. An existing
 backend-only overlay and its startup settings are preserved. Compose starts
 `dashboard` and `frontend` on the same network; only the frontend image is rebuilt
-by routine frontend starts.
+by routine frontend starts. The frontend overlay disables backend autostart for
+this composition, since the frontend launcher coordinates infrastructure startup.
+The standalone backend overlay retains its original autostart setting.
 The frontend container starts as soon as the dashboard container is running,
 so VS Code can attach during backend setup. Its launcher waits for the dashboard
 HTTP API before requesting any backend actions.
@@ -49,7 +54,26 @@ alive for inspection and manual retry; it does not automatically retry the seed.
 
 For VS Code, open **the frontend folder** from the host/WSL terminal (`code .`),
 then choose **Dev Containers: Reopen in Container**. VS Code attaches to
-`frontend` and uses the same automatic setup. Closing the editor leaves both
+`frontend` and uses the same automatic setup. The **Full stack: startup logs**
+task automatically presents a terminal with frontend installation/startup output
+and incremental backend orchestration logs, including infrastructure setup. It
+waits for the dashboard API if necessary and only observes the existing launcher.
+This task works when opening the frontend folder as well as the full-stack
+workspace; outside the frontend container it exits without starting anything.
+VS Code Workspace Trust must allow tasks. If automatic tasks were disabled,
+use **Tasks: Manage Automatic Tasks** or **Tasks: Run Task** to show the log terminal.
+
+When this automatic terminal task starts, it waits for dashboard HTTP health,
+then uses VS Code's remote `code --openExternal` command to open
+<http://localhost:8076/#/status> in the host browser once. This uses the integrated
+terminal's CLI connection, after attachment; it does not depend on a post-attach
+browser environment. The page opens while the remaining installation and backend
+phases continue. Opening the frontend folder in a new or reopened container window
+starts the task again. If VS Code restores an already running task after a window
+reload, restart **Full stack: startup logs** to reopen the browser. If the
+remote CLI is unavailable, the terminal prints the URL and keeps streaming logs.
+Ports keep their existing Docker publication without automatic VS Code forwarding.
+Closing the editor leaves both
 containers running. Fix setup errors inside the container and retry
 `pnpm local:start`.
 
@@ -90,6 +114,15 @@ the launcher uses APIs and manages only its own Vite process group. Repeated
 starts also restart a stopped frontend in an existing container. Overlapping
 commands are rejected by a Linux kernel lock, which is released when the command exits.
 Refreshing a token restarts Vite so its environment receives the new token.
+Every lifecycle command records fresh phase results; stopped Vite cannot retain
+a successful readiness status. Retrying startup clears previous phase errors.
+
+The frontend entrypoint also runs a read-only observer on internal port `8077`,
+before dependency installation or backend waits. The dashboard reads its
+`GET /status` and `GET /logs?source=startup|vite` endpoints over Compose DNS.
+The observer publishes no host port, exposes only the last 64 KiB of the two
+logs, and closes with the frontend runtime. Process ownership, token and identity
+files are not served. Backend operations remain owned by the dashboard API.
 
 After reset, run `pnpm local:start` to seed and start again. Reset removes local
 event store, SQL readmodels, DynamoDB, Kafka, Redis, RustFS and backend seed state;
