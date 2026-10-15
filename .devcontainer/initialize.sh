@@ -17,3 +17,6 @@ elif grep -q '"INTEROP_FE_ROOT"[[:space:]]*:' "$BACKEND_OVERRIDE"; then
   exit 1
 fi
 INTEROP_BE_ROOT="$BACKEND_ROOT" bash "$FRONTEND_ROOT/.devcontainer/prepare.sh"
+if [[ "${1:-}" == --open-dashboard ]]; then
+  bash "$FRONTEND_ROOT/.devcontainer/open-dashboard.sh" prepare "$FRONTEND_ROOT/.local-development/frontend"
+fi

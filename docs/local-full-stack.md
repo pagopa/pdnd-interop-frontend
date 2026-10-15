@@ -59,19 +59,25 @@ task automatically presents a terminal with frontend installation/startup output
 and incremental backend orchestration logs, including infrastructure setup. It
 waits for the dashboard API if necessary and only observes the existing launcher.
 This task works when opening the frontend folder as well as the full-stack
-workspace; outside the frontend container it exits without starting anything.
+workspace; outside the frontend devcontainer it exits without starting anything,
+even when frontend runtime mode is set.
 VS Code Workspace Trust must allow tasks. If automatic tasks were disabled,
 use **Tasks: Manage Automatic Tasks** or **Tasks: Run Task** to show the log terminal.
 
-When this automatic terminal task starts, it waits for dashboard HTTP health,
-then uses VS Code's remote `code --openExternal` command to open
-<http://localhost:8076/#/status> in the host browser once. This uses the integrated
-terminal's CLI connection, after attachment; it does not depend on a post-attach
-browser environment. The page opens while the remaining installation and backend
-phases continue. Opening the frontend folder in a new or reopened container window
-starts the task again. If VS Code restores an already running task after a window
-reload, restart **Full stack: startup logs** to reopen the browser. If the
-remote CLI is unavailable, the terminal prints the URL and keeps streaming logs.
+Devcontainer initialization prepares a one-time browser request on the host.
+After dashboard HTTP health succeeds, the automatic terminal task signals that
+request and the host opens <http://localhost:8076/#/status> in its default browser.
+This preserves Docker's published port: VS Code's remote browser command would
+create a tunnel and could change the port to `8077`. The page opens while the
+remaining frontend startup phases continue. The status page contains the startup
+timeline, frontend logs and **Open frontend**, available as soon as Vite is running.
+
+The host opener uses `xdg-open` on Linux, `open` on macOS or Windows PowerShell
+from WSL2. A new initialization supersedes an older pending request; requests
+expire after 30 minutes. A window reload that only restores the existing task
+does not prepare a new request: use the URL printed in the terminal in that case.
+If automatic opening is unavailable, log streaming continues. Host opener errors
+are recorded in `.local-development/frontend/browser-open.log`.
 Ports keep their existing Docker publication without automatic VS Code forwarding.
 Closing the editor leaves both
 containers running. Fix setup errors inside the container and retry

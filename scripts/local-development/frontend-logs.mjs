@@ -1,12 +1,21 @@
-import { open } from 'node:fs/promises'
-import { execFile } from 'node:child_process'
+import { open, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { promisify } from 'node:util'
 import { requestJson } from './dashboard-client.mjs'
 
+const defaultRoot = fileURLToPath(new URL('../..', import.meta.url))
+
+export async function requestHostDashboard(root = defaultRoot, request) {
+  const state = join(root, '.local-development/frontend')
+  const current = (await readFile(join(state, 'browser-request'), 'utf8')).trim()
+  const session = request ?? current
+  if (!/^browser-open\.[a-zA-Z0-9]{8}$/.test(session) || session !== current)
+    throw new Error('Invalid browser request')
+  await writeFile(join(state, session, 'ready'), '')
+}
+
 export function createStartupLogFollower({
-  root = fileURLToPath(new URL('../..', import.meta.url)),
+  root = defaultRoot,
   request = requestJson,
   write = (content) => process.stdout.write(content),
   openDashboard,
@@ -47,10 +56,11 @@ export function createStartupLogFollower({
           if ((await request('health')).status === 'ok') {
             opened = true
             const url = 'http://localhost:8076/#/status'
+            write(`[backend] Dashboard: ${url}\n`)
             try {
               await openDashboard(url)
             } catch {
-              write(`[backend] Cannot open VS Code browser automatically; open ${url}\n`)
+              write(`[backend] Cannot request automatic browser opening; open ${url}\n`)
             }
           }
         } catch {
@@ -78,10 +88,14 @@ export function createStartupLogFollower({
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const request = readFile(join(defaultRoot, '.local-development/frontend/browser-request'), 'utf8')
+    .then((value) => value.trim())
+    .catch(() => undefined)
   const follower = createStartupLogFollower({
-    openDashboard: async (url) => {
-      if (!process.env.VSCODE_IPC_HOOK_CLI) throw new Error('VS Code remote CLI unavailable')
-      await promisify(execFile)('code', ['--openExternal', url], { timeout: 10_000 })
+    openDashboard: async () => {
+      const session = await request
+      if (!session) throw new Error('Host browser opener unavailable')
+      await requestHostDashboard(defaultRoot, session)
     },
   })
   for (;;) {

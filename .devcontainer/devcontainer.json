@@ -8,7 +8,7 @@
   "service": "frontend",
   "runServices": ["dashboard", "frontend"],
   "workspaceFolder": "${localWorkspaceFolder}",
-  "initializeCommand": ["bash", ".devcontainer/initialize.sh"],
+  "initializeCommand": ["bash", ".devcontainer/initialize.sh", "--open-dashboard"],
   "overrideCommand": false,
   "shutdownAction": "none",
   "remoteUser": "node",

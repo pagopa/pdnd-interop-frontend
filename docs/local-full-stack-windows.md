@@ -231,8 +231,9 @@ passed based only on Ubuntu tests.
 2. Confirm that attachment presents the **Full stack: startup logs** terminal,
    with frontend installation and infrastructure/backend orchestration output,
    and opens the dashboard at `/#/status` in the default Windows browser.
-   Reopen the container window and check that the task opens the page again; if
-   VS Code restores the existing task after a reload, restart it to reopen the page.
+   Reopen the container and check that initialization prepares a new automatic
+   browser opening. If a window reload only restores the existing task, use its
+   printed dashboard URL instead.
    Check phase progress before setup
    finishes and completed results afterwards. In Windows Edge/Chrome, open the
    frontend on `localhost:3000` and dashboard on `localhost:8076`.

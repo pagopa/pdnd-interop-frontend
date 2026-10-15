@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "${INTEROP_FRONTEND_RUNTIME:-}" != true ]]; then
+if [[ "${INTEROP_DEVCONTAINER:-}" != true || "${INTEROP_FRONTEND_RUNTIME:-}" != true ]]; then
   echo 'Startup logs are available inside the frontend devcontainer.'
   exit 0
 fi

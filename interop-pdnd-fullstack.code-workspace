@@ -10,7 +10,6 @@
     },
   ],
   "settings": {
-    "task.allowAutomaticTasks": "on",
     "remote.restoreForwardedPorts": false,
     "remote.forwardOnOpen": false,
     "prettier.enable": false,
