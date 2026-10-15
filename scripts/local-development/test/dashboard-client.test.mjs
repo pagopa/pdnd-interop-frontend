@@ -5,8 +5,8 @@ import { copyFile, mkdir, mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
-import * as client from './dashboard-client.mjs'
-import { createFrontendRuntime } from './frontend-runtime.mjs'
+import * as client from '../dashboard-client.mjs'
+import { createFrontendRuntime } from '../frontend-runtime.mjs'
 
 it.each(['start', 'stop', 'use-local', 'use-dev', 'identity', 'reset', 'frontend.stop'])(
   'keeps the active startup outcome when a concurrent %s command cannot acquire the lock',
@@ -21,7 +21,7 @@ it.each(['start', 'stop', 'use-local', 'use-dev', 'identity', 'reset', 'frontend
       'frontend-observer.mjs',
       'vite-config.mjs',
     ]) {
-      await copyFile(new URL(file, import.meta.url), join(scripts, file))
+      await copyFile(new URL(`../${file}`, import.meta.url), join(scripts, file))
     }
     const runtime = createFrontendRuntime({ root })
     let finish

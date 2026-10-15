@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
 const execute = promisify(execFile)
-const sourceRoot = fileURLToPath(new URL('../..', import.meta.url))
+const sourceRoot = fileURLToPath(new URL('../../..', import.meta.url))
 const roots = []
 afterEach(async () => {
   await Promise.all(roots.splice(0).map((path) => rm(path, { recursive: true, force: true })))

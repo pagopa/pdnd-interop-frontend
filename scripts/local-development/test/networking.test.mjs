@@ -8,7 +8,7 @@ import { promisify } from 'node:util'
 import { fileURLToPath } from 'node:url'
 
 const execute = promisify(execFile)
-const frontendRoot = fileURLToPath(new URL('../..', import.meta.url))
+const frontendRoot = fileURLToPath(new URL('../../..', import.meta.url))
 
 describe('local development networking', () => {
   let directory

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
 const execute = promisify(execFile)
-const entrypoint = fileURLToPath(new URL('../../.devcontainer/entrypoint.sh', import.meta.url))
+const entrypoint = fileURLToPath(new URL('../../../.devcontainer/entrypoint.sh', import.meta.url))
 const roots = []
 afterEach(async () => {
   await Promise.all(roots.splice(0).map((root) => rm(root, { recursive: true, force: true })))
@@ -26,7 +26,9 @@ async function fixture({ uid = '1500', gid = '1600', owned = false, missingVolum
     JSON.stringify({
       uid: '1000',
       gid: '1000',
-      owners: Object.fromEntries(volumes.map((volume) => [volume, owned ? `${uid}:${gid}` : '0:0'])),
+      owners: Object.fromEntries(
+        volumes.map((volume) => [volume, owned ? `${uid}:${gid}` : '0:0'])
+      ),
       calls: [],
     })
   )
@@ -93,10 +95,14 @@ it('prepares root-owned dependency volumes for a non-default UID/GID before star
     volumes.map((volume) => ['-R', '1500:1600', volume])
   )
   expect(result.calls.find(({ name }) => name === 'gosu')?.args).toEqual([
-    'node', '/usr/local/bin/frontend-entrypoint', '--user',
+    'node',
+    '/usr/local/bin/frontend-entrypoint',
+    '--user',
   ])
   expect(result.launcher).toEqual({
-    user: 'node', cwd: root, args: ['scripts/local-development/dashboard-client.mjs', 'serve'],
+    user: 'node',
+    cwd: root,
+    args: ['scripts/local-development/dashboard-client.mjs', 'serve'],
   })
   expect(await readFile(join(root, '.local-development/frontend/startup.log'), 'utf8')).toContain(
     'Frontend launcher started'
@@ -107,7 +113,9 @@ it('preserves existing user and volume ownership on repeated startup', async () 
   const { run, state } = await fixture({ uid: '1000', gid: '1000', owned: true })
   await run()
   const result = await state()
-  expect(result.calls.filter(({ name }) => ['groupmod', 'usermod', 'chown'].includes(name))).toEqual([])
+  expect(
+    result.calls.filter(({ name }) => ['groupmod', 'usermod', 'chown'].includes(name))
+  ).toEqual([])
   expect(result.launcher.user).toBe('node')
 })
 

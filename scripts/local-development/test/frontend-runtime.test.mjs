@@ -6,7 +6,7 @@ import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { createFrontendRuntime } from './frontend-runtime.mjs'
+import { createFrontendRuntime } from '../frontend-runtime.mjs'
 
 const roots = []
 afterEach(async () => {

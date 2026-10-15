@@ -1,12 +1,12 @@
 // @vitest-environment node
 import { expect, it, vi } from 'vitest'
 import { readFile } from 'node:fs/promises'
-import * as client from './frontend-launcher.mjs'
+import * as client from '../frontend-launcher.mjs'
 import { EventEmitter } from 'node:events'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
-import { createFrontendRuntime } from './frontend-runtime.mjs'
+import { createFrontendRuntime } from '../frontend-runtime.mjs'
 
 const serveFrontend = (options) =>
   client.serveFrontend({ observe: async () => ({ close: async () => {} }), ...options })
@@ -509,13 +509,13 @@ it('resets failed phases and operation IDs on retry, preserving successful final
 
 it('attaches VS Code to the separate frontend service and prepares no frontend mount in the backend', async () => {
   const config = JSON.parse(
-    await readFile(new URL('../../.devcontainer/devcontainer.json', import.meta.url), 'utf8')
+    await readFile(new URL('../../../.devcontainer/devcontainer.json', import.meta.url), 'utf8')
   )
   expect(config.service).toBe('frontend')
   expect(config.runServices).toContain('dashboard')
   expect(config.workspaceFolder).toBe('${localWorkspaceFolder}')
   const initialize = await readFile(
-    new URL('../../.devcontainer/initialize.sh', import.meta.url),
+    new URL('../../../.devcontainer/initialize.sh', import.meta.url),
     'utf8'
   )
   expect(initialize).not.toContain('prepare --frontend')

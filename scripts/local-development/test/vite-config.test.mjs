@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { expect, it } from 'vitest'
-import * as configuration from './vite-config.mjs'
+import * as configuration from '../vite-config.mjs'
 
 it('proxies local identity endpoints to the standalone loopback dashboard', () => {
   expect(configuration.resolveDashboardTarget()).toBe('http://127.0.0.1:8076')

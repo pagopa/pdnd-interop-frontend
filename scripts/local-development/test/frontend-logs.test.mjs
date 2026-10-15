@@ -3,7 +3,7 @@ import { afterEach, expect, it, vi } from 'vitest'
 import { access, appendFile, mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { createStartupLogFollower, requestHostDashboard } from './frontend-logs.mjs'
+import { createStartupLogFollower, requestHostDashboard } from '../frontend-logs.mjs'
 import { execFile } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
@@ -19,7 +19,7 @@ it('does not start the log task outside the devcontainer even if frontend runtim
   await writeFile(join(root, 'node'), '#!/usr/bin/env bash\nexit 99\n', { mode: 0o755 })
   const result = await promisify(execFile)(
     'bash',
-    [fileURLToPath(new URL('./follow-startup.sh', import.meta.url))],
+    [fileURLToPath(new URL('../follow-startup.sh', import.meta.url))],
     {
       env: {
         ...process.env,
@@ -78,7 +78,7 @@ it.each([
     await execute(
       'bash',
       [
-        fileURLToPath(new URL('../../.devcontainer/open-dashboard.sh', import.meta.url)),
+        fileURLToPath(new URL('../../../.devcontainer/open-dashboard.sh', import.meta.url)),
         'prepare',
         state,
       ],
@@ -123,7 +123,7 @@ it('expires a superseded browser request without opening its ready marker', asyn
   await promisify(execFile)(
     'bash',
     [
-      fileURLToPath(new URL('../../.devcontainer/open-dashboard.sh', import.meta.url)),
+      fileURLToPath(new URL('../../../.devcontainer/open-dashboard.sh', import.meta.url)),
       'wait',
       root,
       session,
