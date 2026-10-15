@@ -111,6 +111,48 @@ it('generates a frontend-only mount and volumes on the shared Compose network', 
   expect(service.depends_on.dashboard.condition).toBe('service_healthy')
 })
 
+it('validates the devcontainer model and build targets without explicitly enabling profiles', async ({
+  skip,
+}) => {
+  try {
+    await execute('docker', ['compose', 'version'])
+  } catch {
+    skip()
+    return
+  }
+  const { frontend, backend, run } = await fixture()
+  await run('start')
+  const backendCompose = join(backend, 'compose.yml')
+  await writeFile(
+    backendCompose,
+    JSON.stringify({
+      services: {
+        infrastructure: { image: 'busybox:1.37' },
+        dashboard: {
+          profiles: ['dashboard'],
+          build: { context: backend },
+          healthcheck: { test: ['CMD', 'true'] },
+        },
+      },
+    })
+  )
+  const compose = [
+    'compose',
+    '-f',
+    backendCompose,
+    '-f',
+    join(frontend, '.local-development/frontend/compose.yml'),
+  ]
+  const env = { ...process.env, COMPOSE_PROFILES: '', COMPOSE_DISABLE_ENV_FILE: 'true' }
+  await execute('docker', [...compose, 'config', '--quiet'], { env })
+  const { stdout } = await execute(
+    'docker',
+    [...compose, 'build', '--no-cache', '--print', 'dashboard', 'frontend'],
+    { env }
+  )
+  expect(JSON.parse(stdout).group.default.targets.sort()).toEqual(['dashboard', 'frontend'])
+})
+
 it('reports failed startup immediately while leaving its editor container running', async () => {
   const { run, stateFile, callsFile } = await fixture({ startupFailure: true })
   await expect(run('start')).rejects.toThrow()
