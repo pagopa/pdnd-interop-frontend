@@ -75,7 +75,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     [
       {
         name: 'keyword',
-        label: tEservice('filters.nameField.label'),
+        label: tEservice('filters.keywordField.label'),
         type: 'freetext',
       },
       {
