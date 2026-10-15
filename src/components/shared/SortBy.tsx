@@ -19,17 +19,22 @@ export const SortBy: React.FC<SortByProps> = ({ options, sortBy, onSortingChange
     [options, sortBy]
   )
 
-  const onOpen = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorEl(event.currentTarget)
-      setIsOpen(true)
-    },
-    [setIsOpen]
-  )
+  const onOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+    setIsOpen(true)
+  }, [])
 
   const onClose = useCallback(() => {
     setIsOpen(false)
-  }, [setIsOpen])
+  }, [])
+
+  const onSorting = useCallback(
+    (optionValue: string) => {
+      onSortingChange(optionValue)
+      setIsOpen(false)
+    },
+    [onSortingChange]
+  )
 
   return (
     <>
@@ -52,7 +57,7 @@ export const SortBy: React.FC<SortByProps> = ({ options, sortBy, onSortingChange
         items={options.map((option) => ({
           label: option.label,
           id: option.value,
-          onClick: () => onSortingChange(option.value),
+          onClick: () => onSorting(option.value),
         }))}
         MenuListProps={{
           'aria-labelledby': triggerId,
