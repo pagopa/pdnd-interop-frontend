@@ -5,7 +5,7 @@ import * as client from './frontend-launcher.mjs'
 import { EventEmitter } from 'node:events'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
 import { createFrontendRuntime } from './frontend-runtime.mjs'
 
 function fixture({ ready = true, failedAction } = {}) {
@@ -176,6 +176,128 @@ it.each([true, false])(
         expect(clearKeepAlive).toHaveBeenCalledWith('timer')
       }
     } finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  }
+)
+
+it.each(['install', 'smoke'])(
+  'cancels %s on SIGTERM, stops Vite and releases the lifecycle lock',
+  async (phase) => {
+    const root = await mkdtemp(join(tmpdir(), 'interop-frontend-cancel-'))
+    const { request } = fixture()
+    const signals = new EventEmitter()
+    const processes = []
+    const activeScript = phase === 'install' ? 'runtime.sh' : 'smoke.sh'
+    const spawnProcess = vi.fn((_command, [script], options) => {
+      const child = Object.assign(new EventEmitter(), {
+        pid: 4242 + processes.length,
+        unref: vi.fn(),
+      })
+      const process = {
+        child,
+        script: basename(script),
+        owner: options.env.INTEROP_FRONTEND_OWNER,
+        alive: true,
+      }
+      processes.push(process)
+      queueMicrotask(() => {
+        child.emit('spawn')
+        if (process.script === 'runtime.sh' && phase === 'smoke') {
+          process.alive = false
+          child.emit('close', 0)
+        }
+      })
+      return child
+    })
+    const signal = vi.fn((group, name) => {
+      const process = processes.find(({ child }) => child.pid === -group)
+      if (name === 'SIGKILL' || process.script === 'run-frontend.sh') {
+        process.alive = false
+        process.child.emit('close', null, name)
+      }
+    })
+    const runtimeOptions = {
+      root,
+      environment: {},
+      spawnProcess,
+      signal,
+      owns: async (pid, owner) =>
+        processes.some(
+          (process) => process.child.pid === pid && process.owner === owner && process.alive
+        ),
+      available: async () => true,
+      probe: async () => ({ ok: true }),
+      wait: async () => {},
+    }
+    const runtime = createFrontendRuntime(runtimeOptions)
+    const start = vi.spyOn(runtime, 'start')
+    const storeToken = vi.spyOn(runtime, 'storeToken')
+    const browserChecks = vi.spyOn(runtime, 'browserChecks')
+    const clearKeepAlive = vi.fn()
+    const reportError = vi.fn()
+    const serving = client.serveFrontend({
+      runtime,
+      launcher: client.createFrontendLauncher({ runtime, request }),
+      signals,
+      keepAlive: () => 'timer',
+      clearKeepAlive,
+      reportError,
+    })
+    try {
+      await vi.waitFor(() => {
+        expect(processes.some(({ script }) => script === activeScript)).toBe(true)
+      })
+      const freshRuntime = createFrontendRuntime(runtimeOptions)
+      await expect(freshRuntime.exclusive(async () => {})).rejects.toThrow(
+        'Another frontend lifecycle command'
+      )
+      expect((await runtime.status()).running).toBe(phase === 'smoke')
+      signals.emit('SIGTERM')
+      await vi.waitFor(() => expect(reportError).toHaveBeenCalled())
+      await serving
+      await vi.waitFor(() => expect(clearKeepAlive).toHaveBeenCalledWith('timer'))
+
+      const active = processes.find(({ script }) => script === activeScript)
+      const vite = processes.find(({ script }) => script === 'run-frontend.sh')
+      expect(signal.mock.calls).toEqual([
+        [-active.child.pid, 'SIGTERM'],
+        ...(vite ? [[-vite.child.pid, 'SIGTERM']] : []),
+        [-active.child.pid, 'SIGKILL'],
+      ])
+      expect(processes.every(({ alive }) => !alive)).toBe(true)
+      expect(processes.map(({ script }) => script)).toEqual(
+        phase === 'install' ? ['runtime.sh'] : ['runtime.sh', 'run-frontend.sh', 'smoke.sh']
+      )
+      expect(start).toHaveBeenCalledTimes(phase === 'install' ? 0 : 1)
+      expect(storeToken).toHaveBeenCalledTimes(phase === 'install' ? 0 : 1)
+      expect(browserChecks).not.toHaveBeenCalled()
+      if (phase === 'install') {
+        expect(request).not.toHaveBeenCalled()
+        await expect(
+          readFile(join(root, '.local-development/frontend-token'))
+        ).rejects.toMatchObject({
+          code: 'ENOENT',
+        })
+      }
+      expect(reportError).toHaveBeenCalledWith(
+        expect.objectContaining({ message: `${activeScript} failed (SIGKILL)` })
+      )
+      expect(await runtime.status()).toEqual({ running: false })
+      expect(await runtime.startup()).toEqual({
+        state: 'failed',
+        error: `${activeScript} failed (SIGKILL)`,
+      })
+      await expect(freshRuntime.exclusive(async () => 'reacquired')).resolves.toBe('reacquired')
+    } finally {
+      signals.emit('SIGTERM')
+      for (const process of processes) {
+        if (process.alive) {
+          process.alive = false
+          process.child.emit('close', null, 'SIGKILL')
+        }
+      }
+      await serving
       await rm(root, { recursive: true, force: true })
     }
   }
