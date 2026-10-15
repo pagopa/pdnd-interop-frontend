@@ -1,9 +1,10 @@
 import { spawn } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
-import { mkdir, open, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, open, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import { createConnection } from 'node:net'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readLogTail } from './frontend-observer.mjs'
 
 const defaultRoot = fileURLToPath(new URL('../..', import.meta.url))
 const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -228,12 +229,16 @@ export function createFrontendRuntime({
     await mkdir(stateRoot, { recursive: true })
     const release = await claimLifecycleLock(join(stateRoot, 'lifecycle.lock'))
     try {
+      await reportStartup({ state: 'running', phases: [] })
       try {
         const result = await task()
-        await reportStartup({ state: (await status()).running ? 'passed' : 'stopped' })
+        await reportStartup({
+          ...(await startup()),
+          state: (await status()).running ? 'passed' : 'stopped',
+        })
         return result
       } catch (error) {
-        await reportStartup({ state: 'failed', error: error.message })
+        await reportStartup({ ...(await startup()), state: 'failed', error: error.message })
         throw error
       }
     } finally {
@@ -243,8 +248,13 @@ export function createFrontendRuntime({
 
   async function reportStartup(state) {
     await mkdir(stateRoot, { recursive: true })
-    await writeFile(join(stateRoot, 'startup.json'), JSON.stringify(state))
+    const path = join(stateRoot, 'startup.json')
+    await writeFile(`${path}.tmp`, JSON.stringify(state))
+    await rename(`${path}.tmp`, path)
   }
+
+  const startup = async () =>
+    (await readJson(join(stateRoot, 'startup.json'))) ?? { state: 'pending' }
 
   function run(script, args = []) {
     assertActive()
@@ -300,8 +310,11 @@ export function createFrontendRuntime({
       await writeFile(tokenFile, `${sessionToken}\n`, { mode: 0o600 })
       await writeFile(join(stateRoot, 'identity.json'), JSON.stringify(identity), { mode: 0o600 })
     },
-    logs: async () => await readFile(join(stateRoot, 'vite.log'), 'utf8'),
-    startup: async () => (await readJson(join(stateRoot, 'startup.json'))) ?? { state: 'pending' },
+    logs: async (source = 'vite') => {
+      if (!['startup', 'vite'].includes(source)) throw new Error('Unknown frontend log source')
+      return readLogTail(join(stateRoot, `${source}.log`))
+    },
+    startup,
     reportStartup,
   }
 }

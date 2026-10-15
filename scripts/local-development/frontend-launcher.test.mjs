@@ -3,10 +3,13 @@ import { expect, it, vi } from 'vitest'
 import { readFile } from 'node:fs/promises'
 import * as client from './frontend-launcher.mjs'
 import { EventEmitter } from 'node:events'
-import { mkdtemp, rm } from 'node:fs/promises'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 import { createFrontendRuntime } from './frontend-runtime.mjs'
+
+const serveFrontend = (options) =>
+  client.serveFrontend({ observe: async () => ({ close: async () => {} }), ...options })
 
 function fixture({ ready = true, failedAction } = {}) {
   const events = []
@@ -93,7 +96,7 @@ it('keeps the container available while waiting for the dashboard API before bac
     return request(path, body)
   })
   const signals = new EventEmitter()
-  const serving = client.serveFrontend({
+  const serving = serveFrontend({
     runtime,
     launcher: client.createFrontendLauncher({ runtime, request: waitingRequest }),
     signals,
@@ -103,7 +106,9 @@ it('keeps the container available while waiting for the dashboard API before bac
     await vi.waitFor(() => expect(waitingRequest).toHaveBeenCalledWith('health'))
     expect(events).toEqual(['install'])
     expect(request).not.toHaveBeenCalled()
-    expect(runtime.reportStartup).toHaveBeenCalledWith({ state: 'running' })
+    expect(runtime.reportStartup).toHaveBeenCalledWith(
+      expect.objectContaining({ state: 'running' })
+    )
     expect(signals.listenerCount('SIGTERM')).toBe(1)
   } finally {
     ready()
@@ -119,6 +124,23 @@ it('aborts before seed/token/Vite when a backend operation fails', async () => {
     'Build failed'
   )
   expect(events).toEqual(['install', 'infra.start', 'preset.start'])
+  expect(runtime.reportStartup).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      phases: expect.arrayContaining([
+        { id: 'install', label: expect.any(String), state: 'passed' },
+        { id: 'infra', label: expect.any(String), state: 'passed', operationId: 'infra.start' },
+        {
+          id: 'backend',
+          label: expect.any(String),
+          state: 'failed',
+          operationId: 'preset.start',
+          error: 'Build failed',
+        },
+        { id: 'seed', label: expect.any(String), state: 'skipped' },
+        { id: 'vite', label: expect.any(String), state: 'skipped' },
+      ]),
+    })
+  )
 })
 
 it('resolves CLI user keys through the identity API and only restarts frontend processes', async () => {
@@ -174,7 +196,12 @@ it.each([true, false])(
     runtime.shutdown = vi.fn(async () => {})
     runtime.install = async () => {
       if (serve) expect(signals.listenerCount('SIGTERM')).toBe(1)
-      expect(await runtime.startup()).toEqual({ state: 'running' })
+      expect(await runtime.startup()).toMatchObject({
+        state: 'running',
+        phases: expect.arrayContaining([
+          expect.objectContaining({ id: 'install', state: 'running' }),
+        ]),
+      })
       await expect(runtime.exclusive(async () => {})).rejects.toThrow(
         'Another frontend lifecycle command'
       )
@@ -183,7 +210,7 @@ it.each([true, false])(
     const launcher = client.createFrontendLauncher({ runtime })
     try {
       if (serve) {
-        await client.serveFrontend({
+        await serveFrontend({
           runtime,
           launcher,
           signals,
@@ -194,7 +221,7 @@ it.each([true, false])(
       } else {
         await expect(launcher.start()).rejects.toThrow('Dependency install failed')
       }
-      expect(await runtime.startup()).toEqual({
+      expect(await runtime.startup()).toMatchObject({
         state: 'failed',
         error: 'Dependency install failed',
       })
@@ -202,9 +229,8 @@ it.each([true, false])(
       if (serve) {
         expect(clearKeepAlive).not.toHaveBeenCalled()
         signals.emit('SIGTERM')
-        await Promise.resolve()
+        await vi.waitFor(() => expect(clearKeepAlive).toHaveBeenCalledWith('timer'))
         expect(runtime.shutdown).toHaveBeenCalledOnce()
-        expect(clearKeepAlive).toHaveBeenCalledWith('timer')
       }
     } finally {
       await rm(root, { recursive: true, force: true })
@@ -267,7 +293,7 @@ it.each(['install', 'smoke'])(
     const browserChecks = vi.spyOn(runtime, 'browserChecks')
     const clearKeepAlive = vi.fn()
     const reportError = vi.fn()
-    const serving = client.serveFrontend({
+    const serving = serveFrontend({
       runtime,
       launcher: client.createFrontendLauncher({ runtime, request }),
       signals,
@@ -315,7 +341,7 @@ it.each(['install', 'smoke'])(
         expect.objectContaining({ message: `${activeScript} failed (SIGKILL)` })
       )
       expect(await runtime.status()).toEqual({ running: false })
-      expect(await runtime.startup()).toEqual({
+      expect(await runtime.startup()).toMatchObject({
         state: 'failed',
         error: `${activeScript} failed (SIGKILL)`,
       })
@@ -353,7 +379,7 @@ it('does not report failure or stop the active owner when a concurrent serve can
   })
   try {
     await ready
-    await client.serveFrontend({
+    await serveFrontend({
       runtime,
       launcher: client.createFrontendLauncher({ runtime }),
       signals: new EventEmitter(),
@@ -388,6 +414,97 @@ it('aborts dashboard readiness immediately when the runtime starts shutting down
   )
   expect(request).toHaveBeenCalledOnce()
   expect(pause).not.toHaveBeenCalled()
+})
+
+it('starts its observer before installation and closes it after runtime shutdown', async () => {
+  const events = []
+  const signals = new EventEmitter()
+  const close = vi.fn(async () => events.push('observer:close'))
+  const clearKeepAlive = vi.fn()
+  await client.serveFrontend({
+    runtime: { shutdown: async () => events.push('shutdown') },
+    launcher: { start: async () => events.push('startup') },
+    observe: async () => {
+      events.push('observer:start')
+      return { close }
+    },
+    signals,
+    keepAlive: () => 'timer',
+    clearKeepAlive,
+  })
+  expect(events).toEqual(['observer:start', 'startup'])
+  signals.emit('SIGTERM')
+  await vi.waitFor(() => expect(clearKeepAlive).toHaveBeenCalledWith('timer'))
+  expect(events).toEqual(['observer:start', 'startup', 'shutdown', 'observer:close'])
+})
+
+it('closes an observer that finishes opening after shutdown and handles both signals only once', async () => {
+  const signals = new EventEmitter()
+  let opened
+  const observerReady = new Promise((resolve) => {
+    opened = resolve
+  })
+  const close = vi.fn(async () => {})
+  const shutdown = vi.fn(async () => {})
+  const start = vi.fn(async () => {})
+  const clearKeepAlive = vi.fn()
+  const serving = client.serveFrontend({
+    runtime: { shutdown },
+    launcher: { start },
+    observe: () => observerReady,
+    signals,
+    keepAlive: () => 'timer',
+    clearKeepAlive,
+  })
+  signals.emit('SIGINT')
+  signals.emit('SIGTERM')
+  opened({ close })
+  await serving
+  await vi.waitFor(() => expect(clearKeepAlive).toHaveBeenCalledOnce())
+  expect(shutdown).toHaveBeenCalledOnce()
+  expect(close).toHaveBeenCalledOnce()
+  expect(start).not.toHaveBeenCalled()
+})
+
+it('resets failed phases and operation IDs on retry, preserving successful final phase results', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'interop-frontend-retry-'))
+  const runtime = createFrontendRuntime({ root, owns: async () => true })
+  const { request } = fixture()
+  runtime.install = vi
+    .fn()
+    .mockRejectedValueOnce(new Error('Install failed'))
+    .mockResolvedValue(undefined)
+  runtime.start = async (mode) => {
+    await writeFile(
+      join(root, '.local-development/frontend/process.json'),
+      JSON.stringify({ pid: 4242, owner: 'test', mode })
+    )
+  }
+  runtime.stop = async () => {
+    await rm(join(root, '.local-development/frontend/process.json'), { force: true })
+  }
+  runtime.smoke = async () => {}
+  runtime.browserChecks = async () => {}
+  const launcher = client.createFrontendLauncher({ runtime, request })
+  try {
+    await expect(launcher.start()).rejects.toThrow('Install failed')
+    expect(await runtime.startup()).toMatchObject({ state: 'failed', error: 'Install failed' })
+    await launcher.start()
+    const state = await runtime.startup()
+    expect(state.state).toBe('passed')
+    expect(state).not.toHaveProperty('error')
+    expect(state.phases).toHaveLength(9)
+    expect(state.phases.every(({ state, error }) => state === 'passed' && !error)).toBe(true)
+    expect(state.phases.find(({ id }) => id === 'infra').operationId).toBe('infra.start')
+    await launcher.useMode('dev')
+    expect((await runtime.startup()).phases.filter(({ state }) => state !== 'skipped')).toEqual([
+      { id: 'vite', label: 'Vite', state: 'passed' },
+    ])
+    await launcher.stop()
+    expect((await runtime.startup()).state).toBe('stopped')
+  } finally {
+    await rm(root, { recursive: true, force: true })
+  }
 })
 
 it('attaches VS Code to the separate frontend service and prepares no frontend mount in the backend', async () => {

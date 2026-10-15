@@ -1,6 +1,19 @@
 import { requestJson, runAction, waitForDashboard } from './dashboard-client.mjs'
+import { startFrontendObserver } from './frontend-observer.mjs'
 
 const pause = () => new Promise((resolve) => setTimeout(resolve, 1000))
+
+const startupPhases = [
+  ['install', 'Frontend dependencies and browser'],
+  ['dashboard', 'Backend dashboard API'],
+  ['infra', 'Infrastructure'],
+  ['backend', 'Frontend backend preset'],
+  ['seed', 'Local seed'],
+  ['identity', 'Local identity'],
+  ['vite', 'Vite'],
+  ['smoke', 'Smoke checks'],
+  ['browser', 'Browser checks'],
+]
 
 export function createFrontendLauncher({ runtime, request = requestJson, pause: wait = pause }) {
   const checkedRequest = async (...args) => {
@@ -14,7 +27,45 @@ export function createFrontendLauncher({ runtime, request = requestJson, pause: 
     await wait()
     runtime.assertActive?.()
   }
-  const action = (input) => runAction(input, { request: checkedRequest, pause: checkedPause })
+  function execute(ids, task) {
+    return runtime.exclusive(async () => {
+      let phases = startupPhases.map(([id, label]) => ({
+        id,
+        label,
+        state: ids.includes(id) ? 'pending' : 'skipped',
+      }))
+      const report = () => runtime.reportStartup({ state: 'running', phases })
+      const update = async (id, changes) => {
+        phases = phases.map((phase) => (phase.id === id ? { ...phase, ...changes } : phase))
+        await report()
+      }
+      const phase = async (id, work) => {
+        await update(id, { state: 'running' })
+        try {
+          const result = await work((operationId) => update(id, { operationId }))
+          await update(id, { state: 'passed' })
+          return result
+        } catch (error) {
+          await update(id, { state: 'failed', error: error.message })
+          throw error
+        }
+      }
+      const action = (id, input) =>
+        phase(id, (onAccepted) =>
+          runAction(input, { request: checkedRequest, pause: checkedPause, onAccepted })
+        )
+      await report()
+      try {
+        return await task({ phase, action, skip: (id) => update(id, { state: 'skipped' }) })
+      } catch (error) {
+        phases = phases.map((item) =>
+          item.state === 'pending' ? { ...item, state: 'skipped' } : item
+        )
+        await report()
+        throw error
+      }
+    })
+  }
 
   async function token(tenantKey, userKey) {
     const identities = await checkedRequest('identities')
@@ -27,53 +78,68 @@ export function createFrontendLauncher({ runtime, request = requestJson, pause: 
 
   return {
     start: ({ stopOnFailure = false } = {}) =>
-      runtime.exclusive(async () => {
-        await runtime.reportStartup({ state: 'running' })
-        try {
-          const previous = await runtime.status()
-          if (!previous.running) await runtime.install()
-          console.log('Waiting for the backend dashboard API')
-          await waitForDashboard({ request: checkedRequest, pause: checkedPause })
-          console.log('Backend dashboard API is ready')
-          await action({ type: 'infra.start' })
-          await action({ type: 'preset.start', id: 'frontend-full' })
-          await action({ type: 'seed' })
-          const identity = await runtime.identity()
-          await token(identity.tenantKey, identity.userKey)
-          if (previous.running) await runtime.stop()
-          await runtime.start('local')
-          await runtime.smoke()
-          await runtime.browserChecks()
-        } catch (error) {
-          if (stopOnFailure) await runtime.stop()
-          throw error
+      execute(
+        startupPhases.map(([id]) => id),
+        async ({ phase, action, skip }) => {
+          try {
+            const previous = await runtime.status()
+            if (!previous.running) await phase('install', () => runtime.install())
+            else await skip('install')
+            console.log('Waiting for the backend dashboard API')
+            await phase('dashboard', () =>
+              waitForDashboard({ request: checkedRequest, pause: checkedPause })
+            )
+            console.log('Backend dashboard API is ready')
+            await action('infra', { type: 'infra.start' })
+            await action('backend', { type: 'preset.start', id: 'frontend-full' })
+            await action('seed', { type: 'seed' })
+            await phase('identity', async () => {
+              const identity = await runtime.identity()
+              await token(identity.tenantKey, identity.userKey)
+            })
+            await phase('vite', async () => {
+              if (previous.running) await runtime.stop()
+              await runtime.start('local')
+            })
+            await phase('smoke', () => runtime.smoke())
+            await phase('browser', () => runtime.browserChecks())
+          } catch (error) {
+            if (stopOnFailure) await runtime.stop()
+            throw error
+          }
         }
-      }),
+      ),
     stop: () =>
-      runtime.exclusive(async () => {
-        await runtime.stop()
-        await action({ type: 'preset.stop', id: 'frontend-full' })
+      execute(['vite', 'backend'], async ({ phase, action }) => {
+        await phase('vite', () => runtime.stop())
+        await action('backend', { type: 'preset.stop', id: 'frontend-full' })
       }),
     useMode: (mode) =>
-      runtime.exclusive(async () => {
+      execute(mode === 'local' ? ['identity', 'vite'] : ['vite'], async ({ phase }) => {
         if (!['local', 'dev'].includes(mode)) throw new Error(`Unknown frontend mode: ${mode}`)
         if (mode === 'local') {
-          const identity = await runtime.identity()
-          await token(identity.tenantKey, identity.userKey)
+          await phase('identity', async () => {
+            const identity = await runtime.identity()
+            await token(identity.tenantKey, identity.userKey)
+          })
         }
-        await runtime.stop()
-        await runtime.start(mode)
+        await phase('vite', async () => {
+          await runtime.stop()
+          await runtime.start(mode)
+        })
       }),
     selectIdentity: (tenantKey, userKey) =>
-      runtime.exclusive(async () => {
-        await token(tenantKey, userKey)
-        await runtime.stop()
-        await runtime.start('local')
+      execute(['identity', 'vite'], async ({ phase }) => {
+        await phase('identity', () => token(tenantKey, userKey))
+        await phase('vite', async () => {
+          await runtime.stop()
+          await runtime.start('local')
+        })
       }),
     reset: () =>
-      runtime.exclusive(async () => {
-        await runtime.stop()
-        await action({ type: 'infra.reset', confirm: true })
+      execute(['vite', 'infra'], async ({ phase, action }) => {
+        await phase('vite', () => runtime.stop())
+        await action('infra', { type: 'infra.reset', confirm: true })
       }),
   }
 }
@@ -85,14 +151,33 @@ export async function serveFrontend({
   keepAlive = () => setInterval(() => {}, 60_000),
   clearKeepAlive = clearInterval,
   reportError = (error) => console.error(error.message),
+  observe = () => startFrontendObserver({ runtime }),
 }) {
   const timer = keepAlive()
+  let observation
+  let stopping = false
   const shutdown = () => {
-    void runtime.shutdown().finally(() => clearKeepAlive(timer))
+    if (stopping) return
+    stopping = true
+    void (async () => {
+      try {
+        await runtime.shutdown()
+      } finally {
+        try {
+          const observer = await observation?.catch(() => undefined)
+          await observer?.close()
+        } finally {
+          clearKeepAlive(timer)
+        }
+      }
+    })().catch(reportError)
   }
   signals.once('SIGINT', shutdown)
   signals.once('SIGTERM', shutdown)
   try {
+    observation = Promise.resolve().then(observe)
+    await observation
+    if (stopping) return
     await launcher.start({ stopOnFailure: true })
     console.log('Frontend ready: http://localhost:3000/ui/it/')
   } catch (error) {

@@ -18,6 +18,7 @@ it.each(['start', 'stop', 'use-local', 'use-dev', 'identity', 'reset', 'frontend
       'dashboard-client.mjs',
       'frontend-launcher.mjs',
       'frontend-runtime.mjs',
+      'frontend-observer.mjs',
       'vite-config.mjs',
     ]) {
       await copyFile(new URL(file, import.meta.url), join(scripts, file))
@@ -83,4 +84,14 @@ it('reports startup phase errors instead of accepting HTTP 202 as completion', a
   await expect(
     client.runAction({ type: 'preset.start', id: 'frontend-full' }, { request })
   ).rejects.toThrow('Backend build failed')
+})
+
+it('reports the accepted operation ID before polling its completion', async () => {
+  const onAccepted = vi.fn()
+  const request = vi.fn(async (path) => {
+    if (path === 'actions') return { operationId: 'infra-1' }
+    expect(onAccepted).toHaveBeenCalledWith('infra-1')
+    return { operations: [{ id: 'infra-1', state: 'passed', phases: [] }] }
+  })
+  await client.runAction({ type: 'infra.start' }, { request, onAccepted })
 })

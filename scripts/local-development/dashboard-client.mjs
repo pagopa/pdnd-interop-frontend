@@ -54,6 +54,7 @@ export async function runAction(action, options = {}) {
   const request = options.request ?? requestJson
   const { operationId } = await request('actions', action)
   if (!operationId) throw new Error('Dashboard did not return an operation ID')
+  await options.onAccepted?.(operationId)
   return waitForOperation(operationId, options)
 }
 
