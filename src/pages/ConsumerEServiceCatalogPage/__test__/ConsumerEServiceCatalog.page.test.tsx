@@ -82,7 +82,7 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
     const user = userEvent.setup()
     renderPage()
 
-    await user.type(screen.getByRole('textbox', { name: /nameField\.label/ }), 'my-eservice')
+    await user.type(screen.getByRole('textbox', { name: /keywordField\.label/ }), 'my-eservice')
     expect(lastCatalogQuery().keyword).toBeUndefined()
 
     await user.click(screen.getByRole('button', { name: 'button' }))
