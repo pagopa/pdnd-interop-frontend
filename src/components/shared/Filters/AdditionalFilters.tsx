@@ -136,20 +136,32 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
             onSubmit={formMethods.handleSubmit(onSubmit)}
           >
             <Stack px={3} pt={2} flexGrow={1} overflow={'auto'}>
-              <Stack spacing={1} pb={5}>
-                <Stack direction="row" alignItems={'center'} justifyContent={'space-between'}>
-                  <Typography variant="h6" fontWeight={600}>
+              <Stack mb={5}>
+                <Stack
+                  direction="row"
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  mb={3}
+                >
+                  <Typography variant="h5" color={theme.colors.neutral.black}>
                     {t('title')}
                   </Typography>
                   <IconButton onClick={onClose} aria-label={tShared('closeIconAriaLabel')}>
-                    <Close fontSize="small" />
+                    <Close
+                      fontSize="small"
+                      sx={{
+                        color: theme.colors.neutral.black,
+                      }}
+                    />
                   </IconButton>
                 </Stack>
-                <Typography variant="body2">{t('subtitle')}</Typography>
+                <Typography variant="body2" color={theme.colors.neutral.grey[700]}>
+                  {t('subtitle')}
+                </Typography>
               </Stack>
               {sections.map((section) => (
-                <Stack key={section.title} spacing={2} sx={{ mb: 4 }}>
-                  <Typography fontSize={'16px'} fontWeight={700}>
+                <Stack key={section.title} gap={3} sx={{ mb: 4 }}>
+                  <Typography fontSize={'16px'} fontWeight={700} color={theme.colors.neutral.black}>
                     {section.title}
                   </Typography>
                   {section.fields.map((field) => (

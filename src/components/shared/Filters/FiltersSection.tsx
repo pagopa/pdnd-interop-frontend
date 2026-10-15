@@ -67,12 +67,12 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
                 {t('remove')}
               </Button>
             )}
-            <Stack direction={'row'} alignItems={'center'} gap={1}>
-              <Typography variant="subtitle1">{results ?? 0}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('results')}
-              </Typography>
-            </Stack>
+            <Typography variant="body2">
+              <Typography component={'span'} fontWeight={700} fontSize={'1rem'}>
+                {results ?? 0}
+              </Typography>{' '}
+              {t('results')}
+            </Typography>
           </Stack>
           {sorting && sorting.options.length > 0 && <SortBy {...sorting} />}
         </Stack>
