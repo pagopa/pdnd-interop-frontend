@@ -587,8 +587,8 @@
       "NAME_DESC": "E-service name Z-A"
     },
     "filters": {
-      "nameField": {
-        "label": "Find by name"
+      "keywordField": {
+        "label": "Find by keyword"
       },
       "providerField": {
         "label": "Find by producer"
