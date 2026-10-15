@@ -14,7 +14,7 @@ afterEach(async () => {
   await Promise.all(roots.splice(0).map((path) => rm(path, { recursive: true, force: true })))
 })
 
-async function fixture({ startupFailure = false } = {}) {
+async function fixture({ startupFailure = false, dashboardRunning = false } = {}) {
   const directory = await mkdtemp(join(tmpdir(), 'interop-frontend-compose-'))
   roots.push(directory)
   const frontend = join(directory, 'frontend')
@@ -36,7 +36,10 @@ async function fixture({ startupFailure = false } = {}) {
   )
   const stateFile = join(directory, 'docker-state.json')
   const callsFile = join(directory, 'docker-calls.jsonl')
-  await writeFile(stateFile, JSON.stringify({ running: false, vite: false, startup: 'pending' }))
+  await writeFile(
+    stateFile,
+    JSON.stringify({ running: false, dashboardRunning, vite: false, startup: 'pending' })
+  )
   await writeFile(
     join(bin, 'docker'),
     `#!/usr/bin/env node
@@ -44,14 +47,16 @@ const fs = require('node:fs'); const args = process.argv.slice(2);
 fs.appendFileSync(process.env.DOCKER_TEST_CALLS, JSON.stringify(args) + '\\n');
 const state = JSON.parse(fs.readFileSync(process.env.DOCKER_TEST_STATE));
 if (args[0] === 'inspect') {
-  console.log(args[2].includes('Health') ? (state.startup === 'failed' ? 'starting' : state.vite ? 'healthy' : 'unhealthy') : String(state.running));
+  console.log(args.at(-1) === 'dashboard-1' ? String(state.dashboardRunning) : args[2].includes('Health') ? (state.startup === 'failed' ? 'starting' : state.vite ? 'healthy' : 'unhealthy') : String(state.running));
 } else if (args.includes('up')) {
+  if (args.at(-1) === 'dashboard') state.dashboardRunning = true;
   if (args.includes('frontend') && !state.running) {
     state.running = true; state.vite = !process.env.DOCKER_TEST_FAILURE;
     state.startup = process.env.DOCKER_TEST_FAILURE ? 'failed' : 'passed';
   }
 } else if (args.includes('ps')) {
-  if (state.running) console.log('frontend-1');
+  if (args.at(-1) === 'dashboard') { if (state.dashboardRunning) console.log('dashboard-1'); }
+  else if (state.running) console.log('frontend-1');
 } else if (args.includes('exec')) {
   if (args.at(-1) === 'startup-state') console.log(state.startup);
   else if (args.at(-1) === 'stop') { state.vite = false; state.startup = 'stopped'; }
@@ -88,30 +93,70 @@ it('restarts the frontend launcher when a host start follows stop on the same co
   expect(calls.some((args) => args.includes('exec') && args.at(-1) === 'start')).toBe(true)
 })
 
-it('generates a frontend-only mount and volumes on the shared Compose network', async () => {
-  const { frontend, backend, run } = await fixture()
+it('reconciles a running standalone dashboard before frontend startup without rebuilding it', async () => {
+  const { run, callsFile } = await fixture({ dashboardRunning: true })
+  await run('start')
+  await run('start')
+  const calls = (await readFile(callsFile, 'utf8'))
+    .trim()
+    .split('\n')
+    .map((line) => JSON.parse(line))
+  const startupCalls = calls.filter((args) => args.includes('up'))
+  expect(startupCalls.map((args) => args.slice(args.indexOf('up')))).toEqual([
+    ['up', '-d', '--no-build', '--no-deps', 'dashboard'],
+    ['up', '-d', '--build', '--no-deps', 'frontend'],
+    ['up', '-d', '--no-build', '--no-deps', 'dashboard'],
+    ['up', '-d', '--build', '--no-deps', 'frontend'],
+  ])
+})
+
+it('generates only machine-specific frontend configuration', async () => {
+  const { frontend, run, callsFile } = await fixture()
   await run('start')
   const config = JSON.parse(
     await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
   )
-  expect(Object.keys(config.services)).toEqual(['dashboard', 'frontend'])
-  expect(config.services.dashboard).toEqual({
-    environment: { DASHBOARD_FRONTEND_URL: 'http://frontend:8077', DASHBOARD_AUTOSTART: 'false' },
+  expect(config).toEqual({
+    services: {
+      frontend: {
+        build: { context: join(frontend, '.devcontainer') },
+        working_dir: frontend,
+        environment: {
+          INTEROP_FE_ROOT: frontend,
+          LOCAL_UID: String(process.getuid()),
+          LOCAL_GID: String(process.getgid()),
+        },
+        volumes: [
+          { type: 'bind', source: frontend, target: frontend },
+          {
+            type: 'volume',
+            source: 'frontend-modules',
+            target: join(frontend, 'node_modules'),
+            volume: { nocopy: true },
+          },
+        ],
+      },
+    },
   })
-  const service = config.services.frontend
-  expect(service.environment).toMatchObject({
-    INTEROP_DASHBOARD_URL: 'http://dashboard:8076',
-    INTEROP_LOCAL_BACKEND_TARGET: 'http://dashboard:3600',
-  })
-  expect(service.environment).not.toHaveProperty('INTEROP_BE_ROOT')
-  expect(service.volumes.filter(({ type }) => type === 'bind')).toEqual([
-    { type: 'bind', source: frontend, target: frontend },
+  await run('stop')
+  const calls = (await readFile(callsFile, 'utf8'))
+    .trim()
+    .split('\n')
+    .map((line) => JSON.parse(line))
+  for (const args of calls.filter((args) => args[0] === 'compose')) {
+    const files = args.flatMap((arg, index) => (arg === '-f' ? [args[index + 1]] : []))
+    expect(files.slice(-2)).toEqual([
+      join(frontend, '.devcontainer/compose.yml'),
+      join(frontend, '.local-development/frontend/compose.yml'),
+    ])
+  }
+  const devcontainer = JSON.parse(
+    await readFile(join(frontend, '.devcontainer/devcontainer.json'), 'utf8')
+  )
+  expect(devcontainer.dockerComposeFile.slice(-2)).toEqual([
+    'compose.yml',
+    '../.local-development/frontend/compose.yml',
   ])
-  expect(JSON.stringify(service.volumes)).not.toContain(backend)
-  expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')
-  expect(service.ports).toEqual(['3000:5173'])
-  expect(service.init).toBe(true)
-  expect(service.depends_on.dashboard.condition).toBe('service_started')
 })
 
 it('validates the devcontainer model and build targets without explicitly enabling profiles', async ({
@@ -144,10 +189,50 @@ it('validates the devcontainer model and build targets without explicitly enabli
     '-f',
     backendCompose,
     '-f',
+    join(frontend, '.devcontainer/compose.yml'),
+    '-f',
     join(frontend, '.local-development/frontend/compose.yml'),
   ]
   const env = { ...process.env, COMPOSE_PROFILES: '', COMPOSE_DISABLE_ENV_FILE: 'true' }
   await execute('docker', [...compose, 'config', '--quiet'], { env })
+  const { stdout: configJson } = await execute(
+    'docker',
+    [...compose, '--profile', 'dashboard', 'config', '--format', 'json'],
+    { env }
+  )
+  const config = JSON.parse(configJson)
+  const service = config.services.frontend
+  expect(service.profiles).toEqual(['dashboard'])
+  expect(config.services.dashboard.profiles).toEqual(['dashboard'])
+  expect(config.services.dashboard.environment).toMatchObject({
+    DASHBOARD_FRONTEND_URL: 'http://frontend:8077',
+    DASHBOARD_AUTOSTART: 'false',
+  })
+  expect(service.environment).toMatchObject({
+    INTEROP_DASHBOARD_URL: 'http://dashboard:8076',
+    INTEROP_LOCAL_BACKEND_TARGET: 'http://dashboard:3600',
+    INTEROP_SELFCARE_URL: 'http://host.docker.internal:8006',
+    INTEROP_DEVCONTAINER: 'true',
+    INTEROP_FRONTEND_RUNTIME: 'true',
+    INTEROP_FRONTEND_PORT: '5173',
+  })
+  expect(service.environment).not.toHaveProperty('INTEROP_BE_ROOT')
+  expect(service.build.context).toBe(join(frontend, '.devcontainer'))
+  expect(service.volumes.filter(({ type }) => type === 'bind')).toEqual([
+    { type: 'bind', source: frontend, target: frontend },
+  ])
+  expect(service.volumes.filter(({ type }) => type === 'volume')).toHaveLength(3)
+  expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')
+  expect(service.ports).toMatchObject([{ published: '3000', target: 5173 }])
+  expect(service.init).toBe(true)
+  expect(service.depends_on.dashboard.condition).toBe('service_started')
+  expect(service.healthcheck).toEqual({
+    test: ['CMD', 'node', 'scripts/local-development/dashboard-client.mjs', 'startup-status'],
+    interval: '5s',
+    timeout: '5s',
+    retries: 3,
+    start_period: '30m0s',
+  })
   const { stdout } = await execute(
     'docker',
     [...compose, 'build', '--no-cache', '--print', 'dashboard', 'frontend'],

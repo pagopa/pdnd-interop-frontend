@@ -8,6 +8,7 @@ CLIENT="$FRONTEND_ROOT/scripts/local-development/dashboard-client.mjs"
 compose() {
   docker compose -f "$BACKEND_ROOT/docker/docker-compose.yml" \
     -f "$BACKEND_ROOT/.local-development/dashboard/compose.yml" \
+    -f "$FRONTEND_ROOT/.devcontainer/compose.yml" \
     -f "$FRONTEND_ROOT/.local-development/frontend/compose.yml" --profile dashboard "$@"
 }
 
@@ -22,6 +23,8 @@ if [[ "${INTEROP_FRONTEND_RUNTIME:-}" != "true" ]]; then
     dashboard="$(compose ps -q dashboard)"
     if [[ -z "$dashboard" ]] || [[ "$(docker inspect --format '{{.State.Running}}' "$dashboard")" != true ]]; then
       compose up -d --build dashboard
+    else
+      compose up -d --no-build --no-deps dashboard
     fi
     compose up -d --build --no-deps frontend
     container="$(compose ps -q frontend)"
@@ -50,6 +53,7 @@ if [[ "${INTEROP_FRONTEND_RUNTIME:-}" != "true" ]]; then
   fi
   exec docker compose -f "$BACKEND_ROOT/docker/docker-compose.yml" \
     -f "$BACKEND_ROOT/.local-development/dashboard/compose.yml" \
+    -f "$FRONTEND_ROOT/.devcontainer/compose.yml" \
     -f "$FRONTEND_ROOT/.local-development/frontend/compose.yml" --profile dashboard \
     exec -T frontend bash "$FRONTEND_ROOT/scripts/local-development/fullstack.sh" "$@"
 fi

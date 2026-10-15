@@ -16,22 +16,22 @@ json_string() {
   printf '"%s"' "$value"
 }
 
-# Dev Containers validates Compose before selecting services or enabling profiles.
+# Fixed service settings live in .devcontainer/compose.yml.
 {
-  printf '{"services":{"dashboard":{"environment":{"DASHBOARD_FRONTEND_URL":"http://frontend:8077","DASHBOARD_AUTOSTART":"false"}},"frontend":{"profiles":["dashboard"],"init":true,"build":{"context":'
+  printf '{"services":{"frontend":{"build":{"context":'
   json_string "$FRONTEND_ROOT/.devcontainer"
   printf '},"working_dir":'
   json_string "$FRONTEND_ROOT"
   printf ',"environment":{"INTEROP_FE_ROOT":'
   json_string "$FRONTEND_ROOT"
-  printf ',"INTEROP_DEVCONTAINER":"true","INTEROP_FRONTEND_RUNTIME":"true","INTEROP_DASHBOARD_URL":"http://dashboard:8076","INTEROP_LOCAL_BACKEND_TARGET":"http://dashboard:3600","INTEROP_SELFCARE_URL":"http://host.docker.internal:8006","INTEROP_FRONTEND_PORT":"5173","LOCAL_UID":"%s","LOCAL_GID":"%s"},' "$(id -u)" "$(id -g)"
-  printf '"extra_hosts":["host.docker.internal:host-gateway"],"ports":["3000:5173"],"depends_on":{"dashboard":{"condition":"service_started"}},"volumes":[{"type":"bind","source":'
+  printf ',"LOCAL_UID":"%s","LOCAL_GID":"%s"},' "$(id -u)" "$(id -g)"
+  printf '"volumes":[{"type":"bind","source":'
   json_string "$FRONTEND_ROOT"
   printf ',"target":'
   json_string "$FRONTEND_ROOT"
   printf '},{"type":"volume","source":"frontend-modules","target":'
   json_string "$FRONTEND_ROOT/node_modules"
-  printf ',"volume":{"nocopy":true}},{"type":"volume","source":"frontend-pnpm-store","target":"/home/node/.local/share/pnpm","volume":{"nocopy":true}},{"type":"volume","source":"frontend-browser-cache","target":"/home/node/.cache","volume":{"nocopy":true}}],"healthcheck":{"test":["CMD","node","scripts/local-development/dashboard-client.mjs","startup-status"],"interval":"5s","timeout":"5s","retries":3,"start_period":"30m"}}},"volumes":{"frontend-modules":{},"frontend-pnpm-store":{},"frontend-browser-cache":{}}}\n'
+  printf ',"volume":{"nocopy":true}}]}}}\n'
 } > "$STATE_ROOT/compose.yml.tmp"
 mv "$STATE_ROOT/compose.yml.tmp" "$STATE_ROOT/compose.yml"
 echo "Prepared frontend runtime: $STATE_ROOT/compose.yml"
