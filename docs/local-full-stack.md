@@ -29,21 +29,28 @@ bash scripts/local-development/fullstack.sh start
 ```
 
 The host initializer prepares a missing backend Compose configuration and the
-frontend overlay at `.local-development/frontend/compose.yml`. An existing
-backend-only overlay and its startup settings are preserved. Compose starts
+machine-specific frontend overlay at `.local-development/frontend/compose.yml`.
+The versioned `.devcontainer/compose.yml` contains the fixed frontend service and
+dashboard override settings; the generated overlay supplies absolute workspace
+and build paths, the frontend root, UID/GID, and the workspace-dependent mounts.
+An existing backend-only overlay and its startup settings are preserved. Compose starts
 `dashboard` and `frontend` on the same network; only the frontend image is rebuilt
-by routine frontend starts. The frontend overlay disables backend autostart for
-this composition, since the frontend launcher coordinates infrastructure startup.
+by routine frontend starts. The versioned frontend overlay disables backend
+autostart for this composition: the dashboard API coordinates the complete startup
+when the frontend agent requests it.
 The standalone backend overlay retains its original autostart setting.
+If a standalone dashboard is already running, the host launcher reconciles its
+Compose configuration once to enable the frontend integration, without rebuilding
+its image. Later starts reuse the dashboard when that configuration is unchanged.
 The frontend container starts as soon as the dashboard container is running,
 so VS Code can attach during backend setup. Its launcher waits for the dashboard
-HTTP API before requesting any backend actions.
+HTTP API before requesting fullstack startup.
 
-The frontend entrypoint installs dependencies and Chromium. Its launcher then
-calls the dashboard API in order: infrastructure start, the `frontend-full`
-backend preset, and the idempotent seed. It waits for every accepted operation to
-finish, resolves the selected identity through the API, saves the returned token
-in the frontend checkout, starts Vite, and runs smoke and browser checks.
+The frontend entrypoint starts a small agent and requests startup from the dashboard
+API. The API coordinates dependency and Chromium installation in the frontend,
+infrastructure start, the `frontend-full` backend preset, the idempotent seed,
+identity selection, Vite and smoke/browser checks. The agent executes frontend
+commands and saves the token privately in the frontend checkout.
 The default identity is `comune` / `admin`; subsequent starts retain CLI selections.
 
 The host command waits for completed setup and checks. Backend operations and
@@ -57,7 +64,7 @@ then choose **Dev Containers: Reopen in Container**. VS Code attaches to
 `frontend` and uses the same automatic setup. The **Full stack: startup logs**
 task automatically presents a terminal with frontend installation/startup output
 and incremental backend orchestration logs, including infrastructure setup. It
-waits for the dashboard API if necessary and only observes the existing launcher.
+waits for the dashboard API if necessary and observes the existing startup.
 This task works when opening the frontend folder as well as the full-stack
 workspace; outside the frontend devcontainer it exits without starting anything,
 even when frontend runtime mode is set.
@@ -116,19 +123,24 @@ Run these from the frontend checkout, on the host or in its devcontainer:
 | `pnpm local:identity -- comune reviewer` | Resolves tenant/user keys through the API and restarts Vite with their token                  |
 
 Host lifecycle commands enter the frontend container through Compose. Inside it,
-the launcher uses APIs and manages only its own Vite process group. Repeated
+the client forwards lifecycle actions to the dashboard API; the frontend agent
+manages only its own Vite process group. Repeated
 starts also restart a stopped frontend in an existing container. Overlapping
-commands are rejected by a Linux kernel lock, which is released when the command exits.
+fullstack operations are rejected by the API. Frontend commands also use a Linux
+kernel lock, which is released when the command exits.
 Refreshing a token restarts Vite so its environment receives the new token.
 Every lifecycle command records fresh phase results; stopped Vite cannot retain
 a successful readiness status. Retrying startup clears previous phase errors.
+If the dashboard restarts during an operation, the CLI reports the lost operation
+and asks for an explicit retry instead of continuing to wait for obsolete progress.
 
-The frontend entrypoint also runs a read-only observer on internal port `8077`,
-before dependency installation or backend waits. The dashboard reads its
-`GET /status` and `GET /logs?source=startup|vite` endpoints over Compose DNS.
-The observer publishes no host port, exposes only the last 64 KiB of the two
-logs, and closes with the frontend runtime. Process ownership, token and identity
-files are not served. Backend operations remain owned by the dashboard API.
+The frontend agent listens on internal port `8077` before dependency installation
+or backend waits. The dashboard reads `GET /status` and
+`GET /logs?source=startup|vite`, and submits allowlisted commands to `POST /commands`
+over Compose DNS. This port is not published on the host. Status includes the
+selected tenant/user keys; tokens and process ownership are never exposed by reads.
+Log responses contain at most the last 64 KiB. The agent closes with the frontend
+runtime. Fullstack progress and backend operations belong to the dashboard API.
 
 After reset, run `pnpm local:start` to seed and start again. Reset removes local
 event store, SQL readmodels, DynamoDB, Kafka, Redis, RustFS and backend seed state;
@@ -152,8 +164,9 @@ Selfcare/user IDs and requests a new token. While seed or the identity API is
 unavailable, it retains the saved session and retries. Removed identities return
 to the selection page.
 
-Vite proxies the identity API on the frontend origin. The CLI uses this API too,
-resolving user IDs from `users[].key`. Tokens are saved privately in the
+Vite proxies the identity API on the frontend origin. For CLI lifecycle actions,
+the dashboard resolves user IDs from `users[].key` and sends the token to the
+frontend agent. Tokens are saved privately in the
 frontend's ignored `.local-development/frontend-token`, never read from backend
 files. `SELFCARE_LOGIN_URL` defaults to the public local identity page.
 

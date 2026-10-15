@@ -4,10 +4,11 @@ import { mkdir, open, readFile, readdir, rename, rm, writeFile } from 'node:fs/p
 import { createConnection } from 'node:net'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { readLogTail } from './frontend-observer.mjs'
+import { setTimeout } from 'node:timers/promises'
+import { readLogTail } from './frontend-agent.mjs'
 
 const defaultRoot = fileURLToPath(new URL('../..', import.meta.url))
-const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const pause = (ms, signal) => setTimeout(ms, undefined, { signal })
 
 async function readJson(path) {
   try {
@@ -127,9 +128,12 @@ export function createFrontendRuntime({
   const port = Number(environment.INTEROP_FRONTEND_PORT ?? 5173)
   const commands = new Set()
   let closing = false
+  let activeCommand
+  let termination
 
   function assertActive() {
     if (closing) throw new Error('Frontend runtime is shutting down')
+    activeCommand?.signal?.throwIfAborted()
   }
 
   function kill(pid, name) {
@@ -174,24 +178,29 @@ export function createFrontendRuntime({
 
   async function start(mode) {
     assertActive()
+    const commandSignal = activeCommand?.signal
     const state = await status()
+    assertActive()
     if (state.running && state.mode === mode) return
     if (state.running) await stop()
     if (!(await available(port))) throw new Error(`Frontend port ${port} is already in use`)
+    assertActive()
     await mkdir(stateRoot, { recursive: true })
     const output = await open(join(stateRoot, 'vite.log'), 'a', 0o600)
     const owner = randomUUID()
-    const child = spawnProcess(
-      'bash',
-      [join(root, 'scripts/local-development/run-frontend.sh'), mode],
-      {
-        cwd: root,
-        env: { ...environment, INTEROP_FRONTEND_OWNER: owner },
-        detached: true,
-        stdio: ['ignore', output.fd, output.fd],
-      }
-    )
+    let child
     try {
+      assertActive()
+      child = spawnProcess(
+        'bash',
+        [join(root, 'scripts/local-development/run-frontend.sh'), mode],
+        {
+          cwd: root,
+          env: { ...environment, INTEROP_FRONTEND_OWNER: owner },
+          detached: true,
+          stdio: ['ignore', output.fd, output.fd],
+        }
+      )
       await new Promise((resolve, reject) => {
         child.once('spawn', resolve)
         child.once('error', reject)
@@ -209,13 +218,17 @@ export function createFrontendRuntime({
           throw new Error('Vite exited during startup; inspect frontend/vite.log')
         try {
           const response = await probe(`http://127.0.0.1:${port}/ui/it/`, {
-            signal: AbortSignal.timeout(2000),
+            signal: commandSignal
+              ? AbortSignal.any([commandSignal, AbortSignal.timeout(2000)])
+              : AbortSignal.timeout(2000),
           })
+          assertActive()
           if (response.ok) return
         } catch {
+          assertActive()
           /* Vite may still be initializing. */
         }
-        await wait(500)
+        await wait(500, commandSignal)
       }
       throw new Error('Vite readiness timed out; inspect frontend/vite.log')
     } catch (error) {
@@ -224,25 +237,49 @@ export function createFrontendRuntime({
     }
   }
 
-  async function exclusive(task) {
+  async function exclusive(task, { signal: commandSignal } = {}) {
     assertActive()
+    commandSignal?.throwIfAborted()
     await mkdir(stateRoot, { recursive: true })
     const release = await claimLifecycleLock(join(stateRoot, 'lifecycle.lock'))
+    const command = { signal: commandSignal }
+    const cancel = () => {
+      command.cancellation ??= terminateCommands()
+      // The command awaits cleanup before releasing its lock.
+      void command.cancellation.catch(() => {})
+    }
     try {
+      assertActive()
+      commandSignal?.throwIfAborted()
+      activeCommand = command
+      commandSignal?.addEventListener('abort', cancel, { once: true })
       await reportStartup({ state: 'running', phases: [] })
       try {
+        assertActive()
         const result = await task()
+        assertActive()
+        const previous = await startup()
+        const process = await status()
+        assertActive()
         await reportStartup({
-          ...(await startup()),
-          state: (await status()).running ? 'passed' : 'stopped',
+          ...previous,
+          state: process.running ? 'passed' : 'stopped',
         })
+        assertActive()
         return result
       } catch (error) {
+        await command.cancellation
         await reportStartup({ ...(await startup()), state: 'failed', error: error.message })
         throw error
       }
     } finally {
-      await release()
+      commandSignal?.removeEventListener('abort', cancel)
+      try {
+        await command.cancellation
+      } finally {
+        if (activeCommand === command) activeCommand = undefined
+        await release()
+      }
     }
   }
 
@@ -274,6 +311,29 @@ export function createFrontendRuntime({
     })
   }
 
+  function terminateCommands() {
+    termination ??= (async () => {
+      const active = [...commands]
+      active.forEach((child) => {
+        if (child.pid) kill(child.pid, 'SIGTERM')
+      })
+      await stop()
+      for (
+        let attempt = 0;
+        attempt < 50 && active.some((child) => commands.has(child));
+        attempt += 1
+      ) {
+        await wait(100)
+      }
+      active.forEach((child) => {
+        if (child.pid && commands.has(child)) kill(child.pid, 'SIGKILL')
+      })
+    })().finally(() => {
+      termination = undefined
+    })
+    return termination
+  }
+
   return {
     exclusive,
     status,
@@ -282,17 +342,7 @@ export function createFrontendRuntime({
     assertActive,
     shutdown: async () => {
       closing = true
-      const active = [...commands]
-      active.forEach((child) => {
-        if (child.pid) kill(child.pid, 'SIGTERM')
-      })
-      await stop()
-      for (let attempt = 0; attempt < 50 && commands.size; attempt += 1) {
-        await wait(100)
-      }
-      active.forEach((child) => {
-        if (child.pid) kill(child.pid, 'SIGKILL')
-      })
+      await terminateCommands()
     },
     install: () => run('runtime.sh', ['install']),
     smoke: () => run('smoke.sh'),
@@ -303,10 +353,12 @@ export function createFrontendRuntime({
         userKey: 'admin',
       },
     storeToken: async (sessionToken, identity) => {
+      assertActive()
       if (typeof sessionToken !== 'string' || !/^[-\w]+\.[-\w]+\.[-\w]+$/.test(sessionToken))
         throw new Error('Dashboard returned an invalid session token')
       await mkdir(dirname(tokenFile), { recursive: true })
       await mkdir(stateRoot, { recursive: true })
+      assertActive()
       await writeFile(tokenFile, `${sessionToken}\n`, { mode: 0o600 })
       await writeFile(join(stateRoot, 'identity.json'), JSON.stringify(identity), { mode: 0o600 })
     },

@@ -351,3 +351,31 @@ it('allows only one concurrent command when a stale lock file exists', async () 
   expect(entered).toHaveLength(1)
   expect(outcomes).toContain('Another frontend lifecycle command is running')
 })
+
+it('does not let a completed command signal cancel a later command', async () => {
+  const { runtime, signal } = await fixture()
+  const previous = new AbortController()
+  await runtime.exclusive(() => runtime.start('dev'), { signal: previous.signal })
+  let finish
+  let entered
+  const ready = new Promise((resolve) => {
+    entered = resolve
+  })
+  const next = runtime.exclusive(async () => {
+    entered()
+    await new Promise((resolve) => {
+      finish = resolve
+    })
+  })
+  try {
+    await ready
+    previous.abort(new Error('Old connection closed'))
+    expect(signal).not.toHaveBeenCalled()
+    expect((await runtime.status()).running).toBe(true)
+    expect((await runtime.startup()).state).toBe('running')
+  } finally {
+    finish?.()
+    await next
+  }
+  expect((await runtime.startup()).state).toBe('passed')
+})
