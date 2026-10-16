@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { FormControl } from '@mui/material'
+import { CircularProgress, FormControl } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
@@ -7,6 +7,7 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { ClientQueries } from '@/api/client'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
+import { useToastNotification } from '@/stores'
 import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
 import {
   INTERACTION_TYPE,
@@ -23,6 +24,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
   const { t } = useTranslation('voucher')
   const { watch, setValue } = useFormContext<VoucherConsumerSimulationSectionForm>()
   const clientKind = useClientKind()
+  const { showToast } = useToastNotification()
 
   const clientId = watch('clientId') || ''
   const interactionType = watch('interactionType')
@@ -38,9 +40,14 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
     }),
   })
 
-  const { data: client, isFetching: isFetchingClient } = useQuery({
+  const {
+    data: client,
+    isFetching: isFetchingClient,
+    isError: isClientError,
+  } = useQuery({
     ...ClientQueries.getSingle(clientId),
     enabled: Boolean(clientId),
+    throwOnError: clientKind !== 'CONSUMER',
   })
 
   const { data: clientKeys, isFetching: isFetchingKeys } = useQuery({
@@ -58,6 +65,12 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
   }, [clients])
 
   useEffect(() => {
+    if (clientKind === 'CONSUMER' && isClientError && !isFetchingClient) {
+      showToast(t('generalForm.purposeSelectInput.error'), 'error')
+    }
+  }, [clientKind, isClientError, isFetchingClient, showToast, t])
+
+  useEffect(() => {
     if (clientId && clientKeys && clientKeys.length === 1) {
       setValue('keyId', clientKeys[0].keyId)
     }
@@ -71,7 +84,8 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
 
   const hasPurposes = Boolean(purposes?.length)
   const hasClientKeys = Boolean(clientKeys?.length)
-  const isPurposeDisabled = !clientId || isFetchingClients || isFetchingClient || !hasPurposes
+  const isPurposeDisabled =
+    !clientId || isFetchingClients || isFetchingClient || isClientError || !hasPurposes
   const isClientKeysDisabled = !clientId || isFetchingClients || isFetchingKeys || !hasClientKeys
 
   return (
@@ -98,6 +112,15 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
             }))}
             rules={{ required: true }}
             disabled={isPurposeDisabled}
+            endAdornment={
+              isFetchingClient ? (
+                <CircularProgress
+                  size={20}
+                  sx={{ mr: 3 }}
+                  aria-label={t('generalForm.purposeSelectInput.loading')}
+                />
+              ) : undefined
+            }
           />
         </FormControl>
       )}
@@ -117,14 +140,16 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
 
       {interactionType === INTERACTION_TYPE.ASYNC && <VoucherInstructionsAsyncExchangeSelect />}
 
-      <VoucherInstructionsGeneralFormAlertConsumer
-        client={client}
-        clientId={clientId}
-        isFetchingClient={isFetchingClient}
-        isFetchingKeys={isFetchingKeys}
-        purposes={purposes}
-        clientKeys={clientKeys}
-      />
+      {!isClientError && (
+        <VoucherInstructionsGeneralFormAlertConsumer
+          client={client}
+          clientId={clientId}
+          isFetchingClient={isFetchingClient}
+          isFetchingKeys={isFetchingKeys}
+          purposes={purposes}
+          clientKeys={clientKeys}
+        />
+      )}
     </>
   )
 }
