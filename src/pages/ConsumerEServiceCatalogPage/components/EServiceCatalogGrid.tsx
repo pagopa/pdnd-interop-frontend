@@ -77,7 +77,7 @@ export const EServiceCatalogGridSkeleton: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={12} sm={4} item>
+        <Grid key={i} xs={12} md={4} item>
           <EServiceCatalogCardSkeleton />
         </Grid>
       ))}
