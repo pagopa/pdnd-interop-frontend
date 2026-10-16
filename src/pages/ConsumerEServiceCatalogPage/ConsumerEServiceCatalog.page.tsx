@@ -307,14 +307,16 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
         results={data?.pagination.totalCount}
       />
       <EServiceCatalogWrapper params={query} />
-      <Box mt={3}>
-        <MIPagination
-          page={paginationProps.page}
-          itemsPerPageOptions={paginationProps.itemsPerPageOptions}
-          count={getTotalPageCount(data?.pagination.totalCount)}
-          onChange={(_, page) => paginationProps.onPageChange(page)}
-        />
-      </Box>
+      {data && data.pagination.totalCount !== 0 && (
+        <Box mt={3}>
+          <MIPagination
+            page={paginationProps.page}
+            itemsPerPageOptions={paginationProps.itemsPerPageOptions}
+            count={getTotalPageCount(data?.pagination.totalCount)}
+            onChange={(_, page) => paginationProps.onPageChange(page)}
+          />
+        </Box>
+      )}
     </PageContainer>
   )
 }
