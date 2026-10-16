@@ -54,7 +54,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
   return (
     <Grid container spacing={3}>
       {eservices?.map((eservice) => (
-        <Grid item key={eservice.id} xs={12} sm={4}>
+        <Grid item key={eservice.id} xs={12} md={4}>
           {/* TODO: in the second release add logic to handle collections here */}
           <EServiceCatalogCard
             key={eservice.activeDescriptor?.id}
@@ -77,7 +77,7 @@ export const EServiceCatalogGridSkeleton: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={12} sm={4} item>
+        <Grid key={i} xs={12} md={4} item>
           <EServiceCatalogCardSkeleton />
         </Grid>
       ))}
