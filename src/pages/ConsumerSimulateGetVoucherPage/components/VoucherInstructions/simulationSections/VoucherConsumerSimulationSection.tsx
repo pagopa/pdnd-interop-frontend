@@ -71,6 +71,18 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
   }, [clientKind, isClientError, isFetchingClient, showToast, t])
 
   useEffect(() => {
+    if (
+      clientKind === 'CONSUMER' &&
+      clientId &&
+      !isFetchingClient &&
+      !isClientError &&
+      purposes?.length === 1
+    ) {
+      setValue('purposeId', purposes[0].purposeId)
+    }
+  }, [clientKind, clientId, isFetchingClient, isClientError, purposes, setValue])
+
+  useEffect(() => {
     if (clientId && clientKeys && clientKeys.length === 1) {
       setValue('keyId', clientKeys[0].keyId)
     }

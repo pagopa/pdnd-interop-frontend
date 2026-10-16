@@ -109,6 +109,7 @@ describe('VoucherConsumerSimulationSection', () => {
     await waitFor(() => expect(getPurposeSelect()).not.toHaveAttribute('aria-disabled', 'true'))
 
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    expect(getPurposeSelect()).not.toHaveTextContent(/Purpose \d/)
     await user.click(getPurposeSelect())
     const options = within(screen.getByRole('listbox')).getAllByRole('option')
     expect(options).toHaveLength(purposes.length)
@@ -117,6 +118,28 @@ describe('VoucherConsumerSimulationSection', () => {
     })
     await user.click(options[54])
     expect(getPurposeSelect()).toHaveTextContent('Purpose 54 per Eservice 54')
+  })
+
+  it('automatically selects the only purpose after loading completes', async () => {
+    let resolveClient: (value: Client) => void = () => {}
+    const singlePurposeClient = createMockClient({ id: clientId, purposes: [purposes[0]] })
+    queryClient.setQueryData(['ClientGetSingle', clientId], singlePurposeClient)
+    vi.spyOn(ClientServices, 'getSingle').mockReturnValue(
+      new Promise<Client>((resolve) => {
+        resolveClient = resolve
+      })
+    )
+    renderSection()
+
+    expect(
+      await screen.findByRole('progressbar', { name: 'generalForm.purposeSelectInput.loading' })
+    ).toBeInTheDocument()
+    expect(getPurposeSelect()).not.toHaveTextContent('Purpose 0 per Eservice 0')
+
+    await act(async () => resolveClient(singlePurposeClient))
+
+    await waitFor(() => expect(getPurposeSelect()).toHaveTextContent('Purpose 0 per Eservice 0'))
+    expect(getPurposeSelect()).not.toHaveAttribute('aria-disabled', 'true')
   })
 
   it('shows the empty state only after a successful response with no purposes', async () => {
@@ -186,12 +209,16 @@ describe('VoucherConsumerSimulationSection', () => {
   })
 
   it('keeps cached purposes disabled after a failed refresh', async () => {
-    queryClient.setQueryData(['ClientGetSingle', clientId], client)
+    queryClient.setQueryData(
+      ['ClientGetSingle', clientId],
+      createMockClient({ id: clientId, purposes: [purposes[0]] })
+    )
     vi.spyOn(ClientServices, 'getSingle').mockRejectedValue(new Error('Unable to refresh client'))
     renderSection()
 
     expect(await screen.findByText('generalForm.purposeSelectInput.error')).toBeInTheDocument()
     expect(getPurposeSelect()).toHaveAttribute('aria-disabled', 'true')
+    expect(getPurposeSelect()).not.toHaveTextContent('Purpose 0 per Eservice 0')
     expect(screen.queryByText('noPurposesLabelAdmin.title')).not.toBeInTheDocument()
   })
 })
