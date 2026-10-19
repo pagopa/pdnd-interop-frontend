@@ -614,6 +614,7 @@
     "PROVIDE_ESERVICE_SUMMARY": "Summary",
     "PROVIDE_ESERVICE_EDIT": "Edit E-service",
     "PROVIDE_ESERVICE_MANAGE": "View E-service",
+    "PROVIDE_DASHBOARD": "Dashboard",
     "PROVIDE_ESERVICE_LIST": "My E-services",
     "PROVIDE_AGREEMENT_READ": "Manage Request",
     "PROVIDE_AGREEMENT_LIST": "Received Requests",

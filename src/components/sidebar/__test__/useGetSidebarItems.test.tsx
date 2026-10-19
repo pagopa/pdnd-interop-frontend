@@ -4,6 +4,9 @@ import { mockUseGetActiveUserParty, mockUseJwt } from '@/utils/testing.utils'
 import { vi } from 'vitest'
 import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 import type { SidebarRoutes, SidebarChildRoutes } from '../sidebar.types'
+import { createInstance } from 'i18next'
+import itSidebar from '@/static/locales/it/sidebar.json'
+import enSidebar from '@/static/locales/en/sidebar.json'
 
 vi.mock('@/api/hooks', () => ({
   useIsOrganizationAllowedToDelegations: vi.fn(() => ({ isAllowed: true, isLoading: false })),
@@ -46,6 +49,87 @@ describe('useGetSidebarItems', () => {
 
     expect(tenantItem).toBeDefined()
     expect(tenantItem?.children?.some((child) => child.to === 'PARTY_REGISTRY')).toBe(true)
+  })
+
+  describe('Provider dashboard', () => {
+    it.each([
+      { language: 'it', label: 'Panoramica' },
+      { language: 'en', label: 'Dashboard' },
+    ])(
+      'should resolve the first provider label to $label in $language',
+      async ({ language, label }) => {
+        mockUseJwt({ currentRoles: ['admin'] })
+        mockUseGetActiveUserParty()
+        const i18n = createInstance()
+        await i18n.init({
+          lng: language,
+          fallbackLng: false,
+          resources: { it: { sidebar: itSidebar }, en: { sidebar: enSidebar } },
+        })
+
+        const { result } = renderHook(() => useGetSidebarItems())
+        const dashboard = result.current.find((item) => item.rootRouteKey === 'PROVIDE_DASHBOARD')
+          ?.children?.[0]
+
+        expect(dashboard).toBeDefined()
+        expect(i18n.getFixedT(language, 'sidebar', 'menuItem')(dashboard!.label)).toBe(label)
+      }
+    )
+
+    it.each(['admin', 'support', 'api', 'security', 'viewer'] as const)(
+      'should use the dashboard as the provider root and first child for %s',
+      (role) => {
+        mockUseJwt({ currentRoles: [role], isSupport: role === 'support' })
+        mockUseGetActiveUserParty()
+
+        const { result } = renderHook(() => useGetSidebarItems())
+        const provider = result.current.find((item) => item.rootRouteKey === 'PROVIDE_DASHBOARD')
+
+        expect(provider).toBeDefined()
+        expect(provider?.hide).toBe(false)
+        expect(provider?.children?.[0]).toEqual({
+          to: 'PROVIDE_DASHBOARD',
+          label: 'provider.dashboard',
+        })
+        expect(provider?.children?.[1]?.to).toBe('PROVIDE_ESERVICE_LIST')
+        expect(result.current.some((item) => item.rootRouteKey === 'PROVIDE_ESERVICE_LIST')).toBe(
+          false
+        )
+        if (role === 'security') {
+          expect(provider?.children?.map((child) => child.to)).not.toContain(
+            'PROVIDE_AGREEMENT_LIST'
+          )
+          expect(provider?.children?.map((child) => child.to)).not.toContain('PROVIDE_PURPOSE_LIST')
+        }
+      }
+    )
+
+    it('should exclude the provider group for reviewers', () => {
+      mockUseJwt({ currentRoles: ['reviewer'], isReviewer: true })
+      mockUseGetActiveUserParty()
+
+      const { result } = renderHook(() => useGetSidebarItems())
+
+      expect(result.current.some((item) => item.rootRouteKey === 'PROVIDE_DASHBOARD')).toBe(false)
+    })
+
+    it.each([
+      { role: 'admin', isSupport: false, isOrganizationAllowedToProduce: false, hide: true },
+      { role: 'support', isSupport: true, isOrganizationAllowedToProduce: false, hide: false },
+      { role: 'admin', isSupport: false, isOrganizationAllowedToProduce: true, hide: false },
+    ] as const)(
+      'should preserve provider visibility for $role with producer permission $isOrganizationAllowedToProduce',
+      ({ role, isSupport, isOrganizationAllowedToProduce, hide }) => {
+        mockUseJwt({ currentRoles: [role], isSupport, isOrganizationAllowedToProduce })
+        mockUseGetActiveUserParty()
+
+        const { result } = renderHook(() => useGetSidebarItems())
+
+        expect(result.current.find((item) => item.rootRouteKey === 'PROVIDE_DASHBOARD')?.hide).toBe(
+          hide
+        )
+      }
+    )
   })
 
   describe('Delegations visibility', () => {

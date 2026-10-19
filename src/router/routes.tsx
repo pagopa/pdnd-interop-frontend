@@ -5,6 +5,7 @@ import { Box } from '@mui/material'
 import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
+  DashboardPage,
   ProviderEServiceListPage,
   ProviderAgreementsListPage,
   ConsumerAgreementsListPage,
@@ -172,6 +173,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_ESERVICE_MANAGE',
     path: '/erogazione/e-service/:eserviceId/:descriptorId',
     element: <ProviderEServiceDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_DASHBOARD',
+    path: '/erogazione/panoramica',
+    element: <DashboardPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
