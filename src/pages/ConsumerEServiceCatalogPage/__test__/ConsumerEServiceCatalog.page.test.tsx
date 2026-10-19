@@ -5,6 +5,7 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { EServiceQueries } from '@/api/eservice'
 import ConsumerEServiceCatalogPage from '../ConsumerEServiceCatalog.page'
+import { createMockEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
@@ -66,6 +67,43 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
     renderPage()
 
     expect(lastCatalogQuery()).toEqual({ limit: 9, offset: 0, sortBy: 'CREATED_AT_DESC' })
+  })
+
+  it("does not render pagination when there aren't items", async () => {
+    vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
+      (query) =>
+        ({
+          queryKey: ['catalog', query],
+          queryFn: () =>
+            Promise.resolve({ results: [], pagination: { ...pagination, totalCount: 0 } }),
+        }) as never
+    )
+
+    renderPage()
+
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('items-per-page-select')).not.toBeInTheDocument()
+  })
+
+  it('renders pagination when there are items', async () => {
+    vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
+      (query) =>
+        ({
+          queryKey: ['catalog', query],
+          queryFn: () =>
+            Promise.resolve({
+              results: [createMockEServiceCatalog()],
+              pagination: { ...pagination, totalCount: 1 },
+            }),
+        }) as never
+    )
+
+    renderPage()
+
+    waitFor(() => {
+      expect(screen.getByRole('navigation')).toBeInTheDocument()
+      expect(screen.getByTestId('items-per-page-select')).toBeInTheDocument()
+    })
   })
 
   it('reads the initial filters from the url', () => {
