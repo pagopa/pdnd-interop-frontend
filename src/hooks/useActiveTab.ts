@@ -1,17 +1,32 @@
-import { useSearchParams } from 'react-router-dom'
+import { parseAsString, useQueryState, useQueryStates } from 'nuqs'
 
 export const useActiveTab = (defaultTab: string) => {
-  const [searchParams, setSearchParams] = useSearchParams({ tab: defaultTab })
+  const [activeTab, setActiveTab] = useQueryState(
+    'tab',
+    parseAsString.withDefault(defaultTab).withOptions({
+      history: 'push',
+      scroll: true,
+      clearOnDefault: false,
+    })
+  )
 
-  const activeTab = searchParams.get('tab') || defaultTab
+  const [, setQuery] = useQueryStates(
+    {
+      offset: parseAsString,
+      signingStates: parseAsString,
+      eservicesIds: parseAsString,
+    },
+    {
+      history: 'push',
+      scroll: true,
+      clearOnDefault: false,
+    }
+  )
 
   const updateActiveTab = (_: unknown, newTab: string) => {
-    // remove the pagination parameter offset if the tab is changed and it is present
-    searchParams.delete('offset')
-    searchParams.delete('signingStates')
-    searchParams.delete('eservicesIds')
-
-    setSearchParams({ ...Object.fromEntries(searchParams), tab: newTab })
+    void setActiveTab(newTab)
+    // remove query parameters related to pagination and filtering when the tab changes
+    void setQuery({ offset: null, signingStates: null, eservicesIds: null })
   }
 
   return { activeTab, updateActiveTab }
