@@ -69,7 +69,7 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
     expect(lastCatalogQuery()).toEqual({ limit: 9, offset: 0, sortBy: 'CREATED_AT_DESC' })
   })
 
-  it('does not render MIPagination or its Box when pagination.totalCount is 0', async () => {
+  it("does not render pagination when there aren't items", async () => {
     vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
       (query) =>
         ({
@@ -85,7 +85,7 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
     expect(screen.queryByTestId('items-per-page-select')).not.toBeInTheDocument()
   })
 
-  it('renders MIPagination when pagination.totalCount is greater than zero', async () => {
+  it('renders pagination when there are items', async () => {
     vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
       (query) =>
         ({
