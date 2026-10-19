@@ -206,7 +206,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const sorting = useSorting(
     sortByOptions.map((sortBy) => ({ value: sortBy, label: tEservice(`sorting.${sortBy}`) })),
-    sortByOptions[1]
+    sortByOptions[0]
   )
 
   const { sortBy } = sorting
