@@ -1,14 +1,14 @@
-import { renderHook, waitFor } from '@testing-library/react'
-import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
+import { waitFor } from '@testing-library/react'
 import { useActiveTab } from '../useActiveTab'
 import { act } from 'react'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 const testTabInitialValue = 'firstTab'
 
 function renderActiveTab(searchParams?: Record<string, string>) {
   const onUrlUpdate = vi.fn()
-  const { result } = renderHook(() => useActiveTab(testTabInitialValue), {
-    wrapper: withNuqsTestingAdapter({ searchParams, onUrlUpdate, hasMemory: true }),
+  const { result } = renderHookWithApplicationContext(() => useActiveTab(testTabInitialValue), {
+    nuqsTestingAdapterProps: { searchParams, onUrlUpdate, hasMemory: true },
   })
 
   return { result, onUrlUpdate }
