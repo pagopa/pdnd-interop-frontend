@@ -1,147 +1,104 @@
-import { act } from 'react-dom/test-utils'
-import { createMemoryHistory } from 'history'
+import { renderHook, waitFor } from '@testing-library/react'
+import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { useActiveTab } from '../useActiveTab'
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { act } from 'react'
 
 const testTabInitialValue = 'firstTab'
 
-function createMemoryHistoryWithTestSearchParams(searchParams?: Record<string, string>) {
-  const memoryHistory = createMemoryHistory()
+function renderActiveTab(searchParams?: Record<string, string>) {
+  const onUrlUpdate = vi.fn()
+  const { result } = renderHook(() => useActiveTab(testTabInitialValue), {
+    wrapper: withNuqsTestingAdapter({ searchParams, onUrlUpdate, hasMemory: true }),
+  })
 
-  const additionalSearchParams = new URLSearchParams(searchParams).toString()
-
-  memoryHistory.push(`/${additionalSearchParams ? '?' + additionalSearchParams : ''}`)
-
-  return memoryHistory
+  return { result, onUrlUpdate }
 }
 
 describe('determine whether business logic to move among tabs works', () => {
-  it('moves between tabs', () => {
-    const memoryHistory = createMemoryHistoryWithTestSearchParams()
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
-    )
+  it('moves between tabs', async () => {
+    const { result } = renderActiveTab()
 
-    act(() => {
+    await act(async () => {
       result.current.updateActiveTab({}, 'fourthTab')
+      await new Promise((resolve) => setTimeout(resolve, 0))
     })
-    rerender()
     expect(result.current.activeTab).toBe('fourthTab')
 
-    act(() => {
+    await act(async () => {
       result.current.updateActiveTab({}, 'secondTab')
+      await new Promise((resolve) => setTimeout(resolve, 0))
     })
-    rerender()
     expect(result.current.activeTab).toBe('secondTab')
   })
 
-  it('sets index with history', () => {
-    const tab = 'fourthTab'
-    const memoryHistory = createMemoryHistoryWithTestSearchParams({ tab: tab })
-    const { result } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
-    )
+  it('uses the default tab without writing it to the URL', () => {
+    const { result, onUrlUpdate } = renderActiveTab()
+
+    expect(result.current.activeTab).toBe(testTabInitialValue)
+    expect(onUrlUpdate).not.toHaveBeenCalled()
+  })
+
+  it('reads the active tab from the URL', () => {
+    const { result } = renderActiveTab({ tab: 'fourthTab' })
 
     expect(result.current.activeTab).toBe('fourthTab')
   })
 
-  it('moves between tabs preserving URL params (not offset) on tab change - with tab search param specified', () => {
-    const tab = 'fourthTab'
-    const memoryHistory = createMemoryHistoryWithTestSearchParams({ tab: tab, test: 'test' })
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
+  it('preserves other URL params when changing tabs', async () => {
+    const { result, onUrlUpdate } = renderActiveTab({ tab: 'fourthTab', test: 'test' })
+
+    act(() => result.current.updateActiveTab({}, 'secondTab'))
+
+    await waitFor(() =>
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        tab: 'secondTab',
+        test: 'test',
+      })
     )
-
-    act(() => {
-      result.current.updateActiveTab({}, 'fourthTab')
-    })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?tab=fourthTab&test=test')
-
-    act(() => {
-      result.current.updateActiveTab({}, 'secondTab')
-    })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?tab=secondTab&test=test')
   })
 
-  it('moves between tabs preserving URL params (not offset) on tab change - without tab search param specified', () => {
-    const memoryHistory = createMemoryHistoryWithTestSearchParams({ test: 'test' })
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
+  it('sets the tab when it is missing from the URL and preserves other params', async () => {
+    const { result, onUrlUpdate } = renderActiveTab({ test: 'test' })
+
+    act(() => result.current.updateActiveTab({}, 'fourthTab'))
+
+    await waitFor(() =>
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        tab: 'fourthTab',
+        test: 'test',
+      })
     )
-
-    act(() => {
-      result.current.updateActiveTab({}, 'fourthTab')
-    })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?test=test&tab=fourthTab')
-
-    act(() => {
-      result.current.updateActiveTab({}, 'secondTab')
-    })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?test=test&tab=secondTab')
   })
 
-  it('moves between tabs remove offset from URL params on tab change - with tab search param specified', () => {
-    const tab = 'fourthTab'
-    const memoryHistory = createMemoryHistoryWithTestSearchParams({ tab: tab, offset: '1' })
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
+  it('removes offset and signing params when changing tabs', async () => {
+    const { result, onUrlUpdate } = renderActiveTab({
+      tab: 'fourthTab',
+      offset: '1',
+      signingStates: 'signed',
+      eservicesIds: 'service-1',
+      filter: 'active',
+    })
+
+    act(() => result.current.updateActiveTab({}, 'secondTab'))
+
+    await waitFor(() =>
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        tab: 'secondTab',
+        filter: 'active',
+      })
     )
-
-    act(() => {
-      result.current.updateActiveTab({}, 'fourthTab')
-    })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?tab=fourthTab')
-
-    act(() => {
-      result.current.updateActiveTab({}, 'secondTab')
-    })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?tab=secondTab')
   })
 
-  it('moves between tabs remove offset from URL params on tab change - without tab search param specified', () => {
-    const memoryHistory = createMemoryHistoryWithTestSearchParams({ offset: '1' })
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
-    )
+  it('updates tab state and URL state together', async () => {
+    const { result, onUrlUpdate } = renderActiveTab({ offset: '1' })
 
-    act(() => {
-      result.current.updateActiveTab({}, 'fourthTab')
+    act(() => result.current.updateActiveTab({}, 'fourthTab'))
+
+    await waitFor(() => {
+      expect(result.current.activeTab).toBe('fourthTab')
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        tab: 'fourthTab',
+      })
     })
-    rerender()
-    expect(memoryHistory.location.search).toBe('?tab=fourthTab')
-  })
-
-  it('url params/state synchronization tests while moves between tabs', () => {
-    const memoryHistory = createMemoryHistoryWithTestSearchParams()
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useActiveTab(testTabInitialValue),
-      { withRouterContext: true },
-      memoryHistory
-    )
-
-    act(() => {
-      result.current.updateActiveTab({}, 'fourthTab')
-    })
-    rerender()
-    const searchParams = new URLSearchParams(memoryHistory.location.search)
-    expect(result.current.activeTab).toBe(searchParams.get('tab'))
   })
 })
