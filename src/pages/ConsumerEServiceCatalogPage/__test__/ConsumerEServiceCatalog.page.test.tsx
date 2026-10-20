@@ -2,7 +2,6 @@ import React from 'react'
 import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { EServiceQueries } from '@/api/eservice'
 import ConsumerEServiceCatalogPage from '../ConsumerEServiceCatalog.page'
 import { createMockEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
@@ -37,12 +36,11 @@ const lastCatalogQuery = () => {
 }
 
 const renderPage = (searchParams = '') =>
-  renderWithApplicationContext(
-    <NuqsTestingAdapter searchParams={searchParams} hasMemory>
-      <ConsumerEServiceCatalogPage />
-    </NuqsTestingAdapter>,
-    { withRouterContext: true, withReactQueryContext: true }
-  )
+  renderWithApplicationContext(<ConsumerEServiceCatalogPage />, {
+    withRouterContext: true,
+    withReactQueryContext: true,
+    nuqsTestingAdapterProps: { searchParams, hasMemory: true },
+  })
 
 describe('ConsumerEServiceCatalogPage filters and query payload', () => {
   beforeEach(() => {
