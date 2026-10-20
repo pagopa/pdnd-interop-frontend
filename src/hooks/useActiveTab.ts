@@ -24,9 +24,9 @@ export const useActiveTab = (defaultTab: string) => {
   )
 
   const updateActiveTab = (_: unknown, newTab: string) => {
-    void setActiveTab(newTab)
+    setActiveTab(newTab)
     // remove query parameters related to pagination and filtering when the tab changes
-    void setQuery({ offset: null, signingStates: null, eservicesIds: null })
+    setQuery({ offset: null, signingStates: null, eservicesIds: null })
   }
 
   return { activeTab, updateActiveTab }
