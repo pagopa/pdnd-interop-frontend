@@ -58,14 +58,13 @@ describe('CardDashboard', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
 
-  it('supports a custom en-US metric locale', () => {
+  it('formats metric fractions with grouping in it-IT', () => {
     renderCard({
       heading: 'Services',
-      locale: 'en-US',
       content: { kind: 'metric', metric: { value: 12200.5, label: 'Total' } },
     })
 
-    expect(screen.getByText('12,200.5')).toBeVisible()
+    expect(screen.getByText('12.200,5')).toBeVisible()
   })
 
   it('renders multiple metrics as vertically stacked, inline value-label pairs', () => {
@@ -149,16 +148,15 @@ describe('CardDashboard', () => {
     expect(arcs[0].getAttribute('d')).not.toBe(arcs[1].getAttribute('d'))
   })
 
-  it('uses the custom locale for consumption amounts and percentage', () => {
+  it('uses fixed it-IT formatting for decimal consumption amounts and percentage', () => {
     renderCard({
       heading: 'Usage',
-      locale: 'en-US',
       content: { kind: 'consumption', used: 12200.5, limit: 20000, unitLabel: 'Calls' },
     })
 
-    expect(screen.getByText('12,200.5 / 20,000')).toBeVisible()
+    expect(screen.getByText('12.200,5 / 20.000')).toBeVisible()
     expect(screen.getByText('61%')).toBeVisible()
-    getArcs(screen.getByRole('img', { name: '61%; 12,200.5 / 20,000 Calls' }))
+    getArcs(screen.getByRole('img', { name: '61%; 12.200,5 / 20.000 Calls' }))
   })
 
   it.each([
@@ -228,7 +226,7 @@ describe('CardDashboard', () => {
     expect(icon.parentElement).toHaveAttribute('aria-hidden', 'true')
     expect(icon.parentElement).toHaveStyle({
       color: theme.palette.primary.main,
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: '#CED8F9',
     })
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
