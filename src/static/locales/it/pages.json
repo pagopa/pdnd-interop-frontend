@@ -1,7 +1,12 @@
 {
   "consumerEServiceCatalog": {
     "title": "Catalogo degli e-service",
-    "description": "Il catalogo degli e-service contiene tutte le basi dati che altri enti hanno reso disponibili. Puoi aderire a quelli di tuo interesse."
+    "description": "Il catalogo degli e-service contiene tutte le basi dati che altri enti hanno reso disponibili. Puoi aderire a quelli di tuo interesse.",
+    "tabs": {
+      "ariaLabel": "Due tab diverse per gli e-service in evidenza e per tutti gli e-service",
+      "featuredEServices": "In evidenza",
+      "allEServices": "Tutti gli e-service"
+    }
   },
   "consumerAgreementsList": {
     "title": "Richieste di fruizione inoltrate",
