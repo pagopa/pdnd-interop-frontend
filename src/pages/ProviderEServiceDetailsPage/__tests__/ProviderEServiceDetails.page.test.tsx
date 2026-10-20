@@ -1,12 +1,10 @@
 import React from 'react'
-import { screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
+import { screen, waitFor } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ProviderEServiceDetailsPage from '../ProviderEServiceDetails.page'
 import type * as ReactQuery from '@tanstack/react-query'
 import type * as Stores from '@/stores'
-import { ProviderEServiceDelegatorArchivingAlert } from '../components/ProviderEServiceDelegatorArchivingAlert'
 
 const { mockedGetDescriptorProvider, mockedUseQuery } = vi.hoisted(() => ({
   mockedGetDescriptorProvider: vi.fn(),
@@ -83,16 +81,16 @@ vi.mock('@/components/shared/EServiceVersionSelectorDrawer', () => ({
 }))
 
 function renderPage(search = '') {
-  const history = createMemoryHistory({ initialEntries: [`/${search}`] })
+  const onUrlUpdate = vi.fn()
 
-  return renderWithApplicationContext(
-    <ProviderEServiceDetailsPage />,
-    {
+  return {
+    ...renderWithApplicationContext(<ProviderEServiceDetailsPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
-    },
-    history
-  )
+      nuqsTestingAdapterProps: { searchParams: search, onUrlUpdate, hasMemory: true },
+    }),
+    onUrlUpdate,
+  }
 }
 
 describe('ProviderEServiceDetailsPage', () => {
@@ -151,14 +149,16 @@ describe('ProviderEServiceDetailsPage', () => {
     expect(screen.getByTestId('alerts')).toHaveAttribute('data-has-view-keychains', 'false')
   })
 
-  it('normalizes the keychains tab URL for API operators', () => {
+  it('normalizes the keychains tab URL for API operators', async () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
-    const { history } = renderPage('?tab=keychains')
+    const { onUrlUpdate } = renderPage('?tab=keychains')
 
     expect(screen.getByTestId('eservice-details-tab')).toBeInTheDocument()
     expect(screen.queryByTestId('eservice-keychains-tab')).not.toBeInTheDocument()
-    expect(history.location.search).toBe('?tab=eserviceDetails')
+    await waitFor(() =>
+      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.get('tab')).toBe('eserviceDetails')
+    )
   })
 
   it('hides the tabs and the view-keychains action for viewer users', () => {

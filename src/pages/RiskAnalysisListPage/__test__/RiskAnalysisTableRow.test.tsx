@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { RiskAnalysisTableRow } from '../components/RiskAnalysisTableRow'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
@@ -38,8 +37,11 @@ function renderRow(
         <RiskAnalysisTableRow purpose={purpose} />
       </tbody>
     </table>,
-    { withRouterContext: true, withReactQueryContext: true },
-    createMemoryHistory({ initialEntries: [`/?tab=${tab}`] })
+    {
+      withRouterContext: true,
+      withReactQueryContext: true,
+      nuqsTestingAdapterProps: { searchParams: { tab } },
+    }
   )
 }
 
