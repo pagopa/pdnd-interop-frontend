@@ -1,6 +1,5 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { EServiceAttributesSection } from '../EServiceAttributesSection'
 import { vi, describe, it, expect } from 'vitest'
 import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
@@ -37,9 +36,6 @@ const renderComponent = (
 ) => {
   lastRenderedProps = {}
   const handleOpenAttributeCreateDrawerFactory = vi.fn(() => vi.fn())
-  const history = createMemoryHistory({
-    initialEntries: [activeTab ? `/?tab=${activeTab}` : '/'],
-  })
 
   return {
     handleOpenAttributeCreateDrawerFactory,
@@ -50,8 +46,11 @@ const renderComponent = (
           handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
         />
       </ReactHookFormWrapper>,
-      { withReactQueryContext: true, withRouterContext: true },
-      history
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+        nuqsTestingAdapterProps: { searchParams: activeTab ? { tab: activeTab } : {} },
+      }
     ),
   }
 }

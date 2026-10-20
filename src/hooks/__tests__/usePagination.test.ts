@@ -1,31 +1,25 @@
-import React from 'react'
-import { act, renderHook, waitFor } from '@testing-library/react'
-import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
-import { MemoryRouter } from 'react-router-dom'
+import { act, waitFor } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
 import { usePagination } from '../usePagination'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 function renderPagination(
   searchParams?: Record<string, string>,
   options?: { limit: number; limitOptions?: number[] }
 ) {
   const query = new URLSearchParams(searchParams).toString()
-  const initialEntry = `/${query ? `?${query}` : ''}`
+  const history = createMemoryHistory({ initialEntries: [`/${query ? `?${query}` : ''}`] })
   const onUrlUpdate = vi.fn(({ searchParams }: { searchParams: URLSearchParams }) =>
     searchParams.toString()
   )
-  const NuqsTestingWrapper = withNuqsTestingAdapter({
-    searchParams,
-    onUrlUpdate,
-    hasMemory: true,
-  })
-  const wrapper = ({ children }: { children: React.ReactNode }) =>
-    React.createElement(
-      MemoryRouter,
-      { initialEntries: [initialEntry] },
-      React.createElement(NuqsTestingWrapper, null, children)
-    )
-
-  const hook = renderHook(() => usePagination(options), { wrapper })
+  const hook = renderHookWithApplicationContext(
+    () => usePagination(options),
+    {
+      withRouterContext: true,
+      nuqsTestingAdapterProps: { searchParams, onUrlUpdate, hasMemory: true },
+    },
+    history
+  )
   return { ...hook, onUrlUpdate }
 }
 
