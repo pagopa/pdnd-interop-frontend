@@ -75,16 +75,20 @@ which is sufficient only after the local-runtime changes have landed there.
 Once both branches are selected, open the workspace from this WSL terminal:
 
 ```bash
-code .
+code interop-pdnd-fullstack.code-workspace
 ```
 
 VS Code must show **WSL: Ubuntu** before **Dev Containers: Reopen in Container**.
+Both repositories appear as roots in this one workspace. Initialization creates
+the local backend symbolic link used by the workspace; the actual checkout stays
+beside the frontend. This keeps the workspace's folder paths within its directory
+and avoids Dev Containers' shared-root warning.
 Then follow [First start](local-full-stack.md#first-start). The frontend launcher
 can also start the full stack from WSL without VS Code or host Node/pnpm.
-VS Code attaches to the separate frontend service, which mounts only this
-checkout and installs its own dependencies and Chromium. Backend packages,
-infrastructure and the dashboard run in their own service. The host full-stack
-workspace remains available for browsing both repos outside the container.
+VS Code attaches to the separate frontend service, which mounts both checkouts
+for editing and installs frontend dependencies and Chromium. Backend packages,
+infrastructure and the dashboard run in their own service. The same workspace
+also works outside the container.
 
 Storing bind-mounted source on Linux avoids slow Windows filesystem crossings
 and missing file-change events. Dependency directories and the pnpm store use
@@ -130,7 +134,8 @@ before changing machine-wide settings. See [Microsoft's WSL networking guide](ht
 and [Docker Desktop networking](https://docs.docker.com/desktop/features/networking/networking-how-tos/).
 
 Each service retains its own checkout's absolute WSL path. The frontend
-devcontainer does not mount the backend, its dependencies or the Docker socket.
+devcontainer mounts both checkouts for editing; backend dependencies run in the
+dashboard service, which retains the Docker socket.
 Backend Compose SQL/config files belong to the dashboard service. Bind sources
 are resolved by the Docker daemon, not by the frontend process.
 If a SQL/config mount is missing or becomes an empty directory, compare the

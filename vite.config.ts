@@ -62,7 +62,7 @@ export default defineConfig(({ mode }) => {
         process.env.INTEROP_FRONTEND_PORT === '5173' ? ['host.docker.internal'] : undefined,
       hmr: process.env.INTEROP_FRONTEND_PORT === '5173' ? { clientPort: 3000 } : undefined,
       watch: {
-        ignored: ['**/.pnpm-store/**'],
+        ignored: ['**/.pnpm-store/**', '**/.local-development/**'],
         ...(process.env.INTEROP_FRONTEND_POLLING === 'true'
           ? { usePolling: true, interval: 500 }
           : {}),
@@ -88,7 +88,7 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './setupTests.ts',
-      exclude: [...configDefaults.exclude, 'e2e/**'],
+      exclude: [...configDefaults.exclude, 'e2e/**', '.local-development/**'],
       server: {
         deps: {
           inline: ['@pagopa/mui-italia'],

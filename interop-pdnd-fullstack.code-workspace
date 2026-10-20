@@ -6,7 +6,7 @@
     },
     {
       "name": "interop-be-monorepo",
-      "path": "../interop-be-monorepo",
+      "path": ".local-development/interop-be-monorepo",
     },
   ],
   "settings": {

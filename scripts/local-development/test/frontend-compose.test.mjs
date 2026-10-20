@@ -1,7 +1,18 @@
 // @vitest-environment node
 import { afterEach, expect, it } from 'vitest'
 import { execFile } from 'node:child_process'
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import {
+  cp,
+  lstat,
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rename,
+  rm,
+  symlink,
+  writeFile,
+} from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -111,7 +122,7 @@ it('reconciles a running standalone dashboard before frontend startup without re
 })
 
 it('generates only machine-specific frontend configuration', async () => {
-  const { frontend, run, callsFile } = await fixture()
+  const { frontend, backend, run, callsFile } = await fixture()
   await run('start')
   const config = JSON.parse(
     await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
@@ -128,6 +139,7 @@ it('generates only machine-specific frontend configuration', async () => {
         },
         volumes: [
           { type: 'bind', source: frontend, target: frontend },
+          { type: 'bind', source: backend, target: backend },
           {
             type: 'volume',
             source: 'frontend-modules',
@@ -157,6 +169,57 @@ it('generates only machine-specific frontend configuration', async () => {
     'compose.yml',
     '../.local-development/frontend/compose.yml',
   ])
+})
+
+it('exposes the sibling backend through an idempotent workspace link', async () => {
+  const { frontend, backend, run } = await fixture()
+  await execute('git', ['init', '--quiet', backend])
+  await writeFile(join(backend, 'workspace-file.txt'), 'original backend source')
+  await run('start')
+  const link = join(frontend, '.local-development/interop-be-monorepo')
+  expect((await lstat(link)).isSymbolicLink()).toBe(true)
+  expect(await realpath(link)).toBe(backend)
+  expect(await readFile(join(link, 'workspace-file.txt'), 'utf8')).toBe('original backend source')
+  await writeFile(join(link, 'workspace-file.txt'), 'edited through workspace')
+  expect(await readFile(join(backend, 'workspace-file.txt'), 'utf8')).toBe(
+    'edited through workspace'
+  )
+  const { stdout } = await execute('git', ['-C', link, 'rev-parse', '--show-toplevel'])
+  expect(stdout.trim()).toBe(backend)
+  const before = await lstat(link)
+  await run('start')
+  expect((await lstat(link)).ino).toBe(before.ino)
+})
+
+it('replaces a stale backend workspace link', async () => {
+  const { frontend, backend, run } = await fixture()
+  const link = join(frontend, '.local-development/interop-be-monorepo')
+  await mkdir(join(frontend, '.local-development'))
+  await symlink(join(backend, 'missing-checkout'), link)
+  await run('start')
+  expect(await realpath(link)).toBe(backend)
+})
+
+it('creates the workspace link after initializing a missing backend checkout', async () => {
+  const { frontend, backend, run } = await fixture()
+  await rename(backend, `${backend}.seed`)
+  await writeFile(
+    join(frontend, '../bin/git'),
+    '#!/usr/bin/env bash\nset -euo pipefail\n[[ "$1" == clone ]]\ncp -R "$(dirname "${BASH_SOURCE[0]}")/../backend.seed" "${@: -1}"\n',
+    { mode: 0o755 }
+  )
+  await run('start')
+  expect(await realpath(join(frontend, '.local-development/interop-be-monorepo'))).toBe(backend)
+})
+
+it('preserves a real directory occupying the backend workspace link path', async () => {
+  const { frontend, run, callsFile } = await fixture()
+  const link = join(frontend, '.local-development/interop-be-monorepo')
+  await mkdir(link, { recursive: true })
+  await writeFile(join(link, 'keep.txt'), 'local user file')
+  await expect(run('start')).rejects.toThrow('is not a symbolic link')
+  expect(await readFile(join(link, 'keep.txt'), 'utf8')).toBe('local user file')
+  await expect(readFile(callsFile)).rejects.toMatchObject({ code: 'ENOENT' })
 })
 
 it('validates the devcontainer model and build targets without explicitly enabling profiles', async ({
@@ -220,6 +283,7 @@ it('validates the devcontainer model and build targets without explicitly enabli
   expect(service.build.context).toBe(join(frontend, '.devcontainer'))
   expect(service.volumes.filter(({ type }) => type === 'bind')).toEqual([
     { type: 'bind', source: frontend, target: frontend },
+    { type: 'bind', source: backend, target: backend },
   ])
   expect(service.volumes.filter(({ type }) => type === 'volume')).toHaveLength(3)
   expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')

@@ -1,8 +1,8 @@
 # Local full-stack development
 
 The backend owns the standalone dashboard at <http://localhost:8076>. A separate
-frontend container runs VS Code, Vite and frontend checks. It mounts only the
-frontend checkout and serves <http://localhost:3000/ui/it/>. The dashboard works
+frontend container runs VS Code, Vite and frontend checks. It mounts both
+checkouts for editing and serves <http://localhost:3000/ui/it/>. The dashboard works
 without the frontend checkout or container and remains available when Vite stops.
 The frontend Compose overlay enables the optional full-stack status page at
 <http://localhost:8076/#/status>, including frontend startup phases and logs.
@@ -17,7 +17,7 @@ Standalone backend configuration stays unchanged.
 
 Host Node/pnpm is optional. Each image installs its own dependencies into named
 volumes. The frontend has its own pnpm store and Playwright browser cache. Its
-container has no backend checkout, backend dependencies or Docker socket.
+container does not install backend dependencies or expose the Docker socket.
 The backend dashboard retains Docker access for infrastructure commands.
 
 ## First start
@@ -59,10 +59,22 @@ container logs and `.local-development/frontend/startup.log`; Vite logs are in
 `.local-development/frontend/vite.log`. Failed setup leaves the frontend container
 alive for inspection and manual retry; it does not automatically retry the seed.
 
-For VS Code, open **the frontend folder** from the host/WSL terminal (`code .`),
-then choose **Dev Containers: Reopen in Container**. VS Code attaches to
-`frontend` and uses the same automatic setup. The **Full stack: startup logs**
-task automatically presents a terminal with frontend installation/startup output
+For VS Code, open `interop-pdnd-fullstack.code-workspace` from the host/WSL terminal
+(`code interop-pdnd-fullstack.code-workspace`), then choose
+**Dev Containers: Reopen in Container**. VS Code attaches to `frontend` and uses
+the same automatic setup. This single workspace shows frontend and backend as
+two roots and also works on the host.
+
+Initialization creates `.local-development/interop-be-monorepo`, a symbolic link
+to the actual backend checkout. Both repositories stay in their sibling directories;
+the workspace uses the link so its folder paths stay within the workspace file's
+directory, avoiding Dev Containers' shared-root warning. Both actual source paths
+are mounted in the container. On a fresh checkout, the backend root becomes
+available after initialization creates the link and clones the backend if needed.
+For host-only editing before the first container start, run
+`bash .devcontainer/initialize.sh` once to prepare it.
+
+The **Full stack: startup logs** task automatically presents a terminal with frontend installation/startup output
 and incremental backend orchestration logs, including infrastructure setup. It
 waits for the dashboard API if necessary and observes the existing startup.
 This task works when opening the frontend folder as well as the full-stack
@@ -90,9 +102,6 @@ Closing the editor leaves both
 containers running. Fix setup errors inside the container and retry
 `pnpm local:start`.
 
-The host `interop-pdnd-fullstack.code-workspace` remains useful for browsing both
-repos outside the container. Its backend folder is not mounted in the frontend
-devcontainer; open the frontend folder before reopening in the container.
 Existing checkouts and local changes are preserved. A missing backend is cloned
 from `develop`, which must contain the dashboard changes.
 
