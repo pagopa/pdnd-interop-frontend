@@ -12,8 +12,9 @@
       "presentation": {
         "reveal": "always",
         "focus": false,
+        "echo": false,
         "panel": "dedicated",
-        "clear": false,
+        "clear": true,
         "showReuseMessage": false
       }
     }
