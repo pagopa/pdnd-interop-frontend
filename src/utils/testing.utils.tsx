@@ -20,6 +20,7 @@ import { theme } from '@pagopa/interop-fe-commons'
 import { FieldValues, FormProvider, useForm } from 'react-hook-form'
 import * as envs from '@/config/env'
 import * as useActiveStepModule from '@/hooks/useActiveStep'
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -153,6 +154,7 @@ type WrapperOptions = (
 ) & {
   withErrorBoundary?: boolean
   withRouterContext?: boolean
+  nuqsTestingAdapterProps?: Omit<React.ComponentProps<typeof NuqsTestingAdapter>, 'children'>
 }
 
 /**
@@ -161,14 +163,18 @@ type WrapperOptions = (
 function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
   return function Wrapper({ children }: { children: React.ReactNode }) {
     let result = (
-      <ThemeProvider theme={theme}>
-        {children}
-        {(options.withReactQueryContext || options.withToastNotificationsContext) && (
-          <ToastNotification />
-        )}
-        {(options.withReactQueryContext || options.withLoadingOverlayContext) && <LoadingOverlay />}
-        {(options.withReactQueryContext || options.withDialogContext) && <Dialog />}
-      </ThemeProvider>
+      <NuqsTestingAdapter {...options.nuqsTestingAdapterProps}>
+        <ThemeProvider theme={theme}>
+          {children}
+          {(options.withReactQueryContext || options.withToastNotificationsContext) && (
+            <ToastNotification />
+          )}
+          {(options.withReactQueryContext || options.withLoadingOverlayContext) && (
+            <LoadingOverlay />
+          )}
+          {(options.withReactQueryContext || options.withDialogContext) && <Dialog />}
+        </ThemeProvider>
+      </NuqsTestingAdapter>
     )
 
     if (options.withReactQueryContext) {

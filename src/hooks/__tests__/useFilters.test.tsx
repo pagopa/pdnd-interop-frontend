@@ -1,7 +1,7 @@
-import { act, renderHook } from '@testing-library/react'
-import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
+import { act } from '@testing-library/react'
 import { useFilters } from '../useFilters'
 import type { FilterFields, AdditionalFiltersSection } from '@/types/filters.types'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 type TestFiltersParams = {
   keyword: string
@@ -67,18 +67,24 @@ const additionalsSections: AdditionalFiltersSection<keyof TestFiltersParams>[] =
 
 describe('useFilters', () => {
   it('returns the main and side fields as passed in', () => {
-    const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
-      wrapper: withNuqsTestingAdapter(),
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => useFilters(mainFields, additionalsSections),
+      {
+        nuqsTestingAdapterProps: {},
+      }
+    )
 
     expect(result.current.fields).toBe(mainFields)
     expect(result.current.additionals).toBe(additionalsSections)
   })
 
   it('returns empty/default filters values when there are no search params', () => {
-    const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
-      wrapper: withNuqsTestingAdapter(),
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => useFilters(mainFields, additionalsSections),
+      {
+        nuqsTestingAdapterProps: {},
+      }
+    )
 
     expect(result.current.filters).toEqual({
       keyword: null,
@@ -93,12 +99,15 @@ describe('useFilters', () => {
   })
 
   it('parses filters values already present in the search params', () => {
-    const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
-      wrapper: withNuqsTestingAdapter({
-        searchParams:
-          '?keyword=keyword-1&num=42&isActive=true&status=state-1,state-2&tags=tag-1,tag-2&category=cat-1&mode=mode-1',
-      }),
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => useFilters(mainFields, additionalsSections),
+      {
+        nuqsTestingAdapterProps: {
+          searchParams:
+            '?keyword=keyword-1&num=42&isActive=true&status=state-1,state-2&tags=tag-1,tag-2&category=cat-1&mode=mode-1',
+        },
+      }
+    )
 
     expect(result.current.filters).toMatchObject({
       keyword: 'keyword-1',
@@ -113,9 +122,12 @@ describe('useFilters', () => {
 
   it('updates the search params and the filters value when onChangeActiveFilters is called', async () => {
     const onUrlUpdate = vi.fn()
-    const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
-      wrapper: withNuqsTestingAdapter({ onUrlUpdate }),
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => useFilters(mainFields, additionalsSections),
+      {
+        nuqsTestingAdapterProps: { onUrlUpdate },
+      }
+    )
 
     await act(async () => {
       result.current.onChangeActiveFilters({ keyword: 'keyword-1', num: '30' })
@@ -131,9 +143,12 @@ describe('useFilters', () => {
   })
 
   it('merges new values with the existing filters when onChangeActiveFilters is called', () => {
-    const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
-      wrapper: withNuqsTestingAdapter({ searchParams: '?keyword=keyword-1', hasMemory: true }),
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => useFilters(mainFields, additionalsSections),
+      {
+        nuqsTestingAdapterProps: { searchParams: '?keyword=keyword-1', hasMemory: true },
+      }
+    )
 
     act(() => {
       result.current.onChangeActiveFilters({ num: '25' })
@@ -143,12 +158,15 @@ describe('useFilters', () => {
   })
 
   it('resets all the filters to null when onResetActiveFilters is called', () => {
-    const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
-      wrapper: withNuqsTestingAdapter({
-        searchParams: '?keyword=keyword-1&num=42&isActive=true',
-        hasMemory: true,
-      }),
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => useFilters(mainFields, additionalsSections),
+      {
+        nuqsTestingAdapterProps: {
+          searchParams: '?keyword=keyword-1&num=42&isActive=true',
+          hasMemory: true,
+        },
+      }
+    )
 
     act(() => {
       result.current.onResetActiveFilters()
@@ -167,8 +185,8 @@ describe('useFilters', () => {
   })
 
   it('works correctly when no side filters sections are passed', () => {
-    const { result } = renderHook(() => useFilters(mainFields), {
-      wrapper: withNuqsTestingAdapter(),
+    const { result } = renderHookWithApplicationContext(() => useFilters(mainFields), {
+      nuqsTestingAdapterProps: {},
     })
 
     expect(result.current.additionals).toBeUndefined()
