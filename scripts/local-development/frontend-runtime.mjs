@@ -35,7 +35,16 @@ async function ownsProcessGroup(group, owner) {
           if (fields[0] === 'Z' || Number(fields[2]) !== group) return undefined
           try {
             const environment = await readFile(`/proc/${pid}/environ`, 'utf8')
-            return environment.split('\0').includes(`INTEROP_FRONTEND_OWNER=${owner}`)
+            if (environment.split('\0').includes(`INTEROP_FRONTEND_OWNER=${owner}`)) return true
+          } catch (error) {
+            if (error.code === 'ENOENT') return undefined
+          }
+          // A helper can exit between stat and environ; zombies can deny access
+          // to their environment. Verify it is still live before rejecting it.
+          try {
+            const stat = await readFile(`/proc/${pid}/stat`, 'utf8')
+            fields = stat.slice(stat.lastIndexOf(')') + 2).split(' ')
+            return fields[0] === 'Z' || Number(fields[2]) !== group ? undefined : false
           } catch (error) {
             return error.code === 'ENOENT' ? undefined : false
           }
