@@ -46,12 +46,13 @@ it('requests the host browser without passing the published URL through the remo
 })
 
 it.each([
-  ['Linux', '', 'xdg-open'],
-  ['Darwin', '', 'open'],
-  ['Linux', 'wsl-interop', 'powershell.exe'],
+  { platform: 'Linux', interop: '', opener: 'xdg-open', hangup: false },
+  { platform: 'Darwin', interop: '', opener: 'open', hangup: false },
+  { platform: 'Linux', interop: 'wsl-interop', opener: 'powershell.exe', hangup: false },
+  { platform: 'Linux', interop: '', opener: 'xdg-open', hangup: true },
 ])(
-  'opens the published host port after the ready marker on %s (%s)',
-  async (platform, interop, opener) => {
+  'opens the published host port after the ready marker on $platform ($opener, initial hangup: $hangup)',
+  async ({ platform, interop, opener, hangup }) => {
     const root = await mkdtemp(join(tmpdir(), 'interop-logs-'))
     roots.push(root)
     const bin = join(root, 'bin')
@@ -67,6 +68,17 @@ it.each([
     await writeFile(join(bin, 'uname'), `#!/bin/bash\nprintf '%s\\n' '${platform}'\n`, {
       mode: 0o755,
     })
+    let systemNohup
+    if (hangup) {
+      const { stdout } = await promisify(execFile)('bash', ['-c', 'command -v nohup'])
+      systemNohup = stdout.trim()
+      // A PTY can close after the fork, before nohup has installed its signal handler.
+      await writeFile(
+        join(bin, 'nohup'),
+        '#!/bin/bash\nkill -HUP "$$"\nexec "$INTEROP_TEST_SYSTEM_NOHUP" "$@"\n',
+        { mode: 0o755 }
+      )
+    }
     for (const command of ['xdg-open', 'open', 'powershell.exe']) {
       await writeFile(
         join(bin, command),
@@ -90,6 +102,7 @@ it.each([
           INTEROP_TEST_BROWSER_ARGS: called,
           INTEROP_TEST_BROWSER_WAITING: waiting,
           INTEROP_TEST_SYSTEM_PATH: process.env.PATH,
+          INTEROP_TEST_SYSTEM_NOHUP: systemNohup,
         },
       }
     )

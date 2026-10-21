@@ -9,6 +9,9 @@ if [[ "$mode" == prepare ]]; then
   request_dir="$(mktemp -d "$state_root/browser-open.XXXXXXXX")"
   printf '%s\n' "${request_dir##*/}" > "$request_dir/token"
   mv "$request_dir/token" "$state_root/browser-request"
+  # Dev Containers closes its initialization PTY as soon as this command exits.
+  # Ignore the hangup before forking, including the window before nohup starts.
+  trap '' HUP
   nohup bash "${BASH_SOURCE[0]}" wait "$state_root" "${request_dir##*/}" \
     > "$state_root/browser-open.log" 2>&1 < /dev/null &
   exit 0

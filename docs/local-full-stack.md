@@ -84,6 +84,7 @@ VS Code Workspace Trust must allow tasks. If automatic tasks were disabled,
 use **Tasks: Manage Automatic Tasks** or **Tasks: Run Task** to show the log terminal.
 
 Devcontainer initialization prepares a one-time browser request on the host.
+The host opener keeps waiting after the initialization terminal closes.
 After dashboard HTTP health succeeds, the automatic terminal task signals that
 request and the host opens <http://localhost:8076/#/status> in its default browser.
 This preserves Docker's published port: VS Code's remote browser command would
