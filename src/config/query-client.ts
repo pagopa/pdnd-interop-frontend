@@ -2,6 +2,7 @@ import { useDialogStore, useLoadingOverlayStore, useToastNotificationStore } fro
 import { useErrorDataStore } from '@/stores/error-data.store'
 import { clearExponentialInterval, setExponentialInterval } from '@/utils/common.utils'
 import { NotFoundError } from '@/utils/errors.utils'
+import type { Problem } from '@/api/api.generatedTypes'
 import {
   type Mutation,
   type QueryClientConfig,
@@ -9,8 +10,9 @@ import {
   type ConfirmationDialogMeta,
   QueryClient,
 } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { AxiosError, isAxiosError } from 'axios'
 import type { DialogDescriptionLink } from '@/types/dialog.types'
+import configuredI18n from './react-i18next'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
@@ -23,6 +25,19 @@ const getHideOverlay = () => useLoadingOverlayStore.getState().hideOverlay
 const getOpenDialog = () => useDialogStore.getState().openDialog
 const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
+type BackendErrorPayload = Problem & {
+  userMessages?: { it?: string; en?: string }
+}
+
+const getBackendErrorToastLabel = (error: unknown): string | undefined => {
+  if (!isAxiosError<BackendErrorPayload>(error)) return undefined
+
+  const data = error.response?.data
+  if (!data?.userMessages) return undefined
+
+  return data?.errors?.[0]?.detail
+}
+
 const resolveMeta = (query: {
   mutation: Mutation<unknown, unknown, unknown>
   data?: unknown
@@ -31,9 +46,7 @@ const resolveMeta = (query: {
   context?: unknown
 }) => {
   const { mutation, data, error, variables, context } = query
-  const meta: MutationMeta | undefined = mutation.meta
-
-  if (!meta) return {}
+  const meta: MutationMeta = mutation.meta ?? {}
 
   const loadingLabel =
     typeof meta.loadingLabel === 'function' ? meta.loadingLabel(variables) : meta.loadingLabel
@@ -43,10 +56,12 @@ const resolveMeta = (query: {
       ? meta.successToastLabel(data, variables, context)
       : meta.successToastLabel
 
-  const errorToastLabel =
+  const fallbackLabel =
     typeof meta.errorToastLabel === 'function'
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
+
+  const errorToastLabel = getBackendErrorToastLabel(error) ?? fallbackLabel
 
   const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
     const title =
@@ -184,18 +199,17 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   if (error instanceof CancellationError) return
 
   const meta = resolveMeta({ mutation, error, variables, context })
-  if (meta.errorToastLabel) {
-    let correlationId
-    let errorCode
-    if (error instanceof AxiosError) {
-      correlationId = error.response?.data?.correlationId
-      errorCode = error.response?.data?.errors?.[0]?.code
-    }
-    if (correlationId && errorCode) {
-      getSetErrorData()(correlationId, errorCode)
-    }
-    getShowToast()(meta.errorToastLabel, 'error', correlationId)
+  const errorToastLabel = meta.errorToastLabel || configuredI18n.t('error:default.title')
+  let correlationId
+  let errorCode
+  if (error instanceof AxiosError) {
+    correlationId = error.response?.data?.correlationId
+    errorCode = error.response?.data?.errors?.[0]?.code
   }
+  if (correlationId && errorCode) {
+    getSetErrorData()(correlationId, errorCode)
+  }
+  getShowToast()(errorToastLabel, 'error', correlationId)
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {
