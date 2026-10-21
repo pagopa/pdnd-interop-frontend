@@ -191,7 +191,9 @@ the frontend. Both real source paths are mounted in the container.
 
 `.devcontainer/compose.yml` defines the frontend service and dashboard integration.
 Initialization generates `.local-development/frontend/compose.yml` with absolute
-checkout paths, mounts, and the host user's UID and GID. Regenerate it through
+checkout paths, mounts, and the container user's UID and GID. Linux and WSL2 use
+the host user's IDs. macOS keeps the image's `node` identity, `1000:1000`, because
+Docker Desktop maps bind-mount permissions. Regenerate the configuration through
 initialization after moving the checkouts. For host-only editing before the
 first container start, prepare the workspace with `bash .devcontainer/initialize.sh`.
 

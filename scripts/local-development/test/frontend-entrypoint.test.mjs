@@ -14,7 +14,13 @@ afterEach(async () => {
   await Promise.all(roots.splice(0).map((root) => rm(root, { recursive: true, force: true })))
 })
 
-async function fixture({ uid = '1500', gid = '1600', owned = false, missingVolume = '' } = {}) {
+async function fixture({
+  uid = '1500',
+  gid = '1600',
+  owned = false,
+  previousOwner = '0:0',
+  missingVolume = '',
+} = {}) {
   const root = await mkdtemp(join(tmpdir(), 'interop-frontend-bootstrap-'))
   roots.push(root)
   const bin = join(root, 'bin')
@@ -27,7 +33,7 @@ async function fixture({ uid = '1500', gid = '1600', owned = false, missingVolum
       uid: '1000',
       gid: '1000',
       owners: Object.fromEntries(
-        volumes.map((volume) => [volume, owned ? `${uid}:${gid}` : '0:0'])
+        volumes.map((volume) => [volume, owned ? `${uid}:${gid}` : previousOwner])
       ),
       calls: [],
     })
@@ -116,6 +122,19 @@ it('preserves existing user and volume ownership on repeated startup', async () 
   expect(
     result.calls.filter(({ name }) => ['groupmod', 'usermod', 'chown'].includes(name))
   ).toEqual([])
+  expect(result.launcher.user).toBe('node')
+})
+
+it('repairs volumes from a macOS UID without changing the container user', async () => {
+  const { volumes, run, state } = await fixture({
+    uid: '1000',
+    gid: '1000',
+    previousOwner: '501:20',
+  })
+  await run()
+  const result = await state()
+  expect(result.calls.some(({ name }) => name === 'groupmod' || name === 'usermod')).toBe(false)
+  expect(result.owners).toEqual(Object.fromEntries(volumes.map((volume) => [volume, '1000:1000'])))
   expect(result.launcher.user).toBe('node')
 })
 

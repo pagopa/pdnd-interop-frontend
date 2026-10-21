@@ -88,7 +88,7 @@ fs.writeFileSync(process.env.DOCKER_TEST_STATE, JSON.stringify(state));
   delete env.INTEROP_FRONTEND_RUNTIME
   const run = (command) =>
     execute('bash', [join(frontend, 'scripts/local-development/fullstack.sh'), command], { env })
-  return { frontend, backend, run, callsFile, stateFile }
+  return { frontend, backend, bin, run, callsFile, stateFile }
 }
 
 it('restarts the frontend launcher when a host start follows stop on the same container', async () => {
@@ -134,8 +134,8 @@ it('generates only machine-specific frontend configuration', async () => {
         working_dir: frontend,
         environment: {
           INTEROP_FE_ROOT: frontend,
-          LOCAL_UID: String(process.getuid()),
-          LOCAL_GID: String(process.getgid()),
+          LOCAL_UID: process.platform === 'darwin' ? '1000' : String(process.getuid()),
+          LOCAL_GID: process.platform === 'darwin' ? '1000' : String(process.getgid()),
         },
         volumes: [
           { type: 'bind', source: frontend, target: frontend },
@@ -170,6 +170,36 @@ it('generates only machine-specific frontend configuration', async () => {
     '../.local-development/frontend/compose.yml',
   ])
 })
+
+it.each([
+  { platform: 'Darwin', uid: '501', gid: '20', expectedUid: '1000', expectedGid: '1000' },
+  { platform: 'Linux', uid: '1234', gid: '2345', expectedUid: '1234', expectedGid: '2345' },
+])(
+  'selects the container identity for $platform before startup',
+  async ({ platform, uid, gid, expectedUid, expectedGid }) => {
+    const { frontend, backend, bin } = await fixture()
+    await writeFile(join(bin, 'uname'), `#!/bin/sh\nprintf '%s\\n' '${platform}'\n`, {
+      mode: 0o755,
+    })
+    await writeFile(
+      join(bin, 'id'),
+      `#!/bin/sh\ncase "$1" in -u) printf '%s\\n' '${uid}';; -g) printf '%s\\n' '${gid}';; *) exit 1;; esac\n`,
+      { mode: 0o755 }
+    )
+
+    await execute('bash', [join(frontend, '.devcontainer/prepare.sh')], {
+      env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, INTEROP_BE_ROOT: backend },
+    })
+
+    const config = JSON.parse(
+      await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
+    )
+    expect(config.services.frontend.environment).toMatchObject({
+      LOCAL_UID: expectedUid,
+      LOCAL_GID: expectedGid,
+    })
+  }
+)
 
 it('exposes the sibling backend through an idempotent workspace link', async () => {
   const { frontend, backend, run } = await fixture()

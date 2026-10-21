@@ -27,6 +27,14 @@ json_string() {
 }
 
 # Fixed service settings live in .devcontainer/compose.yml.
+if [[ "$(uname -s)" == Darwin ]]; then
+  # Docker Desktop maps bind-mount permissions. Keep node's identity stable for VS Code attachment.
+  runtime_uid=1000
+  runtime_gid=1000
+else
+  runtime_uid="$(id -u)"
+  runtime_gid="$(id -g)"
+fi
 {
   printf '{"services":{"frontend":{"build":{"context":'
   json_string "$FRONTEND_ROOT/.devcontainer"
@@ -34,7 +42,7 @@ json_string() {
   json_string "$FRONTEND_ROOT"
   printf ',"environment":{"INTEROP_FE_ROOT":'
   json_string "$FRONTEND_ROOT"
-  printf ',"LOCAL_UID":"%s","LOCAL_GID":"%s"},' "$(id -u)" "$(id -g)"
+  printf ',"LOCAL_UID":"%s","LOCAL_GID":"%s"},' "$runtime_uid" "$runtime_gid"
   printf '"volumes":[{"type":"bind","source":'
   json_string "$FRONTEND_ROOT"
   printf ',"target":'
