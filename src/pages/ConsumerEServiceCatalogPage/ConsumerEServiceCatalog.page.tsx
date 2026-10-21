@@ -44,7 +44,7 @@ const requesterDelegationRolesOptions: (RequesterDelegationRole | 'ALL')[] = [
   'DELEGATOR',
 ]
 
-const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'RECEIVE', 'DELIVER']
+const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'DELIVER', 'RECEIVE']
 
 const sortByOptions: EServiceSortBy[] = [
   'CREATED_AT_DESC',
