@@ -13,7 +13,7 @@ afterEach(async () => {
   await Promise.all(roots.splice(0).map((path) => rm(path, { recursive: true, force: true })))
 })
 
-async function fixture() {
+async function fixture(options = {}) {
   const root = await mkdtemp(join(tmpdir(), 'interop-frontend-runtime-'))
   roots.push(root)
   let alive = false
@@ -28,20 +28,188 @@ async function fixture() {
   const signal = vi.fn(() => {
     alive = false
   })
+  const owns = vi.fn(async (pid, candidate) => pid === 4242 && candidate === owner && alive)
+  const probe = vi.fn(async () => ({ ok: true }))
   const runtime = createFrontendRuntime({
     root,
     environment: {},
     spawnProcess,
     signal,
-    owns: async (pid, candidate) => pid === 4242 && candidate === owner && alive,
+    owns,
     available: async () => true,
-    probe: async () => ({ ok: true }),
+    probe,
     wait: async () => {},
+    ...options,
   })
-  return { root, runtime, signal, spawnProcess }
+  return { root, runtime, signal, spawnProcess, owns, probe }
 }
 
-async function processFixture({ ignoreTerm = false, childOwner } = {}) {
+it('retries unverified process ownership while the spawned frontend is still alive', async () => {
+  const { runtime, owns, probe, signal } = await fixture()
+  owns.mockResolvedValueOnce(false)
+  await expect(runtime.start('dev')).resolves.toBeUndefined()
+  expect(owns).toHaveBeenCalledTimes(2)
+  expect(probe).toHaveBeenCalledOnce()
+  expect(signal).not.toHaveBeenCalled()
+  await runtime.stop()
+})
+
+it('does not accept readiness or signal a process group whose ownership remains unverified', async () => {
+  const probe = vi.fn(async () => ({ ok: true }))
+  const { runtime, signal } = await fixture({ owns: async () => false, probe })
+  await expect(runtime.start('dev')).rejects.toThrow('Vite readiness timed out')
+  expect(probe).not.toHaveBeenCalled()
+  expect(signal).not.toHaveBeenCalled()
+  expect(await runtime.status()).toEqual({ running: false })
+})
+
+it('retains launcher exit details when process group existence cannot be confirmed', async () => {
+  const { runtime, spawnProcess, signal } = await fixture({
+    owns: async () => false,
+    wait: async () => spawnProcess.mock.results[0].value.emit('exit', 7, null),
+  })
+  const check = vi.spyOn(process, 'kill').mockImplementation(() => {
+    throw Object.assign(new Error('Process visibility denied'), { code: 'EPERM' })
+  })
+  try {
+    await expect(runtime.start('dev')).rejects.toThrow(
+      'Vite readiness timed out (launcher exit code 7)'
+    )
+    expect(check).toHaveBeenCalledWith(-4242, 0)
+    expect(check.mock.calls.every(([, signal]) => signal === 0)).toBe(true)
+    expect(signal).not.toHaveBeenCalled()
+  } finally {
+    check.mockRestore()
+  }
+})
+
+it.each([
+  { name: 'exit code', exit: 'exit 23', detail: 'exit code 23', padding: 'x'.repeat(70_000) },
+  { name: 'signal', exit: 'kill -TERM $$', detail: 'signal SIGTERM', padding: '' },
+  {
+    name: 'long token',
+    exit: 'exit 23',
+    detail: 'exit code 23',
+    padding: 'x'.repeat(12_000),
+    fileToken: `fileheader.${'filepayload'.repeat(1000)}.filesignature`,
+  },
+  {
+    name: 'overlapping tokens',
+    exit: 'exit 23',
+    detail: 'exit code 23',
+    padding: '',
+    fileToken: 'fileenvironmentheader.environmentpayload.environmentsignature',
+  },
+  {
+    name: 'empty log and early exit',
+    exit: 'exit 23',
+    detail: 'exit code 23',
+    padding: '',
+    output: false,
+    exitsBeforeSpawnContinuation: true,
+  },
+])(
+  'reports the actual startup failure and a bounded private log excerpt ($name)',
+  async ({
+    exit,
+    detail,
+    padding,
+    fileToken = 'fileheader.filepayload.filesignature',
+    output = true,
+    exitsBeforeSpawnContinuation = false,
+  }) => {
+    const root = await mkdtemp(join(tmpdir(), 'interop-frontend-startup-failure-'))
+    roots.push(root)
+    const scriptRoot = join(root, 'scripts/local-development')
+    const stateRoot = join(root, '.local-development/frontend')
+    const tokenFile = join(root, 'selected-token')
+    const environmentToken = 'environmentheader.environmentpayload.environmentsignature'
+    await mkdir(scriptRoot, { recursive: true })
+    await mkdir(stateRoot, { recursive: true })
+    await writeFile(tokenFile, `${fileToken}\n`)
+    await writeFile(
+      join(stateRoot, 'vite.log'),
+      output ? 'stale failure from a previous start\n' : ''
+    )
+    await writeFile(
+      join(scriptRoot, 'run-frontend.sh'),
+      [
+        output
+          ? [
+              'printf "%s\\n" "$INTEROP_TEST_PADDING" >&2',
+              'IFS= read -r file_token < "$INTEROP_FRONTEND_TOKEN_FILE"',
+              'printf "current startup failure: %s %s\\n" "$file_token" "$REACT_APP_MOCK_TOKEN" >&2',
+            ].join('\n')
+          : '',
+        exit,
+      ].join('\n')
+    )
+    let child
+    const runtime = createFrontendRuntime({
+      root,
+      environment: {
+        INTEROP_FRONTEND_TOKEN_FILE: tokenFile,
+        REACT_APP_MOCK_TOKEN: environmentToken,
+        INTEROP_TEST_PADDING: padding,
+      },
+      available: async () => true,
+      probe: async () => ({ ok: false }),
+      spawnProcess: (...args) => {
+        child = spawn(...args)
+        if (!exitsBeforeSpawnContinuation) return child
+        // Delay the spawn notification until the real child has exited, so an
+        // exit listener installed after awaiting spawn would miss the event.
+        const notifications = Object.assign(new EventEmitter(), {
+          pid: child.pid,
+          unref: () => child.unref(),
+        })
+        child.once('error', (error) => notifications.emit('error', error))
+        child.once('exit', (code, signal) => {
+          notifications.emit('exit', code, signal)
+          notifications.emit('spawn')
+        })
+        return notifications
+      },
+      wait: (ms) => new Promise((resolve) => setTimeout(resolve, Math.min(ms, 10))),
+    })
+    try {
+      const error = await runtime.start('local').catch((failure) => failure)
+      expect(error).toBeInstanceOf(Error)
+      expect(error.message).toContain(detail)
+      expect(error.message).toContain(join(stateRoot, 'vite.log'))
+      expect(error.message).toContain(
+        output
+          ? 'current startup failure: [redacted] [redacted]'
+          : '(no log output from this start)'
+      )
+      expect(error.message).not.toContain('stale failure')
+      expect(error.message).not.toContain(fileToken)
+      expect(error.message).not.toContain('filepayload')
+      expect(error.message).not.toContain(environmentToken)
+      expect(error.message.length).toBeLessThan(9_000)
+      await expect(readFile(join(stateRoot, 'process.json'))).rejects.toMatchObject({
+        code: 'ENOENT',
+      })
+      expect(child.exitCode !== null || child.signalCode !== null).toBe(true)
+      expect(() => process.kill(child.pid, 0)).toThrow()
+    } finally {
+      await runtime.stop()
+      if (child && child.exitCode === null && child.signalCode === null) {
+        const exited = new Promise((resolve) => child.once('exit', resolve))
+        child.kill('SIGKILL')
+        await exited
+      }
+    }
+  }
+)
+
+async function processFixture({
+  ignoreTerm = false,
+  childOwner,
+  leaderExits = false,
+  probe,
+  owns,
+} = {}) {
   const root = await mkdtemp(join(tmpdir(), 'interop-frontend-process-'))
   roots.push(root)
   const listener = createServer()
@@ -67,7 +235,7 @@ async function processFixture({ ignoreTerm = false, childOwner } = {}) {
       ' },',
     "  stdio: 'ignore',",
     '}).unref()',
-    'setInterval(() => {}, 1000)',
+    leaderExits ? '' : 'setInterval(() => {}, 1000)',
   ].join('\n')
   const leaders = []
   const spawnProcess = vi.fn((_command, _args, options) => {
@@ -84,6 +252,8 @@ async function processFixture({ ignoreTerm = false, childOwner } = {}) {
     root,
     environment,
     spawnProcess,
+    probe,
+    owns,
     wait: (ms) => new Promise((resolve) => setTimeout(resolve, Math.min(ms, 10))),
   })
   return {
@@ -111,6 +281,45 @@ async function processFixture({ ignoreTerm = false, childOwner } = {}) {
     },
   }
 }
+
+it('waits for the owned frontend descendant when its launcher exits during startup', async () => {
+  let ownershipDeferred = false
+  const probe = vi.fn(async (...args) => {
+    const leader = setup.leaders[0]
+    if (probe.mock.calls.length === 1) {
+      if (leader.exitCode === null && leader.signalCode === null) {
+        await new Promise((resolve) => leader.once('exit', resolve))
+      }
+      return { ok: false }
+    }
+    expect(leader.exitCode).toBe(0)
+    return fetch(...args)
+  })
+  const setup = await processFixture({
+    leaderExits: true,
+    probe,
+    owns: async () => {
+      if (probe.mock.calls.length === 1 && !ownershipDeferred) {
+        ownershipDeferred = true
+        return false
+      }
+      return (await verifier.status()).running
+    },
+  })
+  const verifier = createFrontendRuntime({ root: setup.root })
+  const { runtime, leaders, cleanup } = setup
+  try {
+    await runtime.start('dev')
+    expect(ownershipDeferred).toBe(true)
+    expect(probe.mock.calls.length).toBeGreaterThan(1)
+    expect(leaders[0].exitCode).toBe(0)
+    expect((await runtime.status()).running).toBe(true)
+    await runtime.stop()
+    expect(await runtime.status()).toEqual({ running: false })
+  } finally {
+    await cleanup()
+  }
+})
 
 it('stops the live owned child while its exited group leader remains a zombie', async () => {
   const { root, runtime, environment, childFile, leaderSource, port } = await processFixture()

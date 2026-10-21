@@ -251,9 +251,11 @@ browser caches use Docker volumes and survive ordinary stops.
 ### A startup phase fails
 
 Open **Fullstack status** for the failing phase and its backend operation details.
-Inspect frontend output in the log files above. For a Vite startup error, read
-`.local-development/frontend/vite.log` first. Fix the reported cause, then run
-`pnpm local:start`. An interrupted operation also requires an explicit retry.
+Inspect frontend output in the log files above. Vite startup failures include
+the exit code or signal when available and a recent log excerpt from that
+startup attempt. Read `.local-development/frontend/vite.log` for the full
+output. Fix the reported cause, then run `pnpm local:start`. An interrupted
+operation also requires an explicit retry.
 
 ### The dashboard does not open automatically
 

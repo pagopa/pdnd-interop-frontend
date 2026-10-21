@@ -58,6 +58,16 @@ async function ownsProcessGroup(group, owner) {
   }
 }
 
+function processGroupExists(group) {
+  try {
+    // Signal 0 only checks existence; it neither signals nor verifies ownership.
+    process.kill(-group, 0)
+    return true
+  } catch (error) {
+    return error.code !== 'ESRCH'
+  }
+}
+
 function portAvailable(port) {
   return new Promise((resolve) => {
     const socket = createConnection({ host: '127.0.0.1', port })
@@ -132,6 +142,7 @@ export function createFrontendRuntime({
 } = {}) {
   const stateRoot = join(root, '.local-development/frontend')
   const processFile = join(stateRoot, 'process.json')
+  const logFile = join(stateRoot, 'vite.log')
   const tokenFile =
     environment.INTEROP_FRONTEND_TOKEN_FILE ?? join(root, '.local-development/frontend-token')
   const port = Number(environment.INTEROP_FRONTEND_PORT ?? 5173)
@@ -185,6 +196,43 @@ export function createFrontendRuntime({
     await rm(processFile, { force: true })
   }
 
+  async function startupError(message, logStart) {
+    let file
+    let excerpt
+    try {
+      const tokens = [environment.REACT_APP_MOCK_TOKEN]
+      try {
+        tokens.push((await readFile(tokenFile, 'utf8')).replaceAll('\n', ''))
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error
+      }
+      file = await open(logFile, 'r')
+      const { size } = await file.stat()
+      const start = Math.max(logStart, size - 65_536)
+      const buffer = Buffer.alloc(Math.max(0, size - start))
+      const { bytesRead } = await file.read(buffer, 0, buffer.length, start)
+      excerpt = buffer.subarray(0, bytesRead).toString('utf8')
+      // Omit a truncated first line, including any partial session token.
+      if (start > logStart) {
+        const boundary = excerpt.indexOf('\n')
+        excerpt = boundary === -1 ? '' : excerpt.slice(boundary + 1)
+      }
+      for (const token of tokens
+        .filter(Boolean)
+        .sort((left, right) => right.length - left.length)) {
+        excerpt = excerpt.replaceAll(token, '[redacted]')
+      }
+      excerpt =
+        excerpt.slice(-8192).trimEnd() ||
+        (bytesRead ? '(no complete log output from this start)' : '(no log output from this start)')
+    } catch {
+      excerpt = '(startup log excerpt unavailable)'
+    } finally {
+      await file?.close()
+    }
+    return new Error(`${message}; log: ${logFile}\n${excerpt}`)
+  }
+
   async function start(mode) {
     assertActive()
     const commandSignal = activeCommand?.signal
@@ -195,10 +243,15 @@ export function createFrontendRuntime({
     if (!(await available(port))) throw new Error(`Frontend port ${port} is already in use`)
     assertActive()
     await mkdir(stateRoot, { recursive: true })
-    const output = await open(join(stateRoot, 'vite.log'), 'a', 0o600)
+    const output = await open(logFile, 'a', 0o600)
     const owner = randomUUID()
+    let logStart
     let child
+    let childExit
+    const exitDetail = () =>
+      childExit.signal ? `signal ${childExit.signal}` : `exit code ${childExit.code}`
     try {
+      logStart = (await output.stat()).size
       assertActive()
       child = spawnProcess(
         'bash',
@@ -210,6 +263,9 @@ export function createFrontendRuntime({
           stdio: ['ignore', output.fd, output.fd],
         }
       )
+      child.once('exit', (code, signal) => {
+        childExit = { code, signal }
+      })
       await new Promise((resolve, reject) => {
         child.once('spawn', resolve)
         child.once('error', reject)
@@ -223,23 +279,32 @@ export function createFrontendRuntime({
     try {
       for (let attempt = 0; attempt < 180; attempt += 1) {
         assertActive()
-        if (!(await owns(child.pid, owner)))
-          throw new Error('Vite exited during startup; inspect frontend/vite.log')
-        try {
-          const response = await probe(`http://127.0.0.1:${port}/ui/it/`, {
-            signal: commandSignal
-              ? AbortSignal.any([commandSignal, AbortSignal.timeout(2000)])
-              : AbortSignal.timeout(2000),
-          })
-          assertActive()
-          if (response.ok) return
-        } catch {
-          assertActive()
-          /* Vite may still be initializing. */
+        const owned = await owns(child.pid, owner)
+        if (!owned && childExit && !processGroupExists(child.pid)) {
+          throw await startupError(`Vite exited during startup (${exitDetail()})`, logStart)
+        }
+        // /proc can temporarily fail to verify a live child. Only probe a
+        // verified group, and keep accepting owned descendants after leader exit.
+        if (owned) {
+          try {
+            const response = await probe(`http://127.0.0.1:${port}/ui/it/`, {
+              signal: commandSignal
+                ? AbortSignal.any([commandSignal, AbortSignal.timeout(2000)])
+                : AbortSignal.timeout(2000),
+            })
+            assertActive()
+            if (response.ok) return
+          } catch {
+            assertActive()
+            /* Vite may still be initializing. */
+          }
         }
         await wait(500, commandSignal)
       }
-      throw new Error('Vite readiness timed out; inspect frontend/vite.log')
+      throw await startupError(
+        `Vite readiness timed out${childExit ? ` (launcher ${exitDetail()})` : ''}`,
+        logStart
+      )
     } catch (error) {
       await stop()
       throw error
