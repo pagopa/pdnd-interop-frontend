@@ -197,6 +197,10 @@ Docker Desktop maps bind-mount permissions. Regenerate the configuration through
 initialization after moving the checkouts. For host-only editing before the
 first container start, prepare the workspace with `bash .devcontainer/initialize.sh`.
 
+The frontend entrypoint registers both mounted checkout paths as Git safe
+directories for `node`. Git and Husky can then use the checkouts even when Docker
+Desktop reports a different owner for the mounted files.
+
 The Compose configuration provides these internal targets:
 
 | Setting                        | Value                              | Used by                                             |

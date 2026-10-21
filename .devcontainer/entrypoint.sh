@@ -18,6 +18,14 @@ if [[ "${1:-}" != --user ]]; then
   exec gosu node /usr/local/bin/frontend-entrypoint --user
 fi
 
+for repository in "$INTEROP_FE_ROOT" "$INTEROP_FE_ROOT/.local-development/interop-be-monorepo"; do
+  [[ -e "$repository/.git" ]] || continue
+  repository="$(cd "$repository" && pwd -P)"
+  if ! git config --global --get-all safe.directory | grep -Fxq -- "$repository"; then
+    git config --global --add safe.directory "$repository"
+  fi
+done
+
 cd "$INTEROP_FE_ROOT"
 mkdir -p .local-development/frontend
 exec > >(tee -a .local-development/frontend/startup.log) 2>&1

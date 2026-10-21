@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { afterEach, expect, it } from 'vitest'
 import { execFile } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -35,6 +35,7 @@ async function fixture({
       owners: Object.fromEntries(
         volumes.map((volume) => [volume, owned ? `${uid}:${gid}` : previousOwner])
       ),
+      safeDirectories: [],
       calls: [],
     })
   )
@@ -47,7 +48,7 @@ import { spawnSync } from 'node:child_process';
 const name = basename(process.argv[1]);
 const args = process.argv.slice(2);
 const state = JSON.parse(readFileSync(process.env.BOOTSTRAP_STATE, 'utf8'));
-state.calls.push({ name, args });
+state.calls.push({ name, args, user: state.user });
 let output = '';
 let code = 0;
 if (name === 'id') output = args[0] === '-g' ? state.gid : state.uid;
@@ -57,6 +58,13 @@ else if (name === 'mountpoint') code = args[1] === process.env.BOOTSTRAP_MISSING
 else if (name === 'stat') output = state.owners[args[2]];
 else if (name === 'chown') state.owners[args[2]] = args[1];
 else if (name === 'gosu') state.user = args[0];
+else if (name === 'git') {
+  if (args.includes('--get-all')) {
+    output = state.safeDirectories.join('\\n');
+    code = state.safeDirectories.length ? 0 : 1;
+  } else if (args.includes('--add')) state.safeDirectories.push(args.at(-1));
+  else code = 1;
+}
 else if (name === 'node') {
   state.launcher = { user: state.user, cwd: process.cwd(), args };
   output = 'Frontend launcher started';
@@ -70,7 +78,17 @@ if (name === 'gosu') {
   process.exitCode = result.status ?? 1;
 } else process.exitCode = code;
 `
-  for (const name of ['id', 'groupmod', 'usermod', 'mountpoint', 'stat', 'chown', 'gosu', 'node']) {
+  for (const name of [
+    'id',
+    'groupmod',
+    'usermod',
+    'mountpoint',
+    'stat',
+    'chown',
+    'gosu',
+    'git',
+    'node',
+  ]) {
     await writeFile(join(bin, name), command, { mode: 0o755 })
   }
   const run = () =>
@@ -135,6 +153,27 @@ it('repairs volumes from a macOS UID without changing the container user', async
   const result = await state()
   expect(result.calls.some(({ name }) => name === 'groupmod' || name === 'usermod')).toBe(false)
   expect(result.owners).toEqual(Object.fromEntries(volumes.map((volume) => [volume, '1000:1000'])))
+  expect(result.launcher.user).toBe('node')
+})
+
+it('trusts only the mounted Git checkouts as node and keeps the configuration idempotent', async () => {
+  const { root, run, state } = await fixture({ uid: '1000', gid: '1000', owned: true })
+  const backend = join(root, 'backend checkout')
+  await mkdir(join(root, '.git'))
+  await mkdir(join(backend, '.git'), { recursive: true })
+  await mkdir(join(root, '.local-development'))
+  await symlink(backend, join(root, '.local-development/interop-be-monorepo'))
+
+  await run()
+  await run()
+
+  const result = await state()
+  expect(result.safeDirectories).toEqual([root, backend])
+  const additions = result.calls.filter(
+    ({ name, args }) => name === 'git' && args.includes('--add')
+  )
+  expect(additions).toHaveLength(2)
+  expect(additions.every(({ user }) => user === 'node')).toBe(true)
   expect(result.launcher.user).toBe('node')
 })
 
