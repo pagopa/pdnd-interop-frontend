@@ -33,6 +33,7 @@ export type CardDashboardAction = {
 export type CardDashboardProps = {
   heading: string
   subtitle?: string
+  locale?: string
   content: CardDashboardContent
   action?: CardDashboardAction
   footer?: string
@@ -75,13 +76,14 @@ function DashboardDonut({ data, label }: Readonly<DashboardDonutProps>) {
 export function CardDashboard({
   heading,
   subtitle,
+  locale = 'it-IT',
   content,
   action,
   footer,
 }: Readonly<CardDashboardProps>) {
   const headingId = useId()
   const theme = useTheme()
-  const numberFormatter = new Intl.NumberFormat('it-IT', { maximumFractionDigits: 1 })
+  const numberFormatter = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 })
   const valueStyles = {
     fontSize: 56,
     fontWeight: 700,
@@ -119,7 +121,7 @@ export function CardDashboard({
   if (content.kind === 'consumption') {
     const ratio = content.limit > 0 ? content.used / content.limit : 0
     const visualRatio = Math.min(1, Math.max(0, ratio))
-    const percentage = new Intl.NumberFormat('it-IT', {
+    const percentage = new Intl.NumberFormat(locale, {
       style: 'percent',
       maximumFractionDigits: 0,
     }).format(ratio)

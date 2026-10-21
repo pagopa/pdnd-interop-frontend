@@ -58,14 +58,21 @@ describe('CardDashboard', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
 
-  it('formats metric fractions with grouping in it-IT', () => {
-    renderCard({
-      heading: 'Services',
-      content: { kind: 'metric', metric: { value: 12200.5, label: 'Total' } },
-    })
+  it.each([
+    { locale: undefined, formatted: '12.200,5' },
+    { locale: 'en-US', formatted: '12,200.5' },
+  ])(
+    'formats metric fractions with grouping for locale $locale (default it-IT)',
+    ({ locale, formatted }) => {
+      renderCard({
+        heading: 'Services',
+        locale,
+        content: { kind: 'metric', metric: { value: 12200.5, label: 'Total' } },
+      })
 
-    expect(screen.getByText('12.200,5')).toBeVisible()
-  })
+      expect(screen.getByText(formatted)).toBeVisible()
+    }
+  )
 
   it('renders multiple metrics as vertically stacked, inline value-label pairs', () => {
     renderCard({
@@ -148,16 +155,26 @@ describe('CardDashboard', () => {
     expect(arcs[0].getAttribute('d')).not.toBe(arcs[1].getAttribute('d'))
   })
 
-  it('uses fixed it-IT formatting for decimal consumption amounts and percentage', () => {
-    renderCard({
-      heading: 'Usage',
-      content: { kind: 'consumption', used: 12200.5, limit: 20000, unitLabel: 'Calls' },
-    })
+  it.each([
+    { locale: undefined, amount: '12.200,5 / 20.000', percentage: '61%' },
+    { locale: 'en-US', amount: '12,200.5 / 20,000', percentage: '61%' },
+    { locale: 'de-DE', amount: '12.200,5 / 20.000', percentage: '61\u00a0%' },
+  ])(
+    'formats decimal consumption amounts and percentage for locale $locale (default it-IT)',
+    ({ locale, amount, percentage }) => {
+      renderCard({
+        heading: 'Usage',
+        locale,
+        content: { kind: 'consumption', used: 12200.5, limit: 20000, unitLabel: 'Calls' },
+      })
 
-    expect(screen.getByText('12.200,5 / 20.000')).toBeVisible()
-    expect(screen.getByText('61%')).toBeVisible()
-    getArcs(screen.getByRole('img', { name: '61%; 12.200,5 / 20.000 Calls' }))
-  })
+      expect(screen.getByText(amount)).toBeVisible()
+      expect(screen.getByText(percentage, { normalizer: (text) => text })).toBeVisible()
+      const chart = screen.getByRole('img')
+      expect(chart).toHaveAttribute('aria-label', `${percentage}; ${amount} Calls`)
+      getArcs(chart)
+    }
+  )
 
   it.each([
     { used: 0, limit: 0, amount: '0 / 0' },
