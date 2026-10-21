@@ -216,7 +216,9 @@ describe('queryClient error toasts', () => {
     context?: unknown
   ) => {
     const mutationCache = queryClient.getMutationCache()
-    const mutation = mutationCache.build(queryClient, { meta })
+    const mutation = mutationCache.build(queryClient, {
+      meta: meta as (MutationMeta & Record<string, unknown>) | undefined,
+    })
     if (!mutationCache.config.onError) throw new Error('Missing mutation cache onError callback')
     return mutationCache.config.onError(error, variables, context, mutation)
   }
@@ -475,7 +477,9 @@ describe('queryClient error toasts', () => {
     ].flatMap((testCase) => [true, false].map((valid) => ({ ...testCase, valid })))
   )('handles $name without a fallback (valid backend: $valid)', ({ meta, valid }) => {
     const mutationCache = queryClient.getMutationCache()
-    const mutation = mutationCache.build(queryClient, { meta })
+    const mutation = mutationCache.build(queryClient, {
+      meta: meta as (MutationMeta & Record<string, unknown>) | undefined,
+    })
     if (!mutationCache.config.onError) throw new Error('Missing mutation cache onError callback')
 
     mutationCache.config.onError(

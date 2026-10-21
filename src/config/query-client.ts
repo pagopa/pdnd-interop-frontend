@@ -12,7 +12,7 @@ import {
 } from '@tanstack/react-query'
 import { AxiosError, isAxiosError } from 'axios'
 import type { DialogDescriptionLink } from '@/types/dialog.types'
-import configuredI18n from './react-i18next'
+import configuredI18n from 'i18next'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
