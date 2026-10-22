@@ -93,13 +93,13 @@ describe('AdditionalFilters', () => {
     await waitFor(() => expect(screen.queryByText('title')).not.toBeInTheDocument())
   })
 
-  it('calls onChangeActiveFilters with default values on reset and closes the drawer', async () => {
+  it('calls onChangeActiveFilters with default values on reset and the drawer stays open', async () => {
     renderComponent({ q: 'abc' })
     fireEvent.click(screen.getByRole('button', { name: 'trigger' }))
     fireEvent.click(screen.getByRole('button', { name: 'actions.reset' }))
 
     expect(onChangeActiveFilters).toHaveBeenCalledWith({ q: '', name: '' })
-    await waitFor(() => expect(screen.queryByText('title')).not.toBeInTheDocument())
+    expect(screen.getByText('title')).toBeInTheDocument()
   })
 
   it('closes the drawer and discards unsaved changes via the close button', async () => {
