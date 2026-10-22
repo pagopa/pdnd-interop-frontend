@@ -41,9 +41,24 @@ async function fixture({ startupFailure = false, dashboardRunning = false } = {}
   )
   await mkdir(join(backend, '.git'), { recursive: true })
   await mkdir(join(backend, 'scripts/local-development'), { recursive: true })
+  const backendCallsFile = join(directory, 'backend-calls.txt')
+  const prepareInputFile = join(backend, 'prepare-input.json')
+  const prepareFailureFile = join(backend, 'prepare-failure')
+  await writeFile(prepareInputFile, JSON.stringify({ services: { dashboard: {} } }))
   await writeFile(
     join(backend, 'scripts/local-development/dashboard.sh'),
-    '#!/usr/bin/env bash\nmkdir -p "$INTEROP_BE_ROOT/.local-development/dashboard"\nprintf \'{"services":{"dashboard":{}}}\\n\' > "$INTEROP_BE_ROOT/.local-development/dashboard/compose.yml"\n'
+    `#!/usr/bin/env bash
+set -euo pipefail
+[[ "$1" == prepare ]]
+printf '%s:%s\\n' "$1" "$INTEROP_BE_ROOT" >> "$DASHBOARD_TEST_CALLS"
+if [[ -f "$INTEROP_BE_ROOT/prepare-failure" ]]; then
+  echo 'Backend preparation failed' >&2
+  exit 1
+fi
+mkdir -p "$INTEROP_BE_ROOT/.local-development/dashboard"
+cp "$INTEROP_BE_ROOT/prepare-input.json" "$INTEROP_BE_ROOT/.local-development/dashboard/compose.yml.tmp"
+mv "$INTEROP_BE_ROOT/.local-development/dashboard/compose.yml.tmp" "$INTEROP_BE_ROOT/.local-development/dashboard/compose.yml"
+`
   )
   const stateFile = join(directory, 'docker-state.json')
   const callsFile = join(directory, 'docker-calls.jsonl')
@@ -83,12 +98,24 @@ fs.writeFileSync(process.env.DOCKER_TEST_STATE, JSON.stringify(state));
     INTEROP_BE_ROOT: backend,
     DOCKER_TEST_STATE: stateFile,
     DOCKER_TEST_CALLS: callsFile,
+    DASHBOARD_TEST_CALLS: backendCallsFile,
     ...(startupFailure ? { DOCKER_TEST_FAILURE: 'true' } : {}),
   }
   delete env.INTEROP_FRONTEND_RUNTIME
   const run = (command) =>
     execute('bash', [join(frontend, 'scripts/local-development/fullstack.sh'), command], { env })
-  return { frontend, backend, bin, run, callsFile, stateFile }
+  return {
+    frontend,
+    backend,
+    bin,
+    run,
+    env,
+    callsFile,
+    stateFile,
+    backendCallsFile,
+    prepareInputFile,
+    prepareFailureFile,
+  }
 }
 
 it('restarts the frontend launcher when a host start follows stop on the same container', async () => {
@@ -157,7 +184,9 @@ it('generates only machine-specific frontend configuration', async () => {
     .map((line) => JSON.parse(line))
   for (const args of calls.filter((args) => args[0] === 'compose')) {
     const files = args.flatMap((arg, index) => (arg === '-f' ? [args[index + 1]] : []))
-    expect(files.slice(-2)).toEqual([
+    expect(files).toEqual([
+      join(backend, 'docker/docker-compose.yml'),
+      join(backend, '.local-development/dashboard/compose.yml'),
       join(frontend, '.devcontainer/compose.yml'),
       join(frontend, '.local-development/frontend/compose.yml'),
     ])
@@ -165,7 +194,9 @@ it('generates only machine-specific frontend configuration', async () => {
   const devcontainer = JSON.parse(
     await readFile(join(frontend, '.devcontainer/devcontainer.json'), 'utf8')
   )
-  expect(devcontainer.dockerComposeFile.slice(-2)).toEqual([
+  expect(devcontainer.dockerComposeFile).toEqual([
+    '../../interop-be-monorepo/docker/docker-compose.yml',
+    '../../interop-be-monorepo/.local-development/dashboard/compose.yml',
     'compose.yml',
     '../.local-development/frontend/compose.yml',
   ])
@@ -347,7 +378,57 @@ it('reports failed startup immediately while leaving its editor container runnin
   expect(calls.some((args) => args.includes('logs'))).toBe(true)
 })
 
-it('preserves an existing standalone backend overlay and its startup settings', async () => {
+it('regenerates the backend override at every start after package or environment changes', async () => {
+  const { backend, run, prepareInputFile, backendCallsFile } = await fixture()
+  await run('start')
+  const path = join(backend, '.local-development/dashboard/compose.yml')
+  expect(JSON.parse(await readFile(path, 'utf8'))).toEqual({ services: { dashboard: {} } })
+  const updated = {
+    services: {
+      dashboard: {
+        ports: ['13001:3001'],
+        environment: { DASHBOARD_AUTOSTART_PRESET: 'tenant-seeding' },
+      },
+    },
+  }
+  await writeFile(prepareInputFile, JSON.stringify(updated))
+  await run('start')
+  expect(JSON.parse(await readFile(path, 'utf8'))).toEqual(updated)
+  expect((await readFile(backendCallsFile, 'utf8')).trim().split('\n')).toEqual([
+    `prepare:${backend}`,
+    `prepare:${backend}`,
+  ])
+})
+
+it('passes the resolved sibling backend root to preparation when INTEROP_BE_ROOT is unset', async () => {
+  const { frontend, backend, env, backendCallsFile } = await fixture()
+  const siblingBackend = join(frontend, '../interop-be-monorepo')
+  await rename(backend, siblingBackend)
+  delete env.INTEROP_BE_ROOT
+  await execute('bash', [join(frontend, '.devcontainer/initialize.sh')], { env })
+  expect((await readFile(backendCallsFile, 'utf8')).trim()).toBe(`prepare:${siblingBackend}`)
+  expect(await realpath(join(frontend, '.local-development/interop-be-monorepo'))).toBe(
+    siblingBackend
+  )
+})
+
+it('aborts startup if backend preparation fails and preserves the last valid override', async () => {
+  const { backend, run, callsFile, backendCallsFile, prepareFailureFile } = await fixture()
+  await run('start')
+  const path = join(backend, '.local-development/dashboard/compose.yml')
+  const previousOverride = await readFile(path, 'utf8')
+  const previousCalls = await readFile(callsFile, 'utf8')
+  await writeFile(prepareFailureFile, 'fail')
+  await expect(run('start')).rejects.toThrow('Backend preparation failed')
+  expect(await readFile(path, 'utf8')).toBe(previousOverride)
+  expect(await readFile(callsFile, 'utf8')).toBe(previousCalls)
+  expect((await readFile(backendCallsFile, 'utf8')).trim().split('\n')).toEqual([
+    `prepare:${backend}`,
+    `prepare:${backend}`,
+  ])
+})
+
+it('regenerates a legacy backend override from current backend configuration', async () => {
   const { backend, run } = await fixture()
   const directory = join(backend, '.local-development/dashboard')
   await mkdir(directory, { recursive: true })
@@ -355,11 +436,11 @@ it('preserves an existing standalone backend overlay and its startup settings', 
   const original = JSON.stringify({
     services: {
       dashboard: {
-        environment: { DASHBOARD_AUTOSTART: 'false', DASHBOARD_AUTOSTART_PRESET: 'tenant-seeding' },
+        environment: { INTEROP_FE_ROOT: '/legacy/frontend', DASHBOARD_AUTOSTART: 'false' },
       },
     },
   })
   await writeFile(path, original)
   await run('start')
-  expect(await readFile(path, 'utf8')).toBe(original)
+  expect(JSON.parse(await readFile(path, 'utf8'))).toEqual({ services: { dashboard: {} } })
 })
