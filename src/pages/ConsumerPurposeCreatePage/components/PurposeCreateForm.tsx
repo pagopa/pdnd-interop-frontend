@@ -188,6 +188,7 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
           const purposeId = data.id
           navigate('SUBSCRIBE_PURPOSE_EDIT', {
             params: { purposeId },
+            state: { isFirstEdit: true },
           })
         },
       })
@@ -210,6 +211,7 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
           const purposeId = data.id
           navigate('SUBSCRIBE_PURPOSE_EDIT', {
             params: { purposeId },
+            state: { isFirstEdit: true },
           })
         },
       })
