@@ -1,5 +1,6 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { HeadSection } from '../HeadSection'
 import type { ActionItemButton } from '@/types/common.types'
 
@@ -84,5 +85,33 @@ describe('HeadSection', () => {
 
     const description = headSection.queryByText('description')
     expect(description).toBeInTheDocument()
+  })
+
+  it('should keep disabled tooltiped action accessible and non-clickable', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn()
+    const tooltip = 'Disabled action tooltip'
+
+    const actions: ActionItemButton[] = [
+      {
+        label: 'disabled action',
+        action,
+        disabled: true,
+        tooltip,
+      },
+    ]
+
+    render(<HeadSection title="title" description="description" actions={actions} />)
+
+    const actionButton = screen.getByRole('button', { name: 'disabled action' })
+    expect(actionButton).toHaveAttribute('aria-disabled', 'true')
+    expect(actionButton).toHaveAccessibleDescription(tooltip)
+
+    await user.tab()
+    expect(actionButton).toHaveFocus()
+    expect(actionButton.parentElement).not.toHaveAttribute('tabindex')
+
+    fireEvent.click(actionButton)
+    expect(action).not.toHaveBeenCalled()
   })
 })
