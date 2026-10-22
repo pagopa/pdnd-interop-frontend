@@ -719,7 +719,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU',
@@ -735,7 +735,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
