@@ -6,7 +6,15 @@ import { vi } from 'vitest'
 import { CardDashboard } from '../CardDashboard'
 import type { CardDashboardProps, CardDashboardStatus } from '../CardDashboard'
 
-const theme = createTheme()
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: { height: '48px' },
+      },
+    },
+  },
+})
 const statuses: CardDashboardStatus[] = [
   { id: 'active', label: 'Attivi', count: 15, color: '#008000' },
   { id: 'draft', label: 'Bozze', count: 3, color: '#0000ff' },
@@ -268,6 +276,7 @@ describe('CardDashboard', () => {
     const button = screen.getByRole('button', { name: 'Aggiungi e-service' })
     expect(button).toHaveAttribute('type', 'button')
     expect(button).toHaveClass('MuiButton-contained')
+    expect(button).toHaveStyle({ height: '48px' })
     expect(button).not.toHaveStyle({ padding: '0px' })
     expect(button.querySelector('.MuiButton-startIcon')).toContainElement(
       within(button).getByTestId('AddIcon')
@@ -291,7 +300,7 @@ describe('CardDashboard', () => {
     expect(button.tagName).toBe('BUTTON')
     expect(button).toHaveAttribute('type', 'button')
     expect(button).toHaveClass('MuiButton-text')
-    expect(button).toHaveStyle({ padding: '0px' })
+    expect(button).toHaveStyle({ padding: '0px', height: 'auto' })
     expect(button).not.toHaveAttribute('href')
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
     expect(button.querySelector('.MuiButton-endIcon')).toContainElement(
@@ -330,6 +339,12 @@ describe('CardDashboard', () => {
     const section = screen.getByRole('region', { name: 'E-service' })
     const heading = within(section).getByRole('heading', { level: 3, name: 'E-service' })
     expect(section.tagName).toBe('SECTION')
+    expect(section).toHaveStyle({
+      paddingTop: '1.25rem',
+      paddingBottom: '1.25rem',
+      paddingLeft: '1rem',
+      paddingRight: '1rem',
+    })
     expect(section).toHaveAttribute('aria-labelledby', heading.id)
     expect(within(section).getByText('Ultimo aggiornamento')).toBeVisible()
     expect(within(section).getByText('Dati aggiornati ogni giorno')).toBeVisible()

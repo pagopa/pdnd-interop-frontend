@@ -35,19 +35,24 @@ export default function ProviderDashboardPage() {
     currentRoles.includes(role)
   )
   const statuses = [
-    { id: 'active', label: t('statuses.active'), count: 15, color: theme.palette.success.main },
+    { id: 'active', label: t('statuses.active'), count: 15, color: theme.palette.success.dark },
     {
       id: 'suspended',
       label: t('statuses.suspended'),
       count: 3,
-      color: theme.palette.warning.main,
+      color: theme.palette.error.dark,
     },
-    { id: 'archiving', label: t('statuses.archiving'), count: 2, color: theme.palette.info.main },
+    {
+      id: 'archiving',
+      label: t('statuses.archiving'),
+      count: 2,
+      color: theme.palette.primary.main,
+    },
     {
       id: 'suspendedArchiving',
       label: t('statuses.suspendedArchiving'),
       count: 0,
-      color: theme.palette.error.main,
+      color: theme.palette.info.main,
     },
   ]
   const metrics = [

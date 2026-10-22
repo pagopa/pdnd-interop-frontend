@@ -145,7 +145,8 @@ export function CardDashboard({
         height: '100%',
         minHeight: { xs: 'auto', sm: 365 },
         minWidth: 0,
-        p: { xs: 2.5, sm: 3 },
+        py: '1.25rem',
+        px: '1rem',
         borderRadius: '8px',
         bgcolor: 'background.paper',
         display: 'flex',
@@ -154,7 +155,7 @@ export function CardDashboard({
         letterSpacing: 0,
       }}
     >
-      <Typography id={headingId} component="h3" sx={{ fontSize: 22, fontWeight: 600 }}>
+      <Typography id={headingId} component="h3" sx={{ fontSize: 18, fontWeight: 600 }}>
         {heading}
       </Typography>
       {subtitle && (
@@ -193,7 +194,10 @@ export function CardDashboard({
                   <Typography component="p" sx={valueStyles}>
                     {mainMetric.value}
                   </Typography>
-                  <Typography color="text.secondary" sx={{ minWidth: 0 }}>
+                  <Typography
+                    color="text.secondary"
+                    sx={{ minWidth: 0, fontSize: 16, fontWeight: 600 }}
+                  >
                     {mainMetric.label}
                   </Typography>
                 </Box>
@@ -238,7 +242,10 @@ export function CardDashboard({
                       flexShrink: 0,
                     }}
                   />
-                  <Typography color="text.secondary" sx={{ minWidth: 0 }}>
+                  <Typography
+                    color="text.secondary"
+                    sx={{ minWidth: 0, textTransform: 'uppercase', fontSize: 14 }}
+                  >
                     {status.label}
                   </Typography>
                   <Typography sx={{ minWidth: 0, overflowWrap: 'anywhere', fontWeight: 600 }}>
@@ -291,7 +298,7 @@ export function CardDashboard({
               startIcon={action.type === 'primary' ? <Add /> : undefined}
               endIcon={action.type === 'link' ? <ArrowForward /> : undefined}
               onClick={action.action}
-              sx={action.type === 'link' ? { p: 0 } : undefined}
+              sx={action.type === 'link' ? { p: 0, height: 'auto' } : undefined}
             >
               {action.text}
             </Button>
