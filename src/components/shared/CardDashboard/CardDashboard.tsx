@@ -291,6 +291,7 @@ export function CardDashboard({
               startIcon={action.type === 'primary' ? <Add /> : undefined}
               endIcon={action.type === 'link' ? <ArrowForward /> : undefined}
               onClick={action.action}
+              sx={action.type === 'link' ? { p: 0 } : undefined}
             >
               {action.text}
             </Button>

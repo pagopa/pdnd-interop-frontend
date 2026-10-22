@@ -14,7 +14,7 @@ type DashboardDestination =
   | 'PROVIDE_AGREEMENT_LIST'
   | 'PROVIDE_PURPOSE_LIST'
 
-export default function DashboardPage() {
+export default function ProviderDashboardPage() {
   const { t } = useTranslation('pages', { keyPrefix: 'dashboard' })
   const theme = useTheme()
   const navigate = useNavigate()

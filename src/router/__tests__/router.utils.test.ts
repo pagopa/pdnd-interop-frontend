@@ -1,7 +1,7 @@
 import { isProviderOrConsumerRoute } from '@/router/router.utils'
 import { routes } from '@/router'
-import { DashboardPage } from '@/pages'
-import DashboardPageComponent from '@/pages/DashboardPage/Dashboard.page'
+import { ProviderDashboardPage } from '@/pages'
+import ProviderDashboardPageComponent from '@/pages/ProviderDashboardPage/ProviderDashboard.page'
 
 describe('checks router utils functions behavior', () => {
   it('checks that isProviderOrConsumerRoute return the right string - if provider', () => {
@@ -28,13 +28,13 @@ describe('checks router utils functions behavior', () => {
       public: false,
       hideSideNav: false,
       authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
-      element: expect.objectContaining({ type: DashboardPage }),
+      element: expect.objectContaining({ type: ProviderDashboardPage }),
     })
     expect(routes.PROVIDE_DASHBOARD.authLevels).not.toContain('reviewer')
     expect(isProviderOrConsumerRoute(routes.PROVIDE_DASHBOARD.path)).toBe('provider')
   })
 
   it('exports the dashboard component through the page barrel', () => {
-    expect(DashboardPage).toBe(DashboardPageComponent)
+    expect(ProviderDashboardPage).toBe(ProviderDashboardPageComponent)
   })
 })

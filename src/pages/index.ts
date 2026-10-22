@@ -1,4 +1,4 @@
-export { DashboardPage } from './DashboardPage'
+export { ProviderDashboardPage } from './ProviderDashboardPage'
 export { ProviderEServiceListPage } from './ProviderEServiceListPage'
 export { ProviderEServiceCreatePage } from './ProviderEServiceCreatePage'
 export { ProviderEServiceSummaryPage } from './ProviderEServiceSummaryPage'

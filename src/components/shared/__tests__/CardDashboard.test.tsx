@@ -268,6 +268,7 @@ describe('CardDashboard', () => {
     const button = screen.getByRole('button', { name: 'Aggiungi e-service' })
     expect(button).toHaveAttribute('type', 'button')
     expect(button).toHaveClass('MuiButton-contained')
+    expect(button).not.toHaveStyle({ padding: '0px' })
     expect(button.querySelector('.MuiButton-startIcon')).toContainElement(
       within(button).getByTestId('AddIcon')
     )
@@ -290,6 +291,7 @@ describe('CardDashboard', () => {
     expect(button.tagName).toBe('BUTTON')
     expect(button).toHaveAttribute('type', 'button')
     expect(button).toHaveClass('MuiButton-text')
+    expect(button).toHaveStyle({ padding: '0px' })
     expect(button).not.toHaveAttribute('href')
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
     expect(button.querySelector('.MuiButton-endIcon')).toContainElement(

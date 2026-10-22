@@ -5,7 +5,7 @@ import { Box } from '@mui/material'
 import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
-  DashboardPage,
+  ProviderDashboardPage,
   ProviderEServiceListPage,
   ProviderAgreementsListPage,
   ConsumerAgreementsListPage,
@@ -180,7 +180,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'PROVIDE_DASHBOARD',
     path: '/erogazione/panoramica',
-    element: <DashboardPage />,
+    element: <ProviderDashboardPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],

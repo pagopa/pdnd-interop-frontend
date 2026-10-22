@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { createTheme, ThemeProvider } from '@mui/material'
-import DashboardPage from '../Dashboard.page'
+import ProviderDashboardPage from '../ProviderDashboard.page'
 import { CardDashboard } from '@/components/shared/CardDashboard/CardDashboard'
 import type { CardDashboardProps } from '@/components/shared/CardDashboard/CardDashboard'
 import { mockUseJwt } from '@/utils/testing.utils'
@@ -48,7 +48,7 @@ const renderDashboard = async (language: 'it' | 'en' = 'it') => {
   return render(
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
-        <DashboardPage />
+        <ProviderDashboardPage />
       </ThemeProvider>
     </I18nextProvider>
   )
@@ -56,7 +56,7 @@ const renderDashboard = async (language: 'it' | 'en' = 'it') => {
 
 const getCards = () => cardMock.mock.calls.map(([props]) => props)
 
-describe('DashboardPage', () => {
+describe('ProviderDashboardPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockUseJwt({ currentRoles: ['admin'] })
