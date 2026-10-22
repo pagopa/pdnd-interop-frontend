@@ -703,7 +703,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
@@ -711,7 +711,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
