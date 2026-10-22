@@ -18,7 +18,7 @@ export const PartyGeneralInfoSection: React.FC = () => {
     <Grid container>
       <Grid item xs={8}>
         <SectionContainer title={t('title')}>
-          <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
             <InformationContainer
               label={t('onBoardingDateField.label')}
               content={onBoardedAtFormatted}

@@ -18,7 +18,7 @@ export const ProviderPurposeDetailsTechnicalInfoSection: React.FC<
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
-      <Stack spacing={2}>
+      <Stack component="dl" spacing={2} sx={{ m: 0 }}>
         <InformationContainer
           label={t('purposeField.label')}
           content={purpose.id}
