@@ -53,25 +53,23 @@ function App() {
   if (STAGE === 'UAT') {
     envBannerProps = {
       severity: 'warning',
-      description: t('environmentBanner.content.uat'),
+      children: <>{t('environmentBanner.content.uat')}</>,
     }
   }
 
   if (STAGE === 'ATT') {
     envBannerProps = {
       severity: 'info',
-      description: t('environmentBanner.content.att'),
+      children: <>{t('environmentBanner.content.att')}</>,
     }
   }
 
   return (
     <ThemeProvider theme={theme}>
       {envBannerProps && (
-        <MIAlert
-          variant="header"
-          severity={envBannerProps.severity}
-          description={envBannerProps.description}
-        />
+        <MIAlert variant="header" severity={envBannerProps.severity}>
+          {envBannerProps.children}
+        </MIAlert>
       )}
       <React.Suspense fallback={<FirstLoadingSpinner />}>
         <QueryClientProvider client={queryClient}>

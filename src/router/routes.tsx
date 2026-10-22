@@ -75,6 +75,7 @@ import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVouch
 import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
 import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYouPage/RiskAnalysisApproveThankYou.page'
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
+import RiskAnalysisDetailsPage from '@/pages/RiskAnalysisDetailsPage/RiskAnalysisDetails.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
@@ -304,6 +305,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin'],
   })
   .addRoute({
+    key: 'SUBSCRIBE_CLIENT_CREATE_THANK_YOU',
+    path: '/gestione-client/api-e-service/:clientId/feedback',
+    element: <PublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
     key: 'SUBSCRIBE_CLIENT_EDIT',
     path: '/gestione-client/api-e-service/:clientId',
     element: <ConsumerClientManagePage />,
@@ -326,6 +335,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_AGREEMENT_CREATE_THANK_YOU',
+    path: '/fruizione/richieste/:agreementId/feedback',
+    element: <PublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_AGREEMENT_LIST',
@@ -363,6 +380,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE',
     path: '/gestione-client/api-interop/crea',
     element: <ConsumerClientCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE_THANK_YOU',
+    path: '/gestione-client/api-interop/:clientId/feedback',
+    element: <PublishThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'],
@@ -662,7 +687,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'security'],
+    authLevels: ['admin', 'api', 'security', 'reviewer'],
   })
   .addRoute({
     key: 'NOTIFICATIONS_CONFIG',
@@ -670,7 +695,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationUserConfigPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security', 'api'],
+    authLevels: ['admin', 'security', 'api', 'reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
@@ -695,6 +720,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support', 'viewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU',
+    path: 'fruizione/template-finalita/:purposeTemplateId/feedback',
+    element: <PublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
@@ -750,6 +783,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_DETAILS',
+    path: '/analisi-del-rischio/:purposeId/dettaglio',
+    element: <RiskAnalysisDetailsPage />,
+    public: false,
+    hideSideNav: false,
     authLevels: ['reviewer'],
   })
   .addRoute({

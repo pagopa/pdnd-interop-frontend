@@ -242,7 +242,7 @@
       "attributesTitle": "Requisiti di accesso",
       "attributesDescription": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
       "attributesDescriptionFromTemplate": "Non puoi creare o eliminare i requisiti né aggiungere altri attributi. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
-      "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+      "certifiedDescription": "Sono attributi riconosciuti da fonti certificate come IPA. Tra i più usati, per esempio, ci sono Comuni e loro Consorzi e Associazioni, Province e loro Consorzi e Associazioni, Gestori di Pubblici Servizi. <1>Scopri di più su quali attributi usare</1>.",
       "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
       "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
       "attributesAddBtn": "Crea requisito",
@@ -580,15 +580,101 @@
     }
   },
   "list": {
+    "sorting": {
+      "CREATED_AT_ASC": "Dal meno recente",
+      "CREATED_AT_DESC": "Dal più recente",
+      "NAME_ASC": "Nome e-service A-Z",
+      "NAME_DESC": "Nome e-service Z-A"
+    },
     "filters": {
       "nameField": {
         "label": "Cerca per nome"
+      },
+      "keywordField": {
+        "label": "Cerca per parola chiave"
       },
       "providerField": {
         "label": "Cerca per erogatore"
       },
       "consumerField": {
         "label": "Cerca per fruitore"
+      },
+      "side": {
+        "rapidSelection": {
+          "title": "Selezione rapida",
+          "onlyActiveEServicesField": {
+            "label": "E-service attivi",
+            "description": "Escludi gli e-service sospesi"
+          },
+          "availableForRequesterField": {
+            "label": "Fruibili dal tuo ente",
+            "description": "In base agli attributi"
+          },
+          "subscribedByrequesterField": {
+            "label": "Già in fruizione",
+            "description": "Con richiesta attiva"
+          },
+          "producerCategoriesField": {
+            "label": "Categoria erogatore",
+            "options": {
+              "ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI": "Altre Pubbliche Amministrazioni locali",
+              "AZIENDE_OSPEDALIERE_ASL": "Aziende Ospedaliere e ASL",
+              "COMUNI": "Comuni",
+              "PROVINCE_CITTA_METROPOLITANE": "Province e Città Metropolitane",
+              "PUBBLICHE_AMMINISTRAZIONI_CENTRALI": "Pubbliche Amministrazioni Centrali",
+              "ENTI_NAZIONALI_PREVIDENZA_ASSISTENZA": "Enti Nazionali di Previdenza e Assistenza Sociale",
+              "REGIONI_PROVINCE_AUTONOME": "Regioni e Province Autonome",
+              "CONSORZI_ASSOCIAZIONI_REGIONALI": "Consorzi e associazioni regionali",
+              "SCUOLE": "Scuole",
+              "UNIVERSITA_AFAM": "Università e AFAM",
+              "ISTITUTI_RICERCA": "Istituti di ricerca",
+              "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI": "Stazioni Appaltanti e Gestori di pubblici servizi"
+            }
+          }
+        },
+        "template": {
+          "title": "Template",
+          "onlyTemplateInstancesField": {
+            "label": "Creati da template"
+          },
+          "hasLinkedPurposeTemplatesField": {
+            "label": "Con template finalità collegati"
+          }
+        },
+        "techSpec": {
+          "title": "Specifiche tecniche",
+          "asyncExchangeField": {
+            "label": "Scambio dati",
+            "options": {
+              "ALL": "Tutti",
+              "SYNC": "Sincrono",
+              "ASYNC": "Asincrono / massivo"
+            }
+          },
+          "modeField": {
+            "label": "Eroga o riceve dati",
+            "options": {
+              "ALL": "Tutti",
+              "DELIVER": "Eroga dati",
+              "RECEIVE": "Riceve dati"
+            }
+          }
+        },
+        "delegationAndSignalHub": {
+          "title": "Deleghe e notifiche modifica dati",
+          "requesterDelegationRolesField": {
+            "label": "Deleghe",
+            "options": {
+              "ALL": "Tutti",
+              "DELEGATE": "E-service ricevuti in delega",
+              "DELEGATOR": "E-service affidati in delega"
+            }
+          },
+          "onlySignalHubEnabledField": {
+            "label": "Signal Hub",
+            "description": "Con servizio di notifica in caso di variazione dati"
+          }
+        }
       }
     },
     "drawers": {
@@ -619,9 +705,17 @@
         }
       }
     },
-    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
+    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile",
+    "inspectCollection": "Vedi raccolta",
+    "collectionBadge": "{{ count }} e-service"
   },
   "read": {
+    "dialogs": {
+      "removeAttributeThreshold": {
+        "title": "Rimuovi soglia",
+        "description": "<p>Stai per rimuovere la soglia personalizzata per l’attributo certificato <strong>{{attributeName}}</strong>.</p><p>Se confermi, ai fruitori con questo attributo sarà applicata la soglia prevista per chi non ha soglie personalizzate. Oppure, se l’ente possiede altri attributi con soglie personalizzate, sarà applicata la soglia più alta.</p>"
+      }
+    },
     "versionHeaderLabel": "Versione",
     "versionListModal": {
       "title": "Stato versioni",
@@ -1011,6 +1105,10 @@
           },
           "dailyCallsTotal": {
             "label": "Soglia giornaliera totale"
+          },
+          "customized": {
+            "title": "Soglie di chiamate API personalizzate",
+            "currentTenantLabel": "Per il tuo ente"
           },
           "noThresholdTemplate": "Questo template di e-service non ha soglie suggerite"
         }

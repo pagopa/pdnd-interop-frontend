@@ -23,10 +23,11 @@ const mockTFunction = (key: string) => key
 
 const spyUseErrorData = vi.spyOn(useErrorData, 'useErrorData')
 
-vi.mock('@pagopa/mui-italia', () => {
+vi.mock('@pagopa/mui-italia', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@pagopa/mui-italia')>()
+
   return {
-    theme: vi.fn(),
-    CopyToClipboardButton: vi.fn(),
+    ...actual,
     HeaderAccount: ({
       onLogin,
       onAssistanceClick,
@@ -262,7 +263,8 @@ describe('Header', () => {
       productsData: mockProducts,
     })
 
-    const spyWindowOpen = vi.spyOn(window, 'open')
+    const spyWindowOpen = vi.spyOn(window, 'open').mockImplementation(() => null)
+    spyWindowOpen.mockClear()
 
     spyUseErrorData.mockReturnValue({
       correlationId: null,
@@ -293,7 +295,8 @@ describe('Header', () => {
       productsData: mockProducts,
     })
 
-    const spyWindowOpen = vi.spyOn(window, 'open')
+    const spyWindowOpen = vi.spyOn(window, 'open').mockImplementation(() => null)
+    spyWindowOpen.mockClear()
 
     const correlationId = 'test-correlation-id'
     const errorCode = 'test-error-code'

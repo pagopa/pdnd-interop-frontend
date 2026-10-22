@@ -82,6 +82,13 @@
         "error": "The API call threshold for this attribute could not be changed. Please make sure you entered the correct information."
       }
     },
+    "removeAttributeThreshold": {
+      "loading": "The certified attribute API call threshold is being removed",
+      "outcome": {
+        "success": "You removed the certified attribute API call threshold.",
+        "error": "The certified attribute API call threshold could not be removed. Please try again."
+      }
+    },
     "publishVersionDraft": {
       "loading": "E-service version draft is being published",
       "outcome": {
@@ -199,6 +206,7 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "This e-service will be archived in {{days}} days",
+        "gracePeriodError": "You cannot archive the e-service before a version that is already being archived. Select a longer grace period.",
         "error": "This e-service could not be archived. Please try again later."
       }
     },
@@ -729,6 +737,13 @@
         "error": "It was not possible to assign the risk analysis."
       }
     },
+    "updateRiskAnalysisAssignment": {
+      "loading": "We are updating the risk analysis assignment",
+      "outcome": {
+        "success": "You have updated the risk analysis assignment.",
+        "error": "It was not possible to update the risk analysis assignment."
+      }
+    },
     "submitRiskAnalysis": {
       "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {
@@ -739,7 +754,10 @@
     "signRiskAnalysis": {
       "loading": "Risk analysis is being signed",
       "outcome": {
-        "error": "The risk analysis could not be signed. Please try again!"
+        "error": "The risk analysis could not be signed. Please try again!",
+        "versionChanged": "Another reviewer has modified this risk analysis. Reload the page to see the updated version and decide whether to approve it.",
+        "alreadyApproved": "This risk analysis has already been approved by another reviewer. Reload the page to see the approved risk analysis.",
+        "alreadyRejected": "This risk analysis has already been rejected by another reviewer. Reload the page to see the rejected risk analysis."
       }
     },
     "rejectRiskAnalysis": {
