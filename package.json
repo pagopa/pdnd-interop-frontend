@@ -25,6 +25,7 @@
     "@mui/lab": "5.0.0-alpha.177",
     "@mui/material": "5.18.0",
     "@mui/system": "5.18.0",
+    "@mui/x-charts": "7.23.6",
     "@mui/x-date-pickers": "6.20.2",
     "@pagopa/interop-fe-commons": "1.5.3",
     "@pagopa/mui-italia": "2.8.0-RC.6",

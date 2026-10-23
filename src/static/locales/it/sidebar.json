@@ -10,6 +10,7 @@
     },
     "provider": {
       "provider": "Erogazione",
+      "dashboard": "Panoramica",
       "providerEservice": "I miei e-service",
       "providerAgreeemnt": "Richieste ricevute",
       "providerPurpose": "Finalità ricevute",

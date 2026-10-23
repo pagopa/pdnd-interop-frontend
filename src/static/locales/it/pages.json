@@ -1,4 +1,46 @@
 {
+  "dashboard": {
+    "title": "Panoramica",
+    "headings": {
+      "eservices": "E-service erogati",
+      "pendingRequests": "Richieste in attesa",
+      "purposes": "Finalit\u00e0 ricevute",
+      "consumers": "Enti fruitori",
+      "requests": "Richieste ricevute",
+      "average": "Tempo medio di attivazione",
+      "consumption": "Consumo delle chiamate"
+    },
+    "statuses": {
+      "active": "Attivi",
+      "suspended": "Sospesi",
+      "archiving": "In archiviazione",
+      "suspendedArchiving": "Sospesi e in archiviazione"
+    },
+    "requests": {
+      "accepted": "accettate",
+      "pending": "in attesa",
+      "rejected": "rifiutate"
+    },
+    "units": {
+      "eservices": "e-service",
+      "requests": "richieste",
+      "purposes": "finalit\u00e0",
+      "consumers": "enti fruitori",
+      "days": "giorni",
+      "calls": "chiamate"
+    },
+    "consumptionSubtitle": "Chiamate utilizzate rispetto al limite giornaliero",
+    "empty": {
+      "eservices": "Nessun e-service erogato",
+      "pendingRequests": "Non ci sono richieste in attesa"
+    },
+    "actions": {
+      "eservices": "Vai agli e-service",
+      "agreements": "Vai alle richieste",
+      "purposes": "Vai alle finalit\u00e0",
+      "create": "Crea e-service"
+    }
+  },
   "consumerEServiceCatalog": {
     "title": "Catalogo degli e-service",
     "description": "Il catalogo degli e-service contiene tutte le basi dati che altri enti hanno reso disponibili. Puoi aderire a quelli di tuo interesse."

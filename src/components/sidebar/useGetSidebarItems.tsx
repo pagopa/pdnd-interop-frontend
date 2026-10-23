@@ -65,9 +65,10 @@ export function useGetSidebarItems(): SidebarRoutes {
       {
         icon: ProviderIcon,
         label: t('provider.provider'),
-        rootRouteKey: 'PROVIDE_ESERVICE_LIST',
+        rootRouteKey: 'PROVIDE_DASHBOARD',
         hide: !isSupport && !isOrganizationAllowedToProduce,
         children: [
+          { to: 'PROVIDE_DASHBOARD', label: t('provider.dashboard') },
           { to: 'PROVIDE_ESERVICE_LIST', label: t('provider.providerEservice') },
           { to: 'PROVIDE_AGREEMENT_LIST', label: t('provider.providerAgreeemnt') },
           { to: 'PROVIDE_PURPOSE_LIST', label: t('provider.providerPurpose') },
