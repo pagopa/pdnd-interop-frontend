@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import userEvent from '@testing-library/user-event'
 import { Breadcrumbs } from '../Breadcrumbs'
 
 vi.mock('react-i18next', () => ({
@@ -23,18 +24,19 @@ vi.mock('@/router/hooks/useCurrentRoute', () => ({
 }))
 
 describe('Breadcrumbs', () => {
-  it('shows the macrosection without making it clickable', () => {
+  it('uses commons breadcrumb items and navigates through intermediate segments', async () => {
+    const user = userEvent.setup()
     const history = createMemoryHistory({
       initialEntries: ['/it/fruizione/finalita/purpose-id'],
     })
 
     renderWithApplicationContext(<Breadcrumbs />, { withRouterContext: true }, history)
 
-    expect(screen.getByText('Fruizione').closest('a')).toBeNull()
-    expect(screen.getByRole('link', { name: 'Finalità inoltrate' })).toHaveAttribute(
-      'href',
-      '/it/fruizione/finalita'
-    )
-    expect(screen.getByText('Dettaglio finalità').closest('a')).toBeNull()
+    expect(screen.getByText('Fruizione')).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByText('Dettaglio finalità')).toHaveAttribute('aria-current', 'page')
+
+    await user.click(screen.getByRole('button', { name: 'Finalità inoltrate' }))
+
+    expect(history.location.pathname).toBe('/it/fruizione/finalita')
   })
 })

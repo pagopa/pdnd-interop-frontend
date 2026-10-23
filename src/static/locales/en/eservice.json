@@ -748,7 +748,6 @@
     },
     "actions": {
       "goBack": "Go back",
-      "backToListLabel": "Back to the e-services",
       "backToCatalogLabel": "Back to the catalog",
       "suspendVersion": "Suspend version",
       "reactivateVersion": "Reactivate version",

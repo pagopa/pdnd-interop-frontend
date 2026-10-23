@@ -1,6 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Button, Stack } from '@mui/material'
-import { useNavigate as useReactRouterNavigate } from 'react-router-dom'
+import { Stack } from '@mui/material'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { useParams } from '@/router'
@@ -46,7 +45,6 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
     keyPrefix: 'pageNavigation',
   })
   const navigate = useNavigate()
-  const reactRouterNavigate = useReactRouterNavigate()
   const { openDialog } = useDialog()
 
   if (props.mode === 'wizard') {
@@ -100,22 +98,9 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
     )
   }
 
-  const showBackButton = props.mode === 'back' || props.showBackButton
-
   return (
     <Stack direction="column" alignItems="flex-start" spacing={1} sx={{ mb: 1 }}>
-      {showBackButton && (
-        <Button
-          type="button"
-          size="small"
-          variant="text"
-          onClick={() => reactRouterNavigate(-1)}
-          aria-label={t('backButton')}
-        >
-          {t('backButton')}
-        </Button>
-      )}
-      {props.mode !== 'back' && <Breadcrumbs />}
+      <Breadcrumbs />
     </Stack>
   )
 }

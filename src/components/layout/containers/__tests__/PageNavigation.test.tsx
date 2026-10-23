@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { PageNavigation } from '../PageNavigation'
 
@@ -16,38 +15,22 @@ describe('PageNavigation', () => {
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })
 
-  it('navigates to the previous browser history entry from the back button', async () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/previous', '/test'],
-      initialIndex: 1,
+  it('does not render a back button when requested', () => {
+    const screen = renderWithApplicationContext(<PageNavigation showBackButton />, {
+      withRouterContext: true,
     })
-    const screen = renderWithApplicationContext(
-      <PageNavigation showBackButton />,
-      { withRouterContext: true },
-      history
-    )
 
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: 'backButton',
-      })
-    )
-
-    expect(history.location.pathname).toBe('/previous')
+    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })
 
-  it('shows only the back button in back mode', () => {
+  it('shows breadcrumbs instead of a back button in back mode', () => {
     const screen = renderWithApplicationContext(<PageNavigation mode="back" />, {
       withRouterContext: true,
     })
 
-    expect(
-      screen.getByRole('button', {
-        name: 'backButton',
-      })
-    ).toBeInTheDocument()
-    expect(screen.queryByTestId('breadcrumbs')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
+    expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })
 
   it('leaves a wizard immediately when there are no unsaved changes', async () => {

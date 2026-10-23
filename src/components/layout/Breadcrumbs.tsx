@@ -1,29 +1,14 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Breadcrumbs as MUIBreadcrumbs, Link as MUILink, Typography } from '@mui/material'
-import {
-  generatePath,
-  Link as RouterLink,
-  useParams as useReactRouterParams,
-} from 'react-router-dom'
-import { getParentRoutes, routes, type RouteKey } from '@/router'
+import { Breadcrumbs as CommonBreadcrumbs, type RouteKey } from '@/router'
 import { useCurrentRoute } from '@/router/hooks/useCurrentRoute'
 import type sharedComponentsNs from '@/static/locales/en/shared-components.json'
 
-const macrosectionRouteKeys = new Set<RouteKey>([
-  'SUBSCRIBE',
-  'PROVIDE',
-  'TENANT',
-  'CLIENT_MANAGEMENT',
-])
-
 export function Breadcrumbs() {
-  const { t, i18n } = useTranslation('shared-components')
+  const { t } = useTranslation('shared-components')
   const routeLabels = t('routeLabels', {
     returnObjects: true,
   }) as typeof sharedComponentsNs.routeLabels
   const { routeKey } = useCurrentRoute()
-  const params = useReactRouterParams()
 
   const labels: Record<RouteKey, string | false> = {
     ...routeLabels,
@@ -93,46 +78,5 @@ export function Breadcrumbs() {
         : routeLabels.SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE,
   }
 
-  const routeKeys = [...getParentRoutes(routeKey), routeKey].filter((key) => labels[key] !== false)
-
-  if (routeKeys.length < 2) return null
-
-  const getPath = (key: RouteKey) => {
-    const routePath = routes[key].path
-    const normalizedPath = routePath.startsWith('/') ? routePath : `/${routePath}`
-    return `/${i18n.language}${generatePath(normalizedPath, params)}`
-  }
-
-  return (
-    <MUIBreadcrumbs sx={{ mb: 1 }}>
-      {routeKeys.map((key, index) => {
-        const label = labels[key]
-        const isCurrentRoute = index === routeKeys.length - 1
-
-        if (isCurrentRoute) {
-          return <span key={key}>{label}</span>
-        }
-
-        if (macrosectionRouteKeys.has(key)) {
-          return (
-            <Typography key={key} component="span" color="text.secondary">
-              {label}
-            </Typography>
-          )
-        }
-
-        return (
-          <MUILink
-            key={key}
-            component={RouterLink}
-            to={getPath(key)}
-            sx={{ fontWeight: 700 }}
-            color="inherit"
-          >
-            {label}
-          </MUILink>
-        )
-      })}
-    </MUIBreadcrumbs>
-  )
+  return <CommonBreadcrumbs routeLabels={labels} />
 }

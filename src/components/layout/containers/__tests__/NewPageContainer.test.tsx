@@ -31,7 +31,6 @@ const renderComponent = (
     description,
     infoSection,
     navigation,
-    backToAction,
   }: PageContainerProps,
   history: MemoryHistory = createMemoryHistory()
 ) => {
@@ -39,7 +38,6 @@ const renderComponent = (
     <NewPageContainer
       title={title}
       navigation={navigation}
-      backToAction={backToAction}
       statusChip={statusChip}
       byDelegationChip={byDelegationChip}
       primaryAction={primaryAction}
@@ -89,31 +87,15 @@ describe('NewPageContainer', () => {
     expect(statusChip).toBeInTheDocument()
   })
 
-  it('should correctly render the browser back button', async () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/it/termini-di-servizio', '/it/privacy-policy'],
-      initialIndex: 1,
+  it('does not render a browser back button', () => {
+    const screen = renderComponent({
+      children: 'Test children',
+      title: 'Test title',
+      navigation: { showBackButton: true },
     })
-    const screen = renderComponent(
-      {
-        children: 'Test children',
-        title: 'Test title',
-        navigation: {
-          showBackButton: true,
-        },
-      },
-      history
-    )
 
-    const user = userEvent.setup()
-
-    const backButton = screen.getByRole('button', { name: 'backButton' })
-
-    expect(backButton).toBeInTheDocument()
-
-    await user.click(backButton)
-
-    expect(history.location.pathname).toEqual('/it/termini-di-servizio')
+    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
+    expect(screen.getByText('Test title')).toBeInTheDocument()
   })
 
   it('should correctly render the description', () => {

@@ -36,8 +36,8 @@ importers:
         specifier: 6.20.2
         version: 6.20.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(date-fns@2.30.0)(dayjs@1.11.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@pagopa/interop-fe-commons':
-        specifier: 1.5.4-RC1
-        version: 1.5.4-RC1(ao6uytr3rml2st7zhnlfpvpbwe)
+        specifier: 1.5.5-RC1
+        version: 1.5.5-RC1(ao6uytr3rml2st7zhnlfpvpbwe)
       '@pagopa/mui-italia':
         specifier: 2.7.0
         version: 2.7.0(dyvxuajnxmfgebpwpefvcxn5gi)
@@ -1000,23 +1000,23 @@ packages:
   '@open-draft/until@2.1.0':
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
 
-  '@pagopa/interop-fe-commons@1.5.4-RC1':
-    resolution: {integrity: sha512-qznFuwIUyddh0TIwzZtRDrY7Uq4H0SYw74QP1QNpZ53lNMKz0RlGKxuUSDAyhsBIulvCjDBrHnFb+/s8HraKoA==}
+  '@pagopa/interop-fe-commons@1.5.5-RC1':
+    resolution: {integrity: sha512-oQuz4TVfnzaIiee4VjXtdHFEaLq9l6eQytkRSbjG7kMPCeDaQoYDU3Bz/5Mq3t+MJAQlrt6zfEEuZ5K09LYnbQ==}
     peerDependencies:
-      '@emotion/react': ^11.11.1
-      '@emotion/styled': ^11.11.0
+      '@emotion/react': ^11.14.0
+      '@emotion/styled': ^11.14.0
       '@mui/base': ^5.0.0-beta.15
       '@mui/icons-material': ^5.14.9
       '@mui/lab': ^5.0.0-alpha.144
       '@mui/material': ^5.14.9
       '@mui/system': ^5.14.9
-      '@mui/x-date-pickers': ^6.13.0
-      '@pagopa/mui-italia': ^1.9.0
+      '@mui/x-date-pickers': ^6.17.0
+      '@pagopa/mui-italia': ^2.7.0
       date-fns: ^2.30.0
       i18next: ^23.5.1
       mixpanel-browser: ^2.50.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
+      react: ^18.3.1
+      react-dom: ^18.3.1
       react-hook-form: ^7.46.1
       react-i18next: ^13.2.2
       react-router-dom: ^6.16.0
@@ -4422,7 +4422,7 @@ snapshots:
 
   '@open-draft/until@2.1.0': {}
 
-  '@pagopa/interop-fe-commons@1.5.4-RC1(ao6uytr3rml2st7zhnlfpvpbwe)':
+  '@pagopa/interop-fe-commons@1.5.5-RC1(ao6uytr3rml2st7zhnlfpvpbwe)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.28)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1)
