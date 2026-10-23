@@ -64,14 +64,14 @@ export function RHFNewAutocompleteSingle<T>(props: RHFNewAutocompleteSingleProps
     }
 
     const isInputEqualToSelectedOption =
-      latestInputChangeReason.current === 'selectOption' &&
+      (latestInputChangeReason.current === 'selectOption' || !latestInputChangeReason.current) &&
       internalState !== null &&
       getOptionLabel(internalState as T).toLowerCase() === normalizedInputValue
 
+    if (isInputEqualToSelectedOption) return options
+
     return options.filter((option) =>
-      isInputEqualToSelectedOption
-        ? !isEqual(option, internalState)
-        : getOptionLabel(option).toLowerCase().includes(normalizedInputValue)
+      getOptionLabel(option).toLowerCase().includes(normalizedInputValue)
     )
   }
 
