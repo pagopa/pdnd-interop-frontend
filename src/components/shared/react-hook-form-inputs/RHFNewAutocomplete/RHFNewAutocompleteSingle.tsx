@@ -52,6 +52,22 @@ export function RHFNewAutocompleteSingle<T>(props: RHFNewAutocompleteSingleProps
     }
   }, [value, props.options, internalState])
 
+  React.useEffect(() => {
+    const subscription = watch((formValues, event) => {
+      if (event.name !== undefined) return
+
+      const resetValue = formValues[props.name] as T | null | undefined
+      const selectedOption = props.options.find((option) => isEqual(resetValue, option.value))
+
+      hasSetOptions.current = selectedOption !== undefined
+      latestInputChangeReason.current = undefined
+      setInternalState(selectedOption ?? null)
+      setInputValue(selectedOption?.label ?? '')
+    })
+
+    return subscription.unsubscribe
+  }, [watch, props.name, props.options])
+
   function filteringOptions<T>(
     options: Array<T>,
     state: { inputValue: string; getOptionLabel: (option: T) => string }
