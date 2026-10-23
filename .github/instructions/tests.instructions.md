@@ -13,6 +13,8 @@ applyTo: '**/*.test.{ts,tsx}'
 ## Conventions
 
 - Use the helpers in `src/utils/testing.utils.tsx` (`renderWithApplicationContext`, `createMockFactory`, etc.) and the mocks in `__mocks__/data/`.
+- Keep ordinary component and flow tests independent of translations: use the existing i18n mock and translation keys for selectors. Do not load real locale resources, change language or assert translated sentences in these tests.
+- Pure locale-copy changes do not require new tests. Test any associated behavior independently of translated wording.
 - Mock network calls with MSW handlers or the API layer, not by stubbing components.
 - API layer tests live in `src/api/<domain>/__tests__`; page and component tests in the sibling `__tests__` folder.
 
