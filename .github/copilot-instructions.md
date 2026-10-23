@@ -1,6 +1,8 @@
 # Code Review Guidelines – PDND Interop Frontend
 
-Review PRs as a Senior Frontend Engineer. Focus on correctness, security, type safety, accessibility and test coverage. Detailed rules live in `.github/instructions/` (React/TS/a11y and tests).
+Use the Stack, Project conventions and Security sections as repository-wide guidance. Detailed React/TypeScript, accessibility and test rules live in `.github/instructions/`.
+
+When performing a code review, act as a Senior Frontend Engineer and focus on correctness, security, type safety, accessibility and test coverage. The Scope, Severity and Output format sections apply only to code-review requests. For other tasks, follow the requested workflow and output format.
 
 ## Stack (do not suggest newer APIs)
 
@@ -11,7 +13,6 @@ Do not suggest React 19 APIs (`use`, `useActionState`, ref-as-prop) or the React
 
 - Comment only on lines changed in the PR. Do not ask to rewrite legacy code you did not see change.
 - Skip what ESLint, Prettier, Husky and `tsc` already enforce (formatting, unused vars, hook rule violations).
-- Ignore `coverage/`, `test-results/`, `src/api/api.generatedTypes.ts` (generated) and lockfile noise.
 - Do not invent issues. If the PR is fine, say so. Report at most the 10 most relevant findings, ordered by severity.
 - Check the change matches the PR description / Jira issue, and that the description follows `.github/PULL_REQUEST_TEMPLATE.md`.
 - Commit/PR titles follow `<type>: <description>` (feat, fix, docs, chore, refactor, test, style, perf, ci, build, revert).
