@@ -1,5 +1,6 @@
 import { useId } from 'react'
-import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Card, Stack, Typography, useTheme } from '@mui/material'
+import { MIButton } from '@pagopa/mui-italia'
 import Add from '@mui/icons-material/Add'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import CheckRounded from '@mui/icons-material/CheckRounded'
@@ -49,17 +50,17 @@ function DashboardDonut({ data, label }: Readonly<DashboardDonutProps>) {
   const hasValues = data.some((item) => item.value > 0)
 
   return (
-    <Box role="img" aria-label={label} sx={{ width: 96, height: 96, flexShrink: 0 }}>
+    <Box role="img" aria-label={label} sx={{ width: 60, height: 60, flexShrink: 0 }}>
       <Box aria-hidden="true">
         <PieChart
-          width={96}
-          height={96}
+          width={60}
+          height={60}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           series={[
             {
               data: hasValues ? data : [{ id: 'empty', value: 1, color: theme.palette.grey[200] }],
-              innerRadius: 32,
-              outerRadius: 46,
+              innerRadius: 16,
+              outerRadius: 30,
               paddingAngle: 0,
               cornerRadius: 0,
             },
@@ -85,8 +86,8 @@ export function CardDashboard({
   const theme = useTheme()
   const numberFormatter = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 })
   const valueStyles = {
-    fontSize: 56,
-    fontWeight: 700,
+    fontSize: 48,
+    fontWeight: 'bold',
     lineHeight: 1.15,
     overflowWrap: 'anywhere',
     fontVariantNumeric: 'tabular-nums',
@@ -143,7 +144,7 @@ export function CardDashboard({
       elevation={8}
       sx={{
         height: '100%',
-        minHeight: { xs: 'auto', sm: 365 },
+        minHeight: { xs: 'auto', sm: 300 },
         minWidth: 0,
         py: '1.25rem',
         px: '1rem',
@@ -248,7 +249,9 @@ export function CardDashboard({
                   >
                     {status.label}
                   </Typography>
-                  <Typography sx={{ minWidth: 0, overflowWrap: 'anywhere', fontWeight: 600 }}>
+                  <Typography
+                    sx={{ minWidth: 0, overflowWrap: 'anywhere', fontSize: 14, fontWeight: 600 }}
+                  >
                     {numberFormatter.format(status.count)}
                   </Typography>
                 </Box>
@@ -289,19 +292,19 @@ export function CardDashboard({
         </Stack>
       </Box>
       {(footer || action) && (
-        <Stack spacing={2} alignItems="flex-start" sx={{ mt: 'auto', pt: 3, minWidth: 0 }}>
+        <Stack spacing={2} alignItems="flex-start" sx={{ mt: 'auto', pt: '24px', minWidth: 0 }}>
           {footer && <Typography color="text.secondary">{footer}</Typography>}
           {action && (
-            <Button
+            <MIButton
               type="button"
               variant={action.type === 'primary' ? 'contained' : 'text'}
+              color="primary"
               startIcon={action.type === 'primary' ? <Add /> : undefined}
               endIcon={action.type === 'link' ? <ArrowForward /> : undefined}
               onClick={action.action}
-              sx={action.type === 'link' ? { p: 0, height: 'auto' } : undefined}
             >
               {action.text}
-            </Button>
+            </MIButton>
           )}
         </Stack>
       )}

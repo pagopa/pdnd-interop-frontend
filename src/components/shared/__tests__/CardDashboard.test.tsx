@@ -1,4 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { theme as interopTheme } from '@pagopa/interop-fe-commons'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ReactNode } from 'react'
@@ -15,6 +16,8 @@ const theme = createTheme({
     },
   },
 })
+Object.assign(theme, { colors: interopTheme.colors })
+Object.assign(theme.shape, { radius: interopTheme.shape.radius })
 const statuses: CardDashboardStatus[] = [
   { id: 'active', label: 'Attivi', count: 15, color: '#008000' },
   { id: 'draft', label: 'Bozze', count: 3, color: '#0000ff' },
@@ -32,8 +35,8 @@ function renderCard(props: CardDashboardProps) {
 
 function getArcs(chart: HTMLElement) {
   const arcs = Array.from(chart.querySelectorAll<SVGPathElement>('path.MuiPieArc-root'))
-  expect(chart.querySelector('svg')).toHaveAttribute('width', '96')
-  expect(chart.querySelector('svg')).toHaveAttribute('height', '96')
+  expect(chart.querySelector('svg')).toHaveAttribute('width', '60')
+  expect(chart.querySelector('svg')).toHaveAttribute('height', '60')
   expect(arcs.length).toBeGreaterThan(0)
   arcs.forEach((arc) => {
     expect(arc.getAttribute('d')).toBeTruthy()
@@ -276,7 +279,6 @@ describe('CardDashboard', () => {
     const button = screen.getByRole('button', { name: 'Aggiungi e-service' })
     expect(button).toHaveAttribute('type', 'button')
     expect(button).toHaveClass('MuiButton-contained')
-    expect(button).toHaveStyle({ height: '48px' })
     expect(button).not.toHaveStyle({ padding: '0px' })
     expect(button.querySelector('.MuiButton-startIcon')).toContainElement(
       within(button).getByTestId('AddIcon')
@@ -407,7 +409,10 @@ describe('CardDashboard', () => {
       (rule): rule is CSSMediaRule => rule.type === CSSRule.MEDIA_RULE
     )
     const mobileRules = mediaRules
-      .filter((rule) => rule.conditionText === '(min-width:0px)')
+      .filter(
+        (rule) =>
+          rule.conditionText.replace(/\s/g, '') === `(min-width:${theme.breakpoints.values.xs}px)`
+      )
       .flatMap((rule) => Array.from(rule.cssRules))
       .filter((rule): rule is CSSStyleRule => rule.type === CSSRule.STYLE_RULE)
       .filter((rule) => !rule.selectorText.includes('::') && section.matches(rule.selectorText))
@@ -415,12 +420,15 @@ describe('CardDashboard', () => {
       true
     )
     const desktopRules = mediaRules
-      .filter((rule) => rule.conditionText === '(min-width:600px)')
+      .filter(
+        (rule) =>
+          rule.conditionText.replace(/\s/g, '') === `(min-width:${theme.breakpoints.values.sm}px)`
+      )
       .flatMap((rule) => Array.from(rule.cssRules))
       .filter((rule): rule is CSSStyleRule => rule.type === CSSRule.STYLE_RULE)
       .filter((rule) => !rule.selectorText.includes('::') && section.matches(rule.selectorText))
     expect(desktopRules.length).toBeGreaterThan(0)
-    expect(desktopRules.some((rule) => rule.style.getPropertyValue('min-height') === '365px')).toBe(
+    expect(desktopRules.some((rule) => rule.style.getPropertyValue('min-height') === '300px')).toBe(
       true
     )
     desktopRules.forEach((rule) => {
