@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
@@ -70,5 +70,25 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     })
 
     expect(fileInput.files![0]).toEqual(null)
+  })
+
+  it('shows the allowed extensions for generic documents', () => {
+    render(
+      <TestInputWrapper>
+        <RHFSingleFileInput {...singleFileInputProps} />
+      </TestInputWrapper>
+    )
+
+    expect(screen.getByText('dropzone.allowedExtensions.generic')).toBeInTheDocument()
+  })
+
+  it('shows the allowed extension for eservice imports', () => {
+    render(
+      <TestInputWrapper>
+        <RHFSingleFileInput {...singleFileInputProps} fileType="eserviceImport" />
+      </TestInputWrapper>
+    )
+
+    expect(screen.getByText('dropzone.allowedExtensions.eserviceImport')).toBeInTheDocument()
   })
 })

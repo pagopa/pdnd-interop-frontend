@@ -1,6 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeServices } from './purpose.services'
+import {
+  RiskAnalysisAlreadyApprovedError,
+  RiskAnalysisAlreadyRejectedError,
+} from '@/utils/errors.utils'
+import { match, P } from 'ts-pattern'
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
   return useMutation({
@@ -219,16 +224,40 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
-function useAssignRiskAnalysisReviewer({ showSuccessToast }: { showSuccessToast: boolean }) {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purpose.assignRiskAnalysisReviewer',
-  })
+/**
+ * Feedback variant for the risk analysis assignment mutation:
+ *  - `none`: first assignment in the self-compilation modes, which give no success feedback
+ *  - `create`: first assignment in the reviewer-compilation mode
+ *  - `edit`: any change to an assignment that already exists
+ */
+export type AssignRiskAnalysisReviewerFeedback = 'none' | 'create' | 'edit'
+
+function useAssignRiskAnalysisReviewer({
+  feedback,
+}: {
+  feedback: AssignRiskAnalysisReviewerFeedback
+}) {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
+
+  const labels =
+    feedback === 'edit'
+      ? {
+          success: t('updateRiskAnalysisAssignment.outcome.success'),
+          error: t('updateRiskAnalysisAssignment.outcome.error'),
+          loading: t('updateRiskAnalysisAssignment.loading'),
+        }
+      : {
+          success: t('assignRiskAnalysisReviewer.outcome.success'),
+          error: t('assignRiskAnalysisReviewer.outcome.error'),
+          loading: t('assignRiskAnalysisReviewer.loading'),
+        }
+
   return useMutation({
     mutationFn: PurposeServices.assignRiskAnalysisReviewer,
     meta: {
-      successToastLabel: showSuccessToast ? t('outcome.success') : undefined,
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
+      successToastLabel: feedback === 'none' ? undefined : labels.success,
+      errorToastLabel: labels.error,
+      loadingLabel: labels.loading,
     },
   })
 }
@@ -252,30 +281,60 @@ function useSignRiskAnalysis() {
   return useMutation({
     mutationFn: PurposeServices.signRiskAnalysis,
     meta: {
-      errorToastLabel: t('outcome.error'),
+      errorToastLabel: (error: unknown) =>
+        t(
+          match(error)
+            .with(P.instanceOf(RiskAnalysisAlreadyApprovedError), () => 'outcome.alreadyApproved')
+            .with(P.instanceOf(RiskAnalysisAlreadyRejectedError), () => 'outcome.alreadyRejected')
+            .otherwise(() => 'outcome.error')
+        ),
       loadingLabel: t('loading'),
     },
   })
 }
 
 function useRejectRiskAnalysis() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectRiskAnalysis' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
   return useMutation({
     mutationFn: PurposeServices.rejectRiskAnalysis,
     meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
+      errorToastLabel: (error: unknown) =>
+        t(
+          match(error)
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyApprovedError),
+              () => 'signRiskAnalysis.outcome.alreadyApproved'
+            )
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyRejectedError),
+              () => 'signRiskAnalysis.outcome.alreadyRejected'
+            )
+            .otherwise(() => 'rejectRiskAnalysis.outcome.error')
+        ),
+      loadingLabel: t('rejectRiskAnalysis.loading'),
     },
   })
 }
 
 function useUpdateRiskAnalysis() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
   return useMutation({
     mutationFn: PurposeServices.updateRiskAnalysis,
     meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
+      errorToastLabel: (error: unknown) =>
+        t(
+          match(error)
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyApprovedError),
+              () => 'signRiskAnalysis.outcome.alreadyApproved'
+            )
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyRejectedError),
+              () => 'signRiskAnalysis.outcome.alreadyRejected'
+            )
+            .otherwise(() => 'updateRiskAnalysis.outcome.error')
+        ),
+      loadingLabel: t('updateRiskAnalysis.loading'),
     },
   })
 }

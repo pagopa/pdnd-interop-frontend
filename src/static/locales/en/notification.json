@@ -126,6 +126,10 @@
               "purposeStateUpdated": {
                 "label": "Purpose status update",
                 "description": "Notify me when a purpose status is suspended, archived, or reactivated"
+              },
+              "purposeRiskAnalysisAssignmentStatusToAdmin": {
+                "label": "Status of risk analysis assignments",
+                "description": "Notify me when an evaluator approves or rejects a risk analysis"
               }
             }
           },
@@ -273,6 +277,22 @@
               "clientKeysAssociationUpdated": {
                 "label": "Key status updates linked to a client",
                 "description": "Notify me when the status of a key linked to a client changes or should be replaced."
+              }
+            }
+          }
+        },
+        "riskAnalysis": {
+          "title": "Risk Analysis",
+          "riskAnalysisAssignment": {
+            "title": "Assignment for completion or approval",
+            "components": {
+              "purposeRiskAnalysisAssignmentStatusToReviewer": {
+                "label": "Status of assignments received",
+                "description": "Notify me when I am assigned to complete or approve a risk analysis, or when my assignment is revoked"
+              },
+              "purposePublishedWithRiskAnalysisToReviewer": {
+                "label": "Purpose publication",
+                "description": "Notify me when the administrator publishes a purpose for which I have been assigned the risk analysis"
               }
             }
           }

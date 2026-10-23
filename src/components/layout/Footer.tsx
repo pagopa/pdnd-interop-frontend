@@ -69,8 +69,8 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
       <Typography variant="inherit" component="span" fontWeight={700}>
         PagoPA S.p.A.
       </Typography>{' '}
-      — società per azioni con socio unico - capitale sociale di euro 1,000,000 interamente versato
-      - sede legale in Roma, Piazza Colonna 370,
+      — società per azioni - capitale sociale di euro 1,000,000 interamente versato - sede legale in
+      Roma, Piazza Colonna 370,
       <br />
       CAP 00187 - n. di iscrizione a Registro Imprese di Roma, CF e P.IVA 15376371009
     </>

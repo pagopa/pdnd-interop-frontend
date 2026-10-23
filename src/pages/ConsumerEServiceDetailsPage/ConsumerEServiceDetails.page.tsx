@@ -143,7 +143,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           </TabList>
 
           <TabPanel value="eserviceDetail">
-            <ConsumerEServiceDetailsTab />
+            <ConsumerEServiceDetailsTab delegators={delegators} />
           </TabPanel>
 
           <TabPanel value="linkedPurposeTemplates">
