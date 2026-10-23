@@ -119,9 +119,10 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           </Trans>
         )
       }
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_LIST',
+      navigation={{
+        mode: 'wizard',
+        exitAction: { to: 'PROVIDE_ESERVICE_LIST' },
+        stepKey: activeStep,
       }}
     >
       <Stepper steps={steps} activeIndex={activeStep} />

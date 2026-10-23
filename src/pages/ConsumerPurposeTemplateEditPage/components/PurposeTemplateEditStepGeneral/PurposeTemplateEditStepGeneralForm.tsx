@@ -120,7 +120,6 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
           />
         </SectionContainer>
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST', label: t('backToListBtn'), type: 'link' }}
           forward={{
             label: t('edit.forwardWithSaveBtn'),
             type: 'submit',

@@ -60,10 +60,7 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
             }
           : undefined
       }
-      backToAction={{
-        label: t('actions.backToEserviceTemplateCatalog'),
-        to: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
-      }}
+      navigation={{ showBackButton: true }}
     >
       <React.Suspense fallback={<ConsumerEServiceTemplateDetailsSkeleton />}>
         <TabContext value={activeTab}>

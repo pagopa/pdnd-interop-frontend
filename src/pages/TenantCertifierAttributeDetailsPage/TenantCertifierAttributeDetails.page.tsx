@@ -12,7 +12,6 @@ import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const TenantCertifierAttributeDetails: React.FC = () => {
-  const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.attributeDetails' })
   const { attributeId } = useParams<'TENANT_CERTIFIER_ATTRIBUTE_DETAILS'>()
 
   const { data: attributeName = '', isLoading } = useQuery({
@@ -24,10 +23,7 @@ const TenantCertifierAttributeDetails: React.FC = () => {
     <PageContainer
       title={attributeName}
       isLoading={isLoading}
-      backToAction={{
-        label: t('backToTenantCertifierBtn'),
-        to: 'TENANT_CERTIFIER',
-      }}
+      navigation={{ showBackButton: true }}
     >
       <Grid container>
         <Grid item xs={8}>

@@ -82,13 +82,6 @@
         "error": "Non è stato possibile modificare la soglia di chiamate API dell’attributo. Controlla di aver inserito le informazioni corrette."
       }
     },
-    "removeAttributeThreshold": {
-      "loading": "La soglia di chiamate API dell'attributo certificato è in fase di rimozione",
-      "outcome": {
-        "success": "Hai rimosso la soglia di chiamate API dell’attributo certificato.",
-        "error": "Non è stato possibile rimuovere la soglia di chiamate API dell’attributo. Riprova."
-      }
-    },
     "publishVersionDraft": {
       "loading": "Stiamo pubblicando la versione in bozza",
       "outcome": {
@@ -197,6 +190,12 @@
         "error": "Non è stato possibile rifiutare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
       }
     },
+    "cancelDelegatedArchivingEserviceRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione dell’e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
     "cancelEserviceArchiving": {
       "outcome": {
         "success": "L'e-service non è più in fase di archiviazione",
@@ -206,7 +205,6 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "Questo e-service sarà archiviato tra {{days}} giorni",
-        "gracePeriodError": "Non puoi archiviare l’e-service prima di una versione già in fase di archiviazione. Seleziona una durata più lunga.",
         "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
       }
     },
