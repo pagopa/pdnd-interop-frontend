@@ -607,13 +607,12 @@
   },
   "requiredLabel": "*Required fields.",
   "pageNavigation": {
-    "backButton": "Back",
     "exitButton": "Exit",
     "exitDialog": {
-      "title": "Do you want to leave?",
-      "description": "Any unsaved changes will be lost. Do you want to leave this flow?",
-      "cancelButton": "Exit without saving",
-      "confirmButton": "Save and exit"
+      "title": "Do you really want to exit?",
+      "description": "If you exit, any information entered so far will be lost.",
+      "cancelButton": "Back to editing",
+      "confirmButton": "Exit"
     }
   },
   "routeLabels": {

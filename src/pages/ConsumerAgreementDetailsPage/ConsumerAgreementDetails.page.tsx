@@ -89,7 +89,6 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
     <PageContainer
       title={t('consumerRead.title')}
       topSideActions={actions}
-      navigation={{ showBackButton: true }}
       statusChip={agreement ? { for: 'agreement', agreement } : undefined}
     >
       <ConsumerAgreementVersionAlerts descriptor={descriptor} />

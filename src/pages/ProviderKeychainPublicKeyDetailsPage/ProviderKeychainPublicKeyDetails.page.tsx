@@ -30,7 +30,6 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
       isLoading={isLoading}
       title={publicKey?.name}
       topSideActions={actions}
-      navigation={{ showBackButton: true }}
     >
       <React.Suspense fallback={<ProviderKeychainPublicKeyDetailsGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (

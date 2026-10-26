@@ -39,7 +39,6 @@ const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
             }
           : undefined
       }
-      navigation={{ showBackButton: true }}
     >
       <TabContext value={activeTab}>
         <TabList

@@ -7,30 +7,13 @@ vi.mock('../../Breadcrumbs', () => ({
 }))
 
 describe('PageNavigation', () => {
-  it('shows breadcrumbs by default', () => {
+  it('shows breadcrumbs without a back button by default', () => {
     const screen = renderWithApplicationContext(<PageNavigation />, {
       withRouterContext: true,
     })
 
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
-  })
-
-  it('does not render a back button when requested', () => {
-    const screen = renderWithApplicationContext(<PageNavigation showBackButton />, {
-      withRouterContext: true,
-    })
-
-    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
-    expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
-  })
-
-  it('shows breadcrumbs instead of a back button in back mode', () => {
-    const screen = renderWithApplicationContext(<PageNavigation mode="back" />, {
-      withRouterContext: true,
-    })
-
-    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
-    expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
   it('leaves a wizard immediately when there are no unsaved changes', async () => {

@@ -74,7 +74,6 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     <PageContainer
       title={isApprovalFlow ? t('titleApproval') : t('titleSummary')}
       isLoading={isLoading}
-      navigation={{ mode: 'back' }}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
 

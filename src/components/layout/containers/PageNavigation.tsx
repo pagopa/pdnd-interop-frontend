@@ -20,14 +20,6 @@ export type PageExitAction = {
 export type PageNavigationProps =
   | {
       mode?: 'breadcrumbs'
-      showBackButton?: boolean
-      exitAction?: never
-      hasUnsavedChanges?: never
-      stepKey?: never
-    }
-  | {
-      mode: 'back'
-      showBackButton?: never
       exitAction?: never
       hasUnsavedChanges?: never
       stepKey?: never
@@ -35,7 +27,6 @@ export type PageNavigationProps =
   | {
       mode: 'wizard'
       exitAction: PageExitAction
-      showBackButton?: never
       hasUnsavedChanges?: boolean
       stepKey?: string | number
     }

@@ -87,14 +87,13 @@ describe('NewPageContainer', () => {
     expect(statusChip).toBeInTheDocument()
   })
 
-  it('does not render a browser back button', () => {
+  it('does not render a browser back button by default', () => {
     const screen = renderComponent({
       children: 'Test children',
       title: 'Test title',
-      navigation: { showBackButton: true },
     })
 
-    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
     expect(screen.getByText('Test title')).toBeInTheDocument()
   })
 

@@ -56,7 +56,6 @@ const ProviderKeychainDetailsPage: React.FC = () => {
       title={keychain?.name ?? ''}
       topSideActions={actions}
       isLoading={isLoadingKeychain}
-      navigation={{ showBackButton: true }}
     >
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">

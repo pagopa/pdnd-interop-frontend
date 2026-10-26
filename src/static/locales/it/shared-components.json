@@ -608,7 +608,6 @@
   "requiredLabel": "*Campi obbligatori",
 
   "pageNavigation": {
-    "backButton": "Indietro",
     "exitButton": "Esci",
     "exitDialog": {
       "title": "Vuoi davvero uscire?",

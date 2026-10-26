@@ -358,7 +358,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             </Trans>
           ) : undefined
         }
-        navigation={{ mode: 'back' }}
         isLoading={isLoading}
         statusChip={{
           for: 'eservice',

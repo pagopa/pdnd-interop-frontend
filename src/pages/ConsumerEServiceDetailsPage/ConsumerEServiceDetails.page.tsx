@@ -91,7 +91,6 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
-      navigation={{ showBackButton: true }}
       infoSection={
         descriptor
           ? {

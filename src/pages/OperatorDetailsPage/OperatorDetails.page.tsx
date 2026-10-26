@@ -24,7 +24,6 @@ const OperatorDetailsPage: React.FC = () => {
       isLoading={isLoading}
       title={operatorFullname}
       topSideActions={actions}
-      navigation={{ showBackButton: true }}
     >
       <Grid spacing={2} container>
         <Grid item xs={7}>

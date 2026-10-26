@@ -60,7 +60,6 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
             }
           : undefined
       }
-      navigation={{ showBackButton: true }}
     >
       <React.Suspense fallback={<ConsumerEServiceTemplateDetailsSkeleton />}>
         <TabContext value={activeTab}>

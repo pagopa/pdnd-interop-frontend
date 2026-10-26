@@ -72,7 +72,7 @@ const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
   }
 
   return (
-    <PageContainer navigation={{ showBackButton: true }}>
+    <PageContainer>
       <FormProvider {...formMethods}>
         <Box>
           <SectionContainer

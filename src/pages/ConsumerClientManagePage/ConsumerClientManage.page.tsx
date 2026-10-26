@@ -66,7 +66,6 @@ const ConsumerClientManagePage: React.FC = () => {
       description={client?.description}
       topSideActions={[voucherSimulationAction, ...actions]}
       isLoading={isLoadingClient}
-      navigation={{ showBackButton: true }}
     >
       {clientKind === 'API' && (
         <Grid container>

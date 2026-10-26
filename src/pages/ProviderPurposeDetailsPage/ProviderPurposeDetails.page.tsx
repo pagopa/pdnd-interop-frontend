@@ -39,7 +39,6 @@ const ProviderPurposeDetailsPage: React.FC = () => {
       isLoading={isLoading}
       topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
-      navigation={{ showBackButton: true }}
     >
       {alertProps && (
         <Alert severity={alertProps.severity} sx={{ mb: 3 }} variant={alertProps.variant}>

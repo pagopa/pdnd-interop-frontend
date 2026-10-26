@@ -23,7 +23,6 @@ const TenantCertifierAttributeDetails: React.FC = () => {
     <PageContainer
       title={attributeName}
       isLoading={isLoading}
-      navigation={{ showBackButton: true }}
     >
       <Grid container>
         <Grid item xs={8}>

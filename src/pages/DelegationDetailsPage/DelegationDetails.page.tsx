@@ -32,7 +32,6 @@ export const DelegationDetailsPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       isLoading={isLoading}
-      navigation={{ showBackButton: true }}
       topSideActions={actions}
     >
       {delegation && delegation.state === 'REJECTED' && delegation.rejectionReason && (

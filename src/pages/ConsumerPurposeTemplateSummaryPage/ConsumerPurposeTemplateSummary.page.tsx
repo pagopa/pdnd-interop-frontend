@@ -80,7 +80,6 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
     <PageContainer
       title={t('edit.summary.title')}
       isLoading={isLoading}
-      navigation={{ mode: 'back' }}
       statusChip={
         purposeTemplate ? { for: 'purposeTemplate', state: purposeTemplate.state } : undefined
       }
