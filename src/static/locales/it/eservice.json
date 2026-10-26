@@ -706,6 +706,28 @@
     "inspectCollection": "Vedi raccolta",
     "collectionBadge": "{{ count }} e-service"
   },
+  "featuredList": {
+    "emptyStateBanner": {
+      "eservices": {
+        "error": {
+          "title": "Gli e-service suggeriti non sono disponibili",
+          "description": "Al momento non riusciamo a caricare gli e-service suggeriti. Il problema è temporaneo e stiamo lavorando per risolverlo. Intanto puoi prendere spunto dagli esempi pratici o esplorare tutti gli e-service."
+        },
+        "noResults": {
+          "title": "Qui troverai gli e-service suggeriti",
+          "description": "Per ora non ci sono suggerimenti da mostrarti. Quando saranno pronti, li troverai qui. Intanto puoi prendere spunto dagli esempi pratici o esplorare tutti gli e-service."
+        }
+      },
+      "useCases": {
+        "title": "Gli esempi pratici di uso degli e-service non sono disponibili",
+        "description": "Al momento non riusciamo a caricare esempi da mostrarti. Il problema è temporaneo e stiamo lavorando per risolverlo. Intanto puoi esplorare gli e-service suggeriti o consultare tutti gli e-service."
+      },
+      "eservicesAndUseCases": {
+        "title": "Qui troverai alcuni e-service suggeriti ed esempi pratici",
+        "description": "Quando saranno disponibili, li vedrai qui. Intanto puoi esplorare tutti gli e-service."
+      }
+    }
+  },
   "read": {
     "dialogs": {
       "removeAttributeThreshold": {

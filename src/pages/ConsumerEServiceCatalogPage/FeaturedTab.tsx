@@ -6,8 +6,18 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import type { CatalogFilterPayload } from '@/api/api.generatedTypes'
+import EmptyStateBanner from './components/EmptyStateBanner'
+import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
 
-const FeaturedEServicesTab: React.FC = () => {
+type FeaturedTabProps = {
+  onGoToCatalog: () => void
+}
+
+type EmptyStateKey = 'eservices.error' | 'eservices.noResults' | 'useCases' | 'eservicesAndUseCases'
+
+const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'featuredList' })
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
     limit: 6,
     limitOptions: [6],
@@ -23,7 +33,7 @@ const FeaturedEServicesTab: React.FC = () => {
     // TODO remove raccolte
   }
 
-  const { data } = useQuery({
+  const { data, isError } = useQuery({
     ...EServiceQueries.queryCatalogList(query),
     placeholderData: keepPreviousData,
   })
@@ -33,9 +43,15 @@ const FeaturedEServicesTab: React.FC = () => {
       ? getTotalPageCount(data?.pagination.totalCount)
       : 2
 
+  const eservicesEmptyState =
+    isError && !data ? 'error' : data && data.results.length === 0 ? 'noResults' : undefined
+
+
   return (
     <>
-      <EServiceCatalogWrapper params={query} />
+
+      {!eservicesEmptyState && <EServiceCatalogWrapper params={query} />}
+
       {data && data.pagination.totalCount !== 0 && (
         <Box mt={3}>
           <MIPagination
@@ -56,4 +72,4 @@ const EServiceCatalogWrapper: React.FC<{ params: CatalogFilterPayload }> = ({ pa
   return <EServiceCatalogGrid eservices={data?.results} />
 }
 
-export default FeaturedEServicesTab
+export default FeaturedTab
