@@ -6,24 +6,24 @@ import { Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import AllEServicesTab from './AllEservicesTab'
-import FeaturedEServicesTab from './FeaturedEServicesTab'
+import FeaturedTab from './FeaturedTab'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
 
-  const { activeTab, updateActiveTab } = useActiveTab('featuredEServices')
+  const { activeTab, updateActiveTab } = useActiveTab('featured')
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
       <ProductUpdatesBanner />
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
-          <Tab label={t('tabs.featuredEServices')} value="featuredEServices" />
+          <Tab label={t('tabs.featured')} value="featured" />
           <Tab label={t('tabs.allEServices')} value="allEServices" />
         </TabList>
 
-        <TabPanel value="featuredEServices">
-          <FeaturedEServicesTab />
+        <TabPanel value="featured">
+          <FeaturedTab onGoToCatalog={() => updateActiveTab(null, 'allEServices')} />
         </TabPanel>
 
         <TabPanel value="allEServices">
