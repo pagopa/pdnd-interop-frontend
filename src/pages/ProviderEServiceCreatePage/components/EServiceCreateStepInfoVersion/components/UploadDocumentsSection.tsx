@@ -12,6 +12,7 @@ import { IconLink } from '@/components/shared/IconLink'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useEServiceCreateContext } from '../../EServiceCreateContext'
 import { EmptySectionTextCard } from '@/components/shared/EmptySectionTextCard'
+import { usePageContainerFormDirtyState } from '@/components/layout/containers'
 
 type UploadDocFormValues = {
   doc: File | null
@@ -54,6 +55,7 @@ export const UploadDocumentsSection: React.FC<UploadDocumentsSectionProps> = ({
     defaultValues,
     shouldUnregister: true,
   })
+  usePageContainerFormDirtyState(formMethods.control)
 
   const onSubmit: SubmitHandler<UploadDocFormValues> = ({ doc, prettyName }) => {
     if (!doc || !descriptor) return

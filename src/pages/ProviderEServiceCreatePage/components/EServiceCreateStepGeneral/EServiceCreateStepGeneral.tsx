@@ -30,6 +30,7 @@ import { DelegationSection } from '../sections/DelegationSection'
 import { SignalHubSection } from '../sections/SignalHubSection'
 import { EServiceTemplateDetailsSection } from '../sections/EServiceTemplateDetailsSection'
 import { InstanceLabelSection } from './InstanceLabelSection'
+import { usePageContainerFormDirtyState } from '@/components/layout/containers'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -74,6 +75,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   // If Template ID is present we are inheriting an e-service fields from a eserviceTemplate
   const defaultValues = evaluateFormDefaultValues(eserviceTemplate, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
+  usePageContainerFormDirtyState(formMethods.control)
 
   /**
    * Resolves the instanceLabel form value to the API payload value:

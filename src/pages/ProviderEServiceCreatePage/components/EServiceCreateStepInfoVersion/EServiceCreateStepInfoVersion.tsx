@@ -17,6 +17,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useNavigate } from '@/router'
 import { UploadDocumentsSection } from './components/UploadDocumentsSection'
 import { Stack } from '@mui/system'
+import { usePageContainerFormDirtyState } from '@/components/layout/containers'
 
 type EServiceCreateStepVersionFormValues = {
   description: string
@@ -43,6 +44,7 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
       agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : false,
     },
   })
+  usePageContainerFormDirtyState(formMethods.control)
 
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
 
