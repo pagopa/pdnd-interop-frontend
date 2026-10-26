@@ -46,9 +46,26 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
   const eservicesEmptyState =
     isError && !data ? 'error' : data && data.results.length === 0 ? 'noResults' : undefined
 
+  const useCasesEmptyState = isError // TODO
+
+  const emptyState = match([eservicesEmptyState, useCasesEmptyState] as const)
+    .returnType<EmptyStateKey | undefined>()
+    .with([P.not(undefined), true], () => 'eservicesAndUseCases')
+    .with(['error', false], () => 'eservices.error')
+    .with(['noResults', false], () => 'eservices.noResults')
+    .with([undefined, true], () => 'useCases')
+    .with([undefined, false], () => undefined)
+    .exhaustive()
 
   return (
     <>
+      {emptyState && (
+        <EmptyStateBanner
+          title={t(`emptyStateBanner.${emptyState}.title`)}
+          description={t(`emptyStateBanner.${emptyState}.description`)}
+          onGoToCatalog={onGoToCatalog}
+        />
+      )}
 
       {!eservicesEmptyState && <EServiceCatalogWrapper params={query} />}
 
