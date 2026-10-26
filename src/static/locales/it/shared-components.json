@@ -615,6 +615,7 @@
     "PROVIDE_ESERVICE_SUMMARY": "Riepilogo",
     "PROVIDE_ESERVICE_EDIT": "Modifica e-service",
     "PROVIDE_ESERVICE_MANAGE": "Visualizza e-service",
+    "PROVIDE_DASHBOARD": "Panoramica",
     "PROVIDE_ESERVICE_LIST": "I miei e-service",
     "PROVIDE_AGREEMENT_READ": "Gestisci richiesta",
     "PROVIDE_AGREEMENT_LIST": "Richieste ricevute",

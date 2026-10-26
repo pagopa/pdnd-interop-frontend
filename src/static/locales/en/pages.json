@@ -1,4 +1,46 @@
 {
+  "dashboard": {
+    "title": "Dashboard",
+    "headings": {
+      "eservices": "Provided e-services",
+      "pendingRequests": "Pending requests",
+      "purposes": "Received purposes",
+      "consumers": "Consumer organizations",
+      "requests": "Received requests",
+      "average": "Average activation time",
+      "consumption": "API call usage"
+    },
+    "statuses": {
+      "active": "Active",
+      "suspended": "Suspended",
+      "archiving": "Archiving",
+      "suspendedArchiving": "Suspended and archiving"
+    },
+    "requests": {
+      "accepted": "accepted",
+      "pending": "pending",
+      "rejected": "rejected"
+    },
+    "units": {
+      "eservices": "e-services",
+      "requests": "requests",
+      "purposes": "purposes",
+      "consumers": "consumer organizations",
+      "days": "days",
+      "calls": "calls"
+    },
+    "consumptionSubtitle": "Calls used against the daily limit",
+    "empty": {
+      "eservices": "No e-services provided",
+      "pendingRequests": "There are no pending requests"
+    },
+    "actions": {
+      "eservices": "View e-services",
+      "agreements": "View requests",
+      "purposes": "View purposes",
+      "create": "Create e-service"
+    }
+  },
   "consumerEServiceCatalog": {
     "title": "E-service Catalog",
     "description": "The e-service catalog contains all the databases that other entities have made available. You can subscribe to those of interest to you."
