@@ -26,11 +26,7 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
   })
 
   return (
-    <PageContainer
-      isLoading={isLoading}
-      title={publicKey?.name}
-      topSideActions={actions}
-    >
+    <PageContainer isLoading={isLoading} title={publicKey?.name} topSideActions={actions}>
       <React.Suspense fallback={<ProviderKeychainPublicKeyDetailsGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
           <Alert severity="warning">

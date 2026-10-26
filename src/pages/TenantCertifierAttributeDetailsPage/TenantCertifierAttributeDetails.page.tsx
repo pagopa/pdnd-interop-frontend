@@ -20,10 +20,7 @@ const TenantCertifierAttributeDetails: React.FC = () => {
   })
 
   return (
-    <PageContainer
-      title={attributeName}
-      isLoading={isLoading}
-    >
+    <PageContainer title={attributeName} isLoading={isLoading}>
       <Grid container>
         <Grid item xs={8}>
           <Suspense fallback={<SectionContainerSkeleton height={92} />}>

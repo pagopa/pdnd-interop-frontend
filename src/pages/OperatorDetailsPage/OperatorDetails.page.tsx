@@ -20,11 +20,7 @@ const OperatorDetailsPage: React.FC = () => {
   const { actions } = useGetClientOperatorsActions(operatorId, clientId)
 
   return (
-    <PageContainer
-      isLoading={isLoading}
-      title={operatorFullname}
-      topSideActions={actions}
-    >
+    <PageContainer isLoading={isLoading} title={operatorFullname} topSideActions={actions}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <React.Suspense fallback={<OperatorGeneralInfoSectionSkeleton />}>

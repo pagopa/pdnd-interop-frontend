@@ -29,11 +29,7 @@ export const DelegationDetailsPage: React.FC = () => {
   const { actions } = useGetDelegationActions(delegation)
 
   return (
-    <PageContainer
-      title={t('title')}
-      isLoading={isLoading}
-      topSideActions={actions}
-    >
+    <PageContainer title={t('title')} isLoading={isLoading} topSideActions={actions}>
       {delegation && delegation.state === 'REJECTED' && delegation.rejectionReason && (
         <Alert severity="error" sx={{ mb: 3 }} variant="outlined">
           <Trans

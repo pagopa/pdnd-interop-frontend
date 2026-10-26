@@ -18,11 +18,7 @@ const ProviderKeychainUserDetailsPage: React.FC = () => {
   const { actions } = useGetProducerKeychainUserActions({ keychainId, userId })
 
   return (
-    <PageContainer
-      isLoading={isLoading}
-      title={operatorFullname}
-      topSideActions={actions}
-    >
+    <PageContainer isLoading={isLoading} title={operatorFullname} topSideActions={actions}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <React.Suspense fallback={<ProviderKeychainUserDetailsGeneralInfoSectionSkeleton />}>

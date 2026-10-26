@@ -23,11 +23,7 @@ const KeyDetailsPage: React.FC = () => {
   const { actions } = useGetKeyActions(clientId, kid)
 
   return (
-    <PageContainer
-      isLoading={isLoading}
-      title={publicKey?.name}
-      topSideActions={actions}
-    >
+    <PageContainer isLoading={isLoading} title={publicKey?.name} topSideActions={actions}>
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
           <Alert severity="warning">
