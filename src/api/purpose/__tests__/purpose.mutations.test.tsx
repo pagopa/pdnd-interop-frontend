@@ -58,7 +58,7 @@ describe.each([
     },
     service: PurposeServices.rejectRiskAnalysis,
     genericFeedback: 'rejectRiskAnalysis.outcome.error',
-    conflicts: [],
+    conflicts: conflictCases.filter(({ code }) => code !== '008-0054'),
   },
   {
     action: 'save',

@@ -310,10 +310,11 @@ function useSignRiskAnalysis() {
 
 function useRejectRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
+  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('rejectRiskAnalysis.outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.rejectRiskAnalysis,
     meta: {
-      errorToastLabel: t('rejectRiskAnalysis.outcome.error'),
+      errorToastLabel,
       loadingLabel: t('rejectRiskAnalysis.loading'),
     },
   })
