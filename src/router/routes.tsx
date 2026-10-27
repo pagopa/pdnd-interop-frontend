@@ -837,16 +837,20 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
 
 export type RouteKey = InferRouteKey<typeof routes>
 
-export const router = createBrowserRouter(
-  [
-    {
-      errorElement: <RouterErrorPage />,
-      children: [
-        { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-        { path: '/', element: <LandingByRole /> },
-        { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
-      ],
-    },
-  ],
-  { basename: '/ui' }
-)
+export const routerRoutes = [
+  {
+    errorElement: <RouterErrorPage />,
+    children: [
+      { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
+      { path: '/', element: <LandingByRole /> },
+      { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
+    ],
+  },
+]
+
+let router: ReturnType<typeof createBrowserRouter> | undefined
+
+export function getRouter() {
+  router ??= createBrowserRouter(routerRoutes, { basename: '/ui' })
+  return router
+}
