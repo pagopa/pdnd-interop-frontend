@@ -154,33 +154,36 @@ describe('useRiskAnalysisSummaryPage', () => {
     })
   })
 
-  it('should refetch the purpose and pass its metadata version to the approval dialog', async () => {
-    const purpose = {
-      currentVersion: {},
-      metadataVersion: 3,
-      eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
-      agreement: { state: 'ACTIVE' },
+  it.each([0, 3])(
+    'should pass the displayed metadata version %s without refetching',
+    async (metadataVersion) => {
+      const purpose = {
+        currentVersion: {},
+        metadataVersion,
+        eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
+        agreement: { state: 'ACTIVE' },
+      }
+      const refetchGetPurpose = vi.fn().mockResolvedValue({ data: purpose, isError: false })
+      useQueryMock.mockReturnValue({
+        data: purpose,
+        isLoading: false,
+        refetch: refetchGetPurpose,
+      })
+
+      const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+
+      await act(() => result.current.handleApproveDraft())
+
+      expect(refetchGetPurpose).not.toHaveBeenCalled()
+      expect(openDialogMock).toHaveBeenCalledWith({
+        type: 'approveRiskAnalysis',
+        purposeId: 'test-purpose-id',
+        metadataVersionToSign: metadataVersion,
+      })
     }
-    const refetchGetPurpose = vi.fn().mockResolvedValue({ data: purpose, isError: false })
-    useQueryMock.mockReturnValue({
-      data: purpose,
-      isLoading: false,
-      refetch: refetchGetPurpose,
-    })
+  )
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
-
-    await act(() => result.current.handleApproveDraft())
-
-    expect(refetchGetPurpose).toHaveBeenCalledTimes(1)
-    expect(openDialogMock).toHaveBeenCalledWith({
-      type: 'approveRiskAnalysis',
-      purposeId: 'test-purpose-id',
-      metadataVersionToSign: 3,
-    })
-  })
-
-  it('should explain that the risk analysis changed instead of opening the approval dialog', async () => {
+  it('should preserve the metadata version captured when opening the dialog after a query update', async () => {
     const purpose = {
       currentVersion: {},
       metadataVersion: 3,
@@ -193,58 +196,48 @@ describe('useRiskAnalysisSummaryPage', () => {
     })
     useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
 
+    const { result, rerender } = renderHook(() => useRiskAnalysisSummaryPage())
+
+    await act(() => result.current.handleApproveDraft())
+
+    useQueryMock.mockReturnValue({
+      data: { ...purpose, metadataVersion: 4 },
+      isLoading: false,
+      refetch,
+    })
+    rerender()
+
+    expect(openDialogMock).toHaveBeenCalledExactlyOnceWith({
+      type: 'approveRiskAnalysis',
+      purposeId: 'test-purpose-id',
+      metadataVersionToSign: 3,
+    })
+    expect(refetch).not.toHaveBeenCalled()
+    expect(showToastMock).not.toHaveBeenCalled()
+  })
+
+  it('should keep the generic error when the displayed metadata version is missing', async () => {
+    const purpose = {
+      currentVersion: {},
+      metadataVersion: undefined,
+      eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
+      agreement: { state: 'ACTIVE' },
+    }
+    const refetch = vi.fn().mockRejectedValue(new Error('No extra request expected'))
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
+
     const { result } = renderHook(() => useRiskAnalysisSummaryPage())
 
     await act(() => result.current.handleApproveDraft())
 
-    expect(showToastMock).toHaveBeenCalledWith('versionChanged', 'error')
+    expect(showToastMock).toHaveBeenCalledWith('error', 'error')
     expect(openDialogMock).not.toHaveBeenCalled()
+    expect(refetch).not.toHaveBeenCalled()
   })
 
-  it.each([
-    { label: 'refetch fails', metadataVersion: 3, refreshedVersion: 4, isError: true },
-    {
-      label: 'original version is missing',
-      metadataVersion: undefined,
-      refreshedVersion: 4,
-      isError: false,
-    },
-    {
-      label: 'refreshed version is missing',
-      metadataVersion: 3,
-      refreshedVersion: undefined,
-      isError: false,
-    },
-  ])(
-    'should keep the generic error when $label',
-    async ({ metadataVersion, refreshedVersion, isError }) => {
-      const purpose = {
-        currentVersion: {},
-        metadataVersion,
-        eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
-        agreement: { state: 'ACTIVE' },
-      }
-      const refetch = vi.fn().mockResolvedValue({
-        data: { ...purpose, metadataVersion: refreshedVersion },
-        isError,
-      })
-      useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
-
-      const { result } = renderHook(() => useRiskAnalysisSummaryPage())
-
-      await act(() => result.current.handleApproveDraft())
-
-      expect(showToastMock).toHaveBeenCalledWith('error', 'error')
-      expect(openDialogMock).not.toHaveBeenCalled()
-    }
-  )
-
-  it.each([
-    { signingState: 'SIGNED', expectedMessage: 'alreadyApproved' },
-    { signingState: 'REJECTED', expectedMessage: 'alreadyRejected' },
-  ])(
-    'should show $expectedMessage when the risk analysis is $signingState',
-    async ({ signingState, expectedMessage }) => {
+  it.each(['SIGNED', 'REJECTED'])(
+    'should leave classification of a concurrent %s state to the sign request',
+    async (signingState) => {
       const purpose = {
         currentVersion: {},
         metadataVersion: 3,
@@ -265,8 +258,13 @@ describe('useRiskAnalysisSummaryPage', () => {
 
       await act(() => result.current.handleApproveDraft())
 
-      expect(showToastMock).toHaveBeenCalledWith(expectedMessage, 'error')
-      expect(openDialogMock).not.toHaveBeenCalled()
+      expect(showToastMock).not.toHaveBeenCalled()
+      expect(refetch).not.toHaveBeenCalled()
+      expect(openDialogMock).toHaveBeenCalledWith({
+        type: 'approveRiskAnalysis',
+        purposeId: 'test-purpose-id',
+        metadataVersionToSign: 3,
+      })
     }
   )
 })
