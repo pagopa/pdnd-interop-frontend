@@ -1,5 +1,9 @@
 import React from 'react'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import {
+  SectionContainer,
+  SectionContainerSkeleton,
+  usePageContainerFormDirtyState,
+} from '@/components/layout/containers'
 import { Alert, Box, Stack } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -37,6 +41,7 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
     riskAnalysisConfig: riskAnalysis,
     defaultAnswers: defaultAnswers,
   })
+  usePageContainerFormDirtyState(riskAnalysisForm.control)
 
   const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState(false)
 
