@@ -48,6 +48,7 @@ describe.each([
     },
     service: PurposeServices.signRiskAnalysis,
     genericFeedback: 'outcome.error',
+    conflicts: conflictCases,
   },
   {
     action: 'reject',
@@ -57,6 +58,7 @@ describe.each([
     },
     service: PurposeServices.rejectRiskAnalysis,
     genericFeedback: 'rejectRiskAnalysis.outcome.error',
+    conflicts: [],
   },
   {
     action: 'save',
@@ -66,6 +68,7 @@ describe.each([
     },
     service: PurposeServices.updateRiskAnalysis,
     genericFeedback: 'updateRiskAnalysis.outcome.error',
+    conflicts: conflictCases.filter(({ code }) => code !== '008-0054'),
   },
   ...(['none', 'create', 'edit'] as const).map((feedback) => ({
     action: `assign (${feedback})`,
@@ -83,6 +86,7 @@ describe.each([
       feedback === 'edit'
         ? 'updateRiskAnalysisAssignment.outcome.error'
         : 'assignRiskAnalysisReviewer.outcome.error',
+    conflicts: [],
   })),
   {
     action: 'submit',
@@ -93,6 +97,7 @@ describe.each([
     },
     service: PurposeServices.submitRiskAnalysis,
     genericFeedback: 'outcome.error',
+    conflicts: [],
   },
   {
     action: 'update draft',
@@ -110,6 +115,7 @@ describe.each([
     },
     service: PurposeServices.updateDraft,
     genericFeedback: 'outcome.error',
+    conflicts: [],
   },
   {
     action: 'update draft from template',
@@ -124,11 +130,12 @@ describe.each([
     },
     service: PurposeServices.updateDraftFromPurposeTemplate,
     genericFeedback: 'outcome.error',
+    conflicts: [],
   },
-])('$action risk analysis', ({ useMutation, service, genericFeedback }) => {
+])('$action risk analysis', ({ useMutation, service, genericFeedback, conflicts }) => {
   it.each(conflictCases)(
-    'shows $feedback for HTTP 409 with code $code',
-    async ({ code, feedback }) => {
+    'shows specific feedback only for a supported HTTP 409 code $code',
+    async ({ code }) => {
       vi.mocked(service).mockRejectedValueOnce(makeApiError(409, code))
       const { result } = renderHookWithApplicationContext(useMutation, {
         withReactQueryContext: true,
@@ -136,7 +143,8 @@ describe.each([
 
       act(() => result.current())
 
-      expect(await screen.findByText(feedback)).toBeInTheDocument()
+      const feedback = conflicts.find((conflict) => conflict.code === code)?.feedback
+      expect(await screen.findByText(feedback ?? genericFeedback)).toBeInTheDocument()
       expect(useErrorDataStore.getState()).toMatchObject({
         correlationId: 'correlation-id',
         errorCode: code,
@@ -168,15 +176,16 @@ describe.each([
     expect(await screen.findByText(genericFeedback)).toBeInTheDocument()
   })
 
-  it('recognizes a risk analysis conflict after another problem code', async () => {
-    vi.mocked(service).mockRejectedValueOnce(makeApiError(409, '008-0001', '008-0054'))
+  it('recognizes supported conflicts after another problem code', async () => {
+    vi.mocked(service).mockRejectedValueOnce(makeApiError(409, '008-0001', '008-0052'))
     const { result } = renderHookWithApplicationContext(useMutation, {
       withReactQueryContext: true,
     })
 
     act(() => result.current())
 
-    expect(await screen.findByText('versionChanged')).toBeInTheDocument()
+    const feedback = conflicts.find(({ code }) => code === '008-0052')?.feedback
+    expect(await screen.findByText(feedback ?? genericFeedback)).toBeInTheDocument()
   })
 })
 

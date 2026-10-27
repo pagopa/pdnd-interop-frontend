@@ -5,7 +5,7 @@ import { isAxiosError } from 'axios'
 import { match } from 'ts-pattern'
 import type { Problem } from '../api.generatedTypes'
 
-function useRiskAnalysisErrorToastLabel(defaultLabel: string) {
+function useRiskAnalysisErrorToastLabel(defaultLabel: string, includeVersionChanged = false) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
@@ -17,7 +17,7 @@ function useRiskAnalysisErrorToastLabel(defaultLabel: string) {
       const label = match(code)
         .with('008-0052', () => t('alreadyApproved'))
         .with('008-0053', () => t('alreadyRejected'))
-        .with('008-0054', () => t('versionChanged'))
+        .with('008-0054', () => (includeVersionChanged ? t('versionChanged') : undefined))
         .otherwise(() => undefined)
 
       if (label !== undefined) return label
@@ -40,11 +40,10 @@ function useCreateDraft() {
 
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateDraft' })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.updateDraft,
     meta: {
-      errorToastLabel,
+      errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
   })
@@ -54,11 +53,10 @@ function useUpdateDraftFromPurposeTemplate() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDraft',
   })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.updateDraftFromPurposeTemplate,
     meta: {
-      errorToastLabel,
+      errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
   })
@@ -274,13 +272,11 @@ function useAssignRiskAnalysisReviewer({
           error: t('assignRiskAnalysisReviewer.outcome.error'),
           loading: t('assignRiskAnalysisReviewer.loading'),
         }
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(labels.error)
-
   return useMutation({
     mutationFn: PurposeServices.assignRiskAnalysisReviewer,
     meta: {
       successToastLabel: feedback === 'none' ? undefined : labels.success,
-      errorToastLabel,
+      errorToastLabel: labels.error,
       loadingLabel: labels.loading,
     },
   })
@@ -290,12 +286,11 @@ function useSubmitRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.submitRiskAnalysis',
   })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.submitRiskAnalysis,
     meta: {
       successToastLabel: t('outcome.success'),
-      errorToastLabel,
+      errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
   })
@@ -303,7 +298,7 @@ function useSubmitRiskAnalysis() {
 
 function useSignRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('outcome.error'))
+  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('outcome.error'), true)
   return useMutation({
     mutationFn: PurposeServices.signRiskAnalysis,
     meta: {
@@ -315,11 +310,10 @@ function useSignRiskAnalysis() {
 
 function useRejectRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('rejectRiskAnalysis.outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.rejectRiskAnalysis,
     meta: {
-      errorToastLabel,
+      errorToastLabel: t('rejectRiskAnalysis.outcome.error'),
       loadingLabel: t('rejectRiskAnalysis.loading'),
     },
   })
