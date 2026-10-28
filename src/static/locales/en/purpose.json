@@ -759,7 +759,7 @@
   },
   "approveThankYou": {
     "title": "You have approved the risk analysis",
-    "description": "The administrator will be able to publish the purpose. You will no longer see this risk analysis among those you need to complete or approve.",
+    "description": "The administrator will be able to publish the purpose. This risk analysis will remain visible and accessible in your Private Area.",
     "action": "Close"
   },
   "rejectThankYou": {

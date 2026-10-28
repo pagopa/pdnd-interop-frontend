@@ -759,7 +759,7 @@
   },
   "approveThankYou": {
     "title": "Hai approvato l’analisi del rischio",
-    "description": "L’amministratore potrà pubblicare la finalità. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
+    "description": "L’amministratore potrà pubblicare la finalità. Questa analisi del rischio resterà visibile e consultabile nella tua Area Riservata.",
     "action": "Chiudi"
   },
   "rejectThankYou": {
