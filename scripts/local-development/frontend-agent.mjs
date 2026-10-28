@@ -87,7 +87,7 @@ async function executeCommand(runtime, command, signal) {
         )
       }
     },
-    { signal }
+    { signal, stopFrontendOnAbort: !['smoke', 'browser'].includes(command.type) }
   )
 }
 

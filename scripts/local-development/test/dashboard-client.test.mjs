@@ -146,6 +146,11 @@ it('keeps CLI status authoritative, forwards lifecycle commands and checks BE su
   }
   const actions = []
   const server = createServer(async (request, response) => {
+    if (request.method === 'POST' && request.url !== '/__local-dashboard/api/frontend/actions') {
+      response.writeHead(400, { 'Content-Type': 'application/json' })
+      response.end(JSON.stringify({ error: 'Unexpected mutation' }))
+      return
+    }
     if (request.method === 'POST') {
       let body = ''
       for await (const chunk of request) body += chunk
@@ -169,6 +174,7 @@ it('keeps CLI status authoritative, forwards lifecycle commands and checks BE su
     expect((await run('startup-state')).stdout.trim()).toBe('stopped')
     for (const command of ['ready', 'startup-status'])
       await expect(run(command)).rejects.toMatchObject({ code: 1 })
+    await expect(run('runtime-health')).rejects.toMatchObject({ code: 1 })
     for (const command of ['start', 'stop', 'use-local', 'use-dev', 'reset']) await run(command)
     await run('identity', 'comune', 'reviewer')
     expect(actions).toEqual([
@@ -197,10 +203,12 @@ it('keeps CLI status authoritative, forwards lifecycle commands and checks BE su
     )
     for (const command of ['ready', 'startup-status'])
       await expect(run(command)).resolves.toMatchObject({ stderr: '' })
+    await expect(run('runtime-health')).resolves.toMatchObject({ stderr: '' })
     frontend = { ...frontend, state: 'failed' }
     for (const command of ['ready', 'startup-status'])
       await expect(run(command)).rejects.toMatchObject({ code: 1 })
     expect((await run('startup-state')).stdout.trim()).toBe('failed')
+    await expect(run('runtime-health')).resolves.toMatchObject({ stderr: '' })
   } finally {
     if (owned) {
       const exited = new Promise((resolve) => owned.once('exit', resolve))

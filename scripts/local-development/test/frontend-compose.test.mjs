@@ -25,7 +25,11 @@ afterEach(async () => {
   await Promise.all(roots.splice(0).map((path) => rm(path, { recursive: true, force: true })))
 })
 
-async function fixture({ startupFailure = false, dashboardRunning = false } = {}) {
+async function fixture({
+  startupFailure = false,
+  checksFailure = false,
+  dashboardRunning = false,
+} = {}) {
   const directory = await mkdtemp(join(tmpdir(), 'interop-frontend-compose-'))
   roots.push(directory)
   const frontend = join(directory, 'frontend')
@@ -73,18 +77,21 @@ const fs = require('node:fs'); const args = process.argv.slice(2);
 fs.appendFileSync(process.env.DOCKER_TEST_CALLS, JSON.stringify(args) + '\\n');
 const state = JSON.parse(fs.readFileSync(process.env.DOCKER_TEST_STATE));
 if (args[0] === 'inspect') {
-  console.log(args.at(-1) === 'dashboard-1' ? String(state.dashboardRunning) : args[2].includes('Health') ? (state.startup === 'failed' ? 'starting' : state.vite ? 'healthy' : 'unhealthy') : String(state.running));
+  console.log(args.at(-1) === 'dashboard-1' ? String(state.dashboardRunning) : args[2].includes('Health') ? (process.env.DOCKER_TEST_CHECKS_FAILURE && state.vite ? 'healthy' : state.startup === 'failed' ? 'starting' : state.vite ? 'healthy' : 'unhealthy') : String(state.running));
 } else if (args.includes('up')) {
   if (args.at(-1) === 'dashboard') state.dashboardRunning = true;
   if (args.includes('frontend') && !state.running) {
     state.running = true; state.vite = !process.env.DOCKER_TEST_FAILURE;
-    state.startup = process.env.DOCKER_TEST_FAILURE ? 'failed' : 'passed';
+    state.startup = process.env.DOCKER_TEST_FAILURE ? 'failed' : process.env.DOCKER_TEST_CHECKS_FAILURE ? 'running' : 'passed';
   }
 } else if (args.includes('ps')) {
   if (args.at(-1) === 'dashboard') { if (state.dashboardRunning) console.log('dashboard-1'); }
   else if (state.running) console.log('frontend-1');
 } else if (args.includes('exec')) {
-  if (args.at(-1) === 'startup-state') console.log(state.startup);
+  if (args.at(-1) === 'startup-state') {
+    console.log(state.startup);
+    if (process.env.DOCKER_TEST_CHECKS_FAILURE && state.startup === 'running') state.startup = 'failed';
+  }
   else if (args.at(-1) === 'stop') { state.vite = false; state.startup = 'stopped'; }
   else if (args.at(-1) === 'start') { state.vite = true; state.startup = 'passed'; }
 }
@@ -100,6 +107,7 @@ fs.writeFileSync(process.env.DOCKER_TEST_STATE, JSON.stringify(state));
     DOCKER_TEST_CALLS: callsFile,
     DASHBOARD_TEST_CALLS: backendCallsFile,
     ...(startupFailure ? { DOCKER_TEST_FAILURE: 'true' } : {}),
+    ...(checksFailure ? { DOCKER_TEST_CHECKS_FAILURE: 'true' } : {}),
   }
   delete env.INTEROP_FRONTEND_RUNTIME
   const run = (command) =>
@@ -373,7 +381,7 @@ it('validates the devcontainer model and build targets without explicitly enabli
   expect(service.init).toBe(true)
   expect(service.depends_on.dashboard.condition).toBe('service_started')
   expect(service.healthcheck).toEqual({
-    test: ['CMD', 'node', 'scripts/local-development/dashboard-client.mjs', 'startup-status'],
+    test: ['CMD', 'node', 'scripts/local-development/dashboard-client.mjs', 'runtime-health'],
     interval: '5s',
     timeout: '5s',
     retries: 3,
@@ -397,6 +405,26 @@ it('reports failed startup immediately while leaving its editor container runnin
     .map((line) => JSON.parse(line))
   expect(calls.filter((args) => args[0] === 'inspect')).toHaveLength(0)
   expect(calls.some((args) => args.includes('logs'))).toBe(true)
+})
+
+it('waits for checks even when Vite is healthy and preserves it when those checks fail', async () => {
+  const { run, stateFile, callsFile } = await fixture({ checksFailure: true })
+  await expect(run('start')).rejects.toMatchObject({ code: 1 })
+  expect(JSON.parse(await readFile(stateFile, 'utf8'))).toMatchObject({
+    running: true,
+    dashboardRunning: true,
+    vite: true,
+    startup: 'failed',
+  })
+  const calls = (await readFile(callsFile, 'utf8'))
+    .trim()
+    .split('\n')
+    .map((line) => JSON.parse(line))
+  expect(calls.filter((args) => args.at(-1) === 'startup-state')).toHaveLength(2)
+  expect(calls.some((args) => args.includes('logs'))).toBe(true)
+  expect(
+    calls.some((args) => ['stop', 'down', 'kill'].some((command) => args.includes(command)))
+  ).toBe(false)
 })
 
 it('regenerates the backend override at every start after package or environment changes', async () => {

@@ -43,7 +43,12 @@ if [[ "${INTEROP_FRONTEND_RUNTIME:-}" != "true" ]]; then
       fi
       state="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$container")"
       case "$state" in
-        healthy) echo 'Frontend: http://localhost:3000/ui/it/'; exit 0 ;;
+        healthy)
+          if [[ "$startup" == passed ]]; then
+            echo 'Frontend: http://localhost:3000/ui/it/'
+            exit 0
+          fi
+          ;;
         unhealthy|exited|dead) compose logs frontend >&2; exit 1 ;;
       esac
       sleep 1

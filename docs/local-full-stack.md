@@ -96,6 +96,13 @@ reuse dependency volumes and build caches. If a phase fails, the remaining phase
 are skipped and the frontend container stays available for inspection. Fix the
 reported error and run `pnpm local:start` to retry.
 
+When smoke or browser checks fail after Vite starts, the frontend, backend
+packages, and infrastructure stay running. The dashboard keeps the failed phase
+and its logs visible, and **Open frontend** remains available for investigation.
+The startup command still exits with an error; container health reflects the
+running frontend separately from the check result. Rerun `pnpm local:smoke` or
+`pnpm local:test:e2e` to investigate, then `pnpm local:start` to repeat the workflow.
+
 ## Daily commands
 
 Run these commands from the frontend checkout in its devcontainer. On a host

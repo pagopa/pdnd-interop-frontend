@@ -33,7 +33,7 @@ services:
         volume:
           nocopy: true
     healthcheck:
-      test: [CMD, node, scripts/local-development/dashboard-client.mjs, startup-status]
+      test: [CMD, node, scripts/local-development/dashboard-client.mjs, runtime-health]
       interval: 5s
       timeout: 5s
       retries: 3

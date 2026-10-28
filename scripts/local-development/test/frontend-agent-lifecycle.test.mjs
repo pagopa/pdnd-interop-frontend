@@ -233,7 +233,7 @@ it.each(['install', 'smoke'])(
   }
 )
 
-it.each(['install', 'start'])(
+it.each(['install', 'start', 'smoke', 'browser'])(
   'cancels an HTTP-disconnected %s command, releases its lock and permits a retry',
   async (command) => {
     const root = await mkdtemp(join(tmpdir(), 'interop-frontend-disconnect-'))
@@ -255,7 +255,7 @@ it.each(['install', 'start'])(
       processes.push(active)
       queueMicrotask(() => {
         child.emit('spawn')
-        if (retry && active.script === 'runtime.sh') {
+        if (retry && active.script !== 'run-frontend.sh') {
           active.alive = false
           child.emit('close', 0)
         }
@@ -287,6 +287,12 @@ it.each(['install', 'start'])(
       },
       wait: async () => {},
     })
+    const check = command === 'smoke' || command === 'browser'
+    if (check) {
+      retry = true
+      await runtime.exclusive(() => runtime.start('dev'))
+      retry = false
+    }
     const listener = await agent.startFrontendAgent({ runtime, port: 0, host: '127.0.0.1' })
     const controller = new AbortController()
     const send = (body, signal) =>
@@ -297,33 +303,38 @@ it.each(['install', 'start'])(
         signal,
       })
     const accepted = send(
-      command === 'install' ? { type: command } : { type: command, mode: 'dev' },
+      command === 'start' ? { type: command, mode: 'dev' } : { type: command },
       controller.signal
     )
     // Attach rejection handling before aborting the real HTTP request.
     const disconnected = accepted.catch((error) => error)
     try {
       await vi.waitFor(() =>
-        command === 'start' ? expect(probing).toBe(true) : expect(processes).toHaveLength(1)
+        command === 'start'
+          ? expect(probing).toBe(true)
+          : expect(processes).toHaveLength(check ? 2 : 1)
       )
       controller.abort(new Error('Dashboard stopped'))
       expect(await disconnected).toMatchObject({ message: 'Dashboard stopped' })
       await vi.waitFor(async () => expect((await runtime.startup()).state).toBe('failed'))
-      expect(processes.every(({ alive }) => !alive)).toBe(true)
-      expect((await runtime.status()).running).toBe(false)
-      expect(signal.mock.calls).toContainEqual([-processes[0].child.pid, 'SIGTERM'])
-      if (command === 'install')
-        expect(signal.mock.calls).toContainEqual([-processes[0].child.pid, 'SIGKILL'])
+      expect(processes.filter(({ alive }) => alive)).toHaveLength(check ? 1 : 0)
+      expect((await runtime.status()).running).toBe(check)
+      const active = processes.at(-1)
+      expect(signal.mock.calls).toContainEqual([-active.child.pid, 'SIGTERM'])
+      if (command !== 'start')
+        expect(signal.mock.calls).toContainEqual([-active.child.pid, 'SIGKILL'])
+      if (check)
+        expect(signal.mock.calls.some(([group]) => group === -processes[0].child.pid)).toBe(false)
       retry = true
       releaseProbe?.()
       const retried = await send(
-        command === 'install' ? { type: command } : { type: command, mode: 'dev' }
+        command === 'start' ? { type: command, mode: 'dev' } : { type: command }
       )
       expect(retried.status).toBe(200)
       await retried.json()
       expect((await runtime.startup()).state).toBe(command === 'install' ? 'stopped' : 'passed')
       await expect(runtime.exclusive(async () => 'lock released')).resolves.toBe('lock released')
-      if (command === 'start') expect((await runtime.status()).running).toBe(true)
+      if (command !== 'install') expect((await runtime.status()).running).toBe(true)
     } finally {
       controller.abort()
       releaseProbe?.()

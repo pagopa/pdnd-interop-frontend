@@ -116,6 +116,9 @@ async function main([command, value, user]) {
     if (value) parameters.set('source', value)
     const logs = await requestJson(`logs?${parameters}`)
     console.log(logs.entries.map(({ source, message }) => `[${source}] ${message}`).join('\n'))
+  } else if (command === 'runtime-health') {
+    const { createFrontendRuntime } = await import('./frontend-runtime.mjs')
+    if (!(await createFrontendRuntime().status()).running) process.exitCode = 1
   } else if (['ready', 'startup-status', 'startup-state'].includes(command)) {
     const { frontend } = await requestJson('status')
     const { createFrontendRuntime } = await import('./frontend-runtime.mjs')

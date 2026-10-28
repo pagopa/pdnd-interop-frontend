@@ -493,6 +493,80 @@ it('records accepted lifecycle outcomes before releasing its lock', async () => 
   })
 })
 
+it.each([
+  { check: 'smoke', script: 'smoke.sh' },
+  { check: 'browserChecks', script: 'run-e2e.sh' },
+])(
+  'keeps Vite running after a failed $check command and allows retry',
+  async ({ check, script }) => {
+    const { runtime, spawnProcess, signal } = await fixture()
+    await runtime.exclusive(() => runtime.start('dev'))
+    const finishCheck = (code) => {
+      spawnProcess.mockImplementationOnce(() => {
+        const child = Object.assign(new EventEmitter(), { pid: 4243 })
+        queueMicrotask(() => child.emit('close', code))
+        return child
+      })
+    }
+    finishCheck(1)
+    await expect(runtime.exclusive(() => runtime[check]())).rejects.toThrow(`${script} failed (1)`)
+    expect(await runtime.status()).toMatchObject({ running: true, mode: 'dev' })
+    expect(await runtime.startup()).toMatchObject({
+      state: 'failed',
+      error: `${script} failed (1)`,
+    })
+    expect(signal).not.toHaveBeenCalled()
+    finishCheck(0)
+    await expect(runtime.exclusive(() => runtime[check]())).resolves.toBeUndefined()
+    expect(await runtime.status()).toMatchObject({ running: true, mode: 'dev' })
+    expect(await runtime.startup()).toEqual({ state: 'passed', phases: [] })
+    await runtime.stop()
+  }
+)
+
+it('stops Vite on shutdown while a cancelled check is still cleaning up', async () => {
+  let release
+  const wait = vi.fn(async () => {})
+  wait.mockImplementationOnce(
+    () =>
+      new Promise((resolve) => {
+        release = resolve
+      })
+  )
+  const { runtime, spawnProcess, signal } = await fixture({ wait })
+  await runtime.exclusive(() => runtime.start('dev'))
+  const child = Object.assign(new EventEmitter(), { pid: 4243 })
+  spawnProcess.mockImplementationOnce(() => child)
+  const stopVite = signal.getMockImplementation()
+  signal.mockImplementation((group, name) => {
+    if (group === -4242) stopVite()
+    else if (name === 'SIGKILL') child.emit('close', null, name)
+  })
+  const controller = new AbortController()
+  const check = runtime.exclusive(() => runtime.smoke(), {
+    signal: controller.signal,
+    stopFrontendOnAbort: false,
+  })
+  const outcome = check.catch((error) => error)
+  try {
+    await vi.waitFor(() => expect(spawnProcess).toHaveBeenCalledTimes(2))
+    controller.abort(new Error('Check timed out'))
+    await vi.waitFor(() => expect(wait).toHaveBeenCalledOnce())
+    expect(signal).not.toHaveBeenCalledWith(-4242, 'SIGTERM')
+    const shutdown = runtime.shutdown()
+    await vi.waitFor(() => expect(signal).toHaveBeenCalledWith(-4242, 'SIGTERM'))
+    release()
+    await shutdown
+    expect(await outcome).toMatchObject({ message: 'smoke.sh failed (SIGKILL)' })
+    expect((await runtime.status()).running).toBe(false)
+  } finally {
+    release?.()
+    child.emit('close', null, 'SIGKILL')
+    await outcome
+    await runtime.shutdown()
+  }
+})
+
 it('rejects overlapping lifecycle commands, recovers a stale claim and releases its lock on failure', async () => {
   const { root, runtime } = await fixture()
   let finish

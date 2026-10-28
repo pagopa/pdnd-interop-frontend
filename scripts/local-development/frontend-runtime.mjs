@@ -311,14 +311,14 @@ export function createFrontendRuntime({
     }
   }
 
-  async function exclusive(task, { signal: commandSignal } = {}) {
+  async function exclusive(task, { signal: commandSignal, stopFrontendOnAbort = true } = {}) {
     assertActive()
     commandSignal?.throwIfAborted()
     await mkdir(stateRoot, { recursive: true })
     const release = await claimLifecycleLock(join(stateRoot, 'lifecycle.lock'))
     const command = { signal: commandSignal }
     const cancel = () => {
-      command.cancellation ??= terminateCommands()
+      command.cancellation ??= terminateCommands({ stopFrontend: stopFrontendOnAbort })
       // The command awaits cleanup before releasing its lock.
       void command.cancellation.catch(() => {})
     }
@@ -385,13 +385,15 @@ export function createFrontendRuntime({
     })
   }
 
-  function terminateCommands() {
-    termination ??= (async () => {
+  function terminateCommands({ stopFrontend = true } = {}) {
+    // Shutdown must still stop Vite while a check cancellation is in progress.
+    if (termination) return stopFrontend ? Promise.all([termination, stop()]) : termination
+    termination = (async () => {
       const active = [...commands]
       active.forEach((child) => {
         if (child.pid) kill(child.pid, 'SIGTERM')
       })
-      await stop()
+      if (stopFrontend) await stop()
       for (
         let attempt = 0;
         attempt < 50 && active.some((child) => commands.has(child));
