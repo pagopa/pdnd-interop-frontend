@@ -615,6 +615,8 @@
     "PROVIDE_ESERVICE_EDIT": "Edit E-service",
     "PROVIDE_ESERVICE_MANAGE": "View E-service",
     "PROVIDE_DASHBOARD": "Dashboard",
+    "PROVIDE_DASHBOARD_CONSUMERS": "All consumers",
+    "PROVIDE_DASHBOARD_CONSUMER_DETAIL": "Empoli Municipality",
     "PROVIDE_ESERVICE_LIST": "My E-services",
     "PROVIDE_AGREEMENT_READ": "Manage Request",
     "PROVIDE_AGREEMENT_LIST": "Received Requests",

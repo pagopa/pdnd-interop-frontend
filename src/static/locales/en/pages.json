@@ -1,44 +1,74 @@
 {
   "dashboard": {
     "title": "Dashboard",
+    "description": "This page gives you a complete overview of how your e-services are performing and whether any action is needed.",
     "headings": {
-      "eservices": "Provided e-services",
-      "pendingRequests": "Pending requests",
-      "purposes": "Received purposes",
-      "consumers": "Consumer organizations",
-      "requests": "Received requests",
-      "average": "Average activation time",
-      "consumption": "API call usage"
+      "eservices": "Your e-service status",
+      "pendingAgreements": "Fruition requests awaiting approval",
+      "purposesAwaitingApproval": "Purposes awaiting approval",
+      "consumers": "Total consumers of my e-services",
+      "agreementsAndPurposes": "Consumer breakdown by fruition status and purpose",
+      "average": "Average purposes per e-service"
     },
     "statuses": {
       "active": "Active",
       "suspended": "Suspended",
       "archiving": "Archiving",
-      "suspendedArchiving": "Suspended and archiving"
+      "suspendedArchiving": "Suspended in archiving"
     },
-    "requests": {
-      "accepted": "accepted",
-      "pending": "pending",
-      "rejected": "rejected"
+    "metrics": {
+      "activeAgreementAndPurpose": "organizations with an active fruition request and at least one active purpose",
+      "activeAgreementWithoutActivePurpose": "organizations with an active fruition request but no active purpose or a suspended purpose",
+      "activePurposeWithSuspendedAgreement": "organizations with at least one active purpose but a suspended request"
     },
     "units": {
-      "eservices": "e-services",
+      "eservices": "total e-services",
       "requests": "requests",
       "purposes": "purposes",
-      "consumers": "consumer organizations",
-      "days": "days",
-      "calls": "calls"
+      "consumers": "consumers",
+      "purposesPerEservice": "purposes per e-service"
     },
-    "consumptionSubtitle": "Calls used against the daily limit",
-    "empty": {
-      "eservices": "No e-services provided",
-      "pendingRequests": "There are no pending requests"
+    "sections": {
+      "thresholds": {
+        "title": "Projected consumption against the total threshold by e-service",
+        "description": "View your e-service versions ordered by projected consumption of the total API call threshold.",
+        "placeholder": "Placeholder for the projected e-service consumption table"
+      },
+      "archiving": {
+        "title": "Currently being archived",
+        "description": "View e-service versions that are about to be archived and how many consumers they have.",
+        "placeholder": "Placeholder for the e-service versions being archived table"
+      }
     },
     "actions": {
-      "eservices": "View e-services",
-      "agreements": "View requests",
-      "purposes": "View purposes",
-      "create": "Create e-service"
+      "eservices": "View my e-services",
+      "agreements": "View requests for approval",
+      "purposesAwaitingApproval": "View purposes for approval",
+      "purposesReceived": "View received purposes",
+      "consumers": "View consumer details"
+    }
+  },
+  "providerDashboardConsumerList": {
+    "title": "Consumers of my e-services",
+    "description": "View all consumers of your e-services, the number of e-services used and purposes.",
+    "summary": "Total consumers of your e-services",
+    "searchPlaceholder": "Search consumer name",
+    "export": "Export",
+    "goToDetail": "Go to details",
+    "placeholders": {
+      "results": "Results and sorting placeholder",
+      "table": "Consumer table placeholder"
+    }
+  },
+  "providerDashboardConsumerDetail": {
+    "title": "Empoli Municipality",
+    "description": "View all your e-services used by this entity",
+    "summary": "Total e-services used",
+    "searchPlaceholder": "Search e-service name",
+    "export": "Export",
+    "placeholders": {
+      "results": "E-service results and sorting placeholder",
+      "table": "E-service table placeholder"
     }
   },
   "consumerEServiceCatalog": {

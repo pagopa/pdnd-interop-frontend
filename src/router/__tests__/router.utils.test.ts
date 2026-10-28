@@ -1,7 +1,15 @@
 import { isProviderOrConsumerRoute } from '@/router/router.utils'
 import { routes } from '@/router'
-import { ProviderDashboardPage } from '@/pages'
+import {
+  ProviderDashboardConsumerDetail,
+  ProviderDashboardConsumerList,
+  ProviderDashboardPage,
+} from '@/pages'
 import ProviderDashboardPageComponent from '@/pages/ProviderDashboardPage/ProviderDashboard.page'
+import ProviderDashboardConsumerListComponent from '@/pages/ProviderDashboardConsumerList/ProviderDashboardConsumerList.page'
+import ProviderDashboardConsumerDetailComponent from '@/pages/ProviderDashboardConsumerDetail/ProviderDashboardConsumerDetail.page'
+import itSharedComponents from '@/static/locales/it/shared-components.json'
+import enSharedComponents from '@/static/locales/en/shared-components.json'
 
 describe('checks router utils functions behavior', () => {
   it('checks that isProviderOrConsumerRoute return the right string - if provider', () => {
@@ -36,5 +44,38 @@ describe('checks router utils functions behavior', () => {
 
   it('exports the dashboard component through the page barrel', () => {
     expect(ProviderDashboardPage).toBe(ProviderDashboardPageComponent)
+  })
+
+  it('registers the consumer list route with the dashboard role contract', () => {
+    expect(routes.PROVIDE_DASHBOARD_CONSUMERS).toMatchObject({
+      path: '/erogazione/panoramica/fruitori',
+      public: false,
+      hideSideNav: false,
+      authLevels: routes.PROVIDE_DASHBOARD.authLevels,
+      element: expect.objectContaining({ type: ProviderDashboardConsumerList }),
+    })
+    expect(ProviderDashboardConsumerList).toBe(ProviderDashboardConsumerListComponent)
+  })
+
+  it('registers the consumer detail route with the dashboard role contract', () => {
+    expect(routes.PROVIDE_DASHBOARD_CONSUMER_DETAIL).toMatchObject({
+      path: '/erogazione/panoramica/fruitori/dettaglio',
+      public: false,
+      hideSideNav: false,
+      authLevels: routes.PROVIDE_DASHBOARD.authLevels,
+      element: expect.objectContaining({ type: ProviderDashboardConsumerDetail }),
+    })
+    expect(ProviderDashboardConsumerDetail).toBe(ProviderDashboardConsumerDetailComponent)
+  })
+
+  it('provides localized breadcrumb labels for consumer routes', () => {
+    expect(itSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMERS).toBe('Tutti i fruitori')
+    expect(enSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMERS).toBe('All consumers')
+    expect(itSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMER_DETAIL).toBe(
+      'Comune di Empoli'
+    )
+    expect(enSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMER_DETAIL).toBe(
+      'Empoli Municipality'
+    )
   })
 })

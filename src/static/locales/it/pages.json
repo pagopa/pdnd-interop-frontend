@@ -1,44 +1,74 @@
 {
   "dashboard": {
     "title": "Panoramica",
+    "description": "In questa pagina trovi una visione completa di come stanno andando i tuoi e-service e se ci sono delle azioni da fare.",
     "headings": {
-      "eservices": "E-service erogati",
-      "pendingRequests": "Richieste in attesa",
-      "purposes": "Finalit\u00e0 ricevute",
-      "consumers": "Enti fruitori",
-      "requests": "Richieste ricevute",
-      "average": "Tempo medio di attivazione",
-      "consumption": "Consumo delle chiamate"
+      "eservices": "Stato dei tuoi e-service",
+      "pendingAgreements": "Richieste di fruizione in attesa di approvazione",
+      "purposesAwaitingApproval": "Finalit\u00e0 in attesa di approvazione",
+      "consumers": "Totale fruitori dei miei e-service",
+      "agreementsAndPurposes": "Dettaglio fruitori per stato fruizione e finalit\u00e0",
+      "average": "Media di finalit\u00e0 per e-service"
     },
     "statuses": {
       "active": "Attivi",
       "suspended": "Sospesi",
       "archiving": "In archiviazione",
-      "suspendedArchiving": "Sospesi e in archiviazione"
+      "suspendedArchiving": "Sospesi in archiviazione"
     },
-    "requests": {
-      "accepted": "accettate",
-      "pending": "in attesa",
-      "rejected": "rifiutate"
+    "metrics": {
+      "activeAgreementAndPurpose": "enti con richiesta di fruizione attiva e almeno una finalit\u00e0 attiva",
+      "activeAgreementWithoutActivePurpose": "enti con richiesta di fruizione attiva ma nessuna finalit\u00e0 o finalit\u00e0 sospesa",
+      "activePurposeWithSuspendedAgreement": "enti con almeno una finalit\u00e0 attiva ma richiesta sospesa"
     },
     "units": {
-      "eservices": "e-service",
+      "eservices": "e-service totali",
       "requests": "richieste",
       "purposes": "finalit\u00e0",
-      "consumers": "enti fruitori",
-      "days": "giorni",
-      "calls": "chiamate"
+      "consumers": "fruitori",
+      "purposesPerEservice": "finalit\u00e0 per e-service"
     },
-    "consumptionSubtitle": "Chiamate utilizzate rispetto al limite giornaliero",
-    "empty": {
-      "eservices": "Nessun e-service erogato",
-      "pendingRequests": "Non ci sono richieste in attesa"
+    "sections": {
+      "thresholds": {
+        "title": "Consumi previsti della soglia totale per e-service",
+        "description": "Vedi le versioni dei tuoi e-service ordinate per i consumi previsti della soglia totale di chiamate API.",
+        "placeholder": "Area segnaposto per la tabella dei consumi previsti per e-service"
+      },
+      "archiving": {
+        "title": "In fase di archiviazione",
+        "description": "Vedi le versioni di e-service che stanno per essere archiviate e quanti fruitori ci sono.",
+        "placeholder": "Area segnaposto per la tabella delle versioni in fase di archiviazione"
+      }
     },
     "actions": {
-      "eservices": "Vai agli e-service",
-      "agreements": "Vai alle richieste",
-      "purposes": "Vai alle finalit\u00e0",
-      "create": "Crea e-service"
+      "eservices": "Vai ai miei e-service",
+      "agreements": "Vai alle richieste da approvare",
+      "purposesAwaitingApproval": "Vai alle finalit\u00e0 da approvare",
+      "purposesReceived": "Vai alle finalità ricevute",
+      "consumers": "Vai al dettaglio fruitori"
+    }
+  },
+  "providerDashboardConsumerList": {
+    "title": "Fruitori dei miei e-service",
+    "description": "Vedi tutti i fruitori dei tuoi e-service, il numero di e-service fruiti e finalità.",
+    "summary": "Totale fruitori dei tuoi e-service",
+    "searchPlaceholder": "Cerca per nome fruitore",
+    "export": "Esporta",
+    "goToDetail": "Vai al dettaglio",
+    "placeholders": {
+      "results": "Risultati e ordinamento segnaposto",
+      "table": "Tabella fruitori segnaposto"
+    }
+  },
+  "providerDashboardConsumerDetail": {
+    "title": "Comune di Empoli",
+    "description": "Vedi tutti i tuoi e-service fruiti da questo ente",
+    "summary": "Totale e-service fruiti",
+    "searchPlaceholder": "Cerca per nome e-service",
+    "export": "Esporta",
+    "placeholders": {
+      "results": "Risultati e ordinamento e-service segnaposto",
+      "table": "Tabella e-service segnaposto"
     }
   },
   "consumerEServiceCatalog": {

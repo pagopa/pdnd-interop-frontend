@@ -103,8 +103,13 @@ describe('CardDashboard', () => {
     const labels = ['Totali', 'Attive', 'In attesa', 'Fallite']
     values.forEach((value, index) => {
       const row = screen.getByText(value).parentElement!
-      expect(within(row).getByText(labels[index])).toBeVisible()
-      expect(row).toHaveStyle({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline' })
+      const label = within(row).getByText(labels[index])
+      const number = screen.getByText(value)
+      expect(label).toBeVisible()
+      expect(label).toHaveStyle({ fontSize: '0.875rem', fontWeight: 600 })
+      expect(label).toHaveStyle({ flex: '1 1 0', minWidth: 0, overflowWrap: 'anywhere' })
+      expect(number).toHaveStyle({ fontSize: '2.25rem', flexShrink: 0, whiteSpace: 'nowrap' })
+      expect(row).toHaveStyle({ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' })
     })
     expect(screen.getByText(values[0]).parentElement!.parentElement).toHaveStyle({
       display: 'flex',

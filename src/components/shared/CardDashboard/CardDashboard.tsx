@@ -211,16 +211,28 @@ export function CardDashboard({
                 key={metric.id}
                 sx={{
                   display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'baseline',
+                  flexWrap: 'nowrap',
+                  alignItems: 'center',
                   gap: 1,
                   minWidth: 0,
                 }}
               >
-                <Typography component="p" sx={{ ...valueStyles, fontSize: 40 }}>
+                <Typography
+                  component="p"
+                  sx={{ ...valueStyles, fontSize: '2.25rem', flexShrink: 0, whiteSpace: 'nowrap' }}
+                >
                   {numberFormatter.format(metric.value)}
                 </Typography>
-                <Typography color="text.secondary" sx={{ minWidth: 0 }}>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    flex: '1 1 0',
+                    minWidth: 0,
+                    overflowWrap: 'anywhere',
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                  }}
+                >
                   {metric.label}
                 </Typography>
               </Box>

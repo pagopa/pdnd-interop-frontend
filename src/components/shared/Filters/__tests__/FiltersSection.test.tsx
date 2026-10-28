@@ -81,6 +81,13 @@ describe('FiltersSection', () => {
     expect(screen.getByText('results:42')).toBeInTheDocument()
   })
 
+  it('hides results and the empty metadata row when showResults is false', () => {
+    render(<FiltersSection {...defaultProps} showResults={false} />)
+
+    expect(screen.queryByText('results:0')).not.toBeInTheDocument()
+    expect(screen.getByTestId('filters').parentElement?.children).toHaveLength(1)
+  })
+
   it('does not render AdditionalFilters when additionals is undefined or empty', () => {
     const { rerender } = render(<FiltersSection {...defaultProps} />)
     expect(screen.queryByTestId('additional-filters')).not.toBeInTheDocument()

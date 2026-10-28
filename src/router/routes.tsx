@@ -6,6 +6,8 @@ import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
   ProviderDashboardPage,
+  ProviderDashboardConsumerList,
+  ProviderDashboardConsumerDetail,
   ProviderEServiceListPage,
   ProviderAgreementsListPage,
   ConsumerAgreementsListPage,
@@ -181,6 +183,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_DASHBOARD',
     path: '/erogazione/panoramica',
     element: <ProviderDashboardPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_DASHBOARD_CONSUMERS',
+    path: '/erogazione/panoramica/fruitori',
+    element: <ProviderDashboardConsumerList />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL',
+    path: '/erogazione/panoramica/fruitori/dettaglio',
+    element: <ProviderDashboardConsumerDetail />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],

@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { createTheme, ThemeProvider } from '@mui/material'
+import type * as LayoutContainers from '@/components/layout/containers'
 import ProviderDashboardPage from '../ProviderDashboard.page'
 import { CardDashboard } from '@/components/shared/CardDashboard/CardDashboard'
 import type { CardDashboardProps } from '@/components/shared/CardDashboard/CardDashboard'
@@ -15,19 +16,33 @@ import enPages from '@/static/locales/en/pages.json'
 
 vi.unmock('react-i18next')
 
-vi.mock('@/components/layout/containers', () => ({
-  PageContainer: ({ title, children }: { title: string; children: ReactNode }) => (
-    <main>
-      <h1>{title}</h1>
-      {children}
-    </main>
-  ),
-}))
+vi.mock('@/components/layout/containers', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof LayoutContainers
+
+  return {
+    ...actual,
+    PageContainer: ({
+      title,
+      description,
+      children,
+    }: {
+      title: string
+      description: string
+      children: ReactNode
+    }) => (
+      <main>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        {children}
+      </main>
+    ),
+  }
+})
 
 vi.mock('@/components/shared/CardDashboard/CardDashboard', () => ({
   CardDashboard: vi.fn(({ heading, action }: CardDashboardProps) => (
     <section aria-label={heading}>
-      <h2>{heading}</h2>
+      <h3>{heading}</h3>
       {action && <button onClick={action.action}>{action.text}</button>}
     </section>
   )),
@@ -63,22 +78,16 @@ describe('ProviderDashboardPage', () => {
     vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
   })
 
-  it('should render twelve demo cards covering all five content variants and edge values', async () => {
+  it('should render the six dashboard cards with the requested values', async () => {
     await renderDashboard()
     const cards = getCards()
 
-    expect(screen.getAllByRole('region')).toHaveLength(12)
+    expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.content.kind)).toEqual([
       'status',
       'metric',
       'metric',
       'metric',
-      'metrics',
-      'metric',
-      'consumption',
-      'empty',
-      'empty',
-      'status',
       'metrics',
       'metric',
     ])
@@ -91,21 +100,12 @@ describe('ProviderDashboardPage', () => {
     expect(cards[4].content).toMatchObject({
       metrics: [{ value: 10000 }, { value: 2000 }, { value: 200 }],
     })
-    expect(cards[5].content).toMatchObject({ metric: { value: 3.5 } })
-    expect(cards[6].content).toMatchObject({ used: 38500, limit: 50000 })
-    expect(cards[7].content).toEqual({ kind: 'empty', message: itPages.dashboard.empty.eservices })
-    expect(cards[8].content).toEqual({
-      kind: 'empty',
-      message: itPages.dashboard.empty.pendingRequests,
-      icon: 'success',
+    expect(cards[4].content).toMatchObject({
+      metrics: Object.values(itPages.dashboard.metrics).map((label) => ({ label })),
     })
-    expect(cards[9].content).toMatchObject({
-      statuses: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }],
+    expect(cards[5].content).toMatchObject({
+      metric: { value: 3.5, label: itPages.dashboard.units.purposesPerEservice },
     })
-    expect(cards[10].content).toMatchObject({
-      metrics: [{ value: 0 }, { value: 0 }, { value: 0 }],
-    })
-    expect(cards[11].content).toMatchObject({ metric: { value: 0.9 } })
     expect(navigateMock).not.toHaveBeenCalled()
   })
 
@@ -113,7 +113,7 @@ describe('ProviderDashboardPage', () => {
     const { container } = await renderDashboard()
     const grid = container.querySelector('.MuiGrid-container')
 
-    expect(grid?.children).toHaveLength(12)
+    expect(grid?.children).toHaveLength(6)
     for (const item of Array.from(grid?.children ?? [])) {
       expect(item).toHaveClass(
         'MuiGrid-item',
@@ -136,21 +136,80 @@ describe('ProviderDashboardPage', () => {
   ] as const)(
     'should translate the page and every card in $language',
     async ({ language, dictionary }) => {
+      const expectedCopy =
+        language === 'it'
+          ? {
+              headings: [
+                'Stato dei tuoi e-service',
+                'Richieste di fruizione in attesa di approvazione',
+                'Finalità in attesa di approvazione',
+                'Totale fruitori dei miei e-service',
+                'Dettaglio fruitori per stato fruizione e finalità',
+                'Media di finalità per e-service',
+              ],
+              statuses: ['Attivi', 'Sospesi', 'In archiviazione', 'Sospesi in archiviazione'],
+              metrics: [
+                'enti con richiesta di fruizione attiva e almeno una finalità attiva',
+                'enti con richiesta di fruizione attiva ma nessuna finalità o finalità sospesa',
+                'enti con almeno una finalità attiva ma richiesta sospesa',
+              ],
+              units: [
+                'e-service totali',
+                'richieste',
+                'finalità',
+                'fruitori',
+                'finalità per e-service',
+              ],
+              sectionDescriptions: [
+                'Vedi le versioni dei tuoi e-service ordinate per i consumi previsti della soglia totale di chiamate API.',
+                'Vedi le versioni di e-service che stanno per essere archiviate e quanti fruitori ci sono.',
+              ],
+            }
+          : {
+              headings: [
+                'Your e-service status',
+                'Fruition requests awaiting approval',
+                'Purposes awaiting approval',
+                'Total consumers of my e-services',
+                'Consumer breakdown by fruition status and purpose',
+                'Average purposes per e-service',
+              ],
+              statuses: ['Active', 'Suspended', 'Archiving', 'Suspended in archiving'],
+              metrics: [
+                'organizations with an active fruition request and at least one active purpose',
+                'organizations with an active fruition request but no active purpose or a suspended purpose',
+                'organizations with at least one active purpose but a suspended request',
+              ],
+              units: [
+                'total e-services',
+                'requests',
+                'purposes',
+                'consumers',
+                'purposes per e-service',
+              ],
+              sectionDescriptions: [
+                'View your e-service versions ordered by projected consumption of the total API call threshold.',
+                'View e-service versions that are about to be archived and how many consumers they have.',
+              ],
+            }
+
       await renderDashboard(language)
 
+      expect(Object.values(dictionary.headings)).toEqual(expectedCopy.headings)
+      expect(Object.values(dictionary.statuses)).toEqual(expectedCopy.statuses)
+      expect(Object.values(dictionary.metrics)).toEqual(expectedCopy.metrics)
+      expect(Object.values(dictionary.units)).toEqual(expectedCopy.units)
+      expect(Object.values(dictionary.sections).map((section) => section.description)).toEqual(
+        expectedCopy.sectionDescriptions
+      )
       expect(screen.getByRole('heading', { level: 1, name: dictionary.title })).toBeInTheDocument()
+      expect(screen.getByText(dictionary.description)).toBeInTheDocument()
       expect(getCards().map((card) => card.heading)).toEqual([
         dictionary.headings.eservices,
-        dictionary.headings.pendingRequests,
-        dictionary.headings.purposes,
+        dictionary.headings.pendingAgreements,
+        dictionary.headings.purposesAwaitingApproval,
         dictionary.headings.consumers,
-        dictionary.headings.requests,
-        dictionary.headings.average,
-        dictionary.headings.consumption,
-        dictionary.headings.eservices,
-        dictionary.headings.pendingRequests,
-        dictionary.headings.eservices,
-        dictionary.headings.requests,
+        dictionary.headings.agreementsAndPurposes,
         dictionary.headings.average,
       ])
       expect(getCards()[0].content).toMatchObject({
@@ -158,14 +217,22 @@ describe('ProviderDashboardPage', () => {
         statuses: Object.values(dictionary.statuses).map((label) => ({ label })),
       })
       expect(getCards()[4].content).toMatchObject({
-        metrics: Object.values(dictionary.requests).map((label) => ({ label })),
+        metrics: Object.values(dictionary.metrics).map((label) => ({ label })),
       })
-      expect(getCards()[6]).toMatchObject({
-        subtitle: dictionary.consumptionSubtitle,
-        content: { unitLabel: dictionary.units.calls },
+      expect(getCards()[5].content).toMatchObject({
+        metric: { label: dictionary.units.purposesPerEservice },
       })
-      expect(getCards()[7].content).toMatchObject({ message: dictionary.empty.eservices })
-      expect(getCards()[8].content).toMatchObject({ message: dictionary.empty.pendingRequests })
+      for (const [sectionIndex, section] of Object.values(dictionary.sections).entries()) {
+        expect(screen.getByRole('heading', { level: 2, name: section.title })).toBeInTheDocument()
+        expect(screen.getByText(section.description)).toBeInTheDocument()
+        const placeholder = screen.getByRole('img', { name: section.placeholder })
+        expect(placeholder).toBeInTheDocument()
+        expect(placeholder.querySelectorAll('.MuiSkeleton-root')).toHaveLength(
+          sectionIndex === 0 ? 25 : 20
+        )
+        expect(placeholder.querySelector('table')).not.toBeInTheDocument()
+        expect(placeholder.closest('.MuiPaper-root')).toBeInTheDocument()
+      }
       for (const name of Object.values(dictionary.actions)) {
         expect(screen.getAllByRole('button', { name }).length).toBeGreaterThan(0)
       }
@@ -173,35 +240,49 @@ describe('ProviderDashboardPage', () => {
   )
 
   it.each(['admin', 'api'] as const)(
-    'should allow %s to create and follow every card action',
+    'should allow %s to follow only the five route-appropriate card actions',
     async (role) => {
       mockUseJwt({ currentRoles: [role] })
       const user = userEvent.setup()
       await renderDashboard()
 
-      expect(getCards()[7].action?.type).toBe('primary')
-      expect(getCards().filter((card) => card.action?.type === 'link')).toHaveLength(11)
-      for (const button of screen.getAllByRole('button', {
-        name: itPages.dashboard.actions.eservices,
-      })) {
-        await user.click(button)
-        expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_LIST')
+      const cards = getCards()
+      expect(cards.filter((card) => card.action?.type === 'link')).toHaveLength(5)
+      expect(cards[3].action?.type).toBe('link')
+      expect(cards[4].action).toBeUndefined()
+      const expectedActions = [
+        {
+          heading: itPages.dashboard.headings.eservices,
+          text: itPages.dashboard.actions.eservices,
+          destination: 'PROVIDE_ESERVICE_LIST',
+        },
+        {
+          heading: itPages.dashboard.headings.pendingAgreements,
+          text: itPages.dashboard.actions.agreements,
+          destination: 'PROVIDE_AGREEMENT_LIST',
+        },
+        {
+          heading: itPages.dashboard.headings.purposesAwaitingApproval,
+          text: itPages.dashboard.actions.purposesAwaitingApproval,
+          destination: 'PROVIDE_PURPOSE_LIST',
+        },
+        {
+          heading: itPages.dashboard.headings.consumers,
+          text: itPages.dashboard.actions.consumers,
+          destination: 'PROVIDE_DASHBOARD_CONSUMERS',
+        },
+        {
+          heading: itPages.dashboard.headings.average,
+          text: itPages.dashboard.actions.purposesReceived,
+          destination: 'PROVIDE_PURPOSE_LIST',
+        },
+      ] as const
+
+      for (const { heading, text, destination } of expectedActions) {
+        await user.click(within(screen.getByLabelText(heading)).getByRole('button', { name: text }))
+        expect(navigateMock).toHaveBeenLastCalledWith(destination)
       }
-      for (const button of screen.getAllByRole('button', {
-        name: itPages.dashboard.actions.agreements,
-      })) {
-        await user.click(button)
-        expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_AGREEMENT_LIST')
-      }
-      for (const button of screen.getAllByRole('button', {
-        name: itPages.dashboard.actions.purposes,
-      })) {
-        await user.click(button)
-        expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_PURPOSE_LIST')
-      }
-      await user.click(screen.getByRole('button', { name: itPages.dashboard.actions.create }))
-      expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_CREATE')
-      expect(navigateMock).toHaveBeenCalledTimes(12)
+      expect(navigateMock).toHaveBeenCalledTimes(5)
     }
   )
 
@@ -211,35 +292,47 @@ describe('ProviderDashboardPage', () => {
       mockUseJwt({ currentRoles: [role] })
       await renderDashboard()
 
-      expect(screen.getAllByRole('region')).toHaveLength(12)
-      expect(
-        screen.queryByRole('button', { name: itPages.dashboard.actions.create })
-      ).not.toBeInTheDocument()
-      expect(getCards()[7].action).toBeUndefined()
-      expect(getCards().filter((card) => card.action?.type === 'link')).toHaveLength(11)
+      expect(getCards()).toHaveLength(6)
+      expect(getCards().filter((card) => card.action?.type === 'link')).toHaveLength(5)
+      expect(getCards()[3].action?.type).toBe('link')
+      expect(getCards()[4].action).toBeUndefined()
       expect(new Set(screen.getAllByRole('button').map((button) => button.textContent))).toEqual(
         new Set([
           itPages.dashboard.actions.eservices,
           itPages.dashboard.actions.agreements,
-          itPages.dashboard.actions.purposes,
+          itPages.dashboard.actions.purposesAwaitingApproval,
+          itPages.dashboard.actions.purposesReceived,
+          itPages.dashboard.actions.consumers,
         ])
       )
     }
   )
 
-  it('should allow security to navigate only to e-services', async () => {
+  it('should allow security to navigate only to e-services and consumer details', async () => {
     mockUseJwt({ currentRoles: ['security'] })
     const user = userEvent.setup()
     await renderDashboard()
 
-    expect(screen.getAllByRole('region')).toHaveLength(12)
+    expect(getCards()).toHaveLength(6)
     const buttons = screen.getAllByRole('button')
     expect(buttons).toHaveLength(2)
-    expect(getCards().filter((card) => card.action === undefined)).toHaveLength(10)
-    for (const button of buttons) {
-      expect(button).toHaveAccessibleName(itPages.dashboard.actions.eservices)
+    expect(getCards().filter((card) => card.action === undefined)).toHaveLength(4)
+    const allowedActions = [
+      {
+        heading: itPages.dashboard.headings.eservices,
+        label: itPages.dashboard.actions.eservices,
+        destination: 'PROVIDE_ESERVICE_LIST',
+      },
+      {
+        heading: itPages.dashboard.headings.consumers,
+        label: itPages.dashboard.actions.consumers,
+        destination: 'PROVIDE_DASHBOARD_CONSUMERS',
+      },
+    ] as const
+    for (const { heading, label, destination } of allowedActions) {
+      const button = within(screen.getByLabelText(heading)).getByRole('button', { name: label })
       await user.click(button)
-      expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_LIST')
+      expect(navigateMock).toHaveBeenLastCalledWith(destination)
     }
     expect(navigateMock).toHaveBeenCalledTimes(2)
   })
@@ -250,7 +343,7 @@ describe('ProviderDashboardPage', () => {
       mockUseJwt({ currentRoles: [...roles] })
       await renderDashboard()
 
-      expect(screen.getAllByRole('region')).toHaveLength(12)
+      expect(getCards()).toHaveLength(6)
       expect(screen.queryByRole('button')).not.toBeInTheDocument()
       expect(getCards().every((card) => card.action === undefined)).toBe(true)
       expect(navigateMock).not.toHaveBeenCalled()
