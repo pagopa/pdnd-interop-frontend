@@ -25,6 +25,7 @@ const _ToastNotification: React.FC = () => {
         title={message as string}
         description={t('axiosError.correlationIdText')}
         errorCode={correlationId}
+        errorCodeAriaLabel="Identificativo"
       />
     )
   }

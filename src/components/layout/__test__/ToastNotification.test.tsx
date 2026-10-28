@@ -90,6 +90,7 @@ describe('ToastNotification', () => {
       title: 'Request failed',
       description: 'translated:axiosError.correlationIdText',
       errorCode: 'correlation-123',
+      errorCodeAriaLabel: 'Identificativo',
     })
     expect(useTranslation).toHaveBeenCalledWith('error')
     expect(translate).toHaveBeenCalledWith('axiosError.correlationIdText')
@@ -156,6 +157,7 @@ describe('ToastNotification', () => {
       title: 'First error',
       description: 'translated:axiosError.correlationIdText',
       errorCode: 'first-id',
+      errorCodeAriaLabel: 'Identificativo',
     })
 
     act(() =>
@@ -167,6 +169,7 @@ describe('ToastNotification', () => {
       title: 'Updated error',
       description: 'translated:axiosError.correlationIdText',
       errorCode: 'updated-id',
+      errorCodeAriaLabel: 'Identificativo',
     })
     expect(screen.getByRole('heading', { name: 'Updated error' })).toBeInTheDocument()
 
