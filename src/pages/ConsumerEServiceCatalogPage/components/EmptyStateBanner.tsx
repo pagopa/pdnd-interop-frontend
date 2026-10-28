@@ -15,7 +15,7 @@ const EmptyStateBanner: React.FC<EmptyStateBannerProps> = ({
   onGoToCatalog,
 }) => {
   return (
-    <Card>
+    <Card sx={{ padding: 2 }}>
       <CardHeader
         avatar={<EmojiObjectsOutlinedIcon />}
         title={title}
@@ -23,18 +23,20 @@ const EmptyStateBanner: React.FC<EmptyStateBannerProps> = ({
           variant: 'label',
           fontWeight: 500,
         }}
-        sx={{ '& .MuiCardHeader-avatar': { mr: 1, height: '24px', width: '24px' }, pb: 0 }}
+        sx={{ '& .MuiCardHeader-avatar': { mr: 1, height: '24px', width: '24px' }, p: 0 }}
       />
-      <CardContent sx={{ py: 1, pr: 2, pl: 6 }}>
+      <CardContent sx={{ mt: 0.5, ml: 4, mb: 0, p: 0, '&:last-child': { pb: 0 } }}>
         <Typography variant="body2" fontSize={'0.9rem'}>
           {description}
         </Typography>
       </CardContent>
-      <CardActions sx={{ py: 2, pr: 2, pl: 6 }}>
-        <MIButton type="button" id={'catalog'} variant="text" onClick={onGoToCatalog}>
-          {'Vai al catalogo'}
-        </MIButton>
-      </CardActions>
+      {onGoToCatalog && (
+        <CardActions sx={{ mt: 2, ml: 4, p: 0 }}>
+          <MIButton type="button" id={'catalog'} variant="text" onClick={onGoToCatalog}>
+            {'Vai al catalogo'}
+          </MIButton>
+        </CardActions>
+      )}
     </Card>
   )
 }
