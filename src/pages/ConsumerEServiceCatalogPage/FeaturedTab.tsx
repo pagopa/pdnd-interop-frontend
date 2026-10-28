@@ -23,28 +23,13 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
     limitOptions: [6],
   })
 
-  // Only e-service published or suspended can be shown in the catalog
-  // const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
-  const query: CatalogFilterPayload = {
-    ...paginationParams,
-    availableForRequester: true,
-    subscribedByRequester: false,
-    sortBy: 'CREATED_AT_DESC',
-    // TODO remove raccolte
-  }
-
   const { data, isError } = useQuery({
-    ...EServiceQueries.queryCatalogList(query),
+    ...EServiceQueries.getFeaturedEServicesCatalog(),
     placeholderData: keepPreviousData,
   })
 
-  const totalPageCount =
-    getTotalPageCount(data?.pagination.totalCount) <= 2
-      ? getTotalPageCount(data?.pagination.totalCount)
-      : 2
-
   const eservicesEmptyState =
-    isError && !data ? 'error' : data && data.results.length === 0 ? 'noResults' : undefined
+    isError && !data ? 'error' : data && data.length === 0 ? 'noResults' : undefined
 
   const useCasesEmptyState = isError // TODO
 
@@ -67,13 +52,13 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
         />
       )}
 
-      {!eservicesEmptyState && <EServiceCatalogWrapper params={query} />}
+      {!eservicesEmptyState && <EServiceCatalogWrapper params={paginationParams} />}
 
-      {data && data.pagination.totalCount !== 0 && (
+      {data && data.length !== 0 && (
         <Box mt={3}>
           <MIPagination
             page={paginationProps.page}
-            count={totalPageCount}
+            count={getTotalPageCount(data?.length)}
             onChange={(_, page) => paginationProps.onPageChange(page)}
           />
         </Box>
@@ -82,11 +67,13 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
   )
 }
 
-const EServiceCatalogWrapper: React.FC<{ params: CatalogFilterPayload }> = ({ params }) => {
-  const { data, isFetching } = useQuery(EServiceQueries.queryCatalogList(params))
+const EServiceCatalogWrapper: React.FC<{
+  params: Pick<CatalogFilterPayload, 'offset' | 'limit'>
+}> = ({ params: { offset, limit } }) => {
+  const { data, isFetching } = useQuery(EServiceQueries.getFeaturedEServicesCatalog())
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
-  return <EServiceCatalogGrid eservices={data?.results} />
+  return <EServiceCatalogGrid eservices={data?.slice(offset, offset + limit)} />
 }
 
 export default FeaturedTab
