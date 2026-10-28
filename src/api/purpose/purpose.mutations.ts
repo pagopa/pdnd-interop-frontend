@@ -15,9 +15,11 @@ function useRiskAnalysisErrorToastLabel(defaultLabel: string, includeVersionChan
 
     for (const { code } of error.response.data?.errors ?? []) {
       const label = match(code)
-        .with('008-0052', () => t('alreadyApproved'))
-        .with('008-0053', () => t('alreadyRejected'))
-        .with('008-0054', () => (includeVersionChanged ? t('versionChanged') : undefined))
+        .with('004-0066', '008-0052', () => t('alreadyApproved'))
+        .with('004-0067', '008-0053', () => t('alreadyRejected'))
+        .with('004-0064', '008-0054', () =>
+          includeVersionChanged ? t('versionChanged') : undefined
+        )
         .otherwise(() => undefined)
 
       if (label !== undefined) return label

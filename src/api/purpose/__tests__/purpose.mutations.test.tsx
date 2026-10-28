@@ -34,6 +34,9 @@ function makeApiError(status: number, ...codes: string[]) {
 }
 
 const conflictCases = [
+  { code: '004-0066', feedback: 'alreadyApproved' },
+  { code: '004-0067', feedback: 'alreadyRejected' },
+  { code: '004-0064', feedback: 'versionChanged' },
   { code: '008-0052', feedback: 'alreadyApproved' },
   { code: '008-0053', feedback: 'alreadyRejected' },
   { code: '008-0054', feedback: 'versionChanged' },
@@ -58,7 +61,7 @@ describe.each([
     },
     service: PurposeServices.rejectRiskAnalysis,
     genericFeedback: 'rejectRiskAnalysis.outcome.error',
-    conflicts: conflictCases.filter(({ code }) => code !== '008-0054'),
+    conflicts: conflictCases.filter(({ feedback }) => feedback !== 'versionChanged'),
   },
   {
     action: 'save',
@@ -68,7 +71,7 @@ describe.each([
     },
     service: PurposeServices.updateRiskAnalysis,
     genericFeedback: 'updateRiskAnalysis.outcome.error',
-    conflicts: conflictCases.filter(({ code }) => code !== '008-0054'),
+    conflicts: conflictCases.filter(({ feedback }) => feedback !== 'versionChanged'),
   },
   ...(['none', 'create', 'edit'] as const).map((feedback) => ({
     action: `assign (${feedback})`,
