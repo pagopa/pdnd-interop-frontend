@@ -1,19 +1,9 @@
 import React from 'react'
-import { screen, waitFor, within } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { EServiceQueries } from '@/api/eservice'
 import ConsumerEServiceCatalogPage from '../ConsumerEServiceCatalog.page'
-import { createMockEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
-
-vi.mock('@/api/eservice', () => ({
-  EServiceQueries: {
-    getProducers: vi.fn(),
-    queryCatalogList: vi.fn(),
-  },
-}))
-
-vi.mock('@/config/tracking', () => ({ trackEvent: vi.fn() }))
 
 vi.mock('@/components/layout/containers', () => ({
   PageContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -23,164 +13,102 @@ vi.mock('@/components/shared/banners/ProductUpdatesBanner', () => ({
   ProductUpdatesBanner: () => null,
 }))
 
-vi.mock('../components', () => ({
-  EServiceCatalogGrid: () => null,
-  EServiceCatalogGridSkeleton: () => null,
+vi.mock('../FeaturedTab', () => ({
+  default: ({ onGoToCatalog }: { onGoToCatalog: () => void }) => (
+    <div>
+      Featured e-services
+      <button onClick={onGoToCatalog}>Vai al catalogo</button>
+    </div>
+  ),
 }))
 
-const pagination = { offset: 0, limit: 9, totalCount: 0 }
+vi.mock('../AllEServicesTabRename', () => ({
+  default: () => <div>All e-services</div>,
+}))
 
-const lastCatalogQuery = () => {
-  const calls = vi.mocked(EServiceQueries.queryCatalogList).mock.calls
-  return calls[calls.length - 1][0]
+const renderPage = (searchParams = '') => {
+  const onUrlUpdate = vi.fn()
+  const result = renderWithApplicationContext(<ConsumerEServiceCatalogPage />, {
+    withRouterContext: true,
+    nuqsTestingAdapterProps: { searchParams, hasMemory: true, onUrlUpdate },
+  })
+
+  return { ...result, onUrlUpdate }
 }
 
-const renderPage = (searchParams = '') =>
-  renderWithApplicationContext(<ConsumerEServiceCatalogPage />, {
-    withRouterContext: true,
-    withReactQueryContext: true,
-    nuqsTestingAdapterProps: { searchParams, hasMemory: true },
-  })
-
-describe('ConsumerEServiceCatalogPage filters and query payload', () => {
-  beforeEach(() => {
-    vi.mocked(EServiceQueries.getProducers).mockReturnValue({
-      queryKey: ['producers'],
-      queryFn: () => Promise.resolve({ results: [], pagination }),
-    } as never)
-    vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
-      (query) =>
-        ({
-          queryKey: ['catalog', query],
-          queryFn: () => Promise.resolve({ results: [], pagination }),
-        }) as never
-    )
-  })
-
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
-
-  it('queries with default pagination and sorting when no filter is set', () => {
+describe('ConsumerEServiceCatalogPage', () => {
+  it('selects the featured tab by default', () => {
     renderPage()
 
-    expect(lastCatalogQuery()).toEqual({ limit: 9, offset: 0, sortBy: 'CREATED_AT_DESC' })
-  })
-
-  it("does not render pagination when there aren't items", async () => {
-    vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
-      (query) =>
-        ({
-          queryKey: ['catalog', query],
-          queryFn: () =>
-            Promise.resolve({ results: [], pagination: { ...pagination, totalCount: 0 } }),
-        }) as never
+    expect(screen.getByRole('tablist', { name: 'tabs.ariaLabel' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'tabs.featured' })).toHaveAttribute(
+      'aria-selected',
+      'true'
     )
-
-    renderPage()
-
-    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('items-per-page-select')).not.toBeInTheDocument()
-  })
-
-  it('renders pagination when there are items', async () => {
-    vi.mocked(EServiceQueries.queryCatalogList).mockImplementation(
-      (query) =>
-        ({
-          queryKey: ['catalog', query],
-          queryFn: () =>
-            Promise.resolve({
-              results: [createMockEServiceCatalog()],
-              pagination: { ...pagination, totalCount: 1 },
-            }),
-        }) as never
+    expect(screen.getByRole('tab', { name: 'tabs.allEServices' })).toHaveAttribute(
+      'aria-selected',
+      'false'
     )
-
-    renderPage()
-
-    waitFor(() => {
-      expect(screen.getByRole('navigation')).toBeInTheDocument()
-      expect(screen.getByTestId('items-per-page-select')).toBeInTheDocument()
-    })
+    expect(screen.getByRole('tabpanel')).toHaveTextContent('Featured e-services')
+    expect(screen.queryByText('All e-services')).not.toBeInTheDocument()
   })
 
-  it('reads the initial filters from the url', () => {
-    renderPage('?keyword=from-url&onlySignalHubEnabled=true&mode=RECEIVE')
+  it.each([
+    { tab: 'featured', label: 'tabs.featured', content: 'Featured e-services' },
+    { tab: 'allEServices', label: 'tabs.allEServices', content: 'All e-services' },
+  ])('reads the $tab tab from the URL', ({ tab, label, content }) => {
+    renderPage(`?tab=${tab}`)
 
-    expect(lastCatalogQuery()).toMatchObject({
-      keyword: 'from-url',
-      onlySignalHubEnabled: true,
-      mode: 'RECEIVE',
-    })
+    expect(screen.getByRole('tab', { name: label })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('tabpanel')).toHaveTextContent(content)
   })
 
-  it('adds the keyword to the payload after submitting the main filters', async () => {
+  it('switches between tabs when their labels are clicked', async () => {
     const user = userEvent.setup()
     renderPage()
 
-    await user.type(screen.getByRole('textbox', { name: /keywordField\.label/ }), 'my-eservice')
-    expect(lastCatalogQuery().keyword).toBeUndefined()
-
-    await user.click(screen.getByRole('button', { name: 'button' }))
-
-    await waitFor(() =>
-      expect(lastCatalogQuery()).toMatchObject({
-        keyword: 'my-eservice',
-        limit: 9,
-        offset: 0,
-        sortBy: 'CREATED_AT_DESC',
-      })
-    )
-  })
-
-  it('adds boolean additional filters to the payload once applied', async () => {
-    const user = userEvent.setup()
-    renderPage()
-
-    await user.click(screen.getByRole('button', { name: 'trigger' }))
-    const drawer = await screen.findByRole('presentation')
-    await user.click(
-      within(drawer).getByRole('checkbox', { name: /onlyActiveEServicesField\.label/ })
-    )
-    await user.click(within(drawer).getByRole('button', { name: 'actions.apply' }))
-
-    await waitFor(() => expect(lastCatalogQuery().onlyActiveEservices).toBe(true))
-  })
-
-  it('maps the asyncExchange select to a boolean in the payload', async () => {
-    const user = userEvent.setup()
-    renderPage()
-
-    await user.click(screen.getByRole('button', { name: 'trigger' }))
-    const drawer = await screen.findByRole('presentation')
-    await user.click(within(drawer).getByRole('combobox', { name: /asyncExchangeField\.label/ }))
-    await user.click(await screen.findByRole('option', { name: /options\.ASYNC/ }))
-    await user.click(within(drawer).getByRole('button', { name: 'actions.apply' }))
-
-    await waitFor(() => expect(lastCatalogQuery().asyncExchange).toBe(true))
-  })
-
-  it('removes the filters from the payload when they are reset', async () => {
-    const user = userEvent.setup()
-    renderPage('?keyword=abc&onlySignalHubEnabled=true')
-    expect(lastCatalogQuery()).toMatchObject({ keyword: 'abc', onlySignalHubEnabled: true })
-
-    await user.click(screen.getByRole('button', { name: 'remove' }))
+    await user.click(screen.getByRole('tab', { name: 'tabs.allEServices' }))
 
     await waitFor(() => {
-      const query = lastCatalogQuery()
-      expect(query.keyword).toBeUndefined()
-      expect(query.onlySignalHubEnabled).toBeUndefined()
+      expect(screen.getByRole('tab', { name: 'tabs.allEServices' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      )
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('All e-services')
     })
+    expect(screen.queryByText('Featured e-services')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('tab', { name: 'tabs.featured' }))
+
+    await waitFor(() => {
+      expect(screen.getByRole('tab', { name: 'tabs.featured' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      )
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Featured e-services')
+    })
+    expect(screen.queryByText('All e-services')).not.toBeInTheDocument()
   })
 
-  it('updates sortBy in the payload when sorting changes', async () => {
+  it.each([
+    { role: 'tab', name: 'tabs.allEServices' },
+    { role: 'button', name: 'Vai al catalogo' },
+  ])('opens the catalog and resets pagination and filters using $name', async ({ role, name }) => {
     const user = userEvent.setup()
-    renderPage()
+    const { onUrlUpdate } = renderPage(
+      '?tab=featured&offset=6&signingStates=SIGNED&eservicesIds=123'
+    )
 
-    await user.click(screen.getByRole('button', { name: /sorting\.CREATED_AT_DESC/ }))
-    await user.click(await screen.findByRole('menuitem', { name: /sorting\.NAME_ASC/ }))
+    await user.click(screen.getByRole(role, { name }))
 
-    await waitFor(() => expect(lastCatalogQuery().sortBy).toBe('NAME_ASC'))
+    await waitFor(() => {
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('All e-services')
+      expect(onUrlUpdate).toHaveBeenCalled()
+      const { searchParams } = onUrlUpdate.mock.lastCall![0]
+      expect(searchParams.get('tab')).toBe('allEServices')
+      expect(searchParams.has('offset')).toBe(false)
+      expect(searchParams.has('signingStates')).toBe(false)
+      expect(searchParams.has('eservicesIds')).toBe(false)
+    })
   })
 })
