@@ -48,7 +48,7 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
         <EmptyStateBanner
           title={t(`emptyStateBanner.${emptyState}.title`)}
           description={t(`emptyStateBanner.${emptyState}.description`)}
-          onGoToCatalog={onGoToCatalog}
+          onGoToCatalog={eservicesEmptyState ? onGoToCatalog : undefined}
         />
       )}
 
