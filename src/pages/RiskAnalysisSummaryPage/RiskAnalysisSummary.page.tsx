@@ -74,6 +74,11 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     <PageContainer
       title={isApprovalFlow ? t('titleApproval') : t('titleSummary')}
       isLoading={isLoading}
+      navigation={
+        isApprovalFlow
+          ? undefined
+          : { mode: 'wizard', exitAction: { to: 'SUBSCRIBE_RISK_ANALYSIS_LIST' } }
+      }
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
 

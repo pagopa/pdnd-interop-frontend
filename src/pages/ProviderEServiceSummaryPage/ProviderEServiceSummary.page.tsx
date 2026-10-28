@@ -332,6 +332,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           eserviceName: descriptor?.eservice.name,
           versionNumber: descriptor?.version ?? '1',
         })}
+        navigation={{ mode: 'wizard', exitAction: { to: 'PROVIDE_ESERVICE_LIST' } }}
         description={
           isEserviceFromTemplate ? (
             <Trans

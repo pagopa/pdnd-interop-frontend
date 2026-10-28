@@ -80,6 +80,7 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
           options={exitAction.urlParams ? { urlParams: exitAction.urlParams } : undefined}
           as="button"
           size="small"
+          color="inherit"
           startIcon={<CloseIcon />}
           variant="naked"
         >

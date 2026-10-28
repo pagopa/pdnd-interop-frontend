@@ -52,6 +52,12 @@ describe('PageNavigation', () => {
     expect(screen.queryByTestId('breadcrumbs')).not.toBeInTheDocument()
     expect(screen.getByTestId('CloseIcon')).toBeInTheDocument()
 
+    expect(
+      screen.getByRole('link', {
+        name: 'exitButton',
+      })
+    ).toHaveClass('MuiButton-colorInherit')
+
     await userEvent.click(
       screen.getByRole('link', {
         name: 'exitButton',

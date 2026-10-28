@@ -143,6 +143,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     <PageContainer
       title={t('summary.title')}
       isLoading={isLoading}
+      navigation={{ mode: 'wizard', exitAction: { to: 'SUBSCRIBE_PURPOSE_LIST' } }}
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}

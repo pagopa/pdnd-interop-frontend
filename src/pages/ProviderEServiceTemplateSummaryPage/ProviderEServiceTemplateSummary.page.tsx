@@ -138,6 +138,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           versionEserviceTemplateNumber: eserviceTemplate?.version ?? '1',
         })}
         isLoading={isLoading}
+        navigation={{ mode: 'wizard', exitAction: { to: 'PROVIDE_ESERVICE_TEMPLATE_LIST' } }}
         statusChip={{
           for: 'eserviceTemplate',
           state: 'DRAFT',
