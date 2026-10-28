@@ -178,19 +178,19 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       {
         title: tEservice('filters.side.delegationAndSignalHub.title'),
         fields: [
-          {
-            name: 'requesterDelegationRoles',
-            label: tEservice(
-              'filters.side.delegationAndSignalHub.requesterDelegationRolesField.label'
-            ),
-            type: 'autocomplete-single',
-            options: requesterDelegationRolesOptions.map((role) => ({
-              label: tEservice(
-                `filters.side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
-              ),
-              value: role,
-            })),
-          },
+          // {
+          //   name: 'requesterDelegationRoles',
+          //   label: tEservice(
+          //     'filters.side.delegationAndSignalHub.requesterDelegationRolesField.label'
+          //   ),
+          //   type: 'autocomplete-single',
+          //   options: requesterDelegationRolesOptions.map((role) => ({
+          //     label: tEservice(
+          //       `filters.side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
+          //     ),
+          //     value: role,
+          //   })),
+          // },
           {
             name: 'onlySignalHubEnabled',
             label: tEservice('filters.side.delegationAndSignalHub.onlySignalHubEnabledField.label'),
