@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { afterEach, expect, it } from 'vitest'
 import { execFile } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -97,6 +97,7 @@ if (name === 'gosu') {
         ...process.env,
         PATH: `${bin}:${process.env.PATH}`,
         INTEROP_FE_ROOT: root,
+        INTEROP_BE_ROOT: join(root, 'backend checkout'),
         LOCAL_UID: uid,
         LOCAL_GID: gid,
         BOOTSTRAP_STATE: stateFile,
@@ -161,18 +162,18 @@ it('trusts only the mounted Git checkouts as node and keeps the configuration id
   const backend = join(root, 'backend checkout')
   await mkdir(join(root, '.git'))
   await mkdir(join(backend, '.git'), { recursive: true })
-  await mkdir(join(root, '.local-development'))
-  await symlink(backend, join(root, '.local-development/interop-be-monorepo'))
+  const workspaceMount = join(root, '.local-development/interop-be-monorepo')
+  await mkdir(join(workspaceMount, '.git'), { recursive: true })
 
   await run()
   await run()
 
   const result = await state()
-  expect(result.safeDirectories).toEqual([root, backend])
+  expect(result.safeDirectories).toEqual([root, backend, workspaceMount])
   const additions = result.calls.filter(
     ({ name, args }) => name === 'git' && args.includes('--add')
   )
-  expect(additions).toHaveLength(2)
+  expect(additions).toHaveLength(3)
   expect(additions.every(({ user }) => user === 'node')).toBe(true)
   expect(result.launcher.user).toBe('node')
 })

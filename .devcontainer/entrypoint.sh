@@ -18,7 +18,8 @@ if [[ "${1:-}" != --user ]]; then
   exec gosu node /usr/local/bin/frontend-entrypoint --user
 fi
 
-for repository in "$INTEROP_FE_ROOT" "$INTEROP_FE_ROOT/.local-development/interop-be-monorepo"; do
+for repository in "$INTEROP_FE_ROOT" "${INTEROP_BE_ROOT:-}" "$INTEROP_FE_ROOT/.local-development/interop-be-monorepo"; do
+  [[ -n "$repository" ]] || continue
   [[ -e "$repository/.git" ]] || continue
   repository="$(cd "$repository" && pwd -P)"
   if ! git config --global --get-all safe.directory | grep -Fxq -- "$repository"; then

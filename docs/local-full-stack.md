@@ -57,6 +57,10 @@ scripts described in this guide.
 The workspace shows both repositories as separate roots. Closing VS Code leaves
 the containers running.
 
+The workspace's backend folder becomes available after reopening in the container.
+After updating an existing setup, run **Dev Containers: Rebuild Container** to
+apply the mounts.
+
 ### Start from a terminal
 
 From the frontend checkout on the host, run:
@@ -184,20 +188,22 @@ mocks and seeding are described in that repository's `docs/frontend-local-runtim
 
 ### Workspace and configuration
 
-The single `interop-pdnd-fullstack.code-workspace` lists both repositories.
-Initialization creates `.local-development/interop-be-monorepo` as a symbolic
-link to the sibling backend checkout. The real backend repository remains outside
-the frontend. Both real source paths are mounted in the container.
+The container workspace `interop-pdnd-fullstack.code-workspace` lists both repositories.
+Initialization creates `.local-development/interop-be-monorepo` as an empty
+directory and bind-mounts the sibling backend checkout directly there. This avoids
+depending on host symlinks through Docker Desktop's shared filesystem. Existing
+workspace symlinks are migrated automatically; the original checkout is preserved.
+Nonempty directories at the mountpoint are preserved and initialization stops
+with an error. Both real source paths also remain mounted in the container.
 
 `.devcontainer/compose.yml` defines the frontend service and dashboard integration.
 Initialization generates `.local-development/frontend/compose.yml` with absolute
 checkout paths, mounts, and the container user's UID and GID. Linux and WSL2 use
 the host user's IDs. macOS keeps the image's `node` identity, `1000:1000`, because
 Docker Desktop maps bind-mount permissions. Regenerate the configuration through
-initialization after moving the checkouts. For host-only editing before the
-first container start, prepare the workspace with `bash .devcontainer/initialize.sh`.
+initialization after moving the checkouts.
 
-The frontend entrypoint registers both mounted checkout paths as Git safe
+The frontend entrypoint registers the mounted checkout paths as Git safe
 directories for `node`. Git and Husky can then use the checkouts even when Docker
 Desktop reports a different owner for the mounted files.
 

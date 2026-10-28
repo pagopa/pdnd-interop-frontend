@@ -161,12 +161,18 @@ it('generates only machine-specific frontend configuration', async () => {
         working_dir: frontend,
         environment: {
           INTEROP_FE_ROOT: frontend,
+          INTEROP_BE_ROOT: backend,
           LOCAL_UID: process.platform === 'darwin' ? '1000' : String(process.getuid()),
           LOCAL_GID: process.platform === 'darwin' ? '1000' : String(process.getgid()),
         },
         volumes: [
           { type: 'bind', source: frontend, target: frontend },
           { type: 'bind', source: backend, target: backend },
+          {
+            type: 'bind',
+            source: backend,
+            target: join(frontend, '.local-development/interop-be-monorepo'),
+          },
           {
             type: 'volume',
             source: 'frontend-modules',
@@ -232,36 +238,44 @@ it.each([
   }
 )
 
-it('exposes the sibling backend through an idempotent workspace link', async () => {
+it('prepares an idempotent real workspace mountpoint for the backend', async () => {
   const { frontend, backend, run } = await fixture()
   await execute('git', ['init', '--quiet', backend])
   await writeFile(join(backend, 'workspace-file.txt'), 'original backend source')
   await run('start')
   const link = join(frontend, '.local-development/interop-be-monorepo')
-  expect((await lstat(link)).isSymbolicLink()).toBe(true)
-  expect(await realpath(link)).toBe(backend)
-  expect(await readFile(join(link, 'workspace-file.txt'), 'utf8')).toBe('original backend source')
-  await writeFile(join(link, 'workspace-file.txt'), 'edited through workspace')
-  expect(await readFile(join(backend, 'workspace-file.txt'), 'utf8')).toBe(
-    'edited through workspace'
+  expect((await lstat(link)).isSymbolicLink()).toBe(false)
+  expect((await lstat(link)).isDirectory()).toBe(true)
+  expect(await realpath(link)).toBe(link)
+  const config = JSON.parse(
+    await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
   )
-  const { stdout } = await execute('git', ['-C', link, 'rev-parse', '--show-toplevel'])
-  expect(stdout.trim()).toBe(backend)
+  expect(config.services.frontend.volumes).toContainEqual({
+    type: 'bind',
+    source: backend,
+    target: link,
+  })
+  expect(await readFile(join(backend, 'workspace-file.txt'), 'utf8')).toBe(
+    'original backend source'
+  )
   const before = await lstat(link)
   await run('start')
   expect((await lstat(link)).ino).toBe(before.ino)
 })
 
-it('replaces a stale backend workspace link', async () => {
+it.each([false, true])('migrates the old backend workspace symlink (stale: %s)', async (stale) => {
   const { frontend, backend, run } = await fixture()
   const link = join(frontend, '.local-development/interop-be-monorepo')
   await mkdir(join(frontend, '.local-development'))
-  await symlink(join(backend, 'missing-checkout'), link)
+  await writeFile(join(backend, 'keep.txt'), 'existing backend source')
+  await symlink(stale ? join(backend, 'missing-checkout') : backend, link)
   await run('start')
-  expect(await realpath(link)).toBe(backend)
+  expect((await lstat(link)).isDirectory()).toBe(true)
+  expect((await lstat(link)).isSymbolicLink()).toBe(false)
+  expect(await readFile(join(backend, 'keep.txt'), 'utf8')).toBe('existing backend source')
 })
 
-it('creates the workspace link after initializing a missing backend checkout', async () => {
+it('creates the workspace mountpoint after initializing a missing backend checkout', async () => {
   const { frontend, backend, run } = await fixture()
   await rename(backend, `${backend}.seed`)
   await writeFile(
@@ -270,7 +284,9 @@ it('creates the workspace link after initializing a missing backend checkout', a
     { mode: 0o755 }
   )
   await run('start')
-  expect(await realpath(join(frontend, '.local-development/interop-be-monorepo'))).toBe(backend)
+  expect(
+    (await lstat(join(frontend, '.local-development/interop-be-monorepo'))).isDirectory()
+  ).toBe(true)
 })
 
 it('preserves a real directory occupying the backend workspace link path', async () => {
@@ -278,7 +294,7 @@ it('preserves a real directory occupying the backend workspace link path', async
   const link = join(frontend, '.local-development/interop-be-monorepo')
   await mkdir(link, { recursive: true })
   await writeFile(join(link, 'keep.txt'), 'local user file')
-  await expect(run('start')).rejects.toThrow('is not a symbolic link')
+  await expect(run('start')).rejects.toThrow('is not an empty workspace mountpoint')
   expect(await readFile(join(link, 'keep.txt'), 'utf8')).toBe('local user file')
   await expect(readFile(callsFile)).rejects.toMatchObject({ code: 'ENOENT' })
 })
@@ -340,11 +356,16 @@ it('validates the devcontainer model and build targets without explicitly enabli
     INTEROP_FRONTEND_RUNTIME: 'true',
     INTEROP_FRONTEND_PORT: '5173',
   })
-  expect(service.environment).not.toHaveProperty('INTEROP_BE_ROOT')
+  expect(service.environment.INTEROP_BE_ROOT).toBe(backend)
   expect(service.build.context).toBe(join(frontend, '.devcontainer'))
   expect(service.volumes.filter(({ type }) => type === 'bind')).toEqual([
     { type: 'bind', source: frontend, target: frontend },
     { type: 'bind', source: backend, target: backend },
+    {
+      type: 'bind',
+      source: backend,
+      target: join(frontend, '.local-development/interop-be-monorepo'),
+    },
   ])
   expect(service.volumes.filter(({ type }) => type === 'volume')).toHaveLength(3)
   expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')
@@ -407,9 +428,13 @@ it('passes the resolved sibling backend root to preparation when INTEROP_BE_ROOT
   delete env.INTEROP_BE_ROOT
   await execute('bash', [join(frontend, '.devcontainer/initialize.sh')], { env })
   expect((await readFile(backendCallsFile, 'utf8')).trim()).toBe(`prepare:${siblingBackend}`)
-  expect(await realpath(join(frontend, '.local-development/interop-be-monorepo'))).toBe(
-    siblingBackend
+  const config = JSON.parse(
+    await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
   )
+  expect(config.services.frontend.environment.INTEROP_BE_ROOT).toBe(siblingBackend)
+  expect(
+    (await lstat(join(frontend, '.local-development/interop-be-monorepo'))).isDirectory()
+  ).toBe(true)
 })
 
 it('aborts startup if backend preparation fails and preserves the last valid override', async () => {

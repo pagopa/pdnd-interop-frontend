@@ -79,16 +79,16 @@ code interop-pdnd-fullstack.code-workspace
 ```
 
 VS Code must show **WSL: Ubuntu** before **Dev Containers: Reopen in Container**.
-Both repositories appear as roots in this one workspace. Initialization creates
-the local backend symbolic link used by the workspace; the actual checkout stays
+Both repositories appear as roots in the container workspace. Initialization creates
+an empty backend mountpoint used by the workspace; the actual checkout stays
 beside the frontend. This keeps the workspace's folder paths within its directory
 and avoids Dev Containers' shared-root warning.
 Then follow [First start](local-full-stack.md#first-start). The frontend launcher
 can also start the full stack from WSL without VS Code or host Node/pnpm.
 VS Code attaches to the separate frontend service, which mounts both checkouts
 for editing and installs frontend dependencies and Chromium. Backend packages,
-infrastructure and the dashboard run in their own service. The same workspace
-also works outside the container.
+infrastructure and the dashboard run in their own service. After updating an
+existing setup, rebuild the container to apply the mounts.
 
 Storing bind-mounted source on Linux avoids slow Windows filesystem crossings
 and missing file-change events. Dependency directories and the pnpm store use
