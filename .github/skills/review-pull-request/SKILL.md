@@ -16,7 +16,7 @@ Follow the scope, severity levels, and output format in [copilot-instructions.md
 1. **Gather the change.**
    - Identify the PR from the argument or the current branch. Use `gh` to read its title, description, base branch, changed files, diff, and CI check results.
    - Read changed files in their full context, not just the diff hunks. Ignore generated and noise files listed in `copilot-instructions.md`.
-   - If the PR cannot be found or the diff cannot be read, stop and say so.
+   - If an explicitly requested PR cannot be found, stop and say so. For a branch-diff review without an existing PR, compare against the user-specified base or the repository's configured default branch; ask for the base if neither can be established. Skip PR-only steps and mark PR metadata, discussion, and CI results as unavailable. Stop if the requested diff cannot be read.
 
 2. **Establish the expected behavior.**
    - Collect requirements from the PR description, the linked Jira issue, and the Figma design when the change is UI. Use the [requirements-design-context](../requirements-design-context/SKILL.md) skill when those sources need to be inspected.
