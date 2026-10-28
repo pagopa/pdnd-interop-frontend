@@ -5,8 +5,8 @@ import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdates
 import { Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import AllEServicesTab from './AllEservicesTab'
 import FeaturedTab from './FeaturedTab'
+import AllEServicesTab from './AllEServicesTabRename'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
