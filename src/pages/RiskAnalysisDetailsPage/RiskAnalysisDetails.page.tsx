@@ -142,10 +142,7 @@ const RiskAnalysisDetailsPage: React.FC = () => {
             <TabPanel value={RiskAnalysisDetailsPageTab.RISK_ANALYSIS}>
               <Grid container>
                 <Grid item xs={8}>
-                  <RiskAnalysisDetailsRiskAnalysisTab
-                    purpose={purpose}
-                    signingState={concludedSigningState}
-                  />
+                  <RiskAnalysisDetailsRiskAnalysisTab purpose={purpose} />
                 </Grid>
               </Grid>
             </TabPanel>

@@ -139,18 +139,9 @@ describe('RiskAnalysisDetailsPage', () => {
     renderPage(createConcludedPurpose('SIGNED', { signedBy: 'reviewer-1' }))
 
     expect(screen.getByText('riskAnalysisSection.title')).toBeInTheDocument()
-    expect(screen.getByText('riskAnalysisSection.signedSubtitle')).toBeInTheDocument()
+    expect(screen.queryByText('riskAnalysisSection.signedSubtitle')).not.toBeInTheDocument()
     expect(screen.getByText('personalDataFlag.label')).toBeInTheDocument()
     expect(screen.getByTestId('risk-analysis-info-summary')).toBeInTheDocument()
-  })
-
-  it('should not render the section subtitle in the risk analysis tab when rejected', () => {
-    activeTabMock.mockReturnValue({ activeTab: 'riskAnalysis', updateActiveTab: vi.fn() })
-
-    renderPage(createConcludedPurpose('REJECTED', { rejectionReason: 'reason' }))
-
-    expect(screen.getByText('riskAnalysisSection.title')).toBeInTheDocument()
-    expect(screen.queryByText('riskAnalysisSection.signedSubtitle')).not.toBeInTheDocument()
   })
 
   it('should mark the purpose notifications as read', () => {

@@ -5,27 +5,20 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ConcludedSigningState } from '../types'
 
 type RiskAnalysisDetailsRiskAnalysisTabProps = {
   purpose: Purpose
-  signingState: ConcludedSigningState
 }
 
 export const RiskAnalysisDetailsRiskAnalysisTab: React.FC<
   RiskAnalysisDetailsRiskAnalysisTabProps
-> = ({ purpose, signingState }) => {
+> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisDetails' })
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit.stepRiskAnalysis' })
 
   return (
     <Stack spacing={3}>
-      <SectionContainer
-        title={t('riskAnalysisSection.title')}
-        description={
-          signingState === 'SIGNED' ? t('riskAnalysisSection.signedSubtitle') : undefined
-        }
-      >
+      <SectionContainer title={t('riskAnalysisSection.title')}>
         <Stack component="dl" spacing={3} sx={{ m: 0 }}>
           <InformationContainer
             label={tEdit('personalDataFlag.label')}
