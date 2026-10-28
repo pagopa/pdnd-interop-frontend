@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { expectCatalog } from './helpers/local-session'
 
 // The dashboard is served independently of the Vite frontend.
 test('serves the backend dashboard and its API on their own origin', async ({ request }) => {
@@ -19,6 +20,10 @@ test('serves the backend dashboard and its API on their own origin', async ({ re
 test('selects a local tenant and role-specific user from the local identity route', async ({
   page,
 }) => {
+  // This is the first frontend page load; cold Vite transforms on Docker Desktop
+  // share the budget with identity selection, application startup, and logout.
+  test.setTimeout(120_000)
+
   await page.goto('/ui/it/local-identity-selection/')
   await page.getByRole('alert').getByRole('button').click()
 
@@ -43,6 +48,7 @@ test('selects a local tenant and role-specific user from the local identity rout
     'user-roles': 'viewer',
   })
 
+  await expectCatalog(page, 120_000)
   await page.getByRole('button', { name: 'Esci' }).click()
 
   await expect(page).toHaveURL(/\/ui\/it\/local-identity-selection\/$/)
