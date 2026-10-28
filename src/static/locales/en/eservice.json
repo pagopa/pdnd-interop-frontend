@@ -662,14 +662,6 @@
         },
         "delegationAndSignalHub": {
           "title": "Data change notifications",
-          "requesterDelegationRolesField": {
-            "label": "Delegations",
-            "options": {
-              "ALL": "All",
-              "DELEGATE": "E-services received by delegation",
-              "DELEGATOR": "E-services delegated to other entities"
-            }
-          },
           "onlySignalHubEnabledField": {
             "label": "Signal Hub",
             "description": "Includes a notification service for data changes"
