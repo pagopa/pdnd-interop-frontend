@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { createMockEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
-import AllEServicesTab from '../AllEServicesTabRename'
+import AllEServicesTab from '../AllEServicesTab'
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
@@ -34,7 +34,7 @@ const renderPage = (searchParams = '') =>
     nuqsTestingAdapterProps: { searchParams, hasMemory: true },
   })
 
-describe('ConsumerEServiceCatalogPage filters and query payload', () => {
+describe('AllEServicesTab filters and query payload', () => {
   beforeEach(() => {
     vi.mocked(EServiceQueries.getProducers).mockReturnValue({
       queryKey: ['producers'],
