@@ -751,8 +751,8 @@
       "description": "The purpose is active. Associate your first client to access the e-service data."
     },
     "waitingForApproval": {
-      "title": "You have published a purpose. It will now have to be approved by the provider.",
-      "description": "When it is approved, you will receive a notification. Until approval, you will not be able to associate clients or access the e-service data.",
+      "title": "Your purpose has been submitted to the provider for approval.",
+      "description": "Once it has been approved, you will receive a notification and will be able to access the e-service data and associate a client.",
       "action": "Go to purpose"
     },
     "action": "Go to purpose"
