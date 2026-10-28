@@ -180,7 +180,7 @@
     "stepRiskAnalysis": {
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
-      "personalInfoAlert": "Warning: do not put personal data inside text fields",
+      "personalInfoAlert": "Do not enter personal data into the free-text fields",
       "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
       "rejectedAlert": "A reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",

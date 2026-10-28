@@ -180,7 +180,7 @@
     "stepRiskAnalysis": {
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
-      "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
+      "personalInfoAlert": "Non inserire dati personali all'interno dei campi di testo libero",
       "readOnlySubtitle": "Non puoi modificare l'analisi del rischio perché è stata inviata al valutatore.",
       "rejectedAlert": "Un valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
       "rejectedAlertLinkLabel": "Leggi motivazione",
