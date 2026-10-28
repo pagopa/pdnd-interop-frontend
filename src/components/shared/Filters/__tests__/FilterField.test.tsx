@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { theme } from '@pagopa/interop-fe-commons'
 import { FilterField } from '../FilterField'
 import type { FilterField as TFilterField } from '@/types/filters.types'
 
@@ -56,7 +57,15 @@ describe('FilterField', () => {
   it('renders a text field for freetext', () => {
     renderField({ type: 'freetext' })
     expect(screen.getByTestId('text-field')).toBeInTheDocument()
-    expect(mocks.textField).toHaveBeenCalledWith({ name: 'f', label: 'Label' })
+    expect(mocks.textField).toHaveBeenCalledWith({
+      name: 'f',
+      label: 'Label',
+      sx: {
+        '& .MuiOutlinedInput-root': {
+          backgroundColor: theme.palette.background.paper,
+        },
+      },
+    })
   })
 
   it('renders a number text field for numeric', () => {

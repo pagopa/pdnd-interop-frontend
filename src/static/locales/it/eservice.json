@@ -587,6 +587,9 @@
       "NAME_DESC": "Nome e-service Z-A"
     },
     "filters": {
+      "nameField": {
+        "label": "Cerca per nome"
+      },
       "keywordField": {
         "label": "Cerca per parola chiave"
       },
