@@ -22,7 +22,7 @@ vi.mock('../FeaturedTab', () => ({
   ),
 }))
 
-vi.mock('../AllEServicesTabRename', () => ({
+vi.mock('../AllEServicesTab', () => ({
   default: () => <div>All e-services</div>,
 }))
 
