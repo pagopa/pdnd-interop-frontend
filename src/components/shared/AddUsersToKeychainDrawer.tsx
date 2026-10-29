@@ -17,7 +17,7 @@ type AddUsersToKeychainDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   excludeUsersIdsList: Array<string>
-  onSubmit: (relationshipIds: Users) => void
+  onSubmit: (relationshipIds: Users) => void | Promise<void>
 }
 
 export const AddUsersToKeychainDrawer: React.FC<AddUsersToKeychainDrawerProps> = ({
@@ -57,8 +57,11 @@ export const AddUsersToKeychainDrawer: React.FC<AddUsersToKeychainDrawerProps> =
   }))
 
   const _onSubmit = ({ selectedUsers }: AddUsersFormValues) => {
+    const result = onSubmit(selectedUsers)
+    if (result) {
+      return result.then(onClose)
+    }
     onClose()
-    onSubmit(selectedUsers)
   }
 
   const handleTransitionExited = () => {

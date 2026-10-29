@@ -58,7 +58,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
     })
   }, [email, formMethods, enabledTenantNotificationConfigEmail])
 
-  const onSubmit = (values: UpdatePartyMailFormValues) => {
+  const onSubmit = async (values: UpdatePartyMailFormValues) => {
     if (!jwt?.organizationId) return
     if (!isEqual(defaultValues, values)) {
       const { contactEmail, description, enabledTenantNotificationConfigEmail } = values
@@ -91,7 +91,8 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
       }
 
       if (promises.length > 0) {
-        Promise.all(promises).finally(() => onClose())
+        await Promise.all(promises)
+        onClose()
       }
     }
   }

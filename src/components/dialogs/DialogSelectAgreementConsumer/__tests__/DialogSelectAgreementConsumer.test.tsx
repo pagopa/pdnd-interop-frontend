@@ -6,6 +6,7 @@ import { DialogSelectAgreementConsumer } from '../DialogSelectAgreementConsumer'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { queryClient } from '@/config/query-client'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
+import { useDialogStore } from '@/stores'
 
 const server = setupServer(
   rest.get(`${BACKEND_FOR_FRONTEND_URL}/delegations`, (_, res, ctx) => {
@@ -64,5 +65,45 @@ describe('DialogSelectAgreementConsumer', () => {
 
     expect(await screen.findByText('validation.mixed.required')).toBeInTheDocument()
     expect(screen.queryByText('certifiedAttributesAlert.description')).not.toBeInTheDocument()
+  })
+
+  it('keeps the create dialog open when the delegated submit fails', async () => {
+    mockUseJwt()
+    const user = userEvent.setup()
+    const closeDialogSpy = vi.spyOn(useDialogStore.getState(), 'closeDialog')
+    const onSubmitCreate = vi.fn().mockRejectedValue(new Error('request failed'))
+    server.use(
+      rest.get(
+        `${BACKEND_FOR_FRONTEND_URL}/tenants/:tenantId/eservices/:eserviceId/descriptors/:descriptorId/certifiedAttributes/validate`,
+        (_, res, ctx) => res(ctx.json({ hasCertifiedAttributes: true }))
+      )
+    )
+
+    renderWithApplicationContext(
+      <DialogSelectAgreementConsumer
+        type="selectAgreementConsumer"
+        action="create"
+        eservice={{ id: 'eservice-id', name: 'E-service name', producerId: 'producer-id' }}
+        descriptor={{ id: 'descriptor-id', version: '1' }}
+        agreements={[]}
+        onSubmitCreate={onSubmitCreate}
+      />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    await screen.findByRole('combobox', { name: 'consumerField.label' })
+    const confirmButton = await screen.findByRole('button', { name: 'actions.create' })
+    await waitFor(() => expect(confirmButton).toBeEnabled())
+    await user.click(confirmButton)
+
+    await waitFor(() =>
+      expect(onSubmitCreate).toHaveBeenCalledWith({
+        isOwnEService: false,
+        delegationId: undefined,
+      })
+    )
+    expect(closeDialogSpy).not.toHaveBeenCalled()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    closeDialogSpy.mockRestore()
   })
 })

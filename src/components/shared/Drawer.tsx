@@ -22,7 +22,8 @@ export type DrawerProps = {
   onClose: VoidFunction
   title: React.ReactNode
   subtitle?: React.ReactNode
-  buttonAction?: ActionItem & {
+  buttonAction?: Omit<ActionItem, 'action'> & {
+    action: () => void | Promise<void>
     disabled?: boolean
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
@@ -76,6 +77,13 @@ export const Drawer: React.FC<DrawerProps> = ({
     : buttonAction?.disabled
       ? buttonAction.disabledTooltip
       : undefined
+
+  const handleButtonAction = () => {
+    const result = buttonAction?.action()
+    if (result) {
+      void result.catch(() => undefined)
+    }
+  }
 
   return (
     <MUIDrawer
@@ -132,7 +140,7 @@ export const Drawer: React.FC<DrawerProps> = ({
                   variant={buttonAction.variant ?? 'contained'}
                   color={buttonAction.color ?? 'primary'}
                   fullWidth
-                  onClick={buttonAction.action}
+                  onClick={handleButtonAction}
                   type={buttonAction.type ?? 'button'}
                   form={buttonAction.form ?? undefined}
                 >

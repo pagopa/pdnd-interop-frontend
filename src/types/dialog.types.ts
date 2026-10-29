@@ -194,7 +194,7 @@ export type DialogSelectAgreementConsumerProps = {
   }: {
     isOwnEService: boolean
     delegationId?: string
-  }) => void
+  }) => void | Promise<void>
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
@@ -204,7 +204,7 @@ export type DialogTenantKindEserviceTemplateProps = {
 
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
-  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void | Promise<void>
 }
 
 export type DialogRequestPurposeApprovalProps = {

@@ -152,10 +152,19 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     closeDialog()
   }
 
+  const handleCreateSubmit = async () => {
+    try {
+      await onSubmitCreate({ isOwnEService, delegationId })
+    } catch {
+      return
+    }
+    closeDialog()
+  }
+
   const onSubmit = match(action)
     .with('inspect', () => onSubmitInspect)
     .with('edit', () => onSubmitEdit)
-    .with('create', () => () => onSubmitCreate({ isOwnEService, delegationId }))
+    .with('create', () => handleCreateSubmit)
     .exhaustive()
 
   const isConfirmDisabledWithoutSupport = match(action)

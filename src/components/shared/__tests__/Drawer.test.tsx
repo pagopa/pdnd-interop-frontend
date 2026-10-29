@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import React from 'react'
 import { Drawer } from '../Drawer'
 import { beforeEach, vi } from 'vitest'
@@ -58,5 +58,61 @@ describe('Drawer test', () => {
     await user.hover(confirmButton.parentElement!)
 
     expect(await screen.findByText('supportDisableInfo')).toBeVisible()
+  })
+
+  it('keeps the drawer open when an async action rejects', async () => {
+    const user = userEvent.setup()
+    const mutation = vi.fn().mockRejectedValue(new Error('request failed'))
+    const onClose = vi.fn()
+
+    render(
+      <Drawer
+        isOpen
+        onClose={onClose}
+        title="test title"
+        buttonAction={{
+          label: 'Confirm',
+          action: async () => {
+            await mutation()
+            onClose()
+          },
+        }}
+      >
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+
+    await waitFor(() => expect(mutation).toHaveBeenCalledOnce())
+    expect(onClose).not.toHaveBeenCalled()
+    expect(screen.getByText('TEST CHILDREN')).toBeInTheDocument()
+  })
+
+  it('closes the drawer after an async action succeeds', async () => {
+    const user = userEvent.setup()
+    const mutation = vi.fn().mockResolvedValue(undefined)
+    const onClose = vi.fn()
+
+    render(
+      <Drawer
+        isOpen
+        onClose={onClose}
+        title="test title"
+        buttonAction={{
+          label: 'Confirm',
+          action: async () => {
+            await mutation()
+            onClose()
+          },
+        }}
+      >
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+
+    await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
   })
 })

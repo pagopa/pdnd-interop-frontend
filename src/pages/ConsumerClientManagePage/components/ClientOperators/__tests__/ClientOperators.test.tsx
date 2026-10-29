@@ -1,9 +1,10 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { ClientOperators } from '../ClientOperators'
+import type * as ReactQuery from '@tanstack/react-query'
 
 const {
   mockedAddOperators,
@@ -38,7 +39,7 @@ vi.mock('@/api/auth', () => ({
 }))
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQueryClient: () => ({ prefetchQuery: mockedPrefetchQuery }),
   useQuery: () => ({ data: state.currentOperators }),
 }))
@@ -109,17 +110,29 @@ vi.mock('../ClientOperatorsTable', () => ({
 vi.mock('@/components/shared/AddOperatorsToClientDrawer', () => ({
   AddOperatorsToClientDrawer: ({
     onSubmit,
+    onClose,
     isOpen,
     excludeOperatorsIdsList,
   }: {
-    onSubmit: (operators: Array<{ userId: string }>) => void
+    onSubmit: (operators: Array<{ userId: string }>) => void | Promise<void>
+    onClose: VoidFunction
     isOpen: boolean
     excludeOperatorsIdsList: string[]
   }) => (
     <div data-testid="add-operators-drawer">
       <span>{isOpen ? 'open' : 'closed'}</span>
       <span>{excludeOperatorsIdsList.join(',')}</span>
-      <button type="button" onClick={() => onSubmit([{ userId: 'u-2' }])}>
+      <button
+        type="button"
+        onClick={() => {
+          const result = onSubmit([{ userId: 'u-2' }])
+          if (result) {
+            void result.then(onClose, () => undefined)
+          } else {
+            onClose()
+          }
+        }}
+      >
         submit-drawer
       </button>
     </div>
@@ -141,6 +154,7 @@ describe('ClientOperators', () => {
 
     mockedGetOperatorsList.mockReturnValue({ queryKey: ['ClientGetOperatorsList'] })
     mockedGetPartyUsersList.mockReturnValue({ queryKey: ['TenantGetPartyUsersList'] })
+    mockedAddOperators.mockResolvedValue(undefined)
   })
 
   it('renders head section, table and drawer for admin', () => {
@@ -181,8 +195,27 @@ describe('ClientOperators', () => {
 
     await user.click(screen.getByRole('button', { name: 'submit-drawer' }))
 
-    expect(mockedAddOperators).toHaveBeenCalledWith({ clientId: 'client-id', userIds: ['u-2'] })
-    expect(mockedCloseDrawer).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(mockedAddOperators).toHaveBeenCalledWith({ clientId: 'client-id', userIds: ['u-2'] })
+      expect(mockedCloseDrawer).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  it('keeps the drawer open when adding operators fails', async () => {
+    const user = userEvent.setup()
+    mockedAddOperators.mockRejectedValue(new Error('request failed'))
+
+    renderWithApplicationContext(<ClientOperators clientId="client-id" />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'submit-drawer' }))
+
+    await waitFor(() => {
+      expect(mockedAddOperators).toHaveBeenCalledWith({ clientId: 'client-id', userIds: ['u-2'] })
+    })
+    expect(mockedCloseDrawer).not.toHaveBeenCalled()
   })
 
   it('disables add operator action and hides drawer for non admin', () => {

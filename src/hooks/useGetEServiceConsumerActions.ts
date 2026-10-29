@@ -54,8 +54,11 @@ function useGetEServiceConsumerActions(
 
   const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
-  const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
+  const { mutateAsync: createAgreementDraft } = AgreementMutations.useCreateDraft(
+    true,
+    isAsyncExchange
+  )
+  const { mutateAsync: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
   const emptyResult = {
     primaryAction: undefined,
@@ -151,43 +154,32 @@ function useGetEServiceConsumerActions(
      * create and submit the agreement without passing through the draft
      * */
     if (isOwnEService) {
-      submitToOwnEService(
-        {
-          eserviceId: descriptor.eservice.id,
-          descriptorId: descriptor.id,
-          delegationId: delegationId,
-        },
-        {
-          onSuccess({ id }) {
-            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
-          },
-        }
-      )
-      return
+      return submitToOwnEService({
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        delegationId,
+      }).then(({ id }) => {
+        navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
+      })
     }
 
     /**
      * If the subscriber is not the owner of the e-service or delegated by the owner
      * create the agreement draft
      * */
-    createAgreementDraft(
-      {
-        eserviceName: descriptor.eservice.name,
-        eserviceId: descriptor.eservice.id,
-        eserviceVersion: descriptor.version,
-        descriptorId: descriptor.id,
-        delegationId: delegationId,
-      },
-      {
-        onSuccess({ id }) {
-          navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
-        },
-      }
-    )
+    return createAgreementDraft({
+      eserviceName: descriptor.eservice.name,
+      eserviceId: descriptor.eservice.id,
+      eserviceVersion: descriptor.version,
+      descriptorId: descriptor.id,
+      delegationId,
+    }).then(({ id }) => {
+      navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+    })
   }
 
   const handleCreateAgreementDraftAction = () => {
-    handleCreateAgreementDraft({ isOwnEService: isMine })
+    void handleCreateAgreementDraft({ isOwnEService: isMine }).catch(() => undefined)
   }
 
   const handleOpenCreateAgreementDraftDialog = () => {
