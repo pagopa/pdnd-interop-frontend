@@ -747,7 +747,7 @@
     "submitRiskAnalysis": {
       "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {
-        "success": "Hai assegnato l’approvazione dell’analisi del rischio a un valutatore.",
+        "success": "Hai assegnato l’approvazione dell’analisi del rischio.",
         "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
