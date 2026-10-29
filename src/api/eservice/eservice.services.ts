@@ -37,10 +37,20 @@ import type {
   EServiceSignalHubUpdateSeed,
   EServicePersonalDataFlagUpdateSeed,
   EServiceDelegationFlagsUpdateSeed,
+  CatalogFilterPayload,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
 import { sanitizeImportEserviceFileName } from '@/utils/eservice.utils'
+
+async function queryCatalogList(query: CatalogFilterPayload) {
+  const response = await axiosInstance.post<CatalogEServices>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog`,
+    query
+  )
+
+  return response.data
+}
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -829,4 +839,5 @@ export const EServiceServices = {
   updateEServiceSignalHub,
   updateEServicePersonalDataFlagAfterPublication,
   updateEServiceDelegationFlagsAfterPublication,
+  queryCatalogList,
 }

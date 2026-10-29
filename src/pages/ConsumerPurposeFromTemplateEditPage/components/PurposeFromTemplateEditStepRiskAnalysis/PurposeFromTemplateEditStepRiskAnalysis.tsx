@@ -76,9 +76,14 @@ export const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> 
 
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
   const { data: purpose } = useQuery(PurposeQueries.getSingle(purposeId))
-  const { data: riskAnalysis } = useQuery(
-    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purpose?.consumer.kind })
-  )
+  const { data: riskAnalysis } = useQuery({
+    ...PurposeQueries.getRiskAnalyisLatestOrSpecificVersion({
+      eserviceId: purpose?.eservice?.id,
+      riskAnalysisVersion: purposeTemplate?.purposeRiskAnalysisForm?.version,
+      tenantKind: purpose?.consumer.kind,
+    }),
+    enabled: Boolean(purposeTemplate && purpose),
+  })
 
   const { mergedAnswers, suggestedValueConsumer } = useMemo(() => {
     if (!riskAnalysis || !purpose || !purposeTemplate?.purposeRiskAnalysisForm) {
