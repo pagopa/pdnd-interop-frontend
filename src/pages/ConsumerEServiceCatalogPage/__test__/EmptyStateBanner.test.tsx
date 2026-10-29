@@ -20,7 +20,9 @@ describe('EmptyStateBanner', () => {
   it('does not render the catalog button without onGoToCatalog', () => {
     const { queryByRole } = renderWithApplicationContext(<EmptyStateBanner {...props} />, {})
 
-    expect(queryByRole('button', { name: 'Vai al catalogo' })).not.toBeInTheDocument()
+    expect(
+      queryByRole('button', { name: 'emptyStateBanner.eservices.goToCatalogButtonLabel' })
+    ).not.toBeInTheDocument()
   })
 
   it('renders the catalog button and calls onGoToCatalog when clicked', async () => {
@@ -30,7 +32,9 @@ describe('EmptyStateBanner', () => {
       <EmptyStateBanner {...props} onGoToCatalog={onGoToCatalog} />,
       {}
     )
-    const button = getByRole('button', { name: 'Vai al catalogo' })
+    const button = getByRole('button', {
+      name: 'emptyStateBanner.eservices.goToCatalogButtonLabel',
+    })
 
     expect(button).toHaveAttribute('type', 'button')
     expect(onGoToCatalog).not.toHaveBeenCalled()

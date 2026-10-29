@@ -719,7 +719,8 @@
         "noResults": {
           "title": "Here you will find the suggested e-services",
           "description": "For now, there are no suggestions to show you. When they are ready, you will find them here. In the meantime, you can draw inspiration from practical examples or explore all the e-services."
-        }
+        },
+        "goToCatalogButtonLabel": "Vai a catalogo"
       },
       "useCases": {
         "title": "E-service use cases are not available",
