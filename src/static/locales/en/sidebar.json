@@ -5,7 +5,7 @@
       "subscribe": "Consuming",
       "agreement": "Submitted requests",
       "purpose": "Submitted purposes",
-      "purposeTemplateCatalog": "Purpose Templates Catalog",
+      "purposeTemplateCatalog": "Purpose templates catalog",
       "purposeTemplate": "My purpose templates"
     },
     "provider": {
@@ -13,21 +13,21 @@
       "providerEservice": "My e-services",
       "providerAgreeemnt": "Received requests",
       "providerPurpose": "Received purposes",
-      "eServiceTemplatesCatalog": "E-service Templates Catalog",
+      "eServiceTemplatesCatalog": "E-service templates catalog",
       "providerEserviceTemplate": "My e-service templates",
       "providerKeychainsList": "Producer keychains"
     },
     "client": {
       "client": "Client management",
-      "eservice": "E-service API",
-      "interop": "Interop API",
+      "eservice": "E-service clients",
+      "interop": "Interoperability clients",
       "debugClientAssertion": "Debug client assertion"
     },
     "tenant": {
-      "tenant": "My party",
-      "partyRegistry": "Registry and attributes",
-      "tenantCertifier": "Certifying authority",
-      "delegations": "Delegations management"
+      "tenant": "Organization profile",
+      "partyRegistry": "Details and attributes",
+      "tenantCertifier": "Attribute management",
+      "delegations": "Delegations"
     },
     "developerTools": "Developer tools",
     "notifications": "Notifications",

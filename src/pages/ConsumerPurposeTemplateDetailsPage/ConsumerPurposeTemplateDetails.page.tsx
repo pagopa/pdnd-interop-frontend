@@ -39,10 +39,6 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
             }
           : undefined
       }
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
-      }}
     >
       <TabContext value={activeTab}>
         <TabList

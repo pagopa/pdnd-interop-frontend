@@ -91,10 +91,6 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
-      backToAction={{
-        label: t('actions.backToCatalogLabel'),
-        to: 'SUBSCRIBE_CATALOG_LIST',
-      }}
       infoSection={
         descriptor
           ? {

@@ -1,17 +1,42 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
+import isEqual from 'lodash/isEqual'
+import { useFormState, useWatch } from 'react-hook-form'
+import type { Control, FieldValues } from 'react-hook-form'
 import type { ActionItemButton } from '@/types/common.types'
-import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Link, type RouteKey } from '@/router'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { PageNavigation, type PageNavigationProps } from './PageNavigation'
 
-export type PageBackToAction = {
-  label: string
-  to: RouteKey
-  params?: Record<string, string>
-  urlParams?: Record<string, string>
+type PageContainerFormDirtyStateContextValue = {
+  updateOwner: (ownerId: string, stepKey: string | number | undefined, isDirty: boolean) => void
+  unregisterOwner: (ownerId: string) => void
+  stepKey: string | number | undefined
+}
+
+const PageContainerFormDirtyStateContext =
+  React.createContext<PageContainerFormDirtyStateContextValue>({
+    updateOwner: () => {},
+    unregisterOwner: () => {},
+    stepKey: undefined,
+  })
+
+export const usePageContainerFormDirtyState = <TFieldValues extends FieldValues>(
+  control: Control<TFieldValues>
+) => {
+  const { updateOwner, unregisterOwner, stepKey } = React.useContext(
+    PageContainerFormDirtyStateContext
+  )
+  const ownerId = React.useId()
+  const { isDirty, defaultValues } = useFormState({ control })
+  const values = useWatch({ control })
+  const hasUnsavedChanges = isDirty || !isEqual(values, defaultValues)
+
+  React.useEffect(() => {
+    updateOwner(ownerId, stepKey, hasUnsavedChanges)
+  }, [hasUnsavedChanges, ownerId, stepKey, updateOwner])
+
+  React.useEffect(() => () => unregisterOwner(ownerId), [ownerId, unregisterOwner])
 }
 
 type PageContainerActionsProps = {
@@ -19,8 +44,8 @@ type PageContainerActionsProps = {
   topSideActions?: Array<ActionItemButton>
 }
 
-type PageContainerBreadcrumbsProps = {
-  backToAction?: PageBackToAction
+type PageContainerNavigationProps = {
+  navigation?: PageNavigationProps
 }
 
 type PageContainerIntroProps = {
@@ -33,32 +58,88 @@ type PageContainerProps = {
   sx?: SxProps
   children: React.ReactNode
 } & PageContainerActionsProps &
-  PageContainerBreadcrumbsProps &
+  PageContainerNavigationProps &
   PageContainerIntroProps
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
-  backToAction?: PageBackToAction
+  navigation?: PageNavigationProps
 }
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
+  const [formDirtyOwners, setFormDirtyOwners] = React.useState<
+    Record<string, { stepKey: string | number | undefined; isDirty: boolean }>
+  >({})
+  const [hasDomUnsavedChanges, setHasDomUnsavedChanges] = React.useState(false)
+  const wizardStepKey = props.navigation?.mode === 'wizard' ? props.navigation.stepKey : undefined
+
+  React.useEffect(() => {
+    setHasDomUnsavedChanges(false)
+  }, [wizardStepKey])
+
+  const updateOwner = React.useCallback(
+    (ownerId: string, stepKey: string | number | undefined, isDirty: boolean) => {
+      setFormDirtyOwners((owners) => {
+        if (!isDirty) {
+          if (!(ownerId in owners)) return owners
+          const { [ownerId]: _owner, ...remainingOwners } = owners
+          return remainingOwners
+        }
+        return { ...owners, [ownerId]: { stepKey, isDirty } }
+      })
+    },
+    []
+  )
+  const unregisterOwner = React.useCallback((ownerId: string) => {
+    setFormDirtyOwners((owners) => {
+      if (!(ownerId in owners)) return owners
+      const { [ownerId]: _owner, ...remainingOwners } = owners
+      return remainingOwners
+    })
+  }, [])
+  const formDirtyState = React.useMemo(
+    () => ({ updateOwner, unregisterOwner, stepKey: wizardStepKey }),
+    [unregisterOwner, updateOwner, wizardStepKey]
+  )
+  const hasFormUnsavedChanges = Object.values(formDirtyOwners).some(
+    (owner) => owner.stepKey === wizardStepKey && owner.isDirty
+  )
+  const hasUnsavedChanges = hasDomUnsavedChanges || hasFormUnsavedChanges
+
+  const navigation =
+    props.navigation?.mode === 'wizard'
+      ? {
+          ...props.navigation,
+          hasUnsavedChanges: props.navigation.hasUnsavedChanges ?? hasUnsavedChanges,
+        }
+      : props.navigation
+
   return (
     <Box>
-      <PageContainerBreadcrumbs {...props} />
+      <PageContainerNavigation navigation={navigation} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
       {!isLoading && <PageContainerActions {...props} />}
-      <Box sx={{ mt: 1 }}>{children}</Box>
+      <PageContainerFormDirtyStateContext.Provider value={formDirtyState}>
+        <Box
+          sx={{ mt: 1 }}
+          onChangeCapture={
+            props.navigation?.mode === 'wizard' ? () => setHasDomUnsavedChanges(true) : undefined
+          }
+        >
+          {children}
+        </Box>
+      </PageContainerFormDirtyStateContext.Provider>
     </Box>
   )
 }
 
 export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   children,
-  backToAction,
+  navigation,
 }) => {
   return (
     <Box>
-      <PageContainerBreadcrumbs backToAction={backToAction} />
+      <PageContainerNavigation navigation={navigation} />
       <PageContainerIntroSkeleton />
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
@@ -95,30 +176,9 @@ const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description })
     description
   )
 }
-const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
-  return (
-    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-      {backToAction && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Link
-          to={backToAction.to}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          params={backToAction.params}
-          options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
-          as="button"
-          startIcon={<ArrowBackIcon />}
-          size="small"
-          variant="naked"
-        >
-          {backToAction.label}
-        </Link>
-      )}
-      <Breadcrumbs />
-    </Stack>
-  )
-}
+const PageContainerNavigation: React.FC<PageContainerNavigationProps> = ({ navigation }) => (
+  <PageNavigation {...(navigation ?? {})} />
+)
 
 const PageContainerActions: React.FC<PageContainerActionsProps> = ({
   statusChip,

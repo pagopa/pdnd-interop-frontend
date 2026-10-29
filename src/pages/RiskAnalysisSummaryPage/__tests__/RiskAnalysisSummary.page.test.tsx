@@ -96,6 +96,10 @@ vi.mock('@/pages/ConsumerPurposeSummaryPage/components', () => ({
   ConsumerPurposeSummaryRiskAnalysisAccordion: () => <div data-testid="risk-analysis-accordion" />,
 }))
 
+vi.mock('@/components/layout/Breadcrumbs', () => ({
+  Breadcrumbs: () => <div data-testid="breadcrumbs" />,
+}))
+
 const mockRouteKey = (routeKey: string) => {
   vi.spyOn(router, 'useCurrentRoute').mockReturnValue({
     routeKey,
@@ -253,6 +257,11 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     })
 
     expect(screen.getByText('titleSummary')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      expect.stringContaining('/analisi-del-rischio')
+    )
+    expect(screen.queryByTestId('breadcrumbs')).not.toBeInTheDocument()
   })
 
   it('should render approval page title', () => {
@@ -264,6 +273,8 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     })
 
     expect(screen.getByText('titleApproval')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'exitButton' })).not.toBeInTheDocument()
+    expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })
 
   it('should render main sections', () => {

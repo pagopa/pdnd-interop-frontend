@@ -80,6 +80,7 @@ export type DialogBasicProps = DialogDefaultProps & {
   title: string
   description?: string
   descriptionLink?: DialogDescriptionLink
+  cancelLabel?: string
   proceedLabel?: string
   onProceed: VoidFunction
   onCancel?: VoidFunction

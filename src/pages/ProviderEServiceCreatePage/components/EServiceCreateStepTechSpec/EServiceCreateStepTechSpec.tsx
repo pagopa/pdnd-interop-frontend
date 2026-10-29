@@ -27,6 +27,7 @@ import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeS
 import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
 import { AuthHooks } from '@/api/auth/auth.hooks'
 import { RestInterfaceDescription } from '@/components/shared/RestInterfaceDescription'
+import { usePageContainerFormDirtyState } from '@/components/layout/containers'
 
 type AsyncExchangePropertiesFormValues = {
   responseTime: number | ''
@@ -108,6 +109,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
   }
 
   const formMethods = useForm<EServiceCreateStepTechSpecFormValues>({ defaultValues })
+  usePageContainerFormDirtyState(formMethods.control)
   const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {

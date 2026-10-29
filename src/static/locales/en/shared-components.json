@@ -606,6 +606,15 @@
     "notAvailableYet": "The document will be available soon"
   },
   "requiredLabel": "*Required fields.",
+  "pageNavigation": {
+    "exitButton": "Exit",
+    "exitDialog": {
+      "title": "Do you really want to exit?",
+      "description": "If you exit, any information entered so far will be lost.",
+      "cancelButton": "Back to editing",
+      "confirmButton": "Exit"
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of Service",

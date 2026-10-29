@@ -92,6 +92,10 @@ describe('ProviderEServiceTemplateSummaryPage', () => {
     })
 
     expect(screen.getByText('summary.title')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      expect.stringContaining('/erogazione/template-eservice')
+    )
   })
 
   it('renders 4 accordion sections in DELIVER mode', () => {

@@ -3,13 +3,28 @@ import { render, screen, waitFor } from '@testing-library/react'
 import type { Mock } from 'vitest'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { useFormContext } from 'react-hook-form'
+import type * as RiskAnalysisFormHook from '@/hooks/useRiskAnalysisFormTemplate'
+import type * as LayoutContainers from '@/components/layout/containers'
+import type * as ReactI18next from 'react-i18next'
 import { RiskAnalysisFormTemplate } from '../RiskAnalysisFormTemplate'
 import { useRiskAnalysisFormTemplate } from '@/hooks/useRiskAnalysisFormTemplate'
+import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
+import { PageContainer, usePageContainerFormDirtyState } from '@/components/layout/containers'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 // --- mocks ---
 vi.mock('@/hooks/useRiskAnalysisFormTemplate', () => ({
   useRiskAnalysisFormTemplate: vi.fn(),
 }))
+
+vi.mock('@/components/layout/containers', async (importOriginal) => {
+  const actual = await importOriginal<typeof LayoutContainers>()
+  return {
+    ...actual,
+    usePageContainerFormDirtyState: vi.fn(),
+  }
+})
 
 vi.mock('@/components/shared/RiskAnalysisFormComponents', () => ({
   RiskAnalysisFormComponents: vi.fn(() => <div data-testid="form-components" />),
@@ -28,11 +43,16 @@ vi.mock('@/components/shared/StepActions', () => ({
   )),
 }))
 
-vi.mock('react-i18next', () => ({
-  useTranslation: vi.fn(() => ({
-    t: (key: string) => key,
-  })),
-}))
+vi.mock('react-i18next', async (importOriginal) => {
+  const actual = await importOriginal<typeof ReactI18next>()
+  return {
+    ...actual,
+    useTranslation: vi.fn(() => ({
+      t: (key: string) => key,
+      i18n: { language: 'it' },
+    })),
+  }
+})
 
 describe('RiskAnalysisFormTemplate', () => {
   const mockOnSubmit = vi.fn()
@@ -287,5 +307,53 @@ describe('RiskAnalysisFormTemplate', () => {
         },
       })
     })
+  })
+
+  it('confirms wizard exit after a suggested answer is removed programmatically', async () => {
+    const user = userEvent.setup()
+    const actualFormHook = await vi.importActual<typeof RiskAnalysisFormHook>(
+      '@/hooks/useRiskAnalysisFormTemplate'
+    )
+    const actualContainerModule = await vi.importActual<typeof LayoutContainers>(
+      '@/components/layout/containers'
+    )
+    vi.mocked(useRiskAnalysisFormTemplate).mockImplementation(
+      actualFormHook.useRiskAnalysisFormTemplate
+    )
+    vi.mocked(usePageContainerFormDirtyState).mockImplementation(
+      actualContainerModule.usePageContainerFormDirtyState
+    )
+    vi.mocked(RiskAnalysisFormComponents).mockImplementation(() => {
+      const { setValue } = useFormContext()
+      return (
+        <button
+          type="button"
+          onClick={() => setValue('suggestedValues.q1', [], { shouldDirty: true })}
+        >
+          Remove suggested answer
+        </button>
+      )
+    })
+
+    const screen = renderWithApplicationContext(
+      <PageContainer navigation={{ mode: 'wizard', exitAction: { to: 'DEFAULT' } }}>
+        <RiskAnalysisFormTemplate
+          defaultAnswers={{
+            ...defaultAnswers,
+            q1: { ...defaultAnswers.q1, suggestedValues: ['Suggested answer'] },
+          }}
+          riskAnalysis={riskAnalysis}
+          onSubmit={mockOnSubmit}
+          onCancel={mockOnCancel}
+          handlesPersonalData={true}
+        />
+      </PageContainer>,
+      { withRouterContext: true, withDialogContext: true }
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Remove suggested answer' }))
+    await user.click(screen.getByRole('link', { name: 'exitButton' }))
+
+    expect(screen.getByRole('dialog', { name: 'exitDialog.title' })).toBeInTheDocument()
   })
 })
