@@ -67,7 +67,11 @@ export async function runFrontendAction(
             frontend.phases?.find(({ state }) => state === 'failed')?.error ??
             'Frontend operation failed'
         )
-      if (frontend.state === 'passed' || frontend.state === 'stopped') return frontend
+      if (frontend.state === 'passed') return frontend
+      if (frontend.state === 'stopped') {
+        if (['stop', 'reset'].includes(action.type)) return frontend
+        throw new Error('Frontend stopped before the operation completed; retry pnpm local:start')
+      }
     }
     signal?.throwIfAborted()
     await wait(signal)

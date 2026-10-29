@@ -29,6 +29,32 @@ it.each([
   expect(result).toMatchObject({ operationId: 'frontend-2' })
 })
 
+it.each(['start', 'use-local', 'use-dev', 'identity'])(
+  'rejects stopped frontend state after an accepted %s operation',
+  async (type) => {
+    const request = vi
+      .fn()
+      .mockResolvedValueOnce({ operationId: 'frontend-2' })
+      .mockResolvedValue({ frontend: { operationId: 'frontend-2', state: 'stopped' } })
+    const pause = vi.fn()
+    await expect(client.runFrontendAction({ type }, { request, pause })).rejects.toThrow(
+      /Frontend stopped/
+    )
+    expect(request).toHaveBeenCalledTimes(2)
+    expect(pause).not.toHaveBeenCalled()
+  }
+)
+
+it.each(['stop', 'reset'])('accepts stopped frontend state for %s', async (type) => {
+  const request = vi
+    .fn()
+    .mockResolvedValueOnce({ operationId: 'frontend-2' })
+    .mockResolvedValueOnce({ frontend: { operationId: 'frontend-2', state: 'stopped' } })
+  await expect(client.runFrontendAction({ type }, { request })).resolves.toMatchObject({
+    state: 'stopped',
+  })
+})
+
 it.each([undefined, 'another-operation'])(
   'reports lost or superseded startup instead of polling indefinitely: %s',
   async (operationId) => {
