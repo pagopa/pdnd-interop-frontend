@@ -180,7 +180,7 @@
     "stepRiskAnalysis": {
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
-      "personalInfoAlert": "Warning: do not put personal data inside text fields",
+      "personalInfoAlert": "Do not enter personal data into the free-text fields",
       "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
       "rejectedAlert": "A reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",
@@ -751,15 +751,15 @@
       "description": "The purpose is active. Associate your first client to access the e-service data."
     },
     "waitingForApproval": {
-      "title": "You have published a purpose. It will now have to be approved by the provider.",
-      "description": "When it is approved, you will receive a notification. Until approval, you will not be able to associate clients or access the e-service data.",
+      "title": "Your purpose has been submitted to the provider for approval.",
+      "description": "Once it has been approved, you will receive a notification and will be able to access the e-service data and associate a client.",
       "action": "Go to purpose"
     },
     "action": "Go to purpose"
   },
   "approveThankYou": {
     "title": "You have approved the risk analysis",
-    "description": "The administrator will be able to publish the purpose. You will no longer see this risk analysis among those you need to complete or approve.",
+    "description": "The administrator will be able to publish the purpose. This risk analysis will remain visible and accessible in your Private Area.",
     "action": "Close"
   },
   "rejectThankYou": {

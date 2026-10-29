@@ -12,7 +12,7 @@ describe('StatusChip', () => {
   // the label namespace and the resolved `MuiChip-color*` class are asserted.
   it.each<[Exclude<RiskAnalysisSigningState, 'DRAFT'>, string]>([
     ['ASSIGNED', 'MuiChip-colorWarning'],
-    ['SUBMITTED', 'MuiChip-colorInfo'],
+    ['SUBMITTED', 'MuiChip-colorWarning'],
     ['SIGNED', 'MuiChip-colorSuccess'],
     ['REJECTED', 'MuiChip-colorError'],
   ])('renders the risk analysis label and color for state %s', (state, colorClass) => {
