@@ -719,7 +719,8 @@
         "noResults": {
           "title": "Qui troverai gli e-service suggeriti",
           "description": "Per ora non ci sono suggerimenti da mostrarti. Quando saranno pronti, li troverai qui. Intanto puoi prendere spunto dagli esempi pratici o esplorare tutti gli e-service."
-        }
+        },
+        "goToCatalogButtonLabel": "Vai a catalogo"
       },
       "useCases": {
         "title": "Gli esempi pratici di uso degli e-service non sono disponibili",

@@ -2,6 +2,7 @@ import React from 'react'
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined'
 import { Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material'
 import { MIButton } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 type EmptyStateBannerProps = {
   title: string
@@ -14,6 +15,7 @@ const EmptyStateBanner: React.FC<EmptyStateBannerProps> = ({
   description,
   onGoToCatalog,
 }) => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'featuredList' })
   return (
     <Card sx={{ padding: 2 }}>
       <CardHeader
@@ -33,7 +35,7 @@ const EmptyStateBanner: React.FC<EmptyStateBannerProps> = ({
       {onGoToCatalog && (
         <CardActions sx={{ mt: 2, ml: 4, p: 0 }}>
           <MIButton type="button" id={'catalog'} variant="text" onClick={onGoToCatalog}>
-            {'Vai al catalogo'}
+            {t('emptyStateBanner.eservices.goToCatalogButtonLabel')}
           </MIButton>
         </CardActions>
       )}
