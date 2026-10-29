@@ -28,6 +28,7 @@ json_string() {
   fi
   value="${value//\\/\\\\}"
   value="${value//\"/\\\"}"
+  value="${value//\$/\$\$}"
   printf '"%s"' "$value"
 }
 

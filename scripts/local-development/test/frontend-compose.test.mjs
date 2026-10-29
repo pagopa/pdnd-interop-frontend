@@ -29,8 +29,9 @@ async function fixture({
   startupFailure = false,
   checksFailure = false,
   dashboardRunning = false,
+  directoryPrefix = 'interop-frontend-compose-',
 } = {}) {
-  const directory = await mkdtemp(join(tmpdir(), 'interop-frontend-compose-'))
+  const directory = await mkdtemp(join(tmpdir(), directoryPrefix))
   roots.push(directory)
   const frontend = join(directory, 'frontend')
   const backend = join(directory, 'backend')
@@ -214,6 +215,39 @@ it('generates only machine-specific frontend configuration', async () => {
     '../../interop-be-monorepo/.local-development/dashboard/compose.yml',
     'compose.yml',
     '../.local-development/frontend/compose.yml',
+  ])
+})
+
+it('preserves literal dollar signs in generated Compose paths', async () => {
+  const { frontend, backend, env } = await fixture({
+    directoryPrefix: 'interop-$FRONTEND-${BACKEND}-',
+  })
+  await execute('bash', [join(frontend, '.devcontainer/prepare.sh')], { env })
+  const configFile = join(frontend, '.local-development/frontend/compose.yml')
+  const config = JSON.parse(await readFile(configFile, 'utf8'))
+  const service = config.services.frontend
+  const escaped = (value) => value.replaceAll('$', () => '$$')
+
+  expect(service.build.context).toBe(escaped(join(frontend, '.devcontainer')))
+  expect(service.working_dir).toBe(escaped(frontend))
+  expect(service.environment).toMatchObject({
+    INTEROP_FE_ROOT: escaped(frontend),
+    INTEROP_BE_ROOT: escaped(backend),
+  })
+  expect(service.volumes).toEqual([
+    { type: 'bind', source: escaped(frontend), target: escaped(frontend) },
+    { type: 'bind', source: escaped(backend), target: escaped(backend) },
+    {
+      type: 'bind',
+      source: escaped(backend),
+      target: escaped(join(frontend, '.local-development/interop-be-monorepo')),
+    },
+    {
+      type: 'volume',
+      source: 'frontend-modules',
+      target: escaped(join(frontend, 'node_modules')),
+      volume: { nocopy: true },
+    },
   ])
 })
 
