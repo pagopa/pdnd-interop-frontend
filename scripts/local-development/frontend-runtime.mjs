@@ -350,6 +350,7 @@ export function createFrontendRuntime({
       commandSignal?.removeEventListener('abort', cancel)
       try {
         await command.cancellation
+        await terminateCommands({ stopFrontend: false })
       } finally {
         if (activeCommand === command) activeCommand = undefined
         await release()
@@ -370,19 +371,38 @@ export function createFrontendRuntime({
   function run(script, args = []) {
     assertActive()
     return new Promise((resolve, reject) => {
+      const owner = randomUUID()
       const child = spawnProcess(
         'bash',
         [join(root, 'scripts/local-development', script), ...args],
-        { cwd: root, env: environment, stdio: 'inherit', detached: true }
+        {
+          cwd: root,
+          env: { ...environment, INTEROP_FRONTEND_OWNER: owner },
+          stdio: 'inherit',
+          detached: true,
+        }
       )
-      commands.add(child)
-      child.once('error', reject)
+      const command = { child, owner, exited: false, closed: false }
+      commands.add(command)
+      child.once('error', (error) => {
+        command.closed = true
+        reject(error)
+      })
+      child.once('exit', () => {
+        command.exited = true
+      })
       child.once('close', (code, signal) => {
-        commands.delete(child)
+        command.closed = true
         if (code === 0) resolve()
         else reject(new Error(`${script} failed (${signal ?? code})`))
       })
     })
+  }
+
+  async function commandRunning({ child, owner, exited, closed }) {
+    // A live launcher is still our child. Once it exits, independently verify
+    // owned descendants before signalling a group whose ID could be reused.
+    return Boolean(child.pid && ((!exited && !closed) || (await owns(child.pid, owner))))
   }
 
   function terminateCommands({ stopFrontend = true } = {}) {
@@ -390,20 +410,22 @@ export function createFrontendRuntime({
     if (termination) return stopFrontend ? Promise.all([termination, stop()]) : termination
     termination = (async () => {
       const active = [...commands]
-      active.forEach((child) => {
-        if (child.pid) kill(child.pid, 'SIGTERM')
-      })
-      if (stopFrontend) await stop()
-      for (
-        let attempt = 0;
-        attempt < 50 && active.some((child) => commands.has(child));
-        attempt += 1
-      ) {
-        await wait(100)
+      const running = async () => (await Promise.all(active.map(commandRunning))).some(Boolean)
+      const waitForStop = async () => {
+        for (let attempt = 0; attempt < 50 && (await running()); attempt += 1) await wait(100)
       }
-      active.forEach((child) => {
-        if (child.pid && commands.has(child)) kill(child.pid, 'SIGKILL')
-      })
+      for (const command of active)
+        if (await commandRunning(command)) kill(command.child.pid, 'SIGTERM')
+      if (stopFrontend) await stop()
+      await waitForStop()
+      for (const command of active)
+        if (await commandRunning(command)) kill(command.child.pid, 'SIGKILL')
+      await waitForStop()
+      for (const command of active) {
+        if (await commandRunning(command))
+          throw new Error('Frontend command process group did not stop')
+        commands.delete(command)
+      }
     })().finally(() => {
       termination = undefined
     })

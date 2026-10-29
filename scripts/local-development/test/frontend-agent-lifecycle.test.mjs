@@ -1,9 +1,12 @@
 // @vitest-environment node
 import { expect, it, vi } from 'vitest'
+import { execFile, spawn } from 'node:child_process'
 import { EventEmitter } from 'node:events'
-import { mkdtemp, rm } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
+import { setTimeout as pause } from 'node:timers/promises'
+import { promisify } from 'node:util'
 import * as agent from '../frontend-agent.mjs'
 import { createFrontendRuntime } from '../frontend-runtime.mjs'
 
@@ -381,3 +384,136 @@ it('does not spawn Vite after a disconnected start resumes its pending port chec
     await rm(root, { recursive: true, force: true })
   }
 })
+
+it.each(['cancelled', 'successful'])(
+  'keeps the lifecycle lock after a %s launcher exits until its TERM-resistant descendant stops',
+  async (completion) => {
+    const cancelled = completion === 'cancelled'
+    const root = await mkdtemp(join(tmpdir(), 'interop-frontend-descendant-'))
+    const scriptRoot = join(root, 'scripts/local-development')
+    const descendantFile = join(root, 'descendant.pid')
+    await mkdir(scriptRoot, { recursive: true })
+    await writeFile(
+      join(root, 'descendant.cjs'),
+      [
+        "process.on('SIGTERM', () => {})",
+        "require('node:fs').writeFileSync(process.argv[2], String(process.pid))",
+        'setInterval(() => {}, 1000)',
+      ].join('\n')
+    )
+    await writeFile(
+      join(scriptRoot, 'runtime.sh'),
+      [
+        "trap 'exit 0' TERM",
+        'node "$PWD/descendant.cjs" "$PWD/descendant.pid" &',
+        cancelled ? 'wait' : 'while [ ! -f "$PWD/descendant.pid" ]; do sleep 0.01; done',
+        'exit 0',
+      ].join('\n')
+    )
+    let launcher
+    let owner
+    let launcherClosed = false
+    let releaseCleanup
+    let holdCleanup = true
+    const descendantStatus = async () => {
+      const pid = Number(await readFile(descendantFile, 'utf8'))
+      try {
+        const { stdout } = await promisify(execFile)('ps', [
+          '-o',
+          'pgid=',
+          '-o',
+          'stat=',
+          '-p',
+          String(pid),
+        ])
+        const [group, state] = stdout.trim().split(/\s+/)
+        return { group: Number(group), running: Boolean(state && !state.startsWith('Z')) }
+      } catch (error) {
+        if (error.code === 1) return { running: false }
+        throw error
+      }
+    }
+    const alive = async () => (await descendantStatus()).running
+    const signal = vi.fn(process.kill.bind(process))
+    const runtime = createFrontendRuntime({
+      root,
+      environment: process.env,
+      spawnProcess: (command, args, options) => {
+        owner = options.env.INTEROP_FRONTEND_OWNER
+        launcher = spawn(command, args, options)
+        launcher.once('close', () => {
+          launcherClosed = true
+        })
+        return launcher
+      },
+      signal,
+      // Keep this host-process fixture independent of the container's /proc verifier.
+      owns: async (group, candidate) => {
+        const descendant = await descendantStatus()
+        return (
+          group === launcher?.pid &&
+          candidate === owner &&
+          descendant.group === group &&
+          descendant.running
+        )
+      },
+      wait: async () => {
+        if (launcherClosed && holdCleanup)
+          await new Promise((resolve) => {
+            releaseCleanup = resolve
+          })
+        await pause(5)
+      },
+    })
+    const freshRuntime = createFrontendRuntime({ root })
+    const controller = new AbortController()
+    const outcome = runtime
+      .exclusive(() => runtime.install(), { signal: controller.signal })
+      .catch((error) => error)
+    try {
+      await vi.waitFor(async () => {
+        const descendant = Number(await readFile(descendantFile, 'utf8'))
+        expect(descendant).toBeGreaterThan(0)
+      })
+      if (cancelled) controller.abort(new Error('Dashboard stopped'))
+      await vi.waitFor(() => expect(launcherClosed).toBe(true))
+      expect(launcher.exitCode).toBe(0)
+      // Let the old launcher-only cleanup finish before attempting the retry.
+      await pause(25)
+      expect(await alive()).toBe(true)
+      await expect(freshRuntime.exclusive(async () => 'overlap')).rejects.toThrow(
+        'Another frontend lifecycle command'
+      )
+      holdCleanup = false
+      releaseCleanup?.()
+      if (cancelled) expect(await outcome).toMatchObject({ message: 'Dashboard stopped' })
+      else {
+        expect(await outcome).toBeUndefined()
+        expect(controller.signal.aborted).toBe(false)
+      }
+      expect(signal.mock.calls).toContainEqual([-launcher.pid, 'SIGKILL'])
+      expect(await alive()).toBe(false)
+      await expect(
+        freshRuntime.exclusive(async () => {
+          expect(await alive()).toBe(false)
+          return 'retry allowed'
+        })
+      ).resolves.toBe('retry allowed')
+    } finally {
+      holdCleanup = false
+      releaseCleanup?.()
+      controller.abort()
+      if (launcher?.pid) {
+        try {
+          process.kill(-launcher.pid, 'SIGKILL')
+        } catch (error) {
+          if (error.code !== 'ESRCH') throw error
+        }
+      }
+      await outcome
+      await runtime.shutdown()
+      await rm(root, { recursive: true, force: true })
+    }
+  },
+  10_000
+)
