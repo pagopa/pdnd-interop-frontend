@@ -23,7 +23,7 @@ export type DrawerProps = {
   title: React.ReactNode
   subtitle?: React.ReactNode
   buttonAction?: Omit<ActionItem, 'action'> & {
-    action: () => void | Promise<void>
+    action: (event?: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
     disabled?: boolean
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
@@ -78,8 +78,9 @@ export const Drawer: React.FC<DrawerProps> = ({
       ? buttonAction.disabledTooltip
       : undefined
 
-  const handleButtonAction = () => {
-    const result = buttonAction?.action()
+  const handleButtonAction = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (buttonAction?.type === 'submit') event.preventDefault()
+    const result = buttonAction?.action(event)
     if (result) {
       void result.catch(() => undefined)
     }

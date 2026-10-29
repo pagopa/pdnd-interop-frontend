@@ -5,6 +5,7 @@ import { beforeEach, vi } from 'vitest'
 import { Typography } from '@mui/material'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
 import userEvent from '@testing-library/user-event'
+import { FormProvider, useForm } from 'react-hook-form'
 
 describe('Drawer test', () => {
   beforeEach(() => {
@@ -114,5 +115,89 @@ describe('Drawer test', () => {
     await user.click(screen.getByRole('button', { name: 'Confirm' }))
 
     await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+  })
+
+  it('forwards the action button click event to form submit handlers', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn()
+
+    render(
+      <Drawer
+        isOpen
+        onClose={vi.fn()}
+        title="test title"
+        buttonAction={{ label: 'Confirm', action }}
+      >
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+
+    expect(action).toHaveBeenCalledWith(expect.objectContaining({ type: 'click' }))
+  })
+
+  it('prevents native form submission for submit actions while forwarding the click event', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn((event?: React.MouseEvent<HTMLButtonElement>) => {
+      expect(event?.defaultPrevented).toBe(true)
+    })
+    const onNativeSubmit = vi.fn((event: React.FormEvent) => event.preventDefault())
+
+    render(
+      <Drawer
+        isOpen
+        onClose={vi.fn()}
+        title="test title"
+        buttonAction={{
+          label: 'Submit form',
+          action,
+          type: 'submit',
+          form: 'native-form',
+        }}
+      >
+        <form id="native-form" onSubmit={onNativeSubmit}>
+          <Typography>TEST CHILDREN</Typography>
+        </form>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Submit form' }))
+
+    expect(action).toHaveBeenCalledOnce()
+    expect(onNativeSubmit).not.toHaveBeenCalled()
+  })
+
+  it('submits a React Hook Form handler passed as the drawer action', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+
+    const FormDrawer = () => {
+      const formMethods = useForm({ defaultValues: { name: 'Test name' } })
+
+      return (
+        <FormProvider {...formMethods}>
+          <Drawer
+            isOpen
+            onClose={vi.fn()}
+            title="test title"
+            buttonAction={{
+              label: 'Submit form',
+              action: formMethods.handleSubmit(onSubmit),
+            }}
+          >
+            <Typography>TEST CHILDREN</Typography>
+          </Drawer>
+        </FormProvider>
+      )
+    }
+
+    render(<FormDrawer />)
+
+    await user.click(screen.getByRole('button', { name: 'Submit form' }))
+
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({ name: 'Test name' }, expect.anything())
+    )
   })
 })

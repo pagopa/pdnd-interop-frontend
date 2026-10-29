@@ -6,7 +6,16 @@ import { DialogSelectAgreementConsumer } from '../DialogSelectAgreementConsumer'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { queryClient } from '@/config/query-client'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import { useDialogStore } from '@/stores'
+import type * as Stores from '@/stores'
+
+const { closeDialogMock } = vi.hoisted(() => ({
+  closeDialogMock: vi.fn(),
+}))
+
+vi.mock('@/stores', async (importOriginal) => ({
+  ...(await importOriginal<typeof Stores>()),
+  useDialog: () => ({ closeDialog: closeDialogMock }),
+}))
 
 const server = setupServer(
   rest.get(`${BACKEND_FOR_FRONTEND_URL}/delegations`, (_, res, ctx) => {
@@ -70,7 +79,6 @@ describe('DialogSelectAgreementConsumer', () => {
   it('keeps the create dialog open when the delegated submit fails', async () => {
     mockUseJwt()
     const user = userEvent.setup()
-    const closeDialogSpy = vi.spyOn(useDialogStore.getState(), 'closeDialog')
     const onSubmitCreate = vi.fn().mockRejectedValue(new Error('request failed'))
     server.use(
       rest.get(
@@ -102,8 +110,41 @@ describe('DialogSelectAgreementConsumer', () => {
         delegationId: undefined,
       })
     )
-    expect(closeDialogSpy).not.toHaveBeenCalled()
+    expect(closeDialogMock).not.toHaveBeenCalled()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
-    closeDialogSpy.mockRestore()
+  })
+
+  it('closes the create dialog after the delegated submit succeeds', async () => {
+    mockUseJwt()
+    const user = userEvent.setup()
+    const onSubmitCreate = vi.fn().mockResolvedValue(undefined)
+    server.use(
+      rest.get(
+        `${BACKEND_FOR_FRONTEND_URL}/tenants/:tenantId/eservices/:eserviceId/descriptors/:descriptorId/certifiedAttributes/validate`,
+        (_, res, ctx) => res(ctx.json({ hasCertifiedAttributes: true }))
+      )
+    )
+
+    renderWithApplicationContext(
+      <DialogSelectAgreementConsumer
+        type="selectAgreementConsumer"
+        action="create"
+        eservice={{ id: 'eservice-id', name: 'E-service name', producerId: 'producer-id' }}
+        descriptor={{ id: 'descriptor-id', version: '1' }}
+        agreements={[]}
+        onSubmitCreate={onSubmitCreate}
+      />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    const confirmButton = await screen.findByRole('button', { name: 'actions.create' })
+    await waitFor(() => expect(confirmButton).toBeEnabled())
+    await user.click(confirmButton)
+
+    await waitFor(() => expect(closeDialogMock).toHaveBeenCalledOnce())
+    expect(onSubmitCreate).toHaveBeenCalledWith({
+      isOwnEService: false,
+      delegationId: undefined,
+    })
   })
 })
