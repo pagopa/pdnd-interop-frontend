@@ -8,7 +8,7 @@ import { useDialog } from '@/stores'
 import { useQuery, useQueries } from '@tanstack/react-query'
 import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
 import { match } from 'ts-pattern'
-import { DelegationTenant } from '@/api/api.generatedTypes'
+import type { DelegationTenant } from '@/api/api.generatedTypes'
 
 type ConsumerActionsName = 'SUBSCRIBE' | 'UPGRADE' | 'EDIT' | 'INSPECT'
 
