@@ -16,6 +16,8 @@ import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
 import { AllowedLanguage } from '@/router/routes'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
+import { LocalSessionGuard } from './LocalSessionGuard'
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
@@ -89,6 +91,7 @@ const TOSGuard = ({ children }: { children: React.ReactNode }) => {
 }
 
 const RoutesWrapper: React.FC = () => {
+  const SessionGuard = isLocalIdentitySelectionEnabled ? LocalSessionGuard : EmptyWrapper
   return (
     <ErrorBoundary
       FallbackComponent={(props) => (
@@ -97,7 +100,9 @@ const RoutesWrapper: React.FC = () => {
         </Box>
       )}
     >
-      <_RoutesWrapper />
+      <SessionGuard>
+        <_RoutesWrapper />
+      </SessionGuard>
     </ErrorBoundary>
   )
 }
