@@ -709,6 +709,29 @@
     "inspectCollection": "View collection",
     "collectionBadge": "{{ count }} e-service"
   },
+  "featuredList": {
+    "emptyStateBanner": {
+      "eservices": {
+        "error": {
+          "title": "The suggested e-services are not available",
+          "description": "We are currently unable to load the suggested e-services. This is a temporary issue, and we are working to resolve it. In the meantime, you can draw inspiration from practical examples or explore all available e-services."
+        },
+        "noResults": {
+          "title": "Here you will find the suggested e-services",
+          "description": "For now, there are no suggestions to show you. When they are ready, you will find them here. In the meantime, you can draw inspiration from practical examples or explore all the e-services."
+        },
+        "goToCatalogButtonLabel": "Vai a catalogo"
+      },
+      "useCases": {
+        "title": "E-service use cases are not available",
+        "description": "At the moment, we are unable to load use cases to show you. This is a temporary issue, and we are working to resolve it. In the meantime, you can explore the suggested e-services or browse through all available e-services."
+      },
+      "eservicesAndUseCases": {
+        "title": "Here you will find some suggested e-services and practical examples",
+        "description": "When they become available, you will see them here. In the meantime, you can explore all the e-services."
+      }
+    }
+  },
   "read": {
     "dialogs": {
       "removeAttributeThreshold": {
