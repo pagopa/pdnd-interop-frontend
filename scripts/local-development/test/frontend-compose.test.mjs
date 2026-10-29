@@ -102,6 +102,7 @@ fs.writeFileSync(process.env.DOCKER_TEST_STATE, JSON.stringify(state));
   const env = {
     ...process.env,
     PATH: `${bin}:${process.env.PATH}`,
+    INTEROP_FE_ROOT: frontend,
     INTEROP_BE_ROOT: backend,
     DOCKER_TEST_STATE: stateFile,
     DOCKER_TEST_CALLS: callsFile,
@@ -233,7 +234,12 @@ it.each([
     )
 
     await execute('bash', [join(frontend, '.devcontainer/prepare.sh')], {
-      env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, INTEROP_BE_ROOT: backend },
+      env: {
+        ...process.env,
+        PATH: `${bin}:${process.env.PATH}`,
+        INTEROP_FE_ROOT: frontend,
+        INTEROP_BE_ROOT: backend,
+      },
     })
 
     const config = JSON.parse(
