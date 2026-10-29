@@ -72,7 +72,9 @@ describe('FeaturedTab', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Loading e-services')
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Vai al catalogo' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'emptyStateBanner.eservices.goToCatalogButtonLabel' })
+    ).not.toBeInTheDocument()
   })
 
   it('renders the no-results banner and navigates to the catalog when clicked', async () => {
@@ -89,7 +91,9 @@ describe('FeaturedTab', () => {
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Vai al catalogo' }))
+    await user.click(
+      screen.getByRole('button', { name: 'emptyStateBanner.eservices.goToCatalogButtonLabel' })
+    )
 
     expect(onGoToCatalog).toHaveBeenCalledTimes(1)
   })
@@ -105,7 +109,9 @@ describe('FeaturedTab', () => {
     expect(
       screen.getByText('emptyStateBanner.eservicesAndUseCases.description')
     ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Vai al catalogo' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'emptyStateBanner.eservices.goToCatalogButtonLabel' })
+    ).toBeInTheDocument()
     expect(screen.queryByRole('list')).not.toBeInTheDocument()
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
