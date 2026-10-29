@@ -19,11 +19,9 @@ vi.mock('@/components/dialogs/DialogSelectAgreementConsumer/DialogSelectAgreemen
   DialogSelectAgreementConsumer: ({
     onSubmitCreate,
   }: {
-    onSubmitCreate?: (values: { isOwnEService: boolean; delegationId?: string }) => void
+    onSubmitCreate?: (values: { delegationId?: string }) => void
   }) => (
-    <button
-      onClick={() => onSubmitCreate?.({ isOwnEService: false, delegationId: 'delegation-id' })}
-    >
+    <button onClick={() => onSubmitCreate?.({ delegationId: 'delegation-id' })}>
       DialogSelectAgreementConsumer
     </button>
   ),
