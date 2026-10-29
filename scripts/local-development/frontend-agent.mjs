@@ -3,6 +3,7 @@ import { createServer } from 'node:http'
 import { requestJson, runFrontendAction, waitForDashboard } from './dashboard-client.mjs'
 
 const maximumBody = 65_536
+const maximumError = 2000
 
 function exactKeys(value, keys) {
   return (
@@ -156,7 +157,8 @@ export async function startFrontendAgent({
           await executeCommand(runtime, command, controller.signal)
           send(200, {})
         } catch (error) {
-          send(409, { error: error.message })
+          // Match the dashboard's error schema; the runtime keeps the full diagnostic.
+          send(409, { error: error.message.slice(0, maximumError) })
         } finally {
           response.removeListener('close', disconnected)
         }

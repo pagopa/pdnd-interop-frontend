@@ -239,3 +239,25 @@ it('returns command failure without reflecting the private session token', async
   expect(response.status).toBe(409)
   expect(await response.text()).not.toContain('header.payload.signature')
 })
+
+it('bounds command failure responses while retaining the full diagnostic in state and logs', async () => {
+  const { root, runtime, request } = await fixture()
+  const error = `Vite exited during startup; log: ${join(root, '.local-development/frontend/vite.log')}\n${'build diagnostic\n'.repeat(600)}final diagnostic`
+  await mkdir(join(root, '.local-development/frontend'), { recursive: true })
+  await writeFile(join(root, '.local-development/frontend/vite.log'), error)
+  runtime.start = async () => {
+    throw new Error(error)
+  }
+  const response = await request('/commands', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'start', mode: 'dev' }),
+  })
+  expect(response.status).toBe(409)
+  const result = await response.json()
+  expect(result.error.length).toBeLessThanOrEqual(2000)
+  expect(result.error).toContain('Vite exited during startup; log:')
+  expect(result.error).toContain('vite.log')
+  expect((await runtime.startup()).error).toBe(error)
+  expect((await (await request('/logs?source=vite')).json()).content).toBe(error)
+})
