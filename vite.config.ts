@@ -70,7 +70,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         ...(isLocalDevelopment
           ? {
-              '/__local-dashboard/api': {
+              '^/__local-dashboard/api/(identities|identity)(\\?.*)?$': {
                 target: resolveDashboardTarget(process.env.INTEROP_DASHBOARD_URL),
                 // Preserve the browser origin for the dashboard mutation guard.
                 changeOrigin: false,
