@@ -238,7 +238,9 @@
   },
   "dialogRequestRiskAnalysisCompilation": {
     "title": "Request compilation and approval",
-    "description": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to change this choice."
+    "description_one": "If you confirm, you will assign the compilation and approval of the risk analysis to {{reviewerNames}}.",
+    "description_other": "If you confirm, you will assign the compilation and approval of the risk analysis to {{reviewerNames}}.",
+    "descriptionWithRiskAnalysis": "If you confirm, you will assign the compilation and approval of the risk analysis to {{reviewerNames}} and lose all the risk analysis information already entered."
   },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Reject Publication",
@@ -385,7 +387,9 @@
     "navigationMenu": "Navigation Menu"
   },
   "table": {
-    "noDataLabel": "This search returned no results"
+    "noDataLabel": "This search returned no results",
+    "noResultsTitle": "No results for this search",
+    "noResultsDescription": "Try another keyword or use different filters."
   },
   "downloadableDocumentList": {
     "noDataLabel": "No documents available"
@@ -400,7 +404,13 @@
   "singleFileInput": {
     "dropzone": {
       "button": "Upload file",
-      "label": "Drag the file here or click to select it from your computer"
+      "label": "Drag the file here or click to select it from your computer",
+      "allowedExtensions": {
+        "generic": "You can only upload files with extension .pdf, .json, .md, .yaml, .yml, .txt, .xsd, .wsdl, .xml",
+        "rest": "You can only upload files with extension .yaml, .json",
+        "soap": "You can only upload files with extension .wsdl, .xml",
+        "eserviceImport": "You can only upload files with extension .zip"
+      }
     },
     "loadingLabel": "Uploading..."
   },
@@ -435,12 +445,7 @@
     "bodyMultipleDay": "PDND Interoperabilità will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
   "productUpdatesBanner": {
-    "title": "What's new on PDND: archiving and new roles",
-    "body": "You can now archive obsolete versions of an e-service or an entire e-service. Two new roles are also available: Validator, to approve or fill in the risk analysis, and Viewer, to view an organization's activities on PDND.",
-    "action1Label": "How archiving works",
-    "action1AriaLabel": "How archiving works, opens in a new tab",
-    "action2Label": "How the new roles work",
-    "action2AriaLabel": "How the new roles work, opens in a new tab"
+    "linkAriaLabel": "{{label}}, opens in a new tab"
   },
   "attributeContainer": {
     "descriptionLabel": "Description",
@@ -452,9 +457,11 @@
     "actions": {
       "customizeThreshold": "Customize threshold",
       "changeThreshold": "Change threshold",
+      "removeThreshold": "Remove threshold",
       "inspectAttributeDetails": "Attribute details",
       "modifyCertifiedDiscreteAttribute": "Modify attribute"
     },
+    "removeThresholdSuccess": "You removed the certified attribute API call threshold.",
 
     "na": "n/a"
   },
@@ -678,6 +685,7 @@
     "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher",
     "SUBSCRIBE_RISK_ANALYSIS_LIST": "Risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Purpose information",
+    "SUBSCRIBE_RISK_ANALYSIS_DETAILS": "Purpose",
     "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Summary",
     "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Risk analysis approved",

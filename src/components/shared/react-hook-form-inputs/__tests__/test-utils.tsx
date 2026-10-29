@@ -7,12 +7,14 @@ export const TestInputWrapper = ({ children }: { children: React.ReactNode }) =>
     test: false
     testFile: File | null
     checkedItems: Array<string>
+    testSelect: string
   }>({
     defaultValues: {
       testText: '',
       test: false,
       testFile: null,
       checkedItems: [],
+      testSelect: '',
     },
   })
 

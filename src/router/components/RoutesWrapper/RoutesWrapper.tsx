@@ -16,6 +16,7 @@ import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
 import { AllowedLanguage } from '@/router/routes'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
@@ -49,7 +50,7 @@ const _RoutesWrapper: React.FC = () => {
   const _AuthGuard = !isPublic && jwt ? AuthGuard : EmptyWrapper
 
   return (
-    <>
+    <NuqsAdapter>
       <Header jwt={jwt} isSupport={isSupport} />
       <SupportActionGuardProvider isSupport={isSupport}>
         <Stack direction={'column'}>
@@ -73,7 +74,7 @@ const _RoutesWrapper: React.FC = () => {
           <Dialog />
         </Stack>
       </SupportActionGuardProvider>
-    </>
+    </NuqsAdapter>
   )
 }
 

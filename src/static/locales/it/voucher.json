@@ -96,7 +96,9 @@
       "label": "Client da utilizzare"
     },
     "purposeSelectInput": {
-      "label": "Finalità"
+      "label": "Finalità",
+      "loading": "Caricamento delle finalità in corso",
+      "error": "Non è stato possibile caricare le finalità."
     },
     "keySelectInput": {
       "label": "Chiave pubblica"

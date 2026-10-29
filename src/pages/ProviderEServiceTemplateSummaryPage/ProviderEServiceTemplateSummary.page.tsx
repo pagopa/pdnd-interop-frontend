@@ -102,6 +102,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const hasMissingFields =
     !eserviceTemplate?.voucherLifespan ||
     !eserviceTemplate?.description ||
+    !eserviceTemplate?.interface ||
     hasMissingAsyncExchangeFields
 
   const canBePublished = () => {
