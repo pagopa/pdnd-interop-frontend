@@ -1,4 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest'
+import type { CatalogFilterPayload } from '../../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import { EServiceServices } from '../eservice.services'
@@ -59,5 +60,31 @@ describe('EServiceServices.importVersion', () => {
         url: presignedUrl.url,
       }
     )
+  })
+})
+
+describe('EServiceServices.queryCatalogList', () => {
+  const payload = { limit: 12, offset: 0 } as unknown as CatalogFilterPayload
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('POSTs the filter payload to the catalog endpoint and returns the response data', async () => {
+    const data = { results: [], pagination: { offset: 0, limit: 12, totalCount: 0 } }
+    vi.mocked(axiosInstance.post).mockResolvedValue({ data })
+
+    const result = await EServiceServices.queryCatalogList(payload)
+
+    expect(axiosInstance.post).toHaveBeenCalledTimes(1)
+    expect(axiosInstance.post).toHaveBeenCalledWith(`${BACKEND_FOR_FRONTEND_URL}/catalog`, payload)
+    expect(result).toBe(data)
+  })
+
+  it('propagates request errors', async () => {
+    const error = new Error('network error')
+    vi.mocked(axiosInstance.post).mockRejectedValue(error)
+
+    await expect(EServiceServices.queryCatalogList(payload)).rejects.toBe(error)
   })
 })
