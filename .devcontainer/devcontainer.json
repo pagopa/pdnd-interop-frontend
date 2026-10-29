@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "initializeCommand": ".devcontainer/initialize.sh",
+  "initializeCommand": ["bash", ".devcontainer/initialize.sh"],
   "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached",
   "workspaceFolder": "${localWorkspaceFolder}",
   "mounts": [
@@ -25,8 +25,8 @@
     "INTEROP_DEVCONTAINER": "true",
     "INTEROP_AUTO_START": "${localEnv:INTEROP_AUTO_START}"
   },
-  "postCreateCommand": ".devcontainer/scripts/setup.sh",
-  "postStartCommand": ".devcontainer/scripts/post-start.sh",
+  "postCreateCommand": ["bash", ".devcontainer/scripts/setup.sh"],
+  "postStartCommand": ["bash", ".devcontainer/scripts/post-start.sh"],
   "forwardPorts": [5173],
   "portsAttributes": {
     "3000": {
