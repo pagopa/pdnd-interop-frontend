@@ -22,7 +22,7 @@ it('accepts the dashboard Compose DNS only in the dedicated frontend container',
   expect(configuration.resolveDashboardTarget('http://dashboard:8076', true)).toBe(
     'http://dashboard:8076'
   )
-  expect(() => configuration.resolveDashboardTarget('http://dashboard:8076')).toThrow(
+  expect(() => configuration.resolveDashboardTarget('http://dashboard:8076', false)).toThrow(
     'loopback HTTP origin'
   )
   expect(() => configuration.resolveDashboardTarget('http://remote:8076', true)).toThrow(
