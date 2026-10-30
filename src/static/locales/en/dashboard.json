@@ -1,0 +1,28 @@
+{
+  "providerSaturationRatePage": {
+    "title": "E-service versions for total threshold saturation",
+    "description": "See which e-service versions are about to reach the expected daily API call total threshold.",
+    "eserviceOverThreshold": "E-service versions over the total threshold",
+    "eserviceNearThreshold": "E-service versions near the total threshold (over 80%)",
+    "totalEservices": "Total e-service versions",
+    "table": {
+      "headlabels": {
+        "eserviceAndVersion": "E-service and version",
+        "purposesNumber": "Number of purposes",
+        "percentageRate": "Total threshold %",
+        "approvedCalls": "Approved calls on available",
+        "callsToApprove": "Calls to approve"
+      },
+      "eserviceVersion": "VERSION {{version}}"
+    },
+    "filters": {
+      "label": "Search by e-service name"
+    },
+    "sorting": {
+      "percentageAtDesc": "From highest percentage",
+      "percentageAtAsc": "From lowest percentage",
+      "nameAsc": "E-service name A-Z",
+      "nameDesc": "E-service name Z-A"
+    }
+  }
+}
