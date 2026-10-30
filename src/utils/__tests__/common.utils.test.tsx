@@ -1,12 +1,41 @@
 import React from 'react'
-import { renderHook } from '@testing-library/react'
+import { render, renderHook, screen } from '@testing-library/react'
 import { vitest } from 'vitest'
 import {
   clearExponentialInterval,
   createContext,
   setExponentialInterval,
   getAllFromPaginated,
+  parseHtmlJsonToReactNode,
 } from '../common.utils'
+
+describe('parseHtmlJsonToReactNode', () => {
+  it.each(['otnotice-menu otnotice-menu-mobile', ['otnotice-menu', 'otnotice-menu-mobile']])(
+    'should preserve CSS classes from %j',
+    (classAttribute) => {
+      render(
+        <>
+          {parseHtmlJsonToReactNode(
+            {
+              node: 'element',
+              tag: 'nav',
+              attr: { class: classAttribute },
+            },
+            '/privacy-policy'
+          )}
+        </>
+      )
+
+      expect(screen.getByRole('navigation')).toHaveClass('otnotice-menu', 'otnotice-menu-mobile')
+    }
+  )
+
+  it('should render elements without attributes', () => {
+    render(<>{parseHtmlJsonToReactNode({ node: 'element', tag: 'nav' }, '/privacy-policy')}</>)
+
+    expect(screen.getByRole('navigation')).not.toHaveAttribute('class')
+  })
+})
 
 describe.skip('testing createContext utility function', () => {
   it('should not truncate text long less than the given max length', () => {
