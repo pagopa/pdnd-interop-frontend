@@ -7,10 +7,10 @@
     "totalEservices": "Total e-service versions",
     "table": {
       "headlabels": {
-        "eserviceAndVersion": "E-service and version",
-        "purposesNumber": "Number of purposes",
-        "percentageRate": "Total threshold %",
-        "approvedCalls": "Approved calls on available",
+        "eserviceAndVersion": "E-service name and version",
+        "purposesNumber": "Purposes",
+        "percentageRate": "Total threshold percentage",
+        "approvedCalls": "Approved calls /available total",
         "callsToApprove": "Calls to approve"
       },
       "eserviceVersion": "VERSION {{version}}"

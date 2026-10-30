@@ -95,7 +95,7 @@ const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
       header: t('headlabels.approvedCalls'),
       renderCell: (item) => (
         <Typography variant="body2" component="span">
-          {item.approvedDailyCalls}
+          {item.approvedDailyCalls} / {item.dailyCallsTotal}
         </Typography>
       ),
     },

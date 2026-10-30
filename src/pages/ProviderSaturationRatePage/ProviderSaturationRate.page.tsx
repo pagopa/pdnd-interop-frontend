@@ -34,8 +34,8 @@ const ProviderSaturationRatePage: React.FC = () => {
   ])
 
   const sortByLabels: Record<string, string> = {
-    PERCENTAGE_AT_DESC: t('sorting.percentageAtDesc'),
     PERCENTAGE_AT_ASC: t('sorting.percentageAtAsc'),
+    PERCENTAGE_AT_DESC: t('sorting.percentageAtDesc'),
     NAME_ASC: t('sorting.nameAsc'),
     NAME_DESC: t('sorting.nameDesc'),
   }
@@ -45,7 +45,7 @@ const ProviderSaturationRatePage: React.FC = () => {
       value: sortBy,
       label: sortByLabels[sortBy] ?? sortBy,
     })),
-    sortByOptions[1]
+    sortByOptions[0]
   )
 
   const queryParams = { ...paginationParams, q: filters.q || undefined }
