@@ -22,6 +22,54 @@ describe('Drawer test', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
+  it('renders node titles, text subtitles, and the action-specific disabled reason', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn()
+    render(
+      <Drawer
+        isOpen
+        onClose={vi.fn()}
+        title={<Typography component="h2">Member details</Typography>}
+        subtitle="Choose members"
+        buttonAction={{
+          label: 'Save',
+          action,
+          disabled: true,
+          disabledTooltip: 'No changes',
+          variant: 'outlined',
+          color: 'primary',
+        }}
+      >
+        <Typography>Members</Typography>
+      </Drawer>
+    )
+    expect(screen.getByRole('heading', { name: 'Member details' })).toBeVisible()
+    expect(screen.getByText('Choose members')).toBeVisible()
+    const button = screen.getByRole('button', { name: 'Save' })
+    expect(button).toBeDisabled()
+    await user.hover(button.parentElement!)
+    expect(await screen.findByRole('tooltip', { name: 'No changes' })).toBeVisible()
+    expect(action).not.toHaveBeenCalled()
+  })
+
+  it.each(['close icon', 'Escape'])(
+    'forwards cancellation through %s without running the action',
+    async (method) => {
+      const user = userEvent.setup()
+      const onClose = vi.fn()
+      const action = vi.fn()
+      render(
+        <Drawer isOpen onClose={onClose} title="Members" buttonAction={{ label: 'Save', action }}>
+          <Typography>Details</Typography>
+        </Drawer>
+      )
+      if (method === 'Escape') await user.keyboard('{Escape}')
+      else await user.click(screen.getByRole('button', { name: 'closeIconAriaLabel' }))
+      expect(onClose).toHaveBeenCalledOnce()
+      expect(action).not.toHaveBeenCalled()
+    }
+  )
+
   it('should disable the action button for support users', () => {
     render(
       <SupportActionGuardProvider isSupport>

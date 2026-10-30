@@ -1,6 +1,6 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { ClientOperators } from '../ClientOperators'
@@ -13,6 +13,7 @@ const {
   mockedPrefetchQuery,
   mockedGetOperatorsList,
   mockedGetPartyUsersList,
+  boundary,
   state,
 } = vi.hoisted(() => ({
   mockedAddOperators: vi.fn(),
@@ -21,10 +22,17 @@ const {
   mockedPrefetchQuery: vi.fn(),
   mockedGetOperatorsList: vi.fn(),
   mockedGetPartyUsersList: vi.fn(),
+  boundary: {
+    submit: undefined as
+      | ((operators: Array<{ userId: string }>) => void | Promise<void>)
+      | undefined,
+  },
   state: {
     isAdmin: true,
     isOpen: false,
-    currentOperators: [{ userId: 'u-1', name: 'Mario', familyName: 'Rossi' }],
+    currentOperators: [{ userId: 'u-1', name: 'Mario', familyName: 'Rossi' }] as
+      | Array<{ userId: string; name: string; familyName: string }>
+      | undefined,
   },
 }))
 
@@ -118,25 +126,28 @@ vi.mock('@/components/shared/AddOperatorsToClientDrawer', () => ({
     onClose: VoidFunction
     isOpen: boolean
     excludeOperatorsIdsList: string[]
-  }) => (
-    <div data-testid="add-operators-drawer">
-      <span>{isOpen ? 'open' : 'closed'}</span>
-      <span>{excludeOperatorsIdsList.join(',')}</span>
-      <button
-        type="button"
-        onClick={() => {
-          const result = onSubmit([{ userId: 'u-2' }])
-          if (result) {
-            void result.then(onClose, () => undefined)
-          } else {
-            onClose()
-          }
-        }}
-      >
-        submit-drawer
-      </button>
-    </div>
-  ),
+  }) => {
+    boundary.submit = onSubmit
+    return (
+      <div data-testid="add-operators-drawer">
+        <span>{isOpen ? 'open' : 'closed'}</span>
+        <span>{excludeOperatorsIdsList.join(',')}</span>
+        <button
+          type="button"
+          onClick={() => {
+            const result = onSubmit([{ userId: 'u-2' }])
+            if (result) {
+              void result.then(onClose, () => undefined)
+            } else {
+              onClose()
+            }
+          }}
+        >
+          submit-drawer
+        </button>
+      </div>
+    )
+  },
 }))
 
 describe('ClientOperators', () => {
@@ -228,5 +239,49 @@ describe('ClientOperators', () => {
 
     expect(screen.getByRole('button', { name: 'addBtn' })).toBeDisabled()
     expect(screen.queryByTestId('add-operators-drawer')).not.toBeInTheDocument()
+    fireEvent.pointerEnter(screen.getByRole('button', { name: 'addBtn' }))
+    expect(mockedPrefetchQuery).not.toHaveBeenCalled()
+  })
+
+  it('returns the pending submission promise and leaves closing to the drawer after resolution', async () => {
+    let resolve!: () => void
+    mockedAddOperators.mockImplementationOnce(
+      () =>
+        new Promise<void>((done) => {
+          resolve = done
+        })
+    )
+    renderWithApplicationContext(<ClientOperators clientId="client-id" />, {
+      withReactQueryContext: true,
+    })
+    let submission!: Promise<void>
+    act(() => {
+      submission = boundary.submit!([{ userId: 'first' }, { userId: 'second' }]) as Promise<void>
+    })
+    expect(submission).toBeInstanceOf(Promise)
+    expect(mockedAddOperators).toHaveBeenCalledWith({
+      clientId: 'client-id',
+      userIds: ['first', 'second'],
+    })
+    expect(mockedCloseDrawer).not.toHaveBeenCalled()
+    await act(async () => {
+      resolve()
+      await expect(submission).resolves.toBeUndefined()
+    })
+    expect(mockedCloseDrawer).not.toHaveBeenCalled()
+  })
+
+  it('returns rejection to the caller without closing and supports the initial empty operator list', async () => {
+    state.currentOperators = undefined
+    const error = new Error('conflict')
+    mockedAddOperators.mockRejectedValueOnce(error)
+    renderWithApplicationContext(<ClientOperators clientId="client-id" />, {
+      withReactQueryContext: true,
+    })
+    await act(async () => {
+      await expect(boundary.submit!([{ userId: 'new' }])).rejects.toBe(error)
+    })
+    expect(mockedCloseDrawer).not.toHaveBeenCalled()
+    expect(screen.getByTestId('add-operators-drawer')).toHaveTextContent('closed')
   })
 })
