@@ -125,6 +125,7 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
 
   if (
     preselectedConsumer &&
+    (preselectedConsumer.id !== jwt?.organizationId || canIncludeMyTenant) &&
     selectedConsumerId === preselectedConsumer.id &&
     !tenantOptions.some((tenant) => tenant.id === preselectedConsumer.id)
   ) {
