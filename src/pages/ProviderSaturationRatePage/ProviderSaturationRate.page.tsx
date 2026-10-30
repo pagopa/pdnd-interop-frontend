@@ -1,6 +1,6 @@
 import { PageContainer } from '@/components/layout/containers/PageContainer'
 import ProviderSaturationRateTable from './components/ProviderSaturationRateTable'
-import { InformationContainer, usePagination } from '@pagopa/interop-fe-commons'
+import { InformationContainer, theme, usePagination } from '@pagopa/interop-fe-commons'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import type {
   GetProducerDashboardSaturationParams,
@@ -14,6 +14,9 @@ import { useSorting } from '@/hooks/useSorting'
 import { Stack } from '@mui/system'
 import { DashboardQueries } from '@/api/dashboard'
 import { providerSaturationRateMockItems } from './providerSaturationRate.mock'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { ErrorIcon } from '@/icons/ErrorIcon'
+import { Typography } from '@mui/material'
 
 const sortByOptions: string[] = ['PERCENTAGE_AT_ASC', 'PERCENTAGE_AT_DESC', 'NAME_ASC', 'NAME_DESC']
 
@@ -103,8 +106,34 @@ const ProviderSaturationRateTableWrapper: React.FC<{
   saturationItems?: Array<ProducerDashboardSaturationItem>
   pagination: MIPaginationProps
 }> = ({ pagination, saturationItems }) => {
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'table' })
   //const { data } = useQuery(DashboardQueries.getProducerDashboardSaturation(params))
   const items = saturationItems ?? providerSaturationRateMockItems // TODO: replace with actual data from the API when available
+
+  const isEmpty = items.length === 0 // TODO: replace with actual check when API is available
+
+  if (isEmpty)
+    return (
+      <NoItemResults padding={1} borderRadius={0}>
+        <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>
+          <ErrorIcon />
+          <Stack alignItems="center">
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.colors.neutral.grey[650],
+              }}
+            >
+              {tShared('noResultsTitle')}
+            </Typography>
+            <Typography variant="caption" sx={{ color: theme.colors.neutral.grey[650] }}>
+              {tShared('noResultsDescription')}
+            </Typography>
+          </Stack>
+        </Stack>
+      </NoItemResults>
+    )
 
   return <ProviderSaturationRateTable saturationItems={items} pagination={pagination} />
 }
