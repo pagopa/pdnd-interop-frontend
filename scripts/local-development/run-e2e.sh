@@ -9,6 +9,7 @@ FRONTEND_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 # Chromium. On the host itself, or with an explicitly selected frontend on
 # another origin, no automatic override is needed.
 base_url="${PLAYWRIGHT_BASE_URL:-http://localhost:3000}"
+export PLAYWRIGHT_DASHBOARD_URL="${PLAYWRIGHT_DASHBOARD_URL:-${INTEROP_DASHBOARD_URL:-http://localhost:8076}}"
 if [[ "${INTEROP_DEVCONTAINER:-}" == "true" ]] \
   && [[ "$base_url" == "http://localhost:3000" || "$base_url" == "http://localhost:3000/" ]]; then
   host_gateway="${PLAYWRIGHT_HOST_GATEWAY:-}"

@@ -8,7 +8,7 @@ import { promisify } from 'node:util'
 import { fileURLToPath } from 'node:url'
 
 const execute = promisify(execFile)
-const frontendRoot = fileURLToPath(new URL('../..', import.meta.url))
+const frontendRoot = fileURLToPath(new URL('../../..', import.meta.url))
 
 describe('local development networking', () => {
   let directory
@@ -30,6 +30,7 @@ require('node:fs').writeFileSync(process.env.NETWORK_TEST_RESULT, JSON.stringify
   gateway: process.env.PLAYWRIGHT_HOST_GATEWAY,
   publicFrontendUrl: process.env.PLAYWRIGHT_PUBLIC_FRONTEND_URL,
   baseURL: process.env.PLAYWRIGHT_BASE_URL,
+  ...(process.env.NETWORK_TEST_TOKEN ? { token: process.env.REACT_APP_MOCK_TOKEN } : {}),
 }))
 `,
       { mode: 0o755 }
@@ -102,5 +103,14 @@ require('node:fs').writeFileSync(process.env.NETWORK_TEST_RESULT, JSON.stringify
   it('asks Vite to reject a busy frontend port', async () => {
     const result = await runScript('run-frontend.sh', ['bootstrap'])
     expect(result.arguments).toContain('--strictPort')
+  })
+
+  it('loads the frontend-owned token without a backend checkout', async () => {
+    environment.INTEROP_BE_ROOT = join(directory, 'missing-backend')
+    environment.INTEROP_FRONTEND_TOKEN_FILE = join(directory, 'frontend-token')
+    environment.NETWORK_TEST_TOKEN = 'true'
+    await writeFile(environment.INTEROP_FRONTEND_TOKEN_FILE, 'frontend-owned-token\n')
+    const result = await runScript('run-frontend.sh', ['local'])
+    expect(result.token).toBe('frontend-owned-token')
   })
 })

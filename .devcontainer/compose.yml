@@ -1,0 +1,45 @@
+services:
+  dashboard:
+    profiles: [dashboard]
+    environment:
+      DASHBOARD_FRONTEND_URL: http://frontend:8077
+      DASHBOARD_AUTOSTART: 'false'
+  frontend:
+    profiles: [dashboard]
+    init: true
+    environment:
+      INTEROP_DEVCONTAINER: 'true'
+      INTEROP_FRONTEND_RUNTIME: 'true'
+      INTEROP_DASHBOARD_URL: http://dashboard:8076
+      INTEROP_LOCAL_BACKEND_TARGET: http://dashboard:3600
+      INTEROP_SELFCARE_URL: http://host.docker.internal:8006
+      INTEROP_FRONTEND_PORT: '5173'
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - '3000:5173'
+    depends_on:
+      dashboard:
+        condition: service_started
+    volumes:
+      - type: volume
+        source: frontend-pnpm-store
+        target: /home/node/.local/share/pnpm
+        volume:
+          nocopy: true
+      - type: volume
+        source: frontend-browser-cache
+        target: /home/node/.cache
+        volume:
+          nocopy: true
+    healthcheck:
+      test: [CMD, node, scripts/local-development/dashboard-client.mjs, runtime-health]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 30m
+
+volumes:
+  frontend-modules:
+  frontend-pnpm-store:
+  frontend-browser-cache:

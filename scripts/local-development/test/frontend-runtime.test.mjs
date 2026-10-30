@@ -1,0 +1,664 @@
+// @vitest-environment node
+import { afterEach, expect, it, vi } from 'vitest'
+import { EventEmitter } from 'node:events'
+import { spawn } from 'node:child_process'
+import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { createServer } from 'node:net'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { createFrontendRuntime } from '../frontend-runtime.mjs'
+
+const roots = []
+afterEach(async () => {
+  await Promise.all(roots.splice(0).map((path) => rm(path, { recursive: true, force: true })))
+})
+
+async function fixture(options = {}) {
+  const root = await mkdtemp(join(tmpdir(), 'interop-frontend-runtime-'))
+  roots.push(root)
+  let alive = false
+  let owner
+  const spawnProcess = vi.fn((_command, _args, options) => {
+    const child = Object.assign(new EventEmitter(), { pid: 4242, unref: vi.fn() })
+    owner = options.env.INTEROP_FRONTEND_OWNER
+    alive = true
+    queueMicrotask(() => child.emit('spawn'))
+    return child
+  })
+  const signal = vi.fn(() => {
+    alive = false
+  })
+  const owns = vi.fn(async (pid, candidate) => pid === 4242 && candidate === owner && alive)
+  const probe = vi.fn(async () => ({ ok: true }))
+  const runtime = createFrontendRuntime({
+    root,
+    environment: {},
+    spawnProcess,
+    signal,
+    owns,
+    available: async () => true,
+    probe,
+    wait: async () => {},
+    ...options,
+  })
+  return { root, runtime, signal, spawnProcess, owns, probe }
+}
+
+it('retries unverified process ownership while the spawned frontend is still alive', async () => {
+  const { runtime, owns, probe, signal } = await fixture()
+  owns.mockResolvedValueOnce(false)
+  await expect(runtime.start('dev')).resolves.toBeUndefined()
+  expect(owns).toHaveBeenCalledTimes(2)
+  expect(probe).toHaveBeenCalledOnce()
+  expect(signal).not.toHaveBeenCalled()
+  await runtime.stop()
+})
+
+it('does not accept readiness or signal a process group whose ownership remains unverified', async () => {
+  const probe = vi.fn(async () => ({ ok: true }))
+  const { runtime, signal } = await fixture({ owns: async () => false, probe })
+  await expect(runtime.start('dev')).rejects.toThrow('Vite readiness timed out')
+  expect(probe).not.toHaveBeenCalled()
+  expect(signal).not.toHaveBeenCalled()
+  expect(await runtime.status()).toEqual({ running: false })
+})
+
+it('retains launcher exit details when process group existence cannot be confirmed', async () => {
+  const { runtime, spawnProcess, signal } = await fixture({
+    owns: async () => false,
+    wait: async () => spawnProcess.mock.results[0].value.emit('exit', 7, null),
+  })
+  const check = vi.spyOn(process, 'kill').mockImplementation(() => {
+    throw Object.assign(new Error('Process visibility denied'), { code: 'EPERM' })
+  })
+  try {
+    await expect(runtime.start('dev')).rejects.toThrow(
+      'Vite readiness timed out (launcher exit code 7)'
+    )
+    expect(check).toHaveBeenCalledWith(-4242, 0)
+    expect(check.mock.calls.every(([, signal]) => signal === 0)).toBe(true)
+    expect(signal).not.toHaveBeenCalled()
+  } finally {
+    check.mockRestore()
+  }
+})
+
+it.each([
+  { name: 'exit code', exit: 'exit 23', detail: 'exit code 23', padding: 'x'.repeat(70_000) },
+  { name: 'signal', exit: 'kill -TERM $$', detail: 'signal SIGTERM', padding: '' },
+  {
+    name: 'long token',
+    exit: 'exit 23',
+    detail: 'exit code 23',
+    padding: 'x'.repeat(12_000),
+    fileToken: `fileheader.${'filepayload'.repeat(1000)}.filesignature`,
+  },
+  {
+    name: 'overlapping tokens',
+    exit: 'exit 23',
+    detail: 'exit code 23',
+    padding: '',
+    fileToken: 'fileenvironmentheader.environmentpayload.environmentsignature',
+  },
+  {
+    name: 'empty log and early exit',
+    exit: 'exit 23',
+    detail: 'exit code 23',
+    padding: '',
+    output: false,
+    exitsBeforeSpawnContinuation: true,
+  },
+])(
+  'reports the actual startup failure and a bounded private log excerpt ($name)',
+  async ({
+    exit,
+    detail,
+    padding,
+    fileToken = 'fileheader.filepayload.filesignature',
+    output = true,
+    exitsBeforeSpawnContinuation = false,
+  }) => {
+    const root = await mkdtemp(join(tmpdir(), 'interop-frontend-startup-failure-'))
+    roots.push(root)
+    const scriptRoot = join(root, 'scripts/local-development')
+    const stateRoot = join(root, '.local-development/frontend')
+    const tokenFile = join(root, 'selected-token')
+    const environmentToken = 'environmentheader.environmentpayload.environmentsignature'
+    await mkdir(scriptRoot, { recursive: true })
+    await mkdir(stateRoot, { recursive: true })
+    await writeFile(tokenFile, `${fileToken}\n`)
+    await writeFile(
+      join(stateRoot, 'vite.log'),
+      output ? 'stale failure from a previous start\n' : ''
+    )
+    await writeFile(
+      join(scriptRoot, 'run-frontend.sh'),
+      [
+        output
+          ? [
+              'printf "%s\\n" "$INTEROP_TEST_PADDING" >&2',
+              'IFS= read -r file_token < "$INTEROP_FRONTEND_TOKEN_FILE"',
+              'printf "current startup failure: %s %s\\n" "$file_token" "$REACT_APP_MOCK_TOKEN" >&2',
+            ].join('\n')
+          : '',
+        exit,
+      ].join('\n')
+    )
+    let child
+    const runtime = createFrontendRuntime({
+      root,
+      environment: {
+        INTEROP_FRONTEND_TOKEN_FILE: tokenFile,
+        REACT_APP_MOCK_TOKEN: environmentToken,
+        INTEROP_TEST_PADDING: padding,
+      },
+      available: async () => true,
+      probe: async () => ({ ok: false }),
+      spawnProcess: (...args) => {
+        child = spawn(...args)
+        if (!exitsBeforeSpawnContinuation) return child
+        // Delay the spawn notification until the real child has exited, so an
+        // exit listener installed after awaiting spawn would miss the event.
+        const notifications = Object.assign(new EventEmitter(), {
+          pid: child.pid,
+          unref: () => child.unref(),
+        })
+        child.once('error', (error) => notifications.emit('error', error))
+        child.once('exit', (code, signal) => {
+          notifications.emit('exit', code, signal)
+          notifications.emit('spawn')
+        })
+        return notifications
+      },
+      wait: (ms) => new Promise((resolve) => setTimeout(resolve, Math.min(ms, 10))),
+    })
+    try {
+      const error = await runtime.start('local').catch((failure) => failure)
+      expect(error).toBeInstanceOf(Error)
+      expect(error.message).toContain(detail)
+      expect(error.message).toContain(join(stateRoot, 'vite.log'))
+      expect(error.message).toContain(
+        output
+          ? 'current startup failure: [redacted] [redacted]'
+          : '(no log output from this start)'
+      )
+      expect(error.message).not.toContain('stale failure')
+      expect(error.message).not.toContain(fileToken)
+      expect(error.message).not.toContain('filepayload')
+      expect(error.message).not.toContain(environmentToken)
+      expect(error.message.length).toBeLessThan(9_000)
+      await expect(readFile(join(stateRoot, 'process.json'))).rejects.toMatchObject({
+        code: 'ENOENT',
+      })
+      expect(child.exitCode !== null || child.signalCode !== null).toBe(true)
+      expect(() => process.kill(child.pid, 0)).toThrow()
+    } finally {
+      await runtime.stop()
+      if (child && child.exitCode === null && child.signalCode === null) {
+        const exited = new Promise((resolve) => child.once('exit', resolve))
+        child.kill('SIGKILL')
+        await exited
+      }
+    }
+  }
+)
+
+async function processFixture({
+  ignoreTerm = false,
+  childOwner,
+  leaderExits = false,
+  probe,
+  owns,
+} = {}) {
+  const root = await mkdtemp(join(tmpdir(), 'interop-frontend-process-'))
+  roots.push(root)
+  const listener = createServer()
+  await new Promise((resolve) => listener.listen(0, '127.0.0.1', resolve))
+  const { port } = listener.address()
+  await new Promise((resolve) => listener.close(resolve))
+  const childFile = join(root, 'child.json')
+  const childSource = [
+    "import { createServer } from 'node:http'",
+    "import { writeFileSync } from 'node:fs'",
+    ignoreTerm ? "process.on('SIGTERM', () => {})" : '',
+    "createServer((_request, response) => response.end('ready')).listen(Number(process.env.INTEROP_FRONTEND_PORT), '127.0.0.1', () => {",
+    '  writeFileSync(process.env.INTEROP_TEST_CHILD, JSON.stringify({ pid: process.pid }))',
+    '})',
+  ].join('\n')
+  const leaderSource = [
+    "import { spawn } from 'node:child_process'",
+    "spawn(process.execPath, ['--input-type=module', '--eval', " +
+      JSON.stringify(childSource) +
+      '], {',
+    '  env: { ...process.env, ...' +
+      JSON.stringify(childOwner ? { INTEROP_FRONTEND_OWNER: childOwner } : {}) +
+      ' },',
+    "  stdio: 'ignore',",
+    '}).unref()',
+    leaderExits ? '' : 'setInterval(() => {}, 1000)',
+  ].join('\n')
+  const leaders = []
+  const spawnProcess = vi.fn((_command, _args, options) => {
+    const leader = spawn(process.execPath, ['--input-type=module', '--eval', leaderSource], options)
+    leaders.push(leader)
+    return leader
+  })
+  const environment = {
+    ...process.env,
+    INTEROP_FRONTEND_PORT: String(port),
+    INTEROP_TEST_CHILD: childFile,
+  }
+  const runtime = createFrontendRuntime({
+    root,
+    environment,
+    spawnProcess,
+    probe,
+    owns,
+    wait: (ms) => new Promise((resolve) => setTimeout(resolve, Math.min(ms, 10))),
+  })
+  return {
+    root,
+    port,
+    runtime,
+    leaders,
+    spawnProcess,
+    environment,
+    childFile,
+    leaderSource,
+    cleanup: async () => {
+      for (const leader of leaders) {
+        const exited = new Promise((resolve) => {
+          if (leader.exitCode !== null || leader.signalCode !== null) resolve()
+          else leader.once('exit', resolve)
+        })
+        try {
+          process.kill(-leader.pid, 'SIGKILL')
+        } catch (error) {
+          if (error.code !== 'ESRCH') throw error
+        }
+        await exited
+      }
+    },
+  }
+}
+
+it('waits for the owned frontend descendant when its launcher exits during startup', async () => {
+  let ownershipDeferred = false
+  const probe = vi.fn(async (...args) => {
+    const leader = setup.leaders[0]
+    if (probe.mock.calls.length === 1) {
+      if (leader.exitCode === null && leader.signalCode === null) {
+        await new Promise((resolve) => leader.once('exit', resolve))
+      }
+      return { ok: false }
+    }
+    expect(leader.exitCode).toBe(0)
+    return fetch(...args)
+  })
+  const setup = await processFixture({
+    leaderExits: true,
+    probe,
+    owns: async () => {
+      if (probe.mock.calls.length === 1 && !ownershipDeferred) {
+        ownershipDeferred = true
+        return false
+      }
+      return (await verifier.status()).running
+    },
+  })
+  const verifier = createFrontendRuntime({ root: setup.root })
+  const { runtime, leaders, cleanup } = setup
+  try {
+    await runtime.start('dev')
+    expect(ownershipDeferred).toBe(true)
+    expect(probe.mock.calls.length).toBeGreaterThan(1)
+    expect(leaders[0].exitCode).toBe(0)
+    expect((await runtime.status()).running).toBe(true)
+    await runtime.stop()
+    expect(await runtime.status()).toEqual({ running: false })
+  } finally {
+    await cleanup()
+  }
+})
+
+it('stops the live owned child while its exited group leader remains a zombie', async () => {
+  const { root, runtime, environment, childFile, leaderSource, port } = await processFixture()
+  const leaderFile = join(root, 'leader.json')
+  const supervisorSource = [
+    "import { spawn } from 'node:child_process'",
+    "import { writeFileSync } from 'node:fs'",
+    "const leader = spawn(process.execPath, ['--input-type=module', '--eval', " +
+      JSON.stringify(leaderSource) +
+      '], {',
+    "  env: process.env, detached: true, stdio: 'ignore',",
+    '})',
+    "leader.once('spawn', () => writeFileSync(process.env.INTEROP_TEST_LEADER, JSON.stringify({ pid: leader.pid })))",
+    "process.on('SIGTERM', () => setTimeout(() => process.exit(0), 50))",
+    'setInterval(() => {}, 1000)',
+  ].join('\n')
+  const supervisor = spawn(process.execPath, ['--input-type=module', '--eval', supervisorSource], {
+    env: {
+      ...environment,
+      INTEROP_FRONTEND_OWNER: 'zombie-owner',
+      INTEROP_TEST_LEADER: leaderFile,
+    },
+    stdio: 'ignore',
+  })
+  let leaderPid
+  try {
+    await vi.waitFor(() => readFile(leaderFile, 'utf8'))
+    leaderPid = JSON.parse(await readFile(leaderFile, 'utf8')).pid
+    await vi.waitFor(() => readFile(childFile, 'utf8'))
+    process.kill(supervisor.pid, 'SIGSTOP')
+    await vi.waitFor(async () => {
+      const stat = await readFile(`/proc/${supervisor.pid}/stat`, 'utf8')
+      expect(stat.slice(stat.lastIndexOf(')') + 2)).toMatch(/^T /)
+    })
+    process.kill(leaderPid, 'SIGTERM')
+    await vi.waitFor(async () => {
+      const stat = await readFile(`/proc/${leaderPid}/stat`, 'utf8')
+      expect(stat.slice(stat.lastIndexOf(')') + 2)).toMatch(/^Z /)
+    })
+    const stateRoot = join(root, '.local-development/frontend')
+    await mkdir(stateRoot, { recursive: true })
+    await writeFile(
+      join(stateRoot, 'process.json'),
+      JSON.stringify({ pid: leaderPid, owner: 'zombie-owner', mode: 'dev' })
+    )
+    expect((await runtime.status()).running).toBe(true)
+    await runtime.stop()
+    const listener = createServer()
+    await new Promise((resolve, reject) => {
+      listener.once('error', reject)
+      listener.listen(port, '127.0.0.1', resolve)
+    })
+    await new Promise((resolve) => listener.close(resolve))
+    expect(await runtime.status()).toEqual({ running: false })
+  } finally {
+    if (leaderPid) {
+      try {
+        process.kill(-leaderPid, 'SIGKILL')
+      } catch (error) {
+        if (error.code !== 'ESRCH') throw error
+      }
+    }
+    const exited = new Promise((resolve) => supervisor.once('exit', resolve))
+    process.kill(supervisor.pid, 'SIGCONT')
+    supervisor.kill('SIGTERM')
+    await exited
+  }
+}, 10_000)
+
+it.each([false, true])(
+  'stops and restarts the owned Vite child after its group leader exits (ignores TERM=%s)',
+  async (ignoreTerm) => {
+    const { runtime, leaders, spawnProcess, port, childFile, cleanup } = await processFixture({
+      ignoreTerm,
+    })
+    try {
+      await runtime.start('dev')
+      const child = JSON.parse(await readFile(childFile, 'utf8'))
+      const leaderExited = new Promise((resolve) => leaders[0].once('exit', resolve))
+      process.kill(leaders[0].pid, 'SIGTERM')
+      await leaderExited
+      expect((await fetch(`http://127.0.0.1:${port}/ui/it/`)).ok).toBe(true)
+      expect((await runtime.status()).running).toBe(true)
+      await runtime.stop()
+      expect(await runtime.status()).toEqual({ running: false })
+      await runtime.start('dev')
+      expect(spawnProcess).toHaveBeenCalledTimes(2)
+      expect((await runtime.status()).running).toBe(true)
+      expect(JSON.parse(await readFile(childFile, 'utf8')).pid).not.toBe(child.pid)
+    } finally {
+      await cleanup()
+    }
+  },
+  10_000
+)
+
+it.each(['obsolete-owner', 'mixed-owner'])(
+  'does not signal a foreign or mixed process group for %s',
+  async (owner) => {
+    const setup = await processFixture({
+      childOwner: owner === 'mixed-owner' ? 'foreign-child' : undefined,
+    })
+    const { root, leaders, spawnProcess, environment, childFile, cleanup } = setup
+    const signal = vi.fn()
+    try {
+      spawnProcess('stand-in', [], {
+        env: { ...environment, INTEROP_FRONTEND_OWNER: 'mixed-owner' },
+        detached: true,
+        stdio: 'ignore',
+      })
+      await vi.waitFor(() => readFile(childFile, 'utf8'))
+      const stateRoot = join(root, '.local-development/frontend')
+      await mkdir(stateRoot, { recursive: true })
+      await writeFile(
+        join(stateRoot, 'process.json'),
+        JSON.stringify({ pid: leaders[0].pid, owner, mode: 'dev' })
+      )
+      const runtime = createFrontendRuntime({ root, signal, wait: async () => {} })
+      await runtime.stop()
+      expect(signal).not.toHaveBeenCalled()
+      expect((await fetch(`http://127.0.0.1:${setup.port}/ui/it/`)).ok).toBe(true)
+    } finally {
+      await cleanup()
+    }
+  }
+)
+
+it('reuses its own Vite process and stops its process group without touching foreign PIDs', async () => {
+  const { root, runtime, signal, spawnProcess } = await fixture()
+  const stateRoot = join(root, '.local-development/frontend')
+  await mkdir(stateRoot, { recursive: true })
+  await writeFile(
+    join(stateRoot, 'process.json'),
+    JSON.stringify({ pid: 9999, owner: 'foreign', mode: 'local' })
+  )
+  await runtime.stop()
+  expect(signal).not.toHaveBeenCalled()
+  await runtime.start('local')
+  await runtime.start('local')
+  expect(spawnProcess).toHaveBeenCalledOnce()
+  expect(await runtime.status()).toMatchObject({ pid: 4242, running: true, mode: 'local' })
+  await runtime.stop()
+  expect(signal.mock.calls).toEqual([[-4242, 'SIGTERM']])
+  expect(await runtime.status()).toEqual({ running: false })
+})
+
+it('keeps the selected token and identity in frontend files with private permissions', async () => {
+  const { root, runtime } = await fixture()
+  await runtime.storeToken('header.payload.signature', { tenantKey: 'comune', userKey: 'reviewer' })
+  const path = join(root, '.local-development/frontend-token')
+  expect(await readFile(path, 'utf8')).toBe('header.payload.signature\n')
+  expect((await stat(path)).mode & 0o777).toBe(0o600)
+  expect(await runtime.identity()).toEqual({ tenantKey: 'comune', userKey: 'reviewer' })
+})
+
+it('records accepted lifecycle outcomes before releasing its lock', async () => {
+  const { runtime } = await fixture()
+  await runtime.exclusive(() => runtime.start('dev'))
+  expect(await runtime.startup()).toEqual({ state: 'passed', phases: [] })
+  await runtime.exclusive(() => runtime.stop())
+  expect(await runtime.startup()).toEqual({ state: 'stopped', phases: [] })
+  await expect(
+    runtime.exclusive(async () => {
+      throw new Error('Accepted command failed')
+    })
+  ).rejects.toThrow('Accepted command failed')
+  expect(await runtime.startup()).toEqual({
+    state: 'failed',
+    error: 'Accepted command failed',
+    phases: [],
+  })
+})
+
+it.each([
+  { check: 'smoke', script: 'smoke.sh' },
+  { check: 'browserChecks', script: 'run-e2e.sh' },
+])(
+  'keeps Vite running after a failed $check command and allows retry',
+  async ({ check, script }) => {
+    const { runtime, spawnProcess, signal } = await fixture()
+    await runtime.exclusive(() => runtime.start('dev'))
+    const finishCheck = (code) => {
+      spawnProcess.mockImplementationOnce(() => {
+        const child = Object.assign(new EventEmitter(), { pid: 4243 })
+        queueMicrotask(() => child.emit('close', code))
+        return child
+      })
+    }
+    finishCheck(1)
+    await expect(runtime.exclusive(() => runtime[check]())).rejects.toThrow(`${script} failed (1)`)
+    expect(await runtime.status()).toMatchObject({ running: true, mode: 'dev' })
+    expect(await runtime.startup()).toMatchObject({
+      state: 'failed',
+      error: `${script} failed (1)`,
+    })
+    expect(signal).not.toHaveBeenCalled()
+    finishCheck(0)
+    await expect(runtime.exclusive(() => runtime[check]())).resolves.toBeUndefined()
+    expect(await runtime.status()).toMatchObject({ running: true, mode: 'dev' })
+    expect(await runtime.startup()).toEqual({ state: 'passed', phases: [] })
+    await runtime.stop()
+  }
+)
+
+it('stops Vite on shutdown while a cancelled check is still cleaning up', async () => {
+  let release
+  const wait = vi.fn(async () => {})
+  wait.mockImplementationOnce(
+    () =>
+      new Promise((resolve) => {
+        release = resolve
+      })
+  )
+  const { runtime, spawnProcess, signal } = await fixture({ wait })
+  await runtime.exclusive(() => runtime.start('dev'))
+  const child = Object.assign(new EventEmitter(), { pid: 4243 })
+  spawnProcess.mockImplementationOnce(() => child)
+  const stopVite = signal.getMockImplementation()
+  signal.mockImplementation((group, name) => {
+    if (group === -4242) stopVite()
+    else if (name === 'SIGKILL') child.emit('close', null, name)
+  })
+  const controller = new AbortController()
+  const check = runtime.exclusive(() => runtime.smoke(), {
+    signal: controller.signal,
+    stopFrontendOnAbort: false,
+  })
+  const outcome = check.catch((error) => error)
+  try {
+    await vi.waitFor(() => expect(spawnProcess).toHaveBeenCalledTimes(2))
+    controller.abort(new Error('Check timed out'))
+    await vi.waitFor(() => expect(wait).toHaveBeenCalledOnce())
+    expect(signal).not.toHaveBeenCalledWith(-4242, 'SIGTERM')
+    const shutdown = runtime.shutdown()
+    await vi.waitFor(() => expect(signal).toHaveBeenCalledWith(-4242, 'SIGTERM'))
+    release()
+    await shutdown
+    expect(await outcome).toMatchObject({ message: 'smoke.sh failed (SIGKILL)' })
+    expect((await runtime.status()).running).toBe(false)
+  } finally {
+    release?.()
+    child.emit('close', null, 'SIGKILL')
+    await outcome
+    await runtime.shutdown()
+  }
+})
+
+it('rejects overlapping lifecycle commands, recovers a stale claim and releases its lock on failure', async () => {
+  const { root, runtime } = await fixture()
+  let finish
+  let entered
+  const ready = new Promise((resolve) => {
+    entered = resolve
+  })
+  const first = runtime.exclusive(() => {
+    entered()
+    return new Promise((resolve) => {
+      finish = resolve
+    })
+  })
+  await ready
+  await expect(runtime.exclusive(async () => {})).rejects.toThrow(
+    'Another frontend lifecycle command'
+  )
+  finish()
+  await first
+  const stateRoot = join(root, '.local-development/frontend')
+  await writeFile(join(stateRoot, 'lifecycle.lock'), JSON.stringify({ pid: 9999 }))
+  await expect(
+    runtime.exclusive(async () => {
+      throw new Error('Setup failed')
+    })
+  ).rejects.toThrow('Setup failed')
+  expect((await readdir(stateRoot)).filter((name) => name.startsWith('lifecycle'))).toEqual([
+    'lifecycle.lock',
+  ])
+  await writeFile(
+    join(stateRoot, 'lifecycle.lock'),
+    JSON.stringify({ pid: process.pid, startTime: 'previous-container-process' })
+  )
+  await expect(runtime.exclusive(async () => 'recovered')).resolves.toBe('recovered')
+})
+
+it('allows only one concurrent command when a stale lock file exists', async () => {
+  const { root, runtime } = await fixture()
+  const stateRoot = join(root, '.local-development/frontend')
+  await mkdir(stateRoot, { recursive: true })
+  await writeFile(join(stateRoot, 'lifecycle.lock'), JSON.stringify({ pid: 9999 }))
+  let finish
+  const pending = new Promise((resolve) => {
+    finish = resolve
+  })
+  const entered = []
+  const task = async (name) => {
+    entered.push(name)
+    await pending
+  }
+  const outcomes = []
+  const commands = ['first', 'second'].map((name) =>
+    runtime
+      .exclusive(() => task(name))
+      .then(
+        () => outcomes.push('passed'),
+        (error) => outcomes.push(error.message)
+      )
+  )
+  for (let attempt = 0; attempt < 50 && !outcomes.length && entered.length < 2; attempt += 1) {
+    await new Promise((resolve) => setTimeout(resolve, 5))
+  }
+  finish()
+  await Promise.all(commands)
+  expect(entered).toHaveLength(1)
+  expect(outcomes).toContain('Another frontend lifecycle command is running')
+})
+
+it('does not let a completed command signal cancel a later command', async () => {
+  const { runtime, signal } = await fixture()
+  const previous = new AbortController()
+  await runtime.exclusive(() => runtime.start('dev'), { signal: previous.signal })
+  let finish
+  let entered
+  const ready = new Promise((resolve) => {
+    entered = resolve
+  })
+  const next = runtime.exclusive(async () => {
+    entered()
+    await new Promise((resolve) => {
+      finish = resolve
+    })
+  })
+  try {
+    await ready
+    previous.abort(new Error('Old connection closed'))
+    expect(signal).not.toHaveBeenCalled()
+    expect((await runtime.status()).running).toBe(true)
+    expect((await runtime.startup()).state).toBe('running')
+  } finally {
+    finish?.()
+    await next
+  }
+  expect((await runtime.startup()).state).toBe('passed')
+})

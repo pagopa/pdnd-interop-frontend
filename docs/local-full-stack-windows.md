@@ -6,8 +6,8 @@ in WSL during initialization and in the Linux devcontainer afterwards. Native
 PowerShell, Git Bash, Windows containers, and a remote Docker daemon are not the
 supported startup path.
 
-The changes for [PIN-11061](https://pagopa.atlassian.net/browse/PIN-11061) are
-developed on Ubuntu. Linux regression checks do not certify Windows networking,
+The WSL2 foundations from [PIN-11061](https://pagopa.atlassian.net/browse/PIN-11061) were developed on Ubuntu. The standalone dashboard adaptation is tracked in
+[PIN-11070](https://pagopa.atlassian.net/browse/PIN-11070). Linux regression checks do not certify Windows networking,
 Docker Desktop bind mounts, or Windows browser access. The acceptance procedure
 below must still be completed on a Windows machine; troubleshooting scenarios
 are possible causes, not failures reproduced on this project under WSL2.
@@ -66,11 +66,9 @@ git -C interop-be-monorepo config core.autocrlf false
 cd pdnd-interop-frontend
 ```
 
-Before opening the container, check out the frontend branch containing this
-devcontainer and a backend branch containing the PIN-10657 local-runtime
-scripts. While that backend work is unmerged, use
-`feature/PIN-10657_frontend-local-runtime`. Verify that the backend
-`package.json` includes `local:start:frontend-full`. Initialization
+Before opening the container, select the frontend and backend branches containing
+the PIN-11070 standalone dashboard changes. Verify that the backend includes
+`scripts/local-development/dashboard.sh` and the dashboard Compose service. Initialization
 preserves an existing backend checkout; if it is missing, it clones `develop`,
 which is sufficient only after the local-runtime changes have landed there.
 
@@ -81,8 +79,16 @@ code interop-pdnd-fullstack.code-workspace
 ```
 
 VS Code must show **WSL: Ubuntu** before **Dev Containers: Reopen in Container**.
-Then follow [First start](local-full-stack.md#first-start). After reopening,
-the terminal runs in the devcontainer, not the WSL host.
+Both repositories appear as roots in the container workspace. Initialization creates
+an empty backend mountpoint used by the workspace; the actual checkout stays
+beside the frontend. This keeps the workspace's folder paths within its directory
+and avoids Dev Containers' shared-root warning.
+Then follow [First start](local-full-stack.md#first-start). The frontend launcher
+can also start the full stack from WSL without VS Code or host Node/pnpm.
+VS Code attaches to the separate frontend service, which mounts both checkouts
+for editing and installs frontend dependencies and Chromium. Backend packages,
+infrastructure and the dashboard run in their own service. After updating an
+existing setup, rebuild the container to apply the mounts.
 
 Storing bind-mounted source on Linux avoids slow Windows filesystem crossings
 and missing file-change events. Dependency directories and the pnpm store use
@@ -99,18 +105,18 @@ checkout commands that discard local work.
 
 ## Understand the ports and mounts
 
-| Caller | Destination | Purpose |
-| --- | --- | --- |
-| Windows browser | `http://localhost:3000/ui/it/` | Frontend through Docker's host `3000` → devcontainer `5173` mapping |
-| Windows browser | `http://localhost:3000/ui/local-dashboard/` | Startup, services, and logs dashboard through the same mapping |
-| Vite inside devcontainer | `http://localhost:3600` | Local BFF API proxy; the browser never needs a separate BFF port |
-| Backend inside devcontainer | `localhost:<infrastructure-port>` | `socat` relay to `host.docker.internal:<port>`, then Docker's published infrastructure service |
-| Internal backend callers | `localhost:3000` inside devcontainer | Catalog process, **not** the frontend |
-| Vite HMR in browser | WebSocket on `localhost:3000` | Same public frontend port; Vite listens internally on `5173` |
+| Caller                             | Destination                                 | Purpose                                                                                  |
+| ---------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Windows browser                    | `http://localhost:3000/ui/it/`              | Frontend through Docker's host `3000` → devcontainer `5173` mapping                      |
+| Windows browser                    | `http://localhost:8076`                     | Independent backend dashboard and API                                                    |
+| Vite inside frontend container     | `http://dashboard:3600`                     | BFF API proxy through Compose DNS; the browser uses only the frontend origin             |
+| Frontend launcher / identity proxy | `http://dashboard:8076`                     | Dashboard APIs for backend operations and token issuance                                 |
+| Backend inside dashboard container | `localhost:<infrastructure-port>`           | `socat` relay to `host.docker.internal:<port>`, then Docker's infrastructure publication |
+| Internal backend callers           | `localhost:3000` inside dashboard container | Catalog process in the backend container                                                 |
+| Vite HMR in browser                | WebSocket on `localhost:3000`               | Same public frontend port; Vite listens internally on `5173`                             |
 
 Do not forward catalog port `3000`, BFF ports, or infrastructure ports through
-VS Code. Docker already owns the public bindings. The existing Vite `5173`
-forward can appear in the Ports view, but the documented browser origin remains
+VS Code. Docker already owns the public bindings. Automatic forwarding is disabled, including Vite `5173`. The documented browser origin remains
 `http://localhost:3000`. Remove any saved/manual `3000` forward that shadows the
 Docker mapping. Do not replace the browser hostname with a container IP or
 `host.docker.internal`; the app's local login and HMR use the public origin.
@@ -127,12 +133,14 @@ VPNs, and firewall policies can affect connectivity; diagnose the failing hop
 before changing machine-wide settings. See [Microsoft's WSL networking guide](https://learn.microsoft.com/en-us/windows/wsl/networking)
 and [Docker Desktop networking](https://docs.docker.com/desktop/features/networking/networking-how-tos/).
 
-The devcontainer retains the repositories' absolute WSL paths because backend
-Compose uses files from the backend checkout. Bind sources are resolved by the
-Docker daemon, not by the process calling Compose inside the devcontainer.
+Each service retains its own checkout's absolute WSL path. The frontend
+devcontainer mounts both checkouts for editing; backend dependencies run in the
+dashboard service, which retains the Docker socket.
+Backend Compose SQL/config files belong to the dashboard service. Bind sources
+are resolved by the Docker daemon, not by the frontend process.
 If a SQL/config mount is missing or becomes an empty directory, compare the
 source path in `docker compose -f ../interop-be-monorepo/docker/docker-compose.yml config`
-with the devcontainer's mounts from `docker inspect <container-id>`. Also check
+with the dashboard service's mounts from `docker inspect <container-id>`. Also check
 that the same files exist in WSL. Do not replace the workspace target with
 `/workspaces/...` without adapting these source paths. Historical Docker Desktop
 versions have had [nested WSL bind-mount issues](https://github.com/devcontainers/features/issues/919);
@@ -145,7 +153,8 @@ After startup, these read-only checks inside the devcontainer isolate the hops:
 getent ahostsv4 host.docker.internal
 curl --fail http://localhost:5173/ui/it/
 curl --fail http://host.docker.internal:3000/ui/it/
-curl --fail http://localhost:3600/backend-for-frontend/0.0/status
+curl --fail http://dashboard:3600/backend-for-frontend/0.0/status
+curl --fail http://dashboard:8076/health
 ```
 
 The two frontend requests must return the PDND HTML shell. From PowerShell,
@@ -155,7 +164,7 @@ and host connectivity before investigating React or the API proxy.
 
 ## Browser tests and debugging
 
-Run `pnpm local:test:e2e` in the devcontainer after startup reports `READY`.
+Run `pnpm local:test:e2e` in the frontend container after its launcher completes.
 The default is headless Chromium; no Windows browser installation, display
 server, or WSLg integration is required. Setup installs Playwright's matching
 Chromium separately from the system Chromium used by Puppeteer.
@@ -163,8 +172,9 @@ Chromium separately from the system Chromium used by Puppeteer.
 Chromium and Playwright's Node HTTP client resolve addresses separately.
 Chromium's host resolver override preserves the `localhost:3000` browser origin
 while connecting to the Docker host. The published-frontend HTTP check uses a
-host-reachable URL instead of container `localhost:3000`, which would hit the
-catalog service. Run the wrapper even when filtering a test; invoking Playwright
+host-reachable URL instead of container `localhost:3000`, where no frontend is
+listening (Vite uses internal `5173`). The dashboard check uses Compose DNS.
+Run the wrapper even when filtering a test; invoking Playwright
 directly skips its environment preparation.
 
 Automatic Docker-host routing applies only when `INTEROP_DEVCONTAINER=true`
@@ -200,20 +210,20 @@ needs verification on Windows.
 
 ## Troubleshooting by symptom
 
-| Symptom | Check |
-| --- | --- |
-| Initialization cannot execute Bash / paths contain `C:\` | Reopen the workspace in WSL first; do not initialize from a native Windows terminal. |
-| `bash\r`, `bad interpreter`, or `Permission denied` | Check CRLF and executable bits in the affected repo; use a Linux clone and preserve tracked permissions. |
-| Docker socket unavailable / Windows container image mismatch | Check Docker Desktop Linux mode, WSL integration for this distro, and daemon/context selection. |
-| Mount path missing / a file is reported as a directory | Check sibling repo paths and nested bind mounts as described above; do not recreate database volumes to fix a source path. |
-| Install/build is very slow or killed | Check WSL memory/CPU/disk budget, Windows filesystem mounts, and dependency volumes. The first install/build is heavier than a restart. |
-| Windows UI returns a catalog error such as missing correlation header | Stop a VS Code forward of container `3000`; inspect Docker's `3000:5173` publication. |
-| Port binding fails although no process is apparent | Check Docker containers and Windows listeners; `Get-NetTCPConnection -LocalPort 3000` and `netsh interface ipv4 show excludedportrange protocol=tcp` in PowerShell can reveal listeners or reserved ranges. Do not delete system reservations blindly. |
-| UI works but APIs fail | Confirm local mode, BFF readiness on container `3600`, infra relays, and dashboard service logs. |
-| UI loads but edits do not reload | Check DevTools WebSocket connection to `localhost:3000`, source location, and Vite logs. A forward to `5173` does not replace HMR's configured public port. |
-| WSL can connect but Windows cannot | Check Docker publication, Windows firewall/Hyper-V policy, VPN, and current NAT/mirrored mode. Microsoft documents [mirrored-mode Docker publication problems](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#docker-container-issues-in-wsl2-with-mirrored-networking-mode-enabled-when-running-under-the-default-networking-namespace); consult the current networking troubleshooting section before changing modes. |
-| Browser tests hit the catalog / cannot resolve Docker host | Run the wrapper in the devcontainer; inspect `getent ahostsv4 host.docker.internal` and test the published frontend separately. Chromium DNS flags do not affect the Node request client. |
-| Headed browser reports a missing X server | Use headless execution or explicitly configure a container display; installing a Windows browser does not fix a Linux display. |
+| Symptom                                                               | Check                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Initialization cannot execute Bash / paths contain `C:\`              | Reopen the workspace in WSL first; do not initialize from a native Windows terminal.                                                                                                                                                                                                                                                                                                                                                   |
+| `bash\r`, `bad interpreter`, or `Permission denied`                   | Check CRLF and executable bits in the affected repo; use a Linux clone and preserve tracked permissions.                                                                                                                                                                                                                                                                                                                               |
+| Docker socket unavailable / Windows container image mismatch          | Check Docker Desktop Linux mode, WSL integration for this distro, and daemon/context selection.                                                                                                                                                                                                                                                                                                                                        |
+| Mount path missing / a file is reported as a directory                | Check sibling repo paths and nested bind mounts as described above; do not recreate database volumes to fix a source path.                                                                                                                                                                                                                                                                                                             |
+| Install/build is very slow or killed                                  | Check WSL memory/CPU/disk budget, Windows filesystem mounts, and dependency volumes. The first install/build is heavier than a restart.                                                                                                                                                                                                                                                                                                |
+| Windows UI returns a catalog error such as missing correlation header | Stop a VS Code forward of container `3000`; inspect Docker's `3000:5173` publication.                                                                                                                                                                                                                                                                                                                                                  |
+| Port binding fails although no process is apparent                    | Check Docker containers and Windows listeners; `Get-NetTCPConnection -LocalPort 3000` and `netsh interface ipv4 show excludedportrange protocol=tcp` in PowerShell can reveal listeners or reserved ranges. Do not delete system reservations blindly.                                                                                                                                                                                 |
+| UI works but APIs fail                                                | Confirm local mode, BFF readiness on container `3600`, infra relays, and dashboard service logs.                                                                                                                                                                                                                                                                                                                                       |
+| UI loads but edits do not reload                                      | Check DevTools WebSocket connection to `localhost:3000`, source location, and Vite logs. A forward to `5173` does not replace HMR's configured public port.                                                                                                                                                                                                                                                                            |
+| WSL can connect but Windows cannot                                    | Check Docker publication, Windows firewall/Hyper-V policy, VPN, and current NAT/mirrored mode. Microsoft documents [mirrored-mode Docker publication problems](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#docker-container-issues-in-wsl2-with-mirrored-networking-mode-enabled-when-running-under-the-default-networking-namespace); consult the current networking troubleshooting section before changing modes. |
+| Browser tests hit the catalog / cannot resolve Docker host            | Run the wrapper in the devcontainer; inspect `getent ahostsv4 host.docker.internal` and test the published frontend separately. Chromium DNS flags do not affect the Node request client.                                                                                                                                                                                                                                              |
+| Headed browser reports a missing X server                             | Use headless execution or explicitly configure a container display; installing a Windows browser does not fix a Linux display.                                                                                                                                                                                                                                                                                                         |
 
 ## Windows acceptance procedure (pending execution)
 
@@ -222,8 +232,16 @@ mode, both Git revisions, and whether a VPN is active. Do not mark this procedur
 passed based only on Ubuntu tests.
 
 1. Create/rebuild from the WSL filesystem following the steps above. Confirm
-   dependency volumes mount, setup succeeds, and the dashboard reaches `READY`.
-2. In Windows Edge/Chrome, open both documented URLs on `localhost:3000`.
+   separate dependency volumes mount, frontend setup/checks pass, and dashboard APIs complete.
+2. Confirm that attachment presents the **Full stack: startup logs** terminal,
+   with frontend installation and infrastructure/backend orchestration output,
+   and opens the dashboard at `/#/status` in the default Windows browser.
+   Reopen the container and check that initialization prepares a new automatic
+   browser opening. If a window reload only restores the existing task, use its
+   printed dashboard URL instead.
+   Check phase progress before setup
+   finishes and completed results afterwards. In Windows Edge/Chrome, open the
+   frontend on `localhost:3000` and dashboard on `localhost:8076`.
    Confirm the dashboard shows services and logs, and the UI shows `Comune Demo`
    and the seeded `Catalogo Demo` e-service.
 3. Switch tenant/user through the local identity page. Confirm API calls use
@@ -232,7 +250,9 @@ passed based only on Ubuntu tests.
    browser through port `3000`, then undo only that edit.
 5. Run `pnpm local:smoke` and `pnpm local:test:e2e` inside the devcontainer.
    Both the Node HTTP publication check and Chromium UI checks must pass.
-6. Stop/start the local stack and reopen the container. Confirm existing seed
+6. Stop/start the local stack and reopen the frontend container. Confirm a stopped
+   frontend starts again in the same container and a setup failure leaves the
+   editor available for manual retry. Confirm existing seed
    data remains usable and no stale VS Code forwards steal port `3000` or the
    infrastructure ports. Recheck HMR and the two browser URLs.
 
