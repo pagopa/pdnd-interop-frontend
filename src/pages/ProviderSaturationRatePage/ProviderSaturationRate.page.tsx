@@ -113,6 +113,7 @@ const ProviderSaturationRateTableWrapper: React.FC<{
   const isEmpty = items.length === 0 // TODO: replace with actual check when API is available
 
   if (isEmpty)
+    // TODO: check if is the correct copy when there are no items
     return (
       <NoItemResults padding={1} borderRadius={0}>
         <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>

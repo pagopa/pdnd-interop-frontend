@@ -23,6 +23,7 @@ const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
   const theme = useTheme()
 
   const { t } = useTranslation('dashboard', { keyPrefix: 'providerSaturationRatePage.table' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const columns: Array<SaturationRateTableColumn> = [
     {
@@ -115,7 +116,7 @@ const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
       renderCell: (item) => {
         return (
           <MIIconButton
-            aria-label="Vai all'e-service"
+            aria-label={tCommon('inspectEService')}
             onClick={() =>
               navigate('PROVIDE_ESERVICE_SUMMARY', {
                 params: {
