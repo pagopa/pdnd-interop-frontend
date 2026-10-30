@@ -3,7 +3,7 @@
     "title": "E-service versions for total threshold saturation",
     "description": "See which e-service versions are about to reach the expected daily API call total threshold.",
     "eserviceOverThreshold": "E-service versions over the total threshold",
-    "eserviceNearThreshold": "E-service versions near the total threshold (over 80%)",
+    "eserviceNearThreshold": "E-service versions near the total threshold (over 90%)",
     "totalEservices": "Total e-service versions",
     "table": {
       "headlabels": {
