@@ -20,7 +20,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('shared-components')
-  const { mutate: updateTenantDelegatedFeatures } =
+  const { mutateAsync: updateTenantDelegatedFeatures } =
     TenantMutations.useUpdateTenantDelegatedFeatures()
 
   const [checkedProducerDelegations, setCheckedProducerDelegations] = React.useState(
@@ -49,12 +49,12 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     checkedConsumerDelegations,
   ])
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (
       checkedConsumerDelegations !== isAvailableConsumerDelegations ||
       checkedProducerDelegations !== isAvailableProducerDelegations
     ) {
-      updateTenantDelegatedFeatures({
+      await updateTenantDelegatedFeatures({
         isDelegatedConsumerFeatureEnabled: checkedConsumerDelegations,
         isDelegatedProducerFeatureEnabled: checkedProducerDelegations,
       })

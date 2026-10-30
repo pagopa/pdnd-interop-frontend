@@ -49,16 +49,20 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   }
 
   const formMethods = useForm<UpdatePartyMailFormValues>({ defaultValues })
+  const keepDirtyValues = isOpen && Object.keys(formMethods.formState.dirtyFields).length > 0
 
   React.useEffect(() => {
-    formMethods.reset({
-      contactEmail: email?.address ?? '',
-      description: email?.description ?? '',
-      enabledTenantNotificationConfigEmail: enabledTenantNotificationConfigEmail,
-    })
-  }, [email, formMethods, enabledTenantNotificationConfigEmail])
+    formMethods.reset(
+      {
+        contactEmail: email?.address ?? '',
+        description: email?.description ?? '',
+        enabledTenantNotificationConfigEmail: enabledTenantNotificationConfigEmail ?? false,
+      },
+      { keepDirtyValues }
+    )
+  }, [email, formMethods, enabledTenantNotificationConfigEmail, isOpen, keepDirtyValues])
 
-  const onSubmit = (values: UpdatePartyMailFormValues) => {
+  const onSubmit = async (values: UpdatePartyMailFormValues) => {
     if (!jwt?.organizationId) return
     if (!isEqual(defaultValues, values)) {
       const { contactEmail, description, enabledTenantNotificationConfigEmail } = values
@@ -91,7 +95,8 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
       }
 
       if (promises.length > 0) {
-        Promise.all(promises).finally(() => onClose())
+        await Promise.all(promises)
+        onClose()
       }
     }
   }
@@ -153,7 +158,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
                 sx={{ ml: 2 }}
                 data-testid="enable-notification-tenant-email"
                 name="enabledTenantNotificationConfigEmail"
-                defaultChecked={enabledTenantNotificationConfigEmail}
+                defaultChecked={enabledTenantNotificationConfigEmail ?? false}
                 label={
                   <SwitchLabelDescription
                     label=""

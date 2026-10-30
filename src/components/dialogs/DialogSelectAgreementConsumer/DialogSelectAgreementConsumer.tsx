@@ -1,7 +1,8 @@
 import type { DelegationTenant } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
-import { useDialog } from '@/stores'
+import { useDialog, useDialogStore } from '@/stores'
+import { CancellationError } from '@/config/query-client'
 import type { DialogSelectAgreementConsumerProps } from '@/types/dialog.types'
 import {
   Alert,
@@ -33,6 +34,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   eservice,
   descriptor,
   agreements,
+  initialSelectedConsumer,
   onSubmitCreate = () => {},
 }) => {
   const ariaLabelId = React.useId()
@@ -89,9 +91,17 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const formMethods = useForm<SelectAgreementConsumerFormValues>({
     defaultValues: {
       consumerId:
-        preselectedConsumer && hasPreselectedConsumer ? preselectedConsumer.id : undefined,
+        initialSelectedConsumer?.id ??
+        (preselectedConsumer && hasPreselectedConsumer ? preselectedConsumer.id : undefined),
     },
   })
+
+  const selectedConsumerRef = React.useRef(
+    initialSelectedConsumer ?? (hasPreselectedConsumer ? preselectedConsumer : undefined)
+  )
+  const handleConsumerChange = React.useCallback((consumer: DelegationTenant | undefined) => {
+    selectedConsumerRef.current = consumer
+  }, [])
 
   const selectedConsumerId = formMethods.watch('consumerId')
 
@@ -152,10 +162,31 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     closeDialog()
   }
 
+  const handleCreateSubmit = async () => {
+    const submittedDialog = useDialogStore.getState().dialog
+    const submittedConsumer = selectedConsumerRef.current
+    try {
+      await onSubmitCreate({ isOwnEService, delegationId })
+    } catch (error) {
+      if (
+        !(error instanceof CancellationError) &&
+        submittedDialog?.type === 'selectAgreementConsumer' &&
+        !useDialogStore.getState().dialog
+      ) {
+        useDialogStore.getState().openDialog({
+          ...submittedDialog,
+          initialSelectedConsumer: submittedConsumer,
+        })
+      }
+      return
+    }
+    if (useDialogStore.getState().dialog === submittedDialog) closeDialog()
+  }
+
   const onSubmit = match(action)
     .with('inspect', () => onSubmitInspect)
     .with('edit', () => onSubmitEdit)
-    .with('create', () => () => onSubmitCreate({ isOwnEService, delegationId }))
+    .with('create', () => handleCreateSubmit)
     .exhaustive()
 
   const isConfirmDisabledWithoutSupport = match(action)
@@ -186,9 +217,13 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
               </Typography>
               <DialogSelectAgreementConsumerAutocomplete
                 eserviceId={eservice.id}
-                preselectedConsumer={hasPreselectedConsumer ? preselectedConsumer : undefined}
+                preselectedConsumer={
+                  initialSelectedConsumer ??
+                  (hasPreselectedConsumer ? preselectedConsumer : undefined)
+                }
                 agreements={agreementsOptions}
                 action={action}
+                onConsumerChange={handleConsumerChange}
               />
               {isQueryEnabled && !isLoading && !hasTenantCertifiedAttributes && (
                 <Alert severity="warning" title={t('certifiedAttributesAlert.title')}>
