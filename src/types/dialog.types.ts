@@ -8,6 +8,7 @@ import type {
   TargetTenantKind,
   CompactAgreement,
   CompactUser,
+  DelegationTenant,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
@@ -178,6 +179,7 @@ export type DialogRejectDelegatedVersionDraftProps = {
 export type DialogSelectAgreementConsumerProps = {
   type: 'selectAgreementConsumer'
   action: 'inspect' | 'edit' | 'create'
+  initialSelectedConsumer?: DelegationTenant
   eservice: {
     id: string
     name: string

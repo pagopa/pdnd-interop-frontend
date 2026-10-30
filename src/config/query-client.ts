@@ -111,7 +111,7 @@ const waitForUserConfirmation = (confirmationDialog: {
 /**
  * Error thrown when a mutation is cancelled by the user in the confirmation dialog.
  */
-class CancellationError extends Error {
+export class CancellationError extends Error {
   constructor() {
     super('Mutation cancelled')
   }

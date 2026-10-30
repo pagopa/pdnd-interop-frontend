@@ -14,11 +14,12 @@ type DialogSelectAgreementConsumerAutocompleteProps = {
   preselectedConsumer: DelegationTenant | undefined
   agreements: CompactAgreement[]
   action: 'inspect' | 'edit' | 'create'
+  onConsumerChange: (consumer: DelegationTenant | undefined) => void
 }
 
 export const DialogSelectAgreementConsumerAutocomplete: React.FC<
   DialogSelectAgreementConsumerAutocompleteProps
-> = ({ eserviceId, preselectedConsumer, agreements, action }) => {
+> = ({ eserviceId, preselectedConsumer, agreements, action, onConsumerChange }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogSelectAgreementConsumer',
   })
@@ -83,9 +84,10 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
       setValue('consumerId', delegators[0].id)
       setConsumerAutocompleteTextInput(delegators[0].name)
       selectedConsumerRef.current = delegators[0]
+      onConsumerChange(delegators[0])
       hasSetFirstConsumer.current = true
     }
-  }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
+  }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput, onConsumerChange])
 
   const delegatorOptions = match(action)
     .with(P.union('inspect', 'edit'), () =>
@@ -121,6 +123,14 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
       ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
       : delegatorOptions
 
+  if (
+    preselectedConsumer &&
+    selectedConsumerId === preselectedConsumer.id &&
+    !tenantOptions.some((tenant) => tenant.id === preselectedConsumer.id)
+  ) {
+    tenantOptions.unshift(preselectedConsumer)
+  }
+
   const autocompleteOptions = tenantOptions.map((tenant) => ({
     label: tenant.name,
     value: tenant.id,
@@ -135,6 +145,7 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
       label={t('consumerField.label')}
       onValueChange={(value) => {
         selectedConsumerRef.current = tenantOptions?.find((tenant) => tenant.id === value?.value)
+        onConsumerChange(selectedConsumerRef.current)
       }}
       onInputChange={(_, value) => setConsumerAutocompleteTextInput(value)}
       rules={{ required: true }}
