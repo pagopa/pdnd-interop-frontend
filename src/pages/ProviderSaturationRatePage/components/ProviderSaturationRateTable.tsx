@@ -118,7 +118,7 @@ const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
           <MIIconButton
             aria-label={tCommon('inspectEService')}
             onClick={() =>
-              navigate('PROVIDE_ESERVICE_SUMMARY', {
+              navigate('PROVIDE_ESERVICE_MANAGE', {
                 params: {
                   eserviceId: item.eservice.id,
                   descriptorId: item.descriptorId,
