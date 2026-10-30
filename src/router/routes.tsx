@@ -83,6 +83,7 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
+import { ProviderSaturationRatePage } from '@/pages/ProviderSaturationRatePage'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
@@ -181,6 +182,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_DASHBOARD',
     path: '/erogazione/panoramica',
     element: <ProviderDashboardPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_SATURATION_RATE',
+    path: '/erogazione/panoramica/tasso-di-saturazione',
+    element: <ProviderSaturationRatePage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
