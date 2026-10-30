@@ -27,6 +27,7 @@ type PageContainerIntroProps = {
   title?: string
   description?: string | React.ReactNode
   dashboardFlow?: boolean
+  titleAction?: React.ReactNode
 }
 
 type PageContainerProps = {
@@ -71,11 +72,12 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
   title,
   description,
   dashboardFlow,
+  titleAction,
 }) => {
   return (
     <Box sx={{ pt: dashboardFlow ? 6 : 0 }}>
-      <Stack direction="row" alignItems="end" spacing={2}>
-        <Box sx={{ flex: 1 }}>
+      <Box sx={{ flex: 1 }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
           {title && dashboardFlow ? (
             <Typography component="h1" variant="h6">
               {title}
@@ -87,9 +89,10 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
               </Typography>
             )
           )}
-          {description && <PageContainerSubtitle description={description} />}
-        </Box>
-      </Stack>
+          {titleAction}
+        </Stack>
+        {description && <PageContainerSubtitle description={description} />}
+      </Box>
     </Box>
   )
 }

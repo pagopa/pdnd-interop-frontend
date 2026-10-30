@@ -17,11 +17,14 @@ import { providerSaturationRateMockItems } from './providerSaturationRate.mock'
 import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
 import { ErrorIcon } from '@/icons/ErrorIcon'
 import { Typography } from '@mui/material'
+import { MIButton } from '@pagopa/mui-italia'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 
 const sortByOptions: string[] = ['PERCENTAGE_AT_ASC', 'PERCENTAGE_AT_DESC', 'NAME_ASC', 'NAME_DESC']
 
 const ProviderSaturationRatePage: React.FC = () => {
   const { t } = useTranslation('dashboard', { keyPrefix: 'providerSaturationRatePage' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
     usePagination()
@@ -70,7 +73,16 @@ const ProviderSaturationRatePage: React.FC = () => {
   const saturationItems = providerSaturationRateMockItems // TODO: replace with actual data from the API when available
 
   return (
-    <PageContainer title={t('title')} description={t('description')} dashboardFlow>
+    <PageContainer
+      title={t('title')}
+      description={t('description')}
+      dashboardFlow
+      titleAction={
+        <MIButton onClick={() => {}} variant="outlined" startIcon={<UploadFileIcon />}>
+          {tCommon('export')}
+        </MIButton>
+      }
+    >
       <Stack spacing={2} sx={{ pt: 3, pb: 6 }}>
         <InformationContainer
           label={t('eserviceOverThreshold')}

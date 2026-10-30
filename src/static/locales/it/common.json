@@ -59,7 +59,8 @@
     "marsAsNotRead": "Segna da leggere",
     "specifyProcessing": "Indica trattamento",
     "save": "Salva",
-    "simulateVoucher": "Simula l'ottenimento del voucher"
+    "simulateVoucher": "Simula l'ottenimento del voucher",
+    "export": "Esporta"
   },
   "table": {
     "headData": {
