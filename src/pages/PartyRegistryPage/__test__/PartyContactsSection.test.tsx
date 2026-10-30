@@ -322,8 +322,9 @@ describe('UpdatePartyMailDrawer', () => {
     async (waitForExit) => {
       const user = userEvent.setup()
       const { props, rerenderDrawer } = renderDrawer()
-      await user.clear(screen.getByRole('textbox', { name: 'drawer.mailField.label' }))
-      await user.type(screen.getByRole('textbox', { name: 'drawer.mailField.label' }), typedEmail)
+      const emailInput = screen.getByRole('textbox', { name: 'drawer.mailField.label' })
+      await user.clear(emailInput)
+      await user.type(emailInput, typedEmail)
       await user.clear(screen.getByRole('textbox', { name: 'drawer.descriptionField.label' }))
       await user.type(
         screen.getByRole('textbox', { name: 'drawer.descriptionField.label' }),
@@ -334,9 +335,7 @@ describe('UpdatePartyMailDrawer', () => {
       expect(props.onClose).toHaveBeenCalledTimes(1)
       rerenderDrawer({ isOpen: false })
       if (waitForExit) {
-        await waitFor(() =>
-          expect(screen.queryByRole('textbox', { name: 'drawer.mailField.label' })).toBeNull()
-        )
+        await waitFor(() => expect(emailInput).not.toBeInTheDocument())
       }
       const latestEmail = { address: 'latest@example.com', description: 'Latest description' }
       rerenderDrawer({ email: latestEmail, enabledTenantNotificationConfigEmail: undefined })

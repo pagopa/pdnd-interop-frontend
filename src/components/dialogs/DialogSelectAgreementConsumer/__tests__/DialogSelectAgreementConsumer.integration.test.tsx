@@ -150,6 +150,10 @@ describe.each([
       initialSelectedConsumer: consumer,
     })
     expect(history.location.pathname).toBe('/')
+    await user.click(restored)
+    expect(await screen.findByRole('option', { name: consumer.name })).toBeInTheDocument()
+    expect(screen.getAllByRole('option', { name: consumer.name })).toHaveLength(1)
+    await user.click(screen.getByRole('option', { name: consumer.name }))
 
     await confirm(user, isOwnEService)
     await waitFor(() => expect(service).toHaveBeenCalledTimes(2))

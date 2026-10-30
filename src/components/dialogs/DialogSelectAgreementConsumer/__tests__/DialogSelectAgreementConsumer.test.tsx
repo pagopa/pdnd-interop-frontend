@@ -58,6 +58,121 @@ afterEach(() => {
 afterAll(() => server.close())
 
 describe('DialogSelectAgreementConsumer', () => {
+  it.each(['inspect', 'edit'] as const)(
+    'closes without navigating when a restored consumer no longer has an agreement in %s mode',
+    async (action) => {
+      mockUseJwt()
+      const user = userEvent.setup()
+      renderWithApplicationContext(
+        <DialogSelectAgreementConsumer
+          type="selectAgreementConsumer"
+          action={action}
+          eservice={{ id: 'eservice-id', name: 'E-service name', producerId: 'producer-id' }}
+          descriptor={{ id: 'descriptor-id', version: '1' }}
+          agreements={[]}
+          initialSelectedConsumer={{ id: 'removed-consumer', name: 'Restored consumer' }}
+        />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      const field = await screen.findByRole('combobox', { name: 'consumerField.label' })
+      await waitFor(() => expect(field).toHaveValue('Restored consumer'))
+      await user.click(field)
+      await user.click(await screen.findByRole('option', { name: 'Restored consumer' }))
+      await user.click(screen.getByRole('button', { name: `actions.${action}` }))
+
+      await waitFor(() => expect(closeDialogMock).toHaveBeenCalledOnce())
+      expect(navigateMock).not.toHaveBeenCalled()
+    }
+  )
+
+  it.each([
+    { action: 'create' as const, delegated: true, hasAgreement: false, eligible: false },
+    { action: 'edit' as const, delegated: true, hasAgreement: true, eligible: false },
+    { action: 'inspect' as const, delegated: true, hasAgreement: true, eligible: true },
+    { action: 'create' as const, delegated: false, hasAgreement: false, eligible: true },
+    { action: 'create' as const, delegated: false, hasAgreement: true, eligible: false },
+    { action: 'edit' as const, delegated: false, hasAgreement: false, eligible: false },
+    { action: 'inspect' as const, delegated: false, hasAgreement: false, eligible: false },
+  ])(
+    'respects own-tenant eligibility in $action mode (delegated: $delegated, agreement: $hasAgreement)',
+    async ({ action, delegated, hasAgreement, eligible }) => {
+      mockUseJwt()
+      const user = userEvent.setup()
+      const delegationRequest = vi.fn()
+      server.use(
+        rest.get(`${BACKEND_FOR_FRONTEND_URL}/delegations`, (_, res, ctx) => {
+          delegationRequest()
+          return res(ctx.json({ results: delegated ? [{ id: 'active-delegation' }] : [] }))
+        })
+      )
+      renderWithApplicationContext(
+        <DialogSelectAgreementConsumer
+          type="selectAgreementConsumer"
+          action={action}
+          eservice={{ id: 'eservice-id', name: 'E-service name', producerId: 'producer-id' }}
+          descriptor={{ id: 'descriptor-id', version: '1' }}
+          agreements={
+            hasAgreement
+              ? [
+                  createMockAgreement({
+                    consumerId: 'organizationId',
+                    state: action === 'edit' ? 'DRAFT' : 'ACTIVE',
+                  }),
+                ]
+              : []
+          }
+          initialSelectedConsumer={{ id: 'organizationId', name: 'orgName' }}
+        />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      await waitFor(() => expect(delegationRequest).toHaveBeenCalled())
+      await waitFor(() => expect(queryClient.isFetching()).toBe(0))
+      await user.click(screen.getByRole('combobox', { name: 'consumerField.label' }))
+      if (eligible) {
+        expect(await screen.findByRole('option', { name: 'orgName' })).toBeInTheDocument()
+        expect(screen.getAllByRole('option', { name: 'orgName' })).toHaveLength(1)
+      } else {
+        expect(screen.queryByRole('option', { name: 'orgName' })).not.toBeInTheDocument()
+      }
+    }
+  )
+
+  it.each([{ results: null }, {}])(
+    'treats a nullish results response as empty without losing an eligible own tenant: %j',
+    async (response) => {
+      mockUseJwt()
+      const user = userEvent.setup()
+      server.use(
+        rest.get(`${BACKEND_FOR_FRONTEND_URL}/delegations`, (_, res, ctx) =>
+          res(ctx.json(response))
+        ),
+        rest.get(`${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/delegators`, (_, res, ctx) =>
+          res(ctx.json(response))
+        )
+      )
+      renderWithApplicationContext(
+        <DialogSelectAgreementConsumer
+          type="selectAgreementConsumer"
+          action="create"
+          eservice={{ id: 'eservice-id', name: 'E-service name', producerId: 'producer-id' }}
+          descriptor={{ id: 'descriptor-id', version: '1' }}
+          agreements={[]}
+        />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      await waitFor(() => expect(queryClient.isFetching()).toBe(0))
+      await user.click(screen.getByRole('combobox', { name: 'consumerField.label' }))
+      expect(await screen.findByRole('option', { name: 'orgName' })).toBeInTheDocument()
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      await user.keyboard('{Escape}')
+      expect(screen.getByRole('button', { name: 'actions.create' })).toBeDisabled()
+      expect(await screen.findByText('certifiedAttributesAlert.description')).toBeInTheDocument()
+    }
+  )
+
   it.each([
     { action: 'inspect' as const, state: 'ACTIVE' as const, route: 'SUBSCRIBE_AGREEMENT_READ' },
     { action: 'inspect' as const, state: 'SUSPENDED' as const, route: 'SUBSCRIBE_AGREEMENT_READ' },
