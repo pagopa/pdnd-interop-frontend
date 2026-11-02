@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { Drawer } from '../Drawer'
 import { beforeEach, vi } from 'vitest'
-import { Typography } from '@mui/material'
+import { ThemeProvider, Typography } from '@mui/material'
+import { theme } from '@pagopa/mui-italia'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
 import userEvent from '@testing-library/user-event'
 
@@ -23,16 +24,18 @@ describe('Drawer test', () => {
 
   it('should disable the action button for support users', () => {
     render(
-      <SupportActionGuardProvider isSupport>
-        <Drawer
-          isOpen
-          onClose={vi.fn()}
-          title="test title"
-          buttonAction={{ label: 'Confirm', action: vi.fn() }}
-        >
-          <Typography>TEST CHILDREN</Typography>
-        </Drawer>
-      </SupportActionGuardProvider>
+      <ThemeProvider theme={theme}>
+        <SupportActionGuardProvider isSupport>
+          <Drawer
+            isOpen
+            onClose={vi.fn()}
+            title="test title"
+            buttonAction={{ label: 'Confirm', action: vi.fn() }}
+          >
+            <Typography>TEST CHILDREN</Typography>
+          </Drawer>
+        </SupportActionGuardProvider>
+      </ThemeProvider>
     )
 
     expect(screen.getByRole('button', { name: 'Confirm' })).toBeDisabled()
@@ -42,16 +45,18 @@ describe('Drawer test', () => {
     const user = userEvent.setup()
 
     render(
-      <SupportActionGuardProvider isSupport>
-        <Drawer
-          isOpen
-          onClose={vi.fn()}
-          title="test title"
-          buttonAction={{ label: 'Confirm', action: vi.fn() }}
-        >
-          <Typography>TEST CHILDREN</Typography>
-        </Drawer>
-      </SupportActionGuardProvider>
+      <ThemeProvider theme={theme}>
+        <SupportActionGuardProvider isSupport>
+          <Drawer
+            isOpen
+            onClose={vi.fn()}
+            title="test title"
+            buttonAction={{ label: 'Confirm', action: vi.fn() }}
+          >
+            <Typography>TEST CHILDREN</Typography>
+          </Drawer>
+        </SupportActionGuardProvider>
+      </ThemeProvider>
     )
 
     const confirmButton = screen.getByRole('button', { name: 'Confirm' })

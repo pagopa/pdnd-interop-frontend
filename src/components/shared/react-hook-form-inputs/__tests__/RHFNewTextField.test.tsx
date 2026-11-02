@@ -262,4 +262,41 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       expect(screen.getByText('validation.mixed.required')).toBeInTheDocument()
     })
   })
+
+  it('should describe the MI helper text and mark the input invalid when validation fails', async () => {
+    const user = userEvent.setup()
+    const HelperTextWrapper = () => {
+      const formMethods = useForm({ defaultValues: { username: '' } })
+
+      return (
+        <FormProvider {...formMethods}>
+          <form onSubmit={formMethods.handleSubmit(vi.fn())}>
+            <RHFNewTextField
+              label="username"
+              name="username"
+              helperText="Min 5 caratteri, max 60 caratteri"
+              rules={{ required: true }}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </FormProvider>
+      )
+    }
+
+    render(
+      <WithTheme>
+        <HelperTextWrapper />
+      </WithTheme>
+    )
+
+    const input = screen.getByRole('textbox', { name: 'username' })
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+
+    const helperText = await screen.findByText('Min 5 caratteri, max 60 caratteri')
+    expect(helperText).toHaveClass('Mui-error')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(input).toHaveAttribute('aria-describedby', helperText.id)
+    expect(document.getElementById(`${input.id}-error`)).not.toBeInTheDocument()
+    expect(screen.queryByText('validation.mixed.required')).not.toBeInTheDocument()
+  })
 })
