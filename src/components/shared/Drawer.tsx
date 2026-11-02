@@ -1,6 +1,14 @@
 import React from 'react'
 import type { ButtonProps } from '@mui/material'
-import { Box, Drawer as MUIDrawer, IconButton, Stack, Typography, Tooltip } from '@mui/material'
+import {
+  Box,
+  Button,
+  Drawer as MUIDrawer,
+  IconButton,
+  Stack,
+  Typography,
+  Tooltip,
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
@@ -8,7 +16,6 @@ import {
   useIsActionDisabledBySupport,
   useIsSupportActionGuardEnabled,
 } from '@/hooks/useIsActionDisabledBySupport'
-import { MIButton } from '@pagopa/mui-italia'
 
 export type DrawerProps = {
   isOpen: boolean
@@ -17,12 +24,11 @@ export type DrawerProps = {
   subtitle?: React.ReactNode
   buttonAction?: ActionItem & {
     disabled?: boolean
-    variant?: React.ComponentProps<typeof MIButton>['variant']
-    color?: React.ComponentProps<typeof MIButton>['color']
+    variant?: ButtonProps['variant']
+    color?: ButtonProps['color']
     disabledTooltip?: string
     type?: ButtonProps['type']
     form?: ButtonProps['form']
-    alignRight?: boolean
   }
   children: React.ReactNode
   onTransitionExited?: VoidFunction
@@ -118,24 +124,20 @@ export const Drawer: React.FC<DrawerProps> = ({
             width="100%"
             display="flex"
             alignItems="flex-end"
-            justifyContent={buttonAction?.alignRight ? 'flex-end' : 'flex-start'}
           >
             <Tooltip arrow title={disabledTooltip}>
-              <span
-                tabIndex={isButtonActionDisabled ? 0 : undefined}
-                style={{ width: buttonAction?.alignRight ? 'auto' : '100%' }}
-              >
-                <MIButton
+              <span tabIndex={isButtonActionDisabled ? 0 : undefined} style={{ width: '100%' }}>
+                <Button
                   disabled={isButtonActionDisabled}
                   variant={buttonAction.variant ?? 'contained'}
                   color={buttonAction.color ?? 'primary'}
-                  fullWidth={!buttonAction?.alignRight}
+                  fullWidth
                   onClick={buttonAction.action}
                   type={buttonAction.type ?? 'button'}
                   form={buttonAction.form ?? undefined}
                 >
                   {buttonAction.label}
-                </MIButton>
+                </Button>
               </span>
             </Tooltip>
           </Box>

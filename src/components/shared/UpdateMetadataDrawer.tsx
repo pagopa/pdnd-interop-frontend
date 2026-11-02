@@ -87,7 +87,6 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
           action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.saveEdits'),
           color: isEmpty(formMethods.formState.errors) ? 'primary' : 'error',
-          alignRight: true,
         }}
       >
         <Stack component="form" noValidate spacing={6}>
