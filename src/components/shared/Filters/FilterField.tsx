@@ -14,6 +14,7 @@ import {
   RHFNewTextField,
 } from '../react-hook-form-inputs'
 import { RHFDatePicker } from '../react-hook-form-inputs/RHFDatePicker'
+import { theme } from '@pagopa/interop-fe-commons'
 
 type FilterFieldProps = {
   field: TFilterField
@@ -22,7 +23,17 @@ type FilterFieldProps = {
 export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
   return match(field.type)
     .with('freetext', () => {
-      return <RHFNewTextField name={field.name} label={field.label} />
+      return (
+        <RHFNewTextField
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              backgroundColor: theme.palette.background.paper,
+            },
+          }}
+          name={field.name}
+          label={field.label}
+        />
+      )
     })
     .with('numeric', () => {
       return (
@@ -95,6 +106,11 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
     .with('autocomplete-multiple', () => {
       return (
         <RHFNewAutocompleteMultiple
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              backgroundColor: `${theme.palette.background.paper} !important`,
+            },
+          }}
           name={field.name}
           label={field.label}
           showSelectionCountOnly={true}

@@ -47,8 +47,8 @@ const requesterDelegationRolesOptions: (RequesterDelegationRole | 'ALL')[] = [
 const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'RECEIVE', 'DELIVER']
 
 const sortByOptions: EServiceSortBy[] = [
-  'CREATED_AT_ASC',
   'CREATED_AT_DESC',
+  'CREATED_AT_ASC',
   'NAME_ASC',
   'NAME_DESC',
 ]
@@ -206,7 +206,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const sorting = useSorting(
     sortByOptions.map((sortBy) => ({ value: sortBy, label: tEservice(`sorting.${sortBy}`) })),
-    sortByOptions[1]
+    sortByOptions[0]
   )
 
   const { sortBy } = sorting
@@ -307,14 +307,16 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
         results={data?.pagination.totalCount}
       />
       <EServiceCatalogWrapper params={query} />
-      <Box mt={3}>
-        <MIPagination
-          page={paginationProps.page}
-          itemsPerPageOptions={paginationProps.itemsPerPageOptions}
-          count={getTotalPageCount(data?.pagination.totalCount)}
-          onChange={(_, page) => paginationProps.onPageChange(page)}
-        />
-      </Box>
+      {data && data.pagination.totalCount !== 0 && (
+        <Box mt={3}>
+          <MIPagination
+            page={paginationProps.page}
+            itemsPerPageOptions={paginationProps.itemsPerPageOptions}
+            count={getTotalPageCount(data?.pagination.totalCount)}
+            onChange={(_, page) => paginationProps.onPageChange(page)}
+          />
+        </Box>
+      )}
     </PageContainer>
   )
 }
