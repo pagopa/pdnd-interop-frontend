@@ -168,10 +168,20 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
         nameField={{
           label: t('updateMetadataDrawer.nameField.label'),
           helperText: t('updateMetadataDrawer.nameField.helperText'),
+          validation: {
+            required: true,
+            minLength: 5,
+            maxLength: 60,
+          },
         }}
         descriptionField={{
           label: t('updateMetadataDrawer.descriptionField.label'),
           helperText: t('updateMetadataDrawer.descriptionField.helperText'),
+          validation: {
+            required: true,
+            minLength: 10,
+            maxLength: 250,
+          },
         }}
         initialValues={{ name: purpose.title, description: purpose.description }}
         onSubmit={() => null} /* TODO: Implement update metadata functionality */
