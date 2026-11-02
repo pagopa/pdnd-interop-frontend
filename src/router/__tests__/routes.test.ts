@@ -591,7 +591,7 @@ describe('routes authLevels', () => {
     ])
   })
 
-  it('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS page should be accessible from [admin, api, support, viewer]', () => {
+  it('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS page should be accessible from [admin, support, viewer]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS.authLevels].sort()).toEqual([
       'admin',
       'support',
@@ -605,7 +605,7 @@ describe('routes authLevels', () => {
     ])
   })
 
-  it('SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS page should be accessible from [admin, api, support, viewer]', () => {
+  it('SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS page should be accessible from [admin, support, viewer]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS.authLevels].sort()).toEqual([
       'admin',
       'support',
