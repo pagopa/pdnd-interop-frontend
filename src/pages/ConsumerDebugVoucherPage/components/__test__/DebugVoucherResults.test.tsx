@@ -2,7 +2,8 @@ import React from 'react'
 import { mockDebugVoucherContext } from './test.commons'
 import { vi } from 'vitest'
 import { DebugVoucherResults } from '../DebugVoucherResults'
-import { fireEvent, render } from '@testing-library/react'
+import { screen, fireEvent } from '@testing-library/react'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockDebugVoucherRequest,
   createMockDebugVoucherResultPassed,
@@ -17,7 +18,7 @@ describe('DebugVoucherResults testing', () => {
       debugVoucherStepDrawer: { isOpen: false, selectedStep: undefined },
     })
 
-    const screen = render(<DebugVoucherResults />)
+    renderWithApplicationContext(<DebugVoucherResults />, {})
 
     expect(screen.queryByText('stepDrawer.stepResultLabel')).not.toBeInTheDocument()
   })
@@ -33,7 +34,7 @@ describe('DebugVoucherResults testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = render(<DebugVoucherResults />)
+    renderWithApplicationContext(<DebugVoucherResults />, {})
 
     expect(screen.queryByText('stepDrawer.stepResultLabel')).toBeInTheDocument()
   })
@@ -47,7 +48,7 @@ describe('DebugVoucherResults testing', () => {
       handleMakeNewRequest: handleMakeNewRequestMockFn,
     })
 
-    const screen = render(<DebugVoucherResults />)
+    renderWithApplicationContext(<DebugVoucherResults />, {})
 
     const newRequestButton = screen.getByRole('button', { name: 'newRequestBtn' })
 
