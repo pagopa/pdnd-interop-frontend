@@ -14,6 +14,12 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+vi.mock('@/components/shared/UpdateNameDrawer', () => ({
+  UpdateNameDrawer: ({ isOpen }: { isOpen: boolean }) => (
+    <div data-testid="drawer">{isOpen ? 'Drawer is Open' : 'Drawer is Closed'}</div>
+  ),
+}))
+
 vi.mock('react-i18next', () => ({
   useTranslation: (namespace: string, options?: { keyPrefix?: string }) => {
     const keyPrefix = options?.keyPrefix || ''
@@ -70,7 +76,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     )
 
     const eserviceLink = screen.getByRole('link', {
-      name: 'purpose.consumerView.sections.generalInformations.eServiceField.value',
+      name: 'purpose.consumerView.sections.generalInformations.specifications.eServiceField.value',
     })
 
     expect(eserviceLink).toBeInTheDocument()
@@ -225,7 +231,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
     expect(
       screen.getByText(
-        'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
+        'purpose.consumerView.sections.generalInformations.specifications.purposeTemplateField.label'
       )
     ).toBeInTheDocument()
     expect(screen.getByText('Purpose Template Title')).toBeInTheDocument()
@@ -240,8 +246,26 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
     expect(
       screen.queryByText(
-        'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
+        'purpose.consumerView.sections.generalInformations.specifications.purposeTemplateField.label'
       )
     ).not.toBeInTheDocument()
+  })
+
+  it('should show the edit button and open the drawer when clicked', () => {
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(screen.getByTestId('drawer')).toHaveTextContent('Drawer is Closed')
+
+    const editButton = screen.getByText(
+      'purpose.consumerView.sections.generalInformations.nameAndDescription.edit'
+    )
+    expect(editButton).toBeInTheDocument()
+
+    fireEvent.click(editButton)
+
+    expect(screen.getByTestId('drawer')).toHaveTextContent('Drawer is Open')
   })
 })

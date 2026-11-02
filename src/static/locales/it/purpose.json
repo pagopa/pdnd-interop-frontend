@@ -502,24 +502,39 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
-        "eServiceField": {
-          "label": "E-service associato",
-          "value": "{{name}}, versione {{version}}"
+        "nameAndDescription": {
+          "title": "Nome e descrizione",
+          "edit": "Modifica",
+          "drawer": {
+            "title": "Modifica nome della finalità",
+            "infoLabel": "Inserisci da 5 a 60 caratteri",
+            "sameValue": "Inserisci un nome diverso da quello attuale"
+          },
+          "nameField": {
+            "label": "Nome della finalità"
+          },
+          "descriptionField": {
+            "label": "Descrizione della finalità"
+          }
         },
-        "providerField": {
-          "label": "Erogatore"
+        "specifications": {
+          "title": "Specifiche",
+          "eServiceField": {
+            "label": "E-service associato",
+            "value": "{{name}}, versione {{version}}"
+          },
+          "providerField": {
+            "label": "Erogatore"
+          },
+          "purposeTemplateField": {
+            "label": "Template collegato"
+          }
         },
         "consumerField": {
           "label": "Fruitore"
         },
         "delegatedConsumerField": {
           "label": "Delegato alla fruizione"
-        },
-        "purposeTemplateField": {
-          "label": "Template collegato"
-        },
-        "descriptionField": {
-          "label": "Descrizione della finalità"
         },
         "riskAnalysis": {
           "fileName": "Analisi del rischio",

@@ -502,24 +502,39 @@
     "sections": {
       "generalInformations": {
         "title": "General information",
-        "eServiceField": {
-          "label": "E-service",
-          "value": "{{name}}, version {{version}}"
+        "nameAndDescription": {
+          "title": "Name and description",
+          "edit": "Edit",
+          "drawer": {
+            "title": "Edit purpose name",
+            "infoLabel": "Enter between 5 and 60 characters",
+            "sameValue": "Enter a name different from the current one"
+          },
+          "nameField": {
+            "label": "Purpose name"
+          },
+          "descriptionField": {
+            "label": "Purpose description"
+          }
         },
-        "providerField": {
-          "label": "Producer"
+        "specifications": {
+          "title": "Specifications",
+          "eServiceField": {
+            "label": "E-service",
+            "value": "{{name}}, version {{version}}"
+          },
+          "providerField": {
+            "label": "Producer"
+          },
+          "purposeTemplateField": {
+            "label": "Linked purpose template"
+          }
         },
         "consumerField": {
           "label": "Consumer"
         },
         "delegatedConsumerField": {
           "label": "Delegated Consumer"
-        },
-        "purposeTemplateField": {
-          "label": "Linked purpose template"
-        },
-        "descriptionField": {
-          "label": "Purpose description"
         },
         "riskAnalysis": {
           "fileName": "Risk analysis",

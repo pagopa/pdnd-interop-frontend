@@ -1,12 +1,15 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { Link, useGeneratePath } from '@/router'
-import { Stack } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import LinkIcon from '@mui/icons-material/Link'
-import { PurposeDownloads } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
+import EditIcon from '@mui/icons-material/Edit'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
+import { PurposeDownloads } from '@/api/purpose'
 import DownloadIcon from '@mui/icons-material/Download'
 
 type ConsumerPurposeDetailsGeneralInfoSectionProps = {
@@ -21,6 +24,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   })
 
   const generatePath = useGeneratePath()
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
 
   const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
@@ -69,60 +73,100 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
       ]}
     >
       <Stack spacing={2}>
-        <InformationContainer
-          label={t('eServiceField.label')}
-          content={
-            <Link
-              to="SUBSCRIBE_CATALOG_VIEW"
-              params={{
-                eserviceId: purpose.eservice.id,
-                descriptorId: purpose.eservice.descriptor.id,
-              }}
-            >
-              {t('eServiceField.value', {
-                name: purpose.eservice.name,
-                version: purpose.eservice.descriptor.version,
-              })}
-            </Link>
-          }
-        />
-        <InformationContainer
-          label={t('providerField.label')}
-          content={purpose.eservice.producer.name}
-        />
-        {purpose.delegation && (
-          <>
+        <SectionContainer
+          innerSection
+          title={t('nameAndDescription.title')}
+          titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+          topSideActions={[
+            {
+              action: openDrawer,
+              label: t('nameAndDescription.edit'),
+              icon: EditIcon,
+            },
+          ]}
+        >
+          <Stack spacing={2}>
             <InformationContainer
-              label={t('consumerField.label')}
-              content={purpose.consumer.name}
+              label={t('nameAndDescription.nameField.label')}
+              content={purpose.title}
             />
             <InformationContainer
-              label={t('delegatedConsumerField.label')}
-              content={purpose.delegation.delegate.name}
+              label={t('nameAndDescription.descriptionField.label')}
+              content={purpose.description}
             />
-          </>
-        )}
-        {isFromPurposeTemplate && (
-          <InformationContainer
-            label={t('purposeTemplateField.label')}
-            content={
-              <Link
-                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
-                params={{
-                  purposeTemplateId: purpose.purposeTemplate?.id as string,
-                }}
-              >
-                {purpose.purposeTemplate?.purposeTitle as string}
-              </Link>
-            }
-          />
-        )}
-        <InformationContainer
-          label={t('descriptionField.label')}
-          direction="column"
-          content={purpose.description}
-        />
+          </Stack>
+        </SectionContainer>
+        <Divider />
+        <SectionContainer
+          innerSection
+          title={t('specifications.title')}
+          titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+        >
+          <Stack spacing={2}>
+            <InformationContainer
+              label={t('specifications.eServiceField.label')}
+              content={
+                <Link
+                  to="SUBSCRIBE_CATALOG_VIEW"
+                  params={{
+                    eserviceId: purpose.eservice.id,
+                    descriptorId: purpose.eservice.descriptor.id,
+                  }}
+                >
+                  {t('specifications.eServiceField.value', {
+                    name: purpose.eservice.name,
+                    version: purpose.eservice.descriptor.version,
+                  })}
+                </Link>
+              }
+            />
+            <InformationContainer
+              label={t('specifications.providerField.label')}
+              content={purpose.eservice.producer.name}
+            />
+            {purpose.delegation && (
+              <>
+                <InformationContainer
+                  label={t('consumerField.label')}
+                  content={purpose.consumer.name}
+                />
+                <InformationContainer
+                  label={t('delegatedConsumerField.label')}
+                  content={purpose.delegation.delegate.name}
+                />
+              </>
+            )}
+            {isFromPurposeTemplate && (
+              <InformationContainer
+                label={t('specifications.purposeTemplateField.label')}
+                content={
+                  <Link
+                    to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                    params={{
+                      purposeTemplateId: purpose.purposeTemplate?.id as string,
+                    }}
+                  >
+                    {purpose.purposeTemplate?.purposeTitle as string}
+                  </Link>
+                }
+              />
+            )}
+          </Stack>
+        </SectionContainer>
       </Stack>
+      {/* @TODO - update drawer implementation */}
+      <UpdateNameDrawer
+        isOpen={isOpen}
+        onClose={closeDrawer}
+        id={purpose.id}
+        name={purpose.title}
+        title={t('nameAndDescription.drawer.title')}
+        subtitle=""
+        label={t('nameAndDescription.nameField.label')}
+        infoLabel={t('nameAndDescription.drawer.infoLabel')}
+        validateLabel={t('nameAndDescription.drawer.sameValue')}
+        onSubmit={closeDrawer}
+      />
     </SectionContainer>
   )
 }
