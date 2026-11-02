@@ -89,7 +89,12 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
           color: isEmpty(formMethods.formState.errors) ? 'primary' : 'error',
         }}
       >
-        <Stack component="form" noValidate spacing={6}>
+        <Stack
+          component="form"
+          noValidate
+          spacing={6}
+          onSubmit={(event) => event.preventDefault()}
+        >
           <RHFNewTextField
             name="name"
             label={nameField.label}
