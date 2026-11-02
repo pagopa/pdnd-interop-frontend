@@ -599,10 +599,9 @@ describe('routes authLevels', () => {
     ])
   })
 
-  it('SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU page should be accessible from [admin, api]', () => {
+  it('SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU page should be accessible from [admin]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU.authLevels].sort()).toEqual([
       'admin',
-      'api',
     ])
   })
 
@@ -614,27 +613,25 @@ describe('routes authLevels', () => {
     ])
   })
 
-  it('SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY page should be accessible from [admin, api, support, viewer]', () => {
+  it('SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY page should be accessible from [admin, support, viewer]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY.authLevels].sort()).toEqual([
       'admin',
-      'api',
       'support',
       'viewer',
     ])
   })
 
-  it('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT page should be accessible from [admin, api]', () => {
-    expect([...routes.SUBSCRIBE_PURPOSE_TEMPLATE_EDIT.authLevels].sort()).toEqual(['admin', 'api'])
+  it('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT page should be accessible from [admin]', () => {
+    expect([...routes.SUBSCRIBE_PURPOSE_TEMPLATE_EDIT.authLevels].sort()).toEqual(['admin'])
   })
 
   it('SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE page should be accessible from [admin]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE.authLevels].sort()).toEqual(['admin'])
   })
 
-  it('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT page should be accessible from [admin, api, support]', () => {
+  it('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT page should be accessible from [admin, support]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT.authLevels].sort()).toEqual([
       'admin',
-      'api',
       'support',
     ])
   })

@@ -727,7 +727,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PublishThankYouPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
@@ -743,7 +743,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
@@ -751,7 +751,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateEditPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE',
@@ -767,7 +767,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeFromTemplateEditPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
