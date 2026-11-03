@@ -17,12 +17,6 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
-vi.mock('@/components/shared/UpdateNameDrawer', () => ({
-  UpdateNameDrawer: ({ isOpen }: { isOpen: boolean }) => (
-    <div data-testid="drawer">{isOpen ? 'Drawer is Open' : 'Drawer is Closed'}</div>
-  ),
-}))
-
 vi.mock('react-i18next', () => ({
   useTranslation: (namespace: string, options?: { keyPrefix?: string }) => {
     const keyPrefix = options?.keyPrefix || ''
