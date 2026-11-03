@@ -17,6 +17,7 @@ import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes
 import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
 import { EServiceTemplateAsyncExchangeSection } from './EServiceTemplateAsyncExchangeSection'
 import { RestInterfaceDescription } from '@/components/shared/RestInterfaceDescription'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 type EServiceTemplateCreateStepTechnicalSpecsFormValues = {
   voucherLifespan: number
@@ -48,6 +49,7 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
   }
 
   const formMethods = useForm({ defaultValues })
+  usePageContainerFormDirtyState(formMethods.control)
 
   const onSubmit = (values: EServiceTemplateCreateStepTechnicalSpecsFormValues) => {
     if (!eserviceTemplateVersion) return

@@ -1,6 +1,6 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { within } from '@testing-library/react'
+import { waitFor, within } from '@testing-library/react'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import {
@@ -451,6 +451,59 @@ describe('PageContainer', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Reset Second field' }))
       await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
 
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('tracks a programmatically selected File independently from a clean outer owner', async () => {
+      const pendingFile = new File(['content'], 'pending.pdf', { type: 'application/pdf' })
+
+      const FileForm = () => {
+        const methods = useForm<{ doc: File | null }>({
+          defaultValues: { doc: null },
+          shouldUnregister: true,
+        })
+        usePageContainerFormDirtyState(methods.control)
+
+        return (
+          <>
+            <button type="button" onClick={() => methods.setValue('doc', pendingFile)}>
+              Select file
+            </button>
+            <button type="button" onClick={() => methods.setValue('doc', null)}>
+              Clear file
+            </button>
+          </>
+        )
+      }
+
+      const screen = renderWizard(
+        <>
+          <RegisteredForm label="Outer field" />
+          <FileForm />
+        </>
+      )
+
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByRole('button', { name: 'Select file' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+
+      await userEvent.click(screen.getByRole('button', { name: 'exitDialog.cancelButton' }))
+      await waitFor(() => expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument())
+
+      // Cleaning the outer owner must not clear the pending file owner
+      await userEvent.type(screen.getByLabelText('Outer field'), ' changed')
+      await userEvent.click(screen.getByRole('button', { name: 'Reset Outer field' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+
+      await userEvent.click(screen.getByRole('button', { name: 'exitDialog.cancelButton' }))
+      await waitFor(() => expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument())
+
+      await userEvent.click(screen.getByRole('button', { name: 'Clear file' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
       expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
     })
 

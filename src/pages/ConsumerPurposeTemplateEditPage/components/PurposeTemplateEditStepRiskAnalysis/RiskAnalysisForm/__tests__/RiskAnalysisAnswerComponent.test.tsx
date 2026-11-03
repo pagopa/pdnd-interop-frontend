@@ -11,6 +11,10 @@ import * as PurposeTemplateMutations from '@/api/purposeTemplate/purposeTemplate
 import * as PurposeTemplateDownloads from '@/api/purposeTemplate/purposeTemplate.downloads'
 import * as useDrawerStateHook from '@/hooks/useDrawerState'
 import * as stores from '@/stores'
+import { PageContainer } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { useDialog as useRealDialog, useDialogStore } from '@/stores/dialog.store'
 
 const purposeTemplateId = 'test-template-id'
 const questionKey = 'test-question-key'
@@ -974,6 +978,161 @@ describe('RiskAnalysisAnswerComponent', () => {
           shouldDirty: true,
         })
       })
+    })
+  })
+
+  describe('PageContainer unsaved changes for the annotation document form', () => {
+    const exitDialog = { name: 'exitDialog.title' }
+    const pendingFile = new File(['content'], 'pending.pdf', { type: 'application/pdf' })
+
+    // Outer risk analysis form registered like RiskAnalysisFormTemplate; it stays clean because
+    // watch/setValue are mocked, so only the inner annotation-document form can be dirty.
+    const RegisteredOuterFormWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+      const formMethods = useForm<FormValues>({
+        defaultValues: {
+          answers: {},
+          annotations: {},
+          answerIds: {},
+          assignToTemplateUsers: {},
+          suggestedValues: {},
+        },
+      })
+      usePageContainerFormDirtyState(formMethods.control)
+
+      formMethods.watch = mockWatch as UseFormWatch<FormValues>
+      formMethods.setValue = mockSetValue as UseFormSetValue<FormValues>
+
+      return <FormProvider {...formMethods}>{children}</FormProvider>
+    }
+
+    const renderInWizard = () =>
+      renderWithApplicationContext(
+        // Prevents the exit link from navigating so the prompt state can be asserted repeatedly
+        <div
+          onClickCapture={(event) => {
+            if ((event.target as Element).closest('a')) event.preventDefault()
+          }}
+        >
+          <PageContainer navigation={{ mode: 'wizard', exitAction: { to: 'DEFAULT' } }}>
+            <RegisteredOuterFormWrapper>
+              <RiskAnalysisAnswerComponent
+                questionKey={questionKey}
+                question="Test Question"
+                questionType="radio"
+              />
+            </RegisteredOuterFormWrapper>
+          </PageContainer>
+        </div>,
+        { withRouterContext: true, withDialogContext: true }
+      )
+
+    const getFileInput = () => document.querySelector('input[type="file"]') as HTMLInputElement
+
+    const clickExit = (user: ReturnType<typeof userEvent.setup>) =>
+      user.click(screen.getByRole('link', { name: 'exitButton' }))
+
+    const cancelExit = async (user: ReturnType<typeof userEvent.setup>) => {
+      await user.click(screen.getByRole('button', { name: 'exitDialog.cancelButton' }))
+      await waitFor(() => expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument())
+    }
+
+    beforeEach(() => {
+      // The real dialog store is needed to render and cancel the PageNavigation exit dialog
+      vi.mocked(stores.useDialog).mockImplementation(useRealDialog)
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `annotations.${questionKey}`)
+          return { id: 'annotation-id', text: 'Test annotation', docs: [] }
+        if (path === `annotations.${questionKey}.docs`) return []
+        if (path === `answerIds.${questionKey}`) return 'answer-id'
+        return undefined
+      })
+    })
+
+    afterEach(() => {
+      useDialogStore.getState().closeDialog()
+      vi.mocked(stores.useDialog).mockReturnValue({ openDialog: mockOpenDialog } as never)
+    })
+
+    it('does not prompt on exit when the document input is open but no file is selected', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await clickExit(user)
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await clickExit(user)
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('prompts on exit for a pending annotation document, keeps it on cancel and stops after removal', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await user.upload(getFileInput(), pendingFile)
+      await screen.findByText('uploadBtn')
+
+      await clickExit(user)
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+
+      await cancelExit(user)
+      expect(screen.getByText('uploadBtn')).toBeInTheDocument()
+
+      await clickExit(user)
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+      await cancelExit(user)
+
+      const removeFileButton = screen
+        .getAllByTestId('CloseIcon')
+        .map((icon) => icon.closest('button'))
+        .find((button) => button && !button.closest('nav, a'))
+      await user.click(removeFileButton!)
+      await waitFor(() => expect(screen.queryByText('uploadBtn')).not.toBeInTheDocument())
+
+      await clickExit(user)
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('does not prompt on exit after the pending annotation document has been uploaded', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await user.upload(getFileInput(), pendingFile)
+      await user.click(await screen.findByText('uploadBtn'))
+
+      await waitFor(() =>
+        expect(mockShowToast).toHaveBeenCalledWith(
+          'notifications.documentUploadedSuccess',
+          'success'
+        )
+      )
+      await clickExit(user)
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('does not prompt on exit after the annotation holding a pending document is deleted', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await user.upload(getFileInput(), pendingFile)
+      await screen.findByText('uploadBtn')
+
+      await user.click(screen.getByText('deleteAnnotationBtn'))
+      await user.click(await screen.findByRole('button', { name: 'proceedLabel' }))
+      await waitFor(() =>
+        expect(mockShowToast).toHaveBeenCalledWith(
+          'notifications.annotationDeletedSuccess',
+          'success'
+        )
+      )
+
+      await clickExit(user)
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
     })
   })
 })
