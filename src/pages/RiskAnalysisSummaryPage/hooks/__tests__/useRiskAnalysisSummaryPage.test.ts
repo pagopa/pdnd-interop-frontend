@@ -1,16 +1,18 @@
 import { act, renderHook } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { useRiskAnalysisSummaryPage } from '../useRiskAnalysisSummaryPage'
+import { useRiskAnalysisReviewStore } from '../../riskAnalysisReview.store'
 
 const navigateMock = vi.fn()
 const useQueryMock = vi.fn()
 const openDialogMock = vi.fn()
 const showToastMock = vi.fn()
+let purposeId = 'test-purpose-id'
 
 vi.mock('@/router', () => ({
   useNavigate: () => navigateMock,
   useParams: () => ({
-    purposeId: 'test-purpose-id',
+    purposeId,
   }),
 }))
 
@@ -38,6 +40,8 @@ vi.mock('../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
 describe('useRiskAnalysisSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    purposeId = 'test-purpose-id'
+    useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
   })
 
   it('should return base state correctly', () => {
@@ -214,6 +218,87 @@ describe('useRiskAnalysisSummaryPage', () => {
     })
     expect(refetch).not.toHaveBeenCalled()
     expect(showToastMock).not.toHaveBeenCalled()
+  })
+
+  it('should keep the reviewed content and version while applying live archival guards', () => {
+    const purpose = {
+      currentVersion: {},
+      metadataVersion: 3,
+      title: 'Reviewed title',
+      eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
+      agreement: { state: 'ACTIVE' },
+    }
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false })
+    const { result, rerender } = renderHook(() => useRiskAnalysisSummaryPage())
+
+    const updatedPurpose = {
+      ...purpose,
+      title: 'Updated title',
+      metadataVersion: 4,
+      agreement: { state: 'ARCHIVED' },
+    }
+    useQueryMock.mockReturnValue({ data: updatedPurpose, isLoading: false })
+    rerender()
+
+    expect(result.current.reviewedPurpose).toEqual(purpose)
+    expect(result.current.purpose).toEqual(updatedPurpose)
+    expect(result.current.arePublishOrEditButtonsDisabled).toBe(true)
+    act(() => result.current.handleApproveDraft())
+    expect(openDialogMock).toHaveBeenCalledWith({
+      type: 'approveRiskAnalysis',
+      purposeId: 'test-purpose-id',
+      metadataVersionToSign: 3,
+    })
+  })
+
+  it('should start a new review when the route purpose changes', () => {
+    const purpose = {
+      currentVersion: {},
+      metadataVersion: 3,
+      eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
+      agreement: { state: 'ACTIVE' },
+    }
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false })
+    const { result, rerender } = renderHook(() => useRiskAnalysisSummaryPage())
+
+    purposeId = 'another-purpose-id'
+    useQueryMock.mockReturnValue({ data: undefined, isLoading: true })
+    rerender()
+    expect(result.current.reviewedPurpose).toBeUndefined()
+
+    const nextPurpose = { ...purpose, metadataVersion: 8 }
+    useQueryMock.mockReturnValue({ data: nextPurpose, isLoading: false })
+    rerender()
+    expect(result.current.reviewedPurpose).toEqual(nextPurpose)
+    act(() => result.current.handleApproveDraft())
+    expect(openDialogMock).toHaveBeenCalledWith({
+      type: 'approveRiskAnalysis',
+      purposeId: 'another-purpose-id',
+      metadataVersionToSign: 8,
+    })
+  })
+
+  it('clears a pending save when starting a review of another purpose', () => {
+    useRiskAnalysisReviewStore.getState().setPendingReview({
+      purposeId: 'test-purpose-id',
+      previousMetadataVersion: 3,
+      riskAnalysisForm: { version: '2.0', answers: { question: ['saved answer'] } },
+    })
+    useQueryMock.mockReturnValue({ data: undefined, isLoading: true })
+    const { result, rerender } = renderHook(() => useRiskAnalysisSummaryPage())
+    expect(result.current.reviewedPurpose).toBeUndefined()
+
+    purposeId = 'another-purpose-id'
+    const purpose = {
+      metadataVersion: 1,
+      eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
+      agreement: { state: 'ACTIVE' },
+    }
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false })
+    rerender()
+
+    expect(result.current.reviewedPurpose).toEqual(purpose)
+    expect(useRiskAnalysisReviewStore.getState().pendingReview).toBeUndefined()
   })
 
   it('should keep the generic error when the displayed metadata version is missing', async () => {

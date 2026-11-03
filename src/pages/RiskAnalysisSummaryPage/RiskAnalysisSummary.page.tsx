@@ -33,6 +33,8 @@ const RiskAnalysisSummaryPage: React.FC = () => {
   const {
     purposeId,
     purpose,
+    reviewedPurpose,
+    isPurposeLoading,
     isLoading,
     isFetching,
     alertProps,
@@ -55,13 +57,13 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     isAssignedReviewer && purpose?.reviewerWorkflow?.signingState === 'SIGNED'
 
   React.useEffect(() => {
-    if (!isLoading && !isFetching && isSignedForAssignedReviewer) {
+    if (!isPurposeLoading && !isFetching && isSignedForAssignedReviewer) {
       navigate('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
         params: { purposeId },
         replace: true,
       })
     }
-  }, [isLoading, isFetching, isSignedForAssignedReviewer, navigate, purposeId])
+  }, [isPurposeLoading, isFetching, isSignedForAssignedReviewer, navigate, purposeId])
 
   if (isSignedForAssignedReviewer) return null
 
@@ -81,27 +83,31 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
 
-      <Stack spacing={3} sx={{ mt: !alertProps ? 3 : 0 }}>
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline="1"
-            title={t('generalInformationSection.title')}
-            defaultExpanded
-          >
-            <ConsumerPurposeSummaryGeneralInformationAccordion purposeId={purposeId} />
-          </SummaryAccordion>
-        </React.Suspense>
+      {!reviewedPurpose && <SummaryAccordionSkeleton />}
 
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline="2"
-            title={t('riskAnalysisSection.title')}
-            defaultExpanded={isApprovalFlow}
-          >
-            <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
-          </SummaryAccordion>
-        </React.Suspense>
-      </Stack>
+      {reviewedPurpose && (
+        <Stack spacing={3} sx={{ mt: !alertProps ? 3 : 0 }}>
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline="1"
+              title={t('generalInformationSection.title')}
+              defaultExpanded
+            >
+              <ConsumerPurposeSummaryGeneralInformationAccordion purpose={reviewedPurpose} />
+            </SummaryAccordion>
+          </React.Suspense>
+
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline="2"
+              title={t('riskAnalysisSection.title')}
+              defaultExpanded={isApprovalFlow}
+            >
+              <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={reviewedPurpose} />
+            </SummaryAccordion>
+          </React.Suspense>
+        </Stack>
+      )}
 
       {isEserviceDeliverMode && (
         <ConsumerPurposeSummaryRiskAnalysisAlertContainer

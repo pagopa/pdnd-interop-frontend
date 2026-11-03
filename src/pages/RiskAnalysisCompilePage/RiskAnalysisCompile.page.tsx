@@ -10,6 +10,7 @@ import {
   RiskAnalysisFormSkeleton,
 } from '../ConsumerPurposeEditPage/components/PurposeEditStepRiskAnalysis/RiskAnalysisForm'
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
+import { useRiskAnalysisReviewStore } from '../RiskAnalysisSummaryPage/riskAnalysisReview.store'
 
 const RiskAnalysisCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisCompile' })
@@ -44,13 +45,30 @@ const RiskAnalysisCompilePage: React.FC = () => {
   }
 
   const handleSubmit = (answers: Record<string, string[]>) => {
+    const normalizedAnswers = Object.fromEntries(
+      Object.entries(answers)
+        .filter(([, values]) => values.length > 0)
+        .map(([question, values]): [string, string[]] => [
+          question,
+          values.map((value) => value.trim()),
+        ])
+    )
     updateRiskAnalysis(
       {
         purposeId: purpose.id,
         version: riskAnalysis.version,
-        answers,
+        answers: normalizedAnswers,
       },
-      { onSuccess: goToSummary }
+      {
+        onSuccess: () => {
+          useRiskAnalysisReviewStore.getState().setPendingReview({
+            purposeId: purpose.id,
+            previousMetadataVersion: purpose.metadataVersion,
+            riskAnalysisForm: { version: riskAnalysis.version, answers: normalizedAnswers },
+          })
+          goToSummary()
+        },
+      }
     )
   }
 
