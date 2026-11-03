@@ -196,8 +196,18 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
-    key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL',
+    // Legacy static detail path (pre consumerId): redirect to the list so `dettaglio` is never
+    // matched as a consumerId and sent to GET /producers/dashboard/consumers/{consumerId}.
+    key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL_LEGACY',
     path: '/erogazione/panoramica/fruitori/dettaglio',
+    redirect: 'PROVIDE_DASHBOARD_CONSUMERS',
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL',
+    path: '/erogazione/panoramica/fruitori/:consumerId',
     element: <ProviderDashboardConsumerDetail />,
     public: false,
     hideSideNav: false,

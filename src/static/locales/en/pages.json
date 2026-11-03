@@ -32,12 +32,44 @@
       "thresholds": {
         "title": "Projected consumption against the total threshold by e-service",
         "description": "View your e-service versions ordered by projected consumption of the total API call threshold.",
-        "placeholder": "Placeholder for the projected e-service consumption table"
+        "columns": {
+          "eservice": "E-service",
+          "activePurposes": "Active purposes",
+          "dailyCalls": "Approved / total daily calls",
+          "percentage": "Projected consumption",
+          "actions": "Actions"
+        },
+        "version": "Version {{version}}",
+        "dailyCalls": "{{approved}} / {{total}}",
+        "percentage": "{{value}}%",
+        "pendingCalls": "+{{value}} calls awaiting approval",
+        "loading": "Loading projected e-service consumption",
+        "loadError": "Unable to load projected e-service consumption.",
+        "retry": "Retry",
+        "empty": "No e-service versions with projected consumption to show.",
+        "viewVersion": "View version",
+        "viewVersionAriaLabel": "View version {{version}} of {{name}}"
       },
       "archiving": {
         "title": "Currently being archived",
         "description": "View e-service versions that are about to be archived and how many consumers they have.",
-        "placeholder": "Placeholder for the e-service versions being archived table"
+        "columns": {
+          "eservice": "E-service",
+          "consumers": "Consumers",
+          "archivableOn": "Archiving date",
+          "actions": "Actions"
+        },
+        "version": "Version {{version}}",
+        "wholeEService": "Entire e-service",
+        "loading": "Loading e-services being archived",
+        "loadError": "Unable to load e-services being archived.",
+        "retry": "Retry",
+        "empty": "No e-service versions are currently being archived.",
+        "viewVersion": "View version",
+        "viewVersionAriaLabel": "View version {{version}} of {{name}}",
+        "viewUnnumberedVersionAriaLabel": "View the version of {{name}}",
+        "viewEServices": "Go to e-service list",
+        "viewEServicesAriaLabel": "Go to the e-service list to find {{name}}"
       }
     },
     "actions": {
@@ -55,20 +87,50 @@
     "searchPlaceholder": "Search consumer name",
     "export": "Export",
     "goToDetail": "Go to details",
-    "placeholders": {
-      "results": "Results and sorting placeholder",
-      "table": "Consumer table placeholder"
+    "goToConsumerDetail": "Go to details for {{name}}",
+    "unavailable": "Unavailable",
+    "empty": "No consumers found",
+    "loadError": "Consumers could not be loaded. Please try again.",
+    "retry": "Retry",
+    "columns": {
+      "consumer": "Consumer name",
+      "eservicesCount": "E-services used",
+      "activePurposesCount": "Active purposes",
+      "actions": "Actions"
+    },
+    "sorting": {
+      "NAME_ASC": "Consumer name (A-Z)",
+      "NAME_DESC": "Consumer name (Z-A)",
+      "ESERVICES_COUNT_DESC": "E-services used (descending)",
+      "ESERVICES_COUNT_ASC": "E-services used (ascending)"
     }
   },
   "providerDashboardConsumerDetail": {
-    "title": "Empoli Municipality",
+    "fallbackTitle": "Consumer detail",
     "description": "View all your e-services used by this entity",
     "summary": "Total e-services used",
     "searchPlaceholder": "Search e-service name",
     "export": "Export",
-    "placeholders": {
-      "results": "E-service results and sorting placeholder",
-      "table": "E-service table placeholder"
+    "unavailable": "Unavailable",
+    "empty": "No e-services found",
+    "noRelationship": "This entity does not use any of your e-services.",
+    "loadError": "The consumer's e-services could not be loaded. Please try again.",
+    "retry": "Retry",
+    "version": "Version {{version}}",
+    "goToEService": "View e-service",
+    "goToEServiceDetail": "View e-service {{name}}, version {{version}}",
+    "columns": {
+      "eservice": "E-service",
+      "agreementState": "Agreement state",
+      "activePurposesCount": "Active purposes",
+      "approvedDailyCalls": "Approved daily calls",
+      "actions": "Actions"
+    },
+    "sorting": {
+      "NAME_ASC": "E-service name (A-Z)",
+      "NAME_DESC": "E-service name (Z-A)",
+      "DAILY_CALLS_DESC": "Approved daily calls (descending)",
+      "DAILY_CALLS_ASC": "Approved daily calls (ascending)"
     }
   },
   "consumerEServiceCatalog": {

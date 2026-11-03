@@ -93,6 +93,7 @@ const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   descriptor: CHIP_COLORS_DESCRIPTOR,
   agreement: CHIP_COLORS_AGREEMENT,
+  agreementState: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   delegation: CHIP_COLORS_DELEGATION,
   eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
@@ -116,6 +117,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'agreement'
         agreement: Agreement | AgreementListEntry
+      }
+    | {
+        for: 'agreementState'
+        state: AgreementState
       }
     | {
         for: 'purpose'
@@ -191,6 +196,14 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   ])
 
   return match(props)
+    .with({ for: 'agreementState' }, ({ state }) => (
+      <Chip
+        size="small"
+        label={t(`status.agreement.${state}`)}
+        color={chipColors.agreementState[state]}
+        {...chipProps}
+      />
+    ))
     .with({ for: 'agreement' }, ({ agreement }) => (
       <Stack direction="row" spacing={1}>
         {getAgreementChipState(agreement, t).map(({ label, color }, i) => (

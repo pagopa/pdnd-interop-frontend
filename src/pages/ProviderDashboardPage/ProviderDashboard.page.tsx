@@ -1,6 +1,8 @@
-import { Box, Grid, Skeleton, Stack, useTheme } from '@mui/material'
+import { Box, Grid, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
+import { ProducerQueries } from '@/api/producer'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import {
   CardDashboard,
@@ -8,6 +10,8 @@ import {
   type CardDashboardProps,
 } from '@/components/shared/CardDashboard/CardDashboard'
 import { routes, useNavigate } from '@/router'
+import { ProviderDashboardSaturationTable } from './components/ProviderDashboardSaturationTable'
+import { ProviderDashboardArchivingTable } from './components/ProviderDashboardArchivingTable'
 
 type DashboardDestination =
   | 'PROVIDE_ESERVICE_LIST'
@@ -15,39 +19,12 @@ type DashboardDestination =
   | 'PROVIDE_PURPOSE_LIST'
   | 'PROVIDE_DASHBOARD_CONSUMERS'
 
-function DashboardTableSkeleton({ label, columns }: { label: string; columns: number }) {
-  return (
-    <Box role="img" aria-label={label} sx={{ width: '100%', height: { xs: 240, md: 320 }, mt: 3 }}>
-      <Stack spacing={2} sx={{ height: '100%', justifyContent: 'space-between' }}>
-        {Array.from({ length: 5 }, (_, rowIndex) => (
-          <Box
-            key={rowIndex}
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: `minmax(0, 1.4fr) repeat(${columns - 1}, minmax(0, 1fr))`,
-              gap: 2,
-            }}
-          >
-            {Array.from({ length: columns }, (_, columnIndex) => (
-              <Skeleton
-                key={columnIndex}
-                aria-hidden="true"
-                variant="rectangular"
-                height={rowIndex === 0 ? 24 : 18}
-              />
-            ))}
-          </Box>
-        ))}
-      </Stack>
-    </Box>
-  )
-}
-
 export default function ProviderDashboardPage() {
   const { t } = useTranslation('pages', { keyPrefix: 'dashboard' })
   const theme = useTheme()
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
+  const { data: dashboard } = useSuspenseQuery(ProducerQueries.getDashboard())
 
   const linkAction = (
     destination: DashboardDestination,
@@ -66,40 +43,45 @@ export default function ProviderDashboardPage() {
   const purposesReceivedAction = linkAction('PROVIDE_PURPOSE_LIST', t('actions.purposesReceived'))
   const consumersAction = linkAction('PROVIDE_DASHBOARD_CONSUMERS', t('actions.consumers'))
   const statuses = [
-    { id: 'active', label: t('statuses.active'), count: 15, color: theme.palette.success.dark },
+    {
+      id: 'active',
+      label: t('statuses.active'),
+      count: dashboard.eservices.published,
+      color: theme.colors.turquoise[600],
+    },
     {
       id: 'suspended',
       label: t('statuses.suspended'),
-      count: 3,
+      count: dashboard.eservices.suspended,
       color: theme.palette.error.dark,
     },
     {
       id: 'archiving',
       label: t('statuses.archiving'),
-      count: 2,
+      count: dashboard.eservices.archiving,
       color: theme.palette.primary.main,
     },
     {
       id: 'suspendedArchiving',
       label: t('statuses.suspendedArchiving'),
-      count: 0,
+      count: dashboard.eservices.archivingSuspended,
       color: theme.palette.info.main,
     },
   ]
   const metrics = [
     {
       id: 'activeAgreementAndPurpose',
-      value: 10000,
+      value: dashboard.alignment.aligned,
       label: t('metrics.activeAgreementAndPurpose'),
     },
     {
       id: 'activeAgreementWithoutActivePurpose',
-      value: 2000,
+      value: dashboard.alignment.agreementWithoutPurposes,
       label: t('metrics.activeAgreementWithoutActivePurpose'),
     },
     {
       id: 'activePurposeWithSuspendedAgreement',
-      value: 200,
+      value: dashboard.alignment.purposesWithoutAgreement,
       label: t('metrics.activePurposeWithSuspendedAgreement'),
     },
   ]
@@ -107,25 +89,39 @@ export default function ProviderDashboardPage() {
     {
       id: 'eservices',
       heading: t('headings.eservices'),
-      content: { kind: 'status', statuses, totalLabel: t('units.eservices') },
+      content: {
+        kind: 'status',
+        statuses,
+        total: dashboard.eservices.total,
+        totalLabel: t('units.eservices'),
+      },
       action: eservicesAction,
     },
     {
       id: 'pendingRequests',
       heading: t('headings.pendingAgreements'),
-      content: { kind: 'metric', metric: { value: 10, label: t('units.requests') } },
+      content: {
+        kind: 'metric',
+        metric: { value: dashboard.pendingAgreements, label: t('units.requests') },
+      },
       action: agreementsAction,
     },
     {
       id: 'purposes',
       heading: t('headings.purposesAwaitingApproval'),
-      content: { kind: 'metric', metric: { value: 24, label: t('units.purposes') } },
+      content: {
+        kind: 'metric',
+        metric: { value: dashboard.waitingForApprovalPurposes, label: t('units.purposes') },
+      },
       action: purposesAwaitingApprovalAction,
     },
     {
       id: 'consumers',
       heading: t('headings.consumers'),
-      content: { kind: 'metric', metric: { value: 12200, label: t('units.consumers') } },
+      content: {
+        kind: 'metric',
+        metric: { value: dashboard.activeAgreements, label: t('units.consumers') },
+      },
       action: consumersAction,
     },
     {
@@ -138,7 +134,10 @@ export default function ProviderDashboardPage() {
       heading: t('headings.average'),
       content: {
         kind: 'metric',
-        metric: { value: 3.5, label: t('units.purposesPerEservice') },
+        metric: {
+          value: dashboard.averageActivePurposesPerEService,
+          label: t('units.purposesPerEservice'),
+        },
       },
       action: purposesReceivedAction,
     },
@@ -161,7 +160,7 @@ export default function ProviderDashboardPage() {
           aria-labelledby="dashboard-thresholds-title"
           titleTypographyProps={{ id: 'dashboard-thresholds-title' }}
         >
-          <DashboardTableSkeleton label={t('sections.thresholds.placeholder')} columns={5} />
+          <ProviderDashboardSaturationTable />
         </SectionContainer>
         <SectionContainer
           title={t('sections.archiving.title')}
@@ -169,7 +168,7 @@ export default function ProviderDashboardPage() {
           aria-labelledby="dashboard-archiving-title"
           titleTypographyProps={{ id: 'dashboard-archiving-title' }}
         >
-          <DashboardTableSkeleton label={t('sections.archiving.placeholder')} columns={4} />
+          <ProviderDashboardArchivingTable />
         </SectionContainer>
       </Box>
     </PageContainer>

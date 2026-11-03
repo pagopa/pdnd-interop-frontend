@@ -21,7 +21,12 @@ export type CardDashboardStatus = {
 export type CardDashboardContent =
   | { kind: 'metric'; metric: CardDashboardMetric }
   | { kind: 'metrics'; metrics: readonly (CardDashboardMetric & { id: string })[] }
-  | { kind: 'status'; statuses: readonly CardDashboardStatus[]; totalLabel: string }
+  | {
+      kind: 'status'
+      statuses: readonly CardDashboardStatus[]
+      total?: number
+      totalLabel: string
+    }
   | { kind: 'consumption'; used: number; limit: number; unitLabel: string }
   | { kind: 'empty'; message: string; icon?: 'success' }
 
@@ -106,7 +111,7 @@ export function CardDashboard({
 
   if (content.kind === 'status') {
     const total = numberFormatter.format(
-      content.statuses.reduce((sum, status) => sum + status.count, 0)
+      content.total ?? content.statuses.reduce((sum, status) => sum + status.count, 0)
     )
     mainMetric = { value: total, label: content.totalLabel }
     donutProps = {

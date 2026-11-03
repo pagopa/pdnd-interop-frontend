@@ -137,6 +137,25 @@ describe('CardDashboard', () => {
     expect(chart.firstElementChild).toHaveAttribute('aria-hidden', 'true')
   })
 
+  it.each([37, 0])('uses explicit total %s without changing status counts', async (total) => {
+    renderCard({
+      heading: 'E-service',
+      content: { kind: 'status', statuses, total, totalLabel: 'Totali' },
+    })
+
+    expect(screen.queryByText('20')).not.toBeInTheDocument()
+    const chart = screen.getByRole('img', { name: `Totali: ${total}` })
+    expect(within(chart.parentElement!).getByText(String(total))).toBeVisible()
+    const entries = screen.getAllByRole('listitem')
+    statuses.forEach((status, index) => {
+      expect(within(entries[index]).getByText(status.label)).toBeVisible()
+      expect(within(entries[index]).getByText(String(status.count))).toBeVisible()
+    })
+    const arcs = await getDrawnArcs(chart)
+    expect(arcs).toHaveLength(3)
+    arcs.forEach((arc, index) => expect(arc).toHaveAttribute('fill', statuses[index].color))
+  })
+
   it.each([
     { scenario: 'all zero', values: statuses.map((status) => ({ ...status, count: 0 })) },
     { scenario: 'no entries', values: [] },

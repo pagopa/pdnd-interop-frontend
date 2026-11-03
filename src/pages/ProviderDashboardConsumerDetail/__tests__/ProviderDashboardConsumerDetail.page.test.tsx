@@ -1,40 +1,54 @@
 import type { ReactNode } from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { Button, ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
-import { MemoryRouter } from 'react-router-dom'
-import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
+import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type * as LayoutContainers from '@/components/layout/containers'
 import type { ActionItemButton } from '@/types/common.types'
+import type { ProducerDashboardConsumer } from '@/api/api.generatedTypes'
+import { ProducerServices } from '@/api/producer'
+import { formatThousands } from '@/utils/format.utils'
 import ProviderDashboardConsumerDetail from '../ProviderDashboardConsumerDetail.page'
+import {
+  getMockProducerDashboardConsumer,
+  mockProducerDashboardConsumerEServices,
+} from '../../../../__mocks__/data/producer.mocks'
 import itPages from '@/static/locales/it/pages.json'
 import enPages from '@/static/locales/en/pages.json'
+import itCommon from '@/static/locales/it/common.json'
+import enCommon from '@/static/locales/en/common.json'
 import itFilters from '@/static/locales/it/filters.json'
 import enFilters from '@/static/locales/en/filters.json'
 
 vi.unmock('react-i18next')
+vi.mock('@/api/producer/producer.services', () => ({
+  ProducerServices: { getDashboardConsumer: vi.fn() },
+}))
 
 vi.mock('@/components/layout/containers', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof LayoutContainers
-
   return {
     ...actual,
     PageContainer: ({
+      isLoading,
       title,
       description,
       topSideActions,
       children,
     }: {
+      isLoading?: boolean
       title: string
       description: string
       topSideActions?: ActionItemButton[]
       children: ReactNode
     }) => (
       <main>
-        <h1>{title}</h1>
+        {!isLoading && <h1>{title}</h1>}
         <p>{description}</p>
         {topSideActions?.map(({ action, label, disabled, color, variant }) => (
           <Button key={label} onClick={action} disabled={disabled} color={color} variant={variant}>
@@ -47,111 +61,272 @@ vi.mock('@/components/layout/containers', async (importOriginal) => {
   }
 })
 
-const renderPage = async (language: 'it' | 'en' = 'it') => {
+const LOMBARDIA_ID = '00000000-0000-4000-8000-000000000013'
+const ROMA_ID = '00000000-0000-4000-8000-000000000001'
+const UNKNOWN_ID = '99999999-0000-4000-8000-000000000000'
+const getConsumer = vi.mocked(ProducerServices.getDashboardConsumer)
+const copy = itPages.providerDashboardConsumerDetail
+const resultCount = (count: number) =>
+  screen.queryByText(
+    (_, element) => element?.tagName === 'P' && element.textContent === `${count} risultati`
+  )
+const summaryValue = (label: string = copy.summary) => screen.getByText(label).nextElementSibling
+
+const GoToConsumer = ({ consumerId }: { consumerId: string }) => {
+  const navigate = useNavigate()
+  return <button onClick={() => navigate(`/fruitori/${consumerId}`)}>switch consumer</button>
+}
+
+const renderPage = async ({
+  language = 'it',
+  consumerId = LOMBARDIA_ID,
+  search = '',
+}: { language?: 'it' | 'en'; consumerId?: string; search?: string } = {}) => {
   const i18n = createInstance()
   await i18n.init({
     lng: language,
     fallbackLng: false,
     resources: {
-      it: { pages: itPages, filters: itFilters },
-      en: { pages: enPages, filters: enFilters },
+      it: { pages: itPages, filters: itFilters, common: itCommon },
+      en: { pages: enPages, filters: enFilters, common: enCommon },
     },
   })
-
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } })
   return render(
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <MemoryRouter>
-          <NuqsAdapter>
-            <ProviderDashboardConsumerDetail />
-          </NuqsAdapter>
-        </MemoryRouter>
-      </ThemeProvider>
-    </I18nextProvider>
+    <QueryClientProvider client={client}>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <MemoryRouter initialEntries={[`/fruitori/${consumerId}${search}`]}>
+            <NuqsTestingAdapter searchParams={search} hasMemory>
+              <Routes>
+                <Route
+                  path="/fruitori/:consumerId"
+                  element={
+                    <>
+                      <GoToConsumer consumerId={ROMA_ID} />
+                      <ProviderDashboardConsumerDetail />
+                    </>
+                  }
+                />
+              </Routes>
+            </NuqsTestingAdapter>
+          </MemoryRouter>
+        </ThemeProvider>
+      </I18nextProvider>
+    </QueryClientProvider>
   )
 }
 
 describe('ProviderDashboardConsumerDetail', () => {
-  it.each([
-    { language: 'it', copy: itPages.providerDashboardConsumerDetail },
-    { language: 'en', copy: enPages.providerDashboardConsumerDetail },
-  ] as const)(
-    'renders the $language header, summary, count, and outlined primary export action',
-    async ({ language, copy }) => {
-      await renderPage(language)
+  beforeEach(() => {
+    getConsumer.mockReset()
+    getConsumer.mockImplementation(async (params) => getMockProducerDashboardConsumer(params))
+  })
 
-      expect(screen.getByRole('heading', { level: 1, name: copy.title })).toBeInTheDocument()
-      expect(screen.getByText(copy.description)).toBeInTheDocument()
-      const summaryLabel = screen.getByText(copy.summary)
-      const summaryTotal = screen.getByText('6')
-      expect(summaryLabel.parentElement).toBe(summaryTotal.parentElement)
+  it.each([
+    { language: 'it', labels: itPages.providerDashboardConsumerDetail, common: itCommon },
+    { language: 'en', labels: enPages.providerDashboardConsumerDetail, common: enCommon },
+  ] as const)(
+    'renders the $language consumer identity, overall count and e-service rows',
+    async ({ language, labels, common }) => {
+      await renderPage({ language })
+
       expect(
-        screen.queryByRole('heading', { level: 2, name: copy.summary })
-      ).not.toBeInTheDocument()
-      const exportButton = screen.getByRole('button', { name: copy.export })
+        await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+      ).toBeInTheDocument()
+      expect(getConsumer).toHaveBeenCalledExactlyOnceWith({
+        consumerId: LOMBARDIA_ID,
+        offset: 0,
+        limit: 10,
+        q: undefined,
+        sortBy: 'NAME_ASC',
+      })
+      expect(summaryValue(labels.summary)).toHaveTextContent('15')
+      Object.values(labels.columns).forEach((label) => {
+        expect(screen.getByRole('columnheader', { name: label })).toBeInTheDocument()
+      })
+      expect(screen.getAllByRole('row')).toHaveLength(11)
+
+      const first = [...mockProducerDashboardConsumerEServices[LOMBARDIA_ID]].sort((a, b) =>
+        a.eservice.name.localeCompare(b.eservice.name, 'it')
+      )[0]
+      const row = screen.getAllByRole('row')[1]
+      expect(within(row).getByText(first.eservice.name)).toBeInTheDocument()
+      expect(
+        within(row).getByText(labels.version.replace('{{version}}', first.version))
+      ).toBeInTheDocument()
+      expect(
+        within(row).getByText(common.status.agreement[first.agreement.state])
+      ).toBeInTheDocument()
+      expect(within(row).getByText(String(first.activePurposesCount))).toBeInTheDocument()
+      expect(within(row).getByText(formatThousands(first.approvedDailyCalls))).toBeInTheDocument()
+
+      const eserviceLink = within(row).getByRole('link', {
+        name: labels.goToEServiceDetail
+          .replace('{{name}}', first.eservice.name)
+          .replace('{{version}}', first.version),
+      })
+      expect(eserviceLink).toHaveAttribute(
+        'href',
+        `/${language}/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
+      )
+      const exportButton = screen.getByRole('button', { name: labels.export })
       expect(exportButton).toBeEnabled()
       expect(exportButton).toHaveClass('MuiButton-outlinedPrimary')
     }
   )
 
-  it('keeps result, sorting, and table content as skeleton placeholders', async () => {
+  it('shows loading skeletons without a false zero or a stale title', async () => {
+    getConsumer.mockImplementation(() => new Promise(() => undefined))
     const { container } = await renderPage()
-    const copy = itPages.providerDashboardConsumerDetail
-
-    const resultsPlaceholder = screen.getByRole('img', { name: copy.placeholders.results })
-    const tablePlaceholder = screen.getByRole('img', { name: copy.placeholders.table })
-
-    expect(resultsPlaceholder.querySelectorAll('.MuiSkeleton-root')).toHaveLength(2)
-    expect(tablePlaceholder.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(10)
-    expect(screen.queryByRole('table')).not.toBeInTheDocument()
-    expect(screen.queryByText(/6 risultati/i)).not.toBeInTheDocument()
-    expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(10)
+    await waitFor(() => expect(getConsumer).toHaveBeenCalled())
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
+    expect(container.querySelector('[aria-busy="true"]')).toBeInTheDocument()
+    expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(5)
+    expect(resultCount(0)).not.toBeInTheDocument()
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
   })
 
-  it('renders the shared e-service filter and standard search button', async () => {
-    await renderPage()
+  it('submits q, resets offset and keeps the overall e-service count', async () => {
+    const user = userEvent.setup()
+    await renderPage({ search: '?offset=10' })
+    await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+    expect(screen.getAllByRole('row')).toHaveLength(6)
 
-    const searchInput = screen.getByRole('textbox', {
-      name: itPages.providerDashboardConsumerDetail.searchPlaceholder,
-    })
-    const searchButton = screen.getByRole('button', { name: itFilters.button })
-
-    expect(screen.getAllByRole('textbox')).toHaveLength(1)
-    expect(searchInput).toHaveAttribute('name', 'q')
-    expect(searchButton).toBeEnabled()
-    expect(searchButton).toHaveAttribute('type', 'submit')
-    expect(searchButton).toHaveClass('MuiButton-containedPrimary')
-    expect(searchButton?.parentElement).toHaveClass('MuiGrid-grid-md-4')
+    await user.type(screen.getByRole('textbox', { name: copy.searchPlaceholder }), 'isee')
+    await user.click(screen.getByRole('button', { name: itFilters.button }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(
+        expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 0, q: 'isee' })
+      )
+    )
+    await screen.findByText('Verifica ISEE')
+    expect(screen.getAllByRole('row')).toHaveLength(2)
+    expect(resultCount(1)).toBeInTheDocument()
+    expect(summaryValue()).toHaveTextContent('15')
   })
 
-  it('keeps the summary single-column on small screens and two-column at md', async () => {
-    await renderPage()
-
-    const styles = Array.from(document.styleSheets)
-      .flatMap((sheet) => Array.from(sheet.cssRules))
-      .map((rule) => rule.cssText)
-      .join('\n')
-
-    expect(styles).toMatch(/grid-template-columns:\s*1fr/)
-    expect(styles).toMatch(
-      /@media \(min-width:900px\)[\s\S]*grid-template-columns:\s*320px minmax\(0(?:px)?, 1fr\)/
+  it.each([
+    { sortBy: 'NAME_DESC', initial: 'NAME_ASC' },
+    { sortBy: 'DAILY_CALLS_DESC', initial: 'NAME_ASC' },
+    { sortBy: 'DAILY_CALLS_ASC', initial: 'NAME_ASC' },
+    { sortBy: 'NAME_ASC', initial: 'NAME_DESC' },
+  ] as const)('queries $sortBy and resets the current page', async ({ sortBy, initial }) => {
+    const user = userEvent.setup()
+    await renderPage({ search: `?offset=10&sortBy=${initial}` })
+    await screen.findByRole('table')
+    await user.click(screen.getByRole('button', { name: copy.sorting[initial] }))
+    await user.click(screen.getByRole('menuitem', { name: copy.sorting[sortBy] }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(
+        expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 0, sortBy })
+      )
+    )
+    const expected = getMockProducerDashboardConsumer({
+      consumerId: LOMBARDIA_ID,
+      offset: 0,
+      limit: 10,
+      sortBy,
+    }).results[0]
+    await waitFor(() =>
+      expect(
+        within(screen.getAllByRole('row')[1]).getByText(expected.eservice.name)
+      ).toBeInTheDocument()
     )
   })
 
-  it('keeps result and table content as skeletons after submitting a search', async () => {
+  it('paginates the filtered e-services of the same consumer', async () => {
     const user = userEvent.setup()
     await renderPage()
+    await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+    expect(resultCount(15)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(
+        expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 10, limit: 10 })
+      )
+    )
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(6))
+  })
 
-    const copy = itPages.providerDashboardConsumerDetail
-    const searchInput = screen.getByRole('textbox', { name: copy.searchPlaceholder })
-    const searchButton = screen.getByRole('button', { name: itFilters.button })
-    const resultsPlaceholder = screen.getByRole('img', { name: copy.placeholders.results })
+  it('shows the empty table label when the search has no matches', async () => {
+    await renderPage({ search: '?q=missing' })
+    await screen.findByText(copy.empty)
+    expect(summaryValue()).toHaveTextContent('15')
+    expect(resultCount(0)).toBeInTheDocument()
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+  })
 
-    await user.type(searchInput, 'consumer')
-    expect(searchButton).toBeEnabled()
-    await user.click(searchButton)
+  it('preserves previous rows only while the same consumer next page is loading', async () => {
+    const user = userEvent.setup()
+    await renderPage()
+    await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+    const previousRows = screen.getAllByRole('row').map((row) => row.textContent)
+    let resolve: (value: ProducerDashboardConsumer) => void = () => undefined
+    getConsumer.mockImplementationOnce(
+      () =>
+        new Promise((done) => {
+          resolve = done
+        })
+    )
+    await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(
+        expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 10 })
+      )
+    )
+    expect(screen.getAllByRole('row').map((row) => row.textContent)).toEqual(previousRows)
+    expect(screen.getByRole('heading', { level: 1, name: 'Regione Lombardia' })).toBeInTheDocument()
+    expect(summaryValue()).toHaveTextContent('15')
 
-    expect(resultsPlaceholder.querySelectorAll('.MuiSkeleton-root')).toHaveLength(2)
+    resolve(getMockProducerDashboardConsumer({ consumerId: LOMBARDIA_ID, offset: 10, limit: 10 }))
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(6))
+  })
+
+  it('shows a no-relationship state with a generic title for an unknown consumer', async () => {
+    await renderPage({ consumerId: UNKNOWN_ID })
+    expect(await screen.findByRole('alert')).toHaveTextContent(copy.noRelationship)
+    expect(screen.getByRole('heading', { level: 1, name: copy.fallbackTitle })).toBeInTheDocument()
+    expect(getConsumer).toHaveBeenCalledWith(expect.objectContaining({ consumerId: UNKNOWN_ID }))
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+  })
+
+  it('shows a retryable error instead of a zero count', async () => {
+    const user = userEvent.setup()
+    getConsumer.mockRejectedValueOnce(new Error('offline'))
+    await renderPage()
+    expect(await screen.findByRole('alert')).toHaveTextContent(copy.loadError)
+    expect(summaryValue()).toHaveTextContent(copy.unavailable)
+    expect(screen.getByRole('heading', { level: 1, name: copy.fallbackTitle })).toBeInTheDocument()
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: copy.retry }))
+    await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('never shows the previous consumer data while another consumer loads', async () => {
+    const user = userEvent.setup()
+    await renderPage()
+    await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+
+    let resolve: (value: ProducerDashboardConsumer) => void = () => undefined
+    getConsumer.mockImplementationOnce(
+      () =>
+        new Promise((done) => {
+          resolve = done
+        })
+    )
+    await user.click(screen.getByRole('button', { name: 'switch consumer' }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(expect.objectContaining({ consumerId: ROMA_ID }))
+    )
+    expect(screen.queryByText('Regione Lombardia')).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
+    expect(summaryValue()?.querySelector('.MuiSkeleton-root')).toBeInTheDocument()
+
+    resolve(getMockProducerDashboardConsumer({ consumerId: ROMA_ID, offset: 0, limit: 10 }))
+    await screen.findByRole('heading', { level: 1, name: 'Comune di Roma' })
+    expect(summaryValue()).toHaveTextContent('8')
   })
 })

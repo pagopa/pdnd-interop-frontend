@@ -1,6 +1,8 @@
-import type { ReactNode } from 'react'
+import { Suspense, type ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { act, render, screen, within } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ErrorBoundary } from 'react-error-boundary'
 import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
@@ -13,6 +15,14 @@ import { mockUseJwt } from '@/utils/testing.utils'
 import * as router from '@/router'
 import itPages from '@/static/locales/it/pages.json'
 import enPages from '@/static/locales/en/pages.json'
+import { ProducerServices } from '@/api/producer'
+import type {
+  MonitoringArchiving,
+  MonitoringArchivingRow,
+  ProducerDashboard,
+  ProducerDashboardSaturation,
+  ProducerDashboardSaturationItem,
+} from '@/api/api.generatedTypes'
 
 vi.unmock('react-i18next')
 
@@ -52,7 +62,27 @@ const navigateMock = vi.fn()
 const cardMock = vi.mocked(CardDashboard)
 const theme = createTheme()
 
-const renderDashboard = async (language: 'it' | 'en' = 'it') => {
+const dashboard: ProducerDashboard = {
+  eservices: {
+    total: 97,
+    published: 31,
+    suspended: 7,
+    archiving: 5,
+    archivingSuspended: 2,
+  },
+  pendingAgreements: 13,
+  waitingForApprovalPurposes: 29,
+  activeAgreements: 14321,
+  alignment: {
+    aligned: 11001,
+    agreementWithoutPurposes: 2202,
+    purposesWithoutAgreement: 303,
+  },
+  averageActivePurposesPerEService: 4.7,
+}
+
+const renderDashboard = async (language: 'it' | 'en' = 'it', waitForData = true) => {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   const i18n = createInstance()
   await i18n.init({
     lng: language,
@@ -60,28 +90,79 @@ const renderDashboard = async (language: 'it' | 'en' = 'it') => {
     resources: { it: { pages: itPages }, en: { pages: enPages } },
   })
 
-  return render(
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <ProviderDashboardPage />
-      </ThemeProvider>
-    </I18nextProvider>
+  const result = render(
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <ErrorBoundary fallback={<div role="alert">Dashboard error</div>}>
+            <Suspense fallback={<div role="status">Loading dashboard</div>}>
+              <ProviderDashboardPage />
+            </Suspense>
+          </ErrorBoundary>
+        </ThemeProvider>
+      </I18nextProvider>
+    </QueryClientProvider>
   )
+
+  if (waitForData) {
+    await screen.findByRole('heading', { level: 1 })
+  }
+  return { ...result, queryClient }
 }
 
 const getCards = () => cardMock.mock.calls.map(([props]) => props)
+
+const saturationRow = (
+  index: number,
+  overrides: Partial<ProducerDashboardSaturationItem> = {}
+): ProducerDashboardSaturationItem => ({
+  eservice: { id: `eservice-${index}`, name: `E-service ${index}` },
+  descriptorId: `descriptor-${index}`,
+  version: String(index),
+  activePurposesCount: index,
+  approvedDailyCalls: 1000 * index,
+  dailyCallsTotal: 2000 * index,
+  percentage: 50,
+  waitingForApprovalDailyCalls: 0,
+  ...overrides,
+})
+
+const saturationResponse = (
+  results: ProducerDashboardSaturationItem[]
+): ProducerDashboardSaturation => ({
+  // summary/pagination are intentionally non-matching values: the UI must ignore them.
+  summary: { overThreshold: 777, nearThreshold: 888, total: 999 },
+  results,
+  pagination: { offset: 0, limit: 5, totalCount: 4242 },
+})
+
+const emptyArchiving: MonitoringArchiving = { results: [] }
+
+const getSectionTable = async (section: 'thresholds' | 'archiving') => {
+  const tables = await screen.findAllByRole('table')
+  const index = section === 'thresholds' ? 0 : 1
+  // While loading, the skeleton table is the one inside the status region.
+  return tables[index]
+}
+
+const getBodyRows = (table: HTMLElement) => within(table).getAllByRole('row').slice(1)
 
 describe('ProviderDashboardPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockUseJwt({ currentRoles: ['admin'] })
     vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
+    vi.spyOn(ProducerServices, 'getDashboard').mockResolvedValue(dashboard)
+    vi.spyOn(ProducerServices, 'getDashboardSaturation').mockResolvedValue(saturationResponse([]))
+    vi.spyOn(ProducerServices, 'getDashboardArchiving').mockResolvedValue(emptyArchiving)
   })
 
-  it('should render the six dashboard cards with the requested values', async () => {
-    await renderDashboard()
+  it('should query the producer dashboard and map its values to the six cards', async () => {
+    const { queryClient } = await renderDashboard()
     const cards = getCards()
 
+    expect(ProducerServices.getDashboard).toHaveBeenCalledExactlyOnceWith()
+    expect(queryClient.getQueryData(['ProducerGetDashboard'])).toEqual(dashboard)
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.content.kind)).toEqual([
       'status',
@@ -92,21 +173,79 @@ describe('ProviderDashboardPage', () => {
       'metric',
     ])
     expect(cards[0].content).toMatchObject({
-      statuses: [{ count: 15 }, { count: 3 }, { count: 2 }, { count: 0 }],
+      total: 97,
+      statuses: [{ count: 31 }, { count: 7 }, { count: 5 }, { count: 2 }],
     })
-    expect(cards[1].content).toMatchObject({ metric: { value: 10 } })
-    expect(cards[2].content).toMatchObject({ metric: { value: 24 } })
-    expect(cards[3].content).toMatchObject({ metric: { value: 12200 } })
+    expect(cards[1].content).toMatchObject({ metric: { value: 13 } })
+    expect(cards[2].content).toMatchObject({ metric: { value: 29 } })
+    expect(cards[3].content).toMatchObject({
+      metric: { value: 14321, label: itPages.dashboard.units.consumers },
+    })
     expect(cards[4].content).toMatchObject({
-      metrics: [{ value: 10000 }, { value: 2000 }, { value: 200 }],
+      metrics: [{ value: 11001 }, { value: 2202 }, { value: 303 }],
     })
     expect(cards[4].content).toMatchObject({
       metrics: Object.values(itPages.dashboard.metrics).map((label) => ({ label })),
     })
     expect(cards[5].content).toMatchObject({
-      metric: { value: 3.5, label: itPages.dashboard.units.purposesPerEservice },
+      metric: { value: 4.7, label: itPages.dashboard.units.purposesPerEservice },
     })
     expect(navigateMock).not.toHaveBeenCalled()
+  })
+
+  it('should show the suspense fallback without cards until the query resolves', async () => {
+    let resolveDashboard!: (value: ProducerDashboard) => void
+    vi.mocked(ProducerServices.getDashboard).mockReturnValue(
+      new Promise<ProducerDashboard>((resolve) => {
+        resolveDashboard = resolve
+      })
+    )
+
+    await renderDashboard('it', false)
+
+    expect(screen.getByRole('status')).toHaveTextContent('Loading dashboard')
+    expect(cardMock).not.toHaveBeenCalled()
+
+    await act(async () => resolveDashboard(dashboard))
+
+    await screen.findByRole('heading', { level: 1 })
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+    expect(getCards()).toHaveLength(6)
+  })
+
+  it('should propagate query errors to the boundary instead of showing fallback metrics', async () => {
+    vi.mocked(ProducerServices.getDashboard).mockRejectedValue(new Error('Dashboard unavailable'))
+
+    await renderDashboard('it', false)
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Dashboard error')
+    expect(cardMock).not.toHaveBeenCalled()
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it('should preserve valid zero values for an empty dashboard', async () => {
+    vi.mocked(ProducerServices.getDashboard).mockResolvedValue({
+      eservices: { total: 0, published: 0, suspended: 0, archiving: 0, archivingSuspended: 0 },
+      pendingAgreements: 0,
+      waitingForApprovalPurposes: 0,
+      activeAgreements: 0,
+      alignment: { aligned: 0, agreementWithoutPurposes: 0, purposesWithoutAgreement: 0 },
+      averageActivePurposesPerEService: 0,
+    })
+
+    await renderDashboard()
+
+    const cards = getCards()
+    expect(cards[0].content).toMatchObject({
+      total: 0,
+      statuses: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }],
+    })
+    for (const index of [1, 2, 3, 5]) {
+      expect(cards[index].content).toMatchObject({ metric: { value: 0 } })
+    }
+    expect(cards[4].content).toMatchObject({
+      metrics: [{ value: 0 }, { value: 0 }, { value: 0 }],
+    })
   })
 
   it('should use full-width, half-width, and one-third-width grid items at xs, sm, and lg', async () => {
@@ -222,16 +361,13 @@ describe('ProviderDashboardPage', () => {
       expect(getCards()[5].content).toMatchObject({
         metric: { label: dictionary.units.purposesPerEservice },
       })
-      for (const [sectionIndex, section] of Object.values(dictionary.sections).entries()) {
+      for (const section of Object.values(dictionary.sections)) {
         expect(screen.getByRole('heading', { level: 2, name: section.title })).toBeInTheDocument()
         expect(screen.getByText(section.description)).toBeInTheDocument()
-        const placeholder = screen.getByRole('img', { name: section.placeholder })
-        expect(placeholder).toBeInTheDocument()
-        expect(placeholder.querySelectorAll('.MuiSkeleton-root')).toHaveLength(
-          sectionIndex === 0 ? 25 : 20
-        )
-        expect(placeholder.querySelector('table')).not.toBeInTheDocument()
-        expect(placeholder.closest('.MuiPaper-root')).toBeInTheDocument()
+        expect(await screen.findByText(section.empty)).toBeInTheDocument()
+        for (const column of Object.values(section.columns)) {
+          expect(screen.getAllByRole('columnheader', { name: column }).length).toBeGreaterThan(0)
+        }
       }
       for (const name of Object.values(dictionary.actions)) {
         expect(screen.getAllByRole('button', { name }).length).toBeGreaterThan(0)
@@ -349,4 +485,413 @@ describe('ProviderDashboardPage', () => {
       expect(navigateMock).not.toHaveBeenCalled()
     }
   )
+})
+
+describe('ProviderDashboardPage tables', () => {
+  const thresholds = itPages.dashboard.sections.thresholds
+  const archiving = itPages.dashboard.sections.archiving
+  const saturationParams = { offset: 0, limit: 5, sortBy: 'PERCENTAGE_DESC' }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockUseJwt({ currentRoles: ['admin'] })
+    vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
+    vi.spyOn(ProducerServices, 'getDashboard').mockResolvedValue(dashboard)
+    vi.spyOn(ProducerServices, 'getDashboardSaturation').mockResolvedValue(saturationResponse([]))
+    vi.spyOn(ProducerServices, 'getDashboardArchiving').mockResolvedValue(emptyArchiving)
+  })
+
+  it('should request exactly the top five saturation rows by descending percentage without q', async () => {
+    const { queryClient } = await renderDashboard()
+    await screen.findByText(thresholds.empty)
+
+    expect(ProducerServices.getDashboardSaturation).toHaveBeenCalledExactlyOnceWith(
+      saturationParams
+    )
+    const [params] = vi.mocked(ProducerServices.getDashboardSaturation).mock.calls[0]
+    expect(params).not.toHaveProperty('q')
+    expect(ProducerServices.getDashboardArchiving).toHaveBeenCalledExactlyOnceWith()
+
+    const saturationQuery = queryClient
+      .getQueryCache()
+      .find({ queryKey: ['ProducerGetDashboardSaturation', saturationParams], exact: true })
+    const archivingQuery = queryClient
+      .getQueryCache()
+      .find({ queryKey: ['ProducerGetDashboardArchiving'], exact: true })
+    expect(saturationQuery).toBeDefined()
+    expect(archivingQuery).toBeDefined()
+    expect(
+      (saturationQuery?.options as { refetchInterval?: unknown }).refetchInterval
+    ).toBeUndefined()
+    expect(
+      (archivingQuery?.options as { refetchInterval?: unknown }).refetchInterval
+    ).toBeUndefined()
+  })
+
+  it('should render saturation rows in backend order with localized values and no pagination', async () => {
+    vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
+      saturationResponse([
+        saturationRow(1, {
+          eservice: { id: 'eservice-over', name: 'Anagrafe' },
+          descriptorId: 'descriptor-over',
+          version: '3',
+          activePurposesCount: 12345,
+          approvedDailyCalls: 12000,
+          dailyCallsTotal: 10000,
+          percentage: 125,
+          waitingForApprovalDailyCalls: 15000,
+        }),
+        saturationRow(2, { percentage: 90 }),
+        saturationRow(3, { percentage: 40 }),
+      ])
+    )
+
+    await renderDashboard()
+    await screen.findByText('Anagrafe')
+    const rows = getBodyRows(await getSectionTable('thresholds'))
+
+    expect(rows).toHaveLength(3)
+    expect(rows.map((row) => within(row).getAllByRole('cell')[0].textContent)).toEqual([
+      'AnagrafeVersione 3',
+      'E-service 2Versione 2',
+      'E-service 3Versione 3',
+    ])
+    const cells = within(rows[0]).getAllByRole('cell')
+    expect(cells).toHaveLength(5)
+    expect(cells[1]).toHaveTextContent('12.345')
+    expect(cells[2]).toHaveTextContent('12.000 / 10.000')
+    // Percentages above 100 are shown exactly as returned, without clamping.
+    expect(cells[3]).toHaveTextContent('125%')
+    expect(cells[3]).toHaveTextContent('+15.000 chiamate in attesa di approvazione')
+    expect(within(rows[1]).getAllByRole('cell')[3]).toHaveTextContent(/^90%$/)
+    // Summary and pagination are ignored.
+    expect(screen.queryByText('4242')).not.toBeInTheDocument()
+    expect(screen.queryByText('999')).not.toBeInTheDocument()
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+  })
+
+  it('should navigate from saturation rows to the descriptor detail', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
+      saturationResponse([saturationRow(1)])
+    )
+
+    await renderDashboard()
+    await user.click(
+      await screen.findByRole('button', {
+        name: 'Vedi la versione 1 di E-service 1',
+      })
+    )
+
+    expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_ESERVICE_MANAGE', {
+      params: { eserviceId: 'eservice-1', descriptorId: 'descriptor-1' },
+    })
+  })
+
+  it('should render archiving rows in backend order, without truncation, with optional descriptor fields', async () => {
+    const user = userEvent.setup()
+    const results: MonitoringArchivingRow[] = [
+      {
+        eservice: { id: 'es-a', name: 'Versioned service' },
+        descriptorId: 'desc-a',
+        version: '2',
+        consumersCount: 15000,
+        archivableOn: '2026-11-10T09:00:00Z',
+      },
+      {
+        eservice: { id: 'es-b', name: 'Whole service' },
+        consumersCount: 3,
+        archivableOn: '2026-12-01T09:00:00Z',
+      },
+      ...Array.from({ length: 5 }, (_, index) => ({
+        eservice: { id: `es-extra-${index}`, name: `Extra ${index}` },
+        descriptorId: `desc-extra-${index}`,
+        version: '1',
+        consumersCount: index,
+        archivableOn: `2027-01-1${index}T09:00:00Z`,
+      })),
+    ]
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({ results })
+
+    await renderDashboard()
+    await screen.findByText('Whole service')
+    const rows = getBodyRows(await getSectionTable('archiving'))
+
+    expect(rows).toHaveLength(7)
+    expect(rows.map((row) => within(row).getAllByRole('cell')[0].textContent)).toEqual(
+      results.map(({ eservice, version }) =>
+        version
+          ? `${eservice.name}Versione ${version}`
+          : `${eservice.name}${archiving.wholeEService}`
+      )
+    )
+    const versioned = within(rows[0]).getAllByRole('cell')
+    expect(versioned).toHaveLength(4)
+    expect(versioned[1]).toHaveTextContent('15.000')
+    expect(versioned[2]).toHaveTextContent('10/11/2026')
+    const whole = within(rows[1]).getAllByRole('cell')
+    expect(whole[0]).toHaveTextContent(archiving.wholeEService)
+    expect(whole[2]).toHaveTextContent('01/12/2026')
+    expect(rows[1]).not.toHaveTextContent('undefined')
+
+    await user.click(
+      within(rows[0]).getByRole('button', { name: 'Vedi la versione 2 di Versioned service' })
+    )
+    expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_MANAGE', {
+      params: { eserviceId: 'es-a', descriptorId: 'desc-a' },
+    })
+    const listButton = within(rows[1]).getByRole('button', {
+      name: 'Vai alla lista e-service per trovare Whole service',
+    })
+    expect(listButton).toHaveTextContent(archiving.viewEServices)
+    await user.click(listButton)
+    expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_LIST')
+  })
+
+  it('should show independent loading skeletons until each table resolves', async () => {
+    let resolveSaturation!: (value: ProducerDashboardSaturation) => void
+    let resolveArchiving!: (value: MonitoringArchiving) => void
+    vi.mocked(ProducerServices.getDashboardSaturation).mockReturnValue(
+      new Promise((resolve) => {
+        resolveSaturation = resolve
+      })
+    )
+    vi.mocked(ProducerServices.getDashboardArchiving).mockReturnValue(
+      new Promise((resolve) => {
+        resolveArchiving = resolve
+      })
+    )
+
+    await renderDashboard()
+
+    const saturationLoading = await screen.findByRole('status', { name: thresholds.loading })
+    const archivingLoading = screen.getByRole('status', { name: archiving.loading })
+    expect(saturationLoading.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(0)
+    expect(archivingLoading.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(0)
+
+    await act(async () => resolveSaturation(saturationResponse([saturationRow(1)])))
+    expect(await screen.findByText('E-service 1')).toBeInTheDocument()
+    expect(screen.queryByRole('status', { name: thresholds.loading })).not.toBeInTheDocument()
+    expect(screen.getByRole('status', { name: archiving.loading })).toBeInTheDocument()
+
+    await act(async () => resolveArchiving(emptyArchiving))
+    expect(await screen.findByText(archiving.empty)).toBeInTheDocument()
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it('should show an error with retry per table without affecting the other table or the cards', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation)
+      .mockRejectedValueOnce(new Error('saturation down'))
+      .mockResolvedValueOnce(saturationResponse([saturationRow(1)]))
+    vi.mocked(ProducerServices.getDashboardArchiving)
+      .mockRejectedValueOnce(new Error('archiving down'))
+      .mockResolvedValueOnce(emptyArchiving)
+
+    await renderDashboard()
+
+    expect(await screen.findByText(thresholds.loadError)).toBeInTheDocument()
+    expect(await screen.findByText(archiving.loadError)).toBeInTheDocument()
+    expect(getCards().length).toBeGreaterThanOrEqual(6)
+
+    const [saturationRetry, archivingRetry] = screen.getAllByRole('button', {
+      name: thresholds.retry,
+    })
+    await user.click(saturationRetry)
+    expect(await screen.findByText('E-service 1')).toBeInTheDocument()
+    expect(screen.queryByText(thresholds.loadError)).not.toBeInTheDocument()
+    expect(screen.getByText(archiving.loadError)).toBeInTheDocument()
+    expect(ProducerServices.getDashboardSaturation).toHaveBeenCalledTimes(2)
+    expect(ProducerServices.getDashboardSaturation).toHaveBeenLastCalledWith(saturationParams)
+
+    await user.click(archivingRetry)
+    expect(await screen.findByText(archiving.empty)).toBeInTheDocument()
+    expect(ProducerServices.getDashboardArchiving).toHaveBeenCalledTimes(2)
+  })
+
+  it('should show localized empty states in English', async () => {
+    await renderDashboard('en')
+
+    expect(await screen.findByText(enPages.dashboard.sections.thresholds.empty)).toBeInTheDocument()
+    expect(await screen.findByText(enPages.dashboard.sections.archiving.empty)).toBeInTheDocument()
+  })
+
+  it('should hide row actions for roles without access to e-service routes', async () => {
+    mockUseJwt({ currentRoles: ['reviewer'] })
+    vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
+      saturationResponse([saturationRow(1)])
+    )
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+      results: [
+        {
+          eservice: { id: 'es-b', name: 'Whole service' },
+          consumersCount: 1,
+          archivableOn: '2026-12-01T09:00:00Z',
+        },
+      ],
+    })
+
+    await renderDashboard()
+    await screen.findByText('E-service 1')
+    await screen.findByText('Whole service')
+
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+  })
+
+  it('should keep unsorted backend saturation order and show fractional/over-100 percentages unclamped', async () => {
+    vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
+      saturationResponse([
+        saturationRow(1, { percentage: 40.25 }),
+        saturationRow(2, { percentage: 133.3 }),
+        saturationRow(3, { percentage: 0 }),
+        saturationRow(4, { percentage: 99.95 }),
+        saturationRow(5, { percentage: 100 }),
+      ])
+    )
+
+    await renderDashboard()
+    await screen.findByText('E-service 5')
+    const rows = getBodyRows(await getSectionTable('thresholds'))
+
+    expect(rows.map((row) => within(row).getAllByRole('cell')[0].textContent)).toEqual([
+      'E-service 1Versione 1',
+      'E-service 2Versione 2',
+      'E-service 3Versione 3',
+      'E-service 4Versione 4',
+      'E-service 5Versione 5',
+    ])
+    expect(rows.map((row) => within(row).getAllByRole('cell')[3].textContent)).toEqual([
+      '40,25%',
+      '133,3%',
+      '0%',
+      '99,95%',
+      '100%',
+    ])
+  })
+
+  it('should navigate a descriptor-only archiving row by descriptorId without inventing a version', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+      results: [
+        {
+          eservice: { id: 'es-d', name: 'Descriptor only' },
+          descriptorId: 'desc-d',
+          consumersCount: 4,
+          archivableOn: '2026-11-20T09:00:00Z',
+        },
+      ],
+    })
+
+    await renderDashboard()
+    await screen.findByText('Descriptor only')
+    const [row] = getBodyRows(await getSectionTable('archiving'))
+
+    expect(within(row).getAllByRole('cell')[0].textContent).toBe('Descriptor only')
+    expect(row).not.toHaveTextContent(archiving.wholeEService)
+    expect(row).not.toHaveTextContent('undefined')
+    expect(within(row).queryByRole('button', { name: /lista e-service/ })).not.toBeInTheDocument()
+    const button = within(row).getByRole('button', {
+      name: 'Vedi la versione di Descriptor only',
+    })
+    expect(button).toHaveTextContent(archiving.viewVersion)
+    await user.click(button)
+    expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_ESERVICE_MANAGE', {
+      params: { eserviceId: 'es-d', descriptorId: 'desc-d' },
+    })
+  })
+
+  it('should show the version of a version-only archiving row and fall back honestly to the list', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+      results: [
+        {
+          eservice: { id: 'es-v', name: 'Version only' },
+          version: '7',
+          consumersCount: 2,
+          archivableOn: '2026-11-21T09:00:00Z',
+        },
+      ],
+    })
+
+    await renderDashboard()
+    await screen.findByText('Version only')
+    const [row] = getBodyRows(await getSectionTable('archiving'))
+
+    expect(within(row).getAllByRole('cell')[0].textContent).toBe('Version onlyVersione 7')
+    expect(row).not.toHaveTextContent(archiving.wholeEService)
+    expect(within(row).queryByRole('button', { name: /Vedi la versione/ })).not.toBeInTheDocument()
+    await user.click(
+      within(row).getByRole('button', {
+        name: 'Vai alla lista e-service per trovare Version only',
+      })
+    )
+    expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_ESERVICE_LIST')
+    expect(navigateMock).not.toHaveBeenCalledWith('PROVIDE_ESERVICE_MANAGE', expect.anything())
+  })
+
+  it('should render descriptor-only/version-only labels in English', async () => {
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+      results: [
+        {
+          eservice: { id: 'es-d', name: 'Descriptor only' },
+          descriptorId: 'desc-d',
+          consumersCount: 1,
+          archivableOn: '2026-11-20T09:00:00Z',
+        },
+        {
+          eservice: { id: 'es-v', name: 'Version only' },
+          version: '7',
+          consumersCount: 1,
+          archivableOn: '2026-11-21T09:00:00Z',
+        },
+      ],
+    })
+
+    await renderDashboard('en')
+    expect(
+      await screen.findByRole('button', { name: 'View the version of Descriptor only' })
+    ).toBeInTheDocument()
+    expect(screen.getByText('Version 7')).toBeInTheDocument()
+  })
+
+  it('should let security navigate from both tables to versions and the e-service list', async () => {
+    mockUseJwt({ currentRoles: ['security'] })
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
+      saturationResponse([saturationRow(1)])
+    )
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+      results: [
+        {
+          eservice: { id: 'es-d', name: 'Descriptor only' },
+          descriptorId: 'desc-d',
+          consumersCount: 1,
+          archivableOn: '2026-11-20T09:00:00Z',
+        },
+        {
+          eservice: { id: 'es-b', name: 'Whole service' },
+          consumersCount: 1,
+          archivableOn: '2026-12-01T09:00:00Z',
+        },
+      ],
+    })
+
+    await renderDashboard()
+    await user.click(
+      await screen.findByRole('button', { name: 'Vedi la versione 1 di E-service 1' })
+    )
+    expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_MANAGE', {
+      params: { eserviceId: 'eservice-1', descriptorId: 'descriptor-1' },
+    })
+    await user.click(
+      await screen.findByRole('button', { name: 'Vedi la versione di Descriptor only' })
+    )
+    expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_MANAGE', {
+      params: { eserviceId: 'es-d', descriptorId: 'desc-d' },
+    })
+    await user.click(
+      screen.getByRole('button', { name: 'Vai alla lista e-service per trovare Whole service' })
+    )
+    expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_LIST')
+  })
 })

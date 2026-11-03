@@ -32,12 +32,44 @@
       "thresholds": {
         "title": "Consumi previsti della soglia totale per e-service",
         "description": "Vedi le versioni dei tuoi e-service ordinate per i consumi previsti della soglia totale di chiamate API.",
-        "placeholder": "Area segnaposto per la tabella dei consumi previsti per e-service"
+        "columns": {
+          "eservice": "E-service",
+          "activePurposes": "Finalità attive",
+          "dailyCalls": "Chiamate giornaliere approvate / totali",
+          "percentage": "Consumo previsto",
+          "actions": "Azioni"
+        },
+        "version": "Versione {{version}}",
+        "dailyCalls": "{{approved}} / {{total}}",
+        "percentage": "{{value}}%",
+        "pendingCalls": "+{{value}} chiamate in attesa di approvazione",
+        "loading": "Caricamento dei consumi previsti per e-service",
+        "loadError": "Non è stato possibile caricare i consumi previsti per e-service.",
+        "retry": "Riprova",
+        "empty": "Non ci sono versioni di e-service con consumi previsti da mostrare.",
+        "viewVersion": "Vedi versione",
+        "viewVersionAriaLabel": "Vedi la versione {{version}} di {{name}}"
       },
       "archiving": {
         "title": "In fase di archiviazione",
         "description": "Vedi le versioni di e-service che stanno per essere archiviate e quanti fruitori ci sono.",
-        "placeholder": "Area segnaposto per la tabella delle versioni in fase di archiviazione"
+        "columns": {
+          "eservice": "E-service",
+          "consumers": "Fruitori",
+          "archivableOn": "Data di archiviazione",
+          "actions": "Azioni"
+        },
+        "version": "Versione {{version}}",
+        "wholeEService": "Intero e-service",
+        "loading": "Caricamento degli e-service in fase di archiviazione",
+        "loadError": "Non è stato possibile caricare gli e-service in fase di archiviazione.",
+        "retry": "Riprova",
+        "empty": "Non ci sono versioni di e-service in fase di archiviazione.",
+        "viewVersion": "Vedi versione",
+        "viewVersionAriaLabel": "Vedi la versione {{version}} di {{name}}",
+        "viewUnnumberedVersionAriaLabel": "Vedi la versione di {{name}}",
+        "viewEServices": "Vai alla lista e-service",
+        "viewEServicesAriaLabel": "Vai alla lista e-service per trovare {{name}}"
       }
     },
     "actions": {
@@ -55,20 +87,50 @@
     "searchPlaceholder": "Cerca per nome fruitore",
     "export": "Esporta",
     "goToDetail": "Vai al dettaglio",
-    "placeholders": {
-      "results": "Risultati e ordinamento segnaposto",
-      "table": "Tabella fruitori segnaposto"
+    "goToConsumerDetail": "Vai al dettaglio di {{name}}",
+    "unavailable": "Non disponibile",
+    "empty": "Nessun fruitore trovato",
+    "loadError": "Non è stato possibile caricare i fruitori. Riprova.",
+    "retry": "Riprova",
+    "columns": {
+      "consumer": "Nome fruitore",
+      "eservicesCount": "E-service fruiti",
+      "activePurposesCount": "Finalità attive",
+      "actions": "Azioni"
+    },
+    "sorting": {
+      "NAME_ASC": "Nome fruitore (A-Z)",
+      "NAME_DESC": "Nome fruitore (Z-A)",
+      "ESERVICES_COUNT_DESC": "E-service fruiti (decrescente)",
+      "ESERVICES_COUNT_ASC": "E-service fruiti (crescente)"
     }
   },
   "providerDashboardConsumerDetail": {
-    "title": "Comune di Empoli",
+    "fallbackTitle": "Dettaglio fruitore",
     "description": "Vedi tutti i tuoi e-service fruiti da questo ente",
     "summary": "Totale e-service fruiti",
     "searchPlaceholder": "Cerca per nome e-service",
     "export": "Esporta",
-    "placeholders": {
-      "results": "Risultati e ordinamento e-service segnaposto",
-      "table": "Tabella e-service segnaposto"
+    "unavailable": "Non disponibile",
+    "empty": "Nessun e-service trovato",
+    "noRelationship": "Questo ente non fruisce di nessuno dei tuoi e-service.",
+    "loadError": "Non è stato possibile caricare gli e-service del fruitore. Riprova.",
+    "retry": "Riprova",
+    "version": "Versione {{version}}",
+    "goToEService": "Vedi e-service",
+    "goToEServiceDetail": "Vedi e-service {{name}}, versione {{version}}",
+    "columns": {
+      "eservice": "E-service",
+      "agreementState": "Stato richiesta di fruizione",
+      "activePurposesCount": "Finalità attive",
+      "approvedDailyCalls": "Chiamate giornaliere approvate",
+      "actions": "Azioni"
+    },
+    "sorting": {
+      "NAME_ASC": "Nome e-service (A-Z)",
+      "NAME_DESC": "Nome e-service (Z-A)",
+      "DAILY_CALLS_DESC": "Chiamate giornaliere approvate (decrescente)",
+      "DAILY_CALLS_ASC": "Chiamate giornaliere approvate (crescente)"
     }
   },
   "consumerEServiceCatalog": {
