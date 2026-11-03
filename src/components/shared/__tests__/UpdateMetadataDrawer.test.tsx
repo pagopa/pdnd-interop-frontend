@@ -23,12 +23,20 @@ const defaultProps = {
   nameField: {
     label: 'Template name',
     helperText: 'Name must be between 5 and 60 characters',
+    validation: { required: true, minLength: 5, maxLength: 60 },
   },
   descriptionField: {
     label: 'Template description',
     helperText: 'Description must be between 10 and 250 characters',
+    validation: { required: true, minLength: 10, maxLength: 250 },
   },
   onSubmit,
+}
+
+const defaultTargetField = {
+  label: 'Template audience',
+  helperText: 'Audience must be between 10 and 250 characters',
+  validation: { required: true, minLength: 10, maxLength: 250 },
 }
 
 const renderDrawer = (props: React.ComponentProps<typeof UpdateMetadataDrawer>) =>
@@ -67,10 +75,7 @@ describe('UpdateMetadataDrawer', () => {
   it('should render the optional audience field when enabled', () => {
     renderDrawer({
       ...defaultProps,
-      audienceField: {
-        label: 'Template audience',
-        helperText: 'Audience must be between 10 and 250 characters',
-      },
+      targetField: defaultTargetField,
     })
 
     expect(screen.getByRole('textbox', { name: 'Template audience' })).toBeInTheDocument()
@@ -89,13 +94,13 @@ describe('UpdateMetadataDrawer', () => {
     )
   })
 
-  it('should use the e-service description max length', () => {
+  it('should use the configured description max length', () => {
     renderDrawer({
       ...defaultProps,
-      isEService: true,
       descriptionField: {
         ...defaultProps.descriptionField,
         helperText: 'Add a detailed description. Min 10 characters, max 400 characters',
+        validation: { required: true, minLength: 10, maxLength: 400 },
       },
     })
 
@@ -128,10 +133,7 @@ describe('UpdateMetadataDrawer', () => {
     const user = userEvent.setup()
     renderDrawer({
       ...defaultProps,
-      audienceField: {
-        label: 'Template audience',
-        helperText: 'Audience must be between 10 and 250 characters',
-      },
+      targetField: defaultTargetField,
     })
 
     await user.type(screen.getByRole('textbox', { name: 'Template name' }), 'Updated template')
@@ -163,13 +165,108 @@ describe('UpdateMetadataDrawer', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
+  it.each([
+    { field: 'name', invalidValue: 'Four', correctedValue: 'Valid template' },
+    { field: 'description', invalidValue: 'Too short', correctedValue: 'Valid description' },
+    { field: 'audience', invalidValue: '', correctedValue: 'Public sector audience' },
+    { field: 'audience', invalidValue: 'Too short', correctedValue: 'Public sector audience' },
+  ] as const)(
+    'should block submission for invalid $field and allow correction',
+    async ({ field, invalidValue, correctedValue }) => {
+      const user = userEvent.setup()
+      renderDrawer({ ...defaultProps, targetField: defaultTargetField })
+
+      const inputs = {
+        name: screen.getByRole('textbox', { name: 'Template name' }),
+        description: screen.getByRole('textbox', { name: 'Template description' }),
+        audience: screen.getByRole('textbox', { name: 'Template audience' }),
+      }
+
+      await user.type(inputs.name, field === 'name' ? invalidValue : 'Valid template')
+      await user.type(
+        inputs.description,
+        field === 'description' ? invalidValue : 'Valid description'
+      )
+      if (field !== 'audience' || invalidValue) {
+        await user.type(
+          inputs.audience,
+          field === 'audience' ? invalidValue : 'Public sector audience'
+        )
+      }
+
+      await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(inputs[field]).toHaveAttribute('aria-invalid', 'true')
+
+      await user.clear(inputs[field])
+      await user.type(inputs[field], correctedValue)
+      await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith({
+          name: field === 'name' ? correctedValue : 'Valid template',
+          description: field === 'description' ? correctedValue : 'Valid description',
+          audience: field === 'audience' ? correctedValue : 'Public sector audience',
+        })
+      })
+    }
+  )
+
+  it.each(['name', 'description', 'audience'] as const)(
+    'should allow an empty optional %s field',
+    async (optionalField) => {
+      const user = userEvent.setup()
+      renderDrawer({
+        ...defaultProps,
+        nameField: {
+          ...defaultProps.nameField,
+          validation: { ...defaultProps.nameField.validation, required: optionalField !== 'name' },
+        },
+        descriptionField: {
+          ...defaultProps.descriptionField,
+          validation: {
+            ...defaultProps.descriptionField.validation,
+            required: optionalField !== 'description',
+          },
+        },
+        targetField: {
+          ...defaultTargetField,
+          validation: {
+            ...defaultTargetField.validation,
+            required: optionalField !== 'audience',
+          },
+        },
+      })
+
+      const values = {
+        name: optionalField === 'name' ? '' : 'Valid template',
+        description: optionalField === 'description' ? '' : 'Valid description',
+        audience: optionalField === 'audience' ? '' : 'Public sector audience',
+      }
+      const inputs = {
+        name: screen.getByRole('textbox', { name: 'Template name' }),
+        description: screen.getByRole('textbox', { name: 'Template description' }),
+        audience: screen.getByRole('textbox', { name: 'Template audience' }),
+      }
+
+      for (const field of ['name', 'description', 'audience'] as const) {
+        if (field !== optionalField) {
+          await user.type(inputs[field], values[field])
+        }
+      }
+      await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith(values)
+      })
+    }
+  )
+
   it('should initialize the fields from provided values', () => {
     renderDrawer({
       ...defaultProps,
-      audienceField: {
-        label: 'Template audience',
-        helperText: 'Audience must be between 10 and 250 characters',
-      },
+      targetField: defaultTargetField,
       initialValues: {
         name: 'Existing template',
         description: 'Existing template description',

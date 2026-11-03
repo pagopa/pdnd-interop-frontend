@@ -12,23 +12,32 @@ export type UpdateMetadataFormValues = {
   audience?: string
 }
 
-export type UpdateMetadataFieldConfig = {
+export type UpdateMetadataFieldProps = {
   label: string
   helperText: string
+  validation: {
+    required: boolean
+    minLength?: number
+    maxLength?: number
+  }
 }
 
 type UpdateMetadataDrawerProps = {
   isOpen: boolean
   title: string
   description: React.ReactNode
-  nameField: UpdateMetadataFieldConfig
-  descriptionField: UpdateMetadataFieldConfig
-  isEService?: boolean
-  audienceField?: UpdateMetadataFieldConfig
+  nameField: UpdateMetadataFieldProps
+  descriptionField: UpdateMetadataFieldProps
+  targetField?: UpdateMetadataFieldProps
   initialValues?: UpdateMetadataFormValues
   onClose: VoidFunction
   onSubmit: (values: UpdateMetadataFormValues) => void
 }
+
+const getValidationRules = (validation: UpdateMetadataFieldProps['validation']) => ({
+  ...validation,
+  required: validation.required || undefined,
+})
 
 export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
   isOpen,
@@ -36,15 +45,12 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
   description,
   nameField,
   descriptionField,
-  isEService,
-  audienceField,
+  targetField,
   initialValues,
   onClose,
   onSubmit,
 }) => {
   const { t: tCommon } = useTranslation('common')
-
-  const maxDescriptionLength = isEService ? 400 : 250
 
   const defaultValues: UpdateMetadataFormValues = {
     name: initialValues?.name ?? '',
@@ -66,7 +72,7 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
     onSubmit({
       name: values.name,
       description: values.description,
-      ...(audienceField ? { audience: values.audience } : {}),
+      ...(targetField ? { audience: values.audience } : {}),
     })
   }
 
@@ -94,28 +100,28 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
             label={nameField.label}
             helperText={nameField.helperText}
             focusOnMount
-            required
-            inputProps={{ maxLength: 60 }}
-            rules={{ required: true, minLength: 5, maxLength: 60 }}
+            required={nameField.validation.required}
+            inputProps={{ maxLength: nameField.validation.maxLength }}
+            rules={getValidationRules(nameField.validation)}
           />
           <RHFNewTextField
             name="description"
             label={descriptionField.label}
             helperText={descriptionField.helperText}
-            required
+            required={descriptionField.validation.required}
             multiline
-            inputProps={{ maxLength: maxDescriptionLength }}
-            rules={{ required: true, minLength: 10, maxLength: maxDescriptionLength }}
+            inputProps={{ maxLength: descriptionField.validation.maxLength }}
+            rules={getValidationRules(descriptionField.validation)}
           />
-          {audienceField && (
+          {targetField && (
             <RHFNewTextField
               name="audience"
-              label={audienceField.label}
-              helperText={audienceField.helperText}
-              required
+              label={targetField.label}
+              helperText={targetField.helperText}
+              required={targetField.validation.required}
               multiline
-              inputProps={{ maxLength: 250 }}
-              rules={{ required: true, minLength: 10, maxLength: 250 }}
+              inputProps={{ maxLength: targetField.validation.maxLength }}
+              rules={getValidationRules(targetField.validation)}
             />
           )}
         </Stack>
