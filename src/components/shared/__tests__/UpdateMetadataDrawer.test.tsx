@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
@@ -23,14 +23,11 @@ const defaultProps = {
   nameField: {
     label: 'Template name',
     helperText: 'Name must be between 5 and 60 characters',
-    validation: { required: true, minLength: 5, maxLength: 60 },
   },
   descriptionField: {
     label: 'Template description',
     helperText: 'Description must be between 10 and 250 characters',
-    validation: { required: true, minLength: 10, maxLength: 250 },
   },
-  showAudienceField: false as const,
   onSubmit,
 }
 
@@ -73,7 +70,6 @@ describe('UpdateMetadataDrawer', () => {
       audienceField: {
         label: 'Template audience',
         helperText: 'Audience must be between 10 and 250 characters',
-        validation: { required: true, minLength: 10, maxLength: 250 },
       },
     })
 
@@ -93,13 +89,13 @@ describe('UpdateMetadataDrawer', () => {
     )
   })
 
-  it('should use the configured description max length', () => {
+  it('should use the e-service description max length', () => {
     renderDrawer({
       ...defaultProps,
+      isEService: true,
       descriptionField: {
         ...defaultProps.descriptionField,
         helperText: 'Add a detailed description. Min 10 characters, max 400 characters',
-        validation: { required: true, minLength: 10, maxLength: 400 },
       },
     })
 
@@ -135,7 +131,6 @@ describe('UpdateMetadataDrawer', () => {
       audienceField: {
         label: 'Template audience',
         helperText: 'Audience must be between 10 and 250 characters',
-        validation: { required: true, minLength: 10, maxLength: 250 },
       },
     })
 
@@ -174,7 +169,6 @@ describe('UpdateMetadataDrawer', () => {
       audienceField: {
         label: 'Template audience',
         helperText: 'Audience must be between 10 and 250 characters',
-        validation: { required: true, minLength: 10, maxLength: 250 },
       },
       initialValues: {
         name: 'Existing template',
@@ -190,5 +184,60 @@ describe('UpdateMetadataDrawer', () => {
     expect(screen.getByRole('textbox', { name: 'Template audience' })).toHaveValue(
       'Public sector organizations'
     )
+  })
+
+  it('should restore initial values and clear validation errors after closing and reopening', async () => {
+    const user = userEvent.setup()
+    const initialValues = {
+      name: 'Existing template',
+      description: 'Existing template description',
+    }
+    const props = { ...defaultProps, initialValues }
+    const { rerender } = renderDrawer(props)
+    const nameField = screen.getByRole('textbox', { name: 'Template name' })
+    const descriptionField = screen.getByRole('textbox', { name: 'Template description' })
+
+    await user.clear(nameField)
+    await user.type(nameField, 'Discarded template')
+    await user.clear(descriptionField)
+    await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+    expect(descriptionField).toHaveAttribute('aria-invalid', 'true')
+
+    rerender(<UpdateMetadataDrawer {...props} isOpen={false} />)
+    await waitForElementToBeRemoved(descriptionField)
+
+    rerender(<UpdateMetadataDrawer {...props} isOpen />)
+
+    expect(screen.getByRole('textbox', { name: 'Template name' })).toHaveValue('Existing template')
+    expect(screen.getByRole('textbox', { name: 'Template description' })).toHaveValue(
+      'Existing template description'
+    )
+    expect(screen.getByRole('textbox', { name: 'Template description' })).toHaveAttribute(
+      'aria-invalid',
+      'false'
+    )
+  })
+
+  it('should reset fields when initial values change', async () => {
+    const initialValues = {
+      name: 'Existing template',
+      description: 'Existing template description',
+    }
+    const { rerender } = renderDrawer({ ...defaultProps, initialValues })
+
+    rerender(
+      <UpdateMetadataDrawer
+        {...defaultProps}
+        initialValues={{ name: 'Updated template', description: 'Updated template description' }}
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox', { name: 'Template name' })).toHaveValue('Updated template')
+      expect(screen.getByRole('textbox', { name: 'Template description' })).toHaveValue(
+        'Updated template description'
+      )
+    })
   })
 })

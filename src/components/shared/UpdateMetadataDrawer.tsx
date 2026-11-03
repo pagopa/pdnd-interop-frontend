@@ -12,23 +12,19 @@ export type UpdateMetadataFormValues = {
   audience?: string
 }
 
-export type UpdateMetadataFieldProps = {
+export type UpdateMetadataFieldConfig = {
   label: string
   helperText: string
-  validation: {
-    required: boolean
-    minLength?: number
-    maxLength?: number
-  }
 }
 
 type UpdateMetadataDrawerProps = {
   isOpen: boolean
   title: string
   description: React.ReactNode
-  nameField: UpdateMetadataFieldProps
-  descriptionField: UpdateMetadataFieldProps
-  audienceField?: UpdateMetadataFieldProps
+  nameField: UpdateMetadataFieldConfig
+  descriptionField: UpdateMetadataFieldConfig
+  isEService?: boolean
+  audienceField?: UpdateMetadataFieldConfig
   initialValues?: UpdateMetadataFormValues
   onClose: VoidFunction
   onSubmit: (values: UpdateMetadataFormValues) => void
@@ -40,12 +36,15 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
   description,
   nameField,
   descriptionField,
+  isEService,
   audienceField,
   initialValues,
   onClose,
   onSubmit,
 }) => {
   const { t: tCommon } = useTranslation('common')
+
+  const maxDescriptionLength = isEService ? 400 : 250
 
   const defaultValues: UpdateMetadataFormValues = {
     name: initialValues?.name ?? '',
@@ -89,39 +88,34 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
           color: isEmpty(formMethods.formState.errors) ? 'primary' : 'error',
         }}
       >
-        <Stack
-          component="form"
-          noValidate
-          spacing={6}
-          onSubmit={(event) => event.preventDefault()}
-        >
+        <Stack component="form" noValidate spacing={6} onSubmit={(event) => event.preventDefault()}>
           <RHFNewTextField
             name="name"
             label={nameField.label}
             helperText={nameField.helperText}
             focusOnMount
-            required={nameField.validation.required}
-            inputProps={{ maxLength: nameField.validation.maxLength }}
-            rules={nameField.validation}
+            required
+            inputProps={{ maxLength: 60 }}
+            rules={{ required: true, minLength: 5, maxLength: 60 }}
           />
           <RHFNewTextField
             name="description"
             label={descriptionField.label}
             helperText={descriptionField.helperText}
-            required={descriptionField.validation.required}
+            required
             multiline
-            inputProps={{ maxLength: descriptionField.validation.maxLength }}
-            rules={descriptionField.validation}
+            inputProps={{ maxLength: maxDescriptionLength }}
+            rules={{ required: true, minLength: 10, maxLength: maxDescriptionLength }}
           />
           {audienceField && (
             <RHFNewTextField
               name="audience"
               label={audienceField.label}
               helperText={audienceField.helperText}
-              required={audienceField.validation.required}
+              required
               multiline
-              inputProps={{ maxLength: audienceField.validation.maxLength }}
-              rules={audienceField.validation}
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10, maxLength: 250 }}
             />
           )}
         </Stack>
