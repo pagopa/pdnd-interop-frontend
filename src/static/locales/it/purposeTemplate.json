@@ -197,7 +197,39 @@
     "detailsTab": {
       "sections": {
         "generalInformation": {
-          "title": "Informazioni template",
+          "title": "Informazioni generali",
+          "nameAndDescription": {
+            "title": "Nome, descrizione e destinatari",
+            "edit": "Modifica",
+            "nameField": {
+              "label": "Nome della finalità"
+            },
+            "descriptionField": {
+              "label": "Descrizione della finalità"
+            },
+            "targetField": {
+              "label": "A chi è rivolto il template"
+            }
+          },
+          "specifications": {
+            "title": "Specifiche"
+          },
+          "updateMetadataDrawer": {
+            "title": "Modifica nome, descrizione e destinatari",
+            "description": "Qui puoi aggiornare il nome, la descrizione e i destinatari del template finalità.",
+            "nameField": {
+              "label": "Nome del template",
+              "helperText": "Min 5 caratteri, max 60 caratteri"
+            },
+            "descriptionField": {
+              "label": "Descrizione del template",
+              "helperText": "Min 10 caratteri, max 250 caratteri"
+            },
+            "targetField": {
+              "label": "A chi è rivolto il template",
+              "helperText": "Min 10 caratteri, max 250 caratteri"
+            }
+          },
           "producerName": "Realizzato da",
           "tenantKind": "Destinato a",
           "intendedTarget": "A chi è rivolto il template",
