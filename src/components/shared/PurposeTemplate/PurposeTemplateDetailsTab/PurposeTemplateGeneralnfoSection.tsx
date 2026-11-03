@@ -116,19 +116,34 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
           nameField={{
             label: t('updateMetadataDrawer.nameField.label'),
             helperText: t('updateMetadataDrawer.nameField.helperText'),
+            validation: {
+              required: true,
+              minLength: 5,
+              maxLength: 60,
+            },
           }}
           descriptionField={{
             label: t('updateMetadataDrawer.descriptionField.label'),
             helperText: t('updateMetadataDrawer.descriptionField.helperText'),
+            validation: {
+              required: true,
+              minLength: 10,
+              maxLength: 250,
+            },
           }}
-          audienceField={{
+          targetField={{
             label: t('updateMetadataDrawer.targetField.label'),
             helperText: t('updateMetadataDrawer.targetField.helperText'),
+            validation: {
+              required: true,
+              minLength: 5,
+              maxLength: 250,
+            },
           }}
           initialValues={{
             name: purposeTemplate.purposeTitle,
             description: purposeTemplate.purposeDescription,
-            audience: purposeTemplate.targetDescription,
+            target: purposeTemplate.targetDescription,
           }}
           onSubmit={() => null} /* TODO: Implement purpose template metadata update */
         />
