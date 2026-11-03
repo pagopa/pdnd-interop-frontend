@@ -30,7 +30,7 @@ import { DelegationSection } from '../sections/DelegationSection'
 import { SignalHubSection } from '../sections/SignalHubSection'
 import { EServiceTemplateDetailsSection } from '../sections/EServiceTemplateDetailsSection'
 import { InstanceLabelSection } from './InstanceLabelSection'
-import { usePageContainerFormDirtyState } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string

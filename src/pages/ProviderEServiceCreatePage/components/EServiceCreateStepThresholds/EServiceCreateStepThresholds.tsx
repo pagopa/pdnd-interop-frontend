@@ -28,7 +28,7 @@ import {
 import { EServiceThresholdSection } from '../sections/EServiceThresholdSection'
 import { EServiceAttributesSection } from '../sections/EServiceAttributesSection'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
-import { usePageContainerFormDirtyState } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 export type CreateStepThresholdsFormValues = {
   dailyCallsPerConsumer: number

@@ -1,10 +1,99 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
+import { within } from '@testing-library/react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { PageContainer, usePageContainerFormDirtyState } from '../PageContainer'
+import {
+  PageContainer,
+  usePageContainerFormDirtyState as legacyUsePageContainerFormDirtyState,
+} from '../PageContainer'
+import { usePageContainerFormDirtyState as barrelUsePageContainerFormDirtyState } from '..'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 describe('PageContainer', () => {
+  it('preserves the hook exports from PageContainer and the containers barrel', () => {
+    expect(legacyUsePageContainerFormDirtyState).toBe(usePageContainerFormDirtyState)
+    expect(barrelUsePageContainerFormDirtyState).toBe(usePageContainerFormDirtyState)
+  })
+
+  it('renders title and status chip on the left and actions on the right of the same header row', () => {
+    const action = vi.fn()
+    const screen = renderWithApplicationContext(
+      <PageContainer
+        title="Page title"
+        description="Page description"
+        statusChip={{ for: 'delegation', state: 'ACTIVE' }}
+        topSideActions={[
+          { action, label: 'First action' },
+          { action, label: 'Second action' },
+        ]}
+      >
+        Content
+      </PageContainer>,
+      { withRouterContext: true }
+    )
+
+    const header = screen.getByTestId('page-container-header')
+    const titleGroup = within(header).getByTestId('page-container-header-title')
+    const actions = within(header).getByTestId('page-container-header-actions')
+
+    expect(header.children).toHaveLength(2)
+    expect(header.firstElementChild).toBe(titleGroup)
+    expect(header.lastElementChild).toBe(actions)
+    expect(within(titleGroup).getByRole('heading', { level: 1, name: 'Page title' })).toBeVisible()
+    expect(within(titleGroup).getByText('status.delegation.ACTIVE')).toBeVisible()
+    expect(
+      within(actions)
+        .getAllByRole('button')
+        .map((button) => button.textContent)
+    ).toEqual(['First action', 'Second action'])
+
+    const description = screen.getByText('Page description')
+    expect(header).not.toContainElement(description)
+    expect(
+      header.compareDocumentPosition(description) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('renders a custom description node below the header row', () => {
+    const screen = renderWithApplicationContext(
+      <PageContainer
+        title="Page title"
+        description={<div data-testid="custom-description">Custom description</div>}
+        topSideActions={[{ action: vi.fn(), label: 'Action' }]}
+      >
+        Content
+      </PageContainer>,
+      { withRouterContext: true }
+    )
+
+    const header = screen.getByTestId('page-container-header')
+    const description = screen.getByTestId('custom-description')
+    expect(header).not.toContainElement(description)
+    expect(
+      header.compareDocumentPosition(description) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('hides the header and its actions while loading', () => {
+    const screen = renderWithApplicationContext(
+      <PageContainer
+        isLoading
+        title="Page title"
+        statusChip={{ for: 'delegation', state: 'ACTIVE' }}
+        topSideActions={[{ action: vi.fn(), label: 'Hidden action' }]}
+      >
+        Content
+      </PageContainer>,
+      { withRouterContext: true }
+    )
+
+    expect(screen.queryByTestId('page-container-header')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Hidden action' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Page title')).not.toBeInTheDocument()
+    expect(screen.getByText('Content')).toBeInTheDocument()
+  })
+
   it('honors externally controlled unsaved changes for programmatic form updates', async () => {
     const ControlledWizard = () => {
       const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)

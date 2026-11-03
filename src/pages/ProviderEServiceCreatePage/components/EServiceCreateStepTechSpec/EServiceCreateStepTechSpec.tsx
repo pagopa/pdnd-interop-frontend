@@ -27,7 +27,7 @@ import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeS
 import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
 import { AuthHooks } from '@/api/auth/auth.hooks'
 import { RestInterfaceDescription } from '@/components/shared/RestInterfaceDescription'
-import { usePageContainerFormDirtyState } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 type AsyncExchangePropertiesFormValues = {
   responseTime: number | ''

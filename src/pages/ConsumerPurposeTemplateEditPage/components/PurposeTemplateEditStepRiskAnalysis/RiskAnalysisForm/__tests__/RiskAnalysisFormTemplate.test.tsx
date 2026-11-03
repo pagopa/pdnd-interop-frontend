@@ -5,12 +5,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { useFormContext } from 'react-hook-form'
 import type * as RiskAnalysisFormHook from '@/hooks/useRiskAnalysisFormTemplate'
-import type * as LayoutContainers from '@/components/layout/containers'
+import type * as PageContainerFormDirtyStateHook from '@/hooks/usePageContainerFormDirtyState'
 import type * as ReactI18next from 'react-i18next'
 import { RiskAnalysisFormTemplate } from '../RiskAnalysisFormTemplate'
 import { useRiskAnalysisFormTemplate } from '@/hooks/useRiskAnalysisFormTemplate'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
-import { PageContainer, usePageContainerFormDirtyState } from '@/components/layout/containers'
+import { PageContainer } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 // --- mocks ---
@@ -18,8 +19,8 @@ vi.mock('@/hooks/useRiskAnalysisFormTemplate', () => ({
   useRiskAnalysisFormTemplate: vi.fn(),
 }))
 
-vi.mock('@/components/layout/containers', async (importOriginal) => {
-  const actual = await importOriginal<typeof LayoutContainers>()
+vi.mock('@/hooks/usePageContainerFormDirtyState', async (importOriginal) => {
+  const actual = await importOriginal<typeof PageContainerFormDirtyStateHook>()
   return {
     ...actual,
     usePageContainerFormDirtyState: vi.fn(),
@@ -314,14 +315,14 @@ describe('RiskAnalysisFormTemplate', () => {
     const actualFormHook = await vi.importActual<typeof RiskAnalysisFormHook>(
       '@/hooks/useRiskAnalysisFormTemplate'
     )
-    const actualContainerModule = await vi.importActual<typeof LayoutContainers>(
-      '@/components/layout/containers'
+    const actualDirtyStateHook = await vi.importActual<typeof PageContainerFormDirtyStateHook>(
+      '@/hooks/usePageContainerFormDirtyState'
     )
     vi.mocked(useRiskAnalysisFormTemplate).mockImplementation(
       actualFormHook.useRiskAnalysisFormTemplate
     )
     vi.mocked(usePageContainerFormDirtyState).mockImplementation(
-      actualContainerModule.usePageContainerFormDirtyState
+      actualDirtyStateHook.usePageContainerFormDirtyState
     )
     vi.mocked(RiskAnalysisFormComponents).mockImplementation(() => {
       const { setValue } = useFormContext()

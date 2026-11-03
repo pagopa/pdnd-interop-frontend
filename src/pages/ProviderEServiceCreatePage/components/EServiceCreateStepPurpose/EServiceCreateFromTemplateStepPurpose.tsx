@@ -9,7 +9,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
-import { usePageContainerFormDirtyState } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })

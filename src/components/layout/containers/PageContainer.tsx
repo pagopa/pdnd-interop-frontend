@@ -1,43 +1,12 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
-import isEqual from 'lodash/isEqual'
-import { useFormState, useWatch } from 'react-hook-form'
-import type { Control, FieldValues } from 'react-hook-form'
+import { PageContainerFormDirtyStateContext } from '@/hooks/usePageContainerFormDirtyState'
 import type { ActionItemButton } from '@/types/common.types'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { PageNavigation, type PageNavigationProps } from './PageNavigation'
 
-type PageContainerFormDirtyStateContextValue = {
-  updateOwner: (ownerId: string, stepKey: string | number | undefined, isDirty: boolean) => void
-  unregisterOwner: (ownerId: string) => void
-  stepKey: string | number | undefined
-}
-
-const PageContainerFormDirtyStateContext =
-  React.createContext<PageContainerFormDirtyStateContextValue>({
-    updateOwner: () => {},
-    unregisterOwner: () => {},
-    stepKey: undefined,
-  })
-
-export const usePageContainerFormDirtyState = <TFieldValues extends FieldValues>(
-  control: Control<TFieldValues>
-) => {
-  const { updateOwner, unregisterOwner, stepKey } = React.useContext(
-    PageContainerFormDirtyStateContext
-  )
-  const ownerId = React.useId()
-  const { isDirty, defaultValues } = useFormState({ control })
-  const values = useWatch({ control })
-  const hasUnsavedChanges = isDirty || !isEqual(values, defaultValues)
-
-  React.useEffect(() => {
-    updateOwner(ownerId, stepKey, hasUnsavedChanges)
-  }, [hasUnsavedChanges, ownerId, stepKey, updateOwner])
-
-  React.useEffect(() => () => unregisterOwner(ownerId), [ownerId, unregisterOwner])
-}
+export { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 type PageContainerActionsProps = {
   statusChip?: React.ComponentProps<typeof StatusChip>
@@ -117,8 +86,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
   return (
     <Box>
       <PageContainerNavigation navigation={navigation} />
-      {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
-      {!isLoading && <PageContainerActions {...props} />}
+      {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerHeader {...props} />}
       <PageContainerFormDirtyStateContext.Provider value={formDirtyState}>
         <Box
           sx={{ mt: 1 }}
@@ -146,19 +114,52 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   )
 }
 
-const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, description }) => {
+const PageContainerHeader: React.FC<PageContainerIntroProps & PageContainerActionsProps> = ({
+  title,
+  description,
+  statusChip,
+  topSideActions,
+}) => {
+  const hasTitleGroup = Boolean(title || statusChip)
+  const hasActions = Boolean(topSideActions && topSideActions.length > 0)
+
+  if (!hasTitleGroup && !hasActions && !description) return null
+
   return (
     <Box>
-      <Stack direction="row" alignItems="end" spacing={2}>
-        <Box sx={{ flex: 1 }}>
-          {title && (
-            <Typography component="h1" variant="h4">
-              {title}
-            </Typography>
+      {(hasTitleGroup || hasActions) && (
+        <Stack
+          data-testid="page-container-header"
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          columnGap={2}
+          rowGap={1}
+          sx={{ minHeight: 40 }}
+        >
+          {hasTitleGroup && (
+            <Stack
+              data-testid="page-container-header-title"
+              direction="row"
+              alignItems="center"
+              flexWrap="wrap"
+              columnGap={2}
+              rowGap={1}
+              sx={{ minWidth: 0 }}
+            >
+              {title && (
+                <Typography component="h1" variant="h4" sx={{ overflowWrap: 'anywhere' }}>
+                  {title}
+                </Typography>
+              )}
+              {statusChip && <StatusChip {...statusChip} />}
+            </Stack>
           )}
-          {description && <PageContainerSubtitle description={description} />}
-        </Box>
-      </Stack>
+          {hasActions && <PageContainerActions topSideActions={topSideActions} />}
+        </Stack>
+      )}
+      {description && <PageContainerSubtitle description={description} />}
     </Box>
   )
 }
@@ -180,47 +181,45 @@ const PageContainerNavigation: React.FC<PageContainerNavigationProps> = ({ navig
   <PageNavigation {...(navigation ?? {})} />
 )
 
-const PageContainerActions: React.FC<PageContainerActionsProps> = ({
-  statusChip,
+const PageContainerActions: React.FC<Pick<PageContainerActionsProps, 'topSideActions'>> = ({
   topSideActions,
 }) => {
-  if (!statusChip && !topSideActions) return null
+  if (!topSideActions || topSideActions.length === 0) return null
 
   return (
     <Stack
-      sx={{ mt: 1, minHeight: 40 }}
+      data-testid="page-container-header-actions"
       direction="row"
       alignItems="center"
-      justifyContent="space-between"
+      justifyContent="flex-end"
+      flexWrap="wrap"
+      gap={1}
+      sx={{ ml: 'auto' }}
     >
-      <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
-      <Stack direction="row" spacing={1}>
-        {topSideActions &&
-          topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
-            const Wrapper = tooltip
-              ? ({ children }: { children: React.ReactElement }) => (
-                  <Tooltip arrow title={tooltip}>
-                    <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
-                  </Tooltip>
-                )
-              : React.Fragment
-
-            return (
-              <Wrapper key={i}>
-                <Button
-                  onClick={action}
-                  variant="text"
-                  size="small"
-                  color={color}
-                  startIcon={Icon && <Icon />}
-                  {...props}
-                >
-                  {label}
-                </Button>
-              </Wrapper>
+      {topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+        const Wrapper = tooltip
+          ? ({ children }: { children: React.ReactElement }) => (
+              <Tooltip arrow title={tooltip}>
+                <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+              </Tooltip>
             )
-          })}
-      </Stack>
+          : React.Fragment
+
+        return (
+          <Wrapper key={i}>
+            <Button
+              onClick={action}
+              variant="text"
+              size="small"
+              color={color}
+              startIcon={Icon && <Icon />}
+              {...props}
+            >
+              {label}
+            </Button>
+          </Wrapper>
+        )
+      })}
     </Stack>
   )
 }
