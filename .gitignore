@@ -32,6 +32,11 @@ scripts/guide-crawl/output/
 # misc
 .DS_Store
 .env.local
+# Generated full-stack logs, selected identity, and local JWT
+.local-development/
+.pnpm-store/
+playwright-report/
+test-results/
 .env.development.local
 .env.development
 .env.test.local
