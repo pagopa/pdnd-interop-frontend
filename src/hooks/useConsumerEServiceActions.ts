@@ -17,7 +17,7 @@ export const useConsumerEServiceActions = () => {
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const navigate = useNavigate()
 
-  const { jwt, isReviewer } = AuthHooks.useJwt()
+  const { jwt, isReviewer, isAdmin } = AuthHooks.useJwt()
 
   const tenantId = jwt?.organizationId
 
@@ -69,7 +69,7 @@ export const useConsumerEServiceActions = () => {
 
   // TODO: check if this query get only the current user organization agreements or all the agreements for the current eService
 
-  const { data: agreements } = useQuery({
+  const { data: agreements, isFetching: isFetchingAgreements } = useQuery({
     ...AgreementQueries.getConsumerAgreementsList({
       limit: 50,
       offset: 0,
@@ -122,6 +122,19 @@ export const useConsumerEServiceActions = () => {
   })
 
   /*
+   * ACTIONS DATA: Actions that the current user organization can perform on the current eService
+   * */
+
+  const actions: Record<ConsumerActionsName, VoidFunction | undefined> = {
+    SUBSCRIBE: undefined,
+    UPGRADE: undefined,
+    EDIT: undefined,
+    INSPECT: undefined,
+  }
+
+  if (!isAdmin || !descriptor) return actions
+
+  /*
    * ATTRIBUTES OWNERSHIP DATA: Check if the current user organization owns all the attributes required by the current eService descriptor
    * */
 
@@ -129,7 +142,7 @@ export const useConsumerEServiceActions = () => {
   let hasAllVerifiedAttributes = false
   let hasAllDeclaredAttributes = false
 
-  if (descriptor && certified && verified && declared) {
+  if (certified && verified && declared) {
     // Check if the current user organization is the producer of the current eService descriptor, in that case it owns all the attributes required by the descriptor
     if (descriptor.eservice.isMine) {
       hasAllCertifiedAttributes = true
@@ -158,17 +171,6 @@ export const useConsumerEServiceActions = () => {
   }
 
   /*
-   * ACTIONS DATA: Actions that the current user organization can perform on the current eService
-   * */
-
-  const actions: Record<ConsumerActionsName, VoidFunction | undefined> = {
-    SUBSCRIBE: undefined,
-    UPGRADE: undefined,
-    EDIT: undefined,
-    INSPECT: undefined,
-  }
-
-  /*
    * UPGRADE ACTION: If the current user organization has an agreement in ACTIVE or SUSPENDED state that can be upgraded
    * */
 
@@ -189,7 +191,7 @@ export const useConsumerEServiceActions = () => {
 
   if (isSubscribed) {
     const inspect = () => {
-      const inspectableAgreements = descriptor?.eservice.agreements.filter(
+      const inspectableAgreements = descriptor.eservice.agreements.filter(
         (agreement) =>
           agreement.state === 'ACTIVE' ||
           agreement.state === 'SUSPENDED' ||
@@ -232,11 +234,9 @@ export const useConsumerEServiceActions = () => {
 
   // Check if the current user organization is a delegator for the current eService
   const isDelegator = delegations.length > 0
-  const editable = descriptor?.eservice.agreements.filter(
-    (agreement) => agreement.state === 'DRAFT'
-  )
+  const editable = descriptor.eservice.agreements.filter((agreement) => agreement.state === 'DRAFT')
 
-  if (descriptor && !isDelegator && editable && editable.length) {
+  if (!isDelegator && editable && editable.length) {
     const edit = () => {
       match(editable.length)
         .with(0, () => {})
@@ -298,30 +298,28 @@ export const useConsumerEServiceActions = () => {
   })
 
   // If the blocking list has been fetched, and there are eligible tenants, then the subscribe action can be performed
-  if (blocking && eligibles.length > 0) {
+  if (!isFetchingAgreements && eligibles.length > 0) {
     // Function to create the agreement draft or submit the agreement directly if the subscriber is the owner of the e-service or delegated by the owner
     let create: ({ delegationId }: { delegationId?: string }) => void = () => {}
 
-    if (descriptor) {
-      create = ({ delegationId }: { delegationId?: string }) => {
-        createAgreementDraft(
-          {
-            eserviceName: descriptor.eservice.name,
-            eserviceId: descriptor.eservice.id,
-            eserviceVersion: descriptor.version,
-            descriptorId: descriptor.id,
-            delegationId: delegationId,
+    create = ({ delegationId }: { delegationId?: string }) => {
+      createAgreementDraft(
+        {
+          eserviceName: descriptor.eservice.name,
+          eserviceId: descriptor.eservice.id,
+          eserviceVersion: descriptor.version,
+          descriptorId: descriptor.id,
+          delegationId: delegationId,
+        },
+        {
+          onSuccess({ id }) {
+            navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
           },
-          {
-            onSuccess({ id }) {
-              navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
-            },
-          }
-        )
-      }
+        }
+      )
     }
 
-    if (descriptor && descriptor.eservice.isMine) {
+    if (descriptor.eservice.isMine) {
       create = () => {
         submitToOwnEService(
           {
@@ -344,7 +342,6 @@ export const useConsumerEServiceActions = () => {
       (eligibles.length === 1 && eligibles[0].id !== jwt?.organizationId)
     ) {
       subscribe = () => {
-        if (!descriptor) return
         openDialog({
           type: 'selectAgreementConsumer',
           eservice: {
