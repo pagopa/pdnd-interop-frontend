@@ -1,23 +1,20 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 import { ConsumerPurposeDetailsGeneralInfoSection } from '../PurposeDetailsTab/ConsumerPurposeDetailsGeneralInfoSection'
 import { fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { type Purpose } from '@/api/api.generatedTypes'
 
 const purpose = createMockPurpose()
 
 const downloadSignedRiskAnalysisMock = vi.fn()
 
+mockUseJwt()
+
 vi.mock('@/api/purpose', () => ({
   PurposeDownloads: {
     useDownloadSignedRiskAnalysis: () => downloadSignedRiskAnalysisMock,
   },
-}))
-
-vi.mock('@/components/shared/UpdateNameDrawer', () => ({
-  UpdateNameDrawer: ({ isOpen }: { isOpen: boolean }) => (
-    <div data-testid="drawer">{isOpen ? 'Drawer is Open' : 'Drawer is Closed'}</div>
-  ),
 }))
 
 vi.mock('react-i18next', () => ({
@@ -251,21 +248,33 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should show the edit button and open the drawer when clicked', () => {
+  it('should show the metadata drawer with the purpose values when edit is clicked', async () => {
+    const user = userEvent.setup()
     const screen = renderWithApplicationContext(
       <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
       { withReactQueryContext: true, withRouterContext: true }
     )
 
-    expect(screen.getByTestId('drawer')).toHaveTextContent('Drawer is Closed')
-
-    const editButton = screen.getByText(
-      'purpose.consumerView.sections.generalInformations.nameAndDescription.edit'
+    await user.click(
+      screen.getByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+      })
     )
-    expect(editButton).toBeInTheDocument()
 
-    fireEvent.click(editButton)
-
-    expect(screen.getByTestId('drawer')).toHaveTextContent('Drawer is Open')
+    expect(
+      screen.getByText(
+        'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.title'
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('textbox', {
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
+      })
+    ).toHaveValue(purpose.title)
+    expect(
+      screen.getByRole('textbox', {
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.descriptionField.label',
+      })
+    ).toHaveValue(purpose.description)
   })
 })

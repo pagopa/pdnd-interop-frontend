@@ -502,14 +502,21 @@
     "sections": {
       "generalInformations": {
         "title": "General information",
+        "updateMetadataDrawer": {
+          "title": "Update name and description",
+          "description": "Here you can update the name and description of the purpose.",
+          "nameField": {
+            "label": "Purpose name",
+            "helperText": "Min 5 characters, max 60 characters"
+          },
+          "descriptionField": {
+            "label": "Purpose description",
+            "helperText": "Min 10 characters, max 250 characters"
+          }
+        },
         "nameAndDescription": {
           "title": "Name and description",
           "edit": "Edit",
-          "drawer": {
-            "title": "Edit purpose name",
-            "infoLabel": "Enter between 5 and 60 characters",
-            "sameValue": "Enter a name different from the current one"
-          },
           "nameField": {
             "label": "Purpose name"
           },

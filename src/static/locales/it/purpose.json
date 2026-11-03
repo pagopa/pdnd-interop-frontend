@@ -502,14 +502,21 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
+        "updateMetadataDrawer": {
+          "title": "Modifica nome e descrizione",
+          "description": "Qui puoi aggiornare il nome e la descrizione della finalità.",
+          "nameField": {
+            "label": "Nome della finalità",
+            "helperText": "Min 5 caratteri, max 60 caratteri"
+          },
+          "descriptionField": {
+            "label": "Descrizione della finalità",
+            "helperText": "Min 10 caratteri, max 250 caratteri"
+          }
+        },
         "nameAndDescription": {
           "title": "Nome e descrizione",
           "edit": "Modifica",
-          "drawer": {
-            "title": "Modifica nome della finalità",
-            "infoLabel": "Inserisci da 5 a 60 caratteri",
-            "sameValue": "Inserisci un nome diverso da quello attuale"
-          },
           "nameField": {
             "label": "Nome della finalità"
           },

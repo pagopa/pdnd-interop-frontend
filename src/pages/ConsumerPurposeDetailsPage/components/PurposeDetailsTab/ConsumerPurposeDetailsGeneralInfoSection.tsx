@@ -8,9 +8,10 @@ import LinkIcon from '@mui/icons-material/Link'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
+import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
 import { PurposeDownloads } from '@/api/purpose'
 import DownloadIcon from '@mui/icons-material/Download'
+import { AuthHooks } from '@/api/auth'
 
 type ConsumerPurposeDetailsGeneralInfoSectionProps = {
   purpose: Purpose
@@ -19,13 +20,14 @@ type ConsumerPurposeDetailsGeneralInfoSectionProps = {
 export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   ConsumerPurposeDetailsGeneralInfoSectionProps
 > = ({ purpose }) => {
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
   const { t } = useTranslation('purpose', {
     keyPrefix: 'consumerView.sections.generalInformations',
   })
 
+  const { isAdmin } = AuthHooks.useJwt()
   const generatePath = useGeneratePath()
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
-  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
 
   const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
 
@@ -77,13 +79,17 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           innerSection
           title={t('nameAndDescription.title')}
           titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-          topSideActions={[
-            {
-              action: openDrawer,
-              label: t('nameAndDescription.edit'),
-              icon: EditIcon,
-            },
-          ]}
+          topSideActions={
+            isAdmin
+              ? [
+                  {
+                    action: openDrawer,
+                    label: t('nameAndDescription.edit'),
+                    icon: EditIcon,
+                  },
+                ]
+              : undefined
+          }
         >
           <Stack spacing={2}>
             <InformationContainer
@@ -154,18 +160,21 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           </Stack>
         </SectionContainer>
       </Stack>
-      {/* @TODO - update drawer implementation */}
-      <UpdateNameDrawer
+      <UpdateMetadataDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        id={purpose.id}
-        name={purpose.title}
-        title={t('nameAndDescription.drawer.title')}
-        subtitle=""
-        label={t('nameAndDescription.nameField.label')}
-        infoLabel={t('nameAndDescription.drawer.infoLabel')}
-        validateLabel={t('nameAndDescription.drawer.sameValue')}
-        onSubmit={closeDrawer}
+        title={t('updateMetadataDrawer.title')}
+        description={t('updateMetadataDrawer.description')}
+        nameField={{
+          label: t('updateMetadataDrawer.nameField.label'),
+          helperText: t('updateMetadataDrawer.nameField.helperText'),
+        }}
+        descriptionField={{
+          label: t('updateMetadataDrawer.descriptionField.label'),
+          helperText: t('updateMetadataDrawer.descriptionField.helperText'),
+        }}
+        initialValues={{ name: purpose.title, description: purpose.description }}
+        onSubmit={() => null} /* TODO: Implement update metadata functionality */
       />
     </SectionContainer>
   )
