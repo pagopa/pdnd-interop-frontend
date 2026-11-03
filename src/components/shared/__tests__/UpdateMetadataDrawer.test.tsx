@@ -34,8 +34,8 @@ const defaultProps = {
 }
 
 const defaultTargetField = {
-  label: 'Template audience',
-  helperText: 'Audience must be between 10 and 250 characters',
+  label: 'Template target',
+  helperText: 'Target must be between 10 and 250 characters',
   validation: { required: true, minLength: 10, maxLength: 250 },
 }
 
@@ -56,7 +56,7 @@ describe('UpdateMetadataDrawer', () => {
     expect(screen.getByText('Update the template details.')).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Template name' })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Template description' })).toBeInTheDocument()
-    expect(screen.queryByRole('textbox', { name: 'Template audience' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('textbox', { name: 'Template target' })).not.toBeInTheDocument()
   })
 
   it('should render a link inside the description', () => {
@@ -72,13 +72,13 @@ describe('UpdateMetadataDrawer', () => {
     expect(screen.getByRole('link', { name: 'guide' })).toHaveAttribute('href', '/guide')
   })
 
-  it('should render the optional audience field when enabled', () => {
+  it('should render the optional target field when enabled', () => {
     renderDrawer({
       ...defaultProps,
       targetField: defaultTargetField,
     })
 
-    expect(screen.getByRole('textbox', { name: 'Template audience' })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Template target' })).toBeInTheDocument()
   })
 
   it('should apply the name and description length limits', () => {
@@ -110,7 +110,7 @@ describe('UpdateMetadataDrawer', () => {
     )
   })
 
-  it('should submit name and description without an audience when the field is disabled', async () => {
+  it('should submit name and description without a target when the field is disabled', async () => {
     const user = userEvent.setup()
     renderDrawer(defaultProps)
 
@@ -129,7 +129,7 @@ describe('UpdateMetadataDrawer', () => {
     })
   })
 
-  it('should submit audience when the field is enabled', async () => {
+  it('should submit target when the field is enabled', async () => {
     const user = userEvent.setup()
     renderDrawer({
       ...defaultProps,
@@ -142,7 +142,7 @@ describe('UpdateMetadataDrawer', () => {
       'Updated template description'
     )
     await user.type(
-      screen.getByRole('textbox', { name: 'Template audience' }),
+      screen.getByRole('textbox', { name: 'Template target' }),
       'Public sector organizations'
     )
     await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
@@ -151,7 +151,7 @@ describe('UpdateMetadataDrawer', () => {
       expect(onSubmit).toHaveBeenCalledWith({
         name: 'Updated template',
         description: 'Updated template description',
-        audience: 'Public sector organizations',
+        target: 'Public sector organizations',
       })
     })
   })
@@ -168,8 +168,8 @@ describe('UpdateMetadataDrawer', () => {
   it.each([
     { field: 'name', invalidValue: 'Four', correctedValue: 'Valid template' },
     { field: 'description', invalidValue: 'Too short', correctedValue: 'Valid description' },
-    { field: 'audience', invalidValue: '', correctedValue: 'Public sector audience' },
-    { field: 'audience', invalidValue: 'Too short', correctedValue: 'Public sector audience' },
+    { field: 'target', invalidValue: '', correctedValue: 'Public sector target' },
+    { field: 'target', invalidValue: 'Too short', correctedValue: 'Public sector target' },
   ] as const)(
     'should block submission for invalid $field and allow correction',
     async ({ field, invalidValue, correctedValue }) => {
@@ -179,7 +179,7 @@ describe('UpdateMetadataDrawer', () => {
       const inputs = {
         name: screen.getByRole('textbox', { name: 'Template name' }),
         description: screen.getByRole('textbox', { name: 'Template description' }),
-        audience: screen.getByRole('textbox', { name: 'Template audience' }),
+        target: screen.getByRole('textbox', { name: 'Template target' }),
       }
 
       await user.type(inputs.name, field === 'name' ? invalidValue : 'Valid template')
@@ -187,11 +187,8 @@ describe('UpdateMetadataDrawer', () => {
         inputs.description,
         field === 'description' ? invalidValue : 'Valid description'
       )
-      if (field !== 'audience' || invalidValue) {
-        await user.type(
-          inputs.audience,
-          field === 'audience' ? invalidValue : 'Public sector audience'
-        )
+      if (field !== 'target' || invalidValue) {
+        await user.type(inputs.target, field === 'target' ? invalidValue : 'Public sector target')
       }
 
       await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
@@ -207,13 +204,13 @@ describe('UpdateMetadataDrawer', () => {
         expect(onSubmit).toHaveBeenCalledWith({
           name: field === 'name' ? correctedValue : 'Valid template',
           description: field === 'description' ? correctedValue : 'Valid description',
-          audience: field === 'audience' ? correctedValue : 'Public sector audience',
+          target: field === 'target' ? correctedValue : 'Public sector target',
         })
       })
     }
   )
 
-  it.each(['name', 'description', 'audience'] as const)(
+  it.each(['name', 'description', 'target'] as const)(
     'should allow an empty optional %s field',
     async (optionalField) => {
       const user = userEvent.setup()
@@ -234,7 +231,7 @@ describe('UpdateMetadataDrawer', () => {
           ...defaultTargetField,
           validation: {
             ...defaultTargetField.validation,
-            required: optionalField !== 'audience',
+            required: optionalField !== 'target',
           },
         },
       })
@@ -242,15 +239,15 @@ describe('UpdateMetadataDrawer', () => {
       const values = {
         name: optionalField === 'name' ? '' : 'Valid template',
         description: optionalField === 'description' ? '' : 'Valid description',
-        audience: optionalField === 'audience' ? '' : 'Public sector audience',
+        target: optionalField === 'target' ? '' : 'Public sector target',
       }
       const inputs = {
         name: screen.getByRole('textbox', { name: 'Template name' }),
         description: screen.getByRole('textbox', { name: 'Template description' }),
-        audience: screen.getByRole('textbox', { name: 'Template audience' }),
+        target: screen.getByRole('textbox', { name: 'Template target' }),
       }
 
-      for (const field of ['name', 'description', 'audience'] as const) {
+      for (const field of ['name', 'description', 'target'] as const) {
         if (field !== optionalField) {
           await user.type(inputs[field], values[field])
         }
@@ -270,7 +267,7 @@ describe('UpdateMetadataDrawer', () => {
       initialValues: {
         name: 'Existing template',
         description: 'Existing template description',
-        audience: 'Public sector organizations',
+        target: 'Public sector organizations',
       },
     })
 
@@ -278,7 +275,7 @@ describe('UpdateMetadataDrawer', () => {
     expect(screen.getByRole('textbox', { name: 'Template description' })).toHaveValue(
       'Existing template description'
     )
-    expect(screen.getByRole('textbox', { name: 'Template audience' })).toHaveValue(
+    expect(screen.getByRole('textbox', { name: 'Template target' })).toHaveValue(
       'Public sector organizations'
     )
   })

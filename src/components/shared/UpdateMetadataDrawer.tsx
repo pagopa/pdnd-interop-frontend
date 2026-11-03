@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 export type UpdateMetadataFormValues = {
   name: string
   description: string
-  audience?: string
+  target?: string
 }
 
 export type UpdateMetadataFieldProps = {
@@ -55,7 +55,7 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
   const defaultValues: UpdateMetadataFormValues = {
     name: initialValues?.name ?? '',
     description: initialValues?.description ?? '',
-    audience: initialValues?.audience ?? '',
+    target: initialValues?.target ?? '',
   }
 
   const formMethods = useForm<UpdateMetadataFormValues>({ defaultValues })
@@ -64,15 +64,15 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
     formMethods.reset({
       name: initialValues?.name ?? '',
       description: initialValues?.description ?? '',
-      audience: initialValues?.audience ?? '',
+      target: initialValues?.target ?? '',
     })
-  }, [initialValues?.name, initialValues?.description, initialValues?.audience, formMethods])
+  }, [initialValues?.name, initialValues?.description, initialValues?.target, formMethods])
 
   const handleSubmit = (values: UpdateMetadataFormValues) => {
     onSubmit({
       name: values.name,
       description: values.description,
-      ...(targetField ? { audience: values.audience } : {}),
+      ...(targetField ? { target: values.target } : {}),
     })
   }
 
@@ -115,7 +115,7 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
           />
           {targetField && (
             <RHFNewTextField
-              name="audience"
+              name="target"
               label={targetField.label}
               helperText={targetField.helperText}
               required={targetField.validation.required}
