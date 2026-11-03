@@ -1,0 +1,2 @@
+# Local development scripts run in Linux, including WSL2 and the devcontainer.
+*.sh text eol=lf

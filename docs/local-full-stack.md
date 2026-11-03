@@ -8,7 +8,7 @@ operations dashboard is available at
 
 ## Prerequisites
 
-- Linux or macOS
+- Linux, macOS, or Windows with WSL2 (see the [Windows setup guide](local-full-stack-windows.md))
 - Docker Engine or Docker Desktop running on the host
 - VS Code with the Dev Containers extension
 - Git access to `https://github.com/pagopa/interop-be-monorepo.git`
@@ -59,6 +59,9 @@ of waiting for an HTTP timeout. A service exit also stops the other backend
 processes, so a failed runtime can be restarted as a whole.
 
 ## First start
+
+On Windows, complete the [WSL2 prerequisites and repository setup](local-full-stack-windows.md)
+first and open the workspace from the WSL terminal.
 
 1. Open `interop-pdnd-fullstack.code-workspace` in VS Code.
 2. Run **Dev Containers: Reopen in Container**.
@@ -213,8 +216,9 @@ appear; the individual browser tests keep their 60-second timeout.
   entries. Selecting a process in the services table applies the corresponding
   log filter. Use **Copia log filtrati** to copy the complete filtered result,
   including virtualized rows, for an issue or troubleshooting note.
-- Port `5173` is Vite's internal devcontainer port and is used only by health
-  checks. From the host browser always use port `3000`.
+- Port `5173` is Vite's internal devcontainer port, used by health checks and
+  the configured VS Code forward. From the host browser always use port `3000`
+  so login and HMR share the expected public origin.
 - After an unclean Docker shutdown, startup automatically removes a stale
   ZooKeeper `/brokers/ids/1` registration only when Kafka is not running. Kafka
   topics and persistent volumes are preserved.
