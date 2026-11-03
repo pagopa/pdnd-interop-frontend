@@ -1,7 +1,7 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { within } from '@testing-library/react'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   PageContainer,
@@ -304,5 +304,206 @@ describe('PageContainer', () => {
     await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
 
     expect(screen.getByRole('dialog', { name: 'exitDialog.title' })).toBeInTheDocument()
+  })
+
+  describe('registered form state vs DOM fallback', () => {
+    const exitDialog = { name: 'exitDialog.title' }
+
+    const RegisteredForm = ({
+      label = 'Registered field',
+      defaultValue = 'Original',
+    }: {
+      label?: string
+      defaultValue?: string
+    }) => {
+      const methods = useForm({ defaultValues: { value: defaultValue } })
+      usePageContainerFormDirtyState(methods.control)
+      const id = React.useId()
+
+      return (
+        <>
+          <label htmlFor={id}>{label}</label>
+          <input id={id} {...methods.register('value')} />
+          <button type="button" onClick={() => methods.reset()}>
+            Reset {label}
+          </button>
+        </>
+      )
+    }
+
+    const renderWizard = (children: React.ReactNode) =>
+      renderWithApplicationContext(
+        // Prevents the exit link from navigating so the prompt state can be asserted repeatedly
+        <div onClickCapture={(event) => event.preventDefault()}>
+          <PageContainer navigation={{ mode: 'wizard', exitAction: { to: 'DEFAULT' } }}>
+            {children}
+          </PageContainer>
+        </div>,
+        { withRouterContext: true, withDialogContext: true }
+      )
+
+    it('does not prompt after typing in a registered field and reverting to the original value', async () => {
+      const screen = renderWizard(<RegisteredForm />)
+      const field = screen.getByLabelText('Registered field')
+
+      await userEvent.type(field, ' changed')
+      await userEvent.clear(field)
+      await userEvent.type(field, 'Original')
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('does not prompt after typing in a registered field and resetting the form', async () => {
+      const screen = renderWizard(<RegisteredForm />)
+
+      await userEvent.type(screen.getByLabelText('Registered field'), ' changed')
+      await userEvent.click(screen.getByRole('button', { name: 'Reset Registered field' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('prompts while a registered field is dirty', async () => {
+      const screen = renderWizard(<RegisteredForm />)
+
+      await userEvent.type(screen.getByLabelText('Registered field'), ' changed')
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+    })
+
+    it('does not latch DOM dirty state for a Controller input without a name attribute', async () => {
+      const ControllerForm = () => {
+        const methods = useForm({ defaultValues: { value: 'Original' } })
+        usePageContainerFormDirtyState(methods.control)
+
+        return (
+          <Controller
+            control={methods.control}
+            name="value"
+            render={({ field: { value, onChange } }) => (
+              <>
+                <label htmlFor="controller-field">Controller field</label>
+                <input
+                  id="controller-field"
+                  value={value}
+                  onChange={(event) => onChange(event.target.value)}
+                />
+              </>
+            )}
+          />
+        )
+      }
+
+      const screen = renderWizard(<ControllerForm />)
+      const field = screen.getByLabelText('Controller field')
+
+      await userEvent.type(field, 'X')
+      await userEvent.type(field, '{backspace}')
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('uses registered form state instead of the DOM fallback when a form is registered', async () => {
+      const screen = renderWizard(
+        <>
+          <RegisteredForm />
+          <label htmlFor="unregistered-field">Unregistered field</label>
+          <input id="unregistered-field" name="value" />
+        </>
+      )
+
+      await userEvent.type(screen.getByLabelText('Unregistered field'), 'Unsaved')
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('keeps prompting when one owner is dirty and another owner reverts to clean', async () => {
+      const screen = renderWizard(
+        <>
+          <RegisteredForm label="First field" />
+          <RegisteredForm label="Second field" />
+        </>
+      )
+
+      await userEvent.type(screen.getByLabelText('First field'), ' changed')
+      await userEvent.type(screen.getByLabelText('Second field'), ' changed')
+      await userEvent.click(screen.getByRole('button', { name: 'Reset Second field' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+    })
+
+    it('stops prompting once every registered owner is clean again', async () => {
+      const screen = renderWizard(
+        <>
+          <RegisteredForm label="First field" />
+          <RegisteredForm label="Second field" />
+        </>
+      )
+
+      await userEvent.type(screen.getByLabelText('First field'), ' changed')
+      await userEvent.type(screen.getByLabelText('Second field'), ' changed')
+      await userEvent.click(screen.getByRole('button', { name: 'Reset First field' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Reset Second field' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('clears unregistered DOM changes and previous-step owners on step transitions', async () => {
+      const StepContent = ({ stepKey }: { stepKey: string }) =>
+        stepKey === 'first' ? (
+          <>
+            <RegisteredForm label="First step field" />
+            <label htmlFor="first-step-unregistered">First step unregistered</label>
+            <input id="first-step-unregistered" />
+          </>
+        ) : (
+          <RegisteredForm label="Second step field" />
+        )
+
+      const StepWizard = () => {
+        const [stepKey, setStepKey] = React.useState('first')
+
+        return (
+          <div onClickCapture={(event) => event.preventDefault()}>
+            <PageContainer navigation={{ mode: 'wizard', exitAction: { to: 'DEFAULT' }, stepKey }}>
+              <StepContent key={stepKey} stepKey={stepKey} />
+            </PageContainer>
+            <button type="button" onClick={() => setStepKey('second')}>
+              Next step
+            </button>
+          </div>
+        )
+      }
+
+      const screen = renderWithApplicationContext(<StepWizard />, {
+        withRouterContext: true,
+        withDialogContext: true,
+      })
+
+      await userEvent.type(screen.getByLabelText('First step field'), ' changed')
+      await userEvent.type(screen.getByLabelText('First step unregistered'), 'Unsaved')
+      await userEvent.click(screen.getByRole('button', { name: 'Next step' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+
+      const secondStepField = screen.getByLabelText('Second step field')
+      await userEvent.type(secondStepField, ' changed')
+      await userEvent.click(screen.getByRole('button', { name: 'Reset Second step field' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+
+      await userEvent.type(secondStepField, ' changed')
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+    })
   })
 })

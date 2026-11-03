@@ -10,7 +10,7 @@ import type {
   CompactUser,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
-import type { RouteKey } from '@/router'
+import type { NavigationTarget, RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -28,6 +28,7 @@ export type DialogDefaultProps = {
 
 export type DialogProps =
   | DialogBasicProps
+  | DialogNavigationProps
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogRejectAgreementProps
@@ -86,6 +87,15 @@ export type DialogBasicProps = DialogDefaultProps & {
   onCancel?: VoidFunction
   disabled?: boolean
   checkbox?: string
+}
+
+// Navigation confirmations cannot execute arbitrary (potentially mutating) callbacks.
+export type DialogNavigationProps = Pick<
+  DialogBasicProps,
+  'title' | 'description' | 'cancelLabel' | 'proceedLabel' | 'maxWidth'
+> & {
+  type: 'navigation'
+  destination: NavigationTarget
 }
 
 export type DialogRejectAgreementProps = {

@@ -259,8 +259,9 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     expect(screen.getByText('titleSummary')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
       'href',
-      expect.stringContaining('/analisi-del-rischio')
+      '/it/analisi-del-rischio'
     )
+    expect(screen.queryByRole('button', { name: 'actions.back' })).not.toBeInTheDocument()
     expect(screen.queryByTestId('breadcrumbs')).not.toBeInTheDocument()
   })
 
@@ -273,6 +274,7 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     })
 
     expect(screen.getByText('titleApproval')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'actions.back' })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'exitButton' })).not.toBeInTheDocument()
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })

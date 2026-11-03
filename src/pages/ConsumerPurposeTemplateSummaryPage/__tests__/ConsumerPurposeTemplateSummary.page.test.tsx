@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { PageNavigationProps } from '@/components/layout/containers/PageNavigation'
 
 const navigateMock = vi.fn()
 const publishDraftMock = vi.fn()
@@ -34,7 +35,7 @@ vi.mock('@/components/layout/containers', () => ({
     navigation,
   }: {
     children: React.ReactNode
-    navigation?: { mode?: string; exitAction?: { to: string } }
+    navigation?: PageNavigationProps
   }) => (
     <div
       data-testid="page-container"

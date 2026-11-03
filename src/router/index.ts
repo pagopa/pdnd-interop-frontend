@@ -15,4 +15,11 @@ export const { Link, Redirect, Breadcrumbs } = _routes.components
 
 export const { getParentRoutes } = _routes.utils
 export type RouteKey = _routes.RouteKey
+export type NavigationTarget = {
+  [K in RouteKey]: {
+    to: K
+    params?: ReturnType<typeof useParams<K>>
+    urlParams?: Record<string, string>
+  }
+}[RouteKey]
 export const routes = _routes.routes

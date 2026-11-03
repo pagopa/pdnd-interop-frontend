@@ -36,10 +36,14 @@ type PageContainerSkeletonProps = {
 }
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
+  // Registered react-hook-form owners are retained (clean or dirty) until they unregister,
+  // so their current state stays authoritative for the current step.
   const [formDirtyOwners, setFormDirtyOwners] = React.useState<
     Record<string, { stepKey: string | number | undefined; isDirty: boolean }>
   >({})
+  // DOM fallback is used only when the step has no registered forms.
   const [hasDomUnsavedChanges, setHasDomUnsavedChanges] = React.useState(false)
+  const isWizard = props.navigation?.mode === 'wizard'
   const wizardStepKey = props.navigation?.mode === 'wizard' ? props.navigation.stepKey : undefined
 
   React.useEffect(() => {
@@ -49,11 +53,8 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
   const updateOwner = React.useCallback(
     (ownerId: string, stepKey: string | number | undefined, isDirty: boolean) => {
       setFormDirtyOwners((owners) => {
-        if (!isDirty) {
-          if (!(ownerId in owners)) return owners
-          const { [ownerId]: _owner, ...remainingOwners } = owners
-          return remainingOwners
-        }
+        const owner = owners[ownerId]
+        if (owner && owner.stepKey === stepKey && owner.isDirty === isDirty) return owners
         return { ...owners, [ownerId]: { stepKey, isDirty } }
       })
     },
@@ -70,10 +71,17 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
     () => ({ updateOwner, unregisterOwner, stepKey: wizardStepKey }),
     [unregisterOwner, updateOwner, wizardStepKey]
   )
-  const hasFormUnsavedChanges = Object.values(formDirtyOwners).some(
-    (owner) => owner.stepKey === wizardStepKey && owner.isDirty
+  const currentStepOwners = Object.values(formDirtyOwners).filter(
+    (owner) => owner.stepKey === wizardStepKey
   )
-  const hasUnsavedChanges = hasDomUnsavedChanges || hasFormUnsavedChanges
+  const hasRegisteredForms = currentStepOwners.length > 0
+  const hasUnsavedChanges = hasRegisteredForms
+    ? currentStepOwners.some((owner) => owner.isDirty)
+    : hasDomUnsavedChanges
+
+  React.useEffect(() => {
+    if (hasRegisteredForms) setHasDomUnsavedChanges(false)
+  }, [hasRegisteredForms])
 
   const navigation =
     props.navigation?.mode === 'wizard'
@@ -91,7 +99,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
         <Box
           sx={{ mt: 1 }}
           onChangeCapture={
-            props.navigation?.mode === 'wizard' ? () => setHasDomUnsavedChanges(true) : undefined
+            isWizard && !hasRegisteredForms ? () => setHasDomUnsavedChanges(true) : undefined
           }
         >
           {children}

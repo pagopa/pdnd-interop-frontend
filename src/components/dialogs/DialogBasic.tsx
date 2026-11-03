@@ -11,11 +11,38 @@ import {
   Typography,
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
-import type { DialogBasicProps } from '@/types/dialog.types'
+import type { DialogBasicProps, DialogNavigationProps } from '@/types/dialog.types'
+import { useNavigate, type RouteKey } from '@/router'
 import { useDialog } from '@/stores'
 import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
-export const DialogBasic: React.FC<DialogBasicProps> = ({
+export const DialogBasic: React.FC<DialogBasicProps> = (props) => {
+  const disabled = useIsActionDisabledBySupport(props.disabled)
+  return <DialogConfirmation {...props} disabled={disabled} />
+}
+
+export const DialogNavigation: React.FC<DialogNavigationProps> = ({ destination, ...props }) => {
+  const navigate = useNavigate()
+  const handleProceed = () => {
+    const routeNavigate = navigate as (
+      routeKey: RouteKey,
+      options?: {
+        params?: Record<string, string>
+        urlParams?: Record<string, string>
+      }
+    ) => void
+    const navigateOptions = destination.urlParams ? { urlParams: destination.urlParams } : undefined
+    const routeConfig = destination.params
+      ? { ...navigateOptions, params: destination.params }
+      : navigateOptions
+
+    routeNavigate(destination.to, routeConfig)
+  }
+
+  return <DialogConfirmation {...props} onProceed={handleProceed} />
+}
+
+const DialogConfirmation: React.FC<Omit<DialogBasicProps, 'type'>> = ({
   title = 'Conferma azione',
   description,
   descriptionLink,
@@ -32,9 +59,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const [isCheckboxChecked, setIsCheckboxChecked] = React.useState<boolean>(false)
-  const isProceedDisabled = useIsActionDisabledBySupport(
-    disabled || (!!checkbox && !isCheckboxChecked)
-  )
+  const isProceedDisabled = disabled || (!!checkbox && !isCheckboxChecked)
 
   const handleCancel = () => {
     onCancel?.()

@@ -124,8 +124,10 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(screen.getByText('summary.title')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
       'href',
-      expect.stringContaining('/erogazione/e-service')
+      '/it/erogazione/e-service'
     )
+    expect(screen.queryByRole('button', { name: 'actions.back' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
   })
 
   it('renders 4 accordion sections in RECEIVE mode', () => {

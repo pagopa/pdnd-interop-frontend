@@ -1,21 +1,11 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { Stack } from '@mui/material'
-import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
-import type { useParams } from '@/router'
-import { Link, type RouteKey } from '@/router'
+import { Link, type NavigationTarget } from '@/router'
 import { useDialog } from '@/stores'
 import { Breadcrumbs } from '../Breadcrumbs'
 
-type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
-
-export type PageExitAction = {
-  [K in RouteKey]: {
-    to: K
-    params?: RouteParams<K>
-    urlParams?: Record<string, string>
-  }
-}[RouteKey]
+export type PageExitAction = NavigationTarget
 
 export type PageNavigationProps =
   | {
@@ -35,7 +25,6 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'pageNavigation',
   })
-  const navigate = useNavigate()
   const { openDialog } = useDialog()
 
   if (props.mode === 'wizard') {
@@ -49,26 +38,13 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
 
       event.preventDefault()
 
-      const routeNavigate = navigate as (
-        routeKey: RouteKey,
-        options?: {
-          params?: Record<string, string>
-          urlParams?: Record<string, string>
-        }
-      ) => void
-
-      const navigateOptions = exitAction.urlParams ? { urlParams: exitAction.urlParams } : undefined
-      const routeConfig = exitAction.params
-        ? { ...navigateOptions, params: exitAction.params }
-        : navigateOptions
-
       openDialog({
-        type: 'basic',
+        type: 'navigation',
         title: t('exitDialog.title'),
         description: t('exitDialog.description'),
         cancelLabel: t('exitDialog.cancelButton'),
         proceedLabel: t('exitDialog.confirmButton'),
-        onProceed: () => routeNavigate(exitAction.to, routeConfig),
+        destination: exitAction,
       })
     }
 
