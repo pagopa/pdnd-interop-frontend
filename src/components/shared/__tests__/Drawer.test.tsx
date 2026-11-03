@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
+import React from 'react'
 import { Drawer } from '../Drawer'
 import { beforeEach, vi } from 'vitest'
-import { ThemeProvider, Typography } from '@mui/material'
-import { theme } from '@pagopa/mui-italia'
+import { Typography } from '@mui/material'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
 import userEvent from '@testing-library/user-event'
 
@@ -13,11 +13,9 @@ describe('Drawer test', () => {
 
   it('Should not render when isOpen is false', () => {
     const { container } = render(
-      <ThemeProvider theme={theme}>
-        <Drawer isOpen={false} onClose={vi.fn()} title="test title">
-          <Typography>TEST CHILDREN</Typography>
-        </Drawer>
-      </ThemeProvider>
+      <Drawer isOpen={false} onClose={vi.fn()} title="test title">
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
     )
 
     expect(container).toBeEmptyDOMElement()
@@ -25,18 +23,16 @@ describe('Drawer test', () => {
 
   it('should disable the action button for support users', () => {
     render(
-      <ThemeProvider theme={theme}>
-        <SupportActionGuardProvider isSupport>
-          <Drawer
-            isOpen
-            onClose={vi.fn()}
-            title="test title"
-            buttonAction={{ label: 'Confirm', action: vi.fn() }}
-          >
-            <Typography>TEST CHILDREN</Typography>
-          </Drawer>
-        </SupportActionGuardProvider>
-      </ThemeProvider>
+      <SupportActionGuardProvider isSupport>
+        <Drawer
+          isOpen
+          onClose={vi.fn()}
+          title="test title"
+          buttonAction={{ label: 'Confirm', action: vi.fn() }}
+        >
+          <Typography>TEST CHILDREN</Typography>
+        </Drawer>
+      </SupportActionGuardProvider>
     )
 
     expect(screen.getByRole('button', { name: 'Confirm' })).toBeDisabled()
@@ -46,18 +42,16 @@ describe('Drawer test', () => {
     const user = userEvent.setup()
 
     render(
-      <ThemeProvider theme={theme}>
-        <SupportActionGuardProvider isSupport>
-          <Drawer
-            isOpen
-            onClose={vi.fn()}
-            title="test title"
-            buttonAction={{ label: 'Confirm', action: vi.fn() }}
-          >
-            <Typography>TEST CHILDREN</Typography>
-          </Drawer>
-        </SupportActionGuardProvider>
-      </ThemeProvider>
+      <SupportActionGuardProvider isSupport>
+        <Drawer
+          isOpen
+          onClose={vi.fn()}
+          title="test title"
+          buttonAction={{ label: 'Confirm', action: vi.fn() }}
+        >
+          <Typography>TEST CHILDREN</Typography>
+        </Drawer>
+      </SupportActionGuardProvider>
     )
 
     const confirmButton = screen.getByRole('button', { name: 'Confirm' })

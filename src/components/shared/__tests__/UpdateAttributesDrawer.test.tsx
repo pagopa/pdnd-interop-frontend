@@ -1,8 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
-import { ThemeProvider } from '@mui/material'
-import { theme } from '@pagopa/mui-italia'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
 import type { FormDescriptorAttribute } from '@/types/attribute.types'
 
@@ -87,10 +85,6 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
-const renderWithTheme = (ui: React.ReactElement) => {
-  return render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
-}
-
 describe('UpdateAttributesDrawer', () => {
   const defaultProps = {
     isOpen: true,
@@ -128,13 +122,13 @@ describe('UpdateAttributesDrawer', () => {
   })
 
   it('renders the drawer when isOpen is true', () => {
-    renderWithTheme(<UpdateAttributesDrawer {...defaultProps} />)
+    render(<UpdateAttributesDrawer {...defaultProps} />)
     expect(screen.getByText('title')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
   })
 
   it('renders all attribute containers', () => {
-    renderWithTheme(<UpdateAttributesDrawer {...defaultProps} />)
+    render(<UpdateAttributesDrawer {...defaultProps} />)
 
     const containers = screen.getAllByTestId('attribute-container')
     expect(containers).toHaveLength(2)
@@ -144,7 +138,7 @@ describe('UpdateAttributesDrawer', () => {
   })
 
   it('shows the add attribute button and opens autocomplete', () => {
-    renderWithTheme(<UpdateAttributesDrawer {...defaultProps} />)
+    render(<UpdateAttributesDrawer {...defaultProps} />)
     const addButton = screen.getAllByText('group.addAnotherBtn')
     expect(addButton[0]).toBeInTheDocument()
 
@@ -181,16 +175,14 @@ describe('UpdateAttributesDrawer', () => {
       },
       kind: 'ESERVICE' as const,
     }
-    renderWithTheme(<UpdateAttributesDrawer {...props} />)
+    render(<UpdateAttributesDrawer {...props} />)
     expect(screen.getByText('group.or')).toBeInTheDocument()
   })
 
   it('closes without calling updateEserviceTemplateAttributes when kind is ESERVICE_TEMPLATE and attributes are unchanged', () => {
     const onClose = vi.fn()
 
-    renderWithTheme(
-      <UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" onClose={onClose} />
-    )
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" onClose={onClose} />)
     fireEvent.click(screen.getByText('actions.saveEdits'))
 
     expect(useUpdateAttributes).not.toHaveBeenCalled()
@@ -200,7 +192,7 @@ describe('UpdateAttributesDrawer', () => {
   it('closes without calling updateEserviceAttributes when kind is ESERVICE and attributes are unchanged', () => {
     const onClose = vi.fn()
 
-    renderWithTheme(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE" onClose={onClose} />)
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE" onClose={onClose} />)
     fireEvent.click(screen.getByText('actions.saveEdits'))
 
     expect(useUpdateDescriptorAttributes).not.toHaveBeenCalled()
@@ -208,7 +200,7 @@ describe('UpdateAttributesDrawer', () => {
   })
 
   it('calls updateEserviceTemplateAttributes when kind is ESERVICE_TEMPLATE and attributes changed', () => {
-    renderWithTheme(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" />)
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" />)
 
     fireEvent.click(screen.getAllByText('group.addAnotherBtn')[0])
     fireEvent.click(screen.getByTestId('attribute-autocomplete'))
@@ -218,7 +210,7 @@ describe('UpdateAttributesDrawer', () => {
   })
 
   it('calls updateEserviceAttributes when kind is ESERVICE and attributes changed', () => {
-    renderWithTheme(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE" />)
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE" />)
 
     fireEvent.click(screen.getAllByText('group.addAnotherBtn')[0])
     fireEvent.click(screen.getByTestId('attribute-autocomplete'))

@@ -6,14 +6,8 @@ import {
 import React from 'react'
 import { mockDebugVoucherContext } from './test.commons'
 import { fireEvent, render } from '@testing-library/react'
-import { ThemeProvider } from '@mui/material'
-import { theme } from '@pagopa/mui-italia'
 import DebugVoucherStepDrawer from '../DebugVoucherStepDrawer'
 import { vi } from 'vitest'
-
-const renderWithTheme = (ui: React.ReactElement) => {
-  return render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
-}
 
 describe('DebugVoucherStepDrawer testing', () => {
   it('should render correctly', () => {
@@ -25,7 +19,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       },
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(screen.queryByText('stepDrawer.stepResultLabel')).toBeInTheDocument()
 
@@ -45,7 +39,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       setDebugVoucherStepDrawer: setDebugVoucherStepDrawerMockFn,
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     const closeDrawerButton = screen.getByLabelText('closeIconAriaLabel')
 
@@ -64,7 +58,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(screen.queryByRole('button', { name: 'stepDrawer.nextStepBtn' })).not.toBeInTheDocument()
   })
@@ -100,7 +94,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(screen.queryByRole('button', { name: 'stepDrawer.nextStepBtn' })).not.toBeInTheDocument()
   })
@@ -141,7 +135,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(
       screen.getByText('stepDrawer.title.clientAssertionSignatureVerification')
@@ -160,7 +154,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(screen.getByText('stepDrawer.title.clientAssertionValidation')).toBeInTheDocument()
 
@@ -198,7 +192,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(screen.getByText('stepDrawer.title.publicKeyRetrieve')).toBeInTheDocument()
 
@@ -241,7 +235,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: vi.fn(),
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     expect(screen.getByText('stepDrawer.title.clientAssertionValidation')).toBeInTheDocument()
 
@@ -259,7 +253,7 @@ describe('DebugVoucherStepDrawer testing', () => {
       goToNextStep: goToNextStepMockFn,
     })
 
-    const screen = renderWithTheme(<DebugVoucherStepDrawer />)
+    const screen = render(<DebugVoucherStepDrawer />)
 
     const nextStepButton = screen.getByRole('button', { name: 'stepDrawer.nextStepBtn' })
 
