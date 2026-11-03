@@ -12,6 +12,7 @@ import { SummaryInformationContainer } from '@/components/shared/SummaryInformat
 
 export const ProviderEServiceVersionInfoSummarySection: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.versionInfoSummary' })
+  const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
 
@@ -47,6 +48,9 @@ export const ProviderEServiceVersionInfoSummarySection: React.FC = () => {
               component="button"
               startIcon={<AttachFileIcon fontSize="small" />}
               onClick={handleDownloadDocument.bind(null, doc)}
+              aria-label={tCommon('ariaLabels.downloadDocument', {
+                name: doc.prettyName,
+              })}
             >
               {doc.prettyName}
             </IconLink>
