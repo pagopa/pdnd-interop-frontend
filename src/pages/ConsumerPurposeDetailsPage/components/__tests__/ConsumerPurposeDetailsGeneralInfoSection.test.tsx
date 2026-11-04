@@ -51,6 +51,10 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 })
 
 describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
+  beforeEach(() => {
+    mockUseJwt()
+  })
+
   it('should render correctly', () => {
     const screen = renderWithApplicationContext(
       <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
@@ -248,6 +252,22 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should keep metadata visible without an edit action for non-admin users', () => {
+    mockUseJwt({ isAdmin: false })
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(
+      screen.queryByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+      })
+    ).not.toBeInTheDocument()
+    expect(screen.getByText(purpose.title)).toBeVisible()
+    expect(screen.getByText(purpose.description)).toBeVisible()
+  })
+
   it('should show the metadata drawer with the purpose values when edit is clicked', async () => {
     const user = userEvent.setup()
     const screen = renderWithApplicationContext(
@@ -263,17 +283,17 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
     expect(
       screen.getByText(
-        'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.title'
+        'purpose.consumerView.sections.generalInformations.purposeUpdateMetadataDrawer.title'
       )
     ).toBeInTheDocument()
     expect(
       screen.getByRole('textbox', {
-        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
+        name: 'purpose.consumerView.sections.generalInformations.purposeUpdateMetadataDrawer.nameField.label',
       })
     ).toHaveValue(purpose.title)
     expect(
       screen.getByRole('textbox', {
-        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.descriptionField.label',
+        name: 'purpose.consumerView.sections.generalInformations.purposeUpdateMetadataDrawer.descriptionField.label',
       })
     ).toHaveValue(purpose.description)
   })

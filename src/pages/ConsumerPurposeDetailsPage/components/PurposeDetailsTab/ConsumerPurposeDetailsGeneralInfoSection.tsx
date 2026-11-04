@@ -163,11 +163,11 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
       <UpdateMetadataDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        title={t('updateMetadataDrawer.title')}
-        description={t('updateMetadataDrawer.description')}
+        title={t('purposeUpdateMetadataDrawer.title')}
+        description={t('purposeUpdateMetadataDrawer.description')}
         nameField={{
-          label: t('updateMetadataDrawer.nameField.label'),
-          helperText: t('updateMetadataDrawer.nameField.helperText'),
+          label: t('purposeUpdateMetadataDrawer.nameField.label'),
+          helperText: t('purposeUpdateMetadataDrawer.nameField.helperText'),
           validation: {
             required: true,
             minLength: 5,
@@ -175,8 +175,8 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           },
         }}
         descriptionField={{
-          label: t('updateMetadataDrawer.descriptionField.label'),
-          helperText: t('updateMetadataDrawer.descriptionField.helperText'),
+          label: t('purposeUpdateMetadataDrawer.descriptionField.label'),
+          helperText: t('purposeUpdateMetadataDrawer.descriptionField.helperText'),
           validation: {
             required: true,
             minLength: 10,
