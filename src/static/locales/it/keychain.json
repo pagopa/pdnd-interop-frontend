@@ -41,6 +41,18 @@
     "backToKeychainsListLabel": "Torna ai tuoi portachiavi",
     "backToMemberListLabel": "Torna alla lista membri"
   },
+  "updateMetadataDrawer": {
+    "title": "Modifica nome e descrizione",
+    "description": "Qui puoi aggiornare il nome e la descrizione del portachiavi.",
+    "nameField": {
+      "label": "Nome del portachiavi",
+      "helperText": "Min 5 caratteri, max 60 caratteri"
+    },
+    "descriptionField": {
+      "label": "Descrizione del portachiavi",
+      "helperText": "Min 10 caratteri, max 250 caratteri"
+    }
+  },
   "tabs": {
     "ariaLabel": "Due tab diverse per i membri del portachiavi e le chiavi pubbliche",
     "members": "Membri del portachiavi",
