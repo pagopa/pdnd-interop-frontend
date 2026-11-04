@@ -1,8 +1,9 @@
 import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import { UpdateMetadataDrawer, type UpdateMetadataFormValues } from '../UpdateMetadataDrawer'
+import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
 
 mockUseJwt()
 
@@ -127,6 +128,42 @@ describe('UpdateMetadataDrawer', () => {
         description: 'Updated template description',
       })
     })
+  })
+
+  it('should disable Save for support users with valid values and explain the restriction', async () => {
+    const user = userEvent.setup({ pointerEventsCheck: PointerEventsCheckLevel.Never })
+    renderWithApplicationContext(
+      <SupportActionGuardProvider isSupport>
+        <UpdateMetadataDrawer
+          {...defaultProps}
+          initialValues={{
+            name: 'Existing template',
+            description: 'Existing template description',
+          }}
+        />
+      </SupportActionGuardProvider>,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByRole('textbox', { name: 'Template name' })).toHaveValue('Existing template')
+    expect(screen.getByRole('textbox', { name: 'Template description' })).toHaveValue(
+      'Existing template description'
+    )
+    const saveButton = screen.getByRole('button', { name: 'common.actions.saveEdits' })
+    expect(saveButton).toBeDisabled()
+
+    await user.click(saveButton)
+    expect(onSubmit).not.toHaveBeenCalled()
+
+    await user.click(screen.getByRole('textbox', { name: 'Template name' }))
+    await user.tab()
+    await user.tab()
+    expect(screen.getByLabelText('shared-components.drawer.supportDisableInfo')).toHaveFocus()
+    expect(await screen.findByRole('tooltip')).toHaveTextContent(
+      'shared-components.drawer.supportDisableInfo'
+    )
+    await user.keyboard('{Enter}')
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 
   it('should submit target when the field is enabled', async () => {

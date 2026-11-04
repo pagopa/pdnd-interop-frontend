@@ -1,11 +1,12 @@
 import { RHFNewTextField } from '@/components/shared/react-hook-form-inputs'
-import { Stack } from '@mui/material'
+import { Stack, Tooltip } from '@mui/material'
 import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { TempNextDrawer } from './TempNextDrawer'
 import { MIButton } from '@pagopa/mui-italia'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 export type UpdateMetadataFormValues = {
   name: string
@@ -52,6 +53,8 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
   onSubmit,
 }) => {
   const { t: tCommon } = useTranslation('common')
+  const { t: tDrawer } = useTranslation('shared-components', { keyPrefix: 'drawer' })
+  const isSaveDisabled = useIsActionDisabledBySupport()
 
   const defaultValues: UpdateMetadataFormValues = {
     name: initialValues?.name ?? '',
@@ -90,13 +93,22 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
         title={title}
         subtitle={description}
         footerActions={[
-          <MIButton
+          <Tooltip
             key="saveEdits"
-            onClick={formMethods.handleSubmit(handleSubmit)}
-            color={isEmpty(formMethods.formState.errors) ? 'primary' : 'error'}
+            arrow
+            title={isSaveDisabled ? tDrawer('supportDisableInfo') : undefined}
           >
-            {tCommon('actions.saveEdits')}
-          </MIButton>,
+            <span tabIndex={isSaveDisabled ? 0 : undefined}>
+              <MIButton
+                disabled={isSaveDisabled}
+                type="button"
+                onClick={formMethods.handleSubmit(handleSubmit)}
+                color={isEmpty(formMethods.formState.errors) ? 'primary' : 'error'}
+              >
+                {tCommon('actions.saveEdits')}
+              </MIButton>
+            </span>
+          </Tooltip>,
         ]}
       >
         <Stack component="form" noValidate spacing={6} onSubmit={(event) => event.preventDefault()}>
