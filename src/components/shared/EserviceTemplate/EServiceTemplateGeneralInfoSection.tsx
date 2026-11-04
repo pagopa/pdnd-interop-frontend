@@ -195,7 +195,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                     <Typography variant="body2">
                       <Trans
                         components={{
-                          1: <Link href={eserviceNamingBestPracticeLink} target="_blank" />,
+                          1: (
+                            <Link
+                              href={eserviceNamingBestPracticeLink}
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            />
+                          ),
                         }}
                       >
                         {t('updateMetadataDrawer.description')}
