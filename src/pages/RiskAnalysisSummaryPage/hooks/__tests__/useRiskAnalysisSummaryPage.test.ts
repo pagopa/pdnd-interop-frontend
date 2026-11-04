@@ -23,7 +23,7 @@ vi.mock('@tanstack/react-query', async () => {
 
   return {
     ...actual,
-    useQuery: () => useQueryMock(),
+    useQuery: () => ({ isFetchedAfterMount: true, isSuccess: true, ...useQueryMock() }),
     queryOptions: actual.queryOptions,
   }
 })

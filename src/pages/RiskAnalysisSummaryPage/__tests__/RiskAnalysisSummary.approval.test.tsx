@@ -113,6 +113,28 @@ function renderPage() {
 }
 
 describe('approval from the risk analysis summary', () => {
+  it('uses the first refetch when opening a summary with an older cached version', async () => {
+    const user = userEvent.setup()
+    queryClient.setQueryData(PurposeQueries.getSingle(purpose.id).queryKey, {
+      ...purpose,
+      metadataVersion,
+    })
+    overwriteAnalysis()
+    renderPage()
+
+    await user.click(await screen.findByRole('button', { name: '2 riskAnalysisSection.title' }))
+    expect(await screen.findByText('Reviewer B answer')).toBeVisible()
+    expect(screen.queryByText('Reviewer A answer')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'approveBtn' }))
+    await user.click(
+      within(screen.getByRole('dialog')).getByRole('button', { name: 'actions.confirm' })
+    )
+    await waitFor(() =>
+      expect(signRequest).toHaveBeenCalledExactlyOnceWith({ metadataVersionToSign: 4 })
+    )
+  })
+
   it('still redirects an assigned reviewer when a background update reports the analysis as signed', async () => {
     renderPage()
     expect(await screen.findByText('Reviewed purpose title')).toBeVisible()

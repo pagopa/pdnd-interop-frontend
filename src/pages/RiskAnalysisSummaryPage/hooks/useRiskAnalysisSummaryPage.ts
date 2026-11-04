@@ -27,8 +27,11 @@ export function useRiskAnalysisSummaryPage() {
     data: purpose,
     isLoading,
     isFetching,
+    isFetchedAfterMount,
+    isSuccess,
   } = useQuery({
     ...PurposeQueries.getSingle(purposeId),
+    refetchOnMount: 'always',
     refetchInterval: pendingReview ? 1000 : false,
   })
   const isSavedFormAvailable =
@@ -38,7 +41,10 @@ export function useRiskAnalysisSummaryPage() {
     purpose.metadataVersion > pendingReview.previousMetadataVersion &&
     purpose.riskAnalysisForm?.version === pendingReview.riskAnalysisForm.version &&
     isEqual(purpose.riskAnalysisForm?.answers, pendingReview.riskAnalysisForm.answers)
-  const candidatePurpose = !pendingReview || isSavedFormAvailable ? purpose : undefined
+  const candidatePurpose =
+    isSuccess && isFetchedAfterMount && !isFetching && (!pendingReview || isSavedFormAvailable)
+      ? purpose
+      : undefined
   const [review, setReview] = useState<{
     purposeId: string
     purpose: ReviewedPurpose | undefined
@@ -137,7 +143,7 @@ export function useRiskAnalysisSummaryPage() {
     purpose,
     reviewedPurpose,
     isPurposeLoading: isLoading,
-    isLoading: isLoading || (!!pendingReview && !reviewedPurpose),
+    isLoading: isLoading || (!reviewedPurpose && (isFetching || !!pendingReview)),
     isFetching,
     isEserviceDeliverMode,
     expirationDate,
