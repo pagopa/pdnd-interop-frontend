@@ -17,7 +17,8 @@ export const PageContainerFormDirtyStateContext =
   })
 
 export const usePageContainerFormDirtyState = <TFieldValues extends FieldValues>(
-  control: Control<TFieldValues>
+  control: Control<TFieldValues>,
+  enabled = true
 ) => {
   const { updateOwner, unregisterOwner, stepKey } = React.useContext(
     PageContainerFormDirtyStateContext
@@ -28,8 +29,12 @@ export const usePageContainerFormDirtyState = <TFieldValues extends FieldValues>
   const hasUnsavedChanges = isDirty || !isEqual(values, defaultValues)
 
   React.useEffect(() => {
-    updateOwner(ownerId, stepKey, hasUnsavedChanges)
-  }, [hasUnsavedChanges, ownerId, stepKey, updateOwner])
+    if (enabled) {
+      updateOwner(ownerId, stepKey, hasUnsavedChanges)
+    } else {
+      unregisterOwner(ownerId)
+    }
+  }, [enabled, hasUnsavedChanges, ownerId, stepKey, unregisterOwner, updateOwner])
 
   React.useEffect(() => () => unregisterOwner(ownerId), [ownerId, unregisterOwner])
 }
