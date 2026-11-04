@@ -1,8 +1,7 @@
 import React from 'react'
-import { Alert, Snackbar, Stack, TextField, Typography } from '@mui/material'
 import { useToastNotification, useToastNotificationStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
-import { CopyToClipboardButton } from '@pagopa/mui-italia'
+import { MISnackbar } from '@pagopa/mui-italia'
 
 const _ToastNotification: React.FC = () => {
   const { hideToast } = useToastNotification()
@@ -12,50 +11,31 @@ const _ToastNotification: React.FC = () => {
   const correlationId = useToastNotificationStore((state) => state.correlationId)
   const { t } = useTranslation('error')
 
-  const id = React.useId()
+  const snackbarProps = {
+    open: isShown,
+    anchorOrigin: { vertical: 'bottom' as const, horizontal: 'right' as const },
+    onClose: hideToast,
+  }
 
-  const correlationIdSection = (
-    <>
-      <Typography variant="inherit" sx={{ mb: 2.5, mt: 1 }}>
-        {t('axiosError.correlationIdText')}
-      </Typography>
-      <TextField
-        size="small"
-        id="outlined-read-only-input"
-        label="Identificativo"
-        defaultValue={correlationId}
-        InputProps={{
-          readOnly: true,
-          endAdornment: (
-            <CopyToClipboardButton
-              value={correlationId!}
-              tooltipTitle={t('axiosError.tooltipTitle')}
-            />
-          ),
-        }}
+  if (severity === 'error' && correlationId) {
+    return (
+      <MISnackbar
+        {...snackbarProps}
+        severity="error"
+        title={message as string}
+        description={t('axiosError.correlationIdText')}
+        errorCode={correlationId}
+        errorCodeAriaLabel="Identificativo"
       />
-    </>
-  )
+    )
+  }
 
   return (
-    <Snackbar
-      open={isShown}
-      autoHideDuration={5000}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      sx={{ maxWidth: 505 }}
-      onClose={hideToast}
-    >
-      <Alert aria-labelledby={id} severity={severity} variant="outlined">
-        <Stack justifyContent="center" alignItems="center" spacing={2}>
-          <Typography fontWeight={400} variant="inherit">
-            <span id={id}>
-              {message}
-              {correlationId && correlationIdSection}
-            </span>
-          </Typography>
-        </Stack>
-      </Alert>
-    </Snackbar>
+    <MISnackbar
+      {...snackbarProps}
+      severity={severity ?? 'success'}
+      description={message as string}
+    />
   )
 }
 
