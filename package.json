@@ -99,7 +99,7 @@
     "swagger-typescript-api": "13.12.2",
     "typescript": "5.9.3",
     "validate-branch-name": "1.3.2",
-    "vite": "6.4.4",
+    "vite": "6.4.5",
     "vitest": "4.1.11"
   },
   "validate-branch-name": {
