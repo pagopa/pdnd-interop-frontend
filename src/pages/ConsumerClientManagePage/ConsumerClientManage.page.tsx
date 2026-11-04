@@ -4,7 +4,7 @@ import { useParams, useNavigate } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Button, Grid, Stack, Tab } from '@mui/material'
+import { Button, Grid, Stack, Tab, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
@@ -17,9 +17,12 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
-import type { ActionItemButton } from '@/types/common.types'
+import type { ActionItem } from '@/types/common.types'
 import { useSearchParams } from 'react-router-dom'
 import { AuthHooks } from '@/api/auth'
+import EditIcon from '@mui/icons-material/Edit'
+import { ActionMenu } from '@/components/shared/ActionMenu'
+import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -39,6 +42,11 @@ const ConsumerClientManagePage: React.FC = () => {
   useMarkNotificationsAsRead(clientId)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+  const {
+    isOpen: isMetadataDrawerOpen,
+    openDrawer: openMetadataDrawer,
+    closeDrawer: closeMetadataDrawer,
+  } = useDrawerState()
   const { mutate: removeClientAdmin } = ClientMutations.useRemoveClientAdmin()
 
   const handleRemoveClientAdmin = () => {
@@ -50,21 +58,43 @@ const ConsumerClientManagePage: React.FC = () => {
     })
   }
 
-  const voucherSimulationAction: ActionItemButton = {
-    action: () =>
-      navigate(
-        clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER',
-        { urlParams: { clientId, ...(purposeId ? { purposeId } : {}) } }
-      ),
-    label: tCommon('simulateVoucher'),
-    variant: 'contained',
-  }
+  const handleVoucherSimulation = () =>
+    navigate(clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER', {
+      urlParams: { clientId, ...(purposeId ? { purposeId } : {}) },
+    })
+
+  const menuActions: ActionItem[] =
+    isAdmin && client
+      ? [
+          ...actions,
+          {
+            label: t('updateMetadataDrawer.title'),
+            action: openMetadataDrawer,
+            icon: EditIcon,
+          },
+        ]
+      : []
 
   return (
     <PageContainer
-      title={client?.name ?? ''}
-      description={client?.description}
-      topSideActions={[voucherSimulationAction, ...actions]}
+      description={
+        <Stack spacing={1}>
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} justifyContent="space-between">
+            <Typography component="h1" variant="h4" sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+              {client?.name ?? ''}
+            </Typography>
+            <Stack direction="row" spacing={2} alignItems="stretch" sx={{ flexShrink: 0 }}>
+              <Button variant="contained" onClick={handleVoucherSimulation}>
+                {tCommon('simulateVoucher')}
+              </Button>
+              {menuActions.length > 0 && <ActionMenu actions={menuActions} hasIconBorder />}
+            </Stack>
+          </Stack>
+          <Typography variant="body1" sx={{ overflowWrap: 'anywhere' }}>
+            {client?.description ?? ''}
+          </Typography>
+        </Stack>
+      }
       isLoading={isLoadingClient}
       backToAction={{
         label: t('actions.backToClientsLabel'),
@@ -131,6 +161,26 @@ const ConsumerClientManagePage: React.FC = () => {
           onClose={closeDrawer}
           clientId={clientId}
           admin={client?.admin}
+        />
+      )}
+      {isAdmin && client && (
+        <UpdateMetadataDrawer
+          isOpen={isMetadataDrawerOpen}
+          onClose={closeMetadataDrawer}
+          title={t('updateMetadataDrawer.title')}
+          description={t('updateMetadataDrawer.description')}
+          nameField={{
+            label: t('updateMetadataDrawer.nameField.label'),
+            helperText: t('updateMetadataDrawer.nameField.helperText'),
+            validation: { required: true, minLength: 5, maxLength: 60 },
+          }}
+          descriptionField={{
+            label: t('updateMetadataDrawer.descriptionField.label'),
+            helperText: t('updateMetadataDrawer.descriptionField.helperText'),
+            validation: { required: true, minLength: 10, maxLength: 250 },
+          }}
+          initialValues={{ name: client.name, description: client.description ?? '' }}
+          onSubmit={() => null}
         />
       )}
     </PageContainer>

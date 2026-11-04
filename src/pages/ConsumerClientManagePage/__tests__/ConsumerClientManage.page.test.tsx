@@ -1,6 +1,6 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerClientManagePage from '../ConsumerClientManage.page'
@@ -12,8 +12,7 @@ const useJwtSpy = vi.spyOn(AuthHooks, 'useJwt')
 const {
   mockedNavigate,
   mockedRemoveClientAdmin,
-  mockedOpenDrawer,
-  mockedCloseDrawer,
+  mockedDeleteClient,
   mockedUpdateActiveTab,
   mockedMarkNotificationsAsRead,
   mockedGetSingle,
@@ -21,22 +20,19 @@ const {
 } = vi.hoisted(() => ({
   mockedNavigate: vi.fn(),
   mockedRemoveClientAdmin: vi.fn(),
-  mockedOpenDrawer: vi.fn(),
-  mockedCloseDrawer: vi.fn(),
+  mockedDeleteClient: vi.fn(),
   mockedUpdateActiveTab: vi.fn(),
   mockedMarkNotificationsAsRead: vi.fn(),
   mockedGetSingle: vi.fn(),
   state: {
     clientKind: 'API' as 'API' | 'CONSUMER',
     activeTab: 'clientOperators',
-    isDrawerOpen: false,
     searchParams: new URLSearchParams(),
     isLoadingClient: false,
-    additionalActions: [] as Array<{ label: string; action: VoidFunction; variant: string }>,
     client: {
       id: 'client-id',
       name: 'Client Name',
-      description: 'Client Description',
+      description: 'Client Description' as string | undefined,
       admin: {
         userId: 'admin-id',
         name: 'Mario',
@@ -58,11 +54,13 @@ vi.mock('@/router', () => ({
 }))
 
 vi.mock('react-router-dom', async (importOriginal) => ({
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   ...(await importOriginal<typeof import('react-router-dom')>()),
   useSearchParams: () => [state.searchParams],
 }))
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   ...(await importOriginal<typeof import('@tanstack/react-query')>()),
   useQuery: () => ({ data: state.client, isLoading: state.isLoadingClient }),
 }))
@@ -73,6 +71,7 @@ vi.mock('@/api/client', () => ({
   },
   ClientMutations: {
     useRemoveClientAdmin: () => ({ mutate: mockedRemoveClientAdmin }),
+    useDelete: () => ({ mutate: mockedDeleteClient }),
   },
 }))
 
@@ -84,20 +83,8 @@ vi.mock('@/hooks/useActiveTab', () => ({
   useActiveTab: () => ({ activeTab: state.activeTab, updateActiveTab: mockedUpdateActiveTab }),
 }))
 
-vi.mock('@/hooks/useDrawerState', () => ({
-  useDrawerState: () => ({
-    isOpen: state.isDrawerOpen,
-    openDrawer: mockedOpenDrawer,
-    closeDrawer: mockedCloseDrawer,
-  }),
-}))
-
 vi.mock('@/hooks/useMarkNotificationsAsRead', () => ({
   useMarkNotificationsAsRead: mockedMarkNotificationsAsRead,
-}))
-
-vi.mock('@/hooks/useGetClientActions', () => ({
-  default: () => ({ actions: state.additionalActions }),
 }))
 
 vi.mock('@/components/layout/containers', () => ({
@@ -108,13 +95,13 @@ vi.mock('@/components/layout/containers', () => ({
     topSideActions,
   }: {
     children: React.ReactNode
-    title: string
-    description?: string
+    title?: string
+    description?: React.ReactNode
     topSideActions?: Array<{ label: string; action: VoidFunction }>
   }) => (
     <div>
-      <h1>{title}</h1>
-      <p>{description}</p>
+      {title && <h1>{title}</h1>}
+      <div>{description}</div>
       <div>
         {(topSideActions ?? []).map((action) => (
           <button key={action.label} type="button" onClick={action.action}>
@@ -143,6 +130,7 @@ vi.mock('@/components/layout/containers', () => ({
 }))
 
 vi.mock('@pagopa/interop-fe-commons', async (importOriginal) => ({
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   ...(await importOriginal<typeof import('@pagopa/interop-fe-commons')>()),
   InformationContainer: ({ label, content }: { label: string; content: string }) => (
     <div>
@@ -184,18 +172,15 @@ describe('ConsumerClientManagePage', () => {
   beforeEach(() => {
     mockedNavigate.mockReset()
     mockedRemoveClientAdmin.mockReset()
-    mockedOpenDrawer.mockReset()
-    mockedCloseDrawer.mockReset()
+    mockedDeleteClient.mockReset()
     mockedUpdateActiveTab.mockReset()
     mockedMarkNotificationsAsRead.mockReset()
     mockedGetSingle.mockReset()
 
     state.clientKind = 'API'
     state.activeTab = 'clientOperators'
-    state.isDrawerOpen = false
     state.searchParams = new URLSearchParams()
     state.isLoadingClient = false
-    state.additionalActions = []
     state.client = {
       id: 'client-id',
       name: 'Client Name',
@@ -320,10 +305,8 @@ describe('ConsumerClientManagePage', () => {
 
     await user.click(selectAdminButton)
 
-    expect(mockedOpenDrawer).toHaveBeenCalledTimes(1)
-    expect(screen.getByTestId('set-client-admin-drawer')).toHaveTextContent(
-      'closed-client-id-no-admin'
-    )
+    expect(screen.getByText('open-client-id-no-admin')).toBeInTheDocument()
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
   })
 
   it('does not render SetClientAdminDrawer if the user is not an admin', async () => {
@@ -346,7 +329,93 @@ describe('ConsumerClientManagePage', () => {
     })
 
     expect(screen.queryByTestId('set-client-admin-drawer')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'actionMenu.iconButtonAriaLabel' })
+    ).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Client Name' })).toBeVisible()
+    expect(screen.getByText('Client Description')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'actions.simulateVoucher' })).toBeEnabled()
   })
+
+  it.each(['API', 'CONSUMER'] as const)(
+    'opens a prefilled metadata drawer for an admin of a %s client without opening the API admin drawer',
+    async (clientKind) => {
+      const user = userEvent.setup()
+      state.clientKind = clientKind
+      renderWithApplicationContext(<ConsumerClientManagePage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      expect(screen.queryByRole('button', { name: 'actions.delete' })).not.toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+      expect(screen.getByRole('menuitem', { name: 'actions.delete' })).toBeVisible()
+      await user.click(screen.getByRole('menuitem', { name: 'edit.updateMetadataDrawer.title' }))
+
+      const nameInput = screen.getByRole('textbox', {
+        name: 'edit.updateMetadataDrawer.nameField.label',
+      })
+      expect(nameInput).toHaveValue(state.client.name)
+      expect(nameInput).toHaveAttribute('maxlength', '60')
+      const descriptionInput = screen.getByRole('textbox', {
+        name: 'edit.updateMetadataDrawer.descriptionField.label',
+      })
+      expect(descriptionInput).toHaveValue(state.client.description)
+      expect(descriptionInput).toHaveAttribute('maxlength', '250')
+      if (clientKind === 'API') {
+        expect(screen.getByText('closed-client-id-admin-id')).toBeInTheDocument()
+      }
+
+      await user.keyboard('{Escape}')
+      await waitFor(() => expect(screen.queryByRole('textbox')).not.toBeInTheDocument())
+    }
+  )
+
+  it('opens the metadata drawer with an empty description when the client has none', async () => {
+    const user = userEvent.setup()
+    state.client.description = undefined
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'edit.updateMetadataDrawer.title' }))
+
+    expect(
+      screen.getByRole('textbox', { name: 'edit.updateMetadataDrawer.nameField.label' })
+    ).toHaveValue(state.client.name)
+    expect(
+      screen.getByRole('textbox', { name: 'edit.updateMetadataDrawer.descriptionField.label' })
+    ).toHaveValue('')
+  })
+
+  it.each([
+    { clientKind: 'API', destination: 'SUBSCRIBE_INTEROP_M2M' },
+    { clientKind: 'CONSUMER', destination: 'SUBSCRIBE_CLIENT_LIST' },
+  ] as const)(
+    'preserves delete behavior for a $clientKind client through the menu',
+    async ({ clientKind, destination }) => {
+      const user = userEvent.setup()
+      state.clientKind = clientKind
+      mockedDeleteClient.mockImplementation(
+        (_payload: unknown, options: { onSuccess: () => void }) => options.onSuccess()
+      )
+      renderWithApplicationContext(<ConsumerClientManagePage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+      await user.click(screen.getByRole('menuitem', { name: 'actions.delete' }))
+
+      expect(mockedDeleteClient).toHaveBeenCalledWith(
+        { clientId: 'client-id' },
+        expect.objectContaining({ onSuccess: expect.any(Function) })
+      )
+      expect(mockedNavigate).toHaveBeenCalledWith(destination)
+    }
+  )
 
   it('does not render sobstitute/remove admin actions if the user is not an admin and client admin is selected', async () => {
     useJwtSpy.mockReturnValue({
