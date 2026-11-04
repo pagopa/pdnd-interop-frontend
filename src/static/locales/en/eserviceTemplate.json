@@ -13,6 +13,30 @@
     "sections": {
       "generalInformations": {
         "title": "Template information",
+        "generalInformationTitle": "General information",
+        "nameAndDescription": {
+          "title": "Name, description and target audience",
+          "nameField": { "label": "Template name" },
+          "descriptionField": { "label": "Template description" },
+          "targetField": { "label": "Who is the template intended for" }
+        },
+        "versionSection": { "title": "Version" },
+        "updateMetadataDrawer": {
+          "title": "Edit name, description and target audience",
+          "description": "Here you can update the name, description and target audience of the e-service template. To choose clear names and make e-services easy to find, see the <1>guidelines</1>",
+          "nameField": {
+            "label": "Template name",
+            "helperText": "Min 5 characters, max {{maxLength}} characters"
+          },
+          "descriptionField": {
+            "label": "Template description",
+            "helperText": "Describe which data the user must provide and which data the e-service returns. Min 10 characters, max {{maxLength}} characters"
+          },
+          "targetField": {
+            "label": "Who is the template intended for",
+            "helperText": "Min 10 characters, max 250 characters"
+          }
+        },
         "version": {
           "label": "You are viewing version number"
         },
