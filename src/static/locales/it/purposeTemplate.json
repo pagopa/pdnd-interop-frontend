@@ -226,7 +226,7 @@
               "helperText": "Min 10 caratteri, max 250 caratteri"
             },
             "targetField": {
-              "label": "A chi è rivolto il template",
+              "label": "A chi è rivolto il template?",
               "helperText": "Min 10 caratteri, max 250 caratteri"
             }
           },
