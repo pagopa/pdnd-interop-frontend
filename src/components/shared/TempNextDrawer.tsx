@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material'
+import CloseIcon from '@mui/icons-material/Close'
 import {
   Drawer as MUIDrawer,
   Stack,
@@ -53,12 +53,12 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
         <Stack flexGrow={1} overflow={'hidden'}>
           <Stack px={3} pt={3} flexGrow={1} overflow={'auto'}>
             <Stack mb={4}>
-              <Stack direction="row" alignItems={'center'} justifyContent={'space-between'} mb={2}>
+              <Stack direction="row" alignItems={'start'} justifyContent={'space-between'} mb={2}>
                 <Typography variant="h5" color={theme.colors.neutral.black}>
                   {title}
                 </Typography>
                 <IconButton onClick={onClose} aria-label={t('closeIconAriaLabel')}>
-                  <Close
+                  <CloseIcon
                     fontSize="small"
                     sx={{
                       color: theme.colors.neutral.black,
@@ -77,7 +77,7 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
               direction={{ xs: 'column-reverse', md: 'row' }}
               p={3}
               justifyContent={{ xs: 'center', md: 'flex-end' }}
-              gap={{ xs: 3, md: 4 }}
+              gap={{ xs: 3, md: 3 }}
             >
               {footerActions}
             </Stack>
