@@ -1,7 +1,7 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
-import { useParams } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { Tab, useTheme } from '@mui/material'
 import { useTrackPageViewEvent } from '@/config/tracking'
@@ -82,17 +82,26 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       requesterEserviceAgreement
     )
 
+  const { primary, secondary } = useConsumerEServiceActions()
+
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
     descriptorId: descriptor?.id,
   })
 
+  const handleViewLatestVersion = () => {
+    if (descriptor && viewLatestVersionTargetId) {
+      navigate('SUBSCRIBE_CATALOG_VIEW', {
+        params: { eserviceId: descriptor?.eservice.id, descriptorId: viewLatestVersionTargetId },
+      })
+    }
+  }
+
   return (
     <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      primaryAction={primaryAction}
-      secondaryAction={secondaryAction}
-      menuActions={menuActions}
+      primaryAction={primary}
+      secondaryAction={secondary}
       isLoading={!descriptor}
       infoSection={
         descriptor
@@ -111,7 +120,15 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
                     routeKey: 'SUBSCRIBE_CATALOG_VIEW',
                   }),
               },
-              actions: headerInfoActions,
+              actions: viewLatestVersionTargetId
+                ? [
+                    {
+                      action: handleViewLatestVersion,
+                      label: t('actions.viewLatestVersion'),
+                      icon: ReplayCircleFilledIcon,
+                    },
+                  ]
+                : [],
               statusChip: {
                 for: 'descriptor',
                 state: descriptor.state,

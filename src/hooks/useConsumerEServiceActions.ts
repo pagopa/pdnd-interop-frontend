@@ -9,10 +9,30 @@ import { useQuery, useQueries } from '@tanstack/react-query'
 import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
 import { match } from 'ts-pattern'
 import type { DelegationTenant } from '@/api/api.generatedTypes'
+import noop from 'lodash/noop'
+import { getViewLatestVersionTargetId } from '@/utils/eservice.utils'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import SendIcon from '@mui/icons-material/Send'
+import PendingActionsIcon from '@mui/icons-material/PendingActions'
+import ArticleIcon from '@mui/icons-material/Article'
+import UpdateIcon from '@mui/icons-material/Update'
+import type { ActionItemButton } from '@/types/common.types'
 
-type ConsumerActionsName = 'SUBSCRIBE' | 'UPGRADE' | 'EDIT' | 'INSPECT'
+type ConsumerActionsName =
+  | 'SUBSCRIBE'
+  | 'SUBSCRIBE_MISSING_ATTRIBUTES'
+  | 'SUBSCRIBE_OBSOLETE_VERSION'
+  | 'UPGRADE'
+  | 'EDIT'
+  | 'INSPECT'
 
-export const useConsumerEServiceActions = () => {
+export const useConsumerEServiceActions = (): {
+  primary: ActionItemButton | undefined
+  secondary?: ActionItemButton | undefined
+} => {
+  const { t } = useTranslation('eservice')
+  const { t: tAgreement } = useTranslation('agreement')
   const { openDialog } = useDialog()
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const navigate = useNavigate()
@@ -41,6 +61,11 @@ export const useConsumerEServiceActions = () => {
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
+  const viewLatestVersionTargetId = React.useMemo(
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId, 'consumer'),
+    [descriptor?.eservice.descriptors, descriptorId]
+  )
+
   /*
    * ESERVICE SUBSCRIPTION DATA: Check if the current user organization has an agreement with the current eService
    * */
@@ -48,6 +73,7 @@ export const useConsumerEServiceActions = () => {
 
   const isAsyncExchange = descriptor?.eservice.asyncExchange ?? false
 
+  const isSuspended = descriptor?.state === 'SUSPENDED'
   /*
    * MUTATIONS
    * */
@@ -121,18 +147,20 @@ export const useConsumerEServiceActions = () => {
     select: ({ results }) => results ?? [],
   })
 
+  if (!descriptor || !isAdmin) return { primary: undefined, secondary: undefined }
+
   /*
    * ACTIONS DATA: Actions that the current user organization can perform on the current eService
    * */
 
   const actions: Record<ConsumerActionsName, VoidFunction | undefined> = {
     SUBSCRIBE: undefined,
+    SUBSCRIBE_MISSING_ATTRIBUTES: undefined,
+    SUBSCRIBE_OBSOLETE_VERSION: undefined,
     UPGRADE: undefined,
     EDIT: undefined,
     INSPECT: undefined,
   }
-
-  if (!isAdmin || !descriptor) return actions
 
   /*
    * ATTRIBUTES OWNERSHIP DATA: Check if the current user organization owns all the attributes required by the current eService descriptor
@@ -382,5 +410,167 @@ export const useConsumerEServiceActions = () => {
     actions.SUBSCRIBE = subscribe
   }
 
-  return actions
+  /*
+   * SUBSCRIBE MISSING ATTRIBUTES ACTION
+   * */
+
+  if (
+    !descriptor?.eservice.isMine &&
+    !blocking &&
+    !hasAllCertifiedAttributes &&
+    descriptor?.eservice.activeDescriptor?.id === descriptor.id &&
+    descriptor.state !== 'ARCHIVED' &&
+    !isDelegator &&
+    !isSubscribed &&
+    !(delegators && delegators.length > 0) &&
+    !descriptor.eservice.agreements.some((agreement) => agreement.state === 'DRAFT')
+  ) {
+    actions.SUBSCRIBE_MISSING_ATTRIBUTES = noop
+  }
+
+  /*
+   * SUBSCRIBE OBSOLETE VERSION ACTION
+   * */
+
+  if (
+    Boolean(viewLatestVersionTargetId) &&
+    !descriptor.eservice.isMine &&
+    !isDelegator &&
+    !isSubscribed &&
+    !descriptor.eservice.agreements.some((agreement) => agreement.state === 'DRAFT') &&
+    !(delegators && delegators.length > 0)
+  ) {
+    actions.SUBSCRIBE_OBSOLETE_VERSION = noop
+  }
+
+  if (actions.UPGRADE) {
+    const primary: ActionItemButton = {
+      action: actions.UPGRADE,
+      label: t('tableEServiceCatalog.upgradeToNewVersion'),
+      icon: UpdateIcon,
+      variant: 'contained',
+      disabled: !hasAllCertifiedAttributes,
+      tooltip: !hasAllCertifiedAttributes
+        ? tAgreement('consumerRead.noCertifiedAttributesForUpgradeTooltip')
+        : undefined,
+    }
+
+    if (actions.INSPECT) {
+      return {
+        primary,
+        secondary: {
+          action: actions.INSPECT,
+          label: t('tableEServiceCatalog.inspect'),
+          icon: ArticleIcon,
+          variant: 'outlined',
+        },
+      }
+    }
+
+    if (actions.SUBSCRIBE) {
+      return {
+        primary,
+        secondary: {
+          action: actions.SUBSCRIBE,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+          variant: 'outlined',
+          disabled: isSuspended,
+          tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
+        },
+      }
+    }
+
+    return { primary }
+  }
+
+  if (actions.INSPECT) {
+    const primary: ActionItemButton = {
+      action: actions.INSPECT,
+      label: t('tableEServiceCatalog.inspect'),
+      icon: ArticleIcon,
+      variant: 'contained',
+    }
+
+    if (actions.SUBSCRIBE) {
+      return {
+        primary,
+        secondary: {
+          action: actions.SUBSCRIBE,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+          variant: 'outlined',
+          disabled: isSuspended,
+          tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
+        },
+      }
+    }
+
+    return { primary }
+  }
+
+  if (actions.EDIT) {
+    const primary: ActionItemButton = {
+      action: actions.EDIT,
+      label: t('tableEServiceCatalog.editDraft'),
+      icon: PendingActionsIcon,
+      variant: 'contained',
+    }
+
+    if (actions.SUBSCRIBE) {
+      return {
+        primary,
+        secondary: {
+          action: actions.SUBSCRIBE,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+          variant: 'outlined',
+          disabled: isSuspended,
+          tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
+        },
+      }
+    }
+
+    return { primary }
+  }
+
+  if (actions.SUBSCRIBE) {
+    return {
+      primary: {
+        action: actions.SUBSCRIBE,
+        label: t('tableEServiceCatalog.subscribe'),
+        icon: SendIcon,
+        variant: 'contained',
+        disabled: isSuspended,
+        tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
+      },
+    }
+  }
+
+  if (actions.SUBSCRIBE_MISSING_ATTRIBUTES) {
+    return {
+      primary: {
+        action: actions.SUBSCRIBE_MISSING_ATTRIBUTES,
+        label: t('tableEServiceCatalog.subscribe'),
+        icon: SendIcon,
+        variant: 'contained',
+        disabled: true,
+        tooltip: t('tableEServiceCatalog.missingCertifiedAttributesTooltip'),
+      },
+    }
+  }
+
+  if (actions.SUBSCRIBE_OBSOLETE_VERSION) {
+    return {
+      primary: {
+        action: actions.SUBSCRIBE_OBSOLETE_VERSION,
+        label: t('tableEServiceCatalog.subscribe'),
+        icon: SendIcon,
+        variant: 'contained',
+        disabled: true,
+      },
+    }
+  }
+
+  return { primary: undefined }
 }
