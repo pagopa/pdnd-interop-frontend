@@ -30,6 +30,7 @@ vi.mock('@/config/tracking', () => ({
 }))
 
 let mockDescriptorData: ProducerEServiceDescriptor
+let mockIsDelegator = false
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
@@ -60,7 +61,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => ({
 vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
   useGetProducerDelegationUserRole: () => ({
     isDelegate: false,
-    isDelegator: false,
+    isDelegator: mockIsDelegator,
     producerDelegations: [],
   }),
 }))
@@ -80,6 +81,7 @@ const baseTemplateDescriptor = createMockEServiceDescriptorProvider({
 
 beforeEach(() => {
   mockUseJwt()
+  mockIsDelegator = false
 
   vi.mocked(
     EServiceModule.EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication
@@ -102,6 +104,26 @@ afterEach(() => {
 })
 
 describe('ProviderEServiceGeneralInfoSection', () => {
+  it('keeps metadata visible without an edit action for a delegating organization administrator', () => {
+    mockUseJwt({ isAdmin: true })
+    mockIsDelegator = true
+    mockDescriptorData = createMockEServiceDescriptorProvider({
+      templateRef: undefined,
+      eservice: {
+        name: 'Example e-service',
+        description: 'Example e-service description',
+        personalData: false,
+      },
+    })
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'actions.edit' })).not.toBeInTheDocument()
+    expect(screen.getByText('Example e-service')).toBeVisible()
+    expect(screen.getByText('Example e-service description')).toBeVisible()
+  })
+
   it('opens the metadata drawer with current values for a standalone e-service administrator', async () => {
     const user = userEvent.setup()
     mockDescriptorData = createMockEServiceDescriptorProvider({
