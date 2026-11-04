@@ -502,7 +502,7 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
-        "purposeUpdateMetadataDrawer": {
+        "updateMetadataDrawer": {
           "title": "Modifica nome e descrizione",
           "description": "Qui puoi aggiornare il nome e la descrizione della finalità.",
           "nameField": {

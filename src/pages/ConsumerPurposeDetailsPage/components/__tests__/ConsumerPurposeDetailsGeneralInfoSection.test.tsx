@@ -283,17 +283,17 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
     expect(
       screen.getByText(
-        'purpose.consumerView.sections.generalInformations.purposeUpdateMetadataDrawer.title'
+        'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.title'
       )
     ).toBeInTheDocument()
     expect(
       screen.getByRole('textbox', {
-        name: 'purpose.consumerView.sections.generalInformations.purposeUpdateMetadataDrawer.nameField.label',
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
       })
     ).toHaveValue(purpose.title)
     expect(
       screen.getByRole('textbox', {
-        name: 'purpose.consumerView.sections.generalInformations.purposeUpdateMetadataDrawer.descriptionField.label',
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.descriptionField.label',
       })
     ).toHaveValue(purpose.description)
   })
