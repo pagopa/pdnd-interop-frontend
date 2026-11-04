@@ -60,22 +60,22 @@ describe('PurposeTemplateGeneralInfoSection', () => {
 
     expect(
       view.getByText(
-        'purposeTemplate.read.detailsTab.sections.generalInformation.purposeTemplateUpdateMetadataDrawer.title'
+        'purposeTemplate.read.detailsTab.sections.generalInformation.updateMetadataDrawer.title'
       )
     ).toBeInTheDocument()
     expect(
       view.getByRole('textbox', {
-        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.purposeTemplateUpdateMetadataDrawer.nameField.label',
+        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.updateMetadataDrawer.nameField.label',
       })
     ).toHaveValue(purposeTemplate.purposeTitle)
     expect(
       view.getByRole('textbox', {
-        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.purposeTemplateUpdateMetadataDrawer.descriptionField.label',
+        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.updateMetadataDrawer.descriptionField.label',
       })
     ).toHaveValue(purposeTemplate.purposeDescription)
     expect(
       view.getByRole('textbox', {
-        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.purposeTemplateUpdateMetadataDrawer.targetField.label',
+        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.updateMetadataDrawer.targetField.label',
       })
     ).toHaveValue(purposeTemplate.targetDescription)
   })
