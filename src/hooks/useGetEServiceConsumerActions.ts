@@ -5,6 +5,8 @@ import type {
   CatalogEServiceDescriptor,
   DelegationTenant,
 } from '@/api/api.generatedTypes'
+import { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
@@ -54,8 +56,46 @@ function useGetEServiceConsumerActions(
 
   const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
-  const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
+  const { mutateAsync: createAgreementDraft } = AgreementMutations.useCreateDraft(
+    true,
+    isAsyncExchange
+  )
+  const { mutateAsync: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
+
+  /**
+   * Tracks whether the hook's owner is still mounted. `mutateAsync` promises keep resolving after
+   * unmount, so post-mutation navigation must be skipped if the user has already left the page.
+   * Set in the effect setup (not at declaration) so StrictMode's mount/unmount/mount cycle ends `true`.
+   */
+  const isMountedRef = useRef(false)
+  useEffect(() => {
+    isMountedRef.current = true
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
+
+  /**
+   * Only gates selector restoration, not HTTP requests or post-mutation navigation.
+   * The origin owns this controller so replacing the selector with confirmation cannot abort it.
+   * Pathname changes and owner unmount permanently abort the current flow; search changes do not.
+   */
+  const { pathname } = useLocation()
+  const flowControllerRef = useRef<AbortController | null>(null)
+  useEffect(() => {
+    const flowController = flowControllerRef
+    return () => {
+      flowController.current?.abort()
+    }
+  }, [pathname])
+
+  /** Each opening supersedes the previous flow, including after StrictMode's effect replay. */
+  const createFlowSignal = () => {
+    flowControllerRef.current?.abort()
+    const controller = new AbortController()
+    flowControllerRef.current = controller
+    return controller.signal
+  }
 
   const emptyResult = {
     primaryAction: undefined,
@@ -151,43 +191,34 @@ function useGetEServiceConsumerActions(
      * create and submit the agreement without passing through the draft
      * */
     if (isOwnEService) {
-      submitToOwnEService(
-        {
-          eserviceId: descriptor.eservice.id,
-          descriptorId: descriptor.id,
-          delegationId: delegationId,
-        },
-        {
-          onSuccess({ id }) {
-            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
-          },
-        }
-      )
-      return
+      return submitToOwnEService({
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        delegationId,
+      }).then(({ id }) => {
+        if (!isMountedRef.current) return
+        navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
+      })
     }
 
     /**
      * If the subscriber is not the owner of the e-service or delegated by the owner
      * create the agreement draft
      * */
-    createAgreementDraft(
-      {
-        eserviceName: descriptor.eservice.name,
-        eserviceId: descriptor.eservice.id,
-        eserviceVersion: descriptor.version,
-        descriptorId: descriptor.id,
-        delegationId: delegationId,
-      },
-      {
-        onSuccess({ id }) {
-          navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
-        },
-      }
-    )
+    return createAgreementDraft({
+      eserviceName: descriptor.eservice.name,
+      eserviceId: descriptor.eservice.id,
+      eserviceVersion: descriptor.version,
+      descriptorId: descriptor.id,
+      delegationId,
+    }).then(({ id }) => {
+      if (!isMountedRef.current) return
+      navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+    })
   }
 
   const handleCreateAgreementDraftAction = () => {
-    handleCreateAgreementDraft({ isOwnEService: isMine })
+    void handleCreateAgreementDraft({ isOwnEService: isMine }).catch(() => undefined)
   }
 
   const handleOpenCreateAgreementDraftDialog = () => {
@@ -205,6 +236,7 @@ function useGetEServiceConsumerActions(
       agreements: descriptor.eservice.agreements,
       action: 'create',
       onSubmitCreate: handleCreateAgreementDraft,
+      flowSignal: createFlowSignal(),
     })
   }
 
