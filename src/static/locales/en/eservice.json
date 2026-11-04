@@ -858,6 +858,21 @@
     "sections": {
       "generalInformations": {
         "title": "General information",
+        "nameAndDescription": {
+          "title": "Name and description"
+        },
+        "updateMetadataDrawer": {
+          "title": "Edit name and description",
+          "description": "Here you can update the name and description of the e-service.",
+          "nameField": {
+            "label": "E-service name",
+            "helperText": "Min 5 characters, max 60 characters"
+          },
+          "descriptionField": {
+            "label": "E-service description",
+            "helperText": "Describe which data the consumer must provide and which data the e-service returns. Min 10 characters, max {{maxLength}} characters"
+          }
+        },
         "producer": {
           "label": "Producer"
         },
