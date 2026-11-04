@@ -41,6 +41,18 @@
     "backToKeychainsListLabel": "Back to your keychains",
     "backToMemberListLabel": "Back to members list"
   },
+  "updateMetadataDrawer": {
+    "title": "Edit name and description",
+    "description": "Here you can update the name and description of the keychain.",
+    "nameField": {
+      "label": "Keychain name",
+      "helperText": "Min 5 characters, max 60 characters"
+    },
+    "descriptionField": {
+      "label": "Keychain description",
+      "helperText": "Min 10 characters, max 250 characters"
+    }
+  },
   "tabs": {
     "ariaLabel": "Two different tabs for keychain members and public keys",
     "members": "Keychain members",
