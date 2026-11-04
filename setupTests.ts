@@ -1,4 +1,4 @@
-import { afterEach, vi, beforeEach } from 'vitest'
+import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 // extends Vitest's expect method with methods from react-testing-library
 import '@testing-library/jest-dom/vitest'
@@ -34,35 +34,9 @@ export const testConfigs = {
   FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE: 'true',
 }
 
-// Mock localStorage for all tests
-const localStorageMock = (() => {
-  let store: Record<string, string> = {}
-
-  return {
-    getItem: (key: string) => store[key] || null,
-    setItem: (key: string, value: string) => {
-      store[key] = value.toString()
-    },
-    removeItem: (key: string) => {
-      delete store[key]
-    },
-    clear: () => {
-      store = {}
-    },
-  }
-})()
-
-beforeEach(() => {
-  Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock,
-    writable: true,
-  })
-})
-
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup()
-  localStorage.clear()
 })
 
 // vi.spyOn(global.console, 'log').mockImplementation(() => vi.fn())
