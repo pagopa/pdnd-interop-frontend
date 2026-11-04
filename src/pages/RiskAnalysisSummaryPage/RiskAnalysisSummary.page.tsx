@@ -15,14 +15,18 @@ import {
 import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from '../ConsumerPurposeSummaryPage/components/ConsumerPurposeSummaryRiskAnalysisAlertContainer'
 
 import { useRiskAnalysisSummaryPage } from './hooks/useRiskAnalysisSummaryPage'
-import { useCurrentRoute, useNavigate } from '@/router'
+import { useCurrentRoute, useLocation } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 
 const RiskAnalysisSummaryPage: React.FC = () => {
+  const { key } = useLocation()
+  return <RiskAnalysisSummary key={key} />
+}
+
+const RiskAnalysisSummary: React.FC = () => {
   const { routeKey } = useCurrentRoute()
   const isApprovalFlow = routeKey === 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL'
-  const navigate = useNavigate()
   const { jwt } = AuthHooks.useJwt()
 
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisSummary' })
@@ -34,9 +38,8 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     purposeId,
     purpose,
     reviewedPurpose,
-    isPurposeLoading,
+    isSignedForAssignedReviewer,
     isLoading,
-    isFetching,
     alertProps,
     isPublishButtonDisabled,
     arePublishOrEditButtonsDisabled,
@@ -46,24 +49,9 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     isEserviceDeliverMode,
     expirationDate,
     isRulesetExpired,
-  } = useRiskAnalysisSummaryPage()
+  } = useRiskAnalysisSummaryPage(jwt?.uid)
 
   useMarkNotificationsAsRead(purposeId)
-
-  const isAssignedReviewer =
-    purpose?.reviewerWorkflow?.reviewers?.some((reviewer) => reviewer.userId === jwt?.uid) ?? false
-
-  const isSignedForAssignedReviewer =
-    isAssignedReviewer && purpose?.reviewerWorkflow?.signingState === 'SIGNED'
-
-  React.useEffect(() => {
-    if (!isPurposeLoading && !isFetching && isSignedForAssignedReviewer) {
-      navigate('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
-        params: { purposeId },
-        replace: true,
-      })
-    }
-  }, [isPurposeLoading, isFetching, isSignedForAssignedReviewer, navigate, purposeId])
 
   if (isSignedForAssignedReviewer) return null
 

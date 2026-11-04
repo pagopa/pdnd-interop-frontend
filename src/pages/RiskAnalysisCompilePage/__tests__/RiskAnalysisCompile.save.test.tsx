@@ -11,7 +11,6 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { queryClient } from '@/config/query-client'
 import * as router from '@/router'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
-import { useRiskAnalysisReviewStore } from '../../RiskAnalysisSummaryPage/riskAnalysisReview.store'
 import RiskAnalysisCompilePage from '../RiskAnalysisCompile.page'
 
 vi.mock(
@@ -32,6 +31,7 @@ vi.mock(
 
 const purpose = createMockPurpose({ riskAnalysisForm: { version: '2.0' } })
 const receivedForm = vi.fn<(form: RiskAnalysisFormSeed) => void>()
+const navigate = vi.fn()
 const server = setupServer(
   rest.get(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purpose.id}`, (_, res, ctx) =>
     res(ctx.set('X-Metadata-Version', '3'), ctx.json(purpose))
@@ -53,32 +53,30 @@ afterAll(() => server.close())
 beforeEach(() => {
   vi.clearAllMocks()
   queryClient.clear()
-  useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
   mockUseParams({ purposeId: purpose.id })
   mockUseJwt({ isReviewer: true })
-  vi.spyOn(router, 'useNavigate').mockReturnValue(vi.fn())
+  vi.spyOn(router, 'useNavigate').mockReturnValue(navigate)
 })
 afterEach(() => {
   cleanup()
   queryClient.clear()
-  useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
   server.resetHandlers()
 })
 
-it('uses the normalized answers without optional empty arrays as the pending review baseline', async () => {
+const savedForm = { version: '2.0', answers: { institutionalPurpose: ['Saved answer'] } }
+
+it('starts a review of the normalized answers after saving the draft', async () => {
   const user = userEvent.setup()
   renderWithApplicationContext(<RiskAnalysisCompilePage />, {
     withRouterContext: true,
     withReactQueryContext: true,
   })
   await user.click(await screen.findByRole('button', { name: 'Save analysis' }))
-  const expectedForm = { version: '2.0', answers: { institutionalPurpose: ['Saved answer'] } }
-  await waitFor(() => expect(receivedForm).toHaveBeenCalledExactlyOnceWith(expectedForm))
+  await waitFor(() => expect(receivedForm).toHaveBeenCalledExactlyOnceWith(savedForm))
   await waitFor(() =>
-    expect(useRiskAnalysisReviewStore.getState().pendingReview).toEqual({
-      purposeId: purpose.id,
-      previousMetadataVersion: 3,
-      riskAnalysisForm: expectedForm,
+    expect(navigate).toHaveBeenCalledExactlyOnceWith('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
+      params: { purposeId: purpose.id },
+      state: { riskAnalysisSave: { previousMetadataVersion: 3, riskAnalysisForm: savedForm } },
     })
   )
 })

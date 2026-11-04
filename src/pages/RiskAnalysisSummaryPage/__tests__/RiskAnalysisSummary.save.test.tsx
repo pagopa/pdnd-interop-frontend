@@ -1,4 +1,7 @@
 import { act, cleanup, fireEvent, screen } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
+import type { MemoryHistory } from 'history'
+import { generatePath, NavigationType, Router } from 'react-router-dom'
 import { PurposeServices } from '@/api/purpose'
 import {
   createMockPurpose,
@@ -14,7 +17,6 @@ import {
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
 import RiskAnalysisSummaryPage from '../RiskAnalysisSummary.page'
-import { useRiskAnalysisReviewStore } from '../riskAnalysisReview.store'
 
 vi.mock('@/hooks/useMarkNotificationsAsRead', () => ({ useMarkNotificationsAsRead: vi.fn() }))
 
@@ -29,11 +31,31 @@ const savedPurpose = {
   riskAnalysisForm: { version: '2.0', answers: { institutionalPurpose: ['Saved answer'] } },
 }
 const navigate = vi.fn()
+const reviewPath = router.routes.SUBSCRIBE_RISK_ANALYSIS_APPROVAL.path
+const savedDraft = {
+  previousMetadataVersion: stalePurpose.metadataVersion,
+  riskAnalysisForm: savedPurpose.riskAnalysisForm,
+}
 
-function renderPage() {
-  return renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+function reviewAt(history: MemoryHistory, navigationType: NavigationType) {
+  return (
+    <Router location={history.location} navigator={history} navigationType={navigationType}>
+      <RiskAnalysisSummaryPage />
+    </Router>
+  )
+}
+
+function renderPage(riskAnalysisSave: unknown = savedDraft, navigationType = NavigationType.Push) {
+  const history = createMemoryHistory({
+    initialEntries: [
+      {
+        pathname: generatePath(reviewPath, { purposeId: stalePurpose.id }),
+        state: { riskAnalysisSave },
+      },
+    ],
+  })
+  return renderWithApplicationContext(reviewAt(history, navigationType), {
     withReactQueryContext: true,
-    withRouterContext: true,
   })
 }
 
@@ -49,33 +71,64 @@ beforeEach(() => {
   vi.spyOn(PurposeServices, 'getRiskAnalysisVersion').mockResolvedValue(
     createMockRiskAnalysisFormConfig()
   )
-  useRiskAnalysisReviewStore.getState().setPendingReview({
-    purposeId: stalePurpose.id,
-    previousMetadataVersion: 3,
-    riskAnalysisForm: savedPurpose.riskAnalysisForm,
-  })
   queryClient.setQueryData(['PurposeGetSingle', stalePurpose.id], stalePurpose)
 })
 
 afterEach(() => {
   cleanup()
   queryClient.clear()
-  useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
   useDialogStore.getState().closeDialog()
   useToastNotificationStore.getState().hideToast()
   vi.useRealTimers()
 })
 
-describe('starting a review after saving the risk analysis', () => {
-  it('cancels the pending wait when leaving the summary before convergence', async () => {
+describe('starting a risk analysis review', () => {
+  it('cancels the wait on leaving and starts a fresh review on history return', async () => {
     const page = renderPage()
     await act(() => vi.advanceTimersByTimeAsync(10))
+    expect(screen.getByRole('button', { name: 'approveBtn' })).toBeDisabled()
     page.unmount()
 
     await act(() => vi.advanceTimersByTimeAsync(25_000))
 
     expect(navigate).not.toHaveBeenCalled()
     expect(useToastNotificationStore.getState().isShown).toBe(false)
+
+    renderPage(savedDraft, NavigationType.Pop)
+    await act(() => vi.advanceTimersByTimeAsync(10))
+    await act(() => vi.advanceTimersByTimeAsync(10))
+    expect(screen.getByText('Previous answer')).toBeVisible()
+    fireEvent.click(screen.getByRole('button', { name: 'approveBtn' }))
+    expect(useDialogStore.getState().dialog).toMatchObject({ metadataVersionToSign: 3 })
+  })
+
+  it('starts a new review when a different purpose opens in the same summary route', async () => {
+    const history = createMemoryHistory({
+      initialEntries: [generatePath(reviewPath, { purposeId: stalePurpose.id })],
+    })
+    const page = renderWithApplicationContext(reviewAt(history, NavigationType.Pop), {
+      withReactQueryContext: true,
+    })
+    await act(() => vi.advanceTimersByTimeAsync(10))
+    await act(() => vi.advanceTimersByTimeAsync(10))
+    expect(screen.getByText('Previous answer')).toBeVisible()
+
+    const nextPurpose = { ...savedPurpose, id: 'another-purpose-id' }
+    vi.mocked(PurposeServices.getSingle).mockResolvedValue(nextPurpose)
+    mockUseParams({ purposeId: nextPurpose.id })
+    history.push(generatePath(reviewPath, { purposeId: nextPurpose.id }))
+    page.rerender(reviewAt(history, NavigationType.Push))
+    expect(screen.getByRole('button', { name: 'approveBtn' })).toBeDisabled()
+    await act(() => vi.advanceTimersByTimeAsync(10))
+    await act(() => vi.advanceTimersByTimeAsync(10))
+
+    expect(screen.queryByText('Previous answer')).not.toBeInTheDocument()
+    expect(screen.getByText('Saved answer')).toBeVisible()
+    fireEvent.click(screen.getByRole('button', { name: 'approveBtn' }))
+    expect(useDialogStore.getState().dialog).toMatchObject({
+      purposeId: nextPurpose.id,
+      metadataVersionToSign: 7,
+    })
   })
 
   it('redirects from the live signed state even when the saved form has not converged', async () => {
@@ -90,10 +143,11 @@ describe('starting a review after saving the risk analysis', () => {
     renderPage()
     await act(() => vi.advanceTimersByTimeAsync(10))
 
-    expect(navigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+    expect(navigate).toHaveBeenCalledExactlyOnceWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
       params: { purposeId: stalePurpose.id },
       replace: true,
     })
+    expect(useToastNotificationStore.getState().isShown).toBe(false)
     expect(screen.queryByRole('button', { name: 'approveBtn' })).not.toBeInTheDocument()
   })
 
@@ -112,8 +166,6 @@ describe('starting a review after saving the risk analysis', () => {
     await act(() => vi.advanceTimersByTimeAsync(10))
     expect(screen.getByText('Saved answer')).toBeVisible()
     expect(screen.getByRole('button', { name: 'approveBtn' })).toBeEnabled()
-    expect(useRiskAnalysisReviewStore.getState().pendingReview).toBeUndefined()
-
     fireEvent.click(screen.getByRole('button', { name: 'approveBtn' }))
     expect(useDialogStore.getState().dialog).toMatchObject({ metadataVersionToSign: 7 })
     const requestsAtReview = getPurpose.mock.calls.length
@@ -122,15 +174,10 @@ describe('starting a review after saving the risk analysis', () => {
   })
 
   it('waits for metadata advancement even when saving unchanged answers', async () => {
-    useRiskAnalysisReviewStore.getState().setPendingReview({
-      purposeId: stalePurpose.id,
-      previousMetadataVersion: 3,
-      riskAnalysisForm: stalePurpose.riskAnalysisForm,
-    })
     vi.mocked(PurposeServices.getSingle)
       .mockResolvedValueOnce(stalePurpose)
       .mockResolvedValue({ ...stalePurpose, metadataVersion: 5 })
-    renderPage()
+    renderPage({ ...savedDraft, riskAnalysisForm: stalePurpose.riskAnalysisForm })
     await act(() => vi.advanceTimersByTimeAsync(10))
     expect(screen.queryByText('Previous answer')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'approveBtn' })).toBeDisabled()
@@ -145,6 +192,10 @@ describe('starting a review after saving the risk analysis', () => {
   it.each(['timeout', 'different answers', 'different form version', 'missing previous metadata'])(
     'does not approve an unverified post-save baseline: %s',
     async (reason) => {
+      const handoff =
+        reason === 'missing previous metadata'
+          ? { ...savedDraft, previousMetadataVersion: undefined }
+          : savedDraft
       if (reason === 'different answers') {
         vi.mocked(PurposeServices.getSingle).mockResolvedValue({
           ...stalePurpose,
@@ -158,27 +209,21 @@ describe('starting a review after saving the risk analysis', () => {
         })
       }
       if (reason === 'missing previous metadata') {
-        useRiskAnalysisReviewStore.getState().setPendingReview({
-          purposeId: stalePurpose.id,
-          previousMetadataVersion: undefined,
-          riskAnalysisForm: savedPurpose.riskAnalysisForm,
-        })
         vi.mocked(PurposeServices.getSingle).mockResolvedValue(savedPurpose)
       }
-      const page = renderPage()
+      const page = renderPage(handoff)
       await act(() => vi.advanceTimersByTimeAsync(20_010))
 
       expect(navigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_LIST', { replace: true })
-      expect(screen.getByText('error')).toBeVisible()
+      expect(screen.getByText('reviewUnavailable')).toBeVisible()
       expect(screen.getByRole('button', { name: 'approveBtn' })).toBeDisabled()
       fireEvent.click(screen.getByRole('button', { name: 'approveBtn' }))
       expect(useDialogStore.getState().dialog).toBeNull()
-      expect(useRiskAnalysisReviewStore.getState().pendingReview).toBeUndefined()
 
       page.unmount()
       queryClient.clear()
       vi.mocked(PurposeServices.getSingle).mockResolvedValue(savedPurpose)
-      renderPage()
+      renderPage(null, NavigationType.Pop)
       await act(() => vi.advanceTimersByTimeAsync(10))
       await act(() => vi.advanceTimersByTimeAsync(10))
       expect(screen.getByText('Saved answer')).toBeVisible()

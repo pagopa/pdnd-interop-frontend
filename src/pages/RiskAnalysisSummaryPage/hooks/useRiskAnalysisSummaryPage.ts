@@ -1,18 +1,11 @@
-import { PurposeQueries } from '@/api/purpose'
 import { useNavigate, useParams } from '@/router'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
-import { useQuery } from '@tanstack/react-query'
 import { useGetConsumerPurposeAlertProps } from '../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
 import { useDialog, useToastNotificationStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
-import type { PurposeServices } from '@/api/purpose'
-import { useRiskAnalysisReviewStore } from '../riskAnalysisReview.store'
-import isEqual from 'lodash/isEqual'
+import { useRiskAnalysisReview } from './useRiskAnalysisReview'
 
-type ReviewedPurpose = Awaited<ReturnType<typeof PurposeServices.getSingle>>
-
-export function useRiskAnalysisSummaryPage() {
+export function useRiskAnalysisSummaryPage(reviewerId?: string) {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'>()
   const navigate = useNavigate()
   const { openDialog } = useDialog()
@@ -21,66 +14,8 @@ export function useRiskAnalysisSummaryPage() {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
 
-  const storedReview = useRiskAnalysisReviewStore((state) => state.pendingReview)
-  const pendingReview = storedReview?.purposeId === purposeId ? storedReview : undefined
-  const {
-    data: purpose,
-    isLoading,
-    isFetching,
-    isFetchedAfterMount,
-    isSuccess,
-  } = useQuery({
-    ...PurposeQueries.getSingle(purposeId),
-    refetchOnMount: 'always',
-    refetchInterval: pendingReview ? 1000 : false,
-  })
-  const isSavedFormAvailable =
-    pendingReview &&
-    pendingReview.previousMetadataVersion !== undefined &&
-    purpose?.metadataVersion !== undefined &&
-    purpose.metadataVersion > pendingReview.previousMetadataVersion &&
-    purpose.riskAnalysisForm?.version === pendingReview.riskAnalysisForm.version &&
-    isEqual(purpose.riskAnalysisForm?.answers, pendingReview.riskAnalysisForm.answers)
-  const candidatePurpose =
-    isSuccess && isFetchedAfterMount && !isFetching && (!pendingReview || isSavedFormAvailable)
-      ? purpose
-      : undefined
-  const [review, setReview] = useState<{
-    purposeId: string
-    purpose: ReviewedPurpose | undefined
-    failed: boolean
-    startedAt: number
-  }>({ purposeId, purpose: candidatePurpose, failed: false, startedAt: Date.now() })
-  const reviewForPurpose = review.purposeId === purposeId ? review : undefined
-  // Keep the displayed content and its metadata version together throughout this review.
-  // Live query updates still drive operational guards, but cannot approve unseen changes.
-  const reviewedPurpose = reviewForPurpose?.failed
-    ? undefined
-    : (reviewForPurpose?.purpose ?? candidatePurpose)
-  if (review.purposeId !== purposeId || (!review.purpose && reviewedPurpose)) {
-    setReview({ purposeId, purpose: reviewedPurpose, failed: false, startedAt: Date.now() })
-  }
-
-  useEffect(() => {
-    if (!storedReview) return
-    if (storedReview.purposeId !== purposeId || reviewedPurpose) {
-      useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
-      return
-    }
-
-    // A successful save may precede its readmodel update. Never pin the old cached form,
-    // including a no-op save: its metadata must advance before a new review can begin.
-    const timeout = window.setTimeout(
-      () => {
-        setReview({ purposeId, purpose: undefined, failed: true, startedAt: Date.now() })
-        useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
-        showToast(t('error'), 'error')
-        navigate('SUBSCRIBE_RISK_ANALYSIS_LIST', { replace: true })
-      },
-      Math.max(0, 20_000 - (Date.now() - review.startedAt))
-    )
-    return () => window.clearTimeout(timeout)
-  }, [storedReview, purposeId, reviewedPurpose, review.startedAt, navigate, showToast, t])
+  const { purpose, reviewedPurpose, isSignedForAssignedReviewer, isLoading } =
+    useRiskAnalysisReview(purposeId, reviewerId)
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -142,9 +77,8 @@ export function useRiskAnalysisSummaryPage() {
     purposeId,
     purpose,
     reviewedPurpose,
-    isPurposeLoading: isLoading,
-    isLoading: isLoading || (!reviewedPurpose && (isFetching || !!pendingReview)),
-    isFetching,
+    isSignedForAssignedReviewer,
+    isLoading,
     isEserviceDeliverMode,
     expirationDate,
     isRulesetExpired,

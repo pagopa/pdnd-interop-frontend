@@ -6,7 +6,6 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
 import { PurposeMutations } from '@/api/purpose'
 import RiskAnalysisCompilePage from '../RiskAnalysisCompile.page'
-import { useRiskAnalysisReviewStore } from '../../RiskAnalysisSummaryPage/riskAnalysisReview.store'
 
 vi.mock('@tanstack/react-query', async () => {
   const actual = await vi.importActual('@tanstack/react-query')
@@ -110,7 +109,6 @@ describe('RiskAnalysisCompilePage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    useRiskAnalysisReviewStore.getState().setPendingReview(undefined)
 
     vi.mocked(useQuery).mockReturnValue({
       data: undefined,
@@ -207,26 +205,12 @@ describe('RiskAnalysisCompilePage', () => {
       params: {
         purposeId: 'purpose-1',
       },
-    })
-  })
-
-  it('records the submitted form and original metadata after saving', async () => {
-    const user = userEvent.setup()
-    updateRiskAnalysisMock.mockImplementation((_payload, options) => {
-      options.onSuccess()
-    })
-    setQueryData({ purpose, riskAnalysis })
-    renderWithApplicationContext(<RiskAnalysisCompilePage />, { withRouterContext: true })
-
-    await user.click(screen.getByRole('button', { name: 'Submit' }))
-
-    expect(useRiskAnalysisReviewStore.getState().pendingReview).toEqual({
-      purposeId: 'purpose-1',
-      previousMetadataVersion: 3,
-      riskAnalysisForm: { version: '2', answers: { question1: ['answer1'] } },
-    })
-    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
-      params: { purposeId: 'purpose-1' },
+      state: {
+        riskAnalysisSave: {
+          previousMetadataVersion: 3,
+          riskAnalysisForm: { version: '2', answers: { question1: ['answer1'] } },
+        },
+      },
     })
   })
 

@@ -10,7 +10,6 @@ import {
   RiskAnalysisFormSkeleton,
 } from '../ConsumerPurposeEditPage/components/PurposeEditStepRiskAnalysis/RiskAnalysisForm'
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
-import { useRiskAnalysisReviewStore } from '../RiskAnalysisSummaryPage/riskAnalysisReview.store'
 
 const RiskAnalysisCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisCompile' })
@@ -36,14 +35,6 @@ const RiskAnalysisCompilePage: React.FC = () => {
     return <RiskAnalysisFormSkeleton />
   }
 
-  const goToSummary = () => {
-    navigate('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
-      params: {
-        purposeId: purposeId,
-      },
-    })
-  }
-
   const handleSubmit = (answers: Record<string, string[]>) => {
     const normalizedAnswers = Object.fromEntries(
       Object.entries(answers)
@@ -53,20 +44,20 @@ const RiskAnalysisCompilePage: React.FC = () => {
           values.map((value) => value.trim()),
         ])
     )
+    const riskAnalysisForm = { version: riskAnalysis.version, answers: normalizedAnswers }
     updateRiskAnalysis(
-      {
-        purposeId: purpose.id,
-        version: riskAnalysis.version,
-        answers: normalizedAnswers,
-      },
+      { purposeId: purpose.id, ...riskAnalysisForm },
       {
         onSuccess: () => {
-          useRiskAnalysisReviewStore.getState().setPendingReview({
-            purposeId: purpose.id,
-            previousMetadataVersion: purpose.metadataVersion,
-            riskAnalysisForm: { version: riskAnalysis.version, answers: normalizedAnswers },
+          navigate('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
+            params: { purposeId },
+            state: {
+              riskAnalysisSave: {
+                previousMetadataVersion: purpose.metadataVersion,
+                riskAnalysisForm,
+              },
+            },
           })
-          goToSummary()
         },
       }
     )
