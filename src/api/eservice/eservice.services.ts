@@ -38,6 +38,7 @@ import type {
   EServicePersonalDataFlagUpdateSeed,
   EServiceDelegationFlagsUpdateSeed,
   CatalogFilterPayload,
+  CatalogEService,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
@@ -62,6 +63,13 @@ async function getCatalogList(params: GetEServicesCatalogParams) {
 
 async function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'limit' | 'offset'>) {
   return await getAllFromPaginated((offset, limit) => getCatalogList({ ...params, limit, offset }))
+}
+
+async function getFeaturedEServicesCatalog() {
+  const response = await axiosInstance.get<Array<CatalogEService>>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/featured`
+  )
+  return response.data
 }
 
 async function getProviderList(params: GetProducerEServicesParams) {
@@ -840,4 +848,5 @@ export const EServiceServices = {
   updateEServicePersonalDataFlagAfterPublication,
   updateEServiceDelegationFlagsAfterPublication,
   queryCatalogList,
+  getFeaturedEServicesCatalog,
 }
