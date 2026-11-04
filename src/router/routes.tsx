@@ -82,25 +82,16 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
-import {
-  isLocalDevelopmentDashboardEnabled,
-  isLocalIdentitySelectionEnabled,
-} from '@/config/local-development'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
 
-const LocalDevelopmentDashboardPage = isLocalDevelopmentDashboardEnabled
-  ? React.lazy(() => import('@/pages/LocalDevelopmentDashboardPage/LocalDevelopmentDashboard.page'))
-  : undefined
 const LocalIdentitySelectionPage = isLocalIdentitySelectionEnabled
   ? React.lazy(() => import('@/pages/LocalIdentitySelectionPage/LocalIdentitySelection.page'))
   : undefined
 
 const localDevelopmentRoutes = [
-  ...(LocalDevelopmentDashboardPage
-    ? [{ path: '/local-dashboard/', element: <LocalDevelopmentDashboardPage /> }]
-    : []),
   ...(LocalIdentitySelectionPage
     ? languages.map((language) => ({
         path: `/${language}/local-identity-selection/`,
