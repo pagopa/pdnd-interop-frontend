@@ -29,7 +29,7 @@ type BackendErrorPayload = Problem & {
   userMessages?: { it?: string; en?: string }
 }
 
-const getBackendErrorToastLabel = (error: unknown): string | undefined => {
+const getBackendErrorLabel = (error: unknown): string | undefined => {
   if (!isAxiosError<BackendErrorPayload>(error)) return undefined
 
   const data = error.response?.data
@@ -61,7 +61,7 @@ const resolveMeta = (query: {
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
 
-  const errorToastLabel = getBackendErrorToastLabel(error) ?? fallbackLabel
+  const errorToastLabel = getBackendErrorLabel(error) ?? fallbackLabel
 
   const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
     const title =
