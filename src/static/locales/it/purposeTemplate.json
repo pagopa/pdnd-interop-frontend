@@ -214,7 +214,7 @@
           "specifications": {
             "title": "Specifiche"
           },
-          "updateMetadataDrawer": {
+          "purposeTemplateUpdateMetadataDrawer": {
             "title": "Modifica nome, descrizione e destinatari",
             "description": "Qui puoi aggiornare il nome, la descrizione e i destinatari del template finalità.",
             "nameField": {
