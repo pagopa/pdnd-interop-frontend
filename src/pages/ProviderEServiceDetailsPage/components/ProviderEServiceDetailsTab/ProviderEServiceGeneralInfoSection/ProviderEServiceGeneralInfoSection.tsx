@@ -1,8 +1,8 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
+import { Alert, Button, Divider, Stack, Typography, Link as MuiLink } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
 import {
   EServiceTemplateMutations,
@@ -17,12 +17,9 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
-import { ESERVICE_DESCRIPTION_MAX_LENGTH } from '@/config/constants'
+import { ESERVICE_DESCRIPTION_MAX_LENGTH, eserviceNamingBestPracticeLink } from '@/config/constants'
 import { AxiosError, isAxiosError } from 'axios'
-import {
-  UpdateMetadataDrawer,
-  type UpdateMetadataFormValues,
-} from '@/components/shared/UpdateMetadataDrawer'
+import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
 import { Link } from '@/router'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import {
@@ -295,7 +292,17 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           isOpen={isMetadataDrawerOpen}
           onClose={closeMetadataDrawer}
           title={t('updateMetadataDrawer.title')}
-          description={t('updateMetadataDrawer.description')}
+          description={
+            <Typography variant="body2">
+              <Trans
+                components={{
+                  1: <MuiLink href={eserviceNamingBestPracticeLink} target="_blank" />,
+                }}
+              >
+                {t('updateMetadataDrawer.description')}
+              </Trans>
+            </Typography>
+          }
           nameField={{
             label: t('updateMetadataDrawer.nameField.label'),
             helperText: t('updateMetadataDrawer.nameField.helperText'),
