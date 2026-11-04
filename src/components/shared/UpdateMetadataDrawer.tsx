@@ -1,10 +1,11 @@
-import { Drawer } from '@/components/shared/Drawer'
 import { RHFNewTextField } from '@/components/shared/react-hook-form-inputs'
 import { Stack } from '@mui/material'
 import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { TempNextDrawer } from './TempNextDrawer'
+import { MIButton } from '@pagopa/mui-italia'
 
 export type UpdateMetadataFormValues = {
   name: string
@@ -82,17 +83,21 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
 
   return (
     <FormProvider {...formMethods}>
-      <Drawer
+      <TempNextDrawer
         isOpen={isOpen}
         onClose={onClose}
         onTransitionExited={handleTransitionExited}
         title={title}
         subtitle={description}
-        buttonAction={{
-          action: formMethods.handleSubmit(handleSubmit),
-          label: tCommon('actions.saveEdits'),
-          color: isEmpty(formMethods.formState.errors) ? 'primary' : 'error',
-        }}
+        footerActions={[
+          <MIButton
+            key="saveEdits"
+            onClick={formMethods.handleSubmit(handleSubmit)}
+            color={isEmpty(formMethods.formState.errors) ? 'primary' : 'error'}
+          >
+            {tCommon('actions.saveEdits')}
+          </MIButton>,
+        ]}
       >
         <Stack component="form" noValidate spacing={6} onSubmit={(event) => event.preventDefault()}>
           <RHFNewTextField
@@ -125,7 +130,7 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
             />
           )}
         </Stack>
-      </Drawer>
+      </TempNextDrawer>
     </FormProvider>
   )
 }
