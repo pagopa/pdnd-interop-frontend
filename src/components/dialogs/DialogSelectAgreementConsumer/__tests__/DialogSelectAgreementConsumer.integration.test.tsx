@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { act, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { AgreementServices } from '@/api/agreement/agreement.services'
@@ -61,8 +62,14 @@ async function openSelector(isOwnEService: boolean) {
       producer: { id: isOwnEService ? consumer.id : 'other-producer' },
     },
   })
+  let hookMounts = 0
   const rendered = renderHookWithApplicationContext(
-    () => useGetEServiceConsumerActions(descriptor, [consumer], false),
+    () => {
+      useEffect(() => {
+        hookMounts += 1
+      }, [])
+      return useGetEServiceConsumerActions(descriptor, [consumer], false)
+    },
     { withReactQueryContext: true, withRouterContext: true }
   )
   const actions = [
@@ -75,6 +82,12 @@ async function openSelector(isOwnEService: boolean) {
   )
   expect(subscribeAction).toBeDefined()
   act(() => subscribeAction!.action())
+  const dialog = useDialogStore.getState().dialog
+  if (dialog?.type !== 'selectAgreementConsumer' || !dialog.flowSignal) {
+    throw new Error('Expected the originating selector flow signal')
+  }
+  const flowSignal = dialog.flowSignal
+  expect(flowSignal.aborted).toBe(false)
 
   const user = userEvent.setup()
   const field = await screen.findByRole('combobox', { name: 'consumerField.label' })
@@ -94,7 +107,7 @@ async function openSelector(isOwnEService: boolean) {
         })
     ).toBe(true)
   )
-  return { ...rendered, user, descriptor }
+  return { ...rendered, user, descriptor, flowSignal, getHookMounts: () => hookMounts }
 }
 
 async function requestConfirmation(user: ReturnType<typeof userEvent.setup>) {
@@ -126,9 +139,10 @@ describe.each([
       .spyOn(AgreementServices, method)
       .mockImplementationOnce(() => request.promise)
       .mockResolvedValue(createMockAgreement({ id: 'created-agreement' }))
-    const { user, history, descriptor } = await openSelector(isOwnEService)
+    const { user, history, descriptor, flowSignal } = await openSelector(isOwnEService)
 
     await confirm(user, isOwnEService)
+    expect(flowSignal.aborted).toBe(false)
     await waitFor(() => expect(service).toHaveBeenCalledOnce())
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     vi.mocked(DelegationServices.getConsumerDelegators).mockResolvedValue({
@@ -148,7 +162,9 @@ describe.each([
     expect(useDialogStore.getState().dialog).toMatchObject({
       type: 'selectAgreementConsumer',
       initialSelectedConsumer: consumer,
+      flowSignal,
     })
+    expect(flowSignal.aborted).toBe(false)
     expect(history.location.pathname).toBe('/')
     await user.click(restored)
     expect(await screen.findByRole('option', { name: consumer.name })).toBeInTheDocument()
@@ -207,6 +223,51 @@ describe.each([
     expect(useDialogStore.getState().dialog).toBe(newerDialog)
     expect(screen.getByRole('dialog', { name: 'New dialog' })).toBeInTheDocument()
   })
+
+  it.each([
+    { leave: 'route change while the hook stays mounted' as const },
+    { leave: 'route change and return to the origin route' as const },
+    { leave: 'origin unmount' as const },
+  ])(
+    'does not restore the selector on deferred failure after $leave during the pending mutation',
+    async ({ leave }) => {
+      const request = deferred<ReturnType<typeof createMockAgreement>>()
+      const service = vi.spyOn(AgreementServices, method).mockImplementation(() => request.promise)
+      const { user, history, rerender, unmount, getHookMounts, flowSignal } =
+        await openSelector(isOwnEService)
+      await confirm(user, isOwnEService)
+      await waitFor(() => expect(service).toHaveBeenCalledOnce())
+      expect(flowSignal.aborted).toBe(false)
+
+      if (leave === 'origin unmount') {
+        unmount()
+      } else {
+        act(() => history.push('/test'))
+        rerender()
+        expect(getHookMounts()).toBe(1)
+        expect(flowSignal.aborted).toBe(true)
+        if (leave === 'route change and return to the origin route') {
+          act(() => history.push('/'))
+          rerender()
+          expect(getHookMounts()).toBe(1)
+        }
+      }
+      expect(flowSignal.aborted).toBe(true)
+      const pathnameAfterLeaving = history.location.pathname
+
+      await act(async () => request.reject(new Error('backend failure')))
+      await waitFor(() =>
+        expect(queryClient.getMutationCache().getAll()[0]?.state.status).toBe('error')
+      )
+
+      expect(useDialogStore.getState().dialog).toBeNull()
+      expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      // The stale callback is unreachable: no selector to resubmit from, no extra request.
+      expect(service).toHaveBeenCalledOnce()
+      expect(history.location.pathname).toBe(pathnameAfterLeaving)
+    }
+  )
 })
 
 it('allows manual cancellation of the selector without starting a mutation', async () => {

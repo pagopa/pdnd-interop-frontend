@@ -5,6 +5,8 @@ import type {
   CatalogEServiceDescriptor,
   DelegationTenant,
 } from '@/api/api.generatedTypes'
+import { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
@@ -59,6 +61,41 @@ function useGetEServiceConsumerActions(
     isAsyncExchange
   )
   const { mutateAsync: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
+
+  /**
+   * Tracks whether the hook's owner is still mounted. `mutateAsync` promises keep resolving after
+   * unmount, so post-mutation navigation must be skipped if the user has already left the page.
+   * Set in the effect setup (not at declaration) so StrictMode's mount/unmount/mount cycle ends `true`.
+   */
+  const isMountedRef = useRef(false)
+  useEffect(() => {
+    isMountedRef.current = true
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
+
+  /**
+   * Only gates selector restoration, not HTTP requests or post-mutation navigation.
+   * The origin owns this controller so replacing the selector with confirmation cannot abort it.
+   * Pathname changes and owner unmount permanently abort the current flow; search changes do not.
+   */
+  const { pathname } = useLocation()
+  const flowControllerRef = useRef<AbortController | null>(null)
+  useEffect(() => {
+    const flowController = flowControllerRef
+    return () => {
+      flowController.current?.abort()
+    }
+  }, [pathname])
+
+  /** Each opening supersedes the previous flow, including after StrictMode's effect replay. */
+  const createFlowSignal = () => {
+    flowControllerRef.current?.abort()
+    const controller = new AbortController()
+    flowControllerRef.current = controller
+    return controller.signal
+  }
 
   const emptyResult = {
     primaryAction: undefined,
@@ -159,6 +196,7 @@ function useGetEServiceConsumerActions(
         descriptorId: descriptor.id,
         delegationId,
       }).then(({ id }) => {
+        if (!isMountedRef.current) return
         navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
       })
     }
@@ -174,6 +212,7 @@ function useGetEServiceConsumerActions(
       descriptorId: descriptor.id,
       delegationId,
     }).then(({ id }) => {
+      if (!isMountedRef.current) return
       navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
     })
   }
@@ -197,6 +236,7 @@ function useGetEServiceConsumerActions(
       agreements: descriptor.eservice.agreements,
       action: 'create',
       onSubmitCreate: handleCreateAgreementDraft,
+      flowSignal: createFlowSignal(),
     })
   }
 

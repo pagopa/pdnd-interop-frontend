@@ -171,6 +171,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
       if (
         !(error instanceof CancellationError) &&
         submittedDialog?.type === 'selectAgreementConsumer' &&
+        !submittedDialog.flowSignal?.aborted &&
         !useDialogStore.getState().dialog
       ) {
         useDialogStore.getState().openDialog({

@@ -197,6 +197,13 @@ export type DialogSelectAgreementConsumerProps = {
     isOwnEService: boolean
     delegationId?: string
   }) => void | Promise<void>
+  /**
+   * Lifetime of the flow that opened this dialog, provided by the originating hook.
+   * Aborted permanently on pathname change, owner unmount, or a subsequent flow opening.
+   * Only gates restoration after a failed `onSubmitCreate`; never cancels HTTP requests.
+   * When omitted the flow is considered active.
+   */
+  flowSignal?: AbortSignal
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
