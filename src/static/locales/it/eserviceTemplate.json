@@ -26,7 +26,7 @@
           "description": "Qui puoi aggiornare il nome, la descrizione e i destinatari del template e-service. Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
           "nameField": {
             "label": "Nome del template",
-            "helperText": "Min 5 caratteri, max {{maxLength}} caratteri"
+            "helperText": "È il nome che comparirà nel catalogo template e-service e che diventerà il nome di base di tutti gli e-service creati a partire da questo template. Min 5 caratteri, max {{maxLength}} caratteri."
           },
           "descriptionField": {
             "label": "Descrizione del template",

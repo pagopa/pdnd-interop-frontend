@@ -23,7 +23,7 @@
         "versionSection": { "title": "Version" },
         "updateMetadataDrawer": {
           "title": "Edit name, description and target audience",
-          "description": "Here you can update the name, description and target audience of the e-service template. To choose clear names and make e-services easy to find, see the <1>guidelines</1>",
+          "helperText": "It is the name that will appear in the e-service template catalog and will become the base name of all e-services created from this template. Min 5 characters, max {{maxLength}} characters.",
           "nameField": {
             "label": "Template name",
             "helperText": "Min 5 characters, max {{maxLength}} characters"
