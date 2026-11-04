@@ -111,11 +111,11 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
         <UpdateMetadataDrawer
           isOpen={isOpen}
           onClose={closeDrawer}
-          title={t('purposeTemplateUpdateMetadataDrawer.title')}
-          description={t('purposeTemplateUpdateMetadataDrawer.description')}
+          title={t('updateMetadataDrawer.title')}
+          description={t('updateMetadataDrawer.description')}
           nameField={{
-            label: t('purposeTemplateUpdateMetadataDrawer.nameField.label'),
-            helperText: t('purposeTemplateUpdateMetadataDrawer.nameField.helperText'),
+            label: t('updateMetadataDrawer.nameField.label'),
+            helperText: t('updateMetadataDrawer.nameField.helperText'),
             validation: {
               required: true,
               minLength: 5,
@@ -123,8 +123,8 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
             },
           }}
           descriptionField={{
-            label: t('purposeTemplateUpdateMetadataDrawer.descriptionField.label'),
-            helperText: t('purposeTemplateUpdateMetadataDrawer.descriptionField.helperText'),
+            label: t('updateMetadataDrawer.descriptionField.label'),
+            helperText: t('updateMetadataDrawer.descriptionField.helperText'),
             validation: {
               required: true,
               minLength: 10,
@@ -132,8 +132,8 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
             },
           }}
           targetField={{
-            label: t('purposeTemplateUpdateMetadataDrawer.targetField.label'),
-            helperText: t('purposeTemplateUpdateMetadataDrawer.targetField.helperText'),
+            label: t('updateMetadataDrawer.targetField.label'),
+            helperText: t('updateMetadataDrawer.targetField.helperText'),
             validation: {
               required: true,
               minLength: 10,
