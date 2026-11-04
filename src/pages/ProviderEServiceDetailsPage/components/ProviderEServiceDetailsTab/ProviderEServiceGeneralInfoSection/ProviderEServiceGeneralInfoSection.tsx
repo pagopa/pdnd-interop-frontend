@@ -253,7 +253,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
               title={t('nameAndDescription.title')}
               titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
               topSideActions={
-                isAdmin
+                isAdmin && !isDelegator && !isViewer
                   ? [
                       {
                         action: openMetadataDrawer,
