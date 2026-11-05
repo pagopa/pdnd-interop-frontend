@@ -55,13 +55,19 @@ export const RHFNewTextField: React.FC<RHFNewTextFieldProps> = ({
   const fieldName =
     indexFieldArray !== undefined ? `${name}.${indexFieldArray}.${fieldArrayKeyName}` : name
 
+  const usesMIHelperText = props.helperText !== undefined
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(fieldName, {
-    infoLabel,
-    error,
+    infoLabel: usesMIHelperText ? undefined : infoLabel,
+    error: usesMIHelperText ? undefined : error,
   })
 
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
+    <InputWrapper
+      error={usesMIHelperText ? undefined : error}
+      sx={sx}
+      infoLabel={usesMIHelperText ? undefined : infoLabel}
+      {...ids}
+    >
       <Controller
         name={fieldName}
         disabled={props.disabled}
