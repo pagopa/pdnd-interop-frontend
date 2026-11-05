@@ -730,6 +730,22 @@
         "title": "Qui troverai alcuni e-service suggeriti ed esempi pratici",
         "description": "Quando saranno disponibili, li vedrai qui. Intanto puoi esplorare tutti gli e-service."
       }
+    },
+    "useCases": {
+      "list": {
+        "title": "Esempi pratici",
+        "subtitle": "Esplora una raccolta di casi d'uso e scopri come gli e-service aiutano gli enti a semplificare processi e rispondere a bisogni reali."
+      },
+      "card": {
+        "eservicesChipLabel": "{{count}} e-service",
+        "buttonLabel": "Scopri di più"
+      },
+      "drawer": {
+        "readButtonLabel": "Leggi tutto",
+        "readButtonAriaLabel": "Leggi tutto",
+        "useCaseEServicesTitle": "E-service collegati a questo caso d'uso",
+        "useCaseSubscribedEServicesTitle": "E-service già in fruizione"
+      }
     }
   },
   "read": {
