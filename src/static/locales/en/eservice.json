@@ -730,6 +730,22 @@
         "title": "Here you will find some suggested e-services and practical examples",
         "description": "When they become available, you will see them here. In the meantime, you can explore all the e-services."
       }
+    },
+    "useCases": {
+      "list": {
+        "title": "Use cases",
+        "subtitle": "Explore a collection of use cases and discover how e-services help organizations streamline processes and address real-world needs."
+      },
+      "card": {
+        "eservicesChipLabel": "{{count}} e-services",
+        "buttonLabel": "Learn more"
+      },
+      "drawer": {
+        "readButtonLabel": "Read all",
+        "readButtonAriaLabel": "Read all",
+        "useCaseEServicesTitle": "E-services linked to this use case",
+        "useCaseSubscribedEServicesTitle": "E-service already subscribed"
+      }
     }
   },
   "read": {
