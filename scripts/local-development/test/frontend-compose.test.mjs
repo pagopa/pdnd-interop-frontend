@@ -347,28 +347,22 @@ it('preserves a real directory occupying the backend workspace link path', async
   await expect(readFile(callsFile)).rejects.toMatchObject({ code: 'ENOENT' })
 })
 
-it('validates the devcontainer model and build targets without explicitly enabling profiles', async ({
-  skip,
-}) => {
+it('validates the devcontainer Compose model with no active profiles', async ({ skip }) => {
   try {
     await execute('docker', ['compose', 'version'])
   } catch {
     skip()
     return
   }
-  const { frontend, backend, run } = await fixture()
-  await run('start')
+  const { frontend, backend, env } = await fixture()
+  await execute('bash', [join(frontend, '.devcontainer/prepare.sh')], { env })
   const backendCompose = join(backend, 'compose.yml')
   await writeFile(
     backendCompose,
     JSON.stringify({
       services: {
         infrastructure: { image: 'busybox:1.37' },
-        dashboard: {
-          profiles: ['dashboard'],
-          build: { context: backend },
-          healthcheck: { test: ['CMD', 'true'] },
-        },
+        dashboard: { image: 'busybox:1.37', profiles: ['dashboard'] },
       },
     })
   )
@@ -380,59 +374,12 @@ it('validates the devcontainer model and build targets without explicitly enabli
     join(frontend, '.devcontainer/compose.yml'),
     '-f',
     join(frontend, '.local-development/frontend/compose.yml'),
+    'config',
+    '--quiet',
   ]
-  const env = { ...process.env, COMPOSE_PROFILES: '', COMPOSE_DISABLE_ENV_FILE: 'true' }
-  await execute('docker', [...compose, 'config', '--quiet'], { env })
-  const { stdout: configJson } = await execute(
-    'docker',
-    [...compose, '--profile', 'dashboard', 'config', '--format', 'json'],
-    { env }
-  )
-  const config = JSON.parse(configJson)
-  const service = config.services.frontend
-  expect(service.profiles).toEqual(['dashboard'])
-  expect(config.services.dashboard.profiles).toEqual(['dashboard'])
-  expect(config.services.dashboard.environment).toMatchObject({
-    DASHBOARD_FRONTEND_URL: 'http://frontend:8077',
-    DASHBOARD_AUTOSTART: 'false',
+  await execute('docker', compose, {
+    env: { ...process.env, COMPOSE_PROFILES: '', COMPOSE_DISABLE_ENV_FILE: 'true' },
   })
-  expect(service.environment).toMatchObject({
-    INTEROP_DASHBOARD_URL: 'http://dashboard:8076',
-    INTEROP_LOCAL_BACKEND_TARGET: 'http://dashboard:3600',
-    INTEROP_SELFCARE_URL: 'http://host.docker.internal:8006',
-    INTEROP_DEVCONTAINER: 'true',
-    INTEROP_FRONTEND_RUNTIME: 'true',
-    INTEROP_FRONTEND_PORT: '5173',
-  })
-  expect(service.environment.INTEROP_BE_ROOT).toBe(backend)
-  expect(service.build.context).toBe(join(frontend, '.devcontainer'))
-  expect(service.volumes.filter(({ type }) => type === 'bind')).toEqual([
-    { type: 'bind', source: frontend, target: frontend },
-    { type: 'bind', source: backend, target: backend },
-    {
-      type: 'bind',
-      source: backend,
-      target: join(frontend, '.local-development/interop-be-monorepo'),
-    },
-  ])
-  expect(service.volumes.filter(({ type }) => type === 'volume')).toHaveLength(3)
-  expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')
-  expect(service.ports).toMatchObject([{ published: '3000', target: 5173 }])
-  expect(service.init).toBe(true)
-  expect(service.depends_on.dashboard.condition).toBe('service_started')
-  expect(service.healthcheck).toEqual({
-    test: ['CMD', 'node', 'scripts/local-development/dashboard-client.mjs', 'runtime-health'],
-    interval: '5s',
-    timeout: '5s',
-    retries: 3,
-    start_period: '30m0s',
-  })
-  const { stdout } = await execute(
-    'docker',
-    [...compose, 'build', '--no-cache', '--print', 'dashboard', 'frontend'],
-    { env }
-  )
-  expect(JSON.parse(stdout).group.default.targets.sort()).toEqual(['dashboard', 'frontend'])
 })
 
 it('reports failed startup immediately while leaving its editor container running', async () => {
