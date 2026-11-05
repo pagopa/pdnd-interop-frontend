@@ -204,7 +204,6 @@ function useGetEServiceConsumerActions(
       },
       agreements: descriptor.eservice.agreements,
       action: 'create',
-      onSubmitCreate: handleCreateAgreementDraft,
     })
   }
 
