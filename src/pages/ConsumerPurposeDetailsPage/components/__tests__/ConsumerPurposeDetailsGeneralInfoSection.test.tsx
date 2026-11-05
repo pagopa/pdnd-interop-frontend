@@ -1,12 +1,15 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 import { ConsumerPurposeDetailsGeneralInfoSection } from '../PurposeDetailsTab/ConsumerPurposeDetailsGeneralInfoSection'
 import { fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { type Purpose } from '@/api/api.generatedTypes'
 
 const purpose = createMockPurpose()
 
 const downloadSignedRiskAnalysisMock = vi.fn()
+
+mockUseJwt()
 
 vi.mock('@/api/purpose', () => ({
   PurposeDownloads: {
@@ -48,6 +51,10 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 })
 
 describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
+  beforeEach(() => {
+    mockUseJwt()
+  })
+
   it('should render correctly', () => {
     const screen = renderWithApplicationContext(
       <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
@@ -70,7 +77,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     )
 
     const eserviceLink = screen.getByRole('link', {
-      name: 'purpose.consumerView.sections.generalInformations.eServiceField.value',
+      name: 'purpose.consumerView.sections.generalInformations.specifications.eServiceField.value',
     })
 
     expect(eserviceLink).toBeInTheDocument()
@@ -225,7 +232,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
     expect(
       screen.getByText(
-        'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
+        'purpose.consumerView.sections.generalInformations.specifications.purposeTemplateField.label'
       )
     ).toBeInTheDocument()
     expect(screen.getByText('Purpose Template Title')).toBeInTheDocument()
@@ -240,8 +247,54 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
     expect(
       screen.queryByText(
-        'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
+        'purpose.consumerView.sections.generalInformations.specifications.purposeTemplateField.label'
       )
     ).not.toBeInTheDocument()
+  })
+
+  it('should keep metadata visible without an edit action for non-admin users', () => {
+    mockUseJwt({ isAdmin: false })
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(
+      screen.queryByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+      })
+    ).not.toBeInTheDocument()
+    expect(screen.getByText(purpose.title)).toBeVisible()
+    expect(screen.getByText(purpose.description)).toBeVisible()
+  })
+
+  it('should show the metadata drawer with the purpose values when edit is clicked', async () => {
+    const user = userEvent.setup()
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+      })
+    )
+
+    expect(
+      screen.getByText(
+        'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.title'
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('textbox', {
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
+      })
+    ).toHaveValue(purpose.title)
+    expect(
+      screen.getByRole('textbox', {
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.descriptionField.label',
+      })
+    ).toHaveValue(purpose.description)
   })
 })
