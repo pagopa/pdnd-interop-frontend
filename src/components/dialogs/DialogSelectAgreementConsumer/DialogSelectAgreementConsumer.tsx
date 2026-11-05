@@ -121,6 +121,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     select: ({ hasCertifiedAttributes }) => hasCertifiedAttributes,
   })
 
+  const isOwnEService = eservice.producerId === selectedConsumerId
   const delegationId = delegations?.[0]?.id
 
   const onSubmitInspect = ({ consumerId }: SelectAgreementConsumerFormValues) => {
@@ -154,7 +155,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const onSubmit = match(action)
     .with('inspect', () => onSubmitInspect)
     .with('edit', () => onSubmitEdit)
-    .with('create', () => () => onSubmitCreate({ delegationId }))
+    .with('create', () => () => onSubmitCreate({ isOwnEService, delegationId }))
     .exhaustive()
 
   const isConfirmDisabledWithoutSupport = match(action)

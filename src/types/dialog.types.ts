@@ -188,7 +188,13 @@ export type DialogSelectAgreementConsumerProps = {
     version: string
   }
   agreements: CompactAgreement[]
-  onSubmitCreate?: ({ delegationId }: { delegationId?: string }) => void
+  onSubmitCreate?: ({
+    isOwnEService,
+    delegationId,
+  }: {
+    isOwnEService: boolean
+    delegationId?: string
+  }) => void
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
