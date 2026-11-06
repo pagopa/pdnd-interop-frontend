@@ -1,6 +1,13 @@
 import CloseIcon from '@mui/icons-material/Close'
-import { Drawer as MUIDrawer, Stack, Typography, useTheme, useMediaQuery } from '@mui/material'
-import { MIIconButton } from '@pagopa/mui-italia'
+import {
+  Drawer as MUIDrawer,
+  Stack,
+  Typography,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  type SxProps,
+} from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -12,6 +19,7 @@ export type DrawerProps = {
   footerActions?: React.ReactNode
   children: React.ReactNode
   onTransitionExited?: VoidFunction
+  sxPaper?: SxProps
 }
 
 export const TempNextDrawer: React.FC<DrawerProps> = ({
@@ -22,6 +30,7 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
   footerActions,
   children,
   onTransitionExited,
+  sxPaper,
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'drawer' })
 
@@ -41,6 +50,7 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
           sx: {
             width: { xs: '100%', md: 417 },
             maxWidth: '100%',
+            ...sxPaper,
           },
         }}
       >
