@@ -22,13 +22,15 @@ describe('StatusChip', () => {
     expect(chip).toBeInTheDocument()
     expect(chip).toHaveClass(colorClass)
   })
-  it.each<Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>>([
-    'ASSIGNED',
-    'SUBMITTED',
-  ])('renders the risk analysis list label for state %s', (state) => {
+  it.each<[Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>, string]>([
+    ['ASSIGNED', 'MuiChip-colorWarning'],
+    ['SUBMITTED', 'MuiChip-colorInfo'],
+  ])('renders the risk analysis list label and color for state %s', (state, colorClass) => {
     renderWithApplicationContext(<StatusChip for="riskAnalysisList" state={state} />, {})
 
-    expect(screen.getByText(`status.riskAnalysisList.${state}`)).toBeInTheDocument()
+    const chip = screen.getByText(`status.riskAnalysisList.${state}`).closest('.MuiChip-root')
+    expect(chip).toBeInTheDocument()
+    expect(chip).toHaveClass(colorClass)
   })
 
   // The "simple" variants all share the same data-driven path: the label key is
