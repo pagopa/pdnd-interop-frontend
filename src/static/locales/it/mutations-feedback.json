@@ -702,7 +702,8 @@
     "updateRiskAnalysis": {
       "loading": "Stiamo aggiornando l'analisi del rischio",
       "outcome": {
-        "error": "Non è stato possibile aggiornare l'analisi del rischio. Per favore, riprova!"
+        "error": "Non è stato possibile aggiornare l'analisi del rischio. Per favore, riprova!",
+        "reviewUnavailable": "L’analisi del rischio è stata salvata, ma non è stato possibile caricare la versione appena salvata. Riapri l’analisi per riprovare."
       }
     },
     "clone": {

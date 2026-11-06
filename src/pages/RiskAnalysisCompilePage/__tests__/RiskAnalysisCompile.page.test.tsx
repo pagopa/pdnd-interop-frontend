@@ -80,6 +80,7 @@ function setQueryData({
 describe('RiskAnalysisCompilePage', () => {
   const purpose = {
     id: 'purpose-1',
+    metadataVersion: 3,
     title: 'Purpose title',
     description: 'Purpose description',
     freeOfChargeReason: 'reason',
@@ -203,6 +204,12 @@ describe('RiskAnalysisCompilePage', () => {
     expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
       params: {
         purposeId: 'purpose-1',
+      },
+      state: {
+        riskAnalysisSave: {
+          previousMetadataVersion: 3,
+          riskAnalysisForm: { version: '2', answers: { question1: ['answer1'] } },
+        },
       },
     })
   })

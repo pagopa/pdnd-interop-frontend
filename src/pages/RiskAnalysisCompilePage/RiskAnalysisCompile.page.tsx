@@ -35,22 +35,31 @@ const RiskAnalysisCompilePage: React.FC = () => {
     return <RiskAnalysisFormSkeleton />
   }
 
-  const goToSummary = () => {
-    navigate('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
-      params: {
-        purposeId: purposeId,
-      },
-    })
-  }
-
   const handleSubmit = (answers: Record<string, string[]>) => {
+    const normalizedAnswers = Object.fromEntries(
+      Object.entries(answers)
+        .filter(([, values]) => values.length > 0)
+        .map(([question, values]): [string, string[]] => [
+          question,
+          values.map((value) => value.trim()),
+        ])
+    )
+    const riskAnalysisForm = { version: riskAnalysis.version, answers: normalizedAnswers }
     updateRiskAnalysis(
+      { purposeId: purpose.id, ...riskAnalysisForm },
       {
-        purposeId: purpose.id,
-        version: riskAnalysis.version,
-        answers,
-      },
-      { onSuccess: goToSummary }
+        onSuccess: () => {
+          navigate('SUBSCRIBE_RISK_ANALYSIS_SUMMARY', {
+            params: { purposeId },
+            state: {
+              riskAnalysisSave: {
+                previousMetadataVersion: purpose.metadataVersion,
+                riskAnalysisForm,
+              },
+            },
+          })
+        },
+      }
     )
   }
 

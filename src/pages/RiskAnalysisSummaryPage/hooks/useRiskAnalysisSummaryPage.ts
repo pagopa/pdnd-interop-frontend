@@ -1,12 +1,11 @@
-import { PurposeQueries } from '@/api/purpose'
 import { useNavigate, useParams } from '@/router'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
-import { useQuery } from '@tanstack/react-query'
 import { useGetConsumerPurposeAlertProps } from '../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
 import { useDialog, useToastNotificationStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
+import { useRiskAnalysisReview } from './useRiskAnalysisReview'
 
-export function useRiskAnalysisSummaryPage() {
+export function useRiskAnalysisSummaryPage(reviewerId?: string) {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'>()
   const navigate = useNavigate()
   const { openDialog } = useDialog()
@@ -15,7 +14,8 @@ export function useRiskAnalysisSummaryPage() {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
 
-  const { data: purpose, isLoading, isFetching } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { purpose, reviewedPurpose, isSignedForAssignedReviewer, isLoading } =
+    useRiskAnalysisReview(purposeId, reviewerId)
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -26,7 +26,7 @@ export function useRiskAnalysisSummaryPage() {
 
   const eservicePersonalData = purpose?.eservice.personalData
 
-  const riskAnswer = purpose?.riskAnalysisForm?.answers?.usesPersonalData?.[0]
+  const riskAnswer = reviewedPurpose?.riskAnalysisForm?.answers?.usesPersonalData?.[0]
 
   const isRiskAnswerIncompatible =
     !!riskAnswer &&
@@ -39,7 +39,9 @@ export function useRiskAnalysisSummaryPage() {
     (isEserviceDeliverMode && isRulesetExpired)
 
   const arePublishOrEditButtonsDisabled =
-    purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
+    !reviewedPurpose ||
+    purpose?.agreement.state === 'ARCHIVED' ||
+    purpose?.eservice.descriptor.state === 'ARCHIVED'
 
   const handleEditDraft = () => {
     navigate('SUBSCRIBE_RISK_ANALYSIS_COMPILE', {
@@ -48,9 +50,9 @@ export function useRiskAnalysisSummaryPage() {
   }
 
   const handleApproveDraft = () => {
-    if (!purpose?.currentVersion) return
+    if (!reviewedPurpose?.currentVersion) return
 
-    const { metadataVersion } = purpose
+    const { metadataVersion } = reviewedPurpose
     if (metadataVersion === undefined) {
       showToast(t('error'), 'error')
       return
@@ -64,7 +66,7 @@ export function useRiskAnalysisSummaryPage() {
   }
 
   const handleRejectDraft = () => {
-    if (!purpose?.currentVersion) return
+    if (!reviewedPurpose?.currentVersion) return
     openDialog({
       type: 'rejectRiskAnalysis',
       purposeId,
@@ -74,8 +76,9 @@ export function useRiskAnalysisSummaryPage() {
   return {
     purposeId,
     purpose,
+    reviewedPurpose,
+    isSignedForAssignedReviewer,
     isLoading,
-    isFetching,
     isEserviceDeliverMode,
     expirationDate,
     isRulesetExpired,
