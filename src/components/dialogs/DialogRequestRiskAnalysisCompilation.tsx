@@ -17,7 +17,7 @@ import type { DialogRequestRiskAnalysisCompilationProps } from '@/types/dialog.t
 
 export const DialogRequestRiskAnalysisCompilation: React.FC<
   DialogRequestRiskAnalysisCompilationProps
-> = ({ purposeId, reviewerId, reviewerName }) => {
+> = ({ purposeId, reviewerIds, reviewerNames, hasRiskAnalysis }) => {
   const ariaLabelId = React.useId()
 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
@@ -25,10 +25,15 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
     keyPrefix: 'dialogRequestRiskAnalysisCompilation',
   })
 
+  const description = t(hasRiskAnalysis ? 'descriptionWithRiskAnalysis' : 'description', {
+    count: reviewerNames.length,
+    reviewerNames: reviewerNames.join(', '),
+  })
+
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
   const { mutate: assignReviewer, isPending } = PurposeMutations.useAssignRiskAnalysisReviewer({
-    showSuccessToast: true,
+    feedback: 'create',
   })
   const isConfirmDisabled = useIsActionDisabledBySupport(isPending)
 
@@ -37,7 +42,7 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
       {
         purposeId,
         reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-        reviewerIds: [reviewerId],
+        reviewerIds,
       },
       {
         onSuccess: () => {
@@ -64,7 +69,7 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
               strong: <Typography variant="inherit" component="span" fontWeight={600} />,
             }}
           >
-            {t('description', { reviewerName })}
+            {description}
           </Trans>
         </Typography>
       </DialogContent>

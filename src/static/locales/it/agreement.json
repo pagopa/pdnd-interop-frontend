@@ -264,7 +264,12 @@
     "noContactEmailTooltip": "Prima di inoltrare la richiesta, è obbligatorio che il tuo ente inserisca un’email di contatto",
     "noContactEmailAlert": "Per inoltrare questa richiesta di fruizione è necessario indicare una email di contatto. Puoi aggiungere ora la tua email <1>tramite questo modulo</1>.",
     "newVersionAlert": "Questa bozza non è più attivabile. Dal momento della sua creazione è uscita una nuova versione dell’e-service. Eliminala e creane una nuova.",
-    "delegatedAttributesAlert": "Gli attributi richiesti e visualizzati in questa pagina sono relativi all’aderente <strong>{{delegatorName}}</strong>."
+    "delegatedAttributesAlert": "Gli attributi richiesti e visualizzati in questa pagina sono relativi all’aderente <strong>{{delegatorName}}</strong>.",
+    "thankYou": {
+      "title": "Hai inviato la richiesta di fruizione",
+      "description": "Riceverai una notifica quando sarà approvata.",
+      "action": "Vai alla richiesta"
+    }
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",

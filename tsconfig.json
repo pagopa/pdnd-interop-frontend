@@ -16,9 +16,9 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "node"]
   },
   "include": ["src", "./setupTests.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

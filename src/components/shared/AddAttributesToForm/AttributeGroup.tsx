@@ -22,6 +22,8 @@ import {
   ConfigureCertifiedDiscreteAttributeDrawer,
   useConfigureCertifiedDiscreteAttributeDrawer,
 } from './ConfigureCertifiedDiscreteAttributeDrawer'
+import omit from 'lodash/omit'
+import { useToastNotification } from '@/stores'
 
 export type AttributeGroupProps = {
   group: Array<FormDescriptorAttribute>
@@ -44,6 +46,10 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { t: tAttribute } = useTranslation('attribute')
+  const { t: tAttributeContainer } = useTranslation('shared-components', {
+    keyPrefix: 'attributeContainer',
+  })
+  const { showToast } = useToastNotification()
   const [isAttributeAutocompleteVisible, setIsAttributeAutocompleteVisible] = React.useState(
     group.length === 0
   )
@@ -66,7 +72,10 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     }
   }
 
-  const { watch, setValue, getValues } = useFormContext<{ attributes: FormDescriptorAttributes }>()
+  const { watch, setValue, getValues, trigger } = useFormContext<{
+    attributes: FormDescriptorAttributes
+    dailyCallsTotal?: number
+  }>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
   const handleAddAttributeToGroup = (attribute: CompactAttribute) => {
@@ -74,6 +83,18 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     newAttributeGroups[groupIndex].push(attribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
     setIsAttributeAutocompleteVisible(false)
+  }
+
+  const handleRemoveThreshold = (attributeId: string) => {
+    const attributes = getValues('attributes')
+    const groups = [...attributes.certified]
+    groups[groupIndex] = groups[groupIndex].map((attribute) =>
+      attribute.id === attributeId ? omit(attribute, 'dailyCallsPerConsumer') : attribute
+    )
+
+    setValue('attributes.certified', groups, { shouldValidate: false })
+    trigger('dailyCallsTotal')
+    showToast(tAttributeContainer('removeThresholdSuccess'), 'success')
   }
 
   const handleSubmitConfigureDiscreteAttributeDrawer = (
@@ -150,6 +171,11 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     onCustomizeThreshold={
                       withThreshold
                         ? () => openCustomizeThresholdDrawer(attribute, groupIndex)
+                        : undefined
+                    }
+                    onRemoveThreshold={
+                      withThreshold && attribute.dailyCallsPerConsumer !== undefined
+                        ? () => handleRemoveThreshold(attribute.id)
                         : undefined
                     }
                     onOpenConfigDrawer={

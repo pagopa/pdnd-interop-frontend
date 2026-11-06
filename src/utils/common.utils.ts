@@ -71,6 +71,7 @@ export const parseHtmlJsonToReactNode = (
     case 'element':
       const filteredAttr: Record<string, unknown> = {
         id: json.attr?.id,
+        className: Array.isArray(json.attr?.class) ? json.attr.class.join(' ') : json.attr?.class,
         href: json.attr?.href,
         target: json.attr?.target,
         rel: Array.isArray(json.attr?.rel) ? json.attr?.rel.join(' ') : json.attr?.rel,

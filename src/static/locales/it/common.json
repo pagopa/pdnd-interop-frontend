@@ -27,6 +27,7 @@
     "upgrade": "Aggiorna",
     "delete": "Elimina",
     "inspect": "Visualizza",
+    "inspectEService": "Vai all'e-service",
     "edit": "Modifica",
     "clone": "Duplica",
     "publish": "Pubblica",
@@ -98,7 +99,10 @@
       "linkedEserviceProviderName": "Nome erogatore",
       "purposeTemplateCreatorName": "Nome realizzatore",
       "purposeTemplateTarget": "Destinatario",
-      "assignmentDate": "Data assegnazione"
+      "assignmentDate": "Data assegnazione",
+      "reviewersCount": "Numero valutatori",
+      "valuationDate": "Data valutazione",
+      "reviewer": "Valutatore"
     }
   },
   "status": {
@@ -171,7 +175,9 @@
     },
     "riskAnalysisList": {
       "ASSIGNED": "da compilare",
-      "SUBMITTED": "da approvare"
+      "SUBMITTED": "da approvare",
+      "SIGNED": "approvata",
+      "REJECTED": "rifiutata"
     }
   },
   "userProductRole": {
@@ -202,6 +208,7 @@
     "EQ": "Uguale a",
     "NE": "Diverso da"
   },
+  "reviewerUnknown": "Valutatore non disponibile",
   "ariaLabels": {
     "downloadDocument": "Scarica il documento {{name}}"
   }

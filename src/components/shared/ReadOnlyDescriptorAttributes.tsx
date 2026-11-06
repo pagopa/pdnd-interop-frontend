@@ -100,6 +100,7 @@ type AttributeGroupsListSectionProps = {
   ownershipData?: AttributeOwnershipData
   hasBlockingAttribute?: boolean
   hideThreshold?: boolean
+  onRemoveThreshold?: (attribute: DescriptorAttribute, attributeGroupIndex: number) => void
 }
 
 export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
@@ -110,6 +111,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
   ownershipData,
   hasBlockingAttribute = false,
   hideThreshold = false,
+  onRemoveThreshold,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -140,6 +142,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
               ownershipData={ownershipData}
               hasBlockingAttribute={hasBlockingAttribute}
               hideThreshold={hideThreshold}
+              onRemoveThreshold={onRemoveThreshold}
             />
           ))}
         </Stack>
@@ -164,6 +167,7 @@ type AttributeGroupProps = {
   ownershipData?: AttributeOwnershipData
   hasBlockingAttribute?: boolean
   hideThreshold?: boolean
+  onRemoveThreshold?: (attribute: DescriptorAttribute, attributeGroupIndex: number) => void
 }
 
 function getGroupColorAndText(
@@ -236,6 +240,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   ownershipData,
   hasBlockingAttribute = false,
   hideThreshold = false,
+  onRemoveThreshold,
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
@@ -293,6 +298,13 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     : undefined
                 }
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
+                onRemoveThreshold={
+                  withThreshold &&
+                  onRemoveThreshold &&
+                  attribute.dailyCallsPerConsumer !== undefined
+                    ? () => onRemoveThreshold(attribute, index)
+                    : undefined
+                }
                 hideThreshold={hideThreshold}
               />
             </Box>

@@ -43,7 +43,7 @@ vi.mock('react-i18next', () => ({
 
 const defaultProps = {
   type: 'requestPurposeApproval' as const,
-  reviewer: { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
+  reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
   onConfirm: vi.fn(),
 }
 
@@ -61,7 +61,7 @@ describe('DialogRequestPurposeApproval', () => {
     // The description string from t() is resolved with reviewerName interpolated.
     expect(
       screen.getByText(
-        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerName=Mario Rossi)'
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerNames=Mario Rossi,count=1)'
       )
     ).toBeInTheDocument()
     // <Trans> receives a `components.strong` to wrap the bold portion.
@@ -84,6 +84,24 @@ describe('DialogRequestPurposeApproval', () => {
     expect(onConfirm).not.toHaveBeenCalled()
   })
 
+  it('shows every assigned reviewer and selects plural copy', () => {
+    render(
+      <DialogRequestPurposeApproval
+        {...defaultProps}
+        reviewers={[
+          ...defaultProps.reviewers,
+          { userId: 'reviewer-2', name: 'Anna', familyName: 'Verdi' },
+        ]}
+      />
+    )
+
+    expect(
+      screen.getByText(
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerNames=Mario Rossi, Anna Verdi,count=2)'
+      )
+    ).toBeInTheDocument()
+  })
+
   it('invokes onConfirm and closes the dialog when "Conferma" is clicked', () => {
     const onConfirm = vi.fn()
     render(<DialogRequestPurposeApproval {...defaultProps} onConfirm={onConfirm} />)
@@ -96,5 +114,24 @@ describe('DialogRequestPurposeApproval', () => {
 
     expect(onConfirm).toHaveBeenCalledTimes(1)
     expect(closeDialogMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('shows an unavailable-name fallback for every unnamed reviewer and retains the count', () => {
+    render(
+      <DialogRequestPurposeApproval
+        {...defaultProps}
+        reviewers={[
+          { userId: 'reviewer-2', name: '', familyName: '' },
+          ...defaultProps.reviewers,
+          { userId: 'reviewer-3', name: '  ', familyName: '\t' },
+        ]}
+      />
+    )
+
+    expect(
+      screen.getByText(
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerNames=reviewerUnknown, Mario Rossi, reviewerUnknown,count=3)'
+      )
+    ).toBeInTheDocument()
   })
 })

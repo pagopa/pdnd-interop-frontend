@@ -105,7 +105,6 @@ function useSubmitDraft(isDelegated = false) {
     } & AgreementSubmissionPayload) =>
       AgreementServices.submitDraft({ agreementId, consumerNotes }),
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: confirmationDialog.length > 0 ? confirmationDialog : undefined,

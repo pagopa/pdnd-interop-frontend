@@ -15,11 +15,15 @@ import {
 import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from '../ConsumerPurposeSummaryPage/components/ConsumerPurposeSummaryRiskAnalysisAlertContainer'
 
 import { useRiskAnalysisSummaryPage } from './hooks/useRiskAnalysisSummaryPage'
-import { useCurrentRoute } from '@/router'
+import { useCurrentRoute, useNavigate } from '@/router'
+import { AuthHooks } from '@/api/auth'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 
 const RiskAnalysisSummaryPage: React.FC = () => {
   const { routeKey } = useCurrentRoute()
   const isApprovalFlow = routeKey === 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL'
+  const navigate = useNavigate()
+  const { jwt } = AuthHooks.useJwt()
 
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisSummary' })
   const { t: tCommon } = useTranslation('common', {
@@ -28,7 +32,9 @@ const RiskAnalysisSummaryPage: React.FC = () => {
 
   const {
     purposeId,
+    purpose,
     isLoading,
+    isFetching,
     alertProps,
     isPublishButtonDisabled,
     arePublishOrEditButtonsDisabled,
@@ -39,6 +45,30 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     expirationDate,
     isRulesetExpired,
   } = useRiskAnalysisSummaryPage()
+
+  useMarkNotificationsAsRead(purposeId)
+
+  const isAssignedReviewer =
+    purpose?.reviewerWorkflow?.reviewers?.some((reviewer) => reviewer.userId === jwt?.uid) ?? false
+
+  const isSignedForAssignedReviewer =
+    isAssignedReviewer && purpose?.reviewerWorkflow?.signingState === 'SIGNED'
+
+  React.useEffect(() => {
+    if (!isLoading && !isFetching && isSignedForAssignedReviewer) {
+      navigate('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+        params: { purposeId },
+        replace: true,
+      })
+    }
+  }, [isLoading, isFetching, isSignedForAssignedReviewer, navigate, purposeId])
+
+  if (isSignedForAssignedReviewer) return null
+
+  const infoAlertMessage =
+    purpose?.reviewerWorkflow?.reviewers && purpose?.reviewerWorkflow?.reviewers.length > 1
+      ? t('infoAlertMoreReviewers')
+      : t('infoAlert')
 
   return (
     <PageContainer
@@ -63,7 +93,11 @@ const RiskAnalysisSummaryPage: React.FC = () => {
         </React.Suspense>
 
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('riskAnalysisSection.title')}>
+          <SummaryAccordion
+            headline="2"
+            title={t('riskAnalysisSection.title')}
+            defaultExpanded={isApprovalFlow}
+          >
             <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>
@@ -77,7 +111,7 @@ const RiskAnalysisSummaryPage: React.FC = () => {
       )}
 
       <Alert severity="info" sx={{ mt: 4 }}>
-        {t('infoAlert')}
+        {infoAlertMessage}
       </Alert>
 
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">

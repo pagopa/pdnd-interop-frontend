@@ -1,3 +1,4 @@
+import { parse as parseContentDisposition } from 'content-disposition'
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
@@ -37,10 +38,20 @@ import type {
   EServiceSignalHubUpdateSeed,
   EServicePersonalDataFlagUpdateSeed,
   EServiceDelegationFlagsUpdateSeed,
+  CatalogFilterPayload,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
 import { sanitizeImportEserviceFileName } from '@/utils/eservice.utils'
+
+async function queryCatalogList(query: CatalogFilterPayload) {
+  const response = await axiosInstance.post<CatalogEServices>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog`,
+    query
+  )
+
+  return response.data
+}
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -515,10 +526,14 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
     { responseType: 'arraybuffer' }
   )
 
-  const filename =
-    response?.headers?.['content-disposition']?.split('filename=')[1] || 'consumers.csv'
+  const contentDisposition = response?.headers?.['content-disposition']
+  // For "eservice – test.csv", the BE sends filename="eservice ? test.csv" and
+  // filename*=UTF-8''eservice%20%E2%80%93%20test.csv. Parse the header to preserve the original name.
+  const filename = contentDisposition
+    ? parseContentDisposition(contentDisposition).parameters.filename
+    : undefined
 
-  return { file: response.data, filename }
+  return { file: response.data, filename: filename || 'consumers.csv' }
 }
 
 async function updateEServiceDescription({
@@ -829,4 +844,5 @@ export const EServiceServices = {
   updateEServiceSignalHub,
   updateEServicePersonalDataFlagAfterPublication,
   updateEServiceDelegationFlagsAfterPublication,
+  queryCatalogList,
 }
