@@ -17,7 +17,7 @@ type UseCaseCardProps = {
 
 const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase, onClick }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'featuredList.useCases.card' })
-  const { name, field, eserviceIds } = useCase
+  const { name, field, unsubscribedEServices, subscribedEServices } = useCase
 
   const fieldIcon = match(field)
     .with(
@@ -64,7 +64,9 @@ const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase, onClick }) => {
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} mb={{ sm: 3 }}>
               <MIChip
                 color="info"
-                label={t('eservicesChipLabel', { count: eserviceIds.length }).toLocaleUpperCase()}
+                label={t('eservicesChipLabel', {
+                  count: unsubscribedEServices.length + subscribedEServices.length,
+                }).toLocaleUpperCase()}
                 sx={{ alignSelf: 'flex-start' }}
               />
               <Typography>{field}</Typography>

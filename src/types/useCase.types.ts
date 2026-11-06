@@ -1,3 +1,5 @@
+import type { CatalogEService } from '@/api/api.generatedTypes'
+
 export const USE_CASE_FIELD_LABELS = {
   CITIZEN_SERVICES: { it: 'Servizi al cittadino', en: 'Citizen Services' },
   WELFARE: { it: 'Welfare', en: 'Welfare' },
@@ -16,5 +18,6 @@ export type UseCase = {
   description: string
   slug: string
   field: UseCaseField
-  eserviceIds: string[]
+  unsubscribedEServices: CatalogEService[]
+  subscribedEServices: CatalogEService[]
 }

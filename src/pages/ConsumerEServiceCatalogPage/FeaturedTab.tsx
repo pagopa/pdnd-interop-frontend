@@ -10,8 +10,6 @@ import EmptyStateBanner from './components/EmptyStateBanner'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 import UseCasesSection from './components/UseCasesSection'
-import { UseCasesQueries } from '@/api/useCases'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 type FeaturedTabProps = {
   onGoToCatalog: () => void
@@ -25,16 +23,16 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
     limit: 6,
     limitOptions: [6],
   })
-  const lang = useCurrentLanguage()
 
   const { data, isError } = useQuery({
     ...EServiceQueries.getFeaturedEServicesCatalog(),
     placeholderData: keepPreviousData,
   })
 
-  const { data: useCases, isError: isUseCasesError } = useQuery(
-    UseCasesQueries.getUseCasesJson(lang)
-  )
+  const { data: useCases, isError: isUseCasesError } = useQuery({
+    ...EServiceQueries.getUseCases(),
+    placeholderData: keepPreviousData,
+  })
 
   const eservicesEmptyState =
     isError && !data ? 'error' : data && data.length === 0 ? 'noResults' : undefined
