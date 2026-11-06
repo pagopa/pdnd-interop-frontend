@@ -9,6 +9,19 @@ vi.mock('./../components/PurposeCreateForm', () => ({
 }))
 
 describe('ConsumerPurposeCreatePage', () => {
+  it('renders only the wizard exit navigation', () => {
+    renderWithApplicationContext(<ConsumerPurposeCreatePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      '/it/fruizione/finalita'
+    )
+    expect(screen.queryByRole('button', { name: 'backButton' })).not.toBeInTheDocument()
+  })
+
   it('renders page title', () => {
     renderWithApplicationContext(<ConsumerPurposeCreatePage />, {
       withReactQueryContext: true,

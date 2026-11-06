@@ -71,7 +71,6 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
     <PageContainer
       title={t('providerRead.title')}
       topSideActions={actions}
-      backToAction={{ label: t('backToRequestsBtn'), to: 'PROVIDE_AGREEMENT_LIST' }}
       statusChip={{ for: 'agreement', agreement }}
     >
       {agreement.state === 'PENDING' && isDelegated && (

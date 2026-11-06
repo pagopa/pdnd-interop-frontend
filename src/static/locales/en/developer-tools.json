@@ -2,25 +2,25 @@
   "backToDeveloperToolsLabel": "Back to Developer Tools",
   "developerTools": {
     "page": {
-      "title": "Developer Tools",
-      "description": "A section containing some useful tools to support development",
+      "title": "Developer tools",
+      "description": "Checks and verifications useful before publishing, consuming or integrating an e-service.",
       "sectionRiskAnalysisExport": {
-        "title": "Risk Analysis Export",
-        "description": "Export and import in formatted .json format the risk analysis you compile, ready to be used in purpose creation calls in machine-to-machine flows.",
+        "title": "Risk analysis export",
+        "description": "Export and import the risk analysis you filled in using a formatted .json file, ready to be used in purpose creation calls in machine-to-machine flows.",
         "importTooltip": "Available soon",
         "importButton": "Import .json",
         "exportButton": "Export .json"
       },
       "sectionDebugClientAssertion": {
-        "title": "Debug Client Assertion",
-        "description": "The debug tool allows you to highlight any anomalies contained in your client assertion required to obtain the access token.",
+        "title": "Debug client assertion",
+        "description": "The debug tool lets you highlight any anomalies contained in the client assertion needed to obtain the access token.",
         "button": "Run debug"
       },
       "sectionVoucherSimulation": {
-        "title": "Token obtaining simulator",
-        "description": "After creating and selecting a client, you can simulate obtaining a voucher through this tool.",
+        "title": "Token acquisition simulator",
+        "description": "After creating and selecting a client, you can simulate the acquisition of a voucher through this tool.",
         "firstButton": "Simulate for e-service",
-        "secondButton": "Simulate for Interop"
+        "secondButton": "Simulate for Interoperability"
       },
       "sectionOpenApiAnalysis": {
         "title": "OpenAPI file analysis",
@@ -34,8 +34,8 @@
   },
   "riskAnalysisExporterTool": {
     "page": {
-      "title": "Risk Analysis Export",
-      "description": "The export tool allows you to export in formatted .json format the risk analysis you compile, ready to be used in purpose creation calls in machine-to-machine flows.",
+      "title": "Risk analysis export",
+      "description": "Export in formatted JSON the risk analysis you have filled in, ready to be used in purpose creation calls in machine-to-machine flows.",
       "alertInfo": "The risk analysis import feature will be available soon.",
       "steps": {
         "riskAnalysis": "Risk analysis",
@@ -44,8 +44,8 @@
     },
     "jsonExportStep": {
       "title": "Your JSON export",
-      "successAlert": "The risk analysis has been fully completed and has generated a correctly formatted output.",
-      "warningAlertTitle": "The risk analysis has been partially completed.",
+      "successAlert": "The risk analysis was completed in full and generated a correctly formatted output.",
+      "warningAlertTitle": "The risk analysis was only partially completed.",
       "backButton": "Back"
     },
     "formStep": {
@@ -53,10 +53,10 @@
       "riskAnalysisSection": {
         "title": "Risk analysis",
         "description": "Indicate for whom you are compiling this risk analysis.",
-        "tenantKindLabel": "Party type",
-        "publicAdministrationOption": "Public Administrations",
-        "privateOption": "Public service managers, publicly controlled companies, or private entities",
-        "warningAlert": "You have chosen to compile a risk analysis for a party type different from yours. Remember that risk analyses vary based on the party type, therefore the one you are compiling may not work for you."
+        "tenantKindLabel": "Entity type",
+        "publicAdministrationOption": "Public administrations",
+        "privateOption": "Public service managers, publicly controlled companies or private entities",
+        "warningAlert": "You have chosen to compile a risk analysis for a different entity type from your own. Please remember that risk analyses vary by entity type, so the one you are compiling may not be suitable for you."
       }
     }
   }

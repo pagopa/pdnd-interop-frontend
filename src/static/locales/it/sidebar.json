@@ -3,9 +3,9 @@
     "eserviceCatalog": "Catalogo e-service",
     "subscribe": {
       "subscribe": "Fruizione",
-      "agreement": "Richieste inoltrate",
-      "purpose": "Finalità inoltrate",
-      "purposeTemplateCatalog": "Template finalità",
+      "agreement": "Richieste inviate",
+      "purpose": "Finalità inviate",
+      "purposeTemplateCatalog": "Tutti i template finalità",
       "purposeTemplate": "I miei template finalità"
     },
     "provider": {
@@ -13,23 +13,23 @@
       "providerEservice": "I miei e-service",
       "providerAgreeemnt": "Richieste ricevute",
       "providerPurpose": "Finalità ricevute",
-      "eServiceTemplatesCatalog": "Template e-service",
+      "eServiceTemplatesCatalog": "Tutti i template e-service",
       "providerEserviceTemplate": "I miei template e-service",
       "providerKeychainsList": "Portachiavi erogatore"
     },
     "client": {
       "client": "Gestione dei client",
-      "eservice": "API e-service",
-      "interop": "API Interoperabilità",
+      "eservice": "Client e-service",
+      "interop": "Client interoperabilità",
       "debugClientAssertion": "Debug client assertion"
     },
     "tenant": {
-      "tenant": "Il mio ente",
-      "partyRegistry": "Anagrafica e attributi",
-      "tenantCertifier": "Ente certificatore",
-      "delegations": "Gestione delle deleghe"
+      "tenant": "Profilo ente",
+      "partyRegistry": "Informazioni e attributi",
+      "tenantCertifier": "Gestione attributi",
+      "delegations": "Deleghe"
     },
-    "developerTools": "Tool per lo sviluppo",
+    "developerTools": "Strumenti per lo sviluppo",
     "notifications": "Notifiche",
     "riskAnalysis": "Analisi del rischio"
   },

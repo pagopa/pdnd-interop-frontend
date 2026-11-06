@@ -6,6 +6,7 @@ import { Box, Button, Stack } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import { useTranslation } from 'react-i18next'
 import type { EServiceTechnology } from '@/api/api.generatedTypes'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 type UploadDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -36,6 +37,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
     defaultValues,
     shouldUnregister: true,
   })
+  usePageContainerFormDirtyState(formMethods.control)
   const selectedInterface = formMethods.watch('interfaceDoc')
 
   React.useEffect(() => {

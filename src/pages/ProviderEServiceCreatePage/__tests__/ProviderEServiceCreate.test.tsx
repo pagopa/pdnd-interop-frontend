@@ -68,6 +68,19 @@ vi.mock('@/api/eserviceTemplate', () => ({
 mockUseParams({})
 
 describe('ProviderEServiceCreatePage', () => {
+  it('renders the wizard exit action', () => {
+    mockUseActiveStep()
+    renderWithApplicationContext(<ProviderEServiceCreatePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      '/it/erogazione/e-service'
+    )
+  })
+
   it('should render page with stepper(DELIVER)', () => {
     mockUseActiveStep()
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {

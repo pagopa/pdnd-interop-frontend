@@ -112,6 +112,12 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     expect(screen.getByText('summary.title')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      '/it/fruizione/finalita'
+    )
+    expect(screen.queryByRole('button', { name: 'actions.back' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
   })
 
   it('disables publish button when personal data answer is incompatible (case: user answer NO, eservice personalData true)', () => {

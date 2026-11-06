@@ -1,6 +1,12 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
+import { useFormContext } from 'react-hook-form'
+import { createMemoryHistory } from 'history'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import type { AttributeKey } from '@/types/attribute.types'
+import { PageContainer } from '@/components/layout/containers'
+import { createMockDescriptorAttribute } from '@/../__mocks__/data/attribute.mocks'
 import {
   EServiceTemplateCreateStepThresholdsAndAttributes,
   EServiceTemplateCreateStepThresholdsAndAttributesSkeleton,
@@ -12,8 +18,30 @@ import {
 } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
 vi.mock('@/components/shared/AddAttributesToForm', () => ({
-  AddAttributesToForm: ({ attributeKey }: { attributeKey: string }) => {
-    return <div data-testid={`add-attributes-form-${attributeKey}`}>AddAttributesToForm</div>
+  AddAttributesToForm: ({ attributeKey }: { attributeKey: AttributeKey }) => {
+    const { watch, setValue } = useFormContext<{ attributes: DescriptorAttributes }>()
+    const groups = watch(`attributes.${attributeKey}`)
+
+    return (
+      <div data-testid={`add-attributes-form-${attributeKey}`}>
+        AddAttributesToForm
+        {groups.map((group, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={() =>
+              setValue(
+                `attributes.${attributeKey}`,
+                groups.filter((_, groupIndex) => groupIndex !== index),
+                { shouldValidate: false }
+              )
+            }
+          >
+            Remove {group[0]?.id}
+          </button>
+        ))}
+      </div>
+    )
   },
 }))
 
@@ -38,6 +66,71 @@ afterEach(() => {
 })
 
 describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
+  it.each<AttributeKey>(['certified', 'verified', 'declared'])(
+    'confirms Exit after removing an existing %s requirement without typing and retains edits on cancel',
+    async (attributeKey) => {
+      const removedAttribute = createMockDescriptorAttribute({ id: 'removed-requirement' })
+      const retainedAttribute = createMockDescriptorAttribute({ id: 'retained-requirement' })
+      mockUseEServiceTemplateCreateContext({
+        eserviceTemplateVersion: createMockEServiceTemplateVersionDetails({
+          attributes: { [attributeKey]: [[removedAttribute], [retainedAttribute]] },
+        }),
+      })
+      const { history } = renderWithApplicationContext(
+        <PageContainer navigation={{ mode: 'wizard', stepKey: 2, exitAction: { to: 'DEFAULT' } }}>
+          <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />
+        </PageContainer>,
+        { withReactQueryContext: true, withRouterContext: true },
+        createMemoryHistory({ initialEntries: [`/test?tab=${attributeKey}`] })
+      )
+      const initialLocation = history.location
+
+      await userEvent.click(screen.getByRole('button', { name: 'Remove removed-requirement' }))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      const dialog = screen.getByRole('dialog', { name: 'exitDialog.title' })
+      expect(history.location).toEqual(initialLocation)
+      expect(updateVersionDraft).not.toHaveBeenCalled()
+
+      await userEvent.click(within(dialog).getByRole('button', { name: 'exitDialog.cancelButton' }))
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      })
+      expect(history.location).toEqual(initialLocation)
+      expect(
+        screen.queryByRole('button', { name: 'Remove removed-requirement' })
+      ).not.toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Remove retained-requirement' })
+      ).toBeInTheDocument()
+
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+      expect(screen.getByRole('dialog', { name: 'exitDialog.title' })).toBeInTheDocument()
+    }
+  )
+
+  it('exits without confirmation when existing requirements have not changed', async () => {
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails({
+        attributes: { certified: [[createMockDescriptorAttribute()]] },
+      }),
+    })
+    const { history } = renderWithApplicationContext(
+      <PageContainer navigation={{ mode: 'wizard', stepKey: 2, exitAction: { to: 'DEFAULT' } }}>
+        <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />
+      </PageContainer>,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+    const initialLocation = history.location
+
+    await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(history.location).not.toEqual(initialLocation)
+    expect(updateVersionDraft).not.toHaveBeenCalled()
+  })
+
   it('should render the thresholds section title', () => {
     mockUseEServiceTemplateCreateContext()
     renderWithApplicationContext(
