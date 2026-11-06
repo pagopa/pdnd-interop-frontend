@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../query-client'
@@ -6,6 +6,8 @@ import { useDialogStore } from '@/stores'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { ConfirmationDialogMeta, MutationMeta } from '@tanstack/react-query'
 import type * as CommonUtils from '@/utils/common.utils'
+import { AxiosError, AxiosHeaders } from 'axios'
+import { useErrorDataStore } from '@/stores/error-data.store'
 
 const { mockedSetExponentialInterval, mockedClearExponentialInterval } = vi.hoisted(() => ({
   mockedSetExponentialInterval: vi.fn(() => 'active-queries-polling-interval-id'),
@@ -20,6 +22,48 @@ vi.mock('@/utils/common.utils', async () => {
     setExponentialInterval: mockedSetExponentialInterval,
     clearExponentialInterval: mockedClearExponentialInterval,
   }
+})
+
+describe('queryClient error toast details', () => {
+  it.each([true, false, undefined])(
+    'preserves diagnostic data and respects skipErrorToastDetails=%s',
+    async (skipErrorToastDetails) => {
+      const user = userEvent.setup()
+      const error = new AxiosError('Request failed', undefined, undefined, undefined, {
+        status: 500,
+        statusText: 'Request failed',
+        data: { correlationId: 'correlation-id', errors: [{ code: 'error-code' }] },
+        headers: {},
+        config: { headers: new AxiosHeaders() },
+      })
+
+      renderWithApplicationContext(
+        <TestMutation
+          mutationFn={vi.fn().mockRejectedValueOnce(error)}
+          meta={{ errorToastLabel: 'mutation.error', skipErrorToastDetails }}
+        />,
+        { withReactQueryContext: true }
+      )
+
+      await user.click(screen.getByRole('button', { name: 'submit' }))
+
+      expect(await screen.findByText('mutation.error')).toBeInTheDocument()
+      const alert = within(screen.getByRole('alert'))
+      if (skipErrorToastDetails) {
+        expect(alert.queryByText('axiosError.correlationIdText')).not.toBeInTheDocument()
+        expect(alert.queryByRole('textbox')).not.toBeInTheDocument()
+        expect(alert.queryByRole('button')).not.toBeInTheDocument()
+      } else {
+        expect(alert.getByText('axiosError.correlationIdText')).toBeInTheDocument()
+        expect(alert.getByRole('textbox')).toHaveValue('correlation-id')
+        expect(alert.getByRole('button')).toBeInTheDocument()
+      }
+      expect(useErrorDataStore.getState()).toMatchObject({
+        correlationId: 'correlation-id',
+        errorCode: 'error-code',
+      })
+    }
+  )
 })
 
 const TestMutation = ({

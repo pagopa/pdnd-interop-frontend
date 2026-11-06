@@ -14,6 +14,9 @@ declare module '@tanstack/react-query' {
     loadingLabel?: string | ((variables: unknown) => string)
     successToastLabel?: string | ((data: unknown, variables: unknown, context: unknown) => string)
     errorToastLabel?: string | ((error: unknown, variables: unknown, context: unknown) => string)
+    skipErrorToastDetails?:
+      | boolean
+      | ((error: unknown, variables: unknown, context: unknown) => boolean)
     confirmationDialog?: ConfirmationDialogMeta | Array<ConfirmationDialogMeta>
     skipActiveQueriesPolling?: boolean
   }
