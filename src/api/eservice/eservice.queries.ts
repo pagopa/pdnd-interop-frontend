@@ -36,6 +36,13 @@ function getFeaturedEServicesCatalog() {
   })
 }
 
+function getUseCases() {
+  return queryOptions({
+    queryKey: ['EServiceGetUseCases'],
+    queryFn: () => EServiceServices.getUseCases(),
+  })
+}
+
 function getProviderList(params: GetProducerEServicesParams) {
   return queryOptions({
     queryKey: ['EServiceGetProviderList', params],
@@ -109,4 +116,5 @@ export const EServiceQueries = {
   getIsEServiceNameAvailable,
   queryCatalogList,
   getFeaturedEServicesCatalog,
+  getUseCases,
 }
