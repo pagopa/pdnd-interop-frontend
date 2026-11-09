@@ -9,19 +9,29 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 import { AuthHooks } from '@/api/auth'
 import { formatDateStringNumeric } from '@/utils/format.utils'
+import type { Purpose } from '@/api/api.generatedTypes'
 
-type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
-  purposeId: string
-}
+type ConsumerPurposeSummaryGeneralInformationAccordionProps =
+  | { purposeId: string }
+  | { purpose: Purpose }
 
 export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
-> = ({ purposeId }) => {
-  const { jwt, isReviewer } = AuthHooks.useJwt()
+> = (props) => {
+  if ('purpose' in props) return <GeneralInformationSummary purpose={props.purpose} />
+  return <GeneralInformationSummaryQuery purposeId={props.purposeId} />
+}
+
+const GeneralInformationSummaryQuery: React.FC<{ purposeId: string }> = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
+  return <GeneralInformationSummary purpose={purpose} />
+}
+
+const GeneralInformationSummary: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
+  const { jwt, isReviewer } = AuthHooks.useJwt()
 
   const { data: remainingDailyCalls } = useQuery({
-    ...PurposeQueries.getRemainingDailyCalls({ purposeId }),
+    ...PurposeQueries.getRemainingDailyCalls({ purposeId: purpose.id }),
     enabled: !isReviewer,
   })
 

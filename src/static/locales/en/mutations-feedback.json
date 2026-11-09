@@ -702,7 +702,8 @@
     "updateRiskAnalysis": {
       "loading": "Risk analysis is being updated",
       "outcome": {
-        "error": "The risk analysis could not be updated. Please try again!"
+        "error": "The risk analysis could not be updated. Please try again!",
+        "reviewUnavailable": "The risk analysis was saved, but the saved version could not be loaded for review. Reopen the risk analysis to try again."
       }
     },
     "clone": {

@@ -81,6 +81,8 @@ vi.mock('@tanstack/react-query', async () => {
       data: mockedPurposeData,
       isLoading: isPurposeLoading,
       isFetching: isPurposeFetching,
+      isFetchedAfterMount: !isPurposeLoading && !isPurposeFetching,
+      isSuccess: !isPurposeLoading,
     }),
   }
 })
