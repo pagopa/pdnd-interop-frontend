@@ -14,6 +14,17 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "generate-types": "node scripts/open-api-type-generator.js",
     "crawling-guide-links": "node scripts/guide-crawl/index.js",
+    "local:start": "./scripts/local-development/fullstack.sh start",
+    "local:stop": "./scripts/local-development/fullstack.sh stop",
+    "local:status": "./scripts/local-development/fullstack.sh status",
+    "local:dashboard": "./scripts/local-development/dashboard.sh",
+    "local:smoke": "./scripts/local-development/smoke.sh",
+    "local:test:e2e": "./scripts/local-development/run-e2e.sh",
+    "local:logs": "./scripts/local-development/fullstack.sh logs",
+    "local:reset": "./scripts/local-development/fullstack.sh reset",
+    "local:use:local": "./scripts/local-development/fullstack.sh use-local",
+    "local:use:dev": "./scripts/local-development/fullstack.sh use-dev",
+    "local:identity": "./scripts/local-development/fullstack.sh identity",
     "prepare": "husky"
   },
   "dependencies": {
@@ -46,13 +57,14 @@
     "react-i18next": "13.5.0",
     "react-router-dom": "6.4.3",
     "ts-pattern": "5.9.0",
-    "zod": "4.3.6",
+    "zod": "4.6.6",
     "zustand": "4.5.7"
   },
   "devDependencies": {
     "@commitlint/cli": "20.4.2",
     "@commitlint/config-conventional": "20.4.2",
     "@mui/utils": "7.3.8",
+    "@playwright/test": "1.61.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "14.3.1",
     "@testing-library/user-event": "14.6.1",
@@ -87,7 +99,7 @@
     "swagger-typescript-api": "13.12.2",
     "typescript": "5.9.3",
     "validate-branch-name": "1.3.2",
-    "vite": "6.4.3",
+    "vite": "6.4.5",
     "vitest": "4.1.11"
   },
   "validate-branch-name": {
