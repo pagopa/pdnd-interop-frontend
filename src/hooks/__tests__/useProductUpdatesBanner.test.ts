@@ -21,6 +21,16 @@ vi.mock('../bannerHooks/useBaseBanner', () => ({
 const bannerData = {
   start: { date: '2026-06-11', time: '00:00' },
   end: { date: '2026-06-12', time: '23:59' },
+  title: 'Platform news',
+  description: 'A new feature is available.',
+  firstLink: {
+    link: 'https://docs.example.com/feature',
+    label: 'Read the guide',
+  },
+  secondLink: {
+    link: 'https://docs.example.com/roles',
+    label: 'Discover roles',
+  },
 }
 
 describe('useProductUpdatesBanner', () => {
@@ -50,12 +60,16 @@ describe('useProductUpdatesBanner', () => {
     })
 
     expect(result.current).toMatchObject({
-      title: 'title',
-      text: 'body',
-      action1Label: 'action1Label',
-      action2Label: 'action2Label',
-      action1AriaLabel: 'action1AriaLabel',
-      action2AriaLabel: 'action2AriaLabel',
+      title: 'Platform news',
+      text: 'A new feature is available.',
+      firstLink: {
+        link: 'https://docs.example.com/feature',
+        label: 'Read the guide',
+      },
+      secondLink: {
+        link: 'https://docs.example.com/roles',
+        label: 'Discover roles',
+      },
       isOpen: true,
     })
     expect(useBaseBanner).toHaveBeenCalledWith({

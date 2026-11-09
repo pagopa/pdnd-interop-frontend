@@ -27,6 +27,7 @@
     "upgrade": "Upgrade",
     "delete": "Delete",
     "inspect": "View",
+    "inspectEService": "Go to e-service",
     "edit": "Edit",
     "clone": "Duplicate",
     "publish": "Publish",
@@ -98,7 +99,10 @@
       "linkedEserviceProviderName": "Producer Name",
       "purposeTemplateCreatorName": "Creator name",
       "purposeTemplateTarget": "Target",
-      "assignmentDate": "Assignment date"
+      "assignmentDate": "Assignment date",
+      "reviewersCount": "Reviewers count",
+      "valuationDate": "Valuation date",
+      "reviewer": "Reviewer"
     }
   },
   "status": {
@@ -171,7 +175,9 @@
     },
     "riskAnalysisList": {
       "ASSIGNED": "to compile",
-      "SUBMITTED": "to approve"
+      "SUBMITTED": "to approve",
+      "SIGNED": "approved",
+      "REJECTED": "rejected"
     }
   },
   "userProductRole": {
@@ -202,6 +208,7 @@
     "EQ": "Equal to",
     "NE": "Not equal to"
   },
+  "reviewerUnknown": "Reviewer not available",
   "ariaLabels": {
     "downloadDocument": "Download document {{name}}"
   }

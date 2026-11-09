@@ -96,7 +96,9 @@
       "label": "Client to use"
     },
     "purposeSelectInput": {
-      "label": "Purpose"
+      "label": "Purpose",
+      "loading": "Loading purposes",
+      "error": "Unable to load purposes."
     },
     "keySelectInput": {
       "label": "Public key"
