@@ -20,6 +20,7 @@ import type {
   GetProducerEServicesParams,
   GetProducersParams,
   GracePeriodDays,
+  PatchUpdateEServiceSeed,
   PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -542,6 +543,17 @@ async function updateEServiceDescription({
   return response.data
 }
 
+async function patchUpdateEServiceById({
+  eserviceId,
+  ...payload
+}: { eserviceId: string } & PatchUpdateEServiceSeed) {
+  const response = await axiosInstance.patch<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`,
+    payload
+  )
+  return response.data
+}
+
 async function exportVersion({
   eserviceId,
   descriptorId,
@@ -824,6 +836,7 @@ export const EServiceServices = {
   downloadVersionDraftDocument,
   downloadConsumerList,
   updateEServiceDescription,
+  patchUpdateEServiceById,
   exportVersion,
   importVersion,
   updateDescriptorAttributes,

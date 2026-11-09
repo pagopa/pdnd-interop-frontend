@@ -19,7 +19,10 @@ import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { ESERVICE_DESCRIPTION_MAX_LENGTH, eserviceNamingBestPracticeLink } from '@/config/constants'
 import { AxiosError, isAxiosError } from 'axios'
-import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
+import {
+  UpdateMetadataDrawer,
+  type UpdateMetadataFormValues,
+} from '@/components/shared/UpdateMetadataDrawer'
 import { Link } from '@/router'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import {
@@ -56,6 +59,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
+  const { mutate: patchUpdateEServiceMetadata } = EServiceMutations.usePatchUpdateEServiceById()
 
   const {
     isOpen: isMetadataDrawerOpen,
@@ -143,6 +147,20 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         personalData: personalData,
       },
       { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+    )
+  }
+
+  const handleMetadataUpdate = (payload: UpdateMetadataFormValues) => {
+    const changedName = payload.name !== descriptor.eservice.name
+    const changedDescription = payload.description !== descriptor.eservice.description
+
+    patchUpdateEServiceMetadata(
+      {
+        eserviceId: descriptor.eservice.id,
+        ...(changedName ? { name: payload.name } : {}),
+        ...(changedDescription ? { description: payload.description } : {}),
+      },
+      { onSuccess: closeMetadataDrawer }
     )
   }
 
@@ -323,7 +341,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             name: descriptor.eservice.name,
             description: descriptor.eservice.description,
           }}
-          onSubmit={() => null} /* TODO: Implement purpose template metadata update */
+          onSubmit={handleMetadataUpdate}
         />
       )}
       <UpdatePersonalDataDrawer

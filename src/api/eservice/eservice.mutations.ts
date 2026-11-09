@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AxiosError } from 'axios'
+import { match, P } from 'ts-pattern'
 import type {
   EServiceRiskAnalysisSeed,
   ProblemError,
+  PatchUpdateEServiceSeed,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
 } from '../api.generatedTypes'
@@ -580,6 +582,47 @@ function useUpdateEServiceDescription() {
   })
 }
 
+function usePatchUpdateEServiceById() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.patchUpdateEServiceById',
+  })
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (
+      payload: {
+        eserviceId: string
+      } & PatchUpdateEServiceSeed
+    ) => EServiceServices.patchUpdateEServiceById(payload),
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        t(
+          match(variables)
+            .returnType<
+              | 'outcome.successNameAndDescription'
+              | 'outcome.successName'
+              | 'outcome.successDescription'
+              | 'outcome.error'
+            >()
+            .with(
+              { name: P.string, description: P.string },
+              () => 'outcome.successNameAndDescription'
+            )
+            .with({ name: P.string }, () => 'outcome.successName')
+            .with({ description: P.string }, () => 'outcome.successDescription')
+            .otherwise(() => 'outcome.error')
+        ),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess: (_data, { eserviceId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ['EServiceGetDescriptorProvider', eserviceId],
+      })
+    },
+  })
+}
+
 function useUpdateDescriptorAttributes() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateDescriptorAttributes',
@@ -785,6 +828,7 @@ export const EServiceMutations = {
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateEServiceDescription,
+  usePatchUpdateEServiceById,
   useUpdateVersionDraftDocumentDescription,
   useImportVersion,
   useUpdateDescriptorAttributes,
