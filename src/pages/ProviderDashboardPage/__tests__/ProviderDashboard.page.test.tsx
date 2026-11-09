@@ -6,7 +6,8 @@ import { ErrorBoundary } from 'react-error-boundary'
 import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
-import { createTheme, ThemeProvider } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
+import { theme } from '@pagopa/interop-fe-commons'
 import type * as LayoutContainers from '@/components/layout/containers'
 import ProviderDashboardPage from '../ProviderDashboard.page'
 import { CardDashboard } from '@/components/shared/CardDashboard/CardDashboard'
@@ -60,7 +61,6 @@ vi.mock('@/components/shared/CardDashboard/CardDashboard', () => ({
 
 const navigateMock = vi.fn()
 const cardMock = vi.mocked(CardDashboard)
-const theme = createTheme()
 
 const dashboard: ProducerDashboard = {
   eservices: {
@@ -193,6 +193,20 @@ describe('ProviderDashboardPage', () => {
     expect(navigateMock).not.toHaveBeenCalled()
   })
 
+  it('should map e-service status colors from the shared application theme', async () => {
+    await renderDashboard()
+
+    expect(getCards()[0].content).toMatchObject({
+      kind: 'status',
+      statuses: [
+        { id: 'active', color: theme.colors.turquoise[600] },
+        { id: 'suspended', color: theme.palette.error.dark },
+        { id: 'archiving', color: theme.palette.primary.main },
+        { id: 'suspendedArchiving', color: theme.palette.info.main },
+      ],
+    })
+  })
+
   it('should show the suspense fallback without cards until the query resolves', async () => {
     let resolveDashboard!: (value: ProducerDashboard) => void
     vi.mocked(ProducerServices.getDashboard).mockReturnValue(
@@ -264,9 +278,18 @@ describe('ProviderDashboardPage', () => {
 
     const rules = Array.from(document.styleSheets).flatMap((sheet) => Array.from(sheet.cssRules))
     const gridStyles = rules.map((rule) => rule.cssText).join('\n')
+    const breakpointStyles = (breakpoint: 'sm' | 'lg') =>
+      rules
+        .filter(
+          (rule) =>
+            rule instanceof CSSMediaRule &&
+            rule.conditionText === theme.breakpoints.up(breakpoint).replace('@media ', '')
+        )
+        .map((rule) => rule.cssText)
+        .join('\n')
     expect(gridStyles).toMatch(/flex-basis: 100%/)
-    expect(gridStyles).toMatch(/@media \(min-width:600px\)[\s\S]*flex-basis: 50%/)
-    expect(gridStyles).toMatch(/@media \(min-width:1200px\)[\s\S]*flex-basis: 33\.333333%/)
+    expect(breakpointStyles('sm')).toMatch(/flex-basis: 50%/)
+    expect(breakpointStyles('lg')).toMatch(/flex-basis: 33\.333333%/)
   })
 
   it.each([
