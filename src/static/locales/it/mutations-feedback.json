@@ -336,6 +336,15 @@
         "success": "Nome dell'e-service aggiornato correttamente"
       }
     },
+    "patchUpdateEServiceById": {
+      "loading": "Stiamo aggiornando il nome e la descrizione dell’e-service",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione dell’e-service.",
+        "successName": "Hai modificato il nome dell’e-service.",
+        "successDescription": "Hai modificato la descrizione dell’e-service.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione dell’e-service. Riprova."
+      }
+    },
     "updateEServiceInterfaceInfo": {
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
