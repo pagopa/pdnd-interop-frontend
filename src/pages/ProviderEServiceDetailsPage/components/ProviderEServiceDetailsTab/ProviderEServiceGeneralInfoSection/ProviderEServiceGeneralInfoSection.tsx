@@ -311,7 +311,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           onClose={closeMetadataDrawer}
           title={t('updateMetadataDrawer.title')}
           description={
-            <Typography variant="body2">
+            <Typography variant="body2" component="span">
               <Trans
                 components={{
                   1: <MuiLink href={eserviceNamingBestPracticeLink} target="_blank" />,
