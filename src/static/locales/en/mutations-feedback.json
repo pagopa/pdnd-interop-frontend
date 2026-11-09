@@ -747,7 +747,7 @@
     "submitRiskAnalysis": {
       "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {
-        "success": "You have assigned risk analysis approval to a reviewer.",
+        "success": "You have assigned risk analysis approval.",
         "error": "It was not possible to assign the risk analysis."
       }
     },

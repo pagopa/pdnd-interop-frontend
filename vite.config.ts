@@ -105,7 +105,6 @@ export default defineConfig(({ mode }) => {
           '**/api/auth/**',
           '**/api/client/**',
           '**/api/party/**',
-          '**/api/purpose/**',
           '**/api/voucher/**',
           '**/api/one-trust-notices/**',
           '**/api/maintenance/**',

@@ -6,7 +6,6 @@ import { EServiceQueries } from '@/api/eservice'
 import type {
   CatalogFilterPayload,
   EServiceProducerCategory,
-  RequesterDelegationRole,
   EServiceMode,
   EServiceSortBy,
 } from '@/api/api.generatedTypes'
@@ -36,12 +35,6 @@ const producerCategoriesOptions: EServiceProducerCategory[] = [
   'UNIVERSITA_AFAM',
   'ISTITUTI_RICERCA',
   'STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI',
-]
-
-const requesterDelegationRolesOptions: (RequesterDelegationRole | 'ALL')[] = [
-  'ALL',
-  'DELEGATE',
-  'DELEGATOR',
 ]
 
 const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'DELIVER', 'RECEIVE']
@@ -179,19 +172,6 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
         title: tEservice('filters.side.delegationAndSignalHub.title'),
         fields: [
           {
-            name: 'requesterDelegationRoles',
-            label: tEservice(
-              'filters.side.delegationAndSignalHub.requesterDelegationRolesField.label'
-            ),
-            type: 'autocomplete-single',
-            options: requesterDelegationRolesOptions.map((role) => ({
-              label: tEservice(
-                `filters.side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
-              ),
-              value: role,
-            })),
-          },
-          {
             name: 'onlySignalHubEnabled',
             label: tEservice('filters.side.delegationAndSignalHub.onlySignalHubEnabledField.label'),
             description: tEservice(
@@ -233,23 +213,6 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
       if (key === 'mode' && value === 'ALL') {
         mappedFilters[key] = undefined
-        return
-      }
-
-      if (key === 'requesterDelegationRoles') {
-        match(value)
-          .with('ALL', () => {
-            mappedFilters[key] = ['DELEGATE', 'DELEGATOR']
-          })
-          .with('DELEGATE', () => {
-            mappedFilters[key] = ['DELEGATE']
-          })
-          .with('DELEGATOR', () => {
-            mappedFilters[key] = ['DELEGATOR']
-          })
-          .otherwise(() => {
-            mappedFilters[key] = undefined
-          })
         return
       }
 

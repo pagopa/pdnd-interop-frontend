@@ -1,6 +1,6 @@
 {
   "name": "interop-dashboard-frontend",
-  "version": "2.7.2",
+  "version": "2.8.0",
   "type": "module",
   "packageManager": "pnpm@9.15.9",
   "scripts": {
@@ -43,6 +43,7 @@
     "@tanstack/react-query-devtools": "5.51.4",
     "autosuggest-highlight": "3.3.4",
     "axios": "1.20.0",
+    "content-disposition": "2.0.1",
     "date-fns": "2.30.0",
     "i18next": "23.16.8",
     "jwt-decode": "4.0.0",
