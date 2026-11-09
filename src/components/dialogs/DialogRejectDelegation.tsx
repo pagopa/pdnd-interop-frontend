@@ -41,8 +41,7 @@ export const DialogRejectDelegation: React.FC<DialogRejectDelegationProps> = ({
   const isSubmitDisabled = useIsActionDisabledBySupport(!isSubmitButtonEnabled)
 
   const onSubmit = ({ reason }: RejectDelegationFormValues) => {
-    rejectDelegation({ delegationId, rejectionReason: reason })
-    closeDialog()
+    rejectDelegation({ delegationId, rejectionReason: reason }, { onSuccess: closeDialog })
   }
 
   return (
