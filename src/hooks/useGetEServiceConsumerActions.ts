@@ -218,7 +218,7 @@ function useGetEServiceConsumerActions(
   }
 
   const handleCreateAgreementDraftAction = () => {
-    void handleCreateAgreementDraft({ isOwnEService: isMine }).catch(() => undefined)
+    handleCreateAgreementDraft({ isOwnEService: isMine }).catch(() => undefined)
   }
 
   const handleOpenCreateAgreementDraftDialog = () => {
