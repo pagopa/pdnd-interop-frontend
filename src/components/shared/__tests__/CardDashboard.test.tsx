@@ -1,5 +1,5 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { theme as interopTheme } from '@pagopa/interop-fe-commons'
+import { ThemeProvider } from '@mui/material/styles'
+import { theme } from '@pagopa/interop-fe-commons'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ReactNode } from 'react'
@@ -7,17 +7,6 @@ import { vi } from 'vitest'
 import { CardDashboard } from '../CardDashboard'
 import type { CardDashboardProps, CardDashboardStatus } from '../CardDashboard'
 
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: { height: '48px' },
-      },
-    },
-  },
-})
-Object.assign(theme, { colors: interopTheme.colors })
-Object.assign(theme.shape, { radius: interopTheme.shape.radius })
 const statuses: CardDashboardStatus[] = [
   { id: 'active', label: 'Attivi', count: 15, color: '#008000' },
   { id: 'draft', label: 'Bozze', count: 3, color: '#0000ff' },
