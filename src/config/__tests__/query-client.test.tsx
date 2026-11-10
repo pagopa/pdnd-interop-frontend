@@ -140,12 +140,12 @@ describe('queryClient mutation cache lifecycle', () => {
     else expect(setError).not.toHaveBeenCalled()
   })
 
-  it('does not show error feedback for cancellation or absent metadata', async () => {
+  it('does not show error feedback for cancellation', () => {
     const toast = vi
       .spyOn(useToastNotificationStore.getState(), 'showToast')
       .mockImplementation(() => undefined)
-    const hide = vi
-      .spyOn(useLoadingOverlayStore.getState(), 'hideOverlay')
+    const setError = vi
+      .spyOn(useErrorDataStore.getState(), 'setErrorData')
       .mockImplementation(() => undefined)
     cache.config.onError!(
       new CancellationError(),
@@ -153,11 +153,23 @@ describe('queryClient mutation cache lifecycle', () => {
       undefined,
       mutation({ errorToastLabel: 'failed' })
     )
+    expect(toast).not.toHaveBeenCalled()
+    expect(setError).not.toHaveBeenCalled()
+  })
+
+  it('shows the generic error toast when metadata is absent', async () => {
+    const toast = vi
+      .spyOn(useToastNotificationStore.getState(), 'showToast')
+      .mockImplementation(() => undefined)
+    const hide = vi
+      .spyOn(useLoadingOverlayStore.getState(), 'hideOverlay')
+      .mockImplementation(() => undefined)
     const current = mutation()
     await cache.config.onMutate!({}, current)
     cache.config.onError!(new Error('silent'), {}, undefined, current)
     cache.config.onSettled!(undefined, null, {}, undefined, current)
-    expect(toast).not.toHaveBeenCalled()
+    expect(toast).toHaveBeenCalledOnce()
+    expect(toast).toHaveBeenCalledWith(configuredI18n.t('error:default.title'), 'error', undefined)
     expect(hide).not.toHaveBeenCalled()
   })
 

@@ -94,7 +94,10 @@ async function openSelector(isOwnEService: boolean) {
   await waitFor(() => expect(field).toHaveValue('orgName'))
   await user.click(screen.getByTitle('Clear'))
   await user.click(field)
-  await user.click(await screen.findByRole('option', { name: consumer.name }))
+  await user.type(field, consumer.name)
+  await screen.findByRole('option', { name: consumer.name })
+  // Select via keyboard: the listbox may remount on re-render, detaching a previously queried option node.
+  await user.keyboard('{ArrowDown}{Enter}')
   await waitFor(() => expect(field).toHaveValue(consumer.name))
   await waitFor(() =>
     expect(
