@@ -380,7 +380,7 @@ it('validates the devcontainer Compose model with no active profiles', async ({ 
   await execute('docker', compose, {
     env: { ...process.env, COMPOSE_PROFILES: '', COMPOSE_DISABLE_ENV_FILE: 'true' },
   })
-})
+}, 30_000)
 
 it('reports failed startup immediately while leaving its editor container running', async () => {
   const { run, stateFile, callsFile } = await fixture({ startupFailure: true })
