@@ -33,9 +33,7 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
 
   const { mutateAsync: addKeychainToEService } = KeychainMutations.useAddKeychainToEService()
   const handleSubmit = async (selectedKeychain: CompactProducerKeychain) => {
-    addKeychainToEService({ keychainId: selectedKeychain.id, eserviceId: eserviceId })
-
-    closeDrawer()
+    await addKeychainToEService({ keychainId: selectedKeychain.id, eserviceId: eserviceId })
   }
 
   const canAddKeychain = isAdmin

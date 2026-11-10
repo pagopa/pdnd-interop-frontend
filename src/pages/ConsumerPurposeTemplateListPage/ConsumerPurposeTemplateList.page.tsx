@@ -38,11 +38,11 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { mutate: createDraft } = PurposeTemplateMutations.useCreateDraft()
+  const { mutateAsync: createDraft } = PurposeTemplateMutations.useCreateDraft()
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => {
+  const handleCreateDraft = async (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => {
     /**
      * A purpose template cannot have two templates with the same title.
      * To avoid this, we add the current date to the title to make it unique.
@@ -54,27 +54,19 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       .format()
       .replace(',', '')
 
-    createDraft(
-      {
-        targetDescription: tPurposeTemplateDefaults('intendedTarget'),
-        targetTenantKind: tenantKind,
-        purposeTitle: `Template finalità ${currentDateString}`,
-        purposeDescription: tPurposeTemplateDefaults('description'),
-        purposeIsFreeOfCharge: true,
-        purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
-        purposeDailyCalls: 1,
-        handlesPersonalData: handlesPersonalData,
-      },
-      {
-        onSuccess({ id: purposeTemplateId }) {
-          navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
-            params: {
-              purposeTemplateId: purposeTemplateId,
-            },
-          })
-        },
-      }
-    )
+    const { id: purposeTemplateId } = await createDraft({
+      targetDescription: tPurposeTemplateDefaults('intendedTarget'),
+      targetTenantKind: tenantKind,
+      purposeTitle: `Template finalità ${currentDateString}`,
+      purposeDescription: tPurposeTemplateDefaults('description'),
+      purposeIsFreeOfCharge: true,
+      purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
+      purposeDailyCalls: 1,
+      handlesPersonalData,
+    })
+    navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
+      params: { purposeTemplateId },
+    })
   }
 
   const topSideActions: Array<ActionItemButton> = [

@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
+import { AxiosError, AxiosHeaders } from 'axios'
 import { FormProvider, useForm, type UseFormSetValue, type UseFormWatch } from 'react-hook-form'
 import { RiskAnalysisAnswerComponent } from '../RiskAnalysisAnswerComponent'
 import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
@@ -815,6 +816,108 @@ describe('RiskAnalysisAnswerComponent', () => {
           'success'
         )
       }
+    })
+
+    const uploadRequestConfig = {
+      headers: new AxiosHeaders({ 'X-Correlation-Id': 'request-correlation-id' }),
+    }
+
+    it.each([
+      {
+        scenario: 'an Axios response containing a correlation ID',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: { correlationId: 'upload-correlation-id' },
+            status: 500,
+            statusText: 'Internal Server Error',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: 'upload-correlation-id',
+      },
+      {
+        scenario: 'an Axios response without a correlation ID',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: {},
+            status: 500,
+            statusText: 'Internal Server Error',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: undefined,
+      },
+      {
+        scenario: 'an Axios network error without a response',
+        error: new AxiosError('Network Error', AxiosError.ERR_NETWORK, uploadRequestConfig),
+        correlationId: undefined,
+      },
+      {
+        scenario: 'a non-Axios error',
+        error: new Error('Upload failed'),
+        correlationId: undefined,
+      },
+    ])('should preserve the upload for retry after $scenario', async ({ error, correlationId }) => {
+      const user = userEvent.setup()
+      const mockFile = new File(['content'], 'test.pdf', { type: 'application/pdf' })
+      const addDocument = vi.mocked(
+        PurposeTemplateServices.PurposeTemplateServices.addDocumentToAnnotation
+      )
+      addDocument.mockRejectedValueOnce(error)
+
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
+        if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
+        if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
+        return undefined
+      })
+
+      const { container } = render(
+        <FormWrapper>
+          <RiskAnalysisAnswerComponent
+            questionKey={questionKey}
+            question="Test Question"
+            questionType="radio"
+          />
+        </FormWrapper>
+      )
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]')
+      if (!fileInput) throw new Error('Document upload input is missing')
+
+      await user.upload(fileInput, mockFile)
+      await user.click(screen.getByRole('button', { name: 'uploadBtn' }))
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledExactlyOnceWith(
+          'notifications.documentUploadError',
+          'error',
+          correlationId
+        )
+      })
+
+      expect(addDocument).toHaveBeenCalledExactlyOnceWith({
+        purposeTemplateId,
+        answerId: 'existing-answer-id',
+        documentPayload: { prettyName: mockFile.name, doc: mockFile },
+      })
+      expect(mockSetValue).not.toHaveBeenCalled()
+      expect(screen.getByTestId('document-doc-1')).toBeInTheDocument()
+      expect(screen.queryByTestId('document-doc-id')).not.toBeInTheDocument()
+      expect(screen.getByText(mockFile.name)).toBeVisible()
+      expect(screen.getByRole('button', { name: 'uploadBtn' }).closest('form')).toBeVisible()
+      expect(screen.getByRole('button', { name: 'uploadBtn' })).toBeEnabled()
     })
 
     it('should delete document successfully', async () => {
