@@ -10,7 +10,7 @@ import {
   type ConfirmationDialogMeta,
   QueryClient,
 } from '@tanstack/react-query'
-import { AxiosError, isAxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 import type { DialogDescriptionLink } from '@/types/dialog.types'
 import configuredI18n from 'i18next'
 
@@ -25,12 +25,8 @@ const getHideOverlay = () => useLoadingOverlayStore.getState().hideOverlay
 const getOpenDialog = () => useDialogStore.getState().openDialog
 const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
-type BackendErrorPayload = Problem & {
-  userMessage?: string
-}
-
 const getBackendErrorLabel = (error: unknown): string | undefined => {
-  if (!isAxiosError<BackendErrorPayload>(error)) return undefined
+  if (!isAxiosError<Problem>(error)) return undefined
 
   return error.response?.data?.userMessage
 }
@@ -199,7 +195,7 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   const errorToastLabel = meta.errorToastLabel || configuredI18n.t('error:default.title')
   let correlationId
   let errorCode
-  if (error instanceof AxiosError) {
+  if (isAxiosError<Problem>(error)) {
     correlationId = error.response?.data?.correlationId
     errorCode = error.response?.data?.errors?.[0]?.code
   }
