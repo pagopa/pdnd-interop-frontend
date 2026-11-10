@@ -271,11 +271,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       showToast(t('notifications.documentUploadedSuccess'), 'success')
     } catch (error) {
       console.error('Error uploading document:', error)
-      const correlationId = isAxiosError<Problem>(error)
-        ? error.response?.data?.correlationId
-        : undefined
-      // Show error notification
-      showToast(t('notifications.documentUploadError'), 'error', correlationId)
+      const problem = isAxiosError<Problem>(error) ? error.response?.data : undefined
+      showToast(
+        problem?.userMessage || t('notifications.documentUploadError'),
+        'error',
+        problem?.correlationId
+      )
     }
   }
 

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import * as Stores from '@/stores'
 import * as Router from '@/router'
 import * as Table from '../components/ConsumerPurposeTemplateTable'
-import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { EServiceQueries } from '@/api/eservice'
 import { queryClient } from '@/config/query-client'
@@ -72,9 +72,7 @@ describe('ConsumerPurposeTemplateListPage draft lifecycle', () => {
     createDraft.mockReset().mockResolvedValue({ id: 'template-id' })
     navigate.mockReset()
     openDialog.mockReset()
-    vi.spyOn(PurposeTemplateMutations, 'useCreateDraft').mockReturnValue({
-      mutateAsync: createDraft,
-    } as unknown as ReturnType<typeof PurposeTemplateMutations.useCreateDraft>)
+    vi.spyOn(PurposeTemplateServices, 'createDraft').mockImplementation(createDraft)
     vi.spyOn(Router, 'useNavigate').mockReturnValue(navigate)
     vi.spyOn(Stores, 'useDialog').mockReturnValue({ openDialog, closeDialog: vi.fn() })
     vi.spyOn(EServiceQueries, 'getCatalogList').mockReturnValue(
@@ -142,7 +140,7 @@ describe('ConsumerPurposeTemplateListPage draft lifecycle', () => {
     const confirm = await getConfirmation()
     expect(createDraft).not.toHaveBeenCalled()
     let submission!: Promise<void>
-    act(() => {
+    await act(async () => {
       submission = confirm('PA', true)
     })
     const date = new Intl.DateTimeFormat('it', { dateStyle: 'short', timeStyle: 'short' })
@@ -166,6 +164,29 @@ describe('ConsumerPurposeTemplateListPage draft lifecycle', () => {
     expect(navigate).toHaveBeenCalledExactlyOnceWith('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
       params: { purposeTemplateId: 'created-template' },
     })
+  })
+
+  it('does not navigate when the list unmounts before draft creation succeeds', async () => {
+    let resolve!: (value: { id: string }) => void
+    createDraft.mockImplementationOnce(
+      () =>
+        new Promise<{ id: string }>((done) => {
+          resolve = done
+        })
+    )
+    const { unmount } = renderPage()
+    const confirm = await getConfirmation()
+    let submission!: Promise<void>
+    await act(async () => {
+      submission = confirm('PA', true)
+    })
+    expect(createDraft).toHaveBeenCalledTimes(1)
+    unmount()
+    await act(async () => {
+      resolve({ id: 'created-template' })
+      await submission
+    })
+    expect(navigate).not.toHaveBeenCalled()
   })
 
   it('propagates failure without navigating and preserves arguments for a successful retry', async () => {

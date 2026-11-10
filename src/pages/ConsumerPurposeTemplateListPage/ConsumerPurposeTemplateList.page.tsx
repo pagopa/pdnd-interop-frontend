@@ -54,19 +54,26 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       .format()
       .replace(',', '')
 
-    const { id: purposeTemplateId } = await createDraft({
-      targetDescription: tPurposeTemplateDefaults('intendedTarget'),
-      targetTenantKind: tenantKind,
-      purposeTitle: `Template finalità ${currentDateString}`,
-      purposeDescription: tPurposeTemplateDefaults('description'),
-      purposeIsFreeOfCharge: true,
-      purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
-      purposeDailyCalls: 1,
-      handlesPersonalData,
-    })
-    navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
-      params: { purposeTemplateId },
-    })
+    // Per-call onSuccess is skipped if the page unmounts while the request is pending.
+    await createDraft(
+      {
+        targetDescription: tPurposeTemplateDefaults('intendedTarget'),
+        targetTenantKind: tenantKind,
+        purposeTitle: `Template finalità ${currentDateString}`,
+        purposeDescription: tPurposeTemplateDefaults('description'),
+        purposeIsFreeOfCharge: true,
+        purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
+        purposeDailyCalls: 1,
+        handlesPersonalData,
+      },
+      {
+        onSuccess({ id: purposeTemplateId }) {
+          navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
+            params: { purposeTemplateId },
+          })
+        },
+      }
+    )
   }
 
   const topSideActions: Array<ActionItemButton> = [

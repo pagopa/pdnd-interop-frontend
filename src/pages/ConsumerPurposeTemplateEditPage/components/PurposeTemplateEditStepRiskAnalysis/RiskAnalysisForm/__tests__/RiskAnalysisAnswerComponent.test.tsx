@@ -839,6 +839,46 @@ describe('RiskAnalysisAnswerComponent', () => {
           }
         ),
         correlationId: 'upload-correlation-id',
+        message: 'notifications.documentUploadError',
+      },
+      {
+        scenario: 'an Axios response containing both userMessage and correlation ID',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: {
+              userMessage: 'Backend upload message',
+              correlationId: 'upload-correlation-id',
+            },
+            status: 400,
+            statusText: 'Bad Request',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: 'upload-correlation-id',
+        message: 'Backend upload message',
+      },
+      {
+        scenario: 'an Axios response with an empty userMessage',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: { userMessage: '', correlationId: 'upload-correlation-id' },
+            status: 400,
+            statusText: 'Bad Request',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: 'upload-correlation-id',
+        message: 'notifications.documentUploadError',
       },
       {
         scenario: 'an Axios response without a correlation ID',
@@ -856,69 +896,71 @@ describe('RiskAnalysisAnswerComponent', () => {
           }
         ),
         correlationId: undefined,
+        message: 'notifications.documentUploadError',
       },
       {
         scenario: 'an Axios network error without a response',
         error: new AxiosError('Network Error', AxiosError.ERR_NETWORK, uploadRequestConfig),
         correlationId: undefined,
+        message: 'notifications.documentUploadError',
       },
       {
         scenario: 'a non-Axios error',
         error: new Error('Upload failed'),
         correlationId: undefined,
+        message: 'notifications.documentUploadError',
       },
-    ])('should preserve the upload for retry after $scenario', async ({ error, correlationId }) => {
-      const user = userEvent.setup()
-      const mockFile = new File(['content'], 'test.pdf', { type: 'application/pdf' })
-      const addDocument = vi.mocked(
-        PurposeTemplateServices.PurposeTemplateServices.addDocumentToAnnotation
-      )
-      addDocument.mockRejectedValueOnce(error)
-
-      mockWatch.mockImplementation((path: string) => {
-        if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
-        if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
-        if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
-        return undefined
-      })
-
-      const { container } = render(
-        <FormWrapper>
-          <RiskAnalysisAnswerComponent
-            questionKey={questionKey}
-            question="Test Question"
-            questionType="radio"
-          />
-        </FormWrapper>
-      )
-
-      await user.click(screen.getByText('addDocumentBtn'))
-      const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]')
-      if (!fileInput) throw new Error('Document upload input is missing')
-
-      await user.upload(fileInput, mockFile)
-      await user.click(screen.getByRole('button', { name: 'uploadBtn' }))
-
-      await waitFor(() => {
-        expect(mockShowToast).toHaveBeenCalledExactlyOnceWith(
-          'notifications.documentUploadError',
-          'error',
-          correlationId
+    ])(
+      'should preserve the upload for retry after $scenario',
+      async ({ error, correlationId, message }) => {
+        const user = userEvent.setup()
+        const mockFile = new File(['content'], 'test.pdf', { type: 'application/pdf' })
+        const addDocument = vi.mocked(
+          PurposeTemplateServices.PurposeTemplateServices.addDocumentToAnnotation
         )
-      })
+        addDocument.mockRejectedValueOnce(error)
 
-      expect(addDocument).toHaveBeenCalledExactlyOnceWith({
-        purposeTemplateId,
-        answerId: 'existing-answer-id',
-        documentPayload: { prettyName: mockFile.name, doc: mockFile },
-      })
-      expect(mockSetValue).not.toHaveBeenCalled()
-      expect(screen.getByTestId('document-doc-1')).toBeInTheDocument()
-      expect(screen.queryByTestId('document-doc-id')).not.toBeInTheDocument()
-      expect(screen.getByText(mockFile.name)).toBeVisible()
-      expect(screen.getByRole('button', { name: 'uploadBtn' }).closest('form')).toBeVisible()
-      expect(screen.getByRole('button', { name: 'uploadBtn' })).toBeEnabled()
-    })
+        mockWatch.mockImplementation((path: string) => {
+          if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
+          if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
+          if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
+          return undefined
+        })
+
+        const { container } = render(
+          <FormWrapper>
+            <RiskAnalysisAnswerComponent
+              questionKey={questionKey}
+              question="Test Question"
+              questionType="radio"
+            />
+          </FormWrapper>
+        )
+
+        await user.click(screen.getByText('addDocumentBtn'))
+        const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]')
+        if (!fileInput) throw new Error('Document upload input is missing')
+
+        await user.upload(fileInput, mockFile)
+        await user.click(screen.getByRole('button', { name: 'uploadBtn' }))
+
+        await waitFor(() => {
+          expect(mockShowToast).toHaveBeenCalledExactlyOnceWith(message, 'error', correlationId)
+        })
+
+        expect(addDocument).toHaveBeenCalledExactlyOnceWith({
+          purposeTemplateId,
+          answerId: 'existing-answer-id',
+          documentPayload: { prettyName: mockFile.name, doc: mockFile },
+        })
+        expect(mockSetValue).not.toHaveBeenCalled()
+        expect(screen.getByTestId('document-doc-1')).toBeInTheDocument()
+        expect(screen.queryByTestId('document-doc-id')).not.toBeInTheDocument()
+        expect(screen.getByText(mockFile.name)).toBeVisible()
+        expect(screen.getByRole('button', { name: 'uploadBtn' }).closest('form')).toBeVisible()
+        expect(screen.getByRole('button', { name: 'uploadBtn' })).toBeEnabled()
+      }
+    )
 
     it('should delete document successfully', async () => {
       const user = userEvent.setup()
