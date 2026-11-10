@@ -26,16 +26,13 @@ const getOpenDialog = () => useDialogStore.getState().openDialog
 const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
 type BackendErrorPayload = Problem & {
-  userMessages?: { it?: string; en?: string }
+  userMessage?: string
 }
 
 const getBackendErrorLabel = (error: unknown): string | undefined => {
   if (!isAxiosError<BackendErrorPayload>(error)) return undefined
 
-  const data = error.response?.data
-  if (!data?.userMessages) return undefined
-
-  return data?.errors?.[0]?.detail
+  return error.response?.data?.userMessage
 }
 
 const resolveMeta = (query: {

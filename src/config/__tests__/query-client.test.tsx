@@ -183,9 +183,10 @@ describe('queryClient confirmation dialogs', () => {
 describe('queryClient error toasts', () => {
   let previousLanguage: string
   const fallbackLabel = 'Frontend fallback'
+  const backendUserMessage = '  Backend user message\n'
   const backendDetail = '  Original backend detail\n'
   const validData = {
-    userMessages: { it: 'Italian translation', en: 'English translation' },
+    userMessage: backendUserMessage,
     errors: [{ detail: backendDetail, code: 'BACKEND_ERROR' }],
     correlationId: 'correlation-id',
     detail: 'Top-level detail',
@@ -280,7 +281,6 @@ describe('queryClient error toasts', () => {
     'resolves the generic toast after each language switch (diagnostics: %s)',
     async (withDiagnostics) => {
       const error = axiosError({
-        userMessages: {},
         correlationId: withDiagnostics ? validData.correlationId : undefined,
         errors: withDiagnostics ? [{ code: validData.errors[0].code }] : [],
       })
@@ -312,7 +312,7 @@ describe('queryClient error toasts', () => {
   ])('prefers the frontend $name over the localized generic toast', async ({ errorToastLabel }) => {
     await configuredI18n.changeLanguage('en')
 
-    onError(axiosError({ ...validData, userMessages: undefined }), { errorToastLabel })
+    onError(axiosError({ ...validData, userMessage: undefined }), { errorToastLabel })
 
     expect(useToastNotificationStore.getState()).toMatchObject({
       isShown: true,
@@ -327,25 +327,26 @@ describe('queryClient error toasts', () => {
   })
 
   it.each([
-    { name: 'own Italian message', userMessages: { it: 'Italian translation' } },
-    { name: 'own English message', userMessages: { en: 'English translation' } },
-    { name: 'empty userMessages object', userMessages: {} },
-    { name: 'empty language fields', userMessages: { it: '', en: '' } },
-    { name: 'whitespace language fields', userMessages: { it: ' \n', en: '\t ' } },
-    { name: 'null language fields', userMessages: { it: null, en: null } },
-    { name: 'unrelated language fields', userMessages: { fr: 'Translation' } },
-    {
-      name: 'blank Italian message and valid English message',
-      userMessages: { it: ' \n\t', en: 'English translation' },
-    },
+    { name: 'a valid errors array', errors: validData.errors },
+    { name: 'missing errors', errors: undefined },
+    { name: 'null errors', errors: null },
+    { name: 'nonarray errors', errors: { detail: backendDetail } },
+    { name: 'empty errors', errors: [] },
+    { name: 'missing first detail', errors: [{}] },
+    { name: 'null first detail', errors: [{ detail: null }] },
   ])(
-    'uses the original first detail with $name, ignoring translations and top-level text',
-    ({ userMessages }) => {
-      onError(axiosError({ ...validData, userMessages }))
+    'uses the backend userMessage verbatim with $name, ignoring errors detail and top-level text',
+    ({ errors }) => {
+      const data: Record<string, unknown> = { ...validData, errors }
+      if (errors === undefined) delete data.errors
+      const errorToastLabel = vi.fn(() => fallbackLabel)
 
+      onError(axiosError(data), { errorToastLabel })
+
+      expect(errorToastLabel).toHaveBeenCalledOnce()
       expect(useToastNotificationStore.getState()).toMatchObject({
         isShown: true,
-        message: backendDetail,
+        message: backendUserMessage,
         severity: 'error',
         correlationId: validData.correlationId,
       })
@@ -353,11 +354,11 @@ describe('queryClient error toasts', () => {
   )
 
   it.each([
-    { name: 'absent userMessages', userMessages: undefined },
-    { name: 'null userMessages', userMessages: null },
-  ])('falls back for $name', ({ userMessages }) => {
-    const data: Record<string, unknown> = { ...validData, userMessages }
-    if (userMessages === undefined) delete data.userMessages
+    { name: 'absent userMessage', userMessage: undefined },
+    { name: 'null userMessage', userMessage: null },
+  ])('falls back for $name', ({ userMessage }) => {
+    const data: Record<string, unknown> = { ...validData, userMessage }
+    if (userMessage === undefined) delete data.userMessage
 
     onError(axiosError(data))
 
@@ -367,6 +368,61 @@ describe('queryClient error toasts', () => {
       severity: 'error',
     })
   })
+
+  it('ignores the legacy userMessages discriminator and errors detail', () => {
+    const data: Record<string, unknown> = {
+      ...validData,
+      userMessages: { it: 'Italian translation', en: 'English translation' },
+    }
+    delete data.userMessage
+
+    onError(axiosError(data))
+
+    expect(useToastNotificationStore.getState()).toMatchObject({
+      isShown: true,
+      message: fallbackLabel,
+      severity: 'error',
+      correlationId: validData.correlationId,
+    })
+    expect(useErrorDataStore.getState()).toMatchObject({
+      correlationId: validData.correlationId,
+      errorCode: validData.errors[0].code,
+    })
+  })
+
+  it('prefers userMessage when the legacy userMessages field is also present', () => {
+    onError(
+      axiosError({
+        ...validData,
+        userMessages: { it: 'Italian translation', en: 'English translation' },
+      })
+    )
+
+    expect(useToastNotificationStore.getState()).toMatchObject({
+      isShown: true,
+      message: backendUserMessage,
+      severity: 'error',
+    })
+  })
+
+  it.each([
+    { language: 'it', genericLabel: 'Errore inaspettato' },
+    { language: 'en', genericLabel: 'Unexpected error' },
+  ])(
+    'keeps the $language generic toast for an empty-string userMessage, even with a frontend label',
+    async ({ language, genericLabel }) => {
+      await configuredI18n.changeLanguage(language)
+
+      onError(axiosError({ ...validData, userMessage: '' }))
+
+      expect(useToastNotificationStore.getState()).toMatchObject({
+        isShown: true,
+        message: genericLabel,
+        severity: 'error',
+        correlationId: validData.correlationId,
+      })
+    }
+  )
 
   it.each([
     { name: 'missing errors', errors: undefined },
@@ -381,8 +437,8 @@ describe('queryClient error toasts', () => {
     { name: 'missing first detail', errors: [{}] },
     { name: 'null first detail', errors: [{ detail: null }] },
     { name: 'valid second detail only', errors: [{}, { detail: backendDetail }] },
-  ])('falls back for $name', ({ errors }) => {
-    const data: Record<string, unknown> = { ...validData, errors }
+  ])('falls back without userMessage for $name', ({ errors }) => {
+    const data: Record<string, unknown> = { ...validData, userMessage: undefined, errors }
     if (errors === undefined) delete data.errors
 
     onError(axiosError(data))
@@ -438,7 +494,7 @@ describe('queryClient error toasts', () => {
     (valid) => {
       const error = axiosError({
         ...validData,
-        userMessages: valid ? validData.userMessages : undefined,
+        userMessage: valid ? validData.userMessage : undefined,
       })
       const variables = { resourceId: 'resource-id' }
       const context = { previousValue: 'previous-value' }
@@ -455,7 +511,7 @@ describe('queryClient error toasts', () => {
       expect(receivedContext).toBe(context)
       expect(useToastNotificationStore.getState()).toMatchObject({
         isShown: true,
-        message: valid ? backendDetail : fallbackLabel,
+        message: valid ? backendUserMessage : fallbackLabel,
         severity: 'error',
         correlationId: validData.correlationId,
       })
@@ -483,7 +539,7 @@ describe('queryClient error toasts', () => {
     if (!mutationCache.config.onError) throw new Error('Missing mutation cache onError callback')
 
     mutationCache.config.onError(
-      axiosError({ ...validData, userMessages: valid ? validData.userMessages : undefined }),
+      axiosError({ ...validData, userMessage: valid ? validData.userMessage : undefined }),
       undefined,
       undefined,
       mutation
@@ -491,7 +547,7 @@ describe('queryClient error toasts', () => {
 
     expect(useToastNotificationStore.getState()).toMatchObject({
       isShown: true,
-      message: valid ? backendDetail : 'Errore inaspettato',
+      message: valid ? backendUserMessage : 'Errore inaspettato',
       severity: 'error',
       correlationId: validData.correlationId,
     })
@@ -510,7 +566,7 @@ describe('queryClient error toasts', () => {
 
     expect(useToastNotificationStore.getState()).toMatchObject({
       isShown: true,
-      message: backendDetail,
+      message: backendUserMessage,
       severity: 'error',
       correlationId,
     })
