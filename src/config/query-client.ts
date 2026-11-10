@@ -13,6 +13,7 @@ import {
 import { isAxiosError } from 'axios'
 import type { DialogDescriptionLink } from '@/types/dialog.types'
 import configuredI18n from 'i18next'
+import { isLocalIdentitySelectionEnabled } from './local-development'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
@@ -130,6 +131,11 @@ export const queryClientConfig: QueryClientConfig = {
     queries: {
       throwOnError: true,
       retryDelay: exponentialBackoffRetry,
+      // LocalSessionGuard reconciles the identity before a reset can trigger
+      // application queries with the previous tenant's token on focus/reconnect.
+      ...(isLocalIdentitySelectionEnabled
+        ? { refetchOnWindowFocus: false, refetchOnReconnect: false }
+        : {}),
     },
     mutations: {
       throwOnError: false,

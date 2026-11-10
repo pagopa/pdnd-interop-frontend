@@ -15,12 +15,7 @@ export function useRiskAnalysisSummaryPage() {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
 
-  const {
-    data: purpose,
-    isLoading,
-    isFetching,
-    refetch,
-  } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: purpose, isLoading, isFetching } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -52,42 +47,19 @@ export function useRiskAnalysisSummaryPage() {
     })
   }
 
-  const handleApproveDraft = async () => {
+  const handleApproveDraft = () => {
     if (!purpose?.currentVersion) return
 
     const { metadataVersion } = purpose
-    const { data: refreshedPurpose, isError } = await refetch()
-    const refreshedSigningState = refreshedPurpose?.reviewerWorkflow?.signingState
-
-    if (
-      isError ||
-      !refreshedPurpose ||
-      metadataVersion === undefined ||
-      refreshedPurpose.metadataVersion === undefined
-    ) {
+    if (metadataVersion === undefined) {
       showToast(t('error'), 'error')
-      return
-    }
-
-    if (refreshedSigningState === 'SIGNED') {
-      showToast(t('alreadyApproved'), 'error')
-      return
-    }
-
-    if (refreshedSigningState === 'REJECTED') {
-      showToast(t('alreadyRejected'), 'error')
-      return
-    }
-
-    if (refreshedPurpose.metadataVersion !== metadataVersion) {
-      showToast(t('versionChanged'), 'error')
       return
     }
 
     openDialog({
       type: 'approveRiskAnalysis',
       purposeId,
-      metadataVersionToSign: refreshedPurpose.metadataVersion,
+      metadataVersionToSign: metadataVersion,
     })
   }
 

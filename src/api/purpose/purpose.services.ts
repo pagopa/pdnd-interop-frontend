@@ -1,10 +1,5 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { isAxiosError } from 'axios'
-import {
-  RiskAnalysisAlreadyApprovedError,
-  RiskAnalysisAlreadyRejectedError,
-} from '@/utils/errors.utils'
 import type {
   CreatedResource,
   DelegationRef,
@@ -319,12 +314,10 @@ async function signRiskAnalysis({
   purposeId,
   ...payload
 }: SignRiskAnalysisParams & RiskAnalysisSignSeed) {
-  const response = await axiosInstance
-    .post<CreatedResource>(
-      `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`,
-      payload
-    )
-    .catch((error: unknown) => handleRiskAnalysisConflict(error, purposeId))
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`,
+    payload
+  )
   return response.data
 }
 
@@ -332,12 +325,10 @@ async function rejectRiskAnalysis({
   purposeId,
   ...payload
 }: { purposeId: string } & RiskAnalysisRejectionSeed) {
-  const response = await axiosInstance
-    .post<CreatedResource>(
-      `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
-      payload
-    )
-    .catch((error: unknown) => handleRiskAnalysisConflict(error, purposeId))
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
+    payload
+  )
   return response.data
 }
 
@@ -345,24 +336,10 @@ async function updateRiskAnalysis({
   purposeId,
   ...payload
 }: { purposeId: string } & RiskAnalysisFormSeed) {
-  return axiosInstance
-    .put(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`, payload)
-    .catch((error: unknown) => handleRiskAnalysisConflict(error, purposeId))
-}
-
-async function handleRiskAnalysisConflict(error: unknown, purposeId: string): Promise<never> {
-  if (isAxiosError(error) && error.response?.status === 409) {
-    // A conflict can also mean reassignment or a changed version.
-    // Check the current state before claiming that another reviewer concluded it.
-    const purpose = await getSingle(purposeId).catch(() => undefined)
-    if (purpose?.reviewerWorkflow?.signingState === 'SIGNED') {
-      throw new RiskAnalysisAlreadyApprovedError()
-    }
-    if (purpose?.reviewerWorkflow?.signingState === 'REJECTED') {
-      throw new RiskAnalysisAlreadyRejectedError()
-    }
-  }
-  throw error
+  return axiosInstance.put(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
+    payload
+  )
 }
 
 async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {

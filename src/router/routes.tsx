@@ -82,9 +82,23 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
+
+const LocalIdentitySelectionPage = isLocalIdentitySelectionEnabled
+  ? React.lazy(() => import('@/pages/LocalIdentitySelectionPage/LocalIdentitySelection.page'))
+  : undefined
+
+const localDevelopmentRoutes = [
+  ...(LocalIdentitySelectionPage
+    ? languages.map((language) => ({
+        path: `/${language}/local-identity-selection/`,
+        element: <LocalIdentitySelectionPage language={language} />,
+      }))
+    : []),
+]
 
 const LandingByRole = () => {
   const { isReviewer } = AuthHooks.useJwt()
@@ -703,7 +717,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
@@ -711,7 +725,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
@@ -719,7 +733,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU',
@@ -727,7 +741,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PublishThankYouPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
@@ -735,7 +749,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
@@ -743,7 +757,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
@@ -751,7 +765,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateEditPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE',
@@ -767,7 +781,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeFromTemplateEditPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
@@ -837,16 +851,21 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
 
 export type RouteKey = InferRouteKey<typeof routes>
 
-export const router = createBrowserRouter(
-  [
-    {
-      errorElement: <RouterErrorPage />,
-      children: [
-        { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-        { path: '/', element: <LandingByRole /> },
-        { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
-      ],
-    },
-  ],
-  { basename: '/ui' }
-)
+export const routerRoutes = [
+  {
+    errorElement: <RouterErrorPage />,
+    children: [
+      ...localDevelopmentRoutes,
+      { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
+      { path: '/', element: <LandingByRole /> },
+      { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
+    ],
+  },
+]
+
+let router: ReturnType<typeof createBrowserRouter> | undefined
+
+export function getRouter() {
+  router ??= createBrowserRouter(routerRoutes, { basename: '/ui' })
+  return router
+}
