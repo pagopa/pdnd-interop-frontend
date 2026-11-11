@@ -280,6 +280,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     const purposeWithDelegation: Purpose = createMockPurpose({
       delegation: {
         id: 'delegation-id',
+        delegator: { id: 'delegator-id', name: 'Delegator Name' },
         delegate: { id: 'delegate-id', name: 'Delegated Consumer Name' },
       },
       consumer: { id: 'consumer-id', name: 'Consumer Name' },
@@ -364,6 +365,63 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     ).not.toBeInTheDocument()
     expect(screen.getByText(purpose.title)).toBeVisible()
     expect(screen.getByText(purpose.description)).toBeVisible()
+  })
+
+  it('keeps metadata read-only for a delegator administrator', () => {
+    mockUseJwt({ isAdmin: true, jwt: { organizationId: 'delegator-id' } })
+    const delegatedPurpose = createMockPurpose({
+      delegation: {
+        delegator: { id: 'delegator-id' },
+        delegate: { id: 'delegate-id' },
+      },
+    })
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={delegatedPurpose} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(
+      screen.queryByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+      })
+    ).not.toBeInTheDocument()
+    expect(screen.getByText(delegatedPurpose.title)).toBeVisible()
+    expect(screen.getByText(delegatedPurpose.description)).toBeVisible()
+    expect(patchUpdatePurposeMock).not.toHaveBeenCalled()
+  })
+
+  it('allows a delegate administrator to edit metadata', async () => {
+    mockUseJwt({ isAdmin: true, jwt: { organizationId: 'delegate-id' } })
+    const delegatedPurpose = createMockPurpose({
+      delegation: {
+        delegator: { id: 'delegator-id' },
+        delegate: { id: 'delegate-id' },
+      },
+    })
+    const user = userEvent.setup()
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={delegatedPurpose} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+      })
+    )
+    const nameInput = screen.getByRole('textbox', {
+      name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
+    })
+    await user.clear(nameInput)
+    await user.type(nameInput, 'Updated delegated purpose')
+    await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+    await waitFor(() =>
+      expect(patchUpdatePurposeMock).toHaveBeenCalledWith(
+        { purposeId: delegatedPurpose.id, title: 'Updated delegated purpose' },
+        { onSuccess: expect.any(Function) }
+      )
+    )
   })
 
   it('should show the metadata drawer with the purpose values when edit is clicked', async () => {

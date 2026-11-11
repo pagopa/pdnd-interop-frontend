@@ -28,7 +28,9 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     keyPrefix: 'consumerView.sections.generalInformations',
   })
 
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
+  const isMetadataEditable =
+    isAdmin && !(purpose.delegation && purpose.delegation.delegator.id === jwt?.organizationId)
   const generatePath = useGeneratePath()
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { mutate: patchUpdatePurpose } = PurposeMutations.usePatchUpdatePurpose({
@@ -100,7 +102,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           title={t('nameAndDescription.title')}
           titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           topSideActions={
-            isAdmin
+            isMetadataEditable
               ? [
                   {
                     action: openDrawer,
@@ -181,7 +183,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
         </SectionContainer>
       </Stack>
       <UpdateMetadataDrawer
-        isOpen={isOpen}
+        isOpen={isOpen && isMetadataEditable}
         onClose={closeDrawer}
         title={t('updateMetadataDrawer.title')}
         description={t('updateMetadataDrawer.description')}
