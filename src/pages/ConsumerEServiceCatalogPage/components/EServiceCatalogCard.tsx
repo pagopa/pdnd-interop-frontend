@@ -12,12 +12,12 @@ import { PartyAvatar } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 import { catalogCardStyles, skeletonStyles } from '../style/eserviceCatalogCardStyle'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, CatalogQueryEService } from '@/api/api.generatedTypes'
 import { commonTitleTextStyle, commonDescTextStyle } from '../style/commonStyle'
 import { EServiceCatalogCardActionButton } from './EServiceCatalogCardActionButton'
 
 export const EServiceCatalogCard: React.FC<{
-  eservice: CatalogEService
+  eservice: CatalogEService | CatalogQueryEService
   disabled: boolean
   avatarUrl?: string
   prefetchFn: () => void
