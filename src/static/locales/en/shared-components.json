@@ -618,6 +618,7 @@
     "PROVIDE_DASHBOARD_CONSUMERS": "All consumers",
     "PROVIDE_DASHBOARD_CONSUMER_DETAIL": "Consumer detail",
     "PROVIDE_DASHBOARD_CONSUMER_DETAIL_LEGACY": "Consumer detail",
+    "PROVIDE_SATURATION_RATE": "Provider Saturation Rate",
     "PROVIDE_ESERVICE_LIST": "My E-services",
     "PROVIDE_AGREEMENT_READ": "Manage Request",
     "PROVIDE_AGREEMENT_LIST": "Received Requests",

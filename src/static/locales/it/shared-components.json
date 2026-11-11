@@ -619,6 +619,7 @@
     "PROVIDE_DASHBOARD_CONSUMERS": "Tutti i fruitori",
     "PROVIDE_DASHBOARD_CONSUMER_DETAIL": "Dettaglio fruitore",
     "PROVIDE_DASHBOARD_CONSUMER_DETAIL_LEGACY": "Dettaglio fruitore",
+    "PROVIDE_SATURATION_RATE": "Tasso di saturazione",
     "PROVIDE_ESERVICE_LIST": "I miei e-service",
     "PROVIDE_AGREEMENT_READ": "Gestisci richiesta",
     "PROVIDE_AGREEMENT_LIST": "Richieste ricevute",

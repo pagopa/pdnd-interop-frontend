@@ -21,6 +21,7 @@ import type sidebarNs from '@/static/locales/en/sidebar.json'
 import type notificationNs from '@/static/locales/en/notification.json'
 import type purposeTemplateNs from '@/static/locales/en/purposeTemplate.json'
 import type filtersNs from '@/static/locales/en/filters.json'
+import type dashboardNs from '@/static/locales/en/dashboard.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -49,6 +50,7 @@ declare module 'i18next' {
       notification: typeof notificationNs
       purposeTemplate: typeof purposeTemplateNs
       filters: typeof filtersNs
+      dashboard: typeof dashboardNs
     }
   }
 }

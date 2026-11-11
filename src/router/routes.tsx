@@ -85,6 +85,7 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
+import { ProviderSaturationRatePage } from '@/pages/ProviderSaturationRatePage'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
@@ -196,8 +197,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
-    // Legacy static detail path (pre consumerId): redirect to the list so `dettaglio` is never
-    // matched as a consumerId and sent to GET /producers/dashboard/consumers/{consumerId}.
     key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL_LEGACY',
     path: '/erogazione/panoramica/fruitori/dettaglio',
     redirect: 'PROVIDE_DASHBOARD_CONSUMERS',
@@ -209,6 +208,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL',
     path: '/erogazione/panoramica/fruitori/:consumerId',
     element: <ProviderDashboardConsumerDetail />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_SATURATION_RATE',
+    path: '/erogazione/panoramica/tasso-di-saturazione',
+    element: <ProviderSaturationRatePage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],

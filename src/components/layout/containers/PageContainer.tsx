@@ -26,12 +26,15 @@ type PageContainerBreadcrumbsProps = {
 type PageContainerIntroProps = {
   title?: string
   description?: string | React.ReactNode
+  dashboardFlow?: boolean
+  titleAction?: React.ReactNode
 }
 
 type PageContainerProps = {
   isLoading?: boolean
   sx?: SxProps
   children: React.ReactNode
+  dashboardFlow?: boolean
 } & PageContainerActionsProps &
   PageContainerBreadcrumbsProps &
   PageContainerIntroProps
@@ -65,19 +68,31 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   )
 }
 
-const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, description }) => {
+const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
+  title,
+  description,
+  dashboardFlow,
+  titleAction,
+}) => {
   return (
-    <Box>
-      <Stack direction="row" alignItems="end" spacing={2}>
-        <Box sx={{ flex: 1 }}>
-          {title && (
-            <Typography component="h1" variant="h4">
+    <Box sx={{ pt: dashboardFlow ? 6 : 0 }}>
+      <Box sx={{ flex: 1 }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+          {title && dashboardFlow ? (
+            <Typography component="h1" variant="h6">
               {title}
             </Typography>
+          ) : (
+            title && (
+              <Typography component="h1" variant="h4">
+                {title}
+              </Typography>
+            )
           )}
-          {description && <PageContainerSubtitle description={description} />}
-        </Box>
-      </Stack>
+          {titleAction}
+        </Stack>
+        {description && <PageContainerSubtitle description={description} />}
+      </Box>
     </Box>
   )
 }
