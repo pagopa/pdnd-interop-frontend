@@ -8,8 +8,11 @@ import LinkIcon from '@mui/icons-material/Link'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
-import { PurposeDownloads } from '@/api/purpose'
+import {
+  UpdateMetadataDrawer,
+  type UpdateMetadataFormValues,
+} from '@/components/shared/UpdateMetadataDrawer'
+import { PurposeDownloads, PurposeMutations } from '@/api/purpose'
 import DownloadIcon from '@mui/icons-material/Download'
 import { AuthHooks } from '@/api/auth'
 
@@ -28,6 +31,23 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   const { isAdmin } = AuthHooks.useJwt()
   const generatePath = useGeneratePath()
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+  const { mutate: patchUpdatePurpose } = PurposeMutations.usePatchUpdatePurpose({
+    isReceive: purpose.eservice.mode === 'RECEIVE',
+  })
+
+  const handleMetadataUpdate = (values: UpdateMetadataFormValues) => {
+    const changedName = values.name !== purpose.title
+    const changedDescription = values.description !== purpose.description
+
+    patchUpdatePurpose(
+      {
+        purposeId: purpose.id,
+        ...(changedName ? { title: values.name } : {}),
+        ...(changedDescription ? { description: values.description } : {}),
+      },
+      { onSuccess: closeDrawer }
+    )
+  }
 
   const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
 
@@ -184,7 +204,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           },
         }}
         initialValues={{ name: purpose.title, description: purpose.description }}
-        onSubmit={() => null} /* TODO: Implement update metadata functionality */
+        onSubmit={handleMetadataUpdate}
       />
     </SectionContainer>
   )

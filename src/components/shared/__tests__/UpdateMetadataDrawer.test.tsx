@@ -130,6 +130,26 @@ describe('UpdateMetadataDrawer', () => {
     })
   })
 
+  it('should close without calling onSubmit when all values are unchanged with target enabled', async () => {
+    const user = userEvent.setup()
+    renderDrawer({
+      ...defaultProps,
+      targetField: defaultTargetField,
+      initialValues: {
+        name: 'Existing template',
+        description: 'Existing template description',
+        target: 'Public sector organizations',
+      },
+    })
+
+    const saveButton = screen.getByRole('button', { name: 'common.actions.saveEdits' })
+    expect(saveButton).toBeEnabled()
+    await user.click(saveButton)
+
+    expect(onSubmit).not.toHaveBeenCalled()
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+
   it('should disable Save for support users with valid values and explain the restriction', async () => {
     const user = userEvent.setup({ pointerEventsCheck: PointerEventsCheckLevel.Never })
     renderWithApplicationContext(
@@ -191,6 +211,31 @@ describe('UpdateMetadataDrawer', () => {
         target: 'Public sector organizations',
       })
     })
+  })
+
+  it('should submit when only target changes', async () => {
+    const user = userEvent.setup()
+    renderDrawer({
+      ...defaultProps,
+      targetField: defaultTargetField,
+      initialValues: {
+        name: 'Existing template',
+        description: 'Existing template description',
+        target: 'Public sector organizations',
+      },
+    })
+
+    const targetInput = screen.getByRole('textbox', { name: 'Template target' })
+    await user.clear(targetInput)
+    await user.type(targetInput, 'Private sector organizations')
+    await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      name: 'Existing template',
+      description: 'Existing template description',
+      target: 'Private sector organizations',
+    })
+    expect(onClose).not.toHaveBeenCalled()
   })
 
   it('should not submit when required values are missing', async () => {

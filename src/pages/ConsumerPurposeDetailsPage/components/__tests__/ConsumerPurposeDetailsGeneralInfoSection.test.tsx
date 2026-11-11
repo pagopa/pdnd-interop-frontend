@@ -1,17 +1,24 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 import { ConsumerPurposeDetailsGeneralInfoSection } from '../PurposeDetailsTab/ConsumerPurposeDetailsGeneralInfoSection'
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { type Purpose } from '@/api/api.generatedTypes'
 
 const purpose = createMockPurpose()
 
 const downloadSignedRiskAnalysisMock = vi.fn()
+const patchUpdatePurposeMock = vi.fn()
+const usePatchUpdatePurposeMock = vi.fn<
+  (options: { isReceive: boolean }) => { mutate: typeof patchUpdatePurposeMock }
+>(() => ({ mutate: patchUpdatePurposeMock }))
 
 mockUseJwt()
 
 vi.mock('@/api/purpose', () => ({
+  PurposeMutations: {
+    usePatchUpdatePurpose: (options: { isReceive: boolean }) => usePatchUpdatePurposeMock(options),
+  },
   PurposeDownloads: {
     useDownloadSignedRiskAnalysis: () => downloadSignedRiskAnalysisMock,
   },
@@ -52,7 +59,98 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 
 describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseJwt()
+  })
+
+  describe.each(['DELIVER', 'RECEIVE'] as const)('metadata $mode', (mode) => {
+    it.each([
+      {
+        name: 'Updated purpose',
+        description: 'Existing purpose description',
+        fields: { title: 'Updated purpose' },
+      },
+      {
+        name: 'Existing purpose',
+        description: 'Updated purpose description',
+        fields: { description: 'Updated purpose description' },
+      },
+      {
+        name: 'Updated purpose',
+        description: 'Updated purpose description',
+        fields: { title: 'Updated purpose', description: 'Updated purpose description' },
+      },
+    ])('submits only changed fields: $fields', async ({ name, description, fields }) => {
+      const user = userEvent.setup()
+      const metadataPurpose = createMockPurpose({
+        title: 'Existing purpose',
+        description: 'Existing purpose description',
+        eservice: { mode },
+      })
+      patchUpdatePurposeMock.mockImplementationOnce(
+        (_payload: unknown, options: { onSuccess: () => void }) => options.onSuccess()
+      )
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={metadataPurpose} />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+      await user.click(
+        screen.getByRole('button', {
+          name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+        })
+      )
+      const nameInput = screen.getByRole('textbox', {
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
+      })
+      if (name !== metadataPurpose.title) {
+        await user.clear(nameInput)
+        await user.type(nameInput, name)
+      }
+      if (description !== metadataPurpose.description) {
+        const descriptionInput = screen.getByRole('textbox', {
+          name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.descriptionField.label',
+        })
+        await user.clear(descriptionInput)
+        await user.type(descriptionInput, description)
+      }
+      await user.click(screen.getByRole('button', { name: 'common.actions.saveEdits' }))
+
+      await waitFor(() =>
+        expect(patchUpdatePurposeMock).toHaveBeenCalledWith(
+          { purposeId: metadataPurpose.id, ...fields },
+          { onSuccess: expect.any(Function) }
+        )
+      )
+      expect(usePatchUpdatePurposeMock).toHaveBeenCalledWith({ isReceive: mode === 'RECEIVE' })
+      await waitForElementToBeRemoved(nameInput)
+    })
+
+    it('closes without submitting unchanged metadata', async () => {
+      const user = userEvent.setup()
+      const metadataPurpose = createMockPurpose({
+        title: 'Existing purpose',
+        description: 'Existing purpose description',
+        eservice: { mode },
+      })
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={metadataPurpose} />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+      await user.click(
+        screen.getByRole('button', {
+          name: 'purpose.consumerView.sections.generalInformations.nameAndDescription.edit',
+        })
+      )
+      const nameInput = screen.getByRole('textbox', {
+        name: 'purpose.consumerView.sections.generalInformations.updateMetadataDrawer.nameField.label',
+      })
+      const saveButton = screen.getByRole('button', { name: 'common.actions.saveEdits' })
+      expect(saveButton).toBeEnabled()
+      await user.click(saveButton)
+
+      await waitForElementToBeRemoved(nameInput)
+      expect(patchUpdatePurposeMock).not.toHaveBeenCalled()
+    })
   })
 
   it('should render correctly', () => {

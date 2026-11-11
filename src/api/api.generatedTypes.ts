@@ -283,6 +283,28 @@ export interface Dependency {
   value: string
 }
 
+export interface PatchUpdateEServiceSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name?: string
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string
+  /** EService Descriptor State */
+  technology?: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode?: EServiceMode
+  isSignalHubEnabled?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
+  personalData?: boolean | null
+  asyncExchange?: boolean | null
+}
+
 export interface UpdateEServiceSeed {
   name: string
   description: string
@@ -1603,6 +1625,51 @@ export interface ProducerKeychain {
 export interface EServiceAdditionDetailsSeed {
   /** @format uuid */
   eserviceId: string
+}
+
+export interface PatchPurposeUpdateContent {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  title?: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string
+  isFreeOfCharge?: boolean
+  freeOfChargeReason?: string | null
+  riskAnalysisForm?: RiskAnalysisFormSeed
+  /**
+   * Maximum number of daily calls that this version can perform
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  dailyCalls?: number
+}
+
+export interface PatchReversePurposeUpdateContent {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  title?: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string
+  isFreeOfCharge?: boolean
+  freeOfChargeReason?: string | null
+  /**
+   * Maximum number of daily calls that this version can perform
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  dailyCalls?: number
 }
 
 /** contains the expected payload for purpose update. */
@@ -3741,6 +3808,14 @@ export interface UpdateEServiceByIdParams {
   eServiceId: string
 }
 
+export interface PatchUpdateEServiceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string
+}
+
 export interface UpdateEServiceTemplateInstanceByIdParams {
   /**
    * The E-Service id to update
@@ -4053,6 +4128,14 @@ export interface GetProducerEServiceDescriptorParams {
   descriptorId: string
 }
 
+export interface PatchUpdateReversePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string
+}
+
 export interface UpdateReversePurposeParams {
   /**
    * the purpose id
@@ -4332,6 +4415,14 @@ export interface RevokeDeclaredAttributeParams {
    * @format uuid
    */
   attributeId: string
+}
+
+export interface PatchUpdatePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string
 }
 
 export interface GetPurposeParams {
@@ -8236,6 +8327,28 @@ export namespace Eservices {
   }
 
   /**
+   * @description Partially updates the general information of the specified E-Service
+   * @tags eservices
+   * @name PatchUpdateEServiceById
+   * @summary Partially updates E-Service general information
+   * @request PATCH:/eservices/{eServiceId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceById {
+    export type RequestParams = {
+      /**
+       * The E-Service id to update
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchUpdateEServiceSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+
+  /**
    * @description Add a risk analysis to an EService
    * @tags eservices
    * @name AddRiskAnalysisToEService
@@ -9514,6 +9627,28 @@ export namespace Reverse {
   }
 
   /**
+   * @description Partially updates a Purpose of an EService with Receive mode
+   * @tags purposes
+   * @name PatchUpdateReversePurpose
+   * @summary Partially updates a reverse Purpose
+   * @request PATCH:/reverse/purposes/{purposeId}
+   * @secure
+   */
+  export namespace PatchUpdateReversePurpose {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchReversePurposeUpdateContent
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+
+  /**
    * @description Updates a reverse Purpose
    * @tags purposes
    * @name UpdateReversePurpose
@@ -9944,6 +10079,28 @@ export namespace Purposes {
     export type RequestBody = DelegationRef
     export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
+  }
+
+  /**
+   * @description Partially updates a Purpose of an EService with Deliver mode
+   * @tags purposes
+   * @name PatchUpdatePurpose
+   * @summary Partially updates a Purpose
+   * @request PATCH:/purposes/{purposeId}
+   * @secure
+   */
+  export namespace PatchUpdatePurpose {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchPurposeUpdateContent
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
   }
 
   /**

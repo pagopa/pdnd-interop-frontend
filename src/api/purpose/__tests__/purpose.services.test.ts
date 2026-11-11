@@ -7,6 +7,7 @@ import { AxiosError, AxiosHeaders } from 'axios'
 vi.mock('@/config/axios', () => ({
   default: {
     get: vi.fn(),
+    patch: vi.fn(),
     post: vi.fn(),
     put: vi.fn(),
   },
@@ -14,6 +15,20 @@ vi.mock('@/config/axios', () => ({
 
 describe('PurposeServices', () => {
   beforeEach(() => vi.resetAllMocks())
+
+  it.each([
+    { request: PurposeServices.patchUpdatePurpose, path: 'purposes' },
+    { request: PurposeServices.patchUpdateReversePurpose, path: 'reverse/purposes' },
+  ])('PATCHes $path with only the supplied fields', async ({ request, path }) => {
+    const data = { id: 'purpose-id' }
+    vi.mocked(axiosInstance.patch).mockResolvedValueOnce({ data })
+
+    expect(await request({ purposeId: 'purpose-id', title: 'Updated purpose' })).toEqual(data)
+    expect(axiosInstance.patch).toHaveBeenCalledWith(
+      `${BACKEND_FOR_FRONTEND_URL}/${path}/purpose-id`,
+      { title: 'Updated purpose' }
+    )
+  })
 
   const suspendedPurpose = createMockPurpose({
     suspendedByConsumer: true,

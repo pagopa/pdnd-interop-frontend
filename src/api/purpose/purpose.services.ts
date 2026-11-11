@@ -13,6 +13,8 @@ import type {
   GetRemainingDailyCallsParams,
   GetRiskAnalysisAssignmentsParams,
   PatchPurposeUpdateFromTemplateContent,
+  PatchPurposeUpdateContent,
+  PatchReversePurposeUpdateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
   PurposeCloneSeed,
@@ -109,6 +111,28 @@ async function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionC
 async function createDraft(payload: PurposeSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
+    payload
+  )
+  return response.data
+}
+
+async function patchUpdatePurpose({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PatchPurposeUpdateContent) {
+  const response = await axiosInstance.patch<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`,
+    payload
+  )
+  return response.data
+}
+
+async function patchUpdateReversePurpose({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PatchReversePurposeUpdateContent) {
+  const response = await axiosInstance.patch<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/reverse/purposes/${purposeId}`,
     payload
   )
   return response.data
@@ -374,6 +398,8 @@ async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsPara
 }
 
 export const PurposeServices = {
+  patchUpdatePurpose,
+  patchUpdateReversePurpose,
   getProducersList,
   getConsumersList,
   getSingle,

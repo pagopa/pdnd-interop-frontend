@@ -1,11 +1,38 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeServices } from './purpose.services'
+import { PurposeQueries } from './purpose.queries'
 import {
   RiskAnalysisAlreadyApprovedError,
   RiskAnalysisAlreadyRejectedError,
 } from '@/utils/errors.utils'
 import { match, P } from 'ts-pattern'
+function usePatchUpdatePurpose({ isReceive }: { isReceive: boolean }) {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.patchUpdatePurpose' })
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: isReceive
+      ? PurposeServices.patchUpdateReversePurpose
+      : PurposeServices.patchUpdatePurpose,
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        match(variables)
+          .with({ title: P.string, description: P.string }, () =>
+            t('outcome.successNameAndDescription')
+          )
+          .with({ title: P.string }, () => t('outcome.successName'))
+          .with({ description: P.string }, () => t('outcome.successDescription'))
+          .otherwise(() => t('outcome.error')),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess: (_data, { purposeId }) => {
+      queryClient.invalidateQueries(PurposeQueries.getSingle(purposeId))
+    },
+  })
+}
+
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
   return useMutation({
@@ -340,6 +367,7 @@ function useUpdateRiskAnalysis() {
 }
 
 export const PurposeMutations = {
+  usePatchUpdatePurpose,
   useCreateDraft,
   useUpdateDraft,
   useUpdateDraftFromPurposeTemplate,
