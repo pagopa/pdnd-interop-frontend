@@ -283,6 +283,28 @@ export interface Dependency {
   value: string
 }
 
+export interface PatchUpdateEServiceSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name?: string
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string
+  /** EService Descriptor State */
+  technology?: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode?: EServiceMode
+  isSignalHubEnabled?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
+  personalData?: boolean | null
+  asyncExchange?: boolean | null
+}
+
 export interface UpdateEServiceSeed {
   name: string
   description: string
@@ -2679,6 +2701,7 @@ export interface Problem {
   detail?: string
   /** @minItems 1 */
   errors?: ProblemError[]
+  userMessage?: string
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -3734,6 +3757,14 @@ export interface DeleteEServiceParams {
 }
 
 export interface UpdateEServiceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string
+}
+
+export interface PatchUpdateEServiceByIdParams {
   /**
    * The E-Service id to update
    * @format uuid
@@ -8231,6 +8262,28 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+
+  /**
+   * @description Partially updates the general information of the specified E-Service
+   * @tags eservices
+   * @name PatchUpdateEServiceById
+   * @summary Partially updates E-Service general information
+   * @request PATCH:/eservices/{eServiceId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceById {
+    export type RequestParams = {
+      /**
+       * The E-Service id to update
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchUpdateEServiceSeed
     export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }

@@ -46,16 +46,20 @@ export const DialogSetTenantMail: React.FC<DialogSetTenantMailProps> = () => {
     defaultValues,
   })
 
-  const onSubmit = (values: SetTenantMailFormValues) => {
+  const onSubmit = async (values: SetTenantMailFormValues) => {
     if (!jwt?.organizationId) return
     if (!isEqual(defaultValues, values)) {
       const { contactEmail, description } = values
-      setMail({
-        partyId: jwt.organizationId,
-        address: contactEmail,
-        kind: 'CONTACT_EMAIL',
-        description: description || undefined,
-      })
+      try {
+        await setMail({
+          partyId: jwt.organizationId,
+          address: contactEmail,
+          kind: 'CONTACT_EMAIL',
+          description: description || undefined,
+        })
+      } catch {
+        return
+      }
     }
     closeDialog()
   }
