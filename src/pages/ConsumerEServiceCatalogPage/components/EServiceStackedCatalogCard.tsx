@@ -57,10 +57,9 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
           <EServiceCatalogCardActionButton
             prefetchFn={prefetchFn}
             disabled={disabled}
-            to="SUBSCRIBE_CATALOG_VIEW" //TODO: in the second release, this should be updated to the correct route
+            to="SUBSCRIBE_TEMPLATE_INSTANCES_GROUP"
             params={{
-              eserviceId: eservice.id,
-              descriptorId: eservice.activeDescriptor?.id ?? '',
+              templateInstancesGroupId: templateInstancesGroup.id,
             }}
             buttonLabel={t('list.inspectCollection')}
             tooltipTitle={disabledTooltip}
