@@ -1,6 +1,6 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
-import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
+import { Avatar, Box, Button, Skeleton, Stack, Tooltip, Typography, useTheme } from '@mui/material'
 import type { ActionItemButton } from '@/types/common.types'
 import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
@@ -61,6 +61,7 @@ type HeaderInfoSectionProps = {
 }
 
 type IntroProps = {
+  avatarIcon?: React.ReactNode
   title?: string
   description?: string | React.ReactNode
   statusChip?: React.ComponentProps<typeof StatusChip>
@@ -111,7 +112,42 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   )
 }
 
+export const TitleAvatar: React.FC<{ avatarIcon: React.ReactNode }> = ({ avatarIcon }) => {
+  const theme = useTheme()
+  return (
+    <Avatar
+      alt="collection icon"
+      sx={{
+        position: 'relative',
+        width: 40,
+        height: 40,
+        backgroundColor: 'transparent',
+        boxSizing: 'border-box',
+        padding: theme.spacing(0.9),
+        color: theme.colors.blue[500],
+        '& .MuiAvatar-img': {
+          objectFit: 'contain',
+          objectPosition: 'center',
+        },
+        '&:after': {
+          content: "''",
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          boxShadow: `inset 0 0 0 1px ${theme.palette.divider}`,
+          borderRadius: 'inherit',
+        },
+      }}
+    >
+      {avatarIcon}
+    </Avatar>
+  )
+}
+
 const Intro: React.FC<IntroProps> = ({
+  avatarIcon,
   title,
   description,
   statusChip,
@@ -123,25 +159,30 @@ const Intro: React.FC<IntroProps> = ({
 }) => {
   return (
     <Box sx={{ flex: 1 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-        {title && (
-          <Typography component="h1" variant="h4" maxWidth="50%">
-            {title}
-          </Typography>
-        )}
-        {statusChip && (
-          <Box>
-            <StatusChip {...statusChip} />
-          </Box>
-        )}
-        {byDelegationChip && <ByDelegationChip {...byDelegationChip} />}
-        <ActionsSection
-          primaryAction={primaryAction}
-          secondaryAction={secondaryAction}
-          menuActions={menuActions}
-        />
+      <Stack direction="row" spacing={2}>
+        {avatarIcon && <TitleAvatar avatarIcon={avatarIcon} />}
+        <Stack direction="column" spacing={1} flex={1}>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {title && (
+              <Typography component="h1" variant="h4" maxWidth="50%">
+                {title}
+              </Typography>
+            )}
+            {statusChip && (
+              <Box>
+                <StatusChip {...statusChip} />
+              </Box>
+            )}
+            {byDelegationChip && <ByDelegationChip {...byDelegationChip} />}
+            <ActionsSection
+              primaryAction={primaryAction}
+              secondaryAction={secondaryAction}
+              menuActions={menuActions}
+            />
+          </Stack>
+          {description && <Subtitle description={description} />}
+        </Stack>
       </Stack>
-      {description && <Subtitle description={description} />}
       {infoSection && <HeaderInfoSection {...infoSection} />}
     </Box>
   )
