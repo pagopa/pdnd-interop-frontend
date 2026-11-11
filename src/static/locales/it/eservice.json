@@ -698,7 +698,7 @@
       }
     },
     "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile",
-    "inspectCollection": "Vedi raccolta",
+    "inspectCollection": "Vai alla raccolta",
     "collectionBadge": "{{ count }} e-service"
   },
   "read": {
