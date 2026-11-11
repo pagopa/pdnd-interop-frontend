@@ -23,6 +23,7 @@ const renderComponent = (
   {
     children,
     title,
+    avatarIcon,
     statusChip,
     byDelegationChip,
     primaryAction,
@@ -38,6 +39,7 @@ const renderComponent = (
     <NewPageContainer
       title={title}
       navigation={navigation}
+      avatarIcon={avatarIcon}
       statusChip={statusChip}
       byDelegationChip={byDelegationChip}
       primaryAction={primaryAction}
@@ -61,6 +63,22 @@ describe('NewPageContainer', () => {
 
     expect(title).toBeInTheDocument()
     expect(children).toBeInTheDocument()
+  })
+
+  it('should render the optional avatar when passed', () => {
+    const screen = renderComponent({
+      children: 'Test children',
+      title: 'Test title',
+      avatarIcon: <span>Avatar content</span>,
+    })
+
+    expect(screen.getByText('Avatar content')).toBeInTheDocument()
+  })
+
+  it('should not render an avatar when avatarIcon is omitted', () => {
+    const screen = renderComponent({ children: 'Test children', title: 'Test title' })
+
+    expect(screen.queryByText('Avatar content')).not.toBeInTheDocument()
   })
 
   it('should correctly render the statusChip when passed PUBLISHED for e-service', () => {
