@@ -239,7 +239,12 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   // Only e-service published or suspended can be shown in the catalog
   // const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
-  const query = { ...paginationParams, ...payload, sortBy: sortBy as EServiceSortBy }
+  const query: CatalogFilterPayload = {
+    ...paginationParams,
+    ...payload,
+    groupByTemplate: true,
+    sortBy: sortBy as EServiceSortBy,
+  }
 
   const { data } = useQuery({
     ...EServiceQueries.queryCatalogList(query),
