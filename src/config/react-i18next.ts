@@ -25,6 +25,7 @@ import notificationEnNs from '@/static/locales/en/notification.json'
 import purposeTemplateEnNs from '@/static/locales/en/purposeTemplate.json'
 import sidebarEnNs from '@/static/locales/en/sidebar.json'
 import filtersEnNs from '@/static/locales/en/filters.json'
+import dashboardEnNs from '@/static/locales/en/dashboard.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -49,6 +50,7 @@ import sidebarItNs from '@/static/locales/it/sidebar.json'
 import notificationItNs from '@/static/locales/it/notification.json'
 import purposeTemplateItNs from '@/static/locales/it/purposeTemplate.json'
 import filtersItNs from '@/static/locales/it/filters.json'
+import dashboardItNs from '@/static/locales/it/dashboard.json'
 
 i18n.use(initReactI18next).init({
   debug: false,
@@ -82,6 +84,7 @@ i18n.use(initReactI18next).init({
       notification: notificationItNs,
       purposeTemplate: purposeTemplateItNs,
       filters: filtersItNs,
+      dashboard: dashboardItNs,
     },
     en: {
       pages: pagesEnNs,
@@ -107,6 +110,7 @@ i18n.use(initReactI18next).init({
       notification: notificationEnNs,
       purposeTemplate: purposeTemplateEnNs,
       filters: filtersEnNs,
+      dashboard: dashboardEnNs,
     },
   },
 })

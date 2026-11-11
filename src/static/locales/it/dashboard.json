@@ -1,0 +1,28 @@
+{
+  "providerSaturationRatePage": {
+    "title": "Consumi previsti della soglia totale per e-service",
+    "description": "Vedi le versioni dei tuoi e-service ordinate per i consumi previsti della soglia totale di chiamate API.",
+    "eserviceOverThreshold": "Versioni di e-service sopra la soglia totale",
+    "eserviceNearThreshold": "Versioni di e-service vicini alla soglia totale (oltre 90%)",
+    "totalEservices": "Totale versioni di e-service",
+    "table": {
+      "headlabels": {
+        "eserviceAndVersion": "Nome e-service e versione",
+        "purposesNumber": "Finalità",
+        "percentageRate": "Percentuale soglia totale",
+        "approvedCalls": "Chiamate approvate /totale disponibile",
+        "callsToApprove": "Chiamate da approvare"
+      },
+      "eserviceVersion": "VERSIONE {{version}}"
+    },
+    "filters": {
+      "label": "Cerca per nome e-service"
+    },
+    "sorting": {
+      "percentageAtDesc": "Percentuale (decrescente)",
+      "percentageAtAsc": "Percentuale (crescente)",
+      "nameAsc": "Nome e-service A-Z",
+      "nameDesc": "Nome e-service Z-A"
+    }
+  }
+}
