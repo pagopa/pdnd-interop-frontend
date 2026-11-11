@@ -97,20 +97,18 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
           )}
           <>
             <Divider />
-            {agreement.isContractPresent && (
-              <>
-                <IconLink
-                  data-testid="download-agreement-document-button"
-                  component="button"
-                  disabled={!agreement.isDocumentReady}
-                  startIcon={<DownloadIcon />}
-                  sx={{ alignSelf: 'start' }}
-                  onClick={handleDownloadSignedAgreementDocument}
-                  tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
-                >
-                  {t('documentation.link.label')}
-                </IconLink>
-              </>
+            {agreement.state !== 'PENDING' && (
+              <IconLink
+                data-testid="download-agreement-document-button"
+                component="button"
+                disabled={!agreement.isDocumentReady}
+                startIcon={<DownloadIcon />}
+                sx={{ alignSelf: 'start' }}
+                onClick={handleDownloadSignedAgreementDocument}
+                tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
+              >
+                {t('documentation.link.label')}
+              </IconLink>
             )}
             {agreement.state !== 'PENDING' && (
               <>
