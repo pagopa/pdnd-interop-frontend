@@ -116,7 +116,6 @@ export const TitleAvatar: React.FC<{ avatarIcon: React.ReactNode }> = ({ avatarI
   const theme = useTheme()
   return (
     <Avatar
-      alt="collection icon"
       sx={{
         position: 'relative',
         width: 40,
