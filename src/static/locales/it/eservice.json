@@ -701,6 +701,13 @@
     "inspectCollection": "Vai alla raccolta",
     "collectionBadge": "{{ count }} e-service"
   },
+  "templateInstancesGroup": {
+    "banner": {
+      "title": "Questa è una raccolta di e-service",
+      "description": "Tutti gli e-service di questa pagina sono stati creati dal template {{templateName}} di {{templateProducerName}}.",
+      "buttonLabel": "Visualizza template"
+    }
+  },
   "read": {
     "dialogs": {
       "removeAttributeThreshold": {

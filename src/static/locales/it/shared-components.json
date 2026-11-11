@@ -623,6 +623,7 @@
     "PROVIDE": "Erogazione",
     "SUBSCRIBE_CATALOG_VIEW": "Visualizza e-service",
     "SUBSCRIBE_CATALOG_LIST": "Catalogo e-service",
+    "SUBSCRIBE_TEMPLATE_INSTANCES_GROUP": "Visualizza raccolta",
     "SUBSCRIBE_PURPOSE_CREATE": "Crea finalità",
     "SUBSCRIBE_PURPOSE_EDIT": "Modifica finalità",
     "SUBSCRIBE_PURPOSE_SUMMARY": "Crea finalità",

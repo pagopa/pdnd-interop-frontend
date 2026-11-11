@@ -622,6 +622,7 @@
     "PROVIDE": "Producing",
     "SUBSCRIBE_CATALOG_VIEW": "View E-service",
     "SUBSCRIBE_CATALOG_LIST": "E-service Catalog",
+    "SUBSCRIBE_TEMPLATE_INSTANCES_GROUP": "View collection",
     "SUBSCRIBE_PURPOSE_CREATE": "Create Purpose",
     "SUBSCRIBE_PURPOSE_EDIT": "Edit Purpose",
     "SUBSCRIBE_PURPOSE_SUMMARY": "Create Purpose",
