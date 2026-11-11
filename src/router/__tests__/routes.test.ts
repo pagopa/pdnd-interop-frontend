@@ -150,6 +150,17 @@ describe('routes authLevels', () => {
     ])
   })
 
+  it('SUBSCRIBE_TEMPLATE_INSTANCES_GROUP page should be accessible from [admin, api, reviewer, security, support, viewer]', () => {
+    expect([...routes.SUBSCRIBE_TEMPLATE_INSTANCES_GROUP.authLevels].sort()).toEqual([
+      'admin',
+      'api',
+      'reviewer',
+      'security',
+      'support',
+      'viewer',
+    ])
+  })
+
   it('SUBSCRIBE_PURPOSE_CREATE page should be accessible from [admin]', () => {
     expect([...routes.SUBSCRIBE_PURPOSE_CREATE.authLevels].sort()).toEqual(['admin'])
   })
