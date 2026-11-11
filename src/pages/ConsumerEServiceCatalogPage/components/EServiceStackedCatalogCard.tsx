@@ -1,10 +1,11 @@
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogQueryTemplateInstancesGroup } from '@/api/api.generatedTypes'
 import { Avatar, Card, CardContent, Typography, CardActions } from '@mui/material'
 import { commonTitleTextStyle, commonDescTextStyle } from '../style/commonStyle'
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined'
 import { Box } from '@mui/system'
 import { collectionIconStyles, stackedStyles } from '../style/eserviceStackedCatalogCardStyle'
 import { EServiceCatalogCardActionButton } from './EServiceCatalogCardActionButton'
+import { useTranslation } from 'react-i18next'
 
 const CollectionIconAvatar: React.FC = () => (
   <Avatar alt="collection icon" sx={collectionIconStyles}>
@@ -13,23 +14,21 @@ const CollectionIconAvatar: React.FC = () => (
 )
 
 interface EServiceStackedCatalogCardProps {
-  eservice: CatalogEService
+  templateInstancesGroup: CatalogQueryTemplateInstancesGroup
   avatarUrl?: string
   disabled: boolean
   prefetchFn: () => void
   disabledTooltip?: string
-  collectionBadgeLabel: string
-  collectionCtaLabel: string
 }
 
 export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProps> = ({
-  eservice,
+  templateInstancesGroup,
   disabled,
   prefetchFn,
   disabledTooltip,
-  collectionBadgeLabel,
-  collectionCtaLabel,
 }) => {
+  const { t } = useTranslation('eservice')
+
   return (
     <Box sx={stackedStyles.container(disabled)}>
       <Card sx={{ ...stackedStyles.card }}>
@@ -39,17 +38,17 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
 
             <Box sx={stackedStyles.collectionBadge}>
               <Typography variant="subtitle2" sx={stackedStyles.collectionBadgeText}>
-                {collectionBadgeLabel}
+                {t('list.collectionBadge', { count: templateInstancesGroup.numInstances })}
               </Typography>
             </Box>
           </Box>
 
           <Box sx={{ display: 'grid', gap: 1 }}>
             <Typography color="text.primary" sx={commonTitleTextStyle} component="h2">
-              {eservice.name}
+              {templateInstancesGroup.name}
             </Typography>
             <Typography variant="body1" color="text.primary" sx={commonDescTextStyle}>
-              {eservice.description}
+              {templateInstancesGroup.description}
             </Typography>
           </Box>
         </CardContent>
@@ -63,7 +62,7 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
               eserviceId: eservice.id,
               descriptorId: eservice.activeDescriptor?.id ?? '',
             }}
-            buttonLabel={collectionCtaLabel}
+            buttonLabel={t('list.inspectCollection')}
             tooltipTitle={disabledTooltip}
           />
         </CardActions>
