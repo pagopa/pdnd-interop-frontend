@@ -3,12 +3,20 @@ import { commonButtonTextStyle } from '../style/commonStyle'
 import type { RouteKey, useParams } from '@/router'
 import { Link } from '@/router'
 
-type CatalogRoutesKeys = Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW'> //TODO: in the second release, this should be updated with also the route for the collection view
+type CatalogRoutesKeys = Extract<
+  RouteKey,
+  'SUBSCRIBE_CATALOG_VIEW' | 'SUBSCRIBE_TEMPLATE_INSTANCES_GROUP'
+>
 type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
-type ActionButtonProps = {
-  to: CatalogRoutesKeys
-  params: CatalogCardRouteParams<CatalogRoutesKeys>
+type ActionButtonRouteProps = {
+  [TRouteKey in CatalogRoutesKeys]: {
+    to: TRouteKey
+    params: CatalogCardRouteParams<TRouteKey>
+  }
+}[CatalogRoutesKeys]
+
+type ActionButtonProps = ActionButtonRouteProps & {
   prefetchFn: () => void
   disabled?: boolean
   buttonLabel: string

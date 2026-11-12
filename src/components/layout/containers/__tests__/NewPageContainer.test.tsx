@@ -21,6 +21,7 @@ const mockDelegation: DelegationWithCompactTenants = {
 const renderComponent = ({
   children,
   title,
+  avatarIcon,
   backToAction,
   statusChip,
   byDelegationChip,
@@ -33,6 +34,7 @@ const renderComponent = ({
   return renderWithApplicationContext(
     <NewPageContainer
       title={title}
+      avatarIcon={avatarIcon}
       backToAction={backToAction}
       statusChip={statusChip}
       byDelegationChip={byDelegationChip}
@@ -56,6 +58,22 @@ describe('NewPageContainer', () => {
 
     expect(title).toBeInTheDocument()
     expect(children).toBeInTheDocument()
+  })
+
+  it('should render the optional avatar when passed', () => {
+    const screen = renderComponent({
+      children: 'Test children',
+      title: 'Test title',
+      avatarIcon: <span>Avatar content</span>,
+    })
+
+    expect(screen.getByText('Avatar content')).toBeInTheDocument()
+  })
+
+  it('should not render an avatar when avatarIcon is omitted', () => {
+    const screen = renderComponent({ children: 'Test children', title: 'Test title' })
+
+    expect(screen.queryByText('Avatar content')).not.toBeInTheDocument()
   })
 
   it('should correctly render the statusChip when passed PUBLISHED for e-service', () => {
