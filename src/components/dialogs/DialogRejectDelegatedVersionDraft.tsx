@@ -43,10 +43,12 @@ export const DialogRejectDelegatedVersionDraft: React.FC<
     rejectDelegatedVersionDraft(
       { eserviceId, descriptorId, rejectionReason: reason },
       {
-        onSuccess: () => navigate('PROVIDE_ESERVICE_LIST'),
+        onSuccess: () => {
+          closeDialog()
+          navigate('PROVIDE_ESERVICE_LIST')
+        },
       }
     )
-    closeDialog()
   }
 
   return (

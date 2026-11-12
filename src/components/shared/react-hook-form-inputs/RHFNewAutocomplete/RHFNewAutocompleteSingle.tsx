@@ -52,6 +52,22 @@ export function RHFNewAutocompleteSingle<T>(props: RHFNewAutocompleteSingleProps
     }
   }, [value, props.options, internalState])
 
+  React.useEffect(() => {
+    const subscription = watch((formValues, event) => {
+      if (event.name !== undefined) return
+
+      const resetValue = formValues[props.name] as T | null | undefined
+      const selectedOption = props.options.find((option) => isEqual(resetValue, option.value))
+
+      hasSetOptions.current = selectedOption !== undefined
+      latestInputChangeReason.current = undefined
+      setInternalState(selectedOption ?? null)
+      setInputValue(selectedOption?.label ?? '')
+    })
+
+    return subscription.unsubscribe
+  }, [watch, props.name, props.options])
+
   function filteringOptions<T>(
     options: Array<T>,
     state: { inputValue: string; getOptionLabel: (option: T) => string }
@@ -64,14 +80,14 @@ export function RHFNewAutocompleteSingle<T>(props: RHFNewAutocompleteSingleProps
     }
 
     const isInputEqualToSelectedOption =
-      latestInputChangeReason.current === 'selectOption' &&
+      (latestInputChangeReason.current === 'selectOption' || !latestInputChangeReason.current) &&
       internalState !== null &&
       getOptionLabel(internalState as T).toLowerCase() === normalizedInputValue
 
+    if (isInputEqualToSelectedOption) return options
+
     return options.filter((option) =>
-      isInputEqualToSelectedOption
-        ? !isEqual(option, internalState)
-        : getOptionLabel(option).toLowerCase().includes(normalizedInputValue)
+      getOptionLabel(option).toLowerCase().includes(normalizedInputValue)
     )
   }
 

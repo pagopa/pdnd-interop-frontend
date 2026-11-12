@@ -17,7 +17,9 @@ import type {
   RiskAnalysisTemplateAnswerRequest,
   RiskAnalysisTemplateAnswerAnnotationDocument,
   EServiceDoc,
+  Problem,
 } from '@/api/api.generatedTypes'
+import { isAxiosError } from 'axios'
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
@@ -269,8 +271,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       showToast(t('notifications.documentUploadedSuccess'), 'success')
     } catch (error) {
       console.error('Error uploading document:', error)
-      // Show error notification
-      showToast(t('notifications.documentUploadError'), 'error')
+      const problem = isAxiosError<Problem>(error) ? error.response?.data : undefined
+      showToast(
+        problem?.userMessage || t('notifications.documentUploadError'),
+        'error',
+        problem?.correlationId
+      )
     }
   }
 

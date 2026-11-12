@@ -41,9 +41,13 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     },
   })
 
-  const onSubmit = formMethods.handleSubmit(({ tenantKind, personalData }) => {
+  const onSubmit = formMethods.handleSubmit(async ({ tenantKind, personalData }) => {
     const handlesPersonalData = personalData === 'true'
-    onConfirm(tenantKind, handlesPersonalData)
+    try {
+      await onConfirm(tenantKind, handlesPersonalData)
+    } catch {
+      return
+    }
     closeDialog()
   })
 
