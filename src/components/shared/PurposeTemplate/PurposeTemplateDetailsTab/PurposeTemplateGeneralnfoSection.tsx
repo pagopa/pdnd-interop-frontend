@@ -27,8 +27,11 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
   })
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { routeKey } = useCurrentRoute()
-  const { isAdmin } = AuthHooks.useJwt()
-  const isMetadataEditable = isAdmin && routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'
+  const { isAdmin, jwt } = AuthHooks.useJwt()
+  const isMetadataEditable =
+    isAdmin &&
+    routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' &&
+    purposeTemplate.creator.id === jwt?.organizationId
   const { mutate: patchUpdatePurposeTemplate } =
     PurposeTemplateMutations.usePatchUpdatePurposeTemplate()
 
