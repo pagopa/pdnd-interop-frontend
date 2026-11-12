@@ -1,11 +1,20 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Stack, Typography } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 import DownloadIcon from '@mui/icons-material/Download'
 import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
+import EditIcon from '@mui/icons-material/Edit'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import {
+  UpdateMetadataDrawer,
+  type UpdateMetadataFormValues,
+} from '@/components/shared/UpdateMetadataDrawer'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { useCurrentRoute } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 type PurposeTemplateGeneralInfoSectionProps = {
   purposeTemplate: PurposeTemplateWithCompactCreator
@@ -16,6 +25,31 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
   const { t } = useTranslation('purposeTemplate', {
     keyPrefix: 'read.detailsTab.sections.generalInformation',
   })
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+  const { routeKey } = useCurrentRoute()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
+  const isMetadataEditable =
+    isAdmin &&
+    routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' &&
+    purposeTemplate.creator.id === jwt?.organizationId
+  const { mutate: patchUpdatePurposeTemplate } =
+    PurposeTemplateMutations.usePatchUpdatePurposeTemplate()
+
+  const handleMetadataUpdate = (values: UpdateMetadataFormValues) => {
+    patchUpdatePurposeTemplate(
+      {
+        purposeTemplateId: purposeTemplate.id,
+        ...(values.name !== purposeTemplate.purposeTitle ? { purposeTitle: values.name } : {}),
+        ...(values.description !== purposeTemplate.purposeDescription
+          ? { purposeDescription: values.description }
+          : {}),
+        ...(values.target !== purposeTemplate.targetDescription
+          ? { targetDescription: values.target }
+          : {}),
+      },
+      { onSuccess: closeDrawer }
+    )
+  }
 
   const downloadSignedRiskAnalysis = PurposeTemplateDownloads.useDownloadSignedRiskAnalysis()
 
@@ -45,35 +79,100 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
     <>
       <SectionContainer title={t('title')} bottomActions={[downloadRiskAnalysisAction]}>
         <Stack spacing={2}>
-          <InformationContainer label={t('producerName')} content={purposeTemplate.creator.name} />
-          <InformationContainer label={t('tenantKind')} content={tenantKindTranslationKey} />
-          <InformationContainer
-            label={t('handlesPersonalDataLabel')}
-            content={purposeTemplate.handlesPersonalData ? t('yes') : t('no')}
-          />
           <SectionContainer
             innerSection
-            title={t('intendedTarget')}
-            titleTypographyProps={{ variant: 'body2' }}
-            sx={{ mb: 0 }}
+            title={t('nameAndDescription.title')}
+            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+            topSideActions={
+              isMetadataEditable
+                ? [
+                    {
+                      action: openDrawer,
+                      label: t('nameAndDescription.edit'),
+                      icon: EditIcon,
+                    },
+                  ]
+                : undefined
+            }
           >
-            <Typography variant="body1" sx={{ fontWeight: 600, mt: -2 }}>
-              {/* TODO: TO FIX NEGATIVE MARGIN */}
-              {purposeTemplate.targetDescription}
-            </Typography>
+            <Stack spacing={2}>
+              <InformationContainer
+                label={t('nameAndDescription.nameField.label')}
+                content={purposeTemplate.purposeTitle}
+              />
+              <InformationContainer
+                label={t('nameAndDescription.descriptionField.label')}
+                direction="column"
+                content={purposeTemplate.purposeDescription}
+              />
+              <InformationContainer
+                label={t('nameAndDescription.targetField.label')}
+                direction="column"
+                content={purposeTemplate.targetDescription}
+              />
+            </Stack>
           </SectionContainer>
+          <Divider />
           <SectionContainer
             innerSection
-            title={t('purposeDescription')}
-            titleTypographyProps={{ variant: 'body2' }}
-            sx={{ mb: 0 }}
+            title={t('specifications.title')}
+            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           >
-            <Typography variant="body1" sx={{ fontWeight: 600, mt: -2 }}>
-              {purposeTemplate.purposeDescription}
-            </Typography>
+            <Stack spacing={2}>
+              <InformationContainer
+                label={t('producerName')}
+                content={purposeTemplate.creator.name}
+              />
+              <InformationContainer label={t('tenantKind')} content={tenantKindTranslationKey} />
+              <InformationContainer
+                label={t('handlesPersonalDataLabel')}
+                content={purposeTemplate.handlesPersonalData ? t('yes') : t('no')}
+              />
+            </Stack>
           </SectionContainer>
         </Stack>
       </SectionContainer>
+      {isMetadataEditable && (
+        <UpdateMetadataDrawer
+          isOpen={isOpen}
+          onClose={closeDrawer}
+          title={t('updateMetadataDrawer.title')}
+          description={t('updateMetadataDrawer.description')}
+          nameField={{
+            label: t('updateMetadataDrawer.nameField.label'),
+            helperText: t('updateMetadataDrawer.nameField.helperText'),
+            validation: {
+              required: true,
+              minLength: 5,
+              maxLength: 60,
+            },
+          }}
+          descriptionField={{
+            label: t('updateMetadataDrawer.descriptionField.label'),
+            helperText: t('updateMetadataDrawer.descriptionField.helperText'),
+            validation: {
+              required: true,
+              minLength: 10,
+              maxLength: 250,
+            },
+          }}
+          targetField={{
+            label: t('updateMetadataDrawer.targetField.label'),
+            helperText: t('updateMetadataDrawer.targetField.helperText'),
+            validation: {
+              required: true,
+              minLength: 10,
+              maxLength: 250,
+            },
+          }}
+          initialValues={{
+            name: purposeTemplate.purposeTitle,
+            description: purposeTemplate.purposeDescription,
+            target: purposeTemplate.targetDescription,
+          }}
+          onSubmit={handleMetadataUpdate}
+        />
+      )}
     </>
   )
 }

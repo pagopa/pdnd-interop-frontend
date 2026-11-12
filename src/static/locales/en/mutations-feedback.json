@@ -1179,6 +1179,16 @@
     }
   },
   "purposeTemplate": {
+    "patchUpdatePurposeTemplate": {
+      "loading": "The purpose template is being updated",
+      "outcome": {
+        "successMetadata": "You have updated the purpose template name, description and target audience.",
+        "successName": "You have updated the purpose template name.",
+        "successDescription": "You have updated the purpose template description.",
+        "successTarget": "You have updated the purpose template target audience.",
+        "error": "The purpose template name, description or target audience could not be updated. Please try again."
+      }
+    },
     "createDraft": {
       "loading": "Facilitated purpose template draft is being created",
       "outcome": {
