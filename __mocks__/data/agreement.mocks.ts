@@ -260,7 +260,6 @@ const createMockAgreement = createMockFactory<Agreement>({
       name: 'NORMA AAA',
     },
   ],
-  isContractPresent: true,
   isDocumentReady: false,
   certifiedDiscreteAttributes: [],
 })
