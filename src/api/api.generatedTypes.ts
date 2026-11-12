@@ -110,9 +110,6 @@ export type EServiceProducerCategory =
   | 'ISTITUTI_RICERCA'
   | 'STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI'
 
-/** Role of the requester in a producer delegation */
-export type RequesterDelegationRole = 'DELEGATE' | 'DELEGATOR'
-
 /** Sort criteria for the catalog query */
 export type EServiceSortBy = 'NAME_ASC' | 'NAME_DESC' | 'CREATED_AT_ASC' | 'CREATED_AT_DESC'
 
@@ -933,8 +930,6 @@ export interface CatalogFilterPayload {
   mode?: EServiceMode
   /** If true, returns only e-services with Signal Hub enabled */
   onlySignalHubEnabled?: boolean
-  /** Filter by the requester role in producer delegations */
-  requesterDelegationRoles?: RequesterDelegationRole[]
   /**
    * Returns only e-services belonging to the given template collection
    * @format uuid
@@ -1040,6 +1035,20 @@ export interface CompactEService {
 
 export interface CompactEServices {
   results: CompactEService[]
+  pagination: Pagination
+}
+
+export interface CompactCatalogEService {
+  /** @format uuid */
+  id: string
+  name: string
+  producer: CompactOrganization
+  personalData?: boolean
+  activeDescriptor?: CompactDescriptor
+}
+
+export interface CompactCatalogEServices {
+  results: CompactCatalogEService[]
   pagination: Pagination
 }
 
@@ -1399,6 +1408,34 @@ export interface PurposeTemplateSeed {
   handlesPersonalData: boolean
 }
 
+export interface PatchUpdatePurposeTemplateSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  targetDescription?: string
+  targetTenantKind?: TargetTenantKind
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  purposeTitle?: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  purposeDescription?: string
+  purposeIsFreeOfCharge?: boolean
+  purposeFreeOfChargeReason?: string | null
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number | null
+  handlesPersonalData?: boolean
+}
+
 export interface RiskAnalysisFormTemplate {
   /**
    * @minLength 1
@@ -1563,6 +1600,29 @@ export interface EncodedClientKey {
   key: string
 }
 
+/** Client update request body */
+export type ClientUpdateSeed =
+  | {
+      name: ClientName
+      description?: ClientDescription
+    }
+  | {
+      name?: ClientName
+      description: ClientDescription
+    }
+
+/**
+ * @minLength 5
+ * @maxLength 60
+ */
+export type ClientName = string
+
+/**
+ * @minLength 10
+ * @maxLength 250
+ */
+export type ClientDescription = string
+
 /** Client creation request body */
 export interface ClientSeed {
   name: string
@@ -1580,6 +1640,29 @@ export interface CompactClient {
   /** Indicates if there are unread notifications for this client */
   hasUnreadNotifications?: boolean
 }
+
+/** Producer keychain update request body */
+export type ProducerKeychainUpdateSeed =
+  | {
+      name: ProducerKeychainName
+      description?: ProducerKeychainDescription
+    }
+  | {
+      name?: ProducerKeychainName
+      description: ProducerKeychainDescription
+    }
+
+/**
+ * @minLength 5
+ * @maxLength 60
+ */
+export type ProducerKeychainName = string
+
+/**
+ * @minLength 10
+ * @maxLength 250
+ */
+export type ProducerKeychainDescription = string
 
 /** Producer keychain creation request body */
 export interface ProducerKeychainSeed {
@@ -2415,6 +2498,10 @@ export interface RejectDelegationPayload {
 }
 
 export interface EServiceTemplateNameUpdateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 45
+   */
   name: string
 }
 
@@ -2565,6 +2652,31 @@ export interface CreatedEServiceTemplateVersion {
   id: string
   /** @format uuid */
   versionId: string
+}
+
+export interface PatchUpdateEServiceTemplateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 45
+   */
+  name?: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  intendedTarget?: string
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string
+  /** EService Descriptor State */
+  technology?: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode?: EServiceMode
+  isSignalHubEnabled?: boolean
+  personalData?: boolean | null
+  asyncExchange?: boolean | null
 }
 
 export interface UpdateEServiceTemplateSeed {
@@ -2746,6 +2858,7 @@ export interface Problem {
   detail?: string
   /** @minItems 1 */
   errors?: ProblemError[]
+  userMessage?: string
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -3361,6 +3474,38 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface GetCompactCatalogEServicesParams {
+  /** Query to filter EServices by name */
+  q?: string
+  /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: EServiceDescriptorState[]
+  /**
+   * comma separated sequence of agreement states to filter the response with
+   * @default []
+   */
+  agreementStates?: AgreementState[]
+  /** EService Mode filter */
+  mode?: EServiceMode
+  /** EService isConsumerDelegable filter */
+  isConsumerDelegable?: boolean
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /**
    * @format int32
    * @min 0
@@ -4614,6 +4759,14 @@ export interface UpdatePurposeTemplateParams {
   purposeTemplateId: string
 }
 
+export interface PatchUpdatePurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string
+}
+
 export interface DeletePurposeTemplateParams {
   /**
    * the purpose template id
@@ -4823,12 +4976,12 @@ export interface UpdateVerifiedAttributeParams {
   attributeId: string
 }
 
-export interface RevokeVerifiedAttributePayload {
-  /** @format uuid */
-  agreementId: string
-}
-
 export interface RevokeVerifiedAttributeParams {
+  /**
+   * Agreement id related to the Verified attribute revocation
+   * @format uuid
+   */
+  agreementId: string
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -4939,6 +5092,14 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number
+}
+
+export interface UpdateClientParams {
+  /**
+   * The Client id
+   * @format uuid
+   */
+  clientId: string
 }
 
 export interface GetClientParams {
@@ -5162,6 +5323,14 @@ export interface GetProducerKeychainsParams {
    * @max 50
    */
   limit: number
+}
+
+export interface UpdateProducerKeychainParams {
+  /**
+   * The Producer Keychain id
+   * @format uuid
+   */
+  producerKeychainId: string
 }
 
 export interface GetProducerKeychainParams {
@@ -5415,6 +5584,14 @@ export interface GetDelegationSignedContractParams {
    * @format uuid
    */
   contractId: string
+}
+
+export interface PatchUpdateEServiceTemplateParams {
+  /**
+   * The E-Service id to retrieve
+   * @format uuid
+   */
+  eServiceTemplateId: string
 }
 
 export interface UpdateEServiceTemplateParams {
@@ -7266,8 +7443,14 @@ export namespace Tenants {
        */
       attributeId: string
     }
-    export type RequestQuery = {}
-    export type RequestBody = RevokeVerifiedAttributePayload
+    export type RequestQuery = {
+      /**
+       * Agreement id related to the Verified attribute revocation
+       * @format uuid
+       */
+      agreementId: string
+    }
+    export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
@@ -7455,7 +7638,7 @@ export namespace Catalog {
       /**
        * @format int32
        * @min 1
-       * @max 200
+       * @max 50
        */
       limit: number
     }
@@ -7478,6 +7661,52 @@ export namespace Catalog {
     export type RequestBody = CatalogFilterPayload
     export type RequestHeaders = {}
     export type ResponseBody = CatalogEServices
+  }
+
+  /**
+   * @description Retrieves a lightweight list of catalog EServices, meant to populate selects and autocomplete inputs
+   * @tags eservices
+   * @name GetCompactCatalogEServices
+   * @summary Retrieves a lightweight list of catalog EServices
+   * @request GET:/catalog/eservices
+   * @secure
+   */
+  export namespace GetCompactCatalogEServices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: EServiceDescriptorState[]
+      /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      agreementStates?: AgreementState[]
+      /** EService Mode filter */
+      mode?: EServiceMode
+      /** EService isConsumerDelegable filter */
+      isConsumerDelegable?: boolean
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 200
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CompactCatalogEServices
   }
 
   /**
@@ -8656,6 +8885,28 @@ export namespace Eservices {
     export type RequestBody = EServiceTemplateSeed
     export type RequestHeaders = {}
     export type ResponseBody = CreatedEServiceTemplateVersion
+  }
+
+  /**
+   * @description Partially updates the general information of the specified E-Service Template
+   * @tags eserviceTemplates
+   * @name PatchUpdateEServiceTemplate
+   * @summary Partially updates E-Service Template general information
+   * @request PATCH:/eservices/templates/{eServiceTemplateId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceTemplate {
+    export type RequestParams = {
+      /**
+       * The E-Service id to retrieve
+       * @format uuid
+       */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchUpdateEServiceTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
   }
 
   /**
@@ -10471,6 +10722,28 @@ export namespace PurposeTemplates {
   }
 
   /**
+   * @description Partially updates the general information of the specified Purpose Template
+   * @tags purposeTemplates
+   * @name PatchUpdatePurposeTemplate
+   * @summary Partially updates Purpose Template general information
+   * @request PATCH:/purposeTemplates/{purposeTemplateId}
+   * @secure
+   */
+  export namespace PatchUpdatePurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchUpdatePurposeTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+
+  /**
    * @description Deletes a specific purpose template if it is in Draft state
    * @tags purposeTemplates
    * @name DeletePurposeTemplate
@@ -11049,6 +11322,28 @@ export namespace Clients {
   }
 
   /**
+   * @description Updates a Client
+   * @tags clients
+   * @name UpdateClient
+   * @summary Update a Client
+   * @request PATCH:/clients/{clientId}
+   * @secure
+   */
+  export namespace UpdateClient {
+    export type RequestParams = {
+      /**
+       * The Client id
+       * @format uuid
+       */
+      clientId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = ClientUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+
+  /**
    * @description Retrieves a Client
    * @tags clients
    * @name GetClient
@@ -11594,6 +11889,28 @@ export namespace ProducerKeychains {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CompactProducerKeychains
+  }
+
+  /**
+   * @description Updates a Producer Keychain
+   * @tags producerKeychain
+   * @name UpdateProducerKeychain
+   * @summary Update a Producer Keychain
+   * @request PATCH:/producerKeychains/{producerKeychainId}
+   * @secure
+   */
+  export namespace UpdateProducerKeychain {
+    export type RequestParams = {
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = ProducerKeychainUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 
   /**
