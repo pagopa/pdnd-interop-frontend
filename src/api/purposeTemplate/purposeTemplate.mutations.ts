@@ -1,7 +1,39 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AxiosError } from 'axios'
 import { PurposeTemplateServices } from './purposeTemplate.services'
+import { PurposeTemplateQueries } from './purposeTemplate.queries'
+import { match, P } from 'ts-pattern'
+
+function usePatchUpdatePurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.patchUpdatePurposeTemplate',
+  })
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: PurposeTemplateServices.patchUpdatePurposeTemplate,
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        match(variables)
+          .with(
+            { purposeTitle: P.string, purposeDescription: P.string },
+            { purposeTitle: P.string, targetDescription: P.string },
+            { purposeDescription: P.string, targetDescription: P.string },
+            () => t('outcome.successMetadata')
+          )
+          .with({ purposeTitle: P.string }, () => t('outcome.successName'))
+          .with({ purposeDescription: P.string }, () => t('outcome.successDescription'))
+          .with({ targetDescription: P.string }, () => t('outcome.successTarget'))
+          .otherwise(() => t('outcome.error')),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess: (_data, { purposeTemplateId }) => {
+      queryClient.invalidateQueries(PurposeTemplateQueries.getSingle(purposeTemplateId))
+    },
+  })
+}
 
 // Surfaced by the BFF when a link/unlink resource operation hits a 409.
 // Sourced from `interop-be-monorepo/packages/purpose-template-process/src/model/domain/errors.ts`
@@ -251,6 +283,7 @@ function useUpdatePrettyNameAnnotationAssociatedDocument() {
 }
 
 export const PurposeTemplateMutations = {
+  usePatchUpdatePurposeTemplate,
   useUpdateDraft,
   useLinkResourceToPurposeTemplate,
   useUnlinkResourceFromPurposeTemplate,
