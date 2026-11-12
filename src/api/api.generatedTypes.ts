@@ -814,7 +814,6 @@ export interface Agreement {
   suspendedByConsumer?: boolean
   suspendedByProducer?: boolean
   suspendedByPlatform?: boolean
-  isContractPresent: boolean
   consumerNotes?: string
   rejectionReason?: string
   consumerDocuments: Document[]
