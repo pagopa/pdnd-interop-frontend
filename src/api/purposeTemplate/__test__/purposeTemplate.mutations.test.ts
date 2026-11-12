@@ -1,5 +1,9 @@
 import React from 'react'
-import { renderHook } from '@testing-library/react'
+import { act, renderHook, screen } from '@testing-library/react'
+import { queryClient } from '@/config/query-client'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { createMockPurposeTemplate } from '@/../__mocks__/data/purposeTemplate.mocks'
+import { PurposeTemplateQueries } from '../purposeTemplate.queries'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { vi } from 'vitest'
 import { PurposeTemplateMutations } from '../purposeTemplate.mutations'
@@ -8,6 +12,7 @@ import { PurposeTemplateServices } from '../purposeTemplate.services'
 // Mock the services
 vi.mock('../purposeTemplate.services', () => ({
   PurposeTemplateServices: {
+    patchUpdatePurposeTemplate: vi.fn(),
     createDraft: vi.fn(),
     updateDraft: vi.fn(),
     linkResourceToPurposeTemplate: vi.fn(),
@@ -47,6 +52,74 @@ const createWrapper = () => {
 describe('PurposeTemplateMutations', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  describe('usePatchUpdatePurposeTemplate', () => {
+    it.each([
+      { fields: { purposeTitle: 'Updated name' }, feedback: 'successName' },
+      { fields: { purposeDescription: 'Updated description' }, feedback: 'successDescription' },
+      { fields: { targetDescription: 'Updated target' }, feedback: 'successTarget' },
+      {
+        fields: { purposeTitle: 'Updated name', purposeDescription: 'Updated description' },
+        feedback: 'successMetadata',
+      },
+      {
+        fields: { purposeTitle: 'Updated name', targetDescription: 'Updated target' },
+        feedback: 'successMetadata',
+      },
+      {
+        fields: { purposeDescription: 'Updated description', targetDescription: 'Updated target' },
+        feedback: 'successMetadata',
+      },
+      {
+        fields: {
+          purposeTitle: 'Updated name',
+          purposeDescription: 'Updated description',
+          targetDescription: 'Updated target',
+        },
+        feedback: 'successMetadata',
+      },
+    ])('shows $feedback and refreshes the template', async ({ fields, feedback }) => {
+      const data = createMockPurposeTemplate()
+      vi.mocked(PurposeTemplateServices.patchUpdatePurposeTemplate).mockResolvedValueOnce({
+        ...data,
+        creatorId: data.creator.id,
+      })
+      const query = PurposeTemplateQueries.getSingle(data.id)
+      queryClient.setQueryData(query.queryKey, data)
+      const { result } = renderHookWithApplicationContext(
+        () => PurposeTemplateMutations.usePatchUpdatePurposeTemplate(),
+        { withReactQueryContext: true }
+      )
+
+      await act(() => result.current.mutateAsync({ purposeTemplateId: data.id, ...fields }))
+
+      expect(PurposeTemplateServices.patchUpdatePurposeTemplate).toHaveBeenCalledWith({
+        purposeTemplateId: data.id,
+        ...fields,
+      })
+      expect(await screen.findByText(`outcome.${feedback}`)).toBeInTheDocument()
+      expect(queryClient.getQueryState(query.queryKey)?.isInvalidated).toBe(true)
+    })
+
+    it('shows error feedback when the PATCH fails', async () => {
+      vi.mocked(PurposeTemplateServices.patchUpdatePurposeTemplate).mockRejectedValueOnce(
+        new Error('Network failure')
+      )
+      const { result } = renderHookWithApplicationContext(
+        () => PurposeTemplateMutations.usePatchUpdatePurposeTemplate(),
+        { withReactQueryContext: true }
+      )
+
+      act(() =>
+        result.current.mutate({
+          purposeTemplateId: 'template-id',
+          targetDescription: 'Updated target value',
+        })
+      )
+
+      expect(await screen.findByText('outcome.error')).toBeInTheDocument()
+    })
   })
 
   describe('useCreateDraft', () => {

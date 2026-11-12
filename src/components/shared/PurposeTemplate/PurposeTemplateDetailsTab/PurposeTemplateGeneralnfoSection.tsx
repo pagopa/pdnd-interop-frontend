@@ -8,7 +8,11 @@ import DownloadIcon from '@mui/icons-material/Download'
 import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
+import {
+  UpdateMetadataDrawer,
+  type UpdateMetadataFormValues,
+} from '@/components/shared/UpdateMetadataDrawer'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { useCurrentRoute } from '@/router'
 import { AuthHooks } from '@/api/auth'
 
@@ -25,6 +29,24 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
   const { routeKey } = useCurrentRoute()
   const { isAdmin } = AuthHooks.useJwt()
   const isMetadataEditable = isAdmin && routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'
+  const { mutate: patchUpdatePurposeTemplate } =
+    PurposeTemplateMutations.usePatchUpdatePurposeTemplate()
+
+  const handleMetadataUpdate = (values: UpdateMetadataFormValues) => {
+    patchUpdatePurposeTemplate(
+      {
+        purposeTemplateId: purposeTemplate.id,
+        ...(values.name !== purposeTemplate.purposeTitle ? { purposeTitle: values.name } : {}),
+        ...(values.description !== purposeTemplate.purposeDescription
+          ? { purposeDescription: values.description }
+          : {}),
+        ...(values.target !== purposeTemplate.targetDescription
+          ? { targetDescription: values.target }
+          : {}),
+      },
+      { onSuccess: closeDrawer }
+    )
+  }
 
   const downloadSignedRiskAnalysis = PurposeTemplateDownloads.useDownloadSignedRiskAnalysis()
 
@@ -145,7 +167,7 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
             description: purposeTemplate.purposeDescription,
             target: purposeTemplate.targetDescription,
           }}
-          onSubmit={() => null} /* TODO: Implement purpose template metadata update */
+          onSubmit={handleMetadataUpdate}
         />
       )}
     </>
