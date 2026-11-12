@@ -26,10 +26,11 @@ vi.mock('react-i18next', () => ({
 const purposeTemplate = createMockPurposeTemplate()
 const renderSection = (
   routeKey: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' | 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
-  isAdmin = true
+  isAdmin = true,
+  organizationId = purposeTemplate.creator.id
 ) => {
   mockUseCurrentRoute({ routeKey })
-  mockUseJwt({ isAdmin })
+  mockUseJwt({ isAdmin, jwt: { organizationId } })
   return renderWithApplicationContext(
     <PurposeTemplateGeneralInfoSection purposeTemplate={purposeTemplate} />,
     { withReactQueryContext: true }
@@ -185,5 +186,19 @@ describe('PurposeTemplateGeneralInfoSection', () => {
         name: 'purposeTemplate.read.detailsTab.sections.generalInformation.nameAndDescription.edit',
       })
     ).not.toBeInTheDocument()
+  })
+
+  it('keeps metadata read-only for an administrator of another organization', () => {
+    const view = renderSection('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', true, 'another-organization')
+
+    expect(
+      view.queryByRole('button', {
+        name: 'purposeTemplate.read.detailsTab.sections.generalInformation.nameAndDescription.edit',
+      })
+    ).not.toBeInTheDocument()
+    expect(view.getByText(purposeTemplate.purposeTitle)).toBeVisible()
+    expect(view.getByText(purposeTemplate.purposeDescription)).toBeVisible()
+    expect(view.getByText(purposeTemplate.targetDescription)).toBeVisible()
+    expect(patchMetadata).not.toHaveBeenCalled()
   })
 })
