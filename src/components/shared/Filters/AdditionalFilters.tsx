@@ -75,7 +75,6 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   const onReset = useCallback(() => {
     reset()
     onChangeActiveFilters(defaultValues)
-    setIsOpen(false)
   }, [reset, defaultValues, onChangeActiveFilters])
 
   const onClose = useCallback(() => {

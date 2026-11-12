@@ -88,3 +88,60 @@ describe('EServiceServices.queryCatalogList', () => {
     await expect(EServiceServices.queryCatalogList(payload)).rejects.toBe(error)
   })
 })
+
+describe('EServiceServices.downloadConsumerList', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('uses the decoded UTF-8 filename* value from Content-Disposition', async () => {
+    const file = new File(['content'], 'consumers.csv')
+    vi.mocked(axiosInstance.get).mockResolvedValue({
+      data: file,
+      headers: {
+        'content-disposition':
+          'attachment; filename="fallback.csv"; filename*=UTF-8\'\'2026-11-05T13%3A17%3A21-lista-fruitori-%20%E2%80%93%20test.csv',
+      },
+    })
+
+    const result = await EServiceServices.downloadConsumerList({ eserviceId: 'eservice-id' })
+
+    expect(result).toEqual({
+      file,
+      filename: '2026-11-05T13:17:21-lista-fruitori- – test.csv',
+    })
+  })
+
+  it('preserves spaces and a hyphen in the decoded e-service name', async () => {
+    const file = new File(['content'], 'consumers.csv')
+    vi.mocked(axiosInstance.get).mockResolvedValue({
+      data: file,
+      headers: {
+        'content-disposition':
+          "attachment; filename*=UTF-8''2026-11-05T13%3A17%3A21-lista-fruitori%20-%20test.csv",
+      },
+    })
+
+    const result = await EServiceServices.downloadConsumerList({ eserviceId: 'eservice-id' })
+
+    expect(result.filename).toBe('2026-11-05T13:17:21-lista-fruitori - test.csv')
+  })
+
+  it('uses the unquoted filename value when filename* is absent', async () => {
+    const file = new File(['content'], 'consumers.csv')
+    vi.mocked(axiosInstance.get).mockResolvedValue({
+      data: file,
+      headers: {
+        'content-disposition':
+          'attachment; filename="2026-11-05T13_17_47-lista-fruitori-eservice.csv"',
+      },
+    })
+
+    const result = await EServiceServices.downloadConsumerList({ eserviceId: 'eservice-id' })
+
+    expect(result).toEqual({
+      file,
+      filename: '2026-11-05T13_17_47-lista-fruitori-eservice.csv',
+    })
+  })
+})
