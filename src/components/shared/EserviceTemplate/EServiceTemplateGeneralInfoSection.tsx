@@ -17,7 +17,10 @@ import {
   eserviceNamingBestPracticeLink,
 } from '@/config/constants'
 import { AuthHooks } from '@/api/auth'
-import { UpdateMetadataDrawer } from '@/components/shared/UpdateMetadataDrawer'
+import {
+  UpdateMetadataDrawer,
+  type UpdateMetadataFormValues,
+} from '@/components/shared/UpdateMetadataDrawer'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -43,6 +46,8 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
 
   const { mutate: updateEserviceTemplatePersonalData } =
     EServiceTemplateMutations.useUpdateEServiceTemplatePersonalDataFlagAfterPublication()
+  const { mutate: patchUpdateEServiceTemplate } =
+    EServiceTemplateMutations.usePatchUpdateEServiceTemplate()
 
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -55,6 +60,21 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     openDrawer: openMetadataDrawer,
     closeDrawer: closeMetadataDrawer,
   } = useDrawerState()
+
+  const handleMetadataUpdate = (values: UpdateMetadataFormValues) => {
+    if (!eserviceTemplateVersion) return
+    const template = eserviceTemplateVersion.eserviceTemplate
+
+    patchUpdateEServiceTemplate(
+      {
+        eServiceTemplateId: template.id,
+        ...(values.name !== template.name ? { name: values.name } : {}),
+        ...(values.description !== template.description ? { description: values.description } : {}),
+        ...(values.target !== template.intendedTarget ? { intendedTarget: values.target } : {}),
+      },
+      { onSuccess: closeMetadataDrawer }
+    )
+  }
 
   const hasSingleVersion =
     eserviceTemplateVersion && eserviceTemplateVersion.eserviceTemplate.versions.length <= 1
@@ -240,7 +260,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                     description: eserviceTemplateVersion.eserviceTemplate.description,
                     target: eserviceTemplateVersion.eserviceTemplate.intendedTarget,
                   }}
-                  onSubmit={() => null} /* TODO: Implement e-service template metadata update */
+                  onSubmit={handleMetadataUpdate}
                 />
               )}
               <UpdatePersonalDataDrawer
