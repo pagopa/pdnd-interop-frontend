@@ -3,13 +3,12 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
-import { Button, ThemeProvider } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
 import { MemoryRouter } from 'react-router-dom'
 import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type * as LayoutContainers from '@/components/layout/containers'
-import type { ActionItemButton } from '@/types/common.types'
 import type {
   GetProducerDashboardConsumersParams,
   ProducerDashboardConsumers,
@@ -34,22 +33,15 @@ vi.mock('@/components/layout/containers', async (importOriginal) => {
     PageContainer: ({
       title,
       description,
-      topSideActions,
       children,
     }: {
       title: string
       description: string
-      topSideActions?: ActionItemButton[]
       children: ReactNode
     }) => (
       <main>
         <h1>{title}</h1>
         <p>{description}</p>
-        {topSideActions?.map(({ action, label, disabled, color, variant }) => (
-          <Button key={label} onClick={action} disabled={disabled} color={color} variant={variant}>
-            {label}
-          </Button>
-        ))}
         {children}
       </main>
     ),
@@ -152,26 +144,94 @@ describe('ProviderDashboardConsumerList', () => {
       expect(
         within(screen.getByText(labels.summary).parentElement!).getByText('30')
       ).toBeInTheDocument()
-      Object.values(labels.columns).forEach((label) => {
+      const { actions: _actions, ...dataColumns } = labels.columns
+      Object.values(dataColumns).forEach((label) => {
         expect(screen.getByRole('columnheader', { name: label })).toBeInTheDocument()
       })
       const row = screen.getByText('Consumer 02').closest('tr')!
       expect(within(row).getByText('3')).toBeInTheDocument()
       expect(within(row).getByText('4')).toBeInTheDocument()
       expect(screen.getAllByRole('row')).toHaveLength(11)
-      expect(screen.getByRole('button', { name: labels.export })).toHaveClass(
-        'MuiButton-outlinedPrimary'
+      const exportButton = screen.getByRole('button', { name: labels.export })
+      expect(exportButton).toBeEnabled()
+      expect(exportButton).toHaveClass('MuiButton-outlinedPrimary', 'MuiButton-sizeSmall')
+      expect(exportButton).toHaveStyle({ borderRadius: theme.shape.radius[8] })
+      expect(within(exportButton).getByTestId('FileDownloadOutlinedIcon')).toHaveAttribute(
+        'aria-hidden',
+        'true'
       )
+      await userEvent.click(exportButton)
+      expect(getConsumers).toHaveBeenCalledTimes(1)
+      expect(navigateMock).not.toHaveBeenCalled()
     }
   )
 
   it('navigates from a consumer row to the detail route with the actual consumerId', async () => {
     const user = userEvent.setup()
     await renderPage()
-    await user.click(await screen.findByRole('button', { name: 'Vai al dettaglio di Consumer 02' }))
+    const action = await screen.findByRole('button', { name: 'Vai al dettaglio di Consumer 02' })
+    expect(action).toHaveTextContent(/^$/)
+    expect(within(action).getByTestId('ChevronRightIcon')).toHaveAttribute('aria-hidden', 'true')
+    expect(action.children).toHaveLength(1)
+    action.focus()
+    expect(action).toHaveFocus()
+    await user.keyboard('{Enter}')
     expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_DASHBOARD_CONSUMER_DETAIL', {
       params: { consumerId: 'consumer-2' },
     })
+  })
+
+  it('keeps mobile labels, row actions and pagination accessible during a page fetch', async () => {
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }))
+    try {
+      const user = userEvent.setup()
+      await renderPage()
+      await screen.findByText('Consumer 00')
+      const group = screen.getByRole('group', { name: copy.title })
+      expect(group).toHaveAttribute('aria-busy', 'false')
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
+      const row = screen.getByText('Consumer 02').closest('dl')!
+      expect(
+        within(row).getByRole('definition', { name: copy.columns.consumer })
+      ).toHaveTextContent('Consumer 02')
+      expect(
+        within(row).getByRole('definition', { name: copy.columns.eservicesCount })
+      ).toHaveTextContent('3')
+      await user.click(within(row).getByRole('button', { name: 'Vai al dettaglio di Consumer 02' }))
+      expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_DASHBOARD_CONSUMER_DETAIL', {
+        params: { consumerId: 'consumer-2' },
+      })
+      let resolve: (value: ProducerDashboardConsumers) => void = () => undefined
+      getConsumers.mockImplementationOnce(
+        () =>
+          new Promise((done) => {
+            resolve = done
+          })
+      )
+      await user.click(screen.getByRole('button', { name: /next page/i }))
+      await waitFor(() =>
+        expect(getConsumers).toHaveBeenLastCalledWith(
+          expect.objectContaining({ offset: 10, limit: 10 })
+        )
+      )
+      expect(group).toHaveAttribute('aria-busy', 'true')
+      expect(within(group).getByText('Consumer 02')).toBeVisible()
+      resolve(response({ offset: 10, limit: 10 }))
+      await screen.findByText('Consumer 10')
+      expect(group).toHaveAttribute('aria-busy', 'false')
+      expect(within(group).queryByText('Consumer 02')).not.toBeInTheDocument()
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('submits q and resets offset, keeps the overall total and clears filters', async () => {

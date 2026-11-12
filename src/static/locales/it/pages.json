@@ -32,6 +32,7 @@
       "thresholds": {
         "title": "Consumi previsti della soglia totale per e-service",
         "description": "Vedi le versioni dei tuoi e-service ordinate per i consumi previsti della soglia totale di chiamate API.",
+        "viewAll": "Vai a tutti i consumi previsti",
         "columns": {
           "eservice": "E-service",
           "activePurposes": "Finalità attive",
@@ -54,7 +55,8 @@
         "title": "In fase di archiviazione",
         "description": "Vedi le versioni di e-service che stanno per essere archiviate e quanti fruitori ci sono.",
         "columns": {
-          "eservice": "E-service",
+          "eservice": "Nome e-service",
+          "version": "Versione",
           "consumers": "Fruitori",
           "archivableOn": "Data di archiviazione",
           "actions": "Azioni"
@@ -81,7 +83,7 @@
     }
   },
   "providerDashboardConsumerList": {
-    "title": "Fruitori dei miei e-service",
+    "title": "Fruitori dei tuoi e-service",
     "description": "Vedi tutti i fruitori dei tuoi e-service, il numero di e-service fruiti e finalità.",
     "summary": "Totale fruitori dei tuoi e-service",
     "searchPlaceholder": "Cerca per nome fruitore",

@@ -1,10 +1,14 @@
-import { Alert, Box, Button, Skeleton, Stack, Typography } from '@mui/material'
-import { Table, TableRow } from '@pagopa/interop-fe-commons'
+import { Alert, Box, Button, Stack, Typography } from '@mui/material'
+import { MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { ProducerQueries } from '@/api/producer'
-import type { GetProducerDashboardSaturationParams } from '@/api/api.generatedTypes'
+import type {
+  GetProducerDashboardSaturationParams,
+  ProducerDashboardSaturationItem,
+} from '@/api/api.generatedTypes'
 import { formatThousands } from '@/utils/format.utils'
+import { SaturationDonut } from '@/components/shared/SaturationDonut/SaturationDonut'
 import { DashboardEServiceAction } from './DashboardEServiceAction'
 
 /** Top five e-service versions by projected consumption. Summary/pagination are not used. */
@@ -14,20 +18,74 @@ export const DASHBOARD_SATURATION_PARAMS: GetProducerDashboardSaturationParams =
   sortBy: 'PERCENTAGE_DESC',
 }
 
-const SKELETON_ROWS = 5
-
 export function ProviderDashboardSaturationTable() {
   const { t } = useTranslation('pages', { keyPrefix: 'dashboard.sections.thresholds' })
+  const { t: tHeaders } = useTranslation('dashboard', {
+    keyPrefix: 'providerSaturationRatePage.table.headlabels',
+  })
   const { data, isPending, isError, isFetching, refetch } = useQuery(
     ProducerQueries.getDashboardSaturation(DASHBOARD_SATURATION_PARAMS)
   )
 
-  const headLabels = [
-    t('columns.eservice'),
-    t('columns.activePurposes'),
-    t('columns.dailyCalls'),
-    t('columns.percentage'),
-    t('columns.actions'),
+  const columns: MITableColumn<ProducerDashboardSaturationItem>[] = [
+    {
+      id: 'eservice',
+      header: tHeaders('eserviceAndVersion'),
+      renderCell: (row) => (
+        <Stack component="span" spacing={0.5}>
+          <Typography component="span" variant="body2" fontWeight={600}>
+            {row.eservice.name}
+          </Typography>
+          <Typography component="span" variant="caption" color="text.secondary">
+            {t('version', { version: row.version })}
+          </Typography>
+        </Stack>
+      ),
+    },
+    {
+      id: 'purposes',
+      header: tHeaders('purposesNumber'),
+      renderCell: (row) => formatThousands(row.activePurposesCount),
+    },
+    {
+      id: 'percentage',
+      header: tHeaders('percentageRate'),
+      renderCell: (row) => (
+        <SaturationDonut
+          percentage={row.percentage}
+          label={t('percentage', { value: formatThousands(row.percentage) })}
+        />
+      ),
+    },
+    {
+      id: 'calls',
+      header: tHeaders('approvedCalls'),
+      renderCell: (row) =>
+        t('dailyCalls', {
+          approved: formatThousands(row.approvedDailyCalls),
+          total: formatThousands(row.dailyCallsTotal),
+        }),
+    },
+    {
+      id: 'callsToApprove',
+      header: tHeaders('callsToApprove'),
+      renderCell: (row) => formatThousands(row.waitingForApprovalDailyCalls),
+    },
+    {
+      id: 'actions',
+      header: t('columns.actions'),
+      isAction: true,
+      renderCell: (row) => (
+        <DashboardEServiceAction
+          eserviceId={row.eservice.id}
+          descriptorId={row.descriptorId}
+          versionAriaLabel={t('viewVersionAriaLabel', {
+            version: row.version,
+            name: row.eservice.name,
+          })}
+        />
+      ),
+    },
   ]
 
   if (isError) {
@@ -46,80 +104,22 @@ export function ProviderDashboardSaturationTable() {
     )
   }
 
-  if (isPending) {
-    return (
-      <Box role="status" aria-label={t('loading')} aria-busy="true" sx={{ mt: 3 }}>
-        <Table headLabels={headLabels}>
-          {Array.from({ length: SKELETON_ROWS }, (_, index) => (
-            <TableRow
-              key={index}
-              cellData={[
-                <Skeleton key="eservice" width={200} />,
-                <Skeleton key="purposes" width={60} />,
-                <Skeleton key="calls" width={120} />,
-                <Skeleton key="percentage" width={80} />,
-              ]}
-            >
-              <Skeleton width={120} />
-            </TableRow>
-          ))}
-        </Table>
-      </Box>
-    )
-  }
-
-  const rows = data.results
-
   return (
-    <Box sx={{ mt: 3 }} aria-busy={isFetching}>
-      <Table headLabels={headLabels} isEmpty={rows.length === 0} noDataLabel={t('empty')}>
-        {rows.map((row) => (
-          <TableRow
-            key={`${row.eservice.id}-${row.descriptorId}`}
-            cellData={[
-              <Stack key="eservice" spacing={0.5}>
-                <Typography variant="body2" fontWeight={600}>
-                  {row.eservice.name}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {t('version', { version: row.version })}
-                </Typography>
-              </Stack>,
-              formatThousands(row.activePurposesCount),
-              t('dailyCalls', {
-                approved: formatThousands(row.approvedDailyCalls),
-                total: formatThousands(row.dailyCallsTotal),
-              }),
-              <Stack key="percentage" spacing={0.5}>
-                <Typography
-                  variant="body2"
-                  fontWeight={600}
-                  color={row.percentage >= 100 ? 'error.dark' : 'text.primary'}
-                >
-                  {t('percentage', { value: formatThousands(row.percentage) })}
-                </Typography>
-                {row.waitingForApprovalDailyCalls > 0 && (
-                  <Typography variant="caption" color="text.secondary">
-                    {t('pendingCalls', {
-                      value: formatThousands(row.waitingForApprovalDailyCalls),
-                    })}
-                  </Typography>
-                )}
-              </Stack>,
-            ]}
-          >
-            <DashboardEServiceAction
-              eserviceId={row.eservice.id}
-              descriptorId={row.descriptorId}
-              versionLabel={t('viewVersion')}
-              versionAriaLabel={t('viewVersionAriaLabel', {
-                version: row.version,
-                name: row.eservice.name,
-              })}
-            />
-          </TableRow>
-        ))}
-      </Table>
+    <Box
+      sx={{ mt: 3 }}
+      aria-busy={isFetching}
+      role={isPending ? 'status' : undefined}
+      aria-label={isPending ? t('loading') : undefined}
+    >
+      <MITable
+        columns={columns}
+        rows={data?.results ?? []}
+        isLoading={isPending}
+        getRowId={(row) => `${row.eservice.id}-${row.descriptorId}`}
+        desktopTableProps={{ 'aria-label': t('columns.eservice'), 'aria-busy': isFetching }}
+        mobileTableProps={{ 'aria-label': t('columns.eservice'), 'aria-busy': isFetching }}
+      />
+      {!isPending && data?.results.length === 0 && <Typography>{t('empty')}</Typography>}
     </Box>
   )
 }

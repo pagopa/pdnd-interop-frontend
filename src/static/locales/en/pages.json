@@ -32,6 +32,7 @@
       "thresholds": {
         "title": "Projected consumption against the total threshold by e-service",
         "description": "View your e-service versions ordered by projected consumption of the total API call threshold.",
+        "viewAll": "View all projected consumption",
         "columns": {
           "eservice": "E-service",
           "activePurposes": "Active purposes",
@@ -54,7 +55,8 @@
         "title": "Currently being archived",
         "description": "View e-service versions that are about to be archived and how many consumers they have.",
         "columns": {
-          "eservice": "E-service",
+          "eservice": "E-service name",
+          "version": "Version",
           "consumers": "Consumers",
           "archivableOn": "Archiving date",
           "actions": "Actions"
@@ -81,7 +83,7 @@
     }
   },
   "providerDashboardConsumerList": {
-    "title": "Consumers of my e-services",
+    "title": "Consumers of your e-services",
     "description": "View all consumers of your e-services, the number of e-services used and purposes.",
     "summary": "Total consumers of your e-services",
     "searchPlaceholder": "Search consumer name",

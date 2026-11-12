@@ -58,29 +58,36 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
           onChangeActiveFilters={onChangeActiveFilters}
           submitButtonVariant={submitButtonVariant}
         />
-        <Stack
-          direction={{ xs: 'column', md: 'row' }}
-          justifyContent={'space-between'}
-          alignItems={{ xs: 'flex-start', md: 'center' }}
-          gap={{ xs: 2, sm: 0 }}
-          my={2}
-        >
-          <Stack direction={'row'} gap={3} alignItems={'center'}>
-            {additionals && additionals.length > 0 && (
-              <AdditionalFilters
-                fields={additionals}
-                filters={filters}
-                onChangeActiveFilters={onChangeActiveFilters}
-              />
-            )}
-            {hasActiveFilters && (
-              <Button variant="text" onClick={onResetActiveFilters}>
-                {t('remove')}
-              </Button>
-            )}
-            <Typography variant="body2">
-              <Trans components={{ 1: <strong /> }}>{t('results', { count: results ?? 0 })}</Trans>
-            </Typography>
+        {(showResults || hasAdditionalFilters || hasActiveFilters || hasSortingOptions) && (
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            justifyContent={'space-between'}
+            alignItems={{ xs: 'flex-start', md: 'center' }}
+            gap={{ xs: 2, sm: 0 }}
+            my={2}
+          >
+            <Stack direction={'row'} gap={3} alignItems={'center'}>
+              {additionals && additionals.length > 0 && (
+                <AdditionalFilters
+                  fields={additionals}
+                  filters={filters}
+                  onChangeActiveFilters={onChangeActiveFilters}
+                />
+              )}
+              {hasActiveFilters && (
+                <Button variant="text" onClick={onResetActiveFilters}>
+                  {t('remove')}
+                </Button>
+              )}
+              {showResults && (
+                <Typography variant="body2">
+                  <Trans components={{ 1: <strong /> }}>
+                    {t('results', { count: results ?? 0 })}
+                  </Trans>
+                </Typography>
+              )}
+            </Stack>
+            {hasSortingOptions && sorting && <SortBy {...sorting} />}
           </Stack>
         )}
       </Stack>

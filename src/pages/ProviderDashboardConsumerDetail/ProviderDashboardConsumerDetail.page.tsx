@@ -1,19 +1,23 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
-import { Alert, Box, Button, Skeleton, Stack, Typography } from '@mui/material'
-import { Table, TableRow } from '@pagopa/interop-fe-commons'
-import { MIPagination } from '@pagopa/mui-italia'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { Alert, Box, Button, IconButton, Skeleton, Stack, Typography } from '@mui/material'
+import { MIButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { ProducerQueries } from '@/api/producer'
-import type { ConsumerEServicesSortBy, ProducerDashboardConsumer } from '@/api/api.generatedTypes'
+import type {
+  ConsumerEServicesSortBy,
+  ProducerDashboardConsumer,
+  ProducerDashboardConsumerEService,
+} from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
 import { useFilters } from '@/hooks/useFilters'
 import { usePagination } from '@/hooks/usePagination'
 import { useSorting } from '@/hooks/useSorting'
-import { Link, useParams } from '@/router'
-import type { ActionItemButton } from '@/types/common.types'
+import { useGeneratePath, useParams } from '@/router'
+import { Link as RouterLink } from 'react-router-dom'
 import { formatThousands } from '@/utils/format.utils'
 
 const sortByOptions: ConsumerEServicesSortBy[] = [
@@ -26,6 +30,7 @@ const sortByOptions: ConsumerEServicesSortBy[] = [
 export default function ProviderDashboardConsumerDetail() {
   const { t } = useTranslation('pages', { keyPrefix: 'providerDashboardConsumerDetail' })
   const { consumerId } = useParams<'PROVIDE_DASHBOARD_CONSUMER_DETAIL'>()
+  const generatePath = useGeneratePath()
   const filtersHandlers = useFilters<{ q: string }>([
     { name: 'q', label: t('searchPlaceholder'), type: 'freetext' },
   ])
@@ -49,22 +54,56 @@ export default function ProviderDashboardConsumerDetail() {
   const consumer = isError ? undefined : data?.consumer
   const isNoRelationship = !isError && Boolean(data) && !data?.consumer
 
-  const exportAction: ActionItemButton[] = [
+  const columns: MITableColumn<ProducerDashboardConsumerEService>[] = [
     {
-      action: () => undefined,
-      label: t('export'),
-      icon: FileDownloadOutlinedIcon,
-      color: 'primary',
-      variant: 'outlined',
+      id: 'eservice',
+      header: t('columns.eservice'),
+      renderCell: (row) => (
+        <Stack component="span" spacing={0.25}>
+          <Typography component="span" variant="body2" sx={{ fontWeight: 600 }}>
+            {row.eservice.name}
+          </Typography>
+          <Typography component="span" variant="caption" color="text.secondary">
+            {t('version', { version: row.version })}
+          </Typography>
+        </Stack>
+      ),
     },
-  ]
-
-  const headLabels = [
-    t('columns.eservice'),
-    t('columns.agreementState'),
-    t('columns.activePurposesCount'),
-    t('columns.approvedDailyCalls'),
-    t('columns.actions'),
+    {
+      id: 'agreement',
+      header: t('columns.agreementState'),
+      renderCell: (row) => (
+        <StatusChip component="span" for="agreementState" state={row.agreement.state} />
+      ),
+    },
+    {
+      id: 'purposes',
+      header: t('columns.activePurposesCount'),
+      renderCell: (row) => String(row.activePurposesCount),
+    },
+    {
+      id: 'calls',
+      header: t('columns.approvedDailyCalls'),
+      renderCell: (row) => formatThousands(row.approvedDailyCalls),
+    },
+    {
+      id: 'actions',
+      header: t('columns.actions'),
+      isAction: true,
+      renderCell: (row) => (
+        <IconButton
+          component={RouterLink}
+          color="inherit"
+          to={generatePath('PROVIDE_ESERVICE_MANAGE', {
+            eserviceId: row.eservice.id,
+            descriptorId: row.descriptorId,
+          })}
+          aria-label={t('goToEServiceDetail', { name: row.eservice.name, version: row.version })}
+        >
+          <ChevronRightIcon />
+        </IconButton>
+      ),
+    },
   ]
 
   const summaryTotal = (() => {
@@ -75,11 +114,29 @@ export default function ProviderDashboardConsumerDetail() {
 
   return (
     <PageContainer
+      dashboardFlow
       isLoading={isPending}
       title={consumer?.name ?? t('fallbackTitle')}
       description={t('description')}
-      topSideActions={exportAction}
     >
+      {!isPending && (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="flex-end"
+          sx={{ minHeight: 40, mb: 1 }}
+        >
+          <MIButton
+            onClick={() => undefined}
+            variant="outlined"
+            size="small"
+            color="primary"
+            startIcon={<FileDownloadOutlinedIcon />}
+          >
+            {t('export')}
+          </MIButton>
+        </Stack>
+      )}
       <Box
         sx={{
           display: 'grid',
@@ -108,6 +165,7 @@ export default function ProviderDashboardConsumerDetail() {
             {...filtersHandlers}
             results={data?.pagination.totalCount}
             showResults={Boolean(data) && !isError}
+            submitButtonVariant="outlined"
             sorting={{
               ...sorting,
               onSortingChange: (value) => {
@@ -126,79 +184,32 @@ export default function ProviderDashboardConsumerDetail() {
             </Alert>
           ) : (
             <Box aria-busy={isFetching}>
-              <Table
-                headLabels={headLabels}
-                isEmpty={!isPending && data?.results.length === 0}
-                noDataLabel={t('empty')}
-              >
-                {isPending
-                  ? Array.from({ length: 5 }, (_, index) => (
-                      <TableRow
-                        key={index}
-                        cellData={[
-                          <Skeleton key="eservice" width={200} />,
-                          <Skeleton key="agreement" width={80} />,
-                          <Skeleton key="purposes" width={60} />,
-                          <Skeleton key="calls" width={80} />,
-                        ]}
-                      >
-                        <Skeleton width={120} />
-                      </TableRow>
-                    ))
-                  : data?.results.map(
-                      ({
-                        eservice,
-                        descriptorId,
-                        version,
-                        agreement,
-                        activePurposesCount,
-                        approvedDailyCalls,
-                      }) => (
-                        <TableRow
-                          key={`${eservice.id}-${descriptorId}`}
-                          cellData={[
-                            <Stack key="eservice" spacing={0.25}>
-                              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                {eservice.name}
-                              </Typography>
-                              <Typography variant="caption" color="text.secondary">
-                                {t('version', { version })}
-                              </Typography>
-                            </Stack>,
-                            <StatusChip
-                              key="agreement"
-                              for="agreementState"
-                              state={agreement.state}
-                            />,
-                            String(activePurposesCount),
-                            formatThousands(approvedDailyCalls),
-                          ]}
-                        >
-                          <Link
-                            as="button"
-                            variant="outlined"
-                            size="small"
-                            to="PROVIDE_ESERVICE_MANAGE"
-                            params={{ eserviceId: eservice.id, descriptorId }}
-                            aria-label={t('goToEServiceDetail', { name: eservice.name, version })}
-                          >
-                            {t('goToEService')}
-                          </Link>
-                        </TableRow>
-                      )
-                    )}
-              </Table>
-              {data && data.pagination.totalCount > 0 && (
-                <Box mt={3}>
-                  <MIPagination
-                    page={paginationProps.page}
-                    itemsPerPageOptions={paginationProps.itemsPerPageOptions}
-                    count={getTotalPageCount(data.pagination.totalCount)}
-                    onChange={(_: React.ChangeEvent<unknown>, page: number) =>
-                      paginationProps.onPageChange(page)
-                    }
-                  />
-                </Box>
+              <MITable
+                columns={columns}
+                rows={data?.results ?? []}
+                isLoading={isPending}
+                getRowId={(row) => `${row.eservice.id}-${row.descriptorId}`}
+                desktopTableProps={{
+                  'aria-label': consumer?.name ?? t('fallbackTitle'),
+                  'aria-busy': isFetching,
+                }}
+                mobileTableProps={{
+                  'aria-label': consumer?.name ?? t('fallbackTitle'),
+                  'aria-busy': isFetching,
+                }}
+                pagination={
+                  data && data.pagination.totalCount > 0
+                    ? {
+                        page: paginationProps.page,
+                        itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+                        count: getTotalPageCount(data.pagination.totalCount),
+                        onChange: (_, page) => paginationProps.onPageChange(page),
+                      }
+                    : undefined
+                }
+              />
+              {!isPending && data?.results.length === 0 && (
+                <Typography role="status">{t('empty')}</Typography>
               )}
             </Box>
           )}

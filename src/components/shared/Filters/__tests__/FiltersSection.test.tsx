@@ -73,6 +73,13 @@ describe('FiltersSection', () => {
     )
   })
 
+  it('forwards the requested submit button variant', () => {
+    render(<FiltersSection {...defaultProps} submitButtonVariant="outlined" />)
+    expect(filtersMock).toHaveBeenCalledWith(
+      expect.objectContaining({ submitButtonVariant: 'outlined' })
+    )
+  })
+
   it('shows 0 results by default and the given number when provided', () => {
     const { rerender } = render(<FiltersSection {...defaultProps} />)
     expect(screen.getByText('results:0')).toBeInTheDocument()
@@ -86,6 +93,34 @@ describe('FiltersSection', () => {
 
     expect(screen.queryByText('results:0')).not.toBeInTheDocument()
     expect(screen.getByTestId('filters').parentElement?.children).toHaveLength(1)
+  })
+
+  it('keeps reset, additional filters and sorting available when results are hidden', () => {
+    const sorting = {
+      options: [{ label: 'A', value: 'a' }],
+      sortBy: 'a',
+      onSortingChange: vi.fn(),
+    }
+    const { rerender } = render(
+      <FiltersSection {...defaultProps} showResults={false} filters={{ q: 'abc' }} />
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'remove' }))
+    expect(defaultProps.onResetActiveFilters).toHaveBeenCalledTimes(1)
+    expect(screen.queryByText('results:0')).not.toBeInTheDocument()
+
+    rerender(
+      <FiltersSection
+        {...defaultProps}
+        showResults={false}
+        additionals={[{ title: 'section', fields: [] }]}
+      />
+    )
+    expect(screen.getByTestId('additional-filters')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'remove' })).not.toBeInTheDocument()
+
+    rerender(<FiltersSection {...defaultProps} showResults={false} sorting={sorting} />)
+    expect(screen.getByTestId('sort-by')).toBeInTheDocument()
+    expect(screen.queryByText('results:0')).not.toBeInTheDocument()
   })
 
   it('does not render AdditionalFilters when additionals is undefined or empty', () => {

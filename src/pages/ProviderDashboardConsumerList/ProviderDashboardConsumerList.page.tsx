@@ -1,10 +1,13 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
-import { Alert, Box, Button, Skeleton, Typography } from '@mui/material'
-import { Table, TableRow } from '@pagopa/interop-fe-commons'
-import { MIPagination } from '@pagopa/mui-italia'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { Alert, Box, Button, Skeleton, Stack, Typography } from '@mui/material'
+import { MIButton, MIIconButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { ProducerQueries } from '@/api/producer'
-import type { ProducerConsumersSortBy } from '@/api/api.generatedTypes'
+import type {
+  ProducerConsumersSortBy,
+  ProducerDashboardConsumerItem,
+} from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '@/components/layout/containers'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
@@ -12,7 +15,6 @@ import { useFilters } from '@/hooks/useFilters'
 import { usePagination } from '@/hooks/usePagination'
 import { useSorting } from '@/hooks/useSorting'
 import { useNavigate } from '@/router'
-import type { ActionItemButton } from '@/types/common.types'
 
 const sortByOptions: ProducerConsumersSortBy[] = [
   'NAME_ASC',
@@ -40,26 +42,54 @@ export default function ProviderDashboardConsumerList() {
     }),
     placeholderData: keepPreviousData,
   })
-  const headLabels = [
-    t('columns.consumer'),
-    t('columns.eservicesCount'),
-    t('columns.activePurposesCount'),
-    t('columns.actions'),
+  const columns: MITableColumn<ProducerDashboardConsumerItem>[] = [
+    { id: 'consumer', header: t('columns.consumer'), renderCell: (row) => row.consumer.name },
+    {
+      id: 'eservices',
+      header: t('columns.eservicesCount'),
+      renderCell: (row) => String(row.eservicesCount),
+    },
+    {
+      id: 'purposes',
+      header: t('columns.activePurposesCount'),
+      renderCell: (row) => String(row.activePurposesCount),
+    },
+    {
+      id: 'actions',
+      header: t('columns.actions'),
+      isAction: true,
+      renderCell: ({ consumer }) => (
+        <MIIconButton
+          aria-label={t('goToConsumerDetail', { name: consumer.name })}
+          onClick={() =>
+            navigate('PROVIDE_DASHBOARD_CONSUMER_DETAIL', { params: { consumerId: consumer.id } })
+          }
+        >
+          <ChevronRightIcon />
+        </MIIconButton>
+      ),
+    },
   ]
   const summaryTotal = data ? data.totalConsumers : <Skeleton width={80} />
 
-  const exportAction: ActionItemButton[] = [
-    {
-      action: () => undefined,
-      label: t('export'),
-      icon: FileDownloadOutlinedIcon,
-      color: 'primary',
-      variant: 'outlined',
-    },
-  ]
-
   return (
-    <PageContainer title={t('title')} description={t('description')} topSideActions={exportAction}>
+    <PageContainer dashboardFlow title={t('title')} description={t('description')}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="flex-end"
+        sx={{ minHeight: 40, mb: 1 }}
+      >
+        <MIButton
+          onClick={() => undefined}
+          variant="outlined"
+          size="small"
+          color="primary"
+          startIcon={<FileDownloadOutlinedIcon />}
+        >
+          {t('export')}
+        </MIButton>
+      </Stack>
       <Box
         sx={{
           display: 'grid',
@@ -82,6 +112,7 @@ export default function ProviderDashboardConsumerList() {
         {...filtersHandlers}
         results={data?.pagination.totalCount}
         showResults={Boolean(data) && !isError}
+        submitButtonVariant="outlined"
         sorting={{
           ...sorting,
           onSortingChange: (value) => {
@@ -97,55 +128,26 @@ export default function ProviderDashboardConsumerList() {
         </Alert>
       ) : (
         <Box aria-busy={isFetching}>
-          <Table
-            headLabels={headLabels}
-            isEmpty={!isPending && data?.results.length === 0}
-            noDataLabel={t('empty')}
-          >
-            {isPending
-              ? Array.from({ length: 5 }, (_, index) => (
-                  <TableRow
-                    key={index}
-                    cellData={[
-                      <Skeleton key="name" width={200} />,
-                      <Skeleton key="eservices" width={60} />,
-                      <Skeleton key="purposes" width={60} />,
-                    ]}
-                  >
-                    <Skeleton width={120} />
-                  </TableRow>
-                ))
-              : data?.results.map(({ consumer, eservicesCount, activePurposesCount }) => (
-                  <TableRow
-                    key={consumer.id}
-                    cellData={[consumer.name, String(eservicesCount), String(activePurposesCount)]}
-                  >
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      aria-label={t('goToConsumerDetail', { name: consumer.name })}
-                      onClick={() =>
-                        navigate('PROVIDE_DASHBOARD_CONSUMER_DETAIL', {
-                          params: { consumerId: consumer.id },
-                        })
-                      }
-                    >
-                      {t('goToDetail')}
-                    </Button>
-                  </TableRow>
-                ))}
-          </Table>
-          {data && data.pagination.totalCount > 0 && (
-            <Box mt={3}>
-              <MIPagination
-                page={paginationProps.page}
-                itemsPerPageOptions={paginationProps.itemsPerPageOptions}
-                count={getTotalPageCount(data.pagination.totalCount)}
-                onChange={(_: React.ChangeEvent<unknown>, page: number) =>
-                  paginationProps.onPageChange(page)
-                }
-              />
-            </Box>
+          <MITable
+            columns={columns}
+            rows={data?.results ?? []}
+            isLoading={isPending}
+            getRowId={(row) => row.consumer.id}
+            desktopTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
+            mobileTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
+            pagination={
+              data && data.pagination.totalCount > 0
+                ? {
+                    page: paginationProps.page,
+                    itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+                    count: getTotalPageCount(data.pagination.totalCount),
+                    onChange: (_, page) => paginationProps.onPageChange(page),
+                  }
+                : undefined
+            }
+          />
+          {!isPending && data?.results.length === 0 && (
+            <Typography role="status">{t('empty')}</Typography>
           )}
         </Box>
       )}

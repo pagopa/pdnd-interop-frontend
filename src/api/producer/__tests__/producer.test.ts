@@ -701,6 +701,54 @@ describe('ProducerServices.getDashboardArchiving', () => {
 })
 
 describe('ProducerQueries saturation/archiving', () => {
+  it.each(['PERCENTAGE_ASC', 'PERCENTAGE_DESC', 'NAME_ASC', 'NAME_DESC'] as const)(
+    'forwards search/paging/%s through the real query and transport without reordering backend results',
+    async (sortBy) => {
+      const params = { offset: 10, limit: 24, q: 'Sanità & mobilità', sortBy }
+      const body: ProducerDashboardSaturation = {
+        summary: { overThreshold: 2, nearThreshold: 1, total: 99 },
+        results: [
+          {
+            ...saturationResponse.results[0],
+            eservice: { id: 'z', name: 'Zeta' },
+            percentage: 25,
+          },
+          {
+            ...saturationResponse.results[0],
+            eservice: { id: 'a', name: 'Alfa' },
+            percentage: 125,
+          },
+          {
+            ...saturationResponse.results[0],
+            eservice: { id: 'm', name: 'Medio' },
+            percentage: 70,
+          },
+        ],
+        pagination: { offset: 10, limit: 24, totalCount: 13 },
+      }
+      respondWithBody(body)
+      const options = ProducerQueries.getDashboardSaturation(params)
+      const result = await queryClient.fetchQuery(options)
+
+      expect(adapter).toHaveBeenCalledTimes(1)
+      expect(adapter.mock.calls[0][0]).toMatchObject({
+        method: 'get',
+        url: `${BACKEND_FOR_FRONTEND_URL}/producers/dashboard/saturation`,
+        params,
+      })
+      const url = new URL(axiosInstance.getUri(adapter.mock.calls[0][0]))
+      expect(Object.fromEntries(url.searchParams)).toEqual({
+        offset: '10',
+        limit: '24',
+        q: 'Sanità & mobilità',
+        sortBy,
+      })
+      expect(result).toBe(body)
+      expect(result.results.map(({ eservice }) => eservice.name)).toEqual(['Zeta', 'Alfa', 'Medio'])
+      expect(queryClient.getQueryData(options.queryKey)).toEqual(body)
+    }
+  )
+
   it('builds lazy, non-polling queries with the exact keys and leaves the aggregate at 60s', () => {
     const saturation = ProducerQueries.getDashboardSaturation(saturationParams)
     const archiving = ProducerQueries.getDashboardArchiving()

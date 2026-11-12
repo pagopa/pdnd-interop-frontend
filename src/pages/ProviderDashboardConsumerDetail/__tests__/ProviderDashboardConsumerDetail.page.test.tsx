@@ -3,13 +3,12 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
-import { Button, ThemeProvider } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type * as LayoutContainers from '@/components/layout/containers'
-import type { ActionItemButton } from '@/types/common.types'
 import type { ProducerDashboardConsumer } from '@/api/api.generatedTypes'
 import { ProducerServices } from '@/api/producer'
 import { formatThousands } from '@/utils/format.utils'
@@ -38,23 +37,16 @@ vi.mock('@/components/layout/containers', async (importOriginal) => {
       isLoading,
       title,
       description,
-      topSideActions,
       children,
     }: {
       isLoading?: boolean
       title: string
       description: string
-      topSideActions?: ActionItemButton[]
       children: ReactNode
     }) => (
       <main>
         {!isLoading && <h1>{title}</h1>}
         <p>{description}</p>
-        {topSideActions?.map(({ action, label, disabled, color, variant }) => (
-          <Button key={label} onClick={action} disabled={disabled} color={color} variant={variant}>
-            {label}
-          </Button>
-        ))}
         {children}
       </main>
     ),
@@ -108,6 +100,10 @@ const renderPage = async ({
                     </>
                   }
                 />
+                <Route
+                  path="/:language/erogazione/e-service/:eserviceId/:descriptorId"
+                  element={<p>Version destination</p>}
+                />
               </Routes>
             </NuqsTestingAdapter>
           </MemoryRouter>
@@ -142,7 +138,8 @@ describe('ProviderDashboardConsumerDetail', () => {
         sortBy: 'NAME_ASC',
       })
       expect(summaryValue(labels.summary)).toHaveTextContent('15')
-      Object.values(labels.columns).forEach((label) => {
+      const { actions: _actions, ...dataColumns } = labels.columns
+      Object.values(dataColumns).forEach((label) => {
         expect(screen.getByRole('columnheader', { name: label })).toBeInTheDocument()
       })
       expect(screen.getAllByRole('row')).toHaveLength(11)
@@ -151,6 +148,7 @@ describe('ProviderDashboardConsumerDetail', () => {
         a.eservice.name.localeCompare(b.eservice.name, 'it')
       )[0]
       const row = screen.getAllByRole('row')[1]
+      expect(row.querySelector('p p, p div')).not.toBeInTheDocument()
       expect(within(row).getByText(first.eservice.name)).toBeInTheDocument()
       expect(
         within(row).getByText(labels.version.replace('{{version}}', first.version))
@@ -170,21 +168,100 @@ describe('ProviderDashboardConsumerDetail', () => {
         'href',
         `/${language}/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
       )
+      expect(eserviceLink).toHaveClass('MuiIconButton-colorInherit')
+      expect(eserviceLink).not.toHaveClass('MuiIconButton-colorPrimary')
+      expect(eserviceLink).toHaveTextContent(/^$/)
+      expect(within(eserviceLink).getByTestId('ChevronRightIcon')).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
+      expect(eserviceLink.children).toHaveLength(1)
+      expect(within(row).queryByText(labels.goToEService)).not.toBeInTheDocument()
       const exportButton = screen.getByRole('button', { name: labels.export })
       expect(exportButton).toBeEnabled()
-      expect(exportButton).toHaveClass('MuiButton-outlinedPrimary')
+      expect(exportButton).toHaveClass('MuiButton-outlinedPrimary', 'MuiButton-sizeSmall')
+      expect(exportButton).toHaveStyle({ borderRadius: theme.shape.radius[8] })
+      expect(within(exportButton).getByTestId('FileDownloadOutlinedIcon')).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
+      await userEvent.click(exportButton)
+      expect(getConsumer).toHaveBeenCalledTimes(1)
     }
   )
+
+  it('opens the version link using the keyboard', async () => {
+    const user = userEvent.setup()
+    await renderPage()
+    const link = (await screen.findAllByRole('link', { name: /^Vedi e-service /i }))[0]
+    link.focus()
+    expect(link).toHaveFocus()
+    await user.keyboard('{Enter}')
+    expect(await screen.findByText('Version destination')).toBeInTheDocument()
+  })
 
   it('shows loading skeletons without a false zero or a stale title', async () => {
     getConsumer.mockImplementation(() => new Promise(() => undefined))
     const { container } = await renderPage()
     await waitFor(() => expect(getConsumer).toHaveBeenCalled())
     expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: copy.export })).not.toBeInTheDocument()
     expect(container.querySelector('[aria-busy="true"]')).toBeInTheDocument()
     expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(5)
     expect(resultCount(0)).not.toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+  })
+
+  it('associates mobile values with labels and retains descriptor links and filter reset', async () => {
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }))
+    try {
+      const user = userEvent.setup()
+      await renderPage({ search: '?offset=10&q=isee' })
+      const group = await screen.findByRole('group', { name: 'Regione Lombardia' })
+      await user.click(screen.getByRole('button', { name: itFilters.remove }))
+      await waitFor(() =>
+        expect(getConsumer).toHaveBeenLastCalledWith(
+          expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 0, q: undefined })
+        )
+      )
+      const first = getMockProducerDashboardConsumer({
+        consumerId: LOMBARDIA_ID,
+        offset: 0,
+        limit: 10,
+        sortBy: 'NAME_ASC',
+      }).results[0]
+      const row = (await within(group).findByText(first.eservice.name)).closest('dl')!
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
+      expect(
+        within(row).getByRole('definition', { name: copy.columns.eservice })
+      ).toHaveTextContent(first.eservice.name)
+      expect(
+        within(row).getByRole('definition', { name: copy.columns.agreementState })
+      ).toHaveTextContent(itCommon.status.agreement[first.agreement.state])
+      expect(
+        within(row).getByRole('link', {
+          name: copy.goToEServiceDetail
+            .replace('{{name}}', first.eservice.name)
+            .replace('{{version}}', first.version),
+        })
+      ).toHaveAttribute(
+        'href',
+        `/it/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
+      )
+      expect(group).toHaveAttribute('aria-busy', 'false')
+      expect(screen.getByRole('textbox', { name: copy.searchPlaceholder })).toHaveValue('')
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('submits q, resets offset and keeps the overall e-service count', async () => {

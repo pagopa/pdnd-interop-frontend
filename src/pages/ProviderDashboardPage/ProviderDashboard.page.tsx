@@ -1,4 +1,6 @@
 import { Box, Grid, useTheme } from '@mui/material'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import { MIButton } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
 import { ProducerQueries } from '@/api/producer'
@@ -144,7 +146,7 @@ export default function ProviderDashboardPage() {
   ]
 
   return (
-    <PageContainer title={t('title')} description={t('description')}>
+    <PageContainer dashboardFlow title={t('title')} description={t('description')}>
       <Grid container spacing={3} sx={{ mt: 0 }}>
         {cards.map(({ id, ...card }) => (
           <Grid item xs={12} sm={6} lg={4} key={id}>
@@ -161,6 +163,21 @@ export default function ProviderDashboardPage() {
           titleTypographyProps={{ id: 'dashboard-thresholds-title' }}
         >
           <ProviderDashboardSaturationTable />
+          {routes.PROVIDE_SATURATION_RATE.authLevels.some((role) =>
+            currentRoles.includes(role)
+          ) && (
+            <Box sx={{ mt: 2 }}>
+              <MIButton
+                type="button"
+                variant="text"
+                color="primary"
+                endIcon={<ArrowForward />}
+                onClick={() => navigate('PROVIDE_SATURATION_RATE')}
+              >
+                {t('sections.thresholds.viewAll')}
+              </MIButton>
+            </Box>
+          )}
         </SectionContainer>
         <SectionContainer
           title={t('sections.archiving.title')}

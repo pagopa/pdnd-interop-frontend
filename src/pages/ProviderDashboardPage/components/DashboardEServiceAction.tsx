@@ -1,14 +1,13 @@
-import { Button } from '@mui/material'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { MIIconButton } from '@pagopa/mui-italia'
 import { AuthHooks } from '@/api/auth'
 import { routes, useNavigate } from '@/router'
 
 type DashboardEServiceActionProps = {
   eserviceId: string
   descriptorId?: string
-  /** Visible label and accessible name when a descriptor is available (version detail). */
-  versionLabel: string
   versionAriaLabel: string
-  /** Visible label and accessible name when no descriptor exists (e-service list fallback). */
+  /** Enables the e-service list fallback and supplies its accessible name if needed. */
   listLabel?: string
   listAriaLabel?: string
 }
@@ -21,11 +20,10 @@ type DashboardEServiceActionProps = {
 export function DashboardEServiceAction({
   eserviceId,
   descriptorId,
-  versionLabel,
   versionAriaLabel,
   listLabel,
   listAriaLabel,
-}: DashboardEServiceActionProps) {
+}: Readonly<DashboardEServiceActionProps>) {
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
 
@@ -35,28 +33,24 @@ export function DashboardEServiceAction({
   if (descriptorId) {
     if (!canAccess('PROVIDE_ESERVICE_MANAGE')) return null
     return (
-      <Button
-        variant="outlined"
-        size="small"
+      <MIIconButton
         aria-label={versionAriaLabel}
         onClick={() =>
           navigate('PROVIDE_ESERVICE_MANAGE', { params: { eserviceId, descriptorId } })
         }
       >
-        {versionLabel}
-      </Button>
+        <ChevronRightIcon />
+      </MIIconButton>
     )
   }
 
   if (!listLabel || !canAccess('PROVIDE_ESERVICE_LIST')) return null
   return (
-    <Button
-      variant="outlined"
-      size="small"
+    <MIIconButton
       aria-label={listAriaLabel ?? listLabel}
       onClick={() => navigate('PROVIDE_ESERVICE_LIST')}
     >
-      {listLabel}
-    </Button>
+      <ChevronRightIcon />
+    </MIIconButton>
   )
 }
