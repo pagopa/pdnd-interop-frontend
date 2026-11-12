@@ -1,8 +1,8 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
+import { Alert, Button, Divider, Stack, Typography, Link as MuiLink } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
 import {
   EServiceTemplateMutations,
@@ -17,10 +17,12 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
-import { ESERVICE_DESCRIPTION_MAX_LENGTH } from '@/config/constants'
+import { ESERVICE_DESCRIPTION_MAX_LENGTH, eserviceNamingBestPracticeLink } from '@/config/constants'
 import { AxiosError, isAxiosError } from 'axios'
-import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
-import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
+import {
+  UpdateMetadataDrawer,
+  type UpdateMetadataFormValues,
+} from '@/components/shared/UpdateMetadataDrawer'
 import { Link } from '@/router'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import {
@@ -55,21 +57,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const exportVersion = EServiceDownloads.useExportVersion()
   const navigate = useNavigate()
 
-  const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
-  const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
+  const { mutate: patchUpdateEServiceMetadata } = EServiceMutations.usePatchUpdateEServiceById()
 
   const {
-    isOpen: isEServiceUpdateNameDrawerOpen,
-    openDrawer: openEServiceUpdateNameDrawer,
-    closeDrawer: closeEServiceUpdateNameDrawer,
-  } = useDrawerState()
-
-  const {
-    isOpen: isEServiceUpdateDescriptionDrawerOpen,
-    openDrawer: openEServiceUpdateDescriptionDrawer,
-    closeDrawer: closeEServiceUpdateDescriptionDrawer,
+    isOpen: isMetadataDrawerOpen,
+    openDrawer: openMetadataDrawer,
+    closeDrawer: closeMetadataDrawer,
   } = useDrawerState()
 
   const {
@@ -145,26 +140,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.exportVersion'),
   }
 
-  const handleDescriptionUpdate = (eserviceId: string, description: string) => {
-    updateEserviceDescription(
-      {
-        eserviceId: eserviceId,
-        description: description,
-      },
-      { onSuccess: closeEServiceUpdateDescriptionDrawer }
-    )
-  }
-
-  const handleNameUpdate = (eserviceId: string, name: string) => {
-    updateEserviceName(
-      {
-        eserviceId: eserviceId,
-        name: name,
-      },
-      { onSuccess: closeEServiceUpdateNameDrawer }
-    )
-  }
-
   const handleEServicePersonalDataUpdate = (eserviceId: string, personalData: boolean) => {
     updateEservicePersonalData(
       {
@@ -172,6 +147,20 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         personalData: personalData,
       },
       { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+    )
+  }
+
+  const handleMetadataUpdate = (payload: UpdateMetadataFormValues) => {
+    const changedName = payload.name !== descriptor.eservice.name
+    const changedDescription = payload.description !== descriptor.eservice.description
+
+    patchUpdateEServiceMetadata(
+      {
+        eserviceId: descriptor.eservice.id,
+        ...(changedName ? { name: payload.name } : {}),
+        ...(changedDescription ? { description: payload.description } : {}),
+      },
+      { onSuccess: closeMetadataDrawer }
     )
   }
 
@@ -274,78 +263,87 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
               </SectionContainer>
             </>
           ) : (
+            <SectionContainer
+              innerSection
+              title={t('nameAndDescription.title')}
+              titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+              topSideActions={
+                isAdmin && !isDelegator && !isViewer
+                  ? [
+                      {
+                        action: openMetadataDrawer,
+                        label: tCommon('actions.edit'),
+                        icon: EditIcon,
+                      },
+                    ]
+                  : []
+              }
+            >
+              <Stack spacing={2}>
+                <InformationContainer
+                  label={t('eserviceName.label')}
+                  content={descriptor.eservice.name}
+                />
+                <InformationContainer
+                  label={t('eserviceDescription.label')}
+                  content={descriptor.eservice.description}
+                />
+              </Stack>
+            </SectionContainer>
+          )}
+          {isEserviceFromTemplate && (
             <>
               <Divider />
               <SectionContainer
                 innerSection
-                title={t('eserviceName.label')}
+                title={t('eserviceDescription.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-                topSideActions={
-                  isDelegator || isViewer
-                    ? []
-                    : [
-                        {
-                          action: openEServiceUpdateNameDrawer,
-                          label: tCommon('actions.edit'),
-                          icon: EditIcon,
-                        },
-                      ]
-                }
               >
-                <Typography variant="body2">{descriptor.eservice.name}</Typography>
+                <Typography variant="body2">{descriptor.eservice.description}</Typography>
               </SectionContainer>
             </>
           )}
-          <Divider />
-          <SectionContainer
-            innerSection
-            title={t('eserviceDescription.label')}
-            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={
-              isDelegator || isEserviceFromTemplate || isViewer
-                ? []
-                : [
-                    {
-                      action: openEServiceUpdateDescriptionDrawer,
-                      label: tCommon('actions.edit'),
-                      icon: EditIcon,
-                    },
-                  ]
-            }
-          >
-            <Typography variant="body2">{descriptor.eservice.description}</Typography>
-          </SectionContainer>
         </Stack>
       </SectionContainer>
-      <UpdateDescriptionDrawer
-        isOpen={isEServiceUpdateDescriptionDrawerOpen}
-        onClose={closeEServiceUpdateDescriptionDrawer}
-        id={descriptor.eservice.id}
-        description={descriptor.eservice.description}
-        title={tDrawer('updateEServiceDescriptionDrawer.title')}
-        subtitle={tDrawer('updateEServiceDescriptionDrawer.subtitle')}
-        label={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.label')}
-        infoLabel={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.infoLabel', {
-          ESERVICE_DESCRIPTION_MAX_LENGTH,
-        })}
-        validateLabel={tDrawer(
-          'updateEServiceDescriptionDrawer.eserviceDescriptionField.validation.sameValue'
-        )}
-        onSubmit={handleDescriptionUpdate}
-        maxDescriptionLength={ESERVICE_DESCRIPTION_MAX_LENGTH}
-      />
-      <UpdateNameDrawer
-        isOpen={isEServiceUpdateNameDrawerOpen}
-        onClose={closeEServiceUpdateNameDrawer}
-        id={descriptor.eservice.id}
-        name={descriptor.eservice.name}
-        title={tDrawer('updateEServiceNameDrawer.title')}
-        subtitle={tDrawer('updateEServiceNameDrawer.subtitle')}
-        label={tDrawer('updateEServiceNameDrawer.eserviceNameField.label')}
-        infoLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.infoLabel')}
-        validateLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.validation.sameValue')}
-        onSubmit={handleNameUpdate}
-      />
+      {!isEserviceFromTemplate && !isDelegator && !isViewer && (
+        <UpdateMetadataDrawer
+          isOpen={isMetadataDrawerOpen}
+          onClose={closeMetadataDrawer}
+          title={t('updateMetadataDrawer.title')}
+          description={
+            <Typography variant="body2" component="span">
+              <Trans
+                components={{
+                  1: <MuiLink href={eserviceNamingBestPracticeLink} target="_blank" />,
+                }}
+              >
+                {t('updateMetadataDrawer.description')}
+              </Trans>
+            </Typography>
+          }
+          nameField={{
+            label: t('updateMetadataDrawer.nameField.label'),
+            helperText: t('updateMetadataDrawer.nameField.helperText'),
+            validation: { required: true, minLength: 5, maxLength: 60 },
+          }}
+          descriptionField={{
+            label: t('updateMetadataDrawer.descriptionField.label'),
+            helperText: t('updateMetadataDrawer.descriptionField.helperText', {
+              maxLength: ESERVICE_DESCRIPTION_MAX_LENGTH,
+            }),
+            validation: {
+              required: true,
+              minLength: 10,
+              maxLength: ESERVICE_DESCRIPTION_MAX_LENGTH,
+            },
+          }}
+          initialValues={{
+            name: descriptor.eservice.name,
+            description: descriptor.eservice.description,
+          }}
+          onSubmit={handleMetadataUpdate}
+        />
+      )}
       <UpdatePersonalDataDrawer
         isOpen={isEServiceUpdatePersonalDataDrawerOpen}
         onClose={closeEServiceUpdatePersonalDataDrawer}
