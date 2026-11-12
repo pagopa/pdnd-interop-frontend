@@ -3,10 +3,12 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DialogConfirmArchivingAction } from '../DialogConfirmArchivingAction'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
+import type * as Stores from '@/stores'
 
 const mockCloseDialog = vi.fn()
 vi.mock('@/stores', async () => {
-  const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
+  const actual = await vi.importActual<typeof Stores>('@/stores')
   return {
     ...actual,
     useDialog: () => ({ closeDialog: mockCloseDialog, openDialog: vi.fn() }),
@@ -75,5 +77,32 @@ describe('DialogConfirmArchivingAction', () => {
 
     const confirmButton = screen.getByRole('button', { name: 'Suspend' })
     expect(confirmButton).toHaveClass('MuiButton-containedError')
+  })
+
+  it('disables the confirm button for support users', async () => {
+    const onConfirm = vi.fn()
+
+    renderWithApplicationContext(
+      <SupportActionGuardProvider isSupport>
+        <DialogConfirmArchivingAction
+          title="Confirm action"
+          intro="Intro text"
+          primaryBulletText="Primary bullet"
+          archivingNotAffectedBullet={<span>Archiving not affected bullet</span>}
+          archivedAfterNoticeText="Archived after notice"
+          confirmLabel="Confirm"
+          onConfirm={onConfirm}
+        />
+      </SupportActionGuardProvider>,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const confirmButton = screen.getByRole('button', { name: 'Confirm' })
+    expect(confirmButton).toBeDisabled()
+
+    expect(onConfirm).not.toHaveBeenCalled()
   })
 })

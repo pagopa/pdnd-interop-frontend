@@ -9,22 +9,25 @@ import {
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogRequestPurposeApprovalProps } from '@/types/dialog.types'
+import { getReviewerNames } from '@/utils/purpose.utils'
 
 export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApprovalProps> = ({
-  reviewer,
+  reviewers,
   onConfirm,
 }) => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
 
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const { t } = useTranslation('purpose', {
     keyPrefix: 'edit.stepRiskAnalysis.requestApprovalDialog',
   })
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tCommon } = useTranslation('common')
 
-  const reviewerName = `${reviewer.name} ${reviewer.familyName}`.trim()
+  const reviewerNames = getReviewerNames(reviewers, tCommon('reviewerUnknown')).join(', ')
 
   const handleConfirm = () => {
     onConfirm()
@@ -48,16 +51,16 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {t('description', { reviewerName })}
+            {t('description', { reviewerNames, count: reviewers.length })}
           </Trans>
         </Typography>
       </DialogContent>
 
       <DialogActions>
         <Button variant="outlined" onClick={closeDialog}>
-          {tCommon('cancel')}
+          {tCommon('actions.cancel')}
         </Button>
-        <Button variant="contained" onClick={handleConfirm}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleConfirm}>
           {t('proceedLabel')}
         </Button>
       </DialogActions>

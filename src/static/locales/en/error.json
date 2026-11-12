@@ -17,7 +17,7 @@
   "axiosError": {
     "title": "Server error",
     "description": "An error occurred while handling the request. Please, try again.",
-    "correlationIdText": "If the error persists, open a request to support. Provide the context information and the code shown below.",
+    "correlationIdText": "If the issue isn't resolved, contact support and provide the code shown below.",
     "tooltipTitle": "Identifier copied successfully"
   },
   "forbidden": {

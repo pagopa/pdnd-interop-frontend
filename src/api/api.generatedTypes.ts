@@ -20,11 +20,18 @@ export type RiskAnalysisSigningState =
 
 /** Risk analysis review mode */
 export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_ADMIN_SIGNS"
   | "ADMIN_WRITES_REVIEWER_SIGNS"
   | "REVIEWER_WRITES_REVIEWER_SIGNS";
 
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
+
+/**
+ * Number of days for the archiving grace period
+ * @format int32
+ */
+export type GracePeriodDays = 30 | 60 | 90 | 120;
 
 /** EService Descriptor State */
 export type EServiceTemplateVersionState =
@@ -120,6 +127,28 @@ export type TargetTenantKind = "PA" | "PRIVATE";
 export type TenantKind = "PA" | "PRIVATE" | "GSP" | "SCP";
 
 export type ClientKind = "API" | "CONSUMER";
+
+/** Producer entity macro-category, resolved backend-side to certified attribute codes */
+export type EServiceProducerCategory =
+  | "ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI"
+  | "AZIENDE_OSPEDALIERE_ASL"
+  | "COMUNI"
+  | "PROVINCE_CITTA_METROPOLITANE"
+  | "PUBBLICHE_AMMINISTRAZIONI_CENTRALI"
+  | "ENTI_NAZIONALI_PREVIDENZA_ASSISTENZA"
+  | "REGIONI_PROVINCE_AUTONOME"
+  | "CONSORZI_ASSOCIAZIONI_REGIONALI"
+  | "SCUOLE"
+  | "UNIVERSITA_AFAM"
+  | "ISTITUTI_RICERCA"
+  | "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI";
+
+/** Sort criteria for the catalog query */
+export type EServiceSortBy =
+  | "NAME_ASC"
+  | "NAME_DESC"
+  | "CREATED_AT_ASC"
+  | "CREATED_AT_DESC";
 
 /**
  * EService Descriptor policy for new Agreements approval.
@@ -286,6 +315,28 @@ export interface LocalizedText {
 export interface Dependency {
   id: string;
   value: string;
+}
+
+export interface PatchUpdateEServiceSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name?: string;
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string;
+  /** EService Descriptor State */
+  technology?: EServiceTechnology;
+  /** Risk Analysis Mode */
+  mode?: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean | null;
+  asyncExchange?: boolean | null;
 }
 
 export interface UpdateEServiceSeed {
@@ -516,6 +567,7 @@ export interface CatalogEServiceDescriptor {
   archivingSchedule?: ArchivingSchedule;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
+  templateRef?: EServiceTemplateRef;
 }
 
 /** Models Client details */
@@ -594,17 +646,37 @@ export interface ProducerEServiceDetails {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   asyncExchange?: boolean;
+  delegatedArchivingRequest?: DelegatedArchivingRequest;
   /** @format uuid */
   latestActiveDescriptorId?: string;
 }
 
+export interface DelegatedArchivingRequest {
+  /** @format date-time */
+  requestedAt: string;
+  /** @format date-time */
+  acceptedAt?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
+  /** @format uuid */
+  requesterId: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+  archivingReason?: string;
+  /** @format uuid */
+  descriptorId?: string;
+}
+
 export interface ArchivingSchedule {
   /** @format date-time */
-  archivableOn?: string;
+  archivableOn: string;
   /** @format date-time */
-  startedAt?: string;
+  startedAt: string;
   /** Archiving Scope */
-  scope?: ArchivingScope;
+  scope: ArchivingScope;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -717,6 +789,7 @@ export interface ProducerDescriptorEService {
   personalData?: boolean;
   instanceLabel?: string;
   asyncExchange?: boolean;
+  delegatedArchivingRequest?: DelegatedArchivingRequest;
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -859,6 +932,50 @@ export interface CatalogEService {
   asyncExchange?: boolean;
 }
 
+/** Filters for the catalog query */
+export interface CatalogFilterPayload {
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number;
+  /**
+   * @format int32
+   * @min 1
+   * @max 200
+   */
+  limit: number;
+  /** Case-insensitive text search on e-service name, description and producer name */
+  keyword?: string;
+  /** Sort criteria for the catalog query */
+  sortBy?: EServiceSortBy;
+  /** If true, excludes e-services whose relevant descriptor is SUSPENDED */
+  onlyActiveEservices?: boolean;
+  /** Filter by whether the requester satisfies the required certified attributes */
+  availableForRequester?: boolean;
+  /** Filter by presence of a valid agreement of the requester */
+  subscribedByRequester?: boolean;
+  /** If true, returns only e-services with a templateId */
+  onlyTemplateInstances?: boolean;
+  /** If true, returns only e-services with linked purpose templates */
+  hasLinkedPurposeTemplates?: boolean;
+  /** Producer entity macro-categories */
+  producerCategories?: EServiceProducerCategory[];
+  /** If true, returns only asynchronous/bulk e-services; if false, only synchronous ones */
+  asyncExchange?: boolean;
+  /** Risk Analysis Mode */
+  mode?: EServiceMode;
+  /** If true, returns only e-services with Signal Hub enabled */
+  onlySignalHubEnabled?: boolean;
+  /**
+   * Returns only e-services belonging to the given template collection
+   * @format uuid
+   */
+  templateId?: string;
+  /** Filter by producer tenant ids */
+  producersIds?: string[];
+}
+
 export interface CompactClients {
   results: CompactClient[];
   pagination: Pagination;
@@ -955,6 +1072,20 @@ export interface CompactEService {
 
 export interface CompactEServices {
   results: CompactEService[];
+  pagination: Pagination;
+}
+
+export interface CompactCatalogEService {
+  /** @format uuid */
+  id: string;
+  name: string;
+  producer: CompactOrganization;
+  personalData?: boolean;
+  activeDescriptor?: CompactDescriptor;
+}
+
+export interface CompactCatalogEServices {
+  results: CompactCatalogEService[];
   pagination: Pagination;
 }
 
@@ -1125,6 +1256,8 @@ export interface CompactProducerDescriptor {
   version: string;
   audience: string[];
   requireCorrections?: boolean;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface ProducerEService {
@@ -1209,6 +1342,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Risk analysis review mode */
+  riskAnalysisReviewMode?: RiskAnalysisReviewMode;
   /** Reviewer workflow state for a purpose risk analysis */
   reviewerWorkflow?: ReviewerWorkflow;
 }
@@ -1364,17 +1499,6 @@ export interface RiskAnalysisTemplateAnswerAnnotationSeed {
    * @maxLength 2000
    */
   text: string;
-}
-
-export interface EServiceDescriptorPurposeTemplate {
-  /** @format uuid */
-  purposeTemplateId: string;
-  /** @format uuid */
-  eserviceId: string;
-  /** @format uuid */
-  descriptorId: string;
-  /** @format date-time */
-  createdAt: string;
 }
 
 export interface LinkableEServiceRequest {
@@ -1861,6 +1985,12 @@ export interface RequesterCertifiedAttribute {
   attributeId: string;
   attributeName: string;
   kind: AttributeKind;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  discreteValue?: number;
 }
 
 export interface RequesterCertifiedAttributes {
@@ -2191,6 +2321,26 @@ export interface CertifiedTenantAttributeSeed {
   id: string;
 }
 
+export interface CertifiedDiscreteTenantAttributeSeed {
+  /** @format uuid */
+  id: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  certifiedDiscreteValue: number;
+}
+
+export interface UpdateCertifiedDiscreteTenantAttributeSeed {
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  certifiedDiscreteValue: number;
+}
+
 export interface DelegationTenant {
   /** @format uuid */
   id: string;
@@ -2486,7 +2636,7 @@ export interface VersionSeedForEServiceTemplateCreation {
    * @minLength 10
    * @maxLength 250
    */
-  description?: string;
+  description: string;
   /**
    * @format int32
    * @min 60
@@ -2597,6 +2747,7 @@ export interface Problem {
   detail?: string;
   /** @minItems 1 */
   errors?: ProblemError[];
+  userMessage?: string;
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -2722,6 +2873,13 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  /** Enables risk analysis approval and rejection notifications for administrators. */
+  purposeRiskAnalysisAssignmentStatusToAdmin: boolean;
+  /** Enables assignment, removal, draft deletion and approval by another reviewer notifications. */
+  purposeRiskAnalysisAssignmentStatusToReviewer: boolean;
+  purposePublishedWithRiskAnalysisToReviewer: boolean;
+  eserviceArchivingRequestedToDelegator: boolean;
+  eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
 
 export interface TenantNotificationConfig {
@@ -2748,26 +2906,32 @@ export interface UserNotificationConfigUpdateSeed {
   emailConfig: NotificationConfig;
 }
 
-export interface EServiceDescriptorsPurposeTemplate {
-  results: EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor[];
-  pagination: Pagination;
+export interface GracePeriodDaysSeed {
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
 }
 
-export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor {
-  /** @format uuid */
-  purposeTemplateId: string;
-  eservice: CompactPurposeTemplateEService;
-  descriptor: CompactDescriptor;
-  /** @format date-time */
-  createdAt: string;
-}
-
-export interface EServiceArchivingReasonSeed {
+/** Archiving Reason and Grace Period Days */
+export interface EServiceArchivingSeed {
   /**
    * @minLength 10
    * @maxLength 250
    */
   archivingReason: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+}
+
+/** Seed for an owner to reject a delegated archiving request */
+export interface RejectDelegatedEServiceArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
+}
+
+/** Seed for an owner to reject a delegated descriptor archiving request */
+export interface RejectDelegatedDescriptorArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
 }
 
 export interface CompactPurposeTemplateEServiceTemplate {
@@ -2852,19 +3016,30 @@ export interface NotificationsCountBySection {
   };
 }
 
+/** A designated reviewer enriched with its user details */
+export interface Reviewer {
+  /** @format uuid */
+  userId: string;
+  name: string;
+  familyName: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
 /** Reviewer workflow state for a purpose risk analysis */
 export interface ReviewerWorkflow {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  reviewerIds: string[];
-  reviewers?: CompactUser[];
+  reviewers?: Reviewer[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
   signedBy?: string;
-  rejectionReason?: string;
   /** @format date-time */
-  sentToReviewerAt?: string;
+  signedAt?: string;
+  /** @format uuid */
+  rejectedBy?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
 }
 
 /** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
@@ -2872,12 +3047,21 @@ export interface RiskAnalysisAssignmentSeed {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   /** @minItems 1 */
-  reviewerIds: string[];
+  reviewerIds?: string[];
 }
 
 /** Payload to submit the risk analysis form for reviewer signing */
 export interface RiskAnalysisSubmissionSeed {
   riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to sign the latest version of a purpose risk analysis */
+export interface RiskAnalysisSignSeed {
+  /**
+   * @format int32
+   * @min 0
+   */
+  metadataVersionToSign: number;
 }
 
 /** Payload to reject the risk analysis with a reason */
@@ -3187,6 +3371,38 @@ export interface GetEServicesCatalogParams {
   /**
    * @format int32
    * @min 1
+   * @max 50
+   */
+  limit: number;
+}
+
+export interface GetCompactCatalogEServicesParams {
+  /** Query to filter EServices by name */
+  q?: string;
+  /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: EServiceDescriptorState[];
+  /**
+   * comma separated sequence of agreement states to filter the response with
+   * @default []
+   */
+  agreementStates?: AgreementState[];
+  /** EService Mode filter */
+  mode?: EServiceMode;
+  /** EService isConsumerDelegable filter */
+  isConsumerDelegable?: boolean;
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter;
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number;
+  /**
+   * @format int32
+   * @min 1
    * @max 200
    */
   limit: number;
@@ -3365,6 +3581,84 @@ export interface ScheduleArchiveEserviceParams {
   eServiceId: string;
 }
 
+export interface ApproveDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface RejectDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface CancelDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface ApproveDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface RejectDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
 export interface UpdateTemplateInstanceDescriptorParams {
   /**
    * the eservice id
@@ -3541,6 +3835,14 @@ export interface DeleteEServiceParams {
 }
 
 export interface UpdateEServiceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface PatchUpdateEServiceByIdParams {
   /**
    * The E-Service id to update
    * @format uuid
@@ -3790,6 +4092,11 @@ export interface GetProducerEServicesParams {
   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
   delegated?: boolean;
   /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: EServiceDescriptorState[];
+  /**
    * @format int32
    * @min 0
    */
@@ -3927,6 +4234,14 @@ export interface GetCertifiedAttributesParams {
 }
 
 export interface AddCertifiedAttributeParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface AddCertifiedDiscreteAttributeParams {
   /**
    * The internal identifier of the tenant
    * @format uuid
@@ -4191,32 +4506,6 @@ export interface UnlinkResourceFromPurposeTemplateParams {
   purposeTemplateId: string;
 }
 
-export interface LinkEServiceToPurposeTemplatePayload {
-  /** @format uuid */
-  eserviceId: string;
-}
-
-export interface LinkEServiceToPurposeTemplateParams {
-  /**
-   * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
-export interface UnlinkEServiceToPurposeTemplatePayload {
-  /** @format uuid */
-  eserviceId: string;
-}
-
-export interface UnlinkEServiceToPurposeTemplateParams {
-  /**
-   * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
 export interface GetPurposeTemplateLinkableResourcesParams {
   /**
    * Fuzzy match on resource name (e-service name for concrete entries,
@@ -4230,29 +4519,6 @@ export interface GetPurposeTemplateLinkableResourcesParams {
    * @default []
    */
   publisherIds?: string[];
-  /**
-   * @format int32
-   * @min 0
-   */
-  offset: number;
-  /**
-   * @format int32
-   * @min 1
-   * @max 50
-   */
-  limit: number;
-  /** @format uuid */
-  purposeTemplateId: string;
-}
-
-export interface GetPurposeTemplateEServicesParams {
-  /**
-   * comma separated sequence of e-service producer IDs
-   * @default []
-   */
-  producerIds?: string[];
-  /** filter linked e-services by name */
-  eserviceName?: string;
   /**
    * @format int32
    * @min 0
@@ -4524,6 +4790,32 @@ export interface VerifyVerifiedAttributeParams {
 }
 
 export interface RevokeCertifiedAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface RevokeCertifiedDiscreteAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface UpdateCertifiedDiscreteAttributeParams {
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -5952,6 +6244,11 @@ export namespace Producers {
       /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
       delegated?: boolean;
       /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: EServiceDescriptorState[];
+      /**
        * @format int32
        * @min 0
        */
@@ -6376,7 +6673,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = AddAgreementConsumerDocumentPayload;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6397,7 +6694,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6440,7 +6737,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6594,7 +6891,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -6667,10 +6964,10 @@ export namespace Tenants {
   }
 
   /**
-   * @description Retrieve the certified attributes
+   * @description Retrieves the certified attributes assigned by the requester tenant acting as certifier, paired with the tenants they are assigned to. It does not return the attributes assigned to the requester tenant.
    * @tags tenants
    * @name GetRequesterCertifiedAttributes
-   * @summary Gets the certified attributes of the requester
+   * @summary Gets the certified attributes assigned by the requester as certifier
    * @request GET:/tenants/attributes/certified
    * @secure
    */
@@ -6733,6 +7030,27 @@ export namespace Tenants {
     };
     export type RequestQuery = {};
     export type RequestBody = CertifiedTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Add a certified discrete attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name AddCertifiedDiscreteAttribute
+   * @request POST:/tenants/{tenantId}/attributes/certifiedDiscrete
+   * @secure
+   */
+  export namespace AddCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = CertifiedDiscreteTenantAttributeSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -6863,6 +7181,58 @@ export namespace Tenants {
     };
     export type RequestQuery = {};
     export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Revoke a certified discrete attribute from a Tenant by the requester Tenant
+   * @tags tenants
+   * @name RevokeCertifiedDiscreteAttribute
+   * @request DELETE:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
+   * @secure
+   */
+  export namespace RevokeCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string;
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Update the value of a certified discrete attribute for a Tenant by the requester Tenant
+   * @tags tenants
+   * @name UpdateCertifiedDiscreteAttribute
+   * @request PUT:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
+   * @secure
+   */
+  export namespace UpdateCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string;
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateCertifiedDiscreteTenantAttributeSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -7109,13 +7479,75 @@ export namespace Catalog {
       /**
        * @format int32
        * @min 1
-       * @max 200
+       * @max 50
        */
       limit: number;
     };
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = CatalogEServices;
+  }
+
+  /**
+   * @description Retrieves the EServices catalog matching the given filters
+   * @tags eservices
+   * @name QueryEServicesCatalog
+   * @summary Query the EServices catalog
+   * @request POST:/catalog
+   * @secure
+   */
+  export namespace QueryEServicesCatalog {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = CatalogFilterPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogEServices;
+  }
+
+  /**
+   * @description Retrieves a lightweight list of catalog EServices, meant to populate selects and autocomplete inputs
+   * @tags eservices
+   * @name GetCompactCatalogEServices
+   * @summary Retrieves a lightweight list of catalog EServices
+   * @request GET:/catalog/eservices
+   * @secure
+   */
+  export namespace GetCompactCatalogEServices {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string;
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: EServiceDescriptorState[];
+      /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      agreementStates?: AgreementState[];
+      /** EService Mode filter */
+      mode?: EServiceMode;
+      /** EService isConsumerDelegable filter */
+      isConsumerDelegable?: boolean;
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter;
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number;
+      /**
+       * @format int32
+       * @min 1
+       * @max 200
+       */
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactCatalogEServices;
   }
 
   /**
@@ -7268,7 +7700,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -7423,7 +7855,7 @@ export namespace Eservices {
       descriptorId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = GracePeriodDaysSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -7494,7 +7926,197 @@ export namespace Eservices {
       eServiceId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = EServiceArchivingReasonSeed;
+    export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's archiving request
+   * @tags eservices
+   * @name ApproveDelegatedEServiceArchiving
+   * @summary Approve a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's archiving request
+   * @tags eservices
+   * @name RejectDelegatedEServiceArchiving
+   * @summary Reject a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedEServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified E-Service. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedEServiceArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to cancel a previously submitted archiving request for the specified E-Service.
+   * @tags eservices
+   * @name CancelDelegatedEServiceArchiving
+   * @summary Cancel a delegated archiving request for an E-Service
+   * @request DELETE:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace CancelDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified Descriptor. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedDescriptorArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = GracePeriodDaysSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to cancel a previously submitted archiving request for the specified Descriptor.
+   * @tags eservices
+   * @name CancelDelegatedDescriptorArchiving
+   * @summary Cancel a delegated archiving request for an E-Service
+   * @request DELETE:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace CancelDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's descriptor archiving request
+   * @tags eservices
+   * @name ApproveDelegatedDescriptorArchiving
+   * @summary Approve a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's descriptor archiving request
+   * @tags eservices
+   * @name RejectDelegatedDescriptorArchiving
+   * @summary Reject a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedDescriptorArchivingSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -7669,7 +8291,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -7771,6 +8393,28 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = UpdateEServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
+  }
+
+  /**
+   * @description Partially updates the general information of the specified E-Service
+   * @tags eservices
+   * @name PatchUpdateEServiceById
+   * @summary Partially updates E-Service general information
+   * @request PATCH:/eservices/{eServiceId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceById {
+    export type RequestParams = {
+      /**
+       * The E-Service id to update
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchUpdateEServiceSeed;
     export type RequestHeaders = {};
     export type ResponseBody = CreatedResource;
   }
@@ -8595,7 +9239,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -8939,7 +9583,7 @@ export namespace Templates {
     export type RequestQuery = {};
     export type RequestBody = InstanceEServiceSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = CreatedEServiceDescriptor;
   }
 
   /**
@@ -9272,7 +9916,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9304,7 +9948,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9380,7 +10024,7 @@ export namespace Purposes {
       purposeId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = RiskAnalysisSignSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -9720,50 +10364,6 @@ export namespace PurposeTemplates {
   }
 
   /**
-   * @description Link one Eservice to Purpose Template (Draft or Active state)
-   * @tags purposeTemplates
-   * @name LinkEServiceToPurposeTemplate
-   * @summary Link one Eservice to Purpose Template
-   * @request POST:/purposeTemplates/{purposeTemplateId}/linkEservice
-   * @secure
-   */
-  export namespace LinkEServiceToPurposeTemplate {
-    export type RequestParams = {
-      /**
-       * the purpose template id
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = LinkEServiceToPurposeTemplatePayload;
-    export type RequestHeaders = {};
-    export type ResponseBody = EServiceDescriptorPurposeTemplate;
-  }
-
-  /**
-   * @description Unlink one Eservice from Purpose Template (Draft or Active state)
-   * @tags purposeTemplates
-   * @name UnlinkEServiceToPurposeTemplate
-   * @summary Unlink one Eservice from Purpose Template
-   * @request POST:/purposeTemplates/{purposeTemplateId}/unlinkEservice
-   * @secure
-   */
-  export namespace UnlinkEServiceToPurposeTemplate {
-    export type RequestParams = {
-      /**
-       * the purpose template id
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = UnlinkEServiceToPurposeTemplatePayload;
-    export type RequestHeaders = {};
-    export type ResponseBody = void;
-  }
-
-  /**
    * @description Retrieve the unified list of resources linkable to a purpose template, currently associated with it. Each entry is either a concrete e-service (`resourceKind=ESERVICE`) or an e-service template (`resourceKind=ESERVICE_TEMPLATE`). Results are sorted by `createdAt` DESC (most recent links first), unified across both kinds. `totalCount` reflects the real total of linkable entries (concrete + templates). Behavior on missing referenced resources is fail-fast: if any link points to a removed e-service, descriptor, e-service template, version or tenant, the request returns 404.
    * @tags purposeTemplates
    * @name GetPurposeTemplateLinkableResources
@@ -9804,44 +10404,6 @@ export namespace PurposeTemplates {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = LinkableResources;
-  }
-
-  /**
-   * @description Retrieve e-services linked to a purpose template
-   * @tags purposeTemplates
-   * @name GetPurposeTemplateEServices
-   * @summary Get Purpose Template E-Services
-   * @request GET:/purposeTemplates/{purposeTemplateId}/eservices
-   * @secure
-   */
-  export namespace GetPurposeTemplateEServices {
-    export type RequestParams = {
-      /** @format uuid */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {
-      /**
-       * comma separated sequence of e-service producer IDs
-       * @default []
-       */
-      producerIds?: string[];
-      /** filter linked e-services by name */
-      eserviceName?: string;
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number;
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number;
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = EServiceDescriptorsPurposeTemplate;
   }
 
   /**
@@ -9976,7 +10538,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9998,7 +10560,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10074,7 +10636,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10346,6 +10908,24 @@ export namespace CertifiedAttributes {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = CertifiedAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
+  }
+}
+
+export namespace CertifiedDiscreteAttributes {
+  /**
+   * @description Creates the certified discrete attribute passed as payload
+   * @tags attributes
+   * @name CreateCertifiedDiscreteAttribute
+   * @summary Creates certified discrete attribute
+   * @request POST:/certifiedDiscreteAttributes
+   * @secure
+   */
+  export namespace CreateCertifiedDiscreteAttribute {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AttributeSeed;
     export type RequestHeaders = {};
     export type ResponseBody = Attribute;
   }
@@ -10968,7 +11548,7 @@ export namespace PrivacyNotices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -11431,7 +12011,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -11458,7 +12038,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 

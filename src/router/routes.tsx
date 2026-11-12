@@ -1,6 +1,7 @@
 import React from 'react'
 import { type InferRouteKey, InteropRouterBuilder } from '@pagopa/interop-fe-commons'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, useRouteError } from 'react-router-dom'
+import { Box } from '@mui/material'
 import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
@@ -55,6 +56,7 @@ import {
   RiskAnalysisExporterToolPage,
   PublishThankYouPage,
   ConsumerPurposePublishThankYouPage,
+  ErrorPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -73,15 +75,30 @@ import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVouch
 import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
 import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYouPage/RiskAnalysisApproveThankYou.page'
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
+import RiskAnalysisDetailsPage from '@/pages/RiskAnalysisDetailsPage/RiskAnalysisDetails.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
+
+const LocalIdentitySelectionPage = isLocalIdentitySelectionEnabled
+  ? React.lazy(() => import('@/pages/LocalIdentitySelectionPage/LocalIdentitySelection.page'))
+  : undefined
+
+const localDevelopmentRoutes = [
+  ...(LocalIdentitySelectionPage
+    ? languages.map((language) => ({
+        path: `/${language}/local-identity-selection/`,
+        element: <LocalIdentitySelectionPage language={language} />,
+      }))
+    : []),
+]
 
 const LandingByRole = () => {
   const { isReviewer } = AuthHooks.useJwt()
@@ -89,6 +106,16 @@ const LandingByRole = () => {
     <components.Redirect to="SUBSCRIBE_RISK_ANALYSIS_LIST" />
   ) : (
     <components.Redirect to="SUBSCRIBE_CATALOG_LIST" />
+  )
+}
+
+const RouterErrorPage = () => {
+  const error = useRouteError()
+
+  return (
+    <Box sx={{ p: 8 }}>
+      <ErrorPage error={error} resetErrorBoundary={() => window.location.reload()} />
+    </Box>
   )
 }
 
@@ -292,6 +319,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin'],
   })
   .addRoute({
+    key: 'SUBSCRIBE_CLIENT_CREATE_THANK_YOU',
+    path: '/gestione-client/api-e-service/:clientId/feedback',
+    element: <PublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
     key: 'SUBSCRIBE_CLIENT_EDIT',
     path: '/gestione-client/api-e-service/:clientId',
     element: <ConsumerClientManagePage />,
@@ -314,6 +349,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_AGREEMENT_CREATE_THANK_YOU',
+    path: '/fruizione/richieste/:agreementId/feedback',
+    element: <PublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_AGREEMENT_LIST',
@@ -351,6 +394,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE',
     path: '/gestione-client/api-interop/crea',
     element: <ConsumerClientCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE_THANK_YOU',
+    path: '/gestione-client/api-interop/:clientId/feedback',
+    element: <PublishThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'],
@@ -650,7 +701,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'security'],
+    authLevels: ['admin', 'api', 'security', 'reviewer'],
   })
   .addRoute({
     key: 'NOTIFICATIONS_CONFIG',
@@ -658,7 +709,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationUserConfigPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security', 'api'],
+    authLevels: ['admin', 'security', 'api', 'reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
@@ -666,7 +717,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
@@ -674,7 +725,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
@@ -682,7 +733,15 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_PUBLISH_THANK_YOU',
+    path: 'fruizione/template-finalita/:purposeTemplateId/feedback',
+    element: <PublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
@@ -690,7 +749,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
@@ -698,7 +757,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support', 'viewer'],
+    authLevels: ['admin', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
@@ -706,7 +765,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateEditPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE',
@@ -722,7 +781,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeFromTemplateEditPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
@@ -738,6 +797,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_DETAILS',
+    path: '/analisi-del-rischio/:purposeId/dettaglio',
+    element: <RiskAnalysisDetailsPage />,
+    public: false,
+    hideSideNav: false,
     authLevels: ['reviewer'],
   })
   .addRoute({
@@ -784,11 +851,21 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
 
 export type RouteKey = InferRouteKey<typeof routes>
 
-export const router = createBrowserRouter(
-  [
-    { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-    { path: '/', element: <LandingByRole /> },
-    { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
-  ],
-  { basename: '/ui' }
-)
+export const routerRoutes = [
+  {
+    errorElement: <RouterErrorPage />,
+    children: [
+      ...localDevelopmentRoutes,
+      { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
+      { path: '/', element: <LandingByRole /> },
+      { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
+    ],
+  },
+]
+
+let router: ReturnType<typeof createBrowserRouter> | undefined
+
+export function getRouter() {
+  router ??= createBrowserRouter(routerRoutes, { basename: '/ui' })
+  return router
+}

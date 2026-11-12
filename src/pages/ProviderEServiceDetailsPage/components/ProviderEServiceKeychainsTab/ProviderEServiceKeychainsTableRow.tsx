@@ -1,6 +1,7 @@
 import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { KeychainQueries } from '@/api/keychain'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -27,7 +28,10 @@ export const ProviderEServiceKeychainsTableRow: React.FC<
   const { mutate: removeKeychainFromEService } = KeychainMutations.useRemoveKeychainFromEService()
 
   const handlePrefetchKeychain = () => {
-    queryClient.prefetchQuery(KeychainQueries.getSingle(keychain.id))
+    queryClient.prefetchQuery({
+      ...KeychainQueries.getSingle(keychain.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const actions: ActionItem[] = [

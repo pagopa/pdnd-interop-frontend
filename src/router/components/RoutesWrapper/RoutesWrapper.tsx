@@ -15,6 +15,10 @@ import { routes, useCurrentRoute, useSwitchPathLang } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
 import { AllowedLanguage } from '@/router/routes'
+import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
+import { LocalSessionGuard } from './LocalSessionGuard'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
@@ -48,29 +52,31 @@ const _RoutesWrapper: React.FC = () => {
   const _AuthGuard = !isPublic && jwt ? AuthGuard : EmptyWrapper
 
   return (
-    <>
+    <NuqsAdapter>
       <Header jwt={jwt} isSupport={isSupport} />
-      <Stack direction={'column'}>
-        <_TOSGuard>
-          <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
-            <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
-              <React.Suspense fallback={<PageContainerSkeleton />}>
-                <_AuthGuard
-                  jwt={jwt}
-                  isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
-                  isSupport={isSupport}
-                  currentRoles={currentRoles}
-                >
-                  <Outlet />
-                </_AuthGuard>
-              </React.Suspense>
-            </ErrorBoundary>
-          </AppLayout>
-        </_TOSGuard>
-        <Footer jwt={jwt} />
-        <Dialog />
-      </Stack>
-    </>
+      <SupportActionGuardProvider isSupport={isSupport}>
+        <Stack direction={'column'}>
+          <_TOSGuard>
+            <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
+              <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
+                <React.Suspense fallback={<PageContainerSkeleton />}>
+                  <_AuthGuard
+                    jwt={jwt}
+                    isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
+                    isSupport={isSupport}
+                    currentRoles={currentRoles}
+                  >
+                    <Outlet />
+                  </_AuthGuard>
+                </React.Suspense>
+              </ErrorBoundary>
+            </AppLayout>
+          </_TOSGuard>
+          <Footer jwt={jwt} />
+          <Dialog />
+        </Stack>
+      </SupportActionGuardProvider>
+    </NuqsAdapter>
   )
 }
 
@@ -85,6 +91,7 @@ const TOSGuard = ({ children }: { children: React.ReactNode }) => {
 }
 
 const RoutesWrapper: React.FC = () => {
+  const SessionGuard = isLocalIdentitySelectionEnabled ? LocalSessionGuard : EmptyWrapper
   return (
     <ErrorBoundary
       FallbackComponent={(props) => (
@@ -93,7 +100,9 @@ const RoutesWrapper: React.FC = () => {
         </Box>
       )}
     >
-      <_RoutesWrapper />
+      <SessionGuard>
+        <_RoutesWrapper />
+      </SessionGuard>
     </ErrorBoundary>
   )
 }

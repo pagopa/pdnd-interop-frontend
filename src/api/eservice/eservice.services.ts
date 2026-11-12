@@ -1,3 +1,4 @@
+import { parse as parseContentDisposition } from 'content-disposition'
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
@@ -19,6 +20,7 @@ import type {
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
+  GracePeriodDays,
   PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -36,10 +38,20 @@ import type {
   EServiceSignalHubUpdateSeed,
   EServicePersonalDataFlagUpdateSeed,
   EServiceDelegationFlagsUpdateSeed,
+  CatalogFilterPayload,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
 import { sanitizeImportEserviceFileName } from '@/utils/eservice.utils'
+
+async function queryCatalogList(query: CatalogFilterPayload) {
+  const response = await axiosInstance.post<CatalogEServices>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog`,
+    query
+  )
+
+  return response.data
+}
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -197,12 +209,15 @@ function reactivateVersion({
 function scheduleArchiveDescriptor({
   eserviceId,
   descriptorId,
+  gracePeriodDays,
 }: {
   eserviceId: string
   descriptorId: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`,
+    { gracePeriodDays }
   )
 }
 
@@ -218,16 +233,116 @@ function cancelDescriptorArchiving({
   )
 }
 
+function submitDelegatedArchivingVersionRequest({
+  eserviceId,
+  descriptorId,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  descriptorId: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`,
+    { gracePeriodDays }
+  )
+}
+
+function cancelDelegatedArchivingVersionRequest({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`
+  )
+}
+
+function cancelDelegatedArchivingEserviceRequest({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`
+  )
+}
+
+function approveDelegatedEServiceArchivingRequest({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/approveDelegatedArchiving`
+  )
+}
+
+function rejectDelegatedEServiceArchivingRequest({
+  eserviceId,
+  rejectionReason,
+}: {
+  eserviceId: string
+  rejectionReason: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/rejectDelegatedArchiving`,
+    { rejectionReason }
+  )
+}
+
+function approveDelegatedVersionArchivingRequest({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/approveDelegatedArchiving`
+  )
+}
+
+function rejectDelegatedVersionArchivingRequest({
+  eserviceId,
+  descriptorId,
+  rejectionReason,
+}: {
+  eserviceId: string
+  descriptorId: string
+  rejectionReason: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/rejectDelegatedArchiving`,
+    { rejectionReason }
+  )
+}
+
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
+  gracePeriodDays,
 }: {
   eserviceId: string
   archivingReason: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
     archivingReason,
+    gracePeriodDays,
   })
+}
+
+function submitDelegatedArchivingEserviceRequest({
+  eserviceId,
+  archivingReason,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  archivingReason: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`,
+    {
+      archivingReason,
+      gracePeriodDays,
+    }
+  )
 }
 
 function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
@@ -411,10 +526,14 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
     { responseType: 'arraybuffer' }
   )
 
-  const filename =
-    response?.headers?.['content-disposition']?.split('filename=')[1] || 'consumers.csv'
+  const contentDisposition = response?.headers?.['content-disposition']
+  // For "eservice – test.csv", the BE sends filename="eservice ? test.csv" and
+  // filename*=UTF-8''eservice%20%E2%80%93%20test.csv. Parse the header to preserve the original name.
+  const filename = contentDisposition
+    ? parseContentDisposition(contentDisposition).parameters.filename
+    : undefined
 
-  return { file: response.data, filename }
+  return { file: response.data, filename: filename || 'consumers.csv' }
 }
 
 async function updateEServiceDescription({
@@ -688,8 +807,16 @@ export const EServiceServices = {
   updateAgreementApprovalPolicy,
   reactivateVersion,
   scheduleArchiveDescriptor,
+  submitDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingEserviceRequest,
+  approveDelegatedEServiceArchivingRequest,
+  rejectDelegatedEServiceArchivingRequest,
+  approveDelegatedVersionArchivingRequest,
+  rejectDelegatedVersionArchivingRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
+  submitDelegatedArchivingEserviceRequest,
   cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
@@ -717,4 +844,5 @@ export const EServiceServices = {
   updateEServiceSignalHub,
   updateEServicePersonalDataFlagAfterPublication,
   updateEServiceDelegationFlagsAfterPublication,
+  queryCatalogList,
 }

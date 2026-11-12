@@ -2,6 +2,7 @@ import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { clientKeyGuideLink } from '@/config/constants'
 import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogRemoveUserFromKeychainProps } from '@/types/dialog.types'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material'
 import React from 'react'
@@ -15,6 +16,7 @@ export const DialogRemoveUserFromKeychain: React.FC<DialogRemoveUserFromKeychain
   const ariaDescriptionId = React.useId()
   const navigate = useNavigate()
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveUserFromKeychain' })
   const { mutate: removeUserFromKeychain } = KeychainMutations.useRemoveUserFromProducerKeychain()
@@ -62,7 +64,7 @@ export const DialogRemoveUserFromKeychain: React.FC<DialogRemoveUserFromKeychain
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleProceed}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleProceed}>
           {tCommon('confirm')}
         </Button>
       </DialogActions>

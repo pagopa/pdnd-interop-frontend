@@ -37,7 +37,7 @@ vi.mock('@tanstack/react-query', async () => {
 vi.mock('@/api/purpose/purpose.queries', () => ({
   PurposeQueries: {
     getSingle: vi.fn(),
-    getRiskAnalysisLatest: vi.fn(),
+    getRiskAnalyisLatestOrSpecificVersion: vi.fn(),
   },
 }))
 
@@ -123,6 +123,7 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       )
 
       expect(container.firstChild).toBeNull()
+      expect(useQuery).toHaveBeenNthCalledWith(3, expect.objectContaining({ enabled: false }))
     })
 
     it('should return null when purposeTemplate.purposeRiskAnalysisForm is missing', () => {
@@ -201,6 +202,7 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         expect(screen.getByTestId('risk-analysis-form-from-template')).toBeInTheDocument()
       })
 
+      expect(useQuery).toHaveBeenNthCalledWith(3, expect.objectContaining({ enabled: true }))
       expect(RiskAnalysisFormFromTemplate).toHaveBeenCalledWith(
         expect.objectContaining({
           riskAnalysis,

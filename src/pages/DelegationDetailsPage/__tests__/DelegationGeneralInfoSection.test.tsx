@@ -1,5 +1,6 @@
 import { type Delegation } from '@/api/api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { queryClient } from '@/config/query-client'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { createMockDelegation } from '../../../../__mocks__/data/delegation.mocks'
@@ -11,6 +12,7 @@ import {
 import { DelegationGeneralInfoSection } from '../components/DelegationGeneralInfoSection'
 import { fireEvent, waitFor } from '@testing-library/react'
 import type * as DelegationApi from '@/api/delegation'
+import { DelegationQueries } from '@/api/delegation'
 const delegationId = 'delegation-id-123'
 
 mockUseGetActiveUserParty()
@@ -99,6 +101,8 @@ afterEach(() => {
   // This will remove any runtime request handlers
   // after each test, ensuring isolated network behavior.
   server.resetHandlers()
+  vi.clearAllMocks()
+  queryClient.clear()
 })
 
 describe('DelegationGeneralInfoSection', () => {
@@ -132,5 +136,41 @@ describe('DelegationGeneralInfoSection', () => {
       fireEvent.click(button)
       expect(mockDownloadSignedContract).toHaveBeenCalled()
     })
+  })
+
+  it('should download signed revocation document using the signed contract endpoint', async () => {
+    queryClient.setQueryData(
+      DelegationQueries.getSingle({ delegationId }).queryKey,
+      createMockDelegation({
+        state: 'REVOKED',
+        activationSignedContract: {
+          id: 'contract-signed-id-123',
+          prettyName: 'Delegation Contract Signed',
+        },
+        revocationSignedContract: {
+          id: 'revocation-signed-id-123',
+          prettyName: 'Revocation Contract Signed',
+        },
+      })
+    )
+
+    const screen = renderWithApplicationContext(
+      <DelegationGeneralInfoSection delegationId={delegationId} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const button = await screen.findByRole('button', {
+      name: /party.delegations.details.generalInfoSection.downloadRevokedContractAction.label/i,
+    })
+    fireEvent.click(button)
+
+    expect(mockDownloadSignedContract).toHaveBeenCalledWith(
+      { delegationId, contractId: 'revocation-signed-id-123' },
+      'Revocation Contract Signed.pdf'
+    )
+    expect(mockDownloadDelegationContract).not.toHaveBeenCalled()
   })
 })

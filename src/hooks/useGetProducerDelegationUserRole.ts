@@ -8,7 +8,11 @@ export function useGetProducerDelegationUserRole({
   eserviceId: string | undefined
   organizationId: string | undefined
 }) {
-  const { data: producerDelegations = [] } = useQuery({
+  const {
+    data: producerDelegations = [],
+    isLoading: isDelegationLoading,
+    isPending: isDelegationPending,
+  } = useQuery({
     ...DelegationQueries.getList({
       eserviceIds: [eserviceId as string],
       states: ['ACTIVE'],
@@ -33,6 +37,7 @@ export function useGetProducerDelegationUserRole({
   return {
     isDelegate,
     isDelegator,
+    isDelegationLoading: isDelegationLoading || isDelegationPending,
     producerDelegations,
   }
 }

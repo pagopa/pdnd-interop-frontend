@@ -17,8 +17,13 @@ import {
   ConsumerEServiceSignalHubSectionSkeleton,
 } from './ConsumerEServiceSignalHubSection'
 import { AuthHooks } from '@/api/auth'
+import type { DelegationTenant } from '@/api/api.generatedTypes'
 
-const ConsumerEServiceDetailsTab: React.FC = () => {
+type ConsumerEServiceDetailsTabProps = {
+  delegators?: DelegationTenant[]
+}
+
+const ConsumerEServiceDetailsTab: React.FC<ConsumerEServiceDetailsTabProps> = ({ delegators }) => {
   const { isReviewer } = AuthHooks.useJwt()
 
   return (
@@ -36,7 +41,7 @@ const ConsumerEServiceDetailsTab: React.FC = () => {
           <ConsumerEServiceSignalHubSection />
         </React.Suspense>
         <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
-          <ConsumerEServiceDescriptorAttributes />
+          <ConsumerEServiceDescriptorAttributes delegators={delegators} />
         </React.Suspense>
       </Grid>
     </Grid>

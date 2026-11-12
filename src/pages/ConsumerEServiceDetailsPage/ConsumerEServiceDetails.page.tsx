@@ -59,7 +59,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const isDelegator = delegations.length > 0
 
   const viewLatestVersionTargetId = React.useMemo(
-    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId, 'consumer'),
     [descriptor?.eservice.descriptors, descriptorId]
   )
 
@@ -146,7 +146,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           </TabList>
 
           <TabPanel value="eserviceDetail">
-            <ConsumerEServiceDetailsTab />
+            <ConsumerEServiceDetailsTab delegators={delegators} />
           </TabPanel>
 
           <TabPanel value="linkedPurposeTemplates">

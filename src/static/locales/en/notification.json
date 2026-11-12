@@ -126,6 +126,10 @@
               "purposeStateUpdated": {
                 "label": "Purpose status update",
                 "description": "Notify me when a purpose status is suspended, archived, or reactivated"
+              },
+              "purposeRiskAnalysisAssignmentStatusToAdmin": {
+                "label": "Status of risk analysis assignments",
+                "description": "Notify me when an evaluator approves or rejects a risk analysis"
               }
             }
           },
@@ -231,6 +235,10 @@
               "eserviceDelegatedCreated": {
                 "label": "Delegate request approval",
                 "description": "Notify me when the delegate generates a new version of the delegated e-service so that I can evaluate it"
+              },
+              "archivingRequestFromDelegate": {
+                "label": "Archiving management",
+                "description": "Notify me when the delegate requests the archiving of a version or an e-service entrusted in delegation"
               }
             }
           },
@@ -244,6 +252,10 @@
               "eserviceDelegatedApproval": {
                 "label": "New e-service version publication approval",
                 "description": "Notify me when the delegating entity has approved or rejected my version change request"
+              },
+              "archivingRequestApprovedRejectedByDelegator": {
+                "label": "Archiving management",
+                "description": "Notify me when the delegating entity approves or rejects my archiving request for a delegated version or e-service"
               }
             }
           }
@@ -265,6 +277,22 @@
               "clientKeysAssociationUpdated": {
                 "label": "Key status updates linked to a client",
                 "description": "Notify me when the status of a key linked to a client changes or should be replaced."
+              }
+            }
+          }
+        },
+        "riskAnalysis": {
+          "title": "Risk Analysis",
+          "riskAnalysisAssignment": {
+            "title": "Assignment for completion or approval",
+            "components": {
+              "purposeRiskAnalysisAssignmentStatusToReviewer": {
+                "label": "Status of assignments received",
+                "description": "Notify me when I am assigned to complete or approve a risk analysis, or when my assignment is revoked"
+              },
+              "purposePublishedWithRiskAnalysisToReviewer": {
+                "label": "Purpose publication",
+                "description": "Notify me when the administrator publishes a purpose for which I have been assigned the risk analysis"
               }
             }
           }

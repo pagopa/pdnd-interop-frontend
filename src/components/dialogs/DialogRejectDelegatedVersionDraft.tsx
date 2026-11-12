@@ -15,6 +15,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { useNavigate } from '@/router'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type RejectDelegatedVersionDraftFormValues = {
   reason: string
@@ -32,6 +33,7 @@ export const DialogRejectDelegatedVersionDraft: React.FC<
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { closeDialog } = useDialog()
   const { mutate: rejectDelegatedVersionDraft } = EServiceMutations.useRejectDelegatedVersionDraft()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const formMethods = useForm<RejectDelegatedVersionDraftFormValues>({
     defaultValues: { reason: '' },
@@ -41,10 +43,12 @@ export const DialogRejectDelegatedVersionDraft: React.FC<
     rejectDelegatedVersionDraft(
       { eserviceId, descriptorId, rejectionReason: reason },
       {
-        onSuccess: () => navigate('PROVIDE_ESERVICE_LIST'),
+        onSuccess: () => {
+          closeDialog()
+          navigate('PROVIDE_ESERVICE_LIST')
+        },
       }
     )
-    closeDialog()
   }
 
   return (
@@ -74,7 +78,7 @@ export const DialogRejectDelegatedVersionDraft: React.FC<
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('cancel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {tCommon('reject')}
             </Button>
           </DialogActions>

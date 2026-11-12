@@ -1,6 +1,6 @@
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
-import { Stack } from '@mui/material'
+import { FormHelperText, Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DelegationCreateCards } from './components/DelegationCreateCards'
@@ -17,10 +17,16 @@ export const DelegationCreatePage: React.FC = () => {
   const navigate = useNavigate()
   const [delegationKind, setDelegationKind] = useState<DelegationKind>()
   const [activeStep, setActiveStep] = useState<'KIND' | 'FORM'>('KIND')
+  const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false)
 
   const changeDelegationKind = (delegationKind: DelegationKind) => {
+    setShowErrorMessage(false)
     setDelegationKind(delegationKind)
   }
+
+  const errorTextSx = { fontWeight: 400, color: 'text.secondary', display: 'block' }
+
+  const errorMessageId = 'delegationKindErrorId'
 
   return (
     <PageContainer
@@ -32,14 +38,26 @@ export const DelegationCreatePage: React.FC = () => {
     >
       <Stack spacing={2}>
         {activeStep === 'KIND' && (
-          <SectionContainer title={t('delegations.create.kindSectionTitle')}>
+          <SectionContainer title={t('delegations.create.kindSectionTitle')} aria-live="assertive">
             <DelegationCreateCards
               selectedDelegationKind={delegationKind}
               changeDelegationKind={changeDelegationKind}
+              showErrorMessage={showErrorMessage}
+              errorMessageId={errorMessageId}
             />
+            {showErrorMessage && (
+              <FormHelperText
+                id={errorMessageId}
+                error={true}
+                sx={{ ...errorTextSx }}
+                aria-atomic={true}
+              >
+                {t('delegations.create.kindSectionErrorMessage')}
+              </FormHelperText>
+            )}
           </SectionContainer>
         )}
-        {activeStep === 'FORM' && delegationKind != null && (
+        {activeStep === 'FORM' && delegationKind !== undefined && (
           <DelegationCreateForm delegationKind={delegationKind} setActiveStep={setActiveStep} />
         )}
       </Stack>
@@ -55,7 +73,11 @@ export const DelegationCreatePage: React.FC = () => {
             type: 'button',
             endIcon: <ArrowForwardIcon />,
             onClick: () => {
-              delegationKind != null && setActiveStep('FORM')
+              if (delegationKind === undefined) {
+                setShowErrorMessage(true)
+              } else {
+                setActiveStep('FORM')
+              }
             },
           }}
         />

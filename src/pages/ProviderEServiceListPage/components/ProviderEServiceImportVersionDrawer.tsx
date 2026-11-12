@@ -109,6 +109,7 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
             name="eserviceFile"
             rules={{ required: true }}
             drawerStyle
+            fileType="eserviceImport"
           />
 
           {eserviceFile && (

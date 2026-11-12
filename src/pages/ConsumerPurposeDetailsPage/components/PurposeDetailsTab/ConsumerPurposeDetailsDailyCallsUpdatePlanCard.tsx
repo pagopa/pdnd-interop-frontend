@@ -55,24 +55,22 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
               {formatThousands(waitingForApprovalVersion.dailyCalls)}
             </Typography>
           </Box>
-          {
-            // if the purpose was created by the delegate and I am the delegator and the delegation is still active
-            purpose.delegation?.delegator.id === jwt?.organizationId && (
-              <Stack gap={2}>
-                <Divider />
-                <IconLink
-                  onClick={handleDeleteDailyCallsUpdate}
-                  component="button"
-                  disabled={isSuspended}
-                  startIcon={<DeleteOutlineIcon />}
-                  alignSelf="start"
-                  color="error"
-                >
-                  {t('removeChangePlanRequestLink.label')}
-                </IconLink>
-              </Stack>
-            )
-          }
+          {purpose.delegation?.delegator.id !== jwt?.organizationId && (
+            <Stack gap={2}>
+              <Divider />
+              <IconLink
+                onClick={handleDeleteDailyCallsUpdate}
+                component="button"
+                disabled={isSuspended}
+                startIcon={<DeleteOutlineIcon />}
+                alignSelf="start"
+                color="error"
+                sx={{ fontWeight: '700' }}
+              >
+                {t('removeChangePlanRequestLink.label')}
+              </IconLink>
+            </Stack>
+          )}
         </Stack>
       </CardContent>
     </Card>

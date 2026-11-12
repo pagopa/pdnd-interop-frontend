@@ -34,7 +34,13 @@ describe('DialogApproveRiskAnalysis', () => {
   })
 
   it('should render dialog informations', () => {
-    render(<DialogApproveRiskAnalysis purposeId="test-purpose-id" type="approveRiskAnalysis" />)
+    render(
+      <DialogApproveRiskAnalysis
+        purposeId="test-purpose-id"
+        metadataVersionToSign={3}
+        type="approveRiskAnalysis"
+      />
+    )
 
     expect(screen.getByText('title')).toBeInTheDocument()
     expect(screen.getByText('description')).toBeInTheDocument()
@@ -45,7 +51,13 @@ describe('DialogApproveRiskAnalysis', () => {
   it('should close dialog when cancel is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<DialogApproveRiskAnalysis purposeId="test-purpose-id" type="approveRiskAnalysis" />)
+    render(
+      <DialogApproveRiskAnalysis
+        purposeId="test-purpose-id"
+        metadataVersionToSign={3}
+        type="approveRiskAnalysis"
+      />
+    )
 
     await user.click(
       screen.getByRole('button', {
@@ -59,7 +71,13 @@ describe('DialogApproveRiskAnalysis', () => {
   it('should call signRiskAnalysis when confirm is clicked', async () => {
     const user = userEvent.setup()
 
-    render(<DialogApproveRiskAnalysis purposeId="test-purpose-id" type="approveRiskAnalysis" />)
+    render(
+      <DialogApproveRiskAnalysis
+        purposeId="test-purpose-id"
+        metadataVersionToSign={3}
+        type="approveRiskAnalysis"
+      />
+    )
 
     await user.click(
       screen.getByRole('button', {
@@ -70,6 +88,7 @@ describe('DialogApproveRiskAnalysis', () => {
     expect(signRiskAnalysisMock).toHaveBeenCalledWith(
       {
         purposeId: 'test-purpose-id',
+        metadataVersionToSign: 3,
       },
       expect.any(Object)
     )
@@ -84,7 +103,13 @@ describe('DialogApproveRiskAnalysis', () => {
       options.onSuccess()
     })
 
-    render(<DialogApproveRiskAnalysis purposeId="test-purpose-id" type="approveRiskAnalysis" />)
+    render(
+      <DialogApproveRiskAnalysis
+        purposeId="test-purpose-id"
+        metadataVersionToSign={3}
+        type="approveRiskAnalysis"
+      />
+    )
 
     await user.click(
       screen.getByRole('button', {
@@ -107,7 +132,13 @@ describe('DialogApproveRiskAnalysis', () => {
       isPending: true,
     })
 
-    render(<DialogApproveRiskAnalysis purposeId="test-purpose-id" type="approveRiskAnalysis" />)
+    render(
+      <DialogApproveRiskAnalysis
+        purposeId="test-purpose-id"
+        metadataVersionToSign={3}
+        type="approveRiskAnalysis"
+      />
+    )
 
     expect(screen.getByRole('button', { name: 'actions.cancel' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'actions.confirm' })).toBeDisabled()

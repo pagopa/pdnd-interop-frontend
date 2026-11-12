@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DeveloperToolsPage from '../DeveloperTools.page'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
@@ -43,5 +43,32 @@ describe('Developer tools page', () => {
     await userEvent.click(debugClientAssertionButton)
 
     expect(history.location.pathname).contain('/tool-sviluppo/debug-voucher')
+  })
+
+  it('should render links to OpenAPI Checker and Schema Editor in the same section', () => {
+    renderWithApplicationContext(<DeveloperToolsPage />, {
+      withRouterContext: true,
+      withReactQueryContext: false,
+    })
+
+    const sectionHeading = screen.getByRole('heading', { name: 'sectionOpenApiAnalysis.title' })
+    const section = sectionHeading.closest('section')
+
+    expect(section).not.toBeNull()
+    if (!section) {
+      throw new Error('OpenAPI analysis section not found')
+    }
+
+    const openApiCheckerLink = within(section).getByRole('link', {
+      name: 'sectionOpenApiAnalysis.openApiCheckerButton',
+    })
+    const schemaEditorLink = within(section).getByRole('link', {
+      name: 'sectionOpenApiAnalysis.schemaEditorButton',
+    })
+
+    expect(openApiCheckerLink).toHaveAttribute('href', 'https://italia.github.io/api-oas-checker/')
+    expect(openApiCheckerLink).toHaveAttribute('target', '_blank')
+    expect(schemaEditorLink).toHaveAttribute('href', 'https://schema.gov.it/schema-editor')
+    expect(schemaEditorLink).toHaveAttribute('target', '_blank')
   })
 })

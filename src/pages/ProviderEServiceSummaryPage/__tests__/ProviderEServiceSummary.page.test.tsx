@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ProviderEServiceSummaryPage from '../ProviderEServiceSummary.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
@@ -91,6 +91,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
 const mockDelegationRole = vi.fn().mockReturnValue({
   isDelegator: false,
   isDelegate: false,
+  isDelegationLoading: false,
   producerDelegations: [],
 })
 
@@ -104,6 +105,7 @@ describe('ProviderEServiceSummaryPage', () => {
     mockDelegationRole.mockReturnValue({
       isDelegator: false,
       isDelegate: false,
+      isDelegationLoading: false,
       producerDelegations: [],
     })
   })
@@ -240,14 +242,22 @@ describe('ProviderEServiceSummaryPage', () => {
       withRouterContext: true,
     })
 
-    const publishButton = screen.getByRole('button', { name: 'publish' })
-    expect(publishButton).toBeDisabled()
+    const publishButton = screen.getByRole('button', {
+      name: 'publish - summary.notPublishableTooltip.label',
+    })
+    expect(publishButton).toHaveAttribute('aria-disabled', 'true')
+    const innerButton = within(publishButton).getByRole('button', {
+      name: 'publish',
+      hidden: true,
+    })
+    expect(innerButton).toBeDisabled()
   })
 
   it('disables delegated approval when asynchronous mandatory fields are missing', () => {
     mockDelegationRole.mockReturnValue({
       isDelegator: true,
       isDelegate: false,
+      isDelegationLoading: false,
       producerDelegations: [],
     })
     mockUseQueryWithDescriptor(
@@ -263,8 +273,15 @@ describe('ProviderEServiceSummaryPage', () => {
       withRouterContext: true,
     })
 
-    const approveButton = screen.getByRole('button', { name: 'publish' })
-    expect(approveButton).toBeDisabled()
+    const approveButton = screen.getByRole('button', {
+      name: 'publish - summary.notPublishableTooltip.label',
+    })
+    expect(approveButton).toHaveAttribute('aria-disabled', 'true')
+    const innerButton = within(approveButton).getByRole('button', {
+      name: 'publish',
+      hidden: true,
+    })
+    expect(innerButton).toBeDisabled()
   })
 
   it('renders edit button', () => {
@@ -299,11 +316,87 @@ describe('ProviderEServiceSummaryPage', () => {
     mockDelegationRole.mockReturnValue({
       isDelegator: false,
       isDelegate: true,
+      isDelegationLoading: false,
       producerDelegations: [],
     })
 
     useQueryMock.mockReturnValue({
       data: createMockEServiceDescriptorProviderWithTemplateRef({
+        state: 'WAITING_FOR_APPROVAL',
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
+  })
+
+  it('should not render CTA buttons for delegate viewing an eservice in WAITING_FOR_APPROVAL state', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: true,
+      isDelegationLoading: false,
+      producerDelegations: [],
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorProvider({
+        state: 'WAITING_FOR_APPROVAL',
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
+  })
+
+  it('should render CTA buttons (publish, delete, edit) for delegate if user is watching e-service in DRAFT state', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: true,
+      isDelegationLoading: false,
+      producerDelegations: [],
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorProvider({
+        state: 'DRAFT',
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByRole('button', { name: 'publish' })).toBeInTheDocument()
+    expect(screen.getByTestId('DeleteOutlineIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('CreateIcon')).toBeInTheDocument()
+  })
+
+  it('should not render CTA buttons while delegation role is still loading', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: false,
+      isDelegationLoading: true,
+      producerDelegations: [],
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorProvider({
         state: 'WAITING_FOR_APPROVAL',
       }),
       isLoading: false,
@@ -430,8 +523,15 @@ describe('ProviderEServiceSummaryPage', () => {
         withRouterContext: true,
       })
 
-      const publishButton = screen.getByRole('button', { name: 'publish' })
-      expect(publishButton).toBeDisabled()
+      const publishButton = screen.getByRole('button', {
+        name: 'publish - summary.rulesetExpiredTooltip.label',
+      })
+      expect(publishButton).toHaveAttribute('aria-disabled', 'true')
+      const innerButton = within(publishButton).getByRole('button', {
+        name: 'publish',
+        hidden: true,
+      })
+      expect(innerButton).toBeDisabled()
     })
 
     it('should be false when there are other descriptors even if riskAnalysis rulesetExpiration is expired', () => {

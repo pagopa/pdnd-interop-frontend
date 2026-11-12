@@ -1,5 +1,10 @@
 {
   "backToListBtn": "Torna ai template",
+  "publishThankYou": {
+    "title": "Hai pubblicato il template di finalità",
+    "description": "Ora potrà essere usato dagli enti per velocizzare l’accesso ai dati degli e-service.",
+    "action": "Vai al template"
+  },
   "list": {
     "filters": {
       "nameField": {
@@ -62,14 +67,10 @@
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "purposeTemplateIsFreeOfCharge": {
-        "radioButton": {
-          "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito",
-          "YES": "Sì",
-          "NO": "No"
-        },
+        "switchLabel": "Ho diritto all’utilizzo dell’e-service a titolo gratuito",
         "reasonField": {
-          "label": "Motivazione titolo gratuito (richiesto)",
-          "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
+          "label": "Spiega perché puoi usare l’e-service a titolo gratuito (richiesto)",
+          "infoLabel": "Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
         }
       },
       "APICallsField": {

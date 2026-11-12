@@ -14,6 +14,7 @@ import type { DialogTenantKindEserviceTemplateProps } from '@/types/dialog.types
 import { RHFRadioGroup } from '../shared/react-hook-form-inputs'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { TenantKind } from '@/api/api.generatedTypes'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 export const DialogTenantKindEserviceTemplate: React.FC<DialogTenantKindEserviceTemplateProps> = ({
   onConfirm,
@@ -26,6 +27,7 @@ export const DialogTenantKindEserviceTemplate: React.FC<DialogTenantKindEservice
   })
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const handleCancel = () => {
     closeDialog()
@@ -73,7 +75,7 @@ export const DialogTenantKindEserviceTemplate: React.FC<DialogTenantKindEservice
             <Button type="button" variant="outlined" onClick={handleCancel}>
               {tCommon('cancel')}
             </Button>
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" disabled={isConfirmDisabled}>
               {tCommon('select')}
             </Button>
           </DialogActions>
