@@ -1002,6 +1002,16 @@
     }
   },
   "eserviceTemplate": {
+    "patchUpdateEServiceTemplate": {
+      "loading": "Stiamo aggiornando il template e-service",
+      "outcome": {
+        "successMetadata": "Hai modificato il nome, la descrizione e i destinatari del template e-service.",
+        "successName": "Hai modificato il nome del template e-service.",
+        "successDescription": "Hai modificato la descrizione del template e-service.",
+        "successTarget": "Hai modificato i destinatari del template e-service.",
+        "error": "Non è stato possibile modificare il nome, la descrizione o i destinatari del template e-service. Riprova."
+      }
+    },
     "updateEServiceTemplateName": {
       "loading": "Stiamo modificando il nome del template dell'e-service",
       "outcome": {
