@@ -502,24 +502,46 @@
     "sections": {
       "generalInformations": {
         "title": "General information",
-        "eServiceField": {
-          "label": "E-service",
-          "value": "{{name}}, version {{version}}"
+        "updateMetadataDrawer": {
+          "title": "Update name and description",
+          "description": "Here you can update the name and description of the purpose.",
+          "nameField": {
+            "label": "Purpose name",
+            "helperText": "Min 5 characters, max 60 characters"
+          },
+          "descriptionField": {
+            "label": "Purpose description",
+            "helperText": "Min 10 characters, max 250 characters"
+          }
         },
-        "providerField": {
-          "label": "Producer"
+        "nameAndDescription": {
+          "title": "Name and description",
+          "edit": "Edit",
+          "nameField": {
+            "label": "Purpose name"
+          },
+          "descriptionField": {
+            "label": "Purpose description"
+          }
+        },
+        "specifications": {
+          "title": "Specifications",
+          "eServiceField": {
+            "label": "E-service",
+            "value": "{{name}}, version {{version}}"
+          },
+          "providerField": {
+            "label": "Producer"
+          },
+          "purposeTemplateField": {
+            "label": "Linked purpose template"
+          }
         },
         "consumerField": {
           "label": "Consumer"
         },
         "delegatedConsumerField": {
           "label": "Delegated Consumer"
-        },
-        "purposeTemplateField": {
-          "label": "Linked purpose template"
-        },
-        "descriptionField": {
-          "label": "Purpose description"
         },
         "riskAnalysis": {
           "fileName": "Risk analysis",

@@ -605,6 +605,15 @@
     }
   },
   "purpose": {
+    "patchUpdatePurpose": {
+      "loading": "Stiamo aggiornando la finalità",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione della finalità.",
+        "successName": "Hai modificato il nome della finalità.",
+        "successDescription": "Hai modificato la descrizione della finalità.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione della finalità. Riprova."
+      }
+    },
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {

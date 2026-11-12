@@ -1,4 +1,7 @@
 import { act, screen } from '@testing-library/react'
+import { queryClient } from '@/config/query-client'
+import { PurposeQueries } from '../purpose.queries'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import {
   renderHookWithApplicationContext,
   renderWithApplicationContext,
@@ -13,6 +16,8 @@ import { PurposeServices } from '../purpose.services'
 
 vi.mock('../purpose.services', () => ({
   PurposeServices: {
+    patchUpdatePurpose: vi.fn(),
+    patchUpdateReversePurpose: vi.fn(),
     signRiskAnalysis: vi.fn(),
     rejectRiskAnalysis: vi.fn(),
     updateRiskAnalysis: vi.fn(),
@@ -41,6 +46,49 @@ const conflictCases = [
   { code: '008-0053', feedback: 'alreadyRejected' },
   { code: '008-0054', feedback: 'versionChanged' },
 ]
+
+describe.each([
+  { mode: 'DELIVER', isReceive: false, service: PurposeServices.patchUpdatePurpose },
+  { mode: 'RECEIVE', isReceive: true, service: PurposeServices.patchUpdateReversePurpose },
+])('purpose metadata $mode', ({ isReceive, service }) => {
+  it.each([
+    { fields: { title: 'Updated purpose' }, feedback: 'successName' },
+    { fields: { description: 'Updated purpose description' }, feedback: 'successDescription' },
+    {
+      fields: { title: 'Updated purpose', description: 'Updated purpose description' },
+      feedback: 'successNameAndDescription',
+    },
+  ])('submits metadata and shows $feedback', async ({ fields, feedback }) => {
+    vi.mocked(service).mockResolvedValueOnce({ id: 'purpose-id' })
+    const query = PurposeQueries.getSingle('purpose-id')
+    queryClient.setQueryData(query.queryKey, {
+      ...createMockPurpose({ id: 'purpose-id' }),
+      metadataVersion: undefined,
+    })
+    const { result } = renderHookWithApplicationContext(
+      () => PurposeMutations.usePatchUpdatePurpose({ isReceive }),
+      { withReactQueryContext: true }
+    )
+
+    await act(() => result.current.mutateAsync({ purposeId: 'purpose-id', ...fields }))
+
+    expect(service).toHaveBeenCalledWith({ purposeId: 'purpose-id', ...fields })
+    expect(await screen.findByText(`outcome.${feedback}`)).toBeInTheDocument()
+    expect(queryClient.getQueryState(query.queryKey)?.isInvalidated).toBe(true)
+  })
+
+  it('shows error feedback on failure', async () => {
+    vi.mocked(service).mockRejectedValueOnce(new Error('Network failure'))
+    const { result } = renderHookWithApplicationContext(
+      () => PurposeMutations.usePatchUpdatePurpose({ isReceive }),
+      { withReactQueryContext: true }
+    )
+
+    act(() => result.current.mutate({ purposeId: 'purpose-id', title: 'Updated purpose' }))
+
+    expect(await screen.findByText('outcome.error')).toBeInTheDocument()
+  })
+})
 
 describe.each([
   {
