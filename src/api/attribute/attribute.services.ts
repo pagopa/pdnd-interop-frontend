@@ -170,7 +170,7 @@ async function revokeVerifiedPartyAttribute({
   attributeId: string
   agreementId: string
 }) {
-  return axiosInstance.delete<Attribute>(
+  return axiosInstance.delete<void>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified/${attributeId}`,
     { params: { agreementId } }
   )
