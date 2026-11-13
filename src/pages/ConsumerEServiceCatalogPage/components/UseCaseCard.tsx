@@ -7,36 +7,24 @@ import VolunteerActivismOutlinedIcon from '@mui/icons-material/VolunteerActivism
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined'
 import { MIButton, MIChip } from '@pagopa/mui-italia'
-import { USE_CASE_FIELD_LABELS, type UseCase } from '@/types/useCase.types'
 import { useTranslation } from 'react-i18next'
+import type { CatalogUseCase } from '@/api/api.generatedTypes'
 
 type UseCaseCardProps = {
-  useCase: UseCase
+  useCase: CatalogUseCase
   onClick: () => void
 }
 
 const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase, onClick }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'featuredList.useCases.card' })
-  const { name, field, unsubscribedEServices, subscribedEServices } = useCase
+  const { name, fieldId, unsubscribedEservices, subscribedEservices } = useCase
 
-  const fieldIcon = match(field)
-    .with(
-      USE_CASE_FIELD_LABELS.CITIZEN_SERVICES.it,
-      USE_CASE_FIELD_LABELS.CITIZEN_SERVICES.en,
-      () => <PersonOutlinedIcon color="inherit" fontSize="large" />
-    )
-    .with(USE_CASE_FIELD_LABELS.WELFARE.it, USE_CASE_FIELD_LABELS.WELFARE.en, () => (
-      <VolunteerActivismOutlinedIcon color="inherit" fontSize="large" />
-    ))
-    .with(USE_CASE_FIELD_LABELS.MOBILITY.it, USE_CASE_FIELD_LABELS.MOBILITY.en, () => (
-      <DirectionsSubwayOutlinedIcon color="inherit" fontSize="large" />
-    ))
-    .with(USE_CASE_FIELD_LABELS.EDUCATION.it, USE_CASE_FIELD_LABELS.EDUCATION.en, () => (
-      <SchoolOutlinedIcon color="inherit" fontSize="large" />
-    ))
-    .with(USE_CASE_FIELD_LABELS.HEALTHCARE.it, USE_CASE_FIELD_LABELS.HEALTHCARE.en, () => (
-      <HealthAndSafetyOutlinedIcon color="inherit" fontSize="large" />
-    ))
+  const fieldIcon = match(fieldId)
+    .with('CITIZEN_SERVICES', () => <PersonOutlinedIcon color="inherit" fontSize="large" />)
+    .with('WELFARE', () => <VolunteerActivismOutlinedIcon color="inherit" fontSize="large" />)
+    .with('MOBILITY', () => <DirectionsSubwayOutlinedIcon color="inherit" fontSize="large" />)
+    .with('EDUCATION', () => <SchoolOutlinedIcon color="inherit" fontSize="large" />)
+    .with('HEALTHCARE', () => <HealthAndSafetyOutlinedIcon color="inherit" fontSize="large" />)
     .exhaustive()
 
   return (
@@ -65,11 +53,11 @@ const UseCaseCard: React.FC<UseCaseCardProps> = ({ useCase, onClick }) => {
               <MIChip
                 color="info"
                 label={t('eservicesChipLabel', {
-                  count: unsubscribedEServices.length + subscribedEServices.length,
+                  count: unsubscribedEservices.length + subscribedEservices.length,
                 }).toLocaleUpperCase()}
                 sx={{ alignSelf: 'flex-start' }}
               />
-              <Typography>{field}</Typography>
+              <Typography>{t(`field.${fieldId}`)}</Typography>
             </Stack>
 
             <Box sx={{ display: { xs: 'none', sm: 'block' }, mt: 1 }}>

@@ -738,7 +738,14 @@
       },
       "card": {
         "eservicesChipLabel": "{{count}} e-service",
-        "buttonLabel": "Scopri di più"
+        "buttonLabel": "Scopri di più",
+        "field": {
+          "CITIZEN_SERVICES": "Servizi al cittadino",
+          "WELFARE": "Welfare",
+          "MOBILITY": "Mobilità e Trasporti",
+          "EDUCATION": "Istruzione",
+          "HEALTHCARE": "Sanità"
+        }
       },
       "drawer": {
         "readButtonLabel": "Leggi tutto",

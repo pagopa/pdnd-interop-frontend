@@ -4,11 +4,11 @@ import UseCaseCard from './UseCaseCard'
 import { MIPagination } from '@pagopa/mui-italia'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import UseCaseDrawer from './UseCaseDrawer'
-import type { UseCase } from '@/types/useCase.types'
 import { useTranslation } from 'react-i18next'
+import type { CatalogUseCase } from '@/api/api.generatedTypes'
 
 type UseCasesSectionProps = {
-  useCases: Array<UseCase>
+  useCases: Array<CatalogUseCase>
 }
 
 const UseCasesSection: React.FC<UseCasesSectionProps> = ({ useCases }) => {
@@ -25,7 +25,7 @@ const UseCasesSection: React.FC<UseCasesSectionProps> = ({ useCases }) => {
     setPaginationOffset(newOffset)
   }
 
-  const [selectedUseCase, setSelectedUseCase] = useState<UseCase>()
+  const [selectedUseCase, setSelectedUseCase] = useState<CatalogUseCase>()
 
   return (
     <>
