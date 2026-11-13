@@ -786,6 +786,15 @@
     }
   },
   "client": {
+    "updateClient": {
+      "loading": "The client is being updated",
+      "outcome": {
+        "successNameAndDescription": "You have updated the client name and description.",
+        "successName": "You have updated the client name.",
+        "successDescription": "You have updated the client description.",
+        "error": "The client name and/or description could not be updated. Please try again."
+      }
+    },
     "create": {
       "loading": "Client is being created",
       "outcome": {

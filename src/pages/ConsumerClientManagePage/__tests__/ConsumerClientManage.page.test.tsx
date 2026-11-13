@@ -1,6 +1,6 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerClientManagePage from '../ConsumerClientManage.page'
@@ -13,6 +13,7 @@ const {
   mockedNavigate,
   mockedRemoveClientAdmin,
   mockedDeleteClient,
+  mockedUpdateClient,
   mockedUpdateActiveTab,
   mockedMarkNotificationsAsRead,
   mockedGetSingle,
@@ -21,6 +22,7 @@ const {
   mockedNavigate: vi.fn(),
   mockedRemoveClientAdmin: vi.fn(),
   mockedDeleteClient: vi.fn(),
+  mockedUpdateClient: vi.fn(),
   mockedUpdateActiveTab: vi.fn(),
   mockedMarkNotificationsAsRead: vi.fn(),
   mockedGetSingle: vi.fn(),
@@ -72,6 +74,7 @@ vi.mock('@/api/client', () => ({
   ClientMutations: {
     useRemoveClientAdmin: () => ({ mutate: mockedRemoveClientAdmin }),
     useDelete: () => ({ mutate: mockedDeleteClient }),
+    useUpdateClient: () => ({ mutate: mockedUpdateClient }),
   },
 }))
 
@@ -173,6 +176,7 @@ describe('ConsumerClientManagePage', () => {
     mockedNavigate.mockReset()
     mockedRemoveClientAdmin.mockReset()
     mockedDeleteClient.mockReset()
+    mockedUpdateClient.mockReset()
     mockedUpdateActiveTab.mockReset()
     mockedMarkNotificationsAsRead.mockReset()
     mockedGetSingle.mockReset()
@@ -205,6 +209,134 @@ describe('ConsumerClientManagePage', () => {
       isSupport: false,
       isViewer: false,
     })
+  })
+
+  it.each(['API', 'CONSUMER'] as const)('updates $kind client metadata', async (kind) => {
+    state.clientKind = kind
+    const user = userEvent.setup()
+    mockedUpdateClient.mockImplementationOnce(
+      (_payload: unknown, options: { onSuccess: () => void }) => options.onSuccess()
+    )
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'edit.updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'edit.updateMetadataDrawer.nameField.label',
+    })
+    await user.clear(nameInput)
+    await user.type(nameInput, 'Updated client')
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() =>
+      expect(mockedUpdateClient).toHaveBeenCalledWith(
+        { clientId: 'client-id', name: 'Updated client' },
+        { onSuccess: expect.any(Function) }
+      )
+    )
+    await waitForElementToBeRemoved(nameInput)
+  })
+
+  it.each([
+    {
+      name: 'Client Name',
+      description: 'Updated description',
+      fields: { description: 'Updated description' },
+    },
+    {
+      name: 'Updated client',
+      description: 'Updated description',
+      fields: { name: 'Updated client', description: 'Updated description' },
+    },
+  ])('submits only changed client fields', async ({ name, description, fields }) => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'edit.updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'edit.updateMetadataDrawer.nameField.label',
+    })
+    if (name !== state.client.name) {
+      await user.clear(nameInput)
+      await user.type(nameInput, name)
+    }
+    const descriptionInput = screen.getByRole('textbox', {
+      name: 'edit.updateMetadataDrawer.descriptionField.label',
+    })
+    await user.clear(descriptionInput)
+    await user.type(descriptionInput, description)
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() =>
+      expect(mockedUpdateClient).toHaveBeenCalledWith(
+        { clientId: 'client-id', ...fields },
+        { onSuccess: expect.any(Function) }
+      )
+    )
+    expect(nameInput).toBeVisible()
+  })
+
+  it('updates only the name when the existing description is absent', async () => {
+    state.client.description = undefined
+    const user = userEvent.setup()
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'edit.updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'edit.updateMetadataDrawer.nameField.label',
+    })
+    await user.clear(nameInput)
+    await user.type(nameInput, 'Updated client')
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() =>
+      expect(mockedUpdateClient).toHaveBeenCalledWith(
+        { clientId: 'client-id', name: 'Updated client' },
+        { onSuccess: expect.any(Function) }
+      )
+    )
+  })
+
+  it('closes without submitting unchanged metadata', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await user.click(screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'edit.updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'edit.updateMetadataDrawer.nameField.label',
+    })
+    const saveButton = screen.getByRole('button', { name: 'actions.saveEdits' })
+    expect(saveButton).toBeEnabled()
+    await user.click(saveButton)
+
+    await waitForElementToBeRemoved(nameInput)
+    expect(mockedUpdateClient).not.toHaveBeenCalled()
+  })
+
+  it('opens and closes the actions menu using the keyboard', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    const menuButton = screen.getByRole('button', { name: 'actionMenu.iconButtonAriaLabel' })
+    menuButton.focus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByRole('menuitem', { name: 'actions.delete' })).toBeVisible()
+    await user.keyboard('{Escape}')
+    await waitFor(() => expect(screen.queryByRole('menuitem')).not.toBeInTheDocument())
+    expect(menuButton).toHaveFocus()
   })
 
   it('renders API admin section, tabs, and marks notifications as read', () => {
