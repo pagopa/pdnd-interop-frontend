@@ -3,11 +3,11 @@ import {
   Drawer as MUIDrawer,
   Stack,
   Typography,
-  IconButton,
   useTheme,
   useMediaQuery,
   type SxProps,
 } from '@mui/material'
+import { MIIconButton } from '@pagopa/mui-italia'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -61,14 +61,13 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
                 <Typography variant="h5" color={theme.colors.neutral.black}>
                   {title}
                 </Typography>
-                <IconButton onClick={onClose} aria-label={t('closeIconAriaLabel')}>
-                  <CloseIcon
-                    fontSize="small"
-                    sx={{
-                      color: theme.colors.neutral.black,
-                    }}
-                  />
-                </IconButton>
+                <MIIconButton
+                  onClick={onClose}
+                  aria-label={t('closeIconAriaLabel')}
+                  sx={{ color: theme.colors.neutral.black }}
+                >
+                  <CloseIcon fontSize="small" />
+                </MIIconButton>
               </Stack>
               <Typography variant="body2" color={theme.colors.neutral.grey[700]}>
                 {subtitle}
