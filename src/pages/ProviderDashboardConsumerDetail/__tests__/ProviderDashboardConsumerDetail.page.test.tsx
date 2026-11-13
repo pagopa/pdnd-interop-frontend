@@ -239,7 +239,9 @@ describe('ProviderDashboardConsumerDetail', () => {
         limit: 10,
         sortBy: 'NAME_ASC',
       }).results[0]
-      const row = (await within(group).findByText(first.eservice.name)).closest('dl')!
+      const row = (await within(group).findByText(first.eservice.name)).closest(
+        'dl'
+      )!.parentElement!
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
       expect(
         within(row).getByRole('definition', { name: copy.columns.eservice })

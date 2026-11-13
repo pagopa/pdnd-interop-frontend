@@ -651,8 +651,8 @@ describe('ProviderDashboardPage tables', () => {
         ],
       })
       await renderDashboard()
-      const saturation = (await screen.findByText('E-service 1')).closest('dl')!
-      const archive = (await screen.findByText('Whole e-service')).closest('dl')!
+      const saturation = (await screen.findByText('E-service 1')).closest('dl')!.parentElement!
+      const archive = (await screen.findByText('Whole e-service')).closest('dl')!.parentElement!
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
       expect(screen.getByRole('group', { name: thresholds.columns.eservice })).toBeInTheDocument()
       expect(screen.getByRole('group', { name: archiving.columns.eservice })).toBeInTheDocument()
