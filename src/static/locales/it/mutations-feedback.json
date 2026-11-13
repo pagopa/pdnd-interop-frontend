@@ -890,6 +890,15 @@
     }
   },
   "keychain": {
+    "updateKeychain": {
+      "loading": "Stiamo aggiornando il portachiavi",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione del portachiavi.",
+        "successName": "Hai modificato il nome del portachiavi.",
+        "successDescription": "Hai modificato la descrizione del portachiavi.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione del portachiavi. Riprova."
+      }
+    },
     "removeKeychainFromEService": {
       "loading": "Stiamo rimuovendo il portachiavi dall’e-service",
       "outcome": {
