@@ -3,7 +3,7 @@ import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest'
 import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { EServiceQueries } from '@/api/eservice'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, CatalogUseCase } from '@/api/api.generatedTypes'
 import { queryClient } from '@/config/query-client'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
@@ -12,6 +12,7 @@ import FeaturedTab from '../FeaturedTab'
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
     getFeaturedEServicesCatalog: vi.fn(),
+    getCatalogUseCases: vi.fn(),
   },
 }))
 
@@ -26,8 +27,13 @@ vi.mock('../components', () => ({
   EServiceCatalogGridSkeleton: () => <div role="status">Loading e-services</div>,
 }))
 
+vi.mock('../components/UseCasesSection', () => ({
+  default: () => null,
+}))
+
 const queryKey = ['EServiceGetFeaturedEServicesCatalog']
 const queryFn = vi.fn<() => Promise<CatalogEService[]>>()
+const useCasesQueryFn = vi.fn<() => Promise<CatalogUseCase[]>>()
 
 const renderTab = (onGoToCatalog = vi.fn(), searchParams = '') =>
   renderWithApplicationContext(<FeaturedTab onGoToCatalog={onGoToCatalog} />, {
@@ -40,6 +46,15 @@ const createEServices = (count: number) =>
   Array.from({ length: count }, (_, index) =>
     createMockEServiceCatalog({ id: `eservice-${index + 1}`, name: `E-service ${index + 1}` })
   )
+
+const createUseCase = (): CatalogUseCase => ({
+  name: 'Citizens services',
+  description: 'Services for citizens',
+  slug: '/use-cases/citizens',
+  fieldId: 'CITIZEN_SERVICES',
+  subscribedEservices: [],
+  unsubscribedEservices: [],
+})
 
 const getVisibleNames = () =>
   within(screen.getByRole('list', { name: 'Featured e-services' }))
@@ -57,6 +72,14 @@ describe('FeaturedTab', () => {
       throwOnError: false,
       staleTime: Infinity,
     } as never)
+    vi.mocked(EServiceQueries.getCatalogUseCases).mockReturnValue({
+      queryKey: ['EServiceGetCatalogUseCases'],
+      queryFn: useCasesQueryFn,
+      retry: false,
+      throwOnError: false,
+      staleTime: Infinity,
+    } as never)
+    useCasesQueryFn.mockResolvedValue([createUseCase()])
   })
 
   afterEach(() => {
@@ -100,6 +123,7 @@ describe('FeaturedTab', () => {
 
   it('renders the combined banner when the request fails without cached data', async () => {
     queryFn.mockRejectedValue(new Error('network error'))
+    useCasesQueryFn.mockRejectedValue(new Error('network error'))
 
     renderTab()
 
