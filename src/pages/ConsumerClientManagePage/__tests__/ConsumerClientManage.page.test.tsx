@@ -281,7 +281,7 @@ describe('ConsumerClientManagePage', () => {
     expect(nameInput).toBeVisible()
   })
 
-  it('updates only the name when the existing description is absent', async () => {
+  it('requires a description when the existing description is absent', async () => {
     state.client.description = undefined
     const user = userEvent.setup()
     renderWithApplicationContext(<ConsumerClientManagePage />, {
@@ -297,9 +297,19 @@ describe('ConsumerClientManagePage', () => {
     await user.type(nameInput, 'Updated client')
     await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
 
+    const descriptionInput = screen.getByRole('textbox', {
+      name: 'edit.updateMetadataDrawer.descriptionField.label',
+    })
+    await waitFor(() => expect(descriptionInput).toHaveAttribute('aria-invalid', 'true'))
+    expect(mockedUpdateClient).not.toHaveBeenCalled()
+    expect(nameInput).toBeVisible()
+
+    await user.type(descriptionInput, 'Updated description')
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
     await waitFor(() =>
       expect(mockedUpdateClient).toHaveBeenCalledWith(
-        { clientId: 'client-id', name: 'Updated client' },
+        { clientId: 'client-id', name: 'Updated client', description: 'Updated description' },
         { onSuccess: expect.any(Function) }
       )
     )
