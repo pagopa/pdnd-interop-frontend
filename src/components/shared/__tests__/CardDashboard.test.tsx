@@ -328,6 +328,61 @@ describe('CardDashboard', () => {
   })
 
   it.each(['primary', 'link'] as const)(
+    'renders a disabled %s action described by its visible reason',
+    async (type) => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      renderCard({
+        heading: 'Finalità',
+        content: { kind: 'metric', metric: { value: 4, label: 'finalità' } },
+        action: {
+          type,
+          text: 'Vedi finalità',
+          action: onClick,
+          disabled: true,
+          disabledReason: 'Destinazione non disponibile.',
+        },
+      })
+
+      const button = screen.getByRole('button', { name: 'Vedi finalità' })
+      expect(button).toBeDisabled()
+      expect(button).toHaveAccessibleDescription('Destinazione non disponibile.')
+      expect(screen.getByText('Destinazione non disponibile.')).toBeVisible()
+      await user.click(button).catch(() => undefined)
+      expect(onClick).not.toHaveBeenCalled()
+    }
+  )
+
+  it('does not describe an enabled action', () => {
+    renderCard({
+      heading: 'Accordi',
+      content: { kind: 'metric', metric: { value: 1, label: 'richieste' } },
+      action: { type: 'link', text: 'Vedi richieste', disabledReason: 'ignorata' },
+    })
+
+    const button = screen.getByRole('button', { name: 'Vedi richieste' })
+    expect(button).toBeEnabled()
+    expect(button).not.toHaveAttribute('aria-describedby')
+    expect(screen.queryByText('ignorata')).not.toBeInTheDocument()
+  })
+
+  it('prefers the backend percentage over the used / limit ratio', () => {
+    renderCard({
+      heading: 'Consumi',
+      content: {
+        kind: 'consumption',
+        used: 38500,
+        limit: 50000,
+        percentage: 120,
+        unitLabel: 'Chiamate',
+      },
+    })
+
+    expect(screen.getByText('120%')).toBeVisible()
+    expect(screen.getByText('38.500 / 50.000')).toBeVisible()
+  })
+
+  it.each(['primary', 'link'] as const)(
     'renders a %s action without a callback and allows clicking without throwing',
     async (type) => {
       const user = userEvent.setup()

@@ -5,7 +5,7 @@ import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
-import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type * as LayoutContainers from '@/components/layout/containers'
@@ -64,6 +64,11 @@ const resultCount = (count: number) =>
   )
 const summaryValue = (label: string = copy.summary) => screen.getByText(label).nextElementSibling
 
+const VersionDestination = () => {
+  const { pathname, search } = useLocation()
+  return <p>{`Version destination ${pathname}${search}`}</p>
+}
+
 const GoToConsumer = ({ consumerId }: { consumerId: string }) => {
   const navigate = useNavigate()
   return <button onClick={() => navigate(`/fruitori/${consumerId}`)}>switch consumer</button>
@@ -102,7 +107,7 @@ const renderPage = async ({
                 />
                 <Route
                   path="/:language/erogazione/e-service/:eserviceId/:descriptorId"
-                  element={<p>Version destination</p>}
+                  element={<VersionDestination />}
                 />
               </Routes>
             </NuqsTestingAdapter>
@@ -166,7 +171,7 @@ describe('ProviderDashboardConsumerDetail', () => {
       })
       expect(eserviceLink).toHaveAttribute(
         'href',
-        `/${language}/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
+        `/${language}/erogazione/e-service/${first.eservice.id}/${first.descriptorId}?tab=monitoring`
       )
       expect(eserviceLink).toHaveClass('MuiIconButton-colorInherit')
       expect(eserviceLink).not.toHaveClass('MuiIconButton-colorPrimary')
@@ -193,11 +198,17 @@ describe('ProviderDashboardConsumerDetail', () => {
   it('opens the version link using the keyboard', async () => {
     const user = userEvent.setup()
     await renderPage()
-    const link = (await screen.findAllByRole('link', { name: /^Vedi e-service /i }))[0]
+    const link = (
+      await screen.findAllByRole('link', { name: /^Vedi il monitoraggio dell'e-service /i })
+    )[0]
     link.focus()
     expect(link).toHaveFocus()
     await user.keyboard('{Enter}')
-    expect(await screen.findByText('Version destination')).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        /^Version destination \/it\/erogazione\/e-service\/[^/]+\/[^/?]+\?tab=monitoring$/
+      )
+    ).toBeInTheDocument()
   })
 
   it('shows loading skeletons without a false zero or a stale title', async () => {
@@ -255,7 +266,7 @@ describe('ProviderDashboardConsumerDetail', () => {
         })
       ).toHaveAttribute(
         'href',
-        `/it/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
+        `/it/erogazione/e-service/${first.eservice.id}/${first.descriptorId}?tab=monitoring`
       )
       expect(group).toHaveAttribute('aria-busy', 'false')
       expect(screen.getByRole('textbox', { name: copy.searchPlaceholder })).toHaveValue('')

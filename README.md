@@ -12,7 +12,7 @@ La dashboard del produttore carica le metriche tramite la richiesta autenticata 
 
 Le opzioni condivise `ProducerQueries.getDashboard()` aggiornano le metriche ogni minuto (`refetchInterval: 60_000` ms), mantenendo il comportamento predefinito di React Query per focus e background.
 
-Per abilitare temporaneamente i dati mock in locale, imposta `REACT_APP_MOCK_PRODUCER_DASHBOARD=true` in `.env.development.local` e riavvia Vite dopo ogni modifica al flag. Lo stesso flag abilita anche il mock dell'elenco fruitori: 16 fixture con filtro per nome, ordinamento e paginazione, e i relativi dettagli con gli stessi ID dell'elenco. Il dettaglio di Regione Lombardia contiene 15 righe per verificare la paginazione; un ID sconosciuto restituisce uno stato vuoto. Copre anche le tabelle «Soglie» (sei fixture di saturazione, con visualizzazione delle prime cinque) e «Archiviazione» (righe ordinate per data, per interi e-service o singole versioni). Con il flag impostato su `false` o rimosso, la dashboard, entrambe le tabelle, l'elenco e il dettaglio fruitore usano le rispettive richieste reali. Il mock è attivo solo con il server di sviluppo in modalità development: la build di produzione lo ignora anche se il flag è impostato. Non è un fallback in caso di errore delle API reali; le altre API non sono mockate.
+Per abilitare temporaneamente i dati mock in locale, imposta `REACT_APP_MOCK_PRODUCER_DASHBOARD=true` in `.env.development.local` e riavvia Vite dopo ogni modifica al flag. Lo stesso flag abilita anche il mock dell'elenco fruitori: 16 fixture con filtro per nome, ordinamento e paginazione, e i relativi dettagli con gli stessi ID dell'elenco. Il dettaglio di Regione Lombardia contiene 15 righe per verificare la paginazione; un ID sconosciuto restituisce uno stato vuoto. Copre anche le tabelle «Soglie» (sei fixture di saturazione, con visualizzazione delle prime cinque) e «Archiviazione» (righe ordinate per data, per interi e-service o singole versioni). Lo stesso flag mocka anche i tre endpoint del tab «Monitoraggio» del dettaglio e-service (vedi [Monitoraggio dell'e-service](#monitoraggio-delle-service)). Con il flag impostato su `false` o rimosso, la dashboard, entrambe le tabelle, l'elenco, il dettaglio fruitore e il tab «Monitoraggio» usano le rispettive richieste reali. Il mock è attivo solo con il server di sviluppo in modalità development: la build di produzione lo ignora anche se il flag è impostato. Non è un fallback in caso di errore delle API reali; le altre API non sono mockate.
 
 Le sei card mostrano i seguenti dati restituiti dall'API:
 
@@ -39,7 +39,7 @@ L'elenco passa l'identità del fruitore selezionato alla route `/erogazione/pano
 
 Il dettaglio carica i dati tramite la richiesta autenticata `GET /producers/dashboard/consumers/{consumerId}`, con `offset` e `limit` per la paginazione, `q` opzionale per la ricerca per nome e `sortBy` per l'ordinamento. Il tipo generato OpenAPI `ConsumerEServicesSortBy` ammette `NAME_ASC` (predefinito nella pagina), `NAME_DESC`, `DAILY_CALLS_DESC` e `DAILY_CALLS_ASC`.
 
-La risposta `ProducerDashboardConsumer` contiene `consumer` opzionale, `eservicesCount` come totale complessivo degli e-service e `pagination.totalCount` come totale dei risultati filtrati: il primo alimenta il riepilogo, il secondo il conteggio dei risultati e delle pagine. L'assenza di `consumer` indica che non ci sono relazioni con il produttore e viene mostrata come stato vuoto, non come errore di trasporto. La pagina mostra il nome del fruitore e, per ogni riga di `results`, nome dell'e-service, versione, stato della richiesta di fruizione (`agreement.state`), conteggio delle finalità attive (`activePurposesCount`) e chiamate giornaliere approvate (`approvedDailyCalls`), con link al dettaglio dell'e-service lato erogatore. Ricerca, ordinamento e paginazione sono collegati alla richiesta; il dettaglio non ha polling periodico e quello delle metriche aggregate resta a `60_000` ms.
+La risposta `ProducerDashboardConsumer` contiene `consumer` opzionale, `eservicesCount` come totale complessivo degli e-service e `pagination.totalCount` come totale dei risultati filtrati: il primo alimenta il riepilogo, il secondo il conteggio dei risultati e delle pagine. L'assenza di `consumer` indica che non ci sono relazioni con il produttore e viene mostrata come stato vuoto, non come errore di trasporto. La pagina mostra il nome del fruitore e, per ogni riga di `results`, nome dell'e-service, versione, stato della richiesta di fruizione (`agreement.state`), conteggio delle finalità attive (`activePurposesCount`) e chiamate giornaliere approvate (`approvedDailyCalls`), con link (chevron) al dettaglio dell'e-service lato erogatore aperto direttamente sul tab «Monitoraggio» (`/erogazione/e-service/:eserviceId/:descriptorId?tab=monitoring`). Ricerca, ordinamento e paginazione sono collegati alla richiesta; il dettaglio non ha polling periodico e quello delle metriche aggregate resta a `60_000` ms.
 
 ### Soglie e archiviazione
 
@@ -56,3 +56,78 @@ Le due tabelle non aggiungono polling periodico; quello delle metriche aggregate
 L'integrazione delle tabelle non è stata verificata con un backend live.
 
 L'esportazione resta un placeholder senza download. Il backend live non era disponibile per la verifica del dettaglio. Lo smoke test browser in modalità mock ha coperto elenco → dettaglio per ID, paginazione, ricerca, ID sconosciuto e redirect legacy tramite eventi dispatchati; l'interazione con il normale puntatore non è stata verificata.
+
+## Monitoraggio dell'e-service
+
+Il dettaglio classico dell'e-service lato erogatore (`/erogazione/e-service/:eserviceId/:descriptorId`, `ProviderEServiceDetailsPage`) ha un tab «Monitoraggio», selezionabile con `?tab=monitoring`. I dati dell'e-service, la versione e gli errori di accesso della pagina restano quelli della pagina classica (API e-service esistenti); il tab aggiunge solo i blocchi di monitoraggio.
+
+### Navigazione e permessi
+
+- Tab: «Dettagli e-service» (`eserviceDetails`, predefinito), «Monitoraggio» (`monitoring`) e «Portachiavi associati» (`keychains`). Un valore di `?tab=` sconosciuto o non consentito al ruolo riporta a `eserviceDetails`.
+- «Monitoraggio» è visibile a tutti i ruoli della route (`admin`, `support`, `api`, `security`, `viewer`). Il ruolo `viewer`, che prima vedeva il solo contenuto dei dettagli senza tab, ora vede la barra dei tab con «Dettagli e-service» e «Monitoraggio». «Portachiavi associati» resta riservato a `admin`, `support` e `security`.
+- Ingressi: il chevron di ogni riga del [dettaglio fruitore](#dettaglio-fruitore) apre `?tab=monitoring` sulla coppia e-service/versione della riga; il chevron della tabella «Versioni in fase di archiviazione» apre il monitoraggio di un'altra versione.
+- Le azioni dei blocchi rispettano i permessi delle route di destinazione: «Vedi richieste di fruizione» compare solo per i ruoli di `/erogazione/richieste` (non per `security`); i chevron verso il dettaglio fruitore e verso un'altra versione compaiono solo per i ruoli delle rispettive route.
+
+### Endpoint
+
+Tutte le richieste sono autenticate, eseguite dal client Axios sul `BACKEND_FOR_FRONTEND_URL`, con tipi generati dallo schema OpenAPI e opzioni in `ProducerQueries` (`src/api/producer/producer.queries.ts`). Le query key includono i parametri, quindi cambiando versione i dati vengono ricaricati. Non c'è polling periodico.
+
+| Servizio (`ProducerServices`) | Richiesta | Tipo di risposta | Ambito |
+| --- | --- | --- | --- |
+| `getEServiceMonitoring` | `GET /producers/eservices/{eserviceId}/descriptors/{descriptorId}/monitoring` | `ProducerEServiceMonitoring` | versione (le card mostrano anche contatori dell'intero e-service, vedi sotto) |
+| `getEServiceMonitoringSaturation` | `GET /producers/eservices/{eserviceId}/descriptors/{descriptorId}/monitoring/saturation` con `offset`, `limit`, `q` opzionale, `sortBy` (`SaturationSortBy`: `PERCENTAGE_DESC`, `PERCENTAGE_ASC`, `NAME_ASC`, `NAME_DESC`) | `ProducerEServiceMonitoringSaturation` | versione |
+| `getEServiceMonitoringArchiving` | `GET /producers/eservices/{eserviceId}/monitoring/archiving` | `MonitoringArchiving` | intero e-service |
+
+La tabella dei consumi per fruitore richiede sempre `offset=0`, `limit=5`, `sortBy=PERCENTAGE_DESC`, senza `q` (`MONITORING_CONSUMERS_PREVIEW_PARAMS`), e mostra solo `results`: i campi `eservice`, `version`, `otherVersions`, `dailyCallsPerConsumer`, `dailyCallsTotal`, `customizedQuotaConsumers`, `activeConsumers` e `pagination` della risposta non sono usati dal tab.
+
+### Contenuto del tab
+
+Sezione «Consumo previsto, finalità e cambio di stima» (dati della versione selezionata):
+
+| Blocco | Campo/i |
+| --- | --- |
+| Consumo previsto della soglia | `approvedDailyCalls` / `dailyCallsTotal`; la percentuale è `percentage` del backend (prevale sul rapporto calcolato, può superare 100%) |
+| Nuove finalità in attesa di approvazione | `waitingForApprovalNewPurposes` |
+| Cambi di stima in attesa di approvazione | `waitingForApprovalQuotaChanges` |
+| Consumi previsti della soglia per fruitore (tabella `MITable`) | per riga: `consumer.name`, `activePurposesCount`, `percentage`, `approvedDailyCalls` / `dailyCallsPerConsumer`, `waitingForApprovalDailyCalls`; chevron verso `/erogazione/panoramica/fruitori/:consumerId` |
+
+Sezione «Versioni dell'e-service e richieste di fruizione» (contatori dell'intero e-service, uguali qualunque versione sia selezionata):
+
+| Blocco | Campo/i |
+| --- | --- |
+| Fruitori per versione | `consumersByVersion.versions[]` (`version`, `consumersCount`) con totale esplicito `consumersByVersion.total`; voce «Versioni precedenti» solo se `olderVersionsConsumersCount` è presente; piè di card con tempo mediano di aggiornamento solo se `medianUpgradeDays` è presente |
+| Fruitori per tipologia | `consumersByKind.pa`, `gspScp`, `private`, totale `consumersByKind.total` |
+| Richieste di fruizione in attesa | `pendingAgreements`; l'azione apre `/erogazione/richieste` filtrato per `eservicesIds={eserviceId}` e `states=PENDING` (filtro sull'e-service, non sulla versione) |
+| Versioni in fase di archiviazione (tabella `MITable`) | per riga: versione (`version`, oppure «Intero e-service» se assente), `consumersCount`, `archivableOn` con data e distanza relativa in giorni di calendario nel fuso locale («Oggi», «Tra N giorni», «Data superata»); ordine del backend, senza riordinamento |
+
+Nella tabella di archiviazione il chevron è disabilitato, con motivazione in tooltip e nel nome accessibile, se la riga non ha `descriptorId` (archiviazione dell'intero e-service) o se è la versione già visualizzata; altrimenti apre la versione con `?tab=monitoring`.
+
+Le card riusano `CardDashboard` (`src/components/shared/CardDashboard`), esteso in modo retrocompatibile con `percentage` opzionale nel contenuto `consumption` e con `disabled`/`disabledReason` nelle azioni (pulsante disabilitato, motivazione visibile e collegata con `aria-describedby`).
+
+### Stati e azioni non disponibili
+
+- Ogni blocco gestisce i propri stati: caricamento (skeleton o tabella in caricamento), errore con messaggio e pulsante «Riprova» (nuova richiesta, senza fixture di ripiego), stato vuoto per le tabelle senza `results`. Le card delle due sezioni condividono la stessa richiesta `.../monitoring`, quindi un suo errore compare in entrambe le sezioni; le due tabelle falliscono in modo indipendente.
+- «Esporta» è disabilitato con la motivazione «L'esportazione dei dati non è ancora disponibile.»: non esiste un'implementazione di export.
+- «Vedi finalità» e «Vedi richieste» delle card finalità/cambi di stima sono disabilitati: l'elenco delle finalità non permette ancora di filtrare per versione e tipo di richiesta.
+- «Vedi tutti i consumi per fruitore» è disabilitato: non esiste ancora una route con l'elenco completo per versione.
+
+### Mock locale del monitoraggio
+
+Con `REACT_APP_MOCK_PRODUCER_DASHBOARD=true` (stesse regole del flag descritte sopra: solo server di sviluppo in modalità development, riavvio di Vite dopo la modifica, nessun fallback sugli errori) i tre servizi restituiscono dati da `__mocks__/data/producer-monitoring.mocks.ts`. Il mock riguarda **solo** gli endpoint di monitoraggio: la pagina classica (e-service, descrittore, versioni, permessi) continua a usare le API reali.
+
+Per una demo, apri un e-service reale accessibile all'utente con `/erogazione/e-service/:eserviceId/:descriptorId?tab=monitoring`. In questo caso il mock:
+
+- legge con le API reali il descrittore richiesto, propagandone gli errori, e restituisce «non trovato» se il descrittore letto non corrisponde alla coppia e-service/versione richiesta;
+- usa i valori fissi della fixture per consumo, finalità, cambi di stima e richieste in attesa;
+- costruisce «Fruitori per versione» e «Fruitori per tipologia» dalle versioni reali dell'e-service con conteggi sintetici (25 fruitori per versione), senza «Versioni precedenti» né tempo mediano;
+- mostra nella tabella per fruitore fruitori sintetici, gli stessi dell'elenco fruitori mockato: il loro chevron apre il dettaglio fruitore, anch'esso mockato;
+- elenca in archiviazione tutte le versioni reali del descrittore attivo più recente (`latestActiveDescriptorId`), con 25 fruitori ciascuna e `archivableOn` reale se presente, altrimenti una data sintetica: non indica quali versioni siano davvero in archiviazione. Senza descrittore attivo la tabella è vuota.
+
+La fixture offline usa gli ID sintetici del primo e-service del primo fruitore mockato (più una versione «0» raggiungibile dalla tabella di archiviazione, che include anche una riga per l'intero e-service). Questi ID non esistono nel backend reale, quindi il chevron del dettaglio fruitore mockato che li punta può non aprire la pagina classica, che fallisce prima di mostrare il tab. Qualunque altra combinazione di ID inesistente restituisce «non trovato». Il flusso completo dashboard → dettaglio fruitore → monitoraggio non è quindi interamente simulabile con dati sintetici.
+
+### Limiti noti del monitoraggio
+
+- I tre endpoint di monitoraggio non sono stati verificati con un backend live: la verifica nel browser è stata fatta in modalità mock su un e-service reale.
+- Esportazione, accesso alle finalità filtrate per versione e tipo, ed elenco completo dei consumi per fruitore non sono disponibili (azioni disabilitate con motivazione).
+- La tabella per fruitore mostra solo i primi cinque risultati, senza ricerca, ordinamento o paginazione.
+- La separazione tra contatori della versione e dell'intero e-service riflette la struttura degli endpoint e la presentazione del frontend; la semantica dei valori è definita dal backend.

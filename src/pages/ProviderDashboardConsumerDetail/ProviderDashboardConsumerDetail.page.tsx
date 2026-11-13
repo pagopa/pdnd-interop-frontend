@@ -19,6 +19,7 @@ import { useSorting } from '@/hooks/useSorting'
 import { useGeneratePath, useParams } from '@/router'
 import { Link as RouterLink } from 'react-router-dom'
 import { formatThousands } from '@/utils/format.utils'
+import { PROVIDER_ESERVICE_MONITORING_TAB } from '@/pages/ProviderEServiceDetailsPage/components/ProviderEServiceMonitoringTab/monitoring.constants'
 
 const sortByOptions: ConsumerEServicesSortBy[] = [
   'NAME_ASC',
@@ -94,10 +95,10 @@ export default function ProviderDashboardConsumerDetail() {
         <IconButton
           component={RouterLink}
           color="inherit"
-          to={generatePath('PROVIDE_ESERVICE_MANAGE', {
+          to={`${generatePath('PROVIDE_ESERVICE_MANAGE', {
             eserviceId: row.eservice.id,
             descriptorId: row.descriptorId,
-          })}
+          })}?tab=${PROVIDER_ESERVICE_MONITORING_TAB}`}
           aria-label={t('goToEServiceDetail', { name: row.eservice.name, version: row.version })}
         >
           <ChevronRightIcon />

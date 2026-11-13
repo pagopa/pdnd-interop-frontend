@@ -120,7 +120,7 @@
     "retry": "Retry",
     "version": "Version {{version}}",
     "goToEService": "View e-service",
-    "goToEServiceDetail": "View e-service {{name}}, version {{version}}",
+    "goToEServiceDetail": "View monitoring of e-service {{name}}, version {{version}}",
     "columns": {
       "eservice": "E-service",
       "agreementState": "Agreement state",

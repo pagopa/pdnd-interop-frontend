@@ -4,11 +4,16 @@ import type {
   GetProducerDashboardConsumerParams,
   GetProducerDashboardConsumersParams,
   GetProducerDashboardSaturationParams,
+  GetProducerEServiceMonitoringParams,
+  GetProducerEServiceMonitoringArchivingParams,
+  GetProducerEServiceMonitoringSaturationParams,
   MonitoringArchiving,
   ProducerDashboard,
   ProducerDashboardConsumer,
   ProducerDashboardConsumers,
   ProducerDashboardSaturation,
+  ProducerEServiceMonitoring,
+  ProducerEServiceMonitoringSaturation,
 } from '../api.generatedTypes'
 
 async function getDashboard(): Promise<ProducerDashboard> {
@@ -92,10 +97,66 @@ async function getDashboardArchiving(): Promise<MonitoringArchiving> {
   return response.data
 }
 
+async function getEServiceMonitoring({
+  eserviceId,
+  descriptorId,
+}: GetProducerEServiceMonitoringParams): Promise<ProducerEServiceMonitoring> {
+  if (import.meta.env.DEV && APP_MODE === 'development' && MOCK_PRODUCER_DASHBOARD) {
+    const { getMockProducerEServiceMonitoring, getMockMonitoringDescriptor } =
+      await import('../../../__mocks__/data/producer-monitoring.mocks')
+    const params = { eserviceId, descriptorId }
+    return getMockProducerEServiceMonitoring(params, await getMockMonitoringDescriptor(params))
+  }
+
+  const response = await axiosInstance.get<ProducerEServiceMonitoring>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}/monitoring`
+  )
+  return response.data
+}
+
+async function getEServiceMonitoringArchiving({
+  eserviceId,
+}: GetProducerEServiceMonitoringArchivingParams): Promise<MonitoringArchiving> {
+  if (import.meta.env.DEV && APP_MODE === 'development' && MOCK_PRODUCER_DASHBOARD) {
+    const { loadMockProducerEServiceMonitoringArchiving } =
+      await import('../../../__mocks__/data/producer-monitoring.mocks')
+    return loadMockProducerEServiceMonitoringArchiving({ eserviceId })
+  }
+
+  const response = await axiosInstance.get<MonitoringArchiving>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/monitoring/archiving`
+  )
+  return response.data
+}
+
+async function getEServiceMonitoringSaturation({
+  eserviceId,
+  descriptorId,
+  ...params
+}: GetProducerEServiceMonitoringSaturationParams): Promise<ProducerEServiceMonitoringSaturation> {
+  if (import.meta.env.DEV && APP_MODE === 'development' && MOCK_PRODUCER_DASHBOARD) {
+    const { getMockProducerEServiceMonitoringSaturation, getMockMonitoringDescriptor } =
+      await import('../../../__mocks__/data/producer-monitoring.mocks')
+    return getMockProducerEServiceMonitoringSaturation(
+      { eserviceId, descriptorId, ...params },
+      await getMockMonitoringDescriptor({ eserviceId, descriptorId })
+    )
+  }
+
+  const response = await axiosInstance.get<ProducerEServiceMonitoringSaturation>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}/monitoring/saturation`,
+    { params }
+  )
+  return response.data
+}
+
 export const ProducerServices = {
   getDashboard,
   getDashboardConsumers,
   getDashboardConsumer,
   getDashboardSaturation,
   getDashboardArchiving,
+  getEServiceMonitoring,
+  getEServiceMonitoringArchiving,
+  getEServiceMonitoringSaturation,
 }

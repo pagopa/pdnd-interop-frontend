@@ -724,12 +724,111 @@
       "eservice": "E-service scheduled for archival on {{ date }}"
     },
     "tabs": {
-      "ariaLabel": "Two different tabs for e-service details and associated keychains",
+      "ariaLabel": "Tabs for e-service details, monitoring and associated keychains",
       "eserviceDetails": "E-service details",
       "keychain": "Keychains associated",
+      "monitoring": "Monitoring",
       "ariaLabelEserviceDetail": "Two different tabs for e-service details and associated purpose templates",
       "eserviceDetail": "E-service detail",
       "purposeTemplate": "Linked purpose template"
+    },
+    "monitoring": {
+      "cards": {
+        "loading": "Loading monitoring data",
+        "loadError": "Monitoring data could not be loaded.",
+        "retry": "Retry"
+      },
+      "consumption": {
+        "title": "Expected consumption, purposes and estimate changes",
+        "description": "Keep track of the estimated consumption of the e-service.",
+        "export": "Export",
+        "exportUnavailable": "Data export is not available yet.",
+        "consumptionCard": {
+          "heading": "Expected threshold consumption",
+          "unit": "approved / total daily API calls"
+        },
+        "newPurposesCard": {
+          "heading": "New purposes awaiting approval",
+          "unit": "purposes",
+          "action": "View purposes"
+        },
+        "quotaChangesCard": {
+          "heading": "Estimate changes awaiting approval",
+          "unit": "requests",
+          "action": "View requests"
+        },
+        "purposesActionUnavailable": "The purpose list cannot yet be filtered by version and request type."
+      },
+      "consumers": {
+        "title": "Expected threshold consumption per consumer",
+        "description": "View the consumers of this version sorted by expected consumption of the API call threshold.",
+        "columns": {
+          "consumer": "Consumer name",
+          "purposes": "Purposes created",
+          "percentage": "Threshold percentage per consumer",
+          "calls": "Approved calls / total available",
+          "callsToApprove": "Calls to approve",
+          "actions": "Actions"
+        },
+        "percentage": "{{value}}%",
+        "dailyCalls": "{{approved}} / {{total}}",
+        "viewConsumerAriaLabel": "View consumer {{name}} details",
+        "viewAll": "View all consumption per consumer",
+        "viewAllUnavailable": "The full list of consumption per consumer is not available yet.",
+        "loading": "Loading expected consumption per consumer",
+        "loadError": "Expected consumption per consumer could not be loaded.",
+        "retry": "Retry",
+        "empty": "There are no consumers with expected consumption for this version."
+      },
+      "versions": {
+        "title": "E-service versions and agreement requests",
+        "description": "View how consumers are distributed across versions and how many agreement requests are pending.",
+        "byVersionCard": {
+          "heading": "Consumers by version",
+          "totalLabel": "consumers",
+          "version": "Version {{version}}",
+          "olderVersions": "Older versions",
+          "medianUpgradeDays_one": "Median upgrade time: {{count}} day",
+          "medianUpgradeDays_other": "Median upgrade time: {{count}} days"
+        },
+        "byKindCard": {
+          "heading": "Consumers by type",
+          "pa": "Public administrations",
+          "gspScp": "Public service operators and publicly controlled companies",
+          "private": "Private entities",
+          "total": "Total consumers: {{total}}"
+        },
+        "pendingAgreementsCard": {
+          "heading": "Pending agreement requests",
+          "unit": "requests",
+          "action": "View agreement requests"
+        }
+      },
+      "archiving": {
+        "title": "Versions being archived",
+        "description": "View the versions of this e-service that are about to be archived and how many consumers they have.",
+        "columns": {
+          "version": "Version",
+          "consumers": "Consumers",
+          "archivableOn": "Archiving date",
+          "actions": "Actions"
+        },
+        "version": "Version {{version}}",
+        "wholeEService": "Whole e-service",
+        "relative": {
+          "today": "Today",
+          "inDays_one": "In {{count}} day",
+          "inDays_other": "In {{count}} days",
+          "pastDue": "Date passed"
+        },
+        "viewVersionAriaLabel": "View monitoring for version {{version}}",
+        "currentVersion": "You are already viewing the monitoring of this version.",
+        "noVersion": "Archiving applies to the whole e-service: there is no version to open.",
+        "loading": "Loading versions being archived",
+        "loadError": "Versions being archived could not be loaded.",
+        "retry": "Retry",
+        "empty": "There are no versions of this e-service being archived."
+      }
     },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
