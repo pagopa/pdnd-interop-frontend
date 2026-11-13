@@ -27,6 +27,8 @@ const UseCasesSection: React.FC<UseCasesSectionProps> = ({ useCases }) => {
 
   const [selectedUseCase, setSelectedUseCase] = useState<CatalogUseCase>()
 
+  const paginatedUseCases = useCases.slice(paginationOffset, paginationOffset + paginationLimit)
+
   return (
     <>
       <Stack spacing={3} mt={4}>
@@ -34,7 +36,7 @@ const UseCasesSection: React.FC<UseCasesSectionProps> = ({ useCases }) => {
           {t('title')}
         </Typography>
         <Typography variant="subtitle1">{t('subtitle')}</Typography>
-        {useCases.map((useCase) => (
+        {paginatedUseCases.map((useCase) => (
           <UseCaseCard
             key={useCase.name}
             useCase={useCase}
