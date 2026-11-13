@@ -1,44 +1,138 @@
 {
   "dashboard": {
     "title": "Panoramica",
+    "description": "In questa pagina trovi una visione completa di come stanno andando i tuoi e-service e se ci sono delle azioni da fare.",
     "headings": {
-      "eservices": "E-service erogati",
-      "pendingRequests": "Richieste in attesa",
-      "purposes": "Finalit\u00e0 ricevute",
-      "consumers": "Enti fruitori",
-      "requests": "Richieste ricevute",
-      "average": "Tempo medio di attivazione",
-      "consumption": "Consumo delle chiamate"
+      "eservices": "Stato dei tuoi e-service",
+      "pendingAgreements": "Richieste di fruizione in attesa di approvazione",
+      "purposesAwaitingApproval": "Finalit\u00e0 in attesa di approvazione",
+      "consumers": "Totale fruitori dei miei e-service",
+      "agreementsAndPurposes": "Dettaglio fruitori per stato fruizione e finalit\u00e0",
+      "average": "Media di finalit\u00e0 per e-service"
     },
     "statuses": {
       "active": "Attivi",
       "suspended": "Sospesi",
       "archiving": "In archiviazione",
-      "suspendedArchiving": "Sospesi e in archiviazione"
+      "suspendedArchiving": "Sospesi in archiviazione"
     },
-    "requests": {
-      "accepted": "accettate",
-      "pending": "in attesa",
-      "rejected": "rifiutate"
+    "metrics": {
+      "activeAgreementAndPurpose": "enti con richiesta di fruizione attiva e almeno una finalit\u00e0 attiva",
+      "activeAgreementWithoutActivePurpose": "enti con richiesta di fruizione attiva ma nessuna finalit\u00e0 o finalit\u00e0 sospesa",
+      "activePurposeWithSuspendedAgreement": "enti con almeno una finalit\u00e0 attiva ma richiesta sospesa"
     },
     "units": {
-      "eservices": "e-service",
+      "eservices": "e-service totali",
       "requests": "richieste",
       "purposes": "finalit\u00e0",
-      "consumers": "enti fruitori",
-      "days": "giorni",
-      "calls": "chiamate"
+      "consumers": "fruitori",
+      "purposesPerEservice": "finalit\u00e0 per e-service"
     },
-    "consumptionSubtitle": "Chiamate utilizzate rispetto al limite giornaliero",
-    "empty": {
-      "eservices": "Nessun e-service erogato",
-      "pendingRequests": "Non ci sono richieste in attesa"
+    "sections": {
+      "thresholds": {
+        "title": "Consumi previsti della soglia totale per e-service",
+        "description": "Vedi le versioni dei tuoi e-service ordinate per i consumi previsti della soglia totale di chiamate API.",
+        "viewAll": "Vai a tutti i consumi previsti",
+        "columns": {
+          "eservice": "E-service",
+          "activePurposes": "Finalità attive",
+          "dailyCalls": "Chiamate giornaliere approvate / totali",
+          "percentage": "Consumo previsto",
+          "actions": "Azioni"
+        },
+        "version": "Versione {{version}}",
+        "dailyCalls": "{{approved}} / {{total}}",
+        "percentage": "{{value}}%",
+        "pendingCalls": "+{{value}} chiamate in attesa di approvazione",
+        "loading": "Caricamento dei consumi previsti per e-service",
+        "loadError": "Non è stato possibile caricare i consumi previsti per e-service.",
+        "retry": "Riprova",
+        "empty": "Non ci sono versioni di e-service con consumi previsti da mostrare.",
+        "viewVersion": "Vedi versione",
+        "viewVersionAriaLabel": "Vedi la versione {{version}} di {{name}}"
+      },
+      "archiving": {
+        "title": "In fase di archiviazione",
+        "description": "Vedi le versioni di e-service che stanno per essere archiviate e quanti fruitori ci sono.",
+        "columns": {
+          "eservice": "Nome e-service",
+          "version": "Versione",
+          "consumers": "Fruitori",
+          "archivableOn": "Data di archiviazione",
+          "actions": "Azioni"
+        },
+        "version": "Versione {{version}}",
+        "wholeEService": "Intero e-service",
+        "loading": "Caricamento degli e-service in fase di archiviazione",
+        "loadError": "Non è stato possibile caricare gli e-service in fase di archiviazione.",
+        "retry": "Riprova",
+        "empty": "Non ci sono versioni di e-service in fase di archiviazione.",
+        "viewVersion": "Vedi versione",
+        "viewVersionAriaLabel": "Vedi la versione {{version}} di {{name}}",
+        "viewUnnumberedVersionAriaLabel": "Vedi la versione di {{name}}",
+        "viewEServices": "Vai alla lista e-service",
+        "viewEServicesAriaLabel": "Vai alla lista e-service per trovare {{name}}"
+      }
     },
     "actions": {
-      "eservices": "Vai agli e-service",
-      "agreements": "Vai alle richieste",
-      "purposes": "Vai alle finalit\u00e0",
-      "create": "Crea e-service"
+      "eservices": "Vai ai miei e-service",
+      "agreements": "Vai alle richieste da approvare",
+      "purposesAwaitingApproval": "Vai alle finalit\u00e0 da approvare",
+      "purposesReceived": "Vai alle finalità ricevute",
+      "consumers": "Vai al dettaglio fruitori"
+    }
+  },
+  "providerDashboardConsumerList": {
+    "title": "Fruitori dei tuoi e-service",
+    "description": "Vedi tutti i fruitori dei tuoi e-service, il numero di e-service fruiti e finalità.",
+    "summary": "Totale fruitori dei tuoi e-service",
+    "searchPlaceholder": "Cerca per nome fruitore",
+    "export": "Esporta",
+    "goToDetail": "Vai al dettaglio",
+    "goToConsumerDetail": "Vai al dettaglio di {{name}}",
+    "unavailable": "Non disponibile",
+    "empty": "Nessun fruitore trovato",
+    "loadError": "Non è stato possibile caricare i fruitori. Riprova.",
+    "retry": "Riprova",
+    "columns": {
+      "consumer": "Nome fruitore",
+      "eservicesCount": "E-service fruiti",
+      "activePurposesCount": "Finalità attive",
+      "actions": "Azioni"
+    },
+    "sorting": {
+      "NAME_ASC": "Nome fruitore (A-Z)",
+      "NAME_DESC": "Nome fruitore (Z-A)",
+      "ESERVICES_COUNT_DESC": "E-service fruiti (decrescente)",
+      "ESERVICES_COUNT_ASC": "E-service fruiti (crescente)"
+    }
+  },
+  "providerDashboardConsumerDetail": {
+    "fallbackTitle": "Dettaglio fruitore",
+    "description": "Vedi tutti i tuoi e-service fruiti da questo ente",
+    "summary": "Totale e-service fruiti",
+    "searchPlaceholder": "Cerca per nome e-service",
+    "export": "Esporta",
+    "unavailable": "Non disponibile",
+    "empty": "Nessun e-service trovato",
+    "noRelationship": "Questo ente non fruisce di nessuno dei tuoi e-service.",
+    "loadError": "Non è stato possibile caricare gli e-service del fruitore. Riprova.",
+    "retry": "Riprova",
+    "version": "Versione {{version}}",
+    "goToEService": "Vedi e-service",
+    "goToEServiceDetail": "Vedi e-service {{name}}, versione {{version}}",
+    "columns": {
+      "eservice": "E-service",
+      "agreementState": "Stato richiesta di fruizione",
+      "activePurposesCount": "Finalità attive",
+      "approvedDailyCalls": "Chiamate giornaliere approvate",
+      "actions": "Azioni"
+    },
+    "sorting": {
+      "NAME_ASC": "Nome e-service (A-Z)",
+      "NAME_DESC": "Nome e-service (Z-A)",
+      "DAILY_CALLS_DESC": "Chiamate giornaliere approvate (decrescente)",
+      "DAILY_CALLS_ASC": "Chiamate giornaliere approvate (crescente)"
     }
   },
   "consumerEServiceCatalog": {

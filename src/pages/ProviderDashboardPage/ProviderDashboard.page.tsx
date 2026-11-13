@@ -1,24 +1,32 @@
-import { Grid, useTheme } from '@mui/material'
+import { Box, Grid, useTheme } from '@mui/material'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import { MIButton } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
-import { PageContainer } from '@/components/layout/containers'
+import { ProducerQueries } from '@/api/producer'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import {
   CardDashboard,
   type CardDashboardAction,
   type CardDashboardProps,
 } from '@/components/shared/CardDashboard/CardDashboard'
 import { routes, useNavigate } from '@/router'
+import { ProviderDashboardSaturationTable } from './components/ProviderDashboardSaturationTable'
+import { ProviderDashboardArchivingTable } from './components/ProviderDashboardArchivingTable'
 
 type DashboardDestination =
   | 'PROVIDE_ESERVICE_LIST'
   | 'PROVIDE_AGREEMENT_LIST'
   | 'PROVIDE_PURPOSE_LIST'
+  | 'PROVIDE_DASHBOARD_CONSUMERS'
 
 export default function ProviderDashboardPage() {
   const { t } = useTranslation('pages', { keyPrefix: 'dashboard' })
   const theme = useTheme()
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
+  const { data: dashboard } = useSuspenseQuery(ProducerQueries.getDashboard())
 
   const linkAction = (
     destination: DashboardDestination,
@@ -30,124 +38,115 @@ export default function ProviderDashboardPage() {
 
   const eservicesAction = linkAction('PROVIDE_ESERVICE_LIST', t('actions.eservices'))
   const agreementsAction = linkAction('PROVIDE_AGREEMENT_LIST', t('actions.agreements'))
-  const purposesAction = linkAction('PROVIDE_PURPOSE_LIST', t('actions.purposes'))
-  const canCreate = routes.PROVIDE_ESERVICE_CREATE.authLevels.some((role) =>
-    currentRoles.includes(role)
+  const purposesAwaitingApprovalAction = linkAction(
+    'PROVIDE_PURPOSE_LIST',
+    t('actions.purposesAwaitingApproval')
   )
+  const purposesReceivedAction = linkAction('PROVIDE_PURPOSE_LIST', t('actions.purposesReceived'))
+  const consumersAction = linkAction('PROVIDE_DASHBOARD_CONSUMERS', t('actions.consumers'))
   const statuses = [
-    { id: 'active', label: t('statuses.active'), count: 15, color: theme.palette.success.dark },
+    {
+      id: 'active',
+      label: t('statuses.active'),
+      count: dashboard.eservices.published,
+      color: theme.colors.turquoise[600],
+    },
     {
       id: 'suspended',
       label: t('statuses.suspended'),
-      count: 3,
+      count: dashboard.eservices.suspended,
       color: theme.palette.error.dark,
     },
     {
       id: 'archiving',
       label: t('statuses.archiving'),
-      count: 2,
+      count: dashboard.eservices.archiving,
       color: theme.palette.primary.main,
     },
     {
       id: 'suspendedArchiving',
       label: t('statuses.suspendedArchiving'),
-      count: 0,
+      count: dashboard.eservices.archivingSuspended,
       color: theme.palette.info.main,
     },
   ]
   const metrics = [
-    { id: 'accepted', value: 10000, label: t('requests.accepted') },
-    { id: 'pending', value: 2000, label: t('requests.pending') },
-    { id: 'rejected', value: 200, label: t('requests.rejected') },
+    {
+      id: 'activeAgreementAndPurpose',
+      value: dashboard.alignment.aligned,
+      label: t('metrics.activeAgreementAndPurpose'),
+    },
+    {
+      id: 'activeAgreementWithoutActivePurpose',
+      value: dashboard.alignment.agreementWithoutPurposes,
+      label: t('metrics.activeAgreementWithoutActivePurpose'),
+    },
+    {
+      id: 'activePurposeWithSuspendedAgreement',
+      value: dashboard.alignment.purposesWithoutAgreement,
+      label: t('metrics.activePurposeWithSuspendedAgreement'),
+    },
   ]
   const cards: (CardDashboardProps & { id: string })[] = [
     {
       id: 'eservices',
       heading: t('headings.eservices'),
-      content: { kind: 'status', statuses, totalLabel: t('units.eservices') },
-      action: eservicesAction,
-    },
-    {
-      id: 'pendingRequests',
-      heading: t('headings.pendingRequests'),
-      content: { kind: 'metric', metric: { value: 10, label: t('units.requests') } },
-      action: agreementsAction,
-    },
-    {
-      id: 'purposes',
-      heading: t('headings.purposes'),
-      content: { kind: 'metric', metric: { value: 24, label: t('units.purposes') } },
-      action: purposesAction,
-    },
-    {
-      id: 'consumers',
-      heading: t('headings.consumers'),
-      content: { kind: 'metric', metric: { value: 12200, label: t('units.consumers') } },
-      action: agreementsAction,
-    },
-    {
-      id: 'requests',
-      heading: t('headings.requests'),
-      content: { kind: 'metrics', metrics },
-      action: agreementsAction,
-    },
-    {
-      id: 'average',
-      heading: t('headings.average'),
-      content: { kind: 'metric', metric: { value: 3.5, label: t('units.days') } },
-      action: agreementsAction,
-    },
-    {
-      id: 'consumption',
-      heading: t('headings.consumption'),
-      subtitle: t('consumptionSubtitle'),
-      content: { kind: 'consumption', used: 38500, limit: 50000, unitLabel: t('units.calls') },
-      action: purposesAction,
-    },
-    {
-      id: 'noEservices',
-      heading: t('headings.eservices'),
-      content: { kind: 'empty', message: t('empty.eservices') },
-      action: canCreate
-        ? {
-            type: 'primary',
-            text: t('actions.create'),
-            action: () => navigate('PROVIDE_ESERVICE_CREATE'),
-          }
-        : undefined,
-    },
-    {
-      id: 'noPendingRequests',
-      heading: t('headings.pendingRequests'),
-      content: { kind: 'empty', message: t('empty.pendingRequests'), icon: 'success' },
-      action: agreementsAction,
-    },
-    {
-      id: 'zeroStatuses',
-      heading: t('headings.eservices'),
       content: {
         kind: 'status',
-        statuses: statuses.map((status) => ({ ...status, count: 0 })),
+        statuses,
+        total: dashboard.eservices.total,
         totalLabel: t('units.eservices'),
       },
       action: eservicesAction,
     },
     {
-      id: 'zeroMetrics',
-      heading: t('headings.requests'),
-      content: { kind: 'metrics', metrics: metrics.map((metric) => ({ ...metric, value: 0 })) },
+      id: 'pendingRequests',
+      heading: t('headings.pendingAgreements'),
+      content: {
+        kind: 'metric',
+        metric: { value: dashboard.pendingAgreements, label: t('units.requests') },
+      },
       action: agreementsAction,
     },
     {
-      id: 'fractionalAverage',
+      id: 'purposes',
+      heading: t('headings.purposesAwaitingApproval'),
+      content: {
+        kind: 'metric',
+        metric: { value: dashboard.waitingForApprovalPurposes, label: t('units.purposes') },
+      },
+      action: purposesAwaitingApprovalAction,
+    },
+    {
+      id: 'consumers',
+      heading: t('headings.consumers'),
+      content: {
+        kind: 'metric',
+        metric: { value: dashboard.activeAgreements, label: t('units.consumers') },
+      },
+      action: consumersAction,
+    },
+    {
+      id: 'agreementsAndPurposes',
+      heading: t('headings.agreementsAndPurposes'),
+      content: { kind: 'metrics', metrics },
+    },
+    {
+      id: 'average',
       heading: t('headings.average'),
-      content: { kind: 'metric', metric: { value: 0.9, label: t('units.days') } },
-      action: agreementsAction,
+      content: {
+        kind: 'metric',
+        metric: {
+          value: dashboard.averageActivePurposesPerEService,
+          label: t('units.purposesPerEservice'),
+        },
+      },
+      action: purposesReceivedAction,
     },
   ]
 
   return (
-    <PageContainer title={t('title')}>
+    <PageContainer dashboardFlow title={t('title')} description={t('description')}>
       <Grid container spacing={3} sx={{ mt: 0 }}>
         {cards.map(({ id, ...card }) => (
           <Grid item xs={12} sm={6} lg={4} key={id}>
@@ -155,6 +154,40 @@ export default function ProviderDashboardPage() {
           </Grid>
         ))}
       </Grid>
+      <Box sx={{ mt: 2 }}>
+        <SectionContainer
+          sx={{ mt: 0 }}
+          title={t('sections.thresholds.title')}
+          description={t('sections.thresholds.description')}
+          aria-labelledby="dashboard-thresholds-title"
+          titleTypographyProps={{ id: 'dashboard-thresholds-title' }}
+        >
+          <ProviderDashboardSaturationTable />
+          {routes.PROVIDE_SATURATION_RATE.authLevels.some((role) =>
+            currentRoles.includes(role)
+          ) && (
+            <Box sx={{ mt: 2 }}>
+              <MIButton
+                type="button"
+                variant="text"
+                color="primary"
+                endIcon={<ArrowForward />}
+                onClick={() => navigate('PROVIDE_SATURATION_RATE')}
+              >
+                {t('sections.thresholds.viewAll')}
+              </MIButton>
+            </Box>
+          )}
+        </SectionContainer>
+        <SectionContainer
+          title={t('sections.archiving.title')}
+          description={t('sections.archiving.description')}
+          aria-labelledby="dashboard-archiving-title"
+          titleTypographyProps={{ id: 'dashboard-archiving-title' }}
+        >
+          <ProviderDashboardArchivingTable />
+        </SectionContainer>
+      </Box>
     </PageContainer>
   )
 }
