@@ -38,11 +38,11 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { mutate: createDraft } = PurposeTemplateMutations.useCreateDraft()
+  const { mutateAsync: createDraft } = PurposeTemplateMutations.useCreateDraft()
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => {
+  const handleCreateDraft = async (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => {
     /**
      * A purpose template cannot have two templates with the same title.
      * To avoid this, we add the current date to the title to make it unique.
@@ -54,7 +54,8 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       .format()
       .replace(',', '')
 
-    createDraft(
+    // Per-call onSuccess is skipped if the page unmounts while the request is pending.
+    await createDraft(
       {
         targetDescription: tPurposeTemplateDefaults('intendedTarget'),
         targetTenantKind: tenantKind,
@@ -63,14 +64,12 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
         purposeIsFreeOfCharge: true,
         purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
         purposeDailyCalls: 1,
-        handlesPersonalData: handlesPersonalData,
+        handlesPersonalData,
       },
       {
         onSuccess({ id: purposeTemplateId }) {
           navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
-            params: {
-              purposeTemplateId: purposeTemplateId,
-            },
+            params: { purposeTemplateId },
           })
         },
       }

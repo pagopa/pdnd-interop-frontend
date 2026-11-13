@@ -9,6 +9,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Grid, Stack } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import { match, P } from 'ts-pattern'
 import {
   RiskAnalysisPurposeGeneralInfoSection,
   RiskAnalysisPurposeGeneralInfoSectionSkeleton,
@@ -24,10 +25,30 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   const navigate = useNavigate()
   const { jwt, isReviewer } = AuthHooks.useJwt()
 
-  const { data: purpose, isLoading } = useQuery({
+  const {
+    data: purpose,
+    isLoading,
+    isFetching,
+  } = useQuery({
     ...PurposeQueries.getSingle(purposeId),
     throwOnError: true,
   })
+
+  const redirectPath = match(purpose?.reviewerWorkflow?.signingState)
+    .returnType<'SUBSCRIBE_RISK_ANALYSIS_APPROVAL' | 'SUBSCRIBE_RISK_ANALYSIS_DETAILS' | null>()
+    .with('SUBMITTED', () => 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL')
+    .with(P.union('SIGNED', 'REJECTED'), () => 'SUBSCRIBE_RISK_ANALYSIS_DETAILS')
+    .with(P.union('DRAFT', 'ASSIGNED', undefined), () => null)
+    .exhaustive()
+
+  React.useEffect(() => {
+    if (purpose?.id && redirectPath && !isFetching) {
+      navigate(redirectPath, {
+        params: { purposeId: purpose.id },
+        replace: true,
+      })
+    }
+  }, [purpose?.id, redirectPath, isFetching, navigate])
 
   const handleBeginCompile = () => {
     if (purpose?.id) {
@@ -50,6 +71,8 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   const reviewerNames = reviewers
     .map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
     .map((name) => name || tCommon('reviewerUnknown'))
+
+  if (redirectPath) return null
 
   return (
     <PageContainer
@@ -87,7 +110,12 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
         </Grid>
       </Grid>
       <Stack direction="row" sx={{ mt: 5, justifyContent: 'right' }}>
-        <Button onClick={handleBeginCompile} variant="contained" type="button" disabled={isLoading}>
+        <Button
+          onClick={handleBeginCompile}
+          variant="contained"
+          type="button"
+          disabled={isLoading || isFetching}
+        >
           {t('beginCompileBtn')}
         </Button>
       </Stack>

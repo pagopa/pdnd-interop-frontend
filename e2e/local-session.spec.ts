@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
-import type { Page } from '@playwright/test'
 import { z } from 'zod'
+import { expectCatalog } from './helpers/local-session'
 
 const claimsSchema = z
   .object({
@@ -12,14 +12,6 @@ const claimsSchema = z
   .passthrough()
 const viewerId = '10000000-0000-4000-8000-000000000005'
 const oldTenantId = '29e0fcf1-bb91-4571-8260-1cd8ae5907c2'
-
-async function expectCatalog(page: Page) {
-  const accessButton = page.getByRole('button', { name: 'Accedi', exact: true })
-  const heading = page.getByRole('heading', { name: 'Catalogo degli e-service' })
-  await expect(accessButton.or(heading).first()).toBeVisible()
-  if (await accessButton.isVisible()) await accessButton.click()
-  await expect(heading).toBeVisible()
-}
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/ui/it/local-identity-selection/')

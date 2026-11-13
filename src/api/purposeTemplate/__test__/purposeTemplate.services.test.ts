@@ -10,6 +10,7 @@ import type {
 import { vi } from 'vitest'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
+import { createMockPurposeTemplate } from '@/../__mocks__/data/purposeTemplate.mocks'
 
 // Test constants
 const TEST_PURPOSE_TEMPLATE_ID = 'test-template-id'
@@ -40,6 +41,22 @@ global.console.log = mockConsoleLog
 describe('PurposeTemplateServices', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  it('PATCHes only supplied metadata fields and returns the response body', async () => {
+    const data = createMockPurposeTemplate()
+    vi.mocked(axiosInstance.patch).mockResolvedValueOnce({ data })
+
+    expect(
+      await PurposeTemplateServices.patchUpdatePurposeTemplate({
+        purposeTemplateId: data.id,
+        targetDescription: 'Updated target value',
+      })
+    ).toEqual(data)
+    expect(axiosInstance.patch).toHaveBeenCalledWith(
+      `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${data.id}`,
+      { targetDescription: 'Updated target value' }
+    )
   })
 
   describe('getConsumerPurposeTemplatesList', () => {

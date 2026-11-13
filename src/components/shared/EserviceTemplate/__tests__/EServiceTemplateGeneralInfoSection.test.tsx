@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type * as TanStackReactQuery from '@tanstack/react-query'
@@ -17,6 +17,7 @@ import {
 import { EServiceTemplateGeneralInfoSection } from '../EServiceTemplateGeneralInfoSection'
 
 let templateVersion: EServiceTemplateVersionDetails | undefined
+const patchMetadata = vi.fn()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
   ...(await importOriginal<typeof TanStackReactQuery>()),
@@ -26,6 +27,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => ({
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateQueries: { getSingle: vi.fn() },
   EServiceTemplateMutations: {
+    usePatchUpdateEServiceTemplate: () => ({ mutate: patchMetadata }),
     useUpdateEServiceTemplateDescription: () => ({ mutate: vi.fn() }),
     useUpdateEServiceTemplateIntendedTarget: () => ({ mutate: vi.fn() }),
     useUpdateEServiceTemplateName: () => ({ mutate: vi.fn() }),
@@ -52,8 +54,75 @@ const renderSection = (
 
 describe('EServiceTemplateGeneralInfoSection', () => {
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseJwt()
     templateVersion = createMockEServiceTemplateVersionDetails()
+  })
+
+  it.each([
+    ['name'],
+    ['description'],
+    ['target'],
+    ['name', 'description'],
+    ['name', 'target'],
+    ['description', 'target'],
+    ['name', 'description', 'target'],
+  ])('PATCHes only changed fields: %j', async (...fields) => {
+    const user = userEvent.setup()
+    patchMetadata.mockImplementationOnce((_payload: unknown, options: { onSuccess: () => void }) =>
+      options.onSuccess()
+    )
+    renderSection()
+    await user.click(screen.getByRole('button', { name: 'actions.edit' }))
+    for (const field of fields) {
+      const input = screen.getByRole('textbox', {
+        name: `updateMetadataDrawer.${field}Field.label`,
+      })
+      await user.clear(input)
+      await user.type(input, `Updated ${field} value`)
+    }
+    const nameInput = screen.getByRole('textbox', { name: 'updateMetadataDrawer.nameField.label' })
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() =>
+      expect(patchMetadata).toHaveBeenCalledWith(
+        {
+          eServiceTemplateId: templateVersion?.eserviceTemplate.id,
+          ...(fields.includes('name') ? { name: 'Updated name value' } : {}),
+          ...(fields.includes('description') ? { description: 'Updated description value' } : {}),
+          ...(fields.includes('target') ? { intendedTarget: 'Updated target value' } : {}),
+        },
+        { onSuccess: expect.any(Function) }
+      )
+    )
+    await waitForElementToBeRemoved(nameInput)
+  })
+
+  it('closes without PATCHing unchanged metadata', async () => {
+    const user = userEvent.setup()
+    renderSection()
+    await user.click(screen.getByRole('button', { name: 'actions.edit' }))
+    const nameInput = screen.getByRole('textbox', { name: 'updateMetadataDrawer.nameField.label' })
+    const saveButton = screen.getByRole('button', { name: 'actions.saveEdits' })
+    expect(saveButton).toBeEnabled()
+    await user.click(saveButton)
+
+    await waitForElementToBeRemoved(nameInput)
+    expect(patchMetadata).not.toHaveBeenCalled()
+  })
+
+  it('keeps edited values open when the mutation does not succeed', async () => {
+    const user = userEvent.setup()
+    renderSection()
+    await user.click(screen.getByRole('button', { name: 'actions.edit' }))
+    const input = screen.getByRole('textbox', { name: 'updateMetadataDrawer.targetField.label' })
+    await user.clear(input)
+    await user.type(input, 'Updated target value')
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() => expect(patchMetadata).toHaveBeenCalled())
+    expect(input).toBeVisible()
+    expect(input).toHaveValue('Updated target value')
   })
 
   it('groups metadata and version information on provider details with a single edit action', () => {

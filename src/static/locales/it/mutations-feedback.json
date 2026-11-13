@@ -765,7 +765,7 @@
     "submitRiskAnalysis": {
       "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {
-        "success": "Hai assegnato l’approvazione dell’analisi del rischio a un valutatore.",
+        "success": "Hai assegnato l’approvazione dell’analisi del rischio.",
         "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
@@ -890,6 +890,15 @@
     }
   },
   "keychain": {
+    "updateKeychain": {
+      "loading": "Stiamo aggiornando il portachiavi",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione del portachiavi.",
+        "successName": "Hai modificato il nome del portachiavi.",
+        "successDescription": "Hai modificato la descrizione del portachiavi.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione del portachiavi. Riprova."
+      }
+    },
     "removeKeychainFromEService": {
       "loading": "Stiamo rimuovendo il portachiavi dall’e-service",
       "outcome": {
@@ -1002,6 +1011,16 @@
     }
   },
   "eserviceTemplate": {
+    "patchUpdateEServiceTemplate": {
+      "loading": "Stiamo aggiornando il template e-service",
+      "outcome": {
+        "successMetadata": "Hai modificato il nome, la descrizione e i destinatari del template e-service.",
+        "successName": "Hai modificato il nome del template e-service.",
+        "successDescription": "Hai modificato la descrizione del template e-service.",
+        "successTarget": "Hai modificato i destinatari del template e-service.",
+        "error": "Non è stato possibile modificare il nome, la descrizione o i destinatari del template e-service. Riprova."
+      }
+    },
     "updateEServiceTemplateName": {
       "loading": "Stiamo modificando il nome del template dell'e-service",
       "outcome": {
@@ -1188,6 +1207,16 @@
     }
   },
   "purposeTemplate": {
+    "patchUpdatePurposeTemplate": {
+      "loading": "Stiamo aggiornando il template finalità",
+      "outcome": {
+        "successMetadata": "Hai modificato il nome, la descrizione e i destinatari del template finalità.",
+        "successName": "Hai modificato il nome del template finalità.",
+        "successDescription": "Hai modificato la descrizione del template finalità.",
+        "successTarget": "Hai modificato i destinatari del template finalità.",
+        "error": "Non è stato possibile modificare il nome, la descrizione o i destinatari del template finalità. Riprova."
+      }
+    },
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {

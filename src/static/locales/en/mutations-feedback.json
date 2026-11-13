@@ -765,7 +765,7 @@
     "submitRiskAnalysis": {
       "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {
-        "success": "You have assigned risk analysis approval to a reviewer.",
+        "success": "You have assigned risk analysis approval.",
         "error": "It was not possible to assign the risk analysis."
       }
     },
@@ -890,6 +890,15 @@
     }
   },
   "keychain": {
+    "updateKeychain": {
+      "loading": "The keychain is being updated",
+      "outcome": {
+        "successNameAndDescription": "You have updated the keychain name and description.",
+        "successName": "You have updated the keychain name.",
+        "successDescription": "You have updated the keychain description.",
+        "error": "The keychain name and/or description could not be updated. Please try again."
+      }
+    },
     "removeKeychainFromEService": {
       "loading": "Keychain is being removed from the e-service",
       "outcome": {
@@ -1002,6 +1011,16 @@
     }
   },
   "eserviceTemplate": {
+    "patchUpdateEServiceTemplate": {
+      "loading": "The e-service template is being updated",
+      "outcome": {
+        "successMetadata": "You have updated the e-service template name, description and target audience.",
+        "successName": "You have updated the e-service template name.",
+        "successDescription": "You have updated the e-service template description.",
+        "successTarget": "You have updated the e-service template target audience.",
+        "error": "The e-service template name, description or target audience could not be updated. Please try again."
+      }
+    },
     "updateEServiceTemplateName": {
       "loading": "E-service template name is being updated",
       "outcome": {
@@ -1188,6 +1207,16 @@
     }
   },
   "purposeTemplate": {
+    "patchUpdatePurposeTemplate": {
+      "loading": "The purpose template is being updated",
+      "outcome": {
+        "successMetadata": "You have updated the purpose template name, description and target audience.",
+        "successName": "You have updated the purpose template name.",
+        "successDescription": "You have updated the purpose template description.",
+        "successTarget": "You have updated the purpose template target audience.",
+        "error": "The purpose template name, description or target audience could not be updated. Please try again."
+      }
+    },
     "createDraft": {
       "loading": "Facilitated purpose template draft is being created",
       "outcome": {

@@ -1,3 +1,4 @@
+import { parse as parseContentDisposition } from 'content-disposition'
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
@@ -526,10 +527,14 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
     { responseType: 'arraybuffer' }
   )
 
-  const filename =
-    response?.headers?.['content-disposition']?.split('filename=')[1] || 'consumers.csv'
+  const contentDisposition = response?.headers?.['content-disposition']
+  // For "eservice – test.csv", the BE sends filename="eservice ? test.csv" and
+  // filename*=UTF-8''eservice%20%E2%80%93%20test.csv. Parse the header to preserve the original name.
+  const filename = contentDisposition
+    ? parseContentDisposition(contentDisposition).parameters.filename
+    : undefined
 
-  return { file: response.data, filename }
+  return { file: response.data, filename: filename || 'consumers.csv' }
 }
 
 async function updateEServiceDescription({
