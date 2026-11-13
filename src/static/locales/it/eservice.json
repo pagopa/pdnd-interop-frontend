@@ -1,4 +1,266 @@
 {
+  "consumer": {
+    "detail": {
+      "version": "Versione",
+      "tabs": {
+        "ariaLabel": "Quattro tabs differenti per la gestione dei dettagli dell’e-service",
+        "generalInfo": "Informazioni generali",
+        "purposeTemplates": "Template finalità",
+        "entryRequirements": "Requisiti di accesso",
+        "technicalSpecs": "Specifiche tecniche"
+      },
+      "generalInfo": {
+        "eserviceInfo": {
+          "title": "Informazioni e-service",
+          "sections": {
+            "details": {
+              "title": "Dettagli",
+              "fields": {
+                "name": "Nome dell'e-service",
+                "description": "Descrizione dell'e-service",
+                "template": "Riferimento al template",
+                "producer": "Erogatore"
+              }
+            },
+            "config": {
+              "title": "Configurazione",
+              "fields": {
+                "exchange": {
+                  "label": "Tipologia scambio dati",
+                  "SYNC": "Sincrono",
+                  "ASYNC": "Asincrono / massivo"
+                },
+                "mode": {
+                  "label": "Tipologia e-service",
+                  "DELIVER": "Eroga",
+                  "RECEIVE": "Riceve"
+                },
+                "personalData": {
+                  "RECEIVE": {
+                    "label": "Riceve dati personali"
+                  },
+                  "DELIVER": {
+                    "label": "Eroga dati personali"
+                  },
+                  "value": {
+                    "true": "Sì",
+                    "false": "No"
+                  }
+                }
+              }
+            },
+            "termsOfUse": {
+              "title": "Modalità di fruizione",
+              "fields": {
+                "delegable": {
+                  "label": "Gestione pratiche ad altra PA",
+                  "description": "Consenti ai fruitori di affidare la gestione delle pratiche ad altra PA",
+                  "value": {
+                    "true": "Sì",
+                    "false": "No"
+                  }
+                },
+                "dataAccessDelegable": {
+                  "label": "Accesso dati a enti delegati",
+                  "description": "Consenti che gli enti delegati dai fruitori accedano ai dati",
+                  "value": {
+                    "true": "Sì",
+                    "false": "No"
+                  }
+                }
+              }
+            },
+            "contacts": {
+              "title": "Contatti dell'erogatore",
+              "fields": {
+                "email": "Email di contatto",
+                "notes": "Note"
+              }
+            }
+          }
+        },
+        "versionInfo": {
+          "title": "Informazioni versione",
+          "sections": {
+            "details": {
+              "title": "Dettagli",
+              "fields": {
+                "description": "Descrizione della versione"
+              }
+            },
+            "fruition": {
+              "title": "Richieste di fruizione",
+              "fields": {
+                "approval": {
+                  "label": "Approvazione richieste",
+                  "value": {
+                    "MANUAL": "Manuale",
+                    "AUTOMATIC": "Automatica"
+                  }
+                }
+              }
+            },
+            "lifecycle": {
+              "title": "Ciclo di vita",
+              "fields": {
+                "publishedAt": "Data pubblicazione",
+                "suspendedAt": "Data sospensione",
+                "archivedAt": "Data archiviazione",
+                "deprecatedAt": "Data deprecazione",
+                "lastVersionPublishedAt": "Data ultima versione"
+              }
+            }
+          }
+        },
+        "usefulLinks": {
+          "title": "Link utili",
+          "integration": "Come faccio a integrare un e-service?",
+          "checksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
+        }
+      },
+      "entryRequirements": {
+        "title": "SOGLIE E ATTRIBUTI",
+        "description": "Qui trovi le soglie e gli attributi che sono richiesti per la fruizione di questo e-service.",
+        "sections": {
+          "thresholds": {
+            "title": "Soglie di chiamate API",
+            "fields": {
+              "dailyCallsPerConsumer": "Soglia giornaliera per fruitore",
+              "dailyCallsTotal": "Soglia giornaliera totale"
+            }
+          }
+        }
+      },
+      "technicalSpecs": {
+        "specs": {
+          "title": "Specifiche tecniche",
+          "sections": {
+            "identifiers": {
+              "title": "Indentificativi",
+              "fields": {
+                "id": "ID e-service",
+                "keychain": "Portachiavi"
+              }
+            },
+            "interface": {
+              "title": "Interfaccia",
+              "fields": {
+                "interface": "File",
+                "checksum": "Checksum file di interfaccia"
+              }
+            },
+            "voucher": {
+              "title": "Voucher",
+              "fields": {
+                "lifespan": {
+                  "label": "Durata del voucher",
+                  "value_one": "{{count}} minuto",
+                  "value_other": "{{count}} minuti"
+                },
+                "audience": "Audience"
+              }
+            },
+            "others": {
+              "title": "Altre specifiche",
+              "fields": {
+                "approval": {
+                  "label": "Approvazione richieste",
+                  "value": {
+                    "AUTOMATIC": "Automatica",
+                    "MANUAL": "Manuale"
+                  }
+                },
+                "exchange": {
+                  "label": "Tipologia scambio dati",
+                  "value": {
+                    "SYNC": "Sincrono",
+                    "ASYNC": "Asincrono / massivo"
+                  }
+                },
+                "mode": {
+                  "label": "Tipologia e-service",
+                  "value": {
+                    "DELIVER": "Eroga",
+                    "RECEIVE": "Riceve"
+                  }
+                },
+                "technology": "Tecnologia"
+              }
+            },
+            "asyncExchange": {
+              "title": "Scambi asincroni",
+              "fields": {
+                "interface": "File",
+                "responseTime": {
+                  "label": "Tempo massimo di elaborazione",
+                  "value_one": "{{count}} secondo",
+                  "value_other": "{{count}} secondi"
+                },
+                "maxResultSet": "Limite massimo di entità per risposta",
+                "resourceAvailableTime": {
+                  "label": "Tempo disponibilità della risorsa",
+                  "value_one": "{{count}} secondo",
+                  "value_other": "{{count}} secondi"
+                },
+                "confirmation": {
+                  "label": "Richiesta conferma di ricezione",
+                  "value": {
+                    "true": "Sì",
+                    "false": "No"
+                  }
+                },
+                "bulk": {
+                  "label": "Download a blocchi",
+                  "value": {
+                    "true": "Sì",
+                    "false": "No"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "signalHub": {
+          "title": "Signal Hub",
+          "description": "Signal Hub è <1>un servizio integrato</1> che informa i fruitori quando i dati dell'e-service cambiano.",
+          "fields": {
+            "enabled": {
+              "label": "Disponibilità del servizio",
+              "value": {
+                "true": "Sì, è disponibile",
+                "false": "No, non è disponibile"
+              }
+            }
+          }
+        },
+        "documentation": {
+          "title": "Documentazione tecnica",
+          "fields": {
+            "document": "Elenco documenti"
+          }
+        }
+      },
+      "purposeTemplates": {
+        "title": "Template per la compilazione agevolata delle finalità",
+        "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
+        "filters": {
+          "name": {
+            "label": "Nome template"
+          },
+          "creator": {
+            "label": "Nome creatore"
+          },
+          "recipient": {
+            "label": "Destinatario",
+            "options": {
+              "PA": "Pubbliche amministrazioni",
+              "PRIVATE": "Gestori di pubblici servizi, Società a controllo pubblico, Privati"
+            }
+          }
+        }
+      }
+    }
+  },
   "backToListBtn": "Torna agli e-service",
   "backToEServiceBtn": "Torna all'e-service",
   "create": {
@@ -722,9 +984,7 @@
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
       "eserviceDetails": "Dettagli e-service",
       "keychain": "Portachiavi associati",
-      "ariaLabelEserviceDetail": "Due tab diverse per i dettagli dell'e-service e i template di finalità collegati",
-      "eserviceDetail": "Dettaglio e-service",
-      "purposeTemplate": "Template finalità collegati"
+      "ariaLabelEserviceDetail": "Due tab diverse per i dettagli dell'e-service e i template di finalità collegati"
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",

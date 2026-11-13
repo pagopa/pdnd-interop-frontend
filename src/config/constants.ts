@@ -47,6 +47,8 @@ export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecn
 export const purposeTemplateGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-finalita/relazione-tra-template-e-finalita`
 export const archiveEserviceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/operazioni-e-ciclo-di-vita`
 export const archivingGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/archiviazione`
+export const eserviceIntegrationGuideLink = `${DOCUMENTATION_URL}`
+export const checksumGuideLink = `${DOCUMENTATION_URL}#verificare-lintegrita-di-un-file-di-interfaccia`
 
 export const GRACE_PERIOD_DAYS_OPTIONS = [
   30, 60, 90, 120,
@@ -72,7 +74,6 @@ export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<InteropFEConfigs['STAGE']
       '03c34a8a-a79a-4928-9afc-8647eefabdb1',
     ],
   }
-
 export const apiV2GuideLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/pdnd-manuale-operativo/manuale-operativo/api-esposte-da-pdnd-interoperabilita'
 
@@ -80,7 +81,6 @@ export const SIGNALHUB_GUIDE_URL =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-signal-hub'
 
 export const apiV2DocLink = 'https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2/'
-
 export const apiV3DocLink = 'https://developer.pagopa.it/it/pdnd-interoperabilita/api/PDND-core-v3'
 
 export const apiSignalhubPushLink =
