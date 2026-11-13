@@ -1,6 +1,32 @@
 import { useTranslation } from 'react-i18next'
 import { ClientServices } from './client.services'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { match, P } from 'ts-pattern'
+import { ClientQueries } from './client.queries'
+
+function useUpdateClient() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.updateClient' })
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ClientServices.updateClient,
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        match(variables)
+          .with({ name: P.string, description: P.string }, () =>
+            t('outcome.successNameAndDescription')
+          )
+          .with({ name: P.string }, () => t('outcome.successName'))
+          .with({ description: P.string }, () => t('outcome.successDescription'))
+          .otherwise(() => t('outcome.error')),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess: (_data, { clientId }: Parameters<typeof ClientServices.updateClient>[0]) => {
+      queryClient.invalidateQueries(ClientQueries.getSingle(clientId))
+      queryClient.invalidateQueries({ queryKey: ['ClientGetList'] })
+    },
+  })
+}
 
 function useCreate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.create' })
@@ -127,6 +153,7 @@ function useRemoveClientAdmin() {
 }
 
 export const ClientMutations = {
+  useUpdateClient,
   useCreate,
   useCreateInteropM2M,
   useDelete,
