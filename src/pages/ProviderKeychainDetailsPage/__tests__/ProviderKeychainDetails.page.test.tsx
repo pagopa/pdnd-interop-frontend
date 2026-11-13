@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { ProducerKeychain } from '@/api/api.generatedTypes'
@@ -22,6 +22,7 @@ const keychain: ProducerKeychain = {
 const mockGetSingle = vi.fn<() => Promise<ProducerKeychain>>()
 const mockDeleteKeychain =
   vi.fn<(payload: { producerKeychainId: string }, options: { onSuccess: () => void }) => void>()
+const mockUpdateKeychain = vi.fn()
 const mockNavigate = vi.fn()
 const mockMarkNotifications = vi.fn()
 
@@ -35,6 +36,7 @@ vi.mock('@/api/keychain/keychain.services', () => ({
 vi.mock('@/api/keychain/keychain.mutations', () => ({
   KeychainMutations: {
     useDeleteKeychain: () => ({ mutate: mockDeleteKeychain }),
+    useUpdateKeychain: () => ({ mutate: mockUpdateKeychain }),
     useAddProducerKeychainUsers: () => ({ mutateAsync: vi.fn() }),
   },
 }))
@@ -117,6 +119,104 @@ describe('ProviderKeychainDetailsPage', () => {
 
     await user.keyboard('{Escape}')
     await waitFor(() => expect(screen.queryByRole('textbox')).not.toBeInTheDocument())
+  })
+
+  it.each([
+    {
+      name: 'Updated keychain',
+      description: keychain.description,
+      fields: { name: 'Updated keychain' },
+    },
+    {
+      name: keychain.name,
+      description: 'Updated keychain description',
+      fields: { description: 'Updated keychain description' },
+    },
+    {
+      name: 'Updated keychain',
+      description: 'Updated keychain description',
+      fields: { name: 'Updated keychain', description: 'Updated keychain description' },
+    },
+  ])('submits only changed metadata', async ({ name, description, fields }) => {
+    const user = userEvent.setup()
+    mockUpdateKeychain.mockImplementationOnce(
+      (_payload: unknown, options: { onSuccess: () => void }) => options.onSuccess()
+    )
+    renderPage()
+    await screen.findByRole('heading', { name: keychain.name })
+    await user.click(screen.getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'updateMetadataDrawer.nameField.label',
+    })
+    if (name !== keychain.name) {
+      await user.clear(nameInput)
+      await user.type(nameInput, name)
+    }
+    if (description !== keychain.description) {
+      const descriptionInput = screen.getByRole('textbox', {
+        name: 'updateMetadataDrawer.descriptionField.label',
+      })
+      await user.clear(descriptionInput)
+      await user.type(descriptionInput, description)
+    }
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() =>
+      expect(mockUpdateKeychain).toHaveBeenCalledWith(
+        { producerKeychainId: keychain.id, ...fields },
+        { onSuccess: expect.any(Function) }
+      )
+    )
+    await waitForElementToBeRemoved(nameInput)
+  })
+
+  it('closes the drawer without submitting unchanged metadata', async () => {
+    const user = userEvent.setup()
+    renderPage()
+    await screen.findByRole('heading', { name: keychain.name })
+    await user.click(screen.getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'updateMetadataDrawer.nameField.label',
+    })
+    const saveButton = screen.getByRole('button', { name: 'actions.saveEdits' })
+    expect(saveButton).toBeEnabled()
+    await user.click(saveButton)
+
+    await waitForElementToBeRemoved(nameInput)
+    expect(mockUpdateKeychain).not.toHaveBeenCalled()
+  })
+
+  it('keeps edited metadata open until the update succeeds', async () => {
+    const user = userEvent.setup()
+    renderPage()
+    await screen.findByRole('heading', { name: keychain.name })
+    await user.click(screen.getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(screen.getByRole('menuitem', { name: 'updateMetadataDrawer.title' }))
+    const nameInput = await screen.findByRole('textbox', {
+      name: 'updateMetadataDrawer.nameField.label',
+    })
+    await user.clear(nameInput)
+    await user.type(nameInput, 'Updated keychain')
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() => expect(mockUpdateKeychain).toHaveBeenCalled())
+    expect(nameInput).toBeVisible()
+    expect(nameInput).toHaveValue('Updated keychain')
+  })
+
+  it('opens and closes the actions menu using the keyboard', async () => {
+    const user = userEvent.setup()
+    renderPage()
+    await screen.findByRole('heading', { name: keychain.name })
+    const menuButton = screen.getByRole('button', { name: 'iconButtonAriaLabel' })
+    menuButton.focus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByRole('menuitem', { name: 'actions.delete' })).toBeVisible()
+    await user.keyboard('{Escape}')
+    await waitFor(() => expect(screen.queryByRole('menuitem')).not.toBeInTheDocument())
+    expect(menuButton).toHaveFocus()
   })
 
   it('keeps metadata readable without administrative actions for non-admins', async () => {
