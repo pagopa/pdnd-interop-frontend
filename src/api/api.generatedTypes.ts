@@ -153,6 +153,14 @@ export type EServiceSortBy =
   | "CREATED_AT_ASC"
   | "CREATED_AT_DESC";
 
+/** Category of the use case */
+export type CatalogUseCaseField =
+  | "CITIZEN_SERVICES"
+  | "WELFARE"
+  | "MOBILITY"
+  | "EDUCATION"
+  | "HEALTHCARE";
+
 /**
  * EService Descriptor policy for new Agreements approval.
  * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
@@ -318,6 +326,28 @@ export interface LocalizedText {
 export interface Dependency {
   id: string;
   value: string;
+}
+
+export interface PatchUpdateEServiceSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name?: string;
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string;
+  /** EService Descriptor State */
+  technology?: EServiceTechnology;
+  /** Risk Analysis Mode */
+  mode?: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean | null;
+  asyncExchange?: boolean | null;
 }
 
 export interface UpdateEServiceSeed {
@@ -897,6 +927,19 @@ export interface AgreementRejectionPayload {
 export interface CatalogEServices {
   results: CatalogEService[];
   pagination: Pagination;
+}
+
+export interface CatalogUseCase {
+  name: string;
+  description?: string;
+  /** Identifier of the use case page on api.gov.it */
+  slug: string;
+  /** Category of the use case */
+  fieldId: CatalogUseCaseField;
+  /** EServices with a valid agreement of the requester */
+  subscribedEservices: CatalogEService[];
+  /** EServices without a valid agreement of the requester */
+  unsubscribedEservices: CatalogEService[];
 }
 
 export interface CatalogEService {
@@ -2716,6 +2759,7 @@ export interface Problem {
   detail?: string;
   /** @minItems 1 */
   errors?: ProblemError[];
+  userMessage?: string;
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -3771,6 +3815,14 @@ export interface DeleteEServiceParams {
 }
 
 export interface UpdateEServiceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface PatchUpdateEServiceByIdParams {
   /**
    * The E-Service id to update
    * @format uuid
@@ -7427,19 +7479,19 @@ export namespace Catalog {
   }
 
   /**
-   * @description Retrieves at most 12 EServices of the catalog. The most recent EService is first. The requester has the certified attributes that each EService requires. The requester has no active or suspended agreement for these EServices.
+   * @description Retrieves the use cases of the catalog in the language of the Accept-Language header, with italian as fallback. The EServices of each use case are split between the EServices with a valid agreement of the requester and the others. The EServices that are not found are ignored.
    * @tags eservices
-   * @name GetFeaturedEServicesCatalog
-   * @summary Retrieves the featured EServices of the catalog
-   * @request GET:/catalog/featured
+   * @name GetCatalogUseCases
+   * @summary Retrieves the use cases of the catalog
+   * @request GET:/catalog/use-cases
    * @secure
    */
-  export namespace GetFeaturedEServicesCatalog {
+  export namespace GetCatalogUseCases {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = CatalogEService[];
+    export type ResponseBody = CatalogUseCase[];
   }
 
   /**
@@ -8285,6 +8337,28 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = UpdateEServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
+  }
+
+  /**
+   * @description Partially updates the general information of the specified E-Service
+   * @tags eservices
+   * @name PatchUpdateEServiceById
+   * @summary Partially updates E-Service general information
+   * @request PATCH:/eservices/{eServiceId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceById {
+    export type RequestParams = {
+      /**
+       * The E-Service id to update
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchUpdateEServiceSeed;
     export type RequestHeaders = {};
     export type ResponseBody = CreatedResource;
   }

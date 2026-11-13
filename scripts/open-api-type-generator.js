@@ -11,7 +11,8 @@ generateApi({
   url: openApiSpecificationFileUrl,
   output: apiFolderPath,
   generateClient: false,
-  generateUnionEnums: true,
+  enumStyle: "union",
+  // generateUnionEnums: true, deprecated
   extractRequestParams: true,
   extractRequestBody: true,
   generateRouteTypes: true,
