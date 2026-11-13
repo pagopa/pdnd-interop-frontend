@@ -43,10 +43,10 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
   const selectedClient = formMethods.watch('selectedClient')
   const isAnyClientSelected = Boolean(selectedClient)
 
-  const onSubmit = ({ selectedClient }: PurposeAddClientFormValues) => {
-    onClose()
+  const onSubmit = async ({ selectedClient }: PurposeAddClientFormValues) => {
     if (!selectedClient) return
-    addClient({ clientId: selectedClient.id, purposeId: purposeId })
+    await addClient({ clientId: selectedClient.id, purposeId: purposeId })
+    onClose()
   }
 
   const { data: clientIdsAlreadyInPurpose, isFetching: isLoadingPurpose } = useQuery({

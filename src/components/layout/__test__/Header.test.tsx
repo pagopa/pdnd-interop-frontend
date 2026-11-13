@@ -19,14 +19,10 @@ import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 import type * as ReactQuery from '@tanstack/react-query'
 
 const localDevelopmentMocks = vi.hoisted(() => ({
-  dashboardEnabled: false,
   identitySelectionEnabled: false,
 }))
 
 vi.mock('@/config/local-development', () => ({
-  get isLocalDevelopmentDashboardEnabled() {
-    return localDevelopmentMocks.dashboardEnabled
-  },
   get isLocalIdentitySelectionEnabled() {
     return localDevelopmentMocks.identitySelectionEnabled
   },
@@ -134,7 +130,6 @@ const mockParties: Array<SelfcareInstitution> = [
 
 describe('Header', () => {
   afterEach(() => {
-    localDevelopmentMocks.dashboardEnabled = false
     localDevelopmentMocks.identitySelectionEnabled = false
   })
 

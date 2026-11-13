@@ -20,3 +20,8 @@ pre {
 fieldset {
   border: none;
 }
+
+/* Hide the duplicate OneTrust mobile navigation menu */
+.otnotice-menu-mobile {
+  display: none !important;
+}
