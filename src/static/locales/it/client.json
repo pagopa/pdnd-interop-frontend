@@ -55,6 +55,18 @@
     }
   },
   "edit": {
+    "updateMetadataDrawer": {
+      "title": "Modifica nome e descrizione",
+      "description": "Qui puoi aggiornare il nome e la descrizione del client.",
+      "nameField": {
+        "label": "Nome del client",
+        "helperText": "Min 5 caratteri, max 60 caratteri"
+      },
+      "descriptionField": {
+        "label": "Descrizione del client",
+        "helperText": "Min 10 caratteri, max 250 caratteri"
+      }
+    },
     "adminSection": {
       "title": "Admin API",
       "description": "Il Client Admin API è un utente appartenente all’ente che ha facoltà di effettuare operazioni di scrittura attraverso il canale machine to machine.",
