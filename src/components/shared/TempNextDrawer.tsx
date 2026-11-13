@@ -3,11 +3,11 @@ import {
   Drawer as MUIDrawer,
   Stack,
   Typography,
-  IconButton,
   useTheme,
   useMediaQuery,
   type SxProps,
 } from '@mui/material'
+import { MIIconButton } from '@pagopa/mui-italia'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
