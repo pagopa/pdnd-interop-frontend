@@ -3,28 +3,31 @@ import { EServiceQueries } from '@/api/eservice'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { Tab } from '@mui/material'
+import { Tab, useTheme } from '@mui/material'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
-import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 import { useDialog } from '@/stores'
 import { getViewLatestVersionTargetId, isDescriptorPendingArchiving } from '@/utils/eservice.utils'
-import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsAlerts'
+import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsAlerts'
 import { useRequesterEserviceAgreement } from './hooks/useRequesterEserviceAgreement'
+import GeneralInfoTab from './components/GeneralInfoTab'
+import PurposeTemplatesTab from './components/PurposeTemplatesTab'
+import TechnicalSpecsTab from './components/TechnicalSpecsTab'
+import EntryRequirementsTab from './components/EntryRequirementsTab'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'read' })
+  const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const { jwt, isReviewer } = AuthHooks.useJwt()
+  const theme = useTheme()
 
-  const { activeTab, updateActiveTab } = useActiveTab('eserviceDetail')
+  const { activeTab, updateActiveTab } = useActiveTab('generalInfo')
   const { openDialog } = useDialog()
 
   const { data: descriptor } = useQuery(
@@ -91,14 +94,10 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
-      backToAction={{
-        label: t('actions.backToCatalogLabel'),
-        to: 'SUBSCRIBE_CATALOG_LIST',
-      }}
       infoSection={
         descriptor
           ? {
-              label: t('versionHeaderLabel'),
+              label: t('version'),
               shortcut: {
                 type: 'button',
                 label: descriptor.version,
@@ -132,28 +131,37 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       }
     >
       <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
-      {isReviewer ? (
-        <ConsumerEServiceDetailsTab />
-      ) : (
-        <TabContext value={activeTab}>
-          <TabList
-            onChange={updateActiveTab}
-            aria-label={t('tabs.ariaLabelEserviceDetail')}
-            variant="fullWidth"
-          >
-            <Tab label={t('tabs.eserviceDetail')} value="eserviceDetail" />
-            <Tab label={t('tabs.purposeTemplate')} value="linkedPurposeTemplates" />
-          </TabList>
+      <TabContext value={activeTab}>
+        <TabList
+          sx={{
+            '& .MuiTab-root.Mui-selected': {
+              color: theme.colors.blue[500],
+              borderBottomColor: theme.colors.blue[500],
+            },
+          }}
+          onChange={updateActiveTab}
+          aria-label={t('tabs.ariaLabel')}
+          variant="fullWidth"
+        >
+          <Tab label={t('tabs.generalInfo')} value="generalInfo" />
+          <Tab label={t('tabs.entryRequirements')} value="entryRequirements" />
+          <Tab label={t('tabs.technicalSpecs')} value="technicalSpecs" />
+          <Tab label={t('tabs.purposeTemplates')} value="purposeTemplates" />
+        </TabList>
 
-          <TabPanel value="eserviceDetail">
-            <ConsumerEServiceDetailsTab delegators={delegators} />
-          </TabPanel>
-
-          <TabPanel value="linkedPurposeTemplates">
-            <ConsumerLinkedPurposeTemplatesTab />
-          </TabPanel>
-        </TabContext>
-      )}
+        <TabPanel value="generalInfo">
+          <GeneralInfoTab />
+        </TabPanel>
+        <TabPanel value="entryRequirements">
+          <EntryRequirementsTab />
+        </TabPanel>
+        <TabPanel value="technicalSpecs">
+          <TechnicalSpecsTab />
+        </TabPanel>
+        <TabPanel value="purposeTemplates">
+          <PurposeTemplatesTab />
+        </TabPanel>
+      </TabContext>
     </NewPageContainer>
   )
 }
