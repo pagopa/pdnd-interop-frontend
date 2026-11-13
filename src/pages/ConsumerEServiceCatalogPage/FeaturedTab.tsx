@@ -30,7 +30,7 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
   })
 
   const { data: useCases, isError: isUseCasesError } = useQuery({
-    ...EServiceQueries.getUseCases(),
+    ...EServiceQueries.getCatalogUseCases(),
     placeholderData: keepPreviousData,
   })
 

@@ -1,4 +1,4 @@
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, CatalogUseCase } from '@/api/api.generatedTypes'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import React from 'react'
 import { EServiceCatalogCard } from './EServiceCatalogCard'
@@ -9,18 +9,17 @@ import { EServiceQueries } from '@/api/eservice'
 import { Stack, Typography, useTheme } from '@mui/material'
 import { MIButton } from '@pagopa/mui-italia'
 import { TempNextDrawer } from '@/components/shared/TempNextDrawer'
-import type { UseCase } from '@/types/useCase.types'
 import { useTranslation } from 'react-i18next'
 
 type UseCaseDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  useCase: UseCase
+  useCase: CatalogUseCase
 }
 
 const UseCaseDrawer: React.FC<UseCaseDrawerProps> = ({ isOpen, onClose, useCase }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'featuredList.useCases.drawer' })
-  const { name, description, slug, unsubscribedEServices, subscribedEServices } = useCase
+  const { name, description, slug, unsubscribedEservices, subscribedEservices } = useCase
 
   const theme = useTheme()
 
@@ -54,12 +53,12 @@ const UseCaseDrawer: React.FC<UseCaseDrawerProps> = ({ isOpen, onClose, useCase 
         >
           {t('readButtonLabel')}
         </MIButton>
-        {unsubscribedEServices && unsubscribedEServices.length > 0 && (
+        {unsubscribedEservices && unsubscribedEservices.length > 0 && (
           <>
             <Typography variant="body1" fontWeight={600}>
               {t('useCaseEServicesTitle')}
             </Typography>
-            {unsubscribedEServices.map((eservice) => (
+            {unsubscribedEservices.map((eservice) => (
               <EServiceCatalogCard
                 key={eservice.activeDescriptor?.id}
                 eservice={eservice}
@@ -74,12 +73,12 @@ const UseCaseDrawer: React.FC<UseCaseDrawerProps> = ({ isOpen, onClose, useCase 
             ))}
           </>
         )}
-        {subscribedEServices && subscribedEServices.length > 0 && (
+        {subscribedEservices && subscribedEservices.length > 0 && (
           <>
             <Typography variant="body1" fontWeight={600}>
               {t('useCaseSubscribedEServicesTitle')}
             </Typography>
-            {subscribedEServices.map((eservice) => (
+            {subscribedEservices.map((eservice) => (
               <EServiceCatalogCard
                 key={eservice.activeDescriptor?.id}
                 eservice={eservice}
