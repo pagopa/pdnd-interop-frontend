@@ -9,7 +9,7 @@ import {
   getFiltersValues,
 } from '@/utils/filters.utils'
 import { useTranslation } from 'react-i18next'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import isEqual from 'lodash/isEqual'
 
 type FiltersProps = {
@@ -50,6 +50,11 @@ export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiv
     prevActiveFiltersCount.current = activeFiltersCount
   }, [reset, getValues, activeFiltersCount])
 
+  const md = useMemo(() => {
+    if (fields.length > 1) return Math.trunc(12 / (fields.length + 1))
+    return 4
+  }, [fields])
+
   return (
     <FormProvider {...formMethods}>
       <Grid
@@ -61,12 +66,12 @@ export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiv
       >
         {fields.map((field) => {
           return (
-            <Grid item xs={12} md={4} key={field.name}>
+            <Grid item xs={12} md={md} key={field.name}>
               <FilterField field={field} />
             </Grid>
           )
         })}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={md}>
           <Button
             type="submit"
             variant="contained"

@@ -1,4 +1,266 @@
 {
+  "consumer": {
+    "detail": {
+      "version": "Version",
+      "tabs": {
+        "ariaLabel": "Four different tabs to view the e-service details",
+        "generalInfo": "General information",
+        "purposeTemplates": "Purpose templates",
+        "entryRequirements": "Entry requirements",
+        "technicalSpecs": "Technical specifications"
+      },
+      "generalInfo": {
+        "eserviceInfo": {
+          "title": "Informazioni e-service",
+          "sections": {
+            "details": {
+              "title": "Details",
+              "fields": {
+                "name": "E-service name",
+                "description": "E-service description",
+                "template": "Template reference",
+                "producer": "Producer"
+              }
+            },
+            "config": {
+              "title": "Configuration",
+              "fields": {
+                "exchange": {
+                  "label": "Data exchange type",
+                  "SYNC": "Synchronous",
+                  "ASYNC": "Asynchronous / bulk"
+                },
+                "mode": {
+                  "label": "E-service type",
+                  "DELIVER": "Deliver",
+                  "RECEIVE": "Receive"
+                },
+                "personalData": {
+                  "RECEIVE": {
+                    "label": "Receives personal data"
+                  },
+                  "DELIVER": {
+                    "label": "Delivers personal data"
+                  },
+                  "value": {
+                    "true": "Yes",
+                    "false": "No"
+                  }
+                }
+              }
+            },
+            "termsOfUse": {
+              "title": "Terms of use",
+              "fields": {
+                "delegable": {
+                  "label": "Management of practices for another PA",
+                  "description": "Allow users to entrust the management of practices to another PA",
+                  "value": {
+                    "true": "Yes",
+                    "false": "No"
+                  }
+                },
+                "dataAccessDelegable": {
+                  "label": "Data access for delegated entities",
+                  "description": "Allow entities designated by the users to access the data",
+                  "value": {
+                    "true": "Yes",
+                    "false": "No"
+                  }
+                }
+              }
+            },
+            "contacts": {
+              "title": "Producer contacts",
+              "fields": {
+                "email": "Contact email",
+                "notes": "Notes"
+              }
+            }
+          }
+        },
+        "versionInfo": {
+          "title": "Version informations",
+          "sections": {
+            "details": {
+              "title": "Details",
+              "fields": {
+                "description": "Version description"
+              }
+            },
+            "fruition": {
+              "title": "Fruition requests",
+              "fields": {
+                "approval": {
+                  "label": "Requests approval",
+                  "value": {
+                    "MANUAL": "Manual",
+                    "AUTOMATIC": "Automatic"
+                  }
+                }
+              }
+            },
+            "lifecycle": {
+              "title": "Lifecycle",
+              "fields": {
+                "publishedAt": "Publication date",
+                "suspendedAt": "Suspension date",
+                "archivedAt": "Archiving date",
+                "deprecatedAt": "Deprecation date",
+                "lastVersionPublishedAt": "Date of latest version"
+              }
+            }
+          }
+        },
+        "usefulLinks": {
+          "title": "Useful links",
+          "integration": "How do I integrate an e-service?",
+          "checksum": "How do I calculate the interface file checksum myself?"
+        }
+      },
+      "entryRequirements": {
+        "title": "THRESHOLDS AND ATTRIBUTES",
+        "description": "Here you will find the thresholds and attributes required to use this e-service.",
+        "sections": {
+          "thresholds": {
+            "title": "API call thresholds",
+            "fields": {
+              "dailyCallsPerConsumer": "Daily threshold per user",
+              "dailyCallsTotal": "Total daily threshold"
+            }
+          }
+        }
+      },
+      "technicalSpecs": {
+        "specs": {
+          "title": "Technical specifications",
+          "sections": {
+            "identifiers": {
+              "title": "Identifiers",
+              "fields": {
+                "id": "E-service ID",
+                "keychain": "Keychain"
+              }
+            },
+            "interface": {
+              "title": "Interface",
+              "fields": {
+                "interface": "File",
+                "checksum": "Interface file checksum"
+              }
+            },
+            "voucher": {
+              "title": "Voucher",
+              "fields": {
+                "lifespan": {
+                  "label": "Voucher lifespan",
+                  "value_one": "{{count}} minute",
+                  "value_other": "{{count}} minutes"
+                },
+                "audience": "Audience"
+              }
+            },
+            "others": {
+              "title": "Other specifications",
+              "fields": {
+                "approval": {
+                  "label": "Requests approval",
+                  "value": {
+                    "AUTOMATIC": "Automatic",
+                    "MANUAL": "Manual"
+                  }
+                },
+                "exchange": {
+                  "label": "Data exchange type",
+                  "value": {
+                    "SYNC": "Synchronous",
+                    "ASYNC": "Asynchronous / bulk"
+                  }
+                },
+                "mode": {
+                  "label": "E-service type",
+                  "value": {
+                    "DELIVER": "Deliver",
+                    "RECEIVE": "Receive"
+                  }
+                },
+                "technology": "Technology"
+              }
+            },
+            "asyncExchange": {
+              "title": "Asynchronous exchanges",
+              "fields": {
+                "interface": "File",
+                "responseTime": {
+                  "label": "Maximum response time",
+                  "value_one": "{{count}} second",
+                  "value_other": "{{count}} seconds"
+                },
+                "maxResultSet": "Maximum entities per response",
+                "resourceAvailableTime": {
+                  "label": "Data availability duration",
+                  "value_one": "{{count}} second",
+                  "value_other": "{{count}} seconds"
+                },
+                "confirmation": {
+                  "label": "Require receipt confirmation",
+                  "value": {
+                    "true": "Yes",
+                    "false": "No"
+                  }
+                },
+                "bulk": {
+                  "label": "Block download",
+                  "value": {
+                    "true": "Yes",
+                    "false": "No"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "signalHub": {
+          "title": "Signal Hub",
+          "description": "Signal Hub is <1>an integrated service</1> that notifies users when e-service data changes.",
+          "fields": {
+            "enabled": {
+              "label": "Service availability",
+              "value": {
+                "true": "Yes, it is available",
+                "false": "No, it is not available"
+              }
+            }
+          }
+        },
+        "documentation": {
+          "title": "Technical documentation",
+          "fields": {
+            "document": "Documents list"
+          }
+        }
+      },
+      "purposeTemplates": {
+        "title": "Template for simplified entry of objectives",
+        "description": "This feature guides you through the risk analysis process by providing annotations, supporting documents, and some pre-filled responses. The streamlined template is made available for reuse by other organizations and can be used without restrictions.",
+        "filters": {
+          "name": {
+            "label": "Template name"
+          },
+          "creator": {
+            "label": "Creator name"
+          },
+          "recipient": {
+            "label": "Recipient",
+            "options": {
+              "PA": "Public administrations",
+              "PRIVATE": "Public service providers, publicly controlled companies, private individuals"
+            }
+          }
+        }
+      }
+    }
+  },
   "backToListBtn": "Back to the e-services",
   "backToEServiceBtn": "Back to the e-service",
   "create": {
@@ -722,9 +984,7 @@
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
       "eserviceDetails": "E-service details",
       "keychain": "Keychains associated",
-      "ariaLabelEserviceDetail": "Two different tabs for e-service details and associated purpose templates",
-      "eserviceDetail": "E-service detail",
-      "purposeTemplate": "Linked purpose template"
+      "ariaLabelEserviceDetail": "Two different tabs for e-service details and associated purpose templates"
     },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
