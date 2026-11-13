@@ -44,10 +44,10 @@ function getFeaturedEServicesCatalog() {
   })
 }
 
-function getUseCases() {
+function getCatalogUseCases() {
   return queryOptions({
-    queryKey: ['EServiceGetUseCases'],
-    queryFn: () => EServiceServices.getUseCases(),
+    queryKey: ['EServiceGetCatalogUseCases'],
+    queryFn: () => EServiceServices.getCatalogUseCases(),
   })
 }
 
@@ -125,5 +125,5 @@ export const EServiceQueries = {
   getIsEServiceNameAvailable,
   queryCatalogList,
   getFeaturedEServicesCatalog,
-  getUseCases,
+  getCatalogUseCases,
 }

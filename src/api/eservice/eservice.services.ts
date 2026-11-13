@@ -43,11 +43,11 @@ import type {
   EServiceDelegationFlagsUpdateSeed,
   CatalogFilterPayload,
   CatalogEService,
+  CatalogUseCase,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
 import { sanitizeImportEserviceFileName } from '@/utils/eservice.utils'
-import type { UseCase } from '@/types/useCase.types'
 
 async function queryCatalogList(query: CatalogFilterPayload) {
   const response = await axiosInstance.post<CatalogEServices>(
@@ -85,8 +85,8 @@ async function getFeaturedEServicesCatalog() {
   return response.data
 }
 
-async function getUseCases() {
-  const response = await axiosInstance.get<Array<UseCase>>(
+async function getCatalogUseCases() {
+  const response = await axiosInstance.get<Array<CatalogUseCase>>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/use-cases`
   )
   return response.data
@@ -886,5 +886,5 @@ export const EServiceServices = {
   updateEServiceDelegationFlagsAfterPublication,
   queryCatalogList,
   getFeaturedEServicesCatalog,
-  getUseCases,
+  getCatalogUseCases,
 }
