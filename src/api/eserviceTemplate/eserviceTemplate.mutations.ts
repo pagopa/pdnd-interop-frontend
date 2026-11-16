@@ -1,7 +1,9 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AxiosError } from 'axios'
 import { EServiceTemplateServices } from './eserviceTemplate.services'
+import { EServiceTemplateQueries } from './eserviceTemplate.queries'
+import { match, P } from 'ts-pattern'
 import type {
   EServiceTemplateRiskAnalysisSeed,
   UpdateEServiceTemplateVersionSeed,
@@ -9,6 +11,39 @@ import type {
 import type { AttributeKey } from '@/types/attribute.types'
 
 export const DUPLICATE_ESERVICENAME_ERROR_CODE = '001-007'
+
+function usePatchUpdateEServiceTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.patchUpdateEServiceTemplate',
+  })
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: EServiceTemplateServices.patchUpdateEServiceTemplate,
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        match(variables)
+          .with(
+            { name: P.string, description: P.string },
+            { name: P.string, intendedTarget: P.string },
+            { description: P.string, intendedTarget: P.string },
+            () => t('outcome.successMetadata')
+          )
+          .with({ name: P.string }, () => t('outcome.successName'))
+          .with({ description: P.string }, () => t('outcome.successDescription'))
+          .with({ intendedTarget: P.string }, () => t('outcome.successTarget'))
+          .otherwise(() => t('outcome.error')),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess: (_data, { eServiceTemplateId }) => {
+      queryClient.invalidateQueries({ queryKey: ['EServiceTemplateGetSingle', eServiceTemplateId] })
+      queryClient.invalidateQueries(
+        EServiceTemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId)
+      )
+    },
+  })
+}
 
 function useUpdateEServiceTemplateName() {
   const { t } = useTranslation('mutations-feedback', {
@@ -409,6 +444,7 @@ function useUpdateEServiceTemplatePersonalDataFlagAfterPublication() {
 }
 
 export const EServiceTemplateMutations = {
+  usePatchUpdateEServiceTemplate,
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateIntendedTarget,
   useUpdateEServiceTemplateDescription,
