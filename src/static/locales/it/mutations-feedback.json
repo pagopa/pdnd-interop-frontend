@@ -1179,6 +1179,16 @@
     }
   },
   "purposeTemplate": {
+    "patchUpdatePurposeTemplate": {
+      "loading": "Stiamo aggiornando il template finalità",
+      "outcome": {
+        "successMetadata": "Hai modificato il nome, la descrizione e i destinatari del template finalità.",
+        "successName": "Hai modificato il nome del template finalità.",
+        "successDescription": "Hai modificato la descrizione del template finalità.",
+        "successTarget": "Hai modificato i destinatari del template finalità.",
+        "error": "Non è stato possibile modificare il nome, la descrizione o i destinatari del template finalità. Riprova."
+      }
+    },
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {
