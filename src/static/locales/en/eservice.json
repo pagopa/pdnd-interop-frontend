@@ -257,6 +257,23 @@
               "PRIVATE": "Public service providers, publicly controlled companies, private individuals"
             }
           }
+        },
+        "table": {
+          "columns": {
+            "name": "Purpose template name",
+            "creator": "Creator name",
+            "recipient": {
+              "label": "Recipient",
+              "value": {
+                "PA": "Public administrations",
+                "PRIVATE": "Public service providers, publicly controlled companies, private individuals"
+              }
+            }
+          }
+        },
+        "empty": {
+          "title": "There are no items to display",
+          "description": "No purpose template is currently available"
         }
       }
     }

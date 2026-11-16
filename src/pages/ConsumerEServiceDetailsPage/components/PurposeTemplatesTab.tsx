@@ -1,14 +1,23 @@
-import type { GetCatalogPurposeTemplatesParams, TargetTenantKind } from '@/api/api.generatedTypes'
+import type {
+  GetCatalogPurposeTemplatesParams,
+  TargetTenantKind,
+  CatalogPurposeTemplates,
+} from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { SectionContainer } from '@/components/layout/containers'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
 import { useFilters } from '@/hooks/useFilters'
 import { usePagination } from '@/hooks/usePagination'
-import { useParams } from '@/router'
+import { useParams, useNavigate } from '@/router'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { MITable as Table } from '@pagopa/mui-italia'
+import { IconButton, Stack, Typography, useTheme } from '@mui/material'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { ErrorIcon } from '@/icons/ErrorIcon'
+import { ChevronRight } from '@mui/icons-material'
 
 const Recipient: TargetTenantKind[] = ['PA', 'PRIVATE']
 
@@ -79,8 +88,101 @@ const PurposeTemplatesTab = () => {
       description={t('description')}
     >
       <FiltersSection filters={filters} {...handlers} results={data?.pagination.totalCount} />
-      Purpose Template
+      {data && data.results.length > 0 ? (
+        <PurposeTemplatesTable data={data} pagination={paginationProps} />
+      ) : (
+        <PurposeTemplatesEmpty />
+      )}
     </SectionContainer>
+  )
+}
+
+const PurposeTemplatesTable: React.FC<{
+  data: CatalogPurposeTemplates
+  pagination: {
+    page: number
+    onPageChange: (page: number) => void
+    itemsPerPageOptions: {
+      limit: number
+      options: number[]
+      onLimitChange: (limit: number) => void
+    }
+  }
+}> = ({ data, pagination }) => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail.purposeTemplates' })
+  const navigate = useNavigate()
+
+  return (
+    <Table
+      columns={[
+        {
+          id: 'name',
+          header: t('table.columns.name'),
+          renderCell: (row) => row.purposeTitle,
+        },
+        {
+          id: 'creator',
+          header: t('table.columns.creator'),
+          renderCell: (row) => row.creator.name,
+        },
+        {
+          id: 'recipient',
+          header: t('table.columns.recipient.label'),
+          renderCell: (row) => t(`table.columns.recipient.value.${row.targetTenantKind}`),
+        },
+        {
+          id: 'actions',
+          header: '',
+          renderCell: (row) => (
+            <IconButton
+              onClick={() =>
+                navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
+                  params: { purposeTemplateId: row.id },
+                })
+              }
+            >
+              <ChevronRight />
+            </IconButton>
+          ),
+        },
+      ]}
+      getRowId={(row) => row.id}
+      rows={data.results}
+      pagination={{
+        count: data.pagination.totalCount,
+        page: pagination.page,
+        onChange: (_, page) => pagination.onPageChange(page),
+        itemsPerPageOptions: pagination.itemsPerPageOptions,
+      }}
+    />
+  )
+}
+
+const PurposeTemplatesEmpty = () => {
+  const theme = useTheme()
+
+  const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail.purposeTemplates' })
+
+  return (
+    <NoItemResults padding={1} borderRadius={0}>
+      <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>
+        <ErrorIcon />
+        <Stack alignItems="center">
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              color: theme.colors.neutral.grey[650],
+            }}
+          >
+            {t('empty.title')}
+          </Typography>
+          <Typography variant="caption" sx={{ color: theme.colors.neutral.grey[650] }}>
+            {t('empty.description')}
+          </Typography>
+        </Stack>
+      </Stack>
+    </NoItemResults>
   )
 }
 
