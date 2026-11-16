@@ -51,7 +51,7 @@ export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiv
   }, [reset, getValues, activeFiltersCount])
 
   const md = useMemo(() => {
-    if (fields.length > 1) return Math.trunc(12 / (fields.length + 1))
+    if (fields.length > 2) return Math.trunc(12 / (fields.length + 1))
     return 4
   }, [fields])
 
