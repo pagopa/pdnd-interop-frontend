@@ -786,6 +786,15 @@
     }
   },
   "client": {
+    "updateClient": {
+      "loading": "Stiamo aggiornando il client",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione del client.",
+        "successName": "Hai modificato il nome del client.",
+        "successDescription": "Hai modificato la descrizione del client.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione del client. Riprova."
+      }
+    },
     "create": {
       "loading": "Stiamo creando il client richiesto",
       "outcome": {
