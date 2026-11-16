@@ -118,6 +118,9 @@ export default function ProviderDashboardConsumerDetail() {
       isLoading={isPending}
       title={consumer?.name ?? t('fallbackTitle')}
       description={t('description')}
+      breadcrumbRouteLabelOverrides={{
+        PROVIDE_DASHBOARD_CONSUMER_DETAIL: consumer?.name ?? t('fallbackTitle'),
+      }}
     >
       {!isPending && (
         <Stack

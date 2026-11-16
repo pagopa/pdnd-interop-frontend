@@ -1,9 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Breadcrumbs as _Breadcrumbs, useCurrentRoute } from '@/router'
+import type { RouteKey } from '@/router'
 import type sharedComponentsNs from '@/static/locales/en/shared-components.json'
 
-export function Breadcrumbs() {
+type BreadcrumbsProps = {
+  routeLabelOverrides?: Partial<Record<RouteKey, string | false>>
+}
+
+export function Breadcrumbs({ routeLabelOverrides }: BreadcrumbsProps) {
   const { t } = useTranslation('shared-components')
   const routeLabels = t('routeLabels', {
     returnObjects: true,
@@ -85,6 +90,7 @@ export function Breadcrumbs() {
         ].includes(routeKey)
           ? false
           : routeLabels.SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE,
+        ...routeLabelOverrides,
       }}
     />
   )

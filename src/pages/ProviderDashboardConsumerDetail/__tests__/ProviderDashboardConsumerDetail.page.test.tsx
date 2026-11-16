@@ -37,14 +37,21 @@ vi.mock('@/components/layout/containers', async (importOriginal) => {
       isLoading,
       title,
       description,
+      breadcrumbRouteLabelOverrides,
       children,
     }: {
       isLoading?: boolean
       title: string
       description: string
+      breadcrumbRouteLabelOverrides?: Record<string, string | false>
       children: ReactNode
     }) => (
       <main>
+        <div data-testid="breadcrumbs">
+          {Object.values(breadcrumbRouteLabelOverrides ?? {})
+            .filter((label): label is string => typeof label === 'string')
+            .join(' / ')}
+        </div>
         {!isLoading && <h1>{title}</h1>}
         <p>{description}</p>
         {children}
@@ -130,6 +137,7 @@ describe('ProviderDashboardConsumerDetail', () => {
       expect(
         await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
       ).toBeInTheDocument()
+      expect(screen.getByTestId('breadcrumbs')).toHaveTextContent('Regione Lombardia')
       expect(getConsumer).toHaveBeenCalledExactlyOnceWith({
         consumerId: LOMBARDIA_ID,
         offset: 0,
