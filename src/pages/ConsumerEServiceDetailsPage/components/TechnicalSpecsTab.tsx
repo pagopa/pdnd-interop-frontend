@@ -61,16 +61,16 @@ const SpecsSection = () => {
 
   return (
     <SectionContainer title={t('title')}>
-      <SectionContainer innerSection title={t('sections.identifiers.title')}>
-        <Stack spacing={2}>
-          <InformationContainer
-            label={t('sections.identifiers.fields.id')}
-            content={descriptor.eservice.id}
-          />
-          <InformationContainer label={t('sections.identifiers.fields.keychain')} content={''} />
-          <Divider />
-        </Stack>
-      </SectionContainer>
+      {/* <SectionContainer innerSection title={t('sections.identifiers.title')}> */}
+      {/*   <Stack spacing={2}> */}
+      {/*     <InformationContainer */}
+      {/*       label={t('sections.identifiers.fields.id')} */}
+      {/*       content={descriptor.eservice.id} */}
+      {/*     /> */}
+      {/*     <InformationContainer label={t('sections.identifiers.fields.keychain')} content={''} /> */}
+      {/*     <Divider /> */}
+      {/*   </Stack> */}
+      {/* </SectionContainer> */}
       <SectionContainer innerSection title={t('sections.interface.title')}>
         <Stack spacing={2}>
           <InformationContainer

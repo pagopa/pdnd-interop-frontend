@@ -257,6 +257,23 @@
               "PRIVATE": "Gestori di pubblici servizi, Società a controllo pubblico, Privati"
             }
           }
+        },
+        "table": {
+          "columns": {
+            "name": "Nome template finalità",
+            "creator": "Nome creatore",
+            "recipient": {
+              "label": "Destinatario",
+              "value": {
+                "PA": "Pubbliche amministrazioni",
+                "PRIVATE": "Gestori di pubblici servizi, Società a controllo pubblico, Privati"
+              }
+            }
+          }
+        },
+        "empty": {
+          "title": "Non ci sono elementi da mostrare",
+          "description": "Al momento non è disponibile nessun template finalità"
         }
       }
     }
