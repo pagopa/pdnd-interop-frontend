@@ -1,12 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { ClientServices } from './client.services'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { match, P } from 'ts-pattern'
-import { ClientQueries } from './client.queries'
 
 function useUpdateClient() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.updateClient' })
-  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ClientServices.updateClient,
     meta: {
@@ -20,10 +18,6 @@ function useUpdateClient() {
           .otherwise(() => t('outcome.error')),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-    },
-    onSuccess: (_data, { clientId }: Parameters<typeof ClientServices.updateClient>[0]) => {
-      queryClient.invalidateQueries(ClientQueries.getSingle(clientId))
-      queryClient.invalidateQueries({ queryKey: ['ClientGetList'] })
     },
   })
 }

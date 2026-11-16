@@ -46,8 +46,6 @@ describe('Client metadata', () => {
     if (typeof meta?.successToastLabel !== 'function') throw new Error('Missing success label')
     expect(meta.successToastLabel(undefined, fields)).toBe(`outcome.${feedback}`)
     expect(meta.errorToastLabel).toBe('outcome.error')
-    expect(queryClient.getQueryState(detailKey)?.isInvalidated).toBe(true)
-    expect(queryClient.getQueryState(listKey)?.isInvalidated).toBe(true)
   })
 
   it('propagates PATCH errors', async () => {
