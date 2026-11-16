@@ -21,11 +21,11 @@ const TechnicalSpecsTab = () => {
         <React.Suspense fallback={<SectionContainerSkeleton sx={{ mt: 4 }} height={1100} />}>
           <SpecsSection />
         </React.Suspense>
-        <React.Suspense fallback={<SectionContainerSkeleton sx={{ mt: 4 }} height={150} />}>
-          <SignalHubSection />
-        </React.Suspense>
         <React.Suspense fallback={<SectionContainerSkeleton sx={{ mt: 4 }} height={190} />}>
           <DocumentationSection />
+        </React.Suspense>
+        <React.Suspense fallback={<SectionContainerSkeleton sx={{ mt: 4 }} height={150} />}>
+          <SignalHubSection />
         </React.Suspense>
       </Grid>
     </Grid>
@@ -183,6 +183,58 @@ const SpecsSection = () => {
   )
 }
 
+const DocumentationSection = () => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'consumer.detail.technicalSpecs.documentation',
+  })
+
+  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
+  )
+
+  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
+
+  const download = React.useCallback(
+    (document?: EServiceDoc) => {
+      if (!document) return
+      downloadDocument(
+        {
+          eserviceId: eserviceId,
+          descriptorId: descriptorId,
+          documentId: document.id,
+        },
+        getDownloadDocumentName(document)
+      )
+    },
+    [descriptorId, eserviceId, downloadDocument]
+  )
+
+  return (
+    <SectionContainer title={t('title')}>
+      <Stack spacing={2}>
+        <InformationContainer
+          label={t('fields.document')}
+          content={
+            <>
+              {descriptor.docs.map((doc) => (
+                <Button
+                  key={doc.id}
+                  startIcon={<AttachFile />}
+                  variant="text"
+                  onClick={() => download(doc)}
+                >
+                  {doc.prettyName}
+                </Button>
+              ))}
+            </>
+          }
+        />
+      </Stack>
+    </SectionContainer>
+  )
+}
+
 const SignalHubSection = () => {
   const theme = useTheme()
   const { t } = useTranslation('eservice', {
@@ -219,52 +271,6 @@ const SignalHubSection = () => {
           label={t('fields.enabled.label')}
           content={t(`fields.enabled.value.${descriptor.eservice.isSignalHubEnabled ?? false}`)}
         />
-      </Stack>
-    </SectionContainer>
-  )
-}
-
-const DocumentationSection = () => {
-  const { t } = useTranslation('eservice', {
-    keyPrefix: 'consumer.detail.technicalSpecs.documentation',
-  })
-
-  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { data: descriptor } = useSuspenseQuery(
-    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
-  )
-
-  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
-
-  const download = React.useCallback(
-    (document?: EServiceDoc) => {
-      if (!document) return
-      downloadDocument(
-        {
-          eserviceId: eserviceId,
-          descriptorId: descriptorId,
-          documentId: document.id,
-        },
-        getDownloadDocumentName(document)
-      )
-    },
-    [descriptorId, eserviceId, downloadDocument]
-  )
-
-  return (
-    <SectionContainer title={t('title')}>
-      <Stack spacing={2}>
-        {descriptor.docs.map((doc) => (
-          <InformationContainer
-            key={doc.id}
-            label={t('fields.document')}
-            content={
-              <Button startIcon={<AttachFile />} variant="text" onClick={() => download(doc)}>
-                {doc.prettyName}
-              </Button>
-            }
-          />
-        ))}
       </Stack>
     </SectionContainer>
   )
