@@ -99,9 +99,9 @@ describe('checks router utils functions behavior', () => {
     expect(detailMatch?.params).toEqual({ consumerId })
   })
 
-  it('provides generic localized breadcrumb labels for consumer routes', () => {
-    expect(itSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMERS).toBe('Tutti i fruitori')
-    expect(enSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMERS).toBe('All consumers')
+  it('provides localized breadcrumb labels for consumer routes', () => {
+    expect(itSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMERS).toBe('Lista fruitori')
+    expect(enSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMERS).toBe('Consumer list')
     expect(itSharedComponents.routeLabels.PROVIDE_DASHBOARD_CONSUMER_DETAIL).toBe(
       'Dettaglio fruitore'
     )
