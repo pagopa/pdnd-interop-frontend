@@ -13,6 +13,7 @@ const { mockedGetCatalogPurposeTemplates, mockedTemplatesData } = vi.hoisted(() 
 
 vi.mock('@/router', () => ({
   useParams: () => ({ eserviceId: 'eservice-id' }),
+  useNavigate: () => vi.fn(),
 }))
 
 vi.mock('@/api/eservice', () => ({
