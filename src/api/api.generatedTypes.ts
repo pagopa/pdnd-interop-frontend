@@ -143,6 +143,9 @@ export type EServiceProducerCategory =
   | "ISTITUTI_RICERCA"
   | "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI";
 
+/** Role of the requester in a producer delegation */
+export type RequesterDelegationRole = "DELEGATE" | "DELEGATOR";
+
 /** Sort criteria for the catalog query */
 export type EServiceSortBy =
   | "NAME_ASC"
@@ -315,28 +318,6 @@ export interface LocalizedText {
 export interface Dependency {
   id: string;
   value: string;
-}
-
-export interface PatchUpdateEServiceSeed {
-  /**
-   * @minLength 5
-   * @maxLength 60
-   */
-  name?: string;
-  /**
-   * @minLength 10
-   * @maxLength 400
-   */
-  description?: string;
-  /** EService Descriptor State */
-  technology?: EServiceTechnology;
-  /** Risk Analysis Mode */
-  mode?: EServiceMode;
-  isSignalHubEnabled?: boolean;
-  isConsumerDelegable?: boolean;
-  isClientAccessDelegable?: boolean;
-  personalData?: boolean | null;
-  asyncExchange?: boolean | null;
 }
 
 export interface UpdateEServiceSeed {
@@ -967,6 +948,8 @@ export interface CatalogFilterPayload {
   mode?: EServiceMode;
   /** If true, returns only e-services with Signal Hub enabled */
   onlySignalHubEnabled?: boolean;
+  /** Filter by the requester role in producer delegations */
+  requesterDelegationRoles?: RequesterDelegationRole[];
   /**
    * Returns only e-services belonging to the given template collection
    * @format uuid
@@ -1075,20 +1058,6 @@ export interface CompactEServices {
   pagination: Pagination;
 }
 
-export interface CompactCatalogEService {
-  /** @format uuid */
-  id: string;
-  name: string;
-  producer: CompactOrganization;
-  personalData?: boolean;
-  activeDescriptor?: CompactDescriptor;
-}
-
-export interface CompactCatalogEServices {
-  results: CompactCatalogEService[];
-  pagination: Pagination;
-}
-
 export interface CompactPurposeEService {
   /** @format uuid */
   id: string;
@@ -1192,6 +1161,12 @@ export interface CompactOrganization {
   /** @format uuid */
   id: string;
   name: string;
+  subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   kind?: TenantKind;
   contactMail?: Mail;
   /** Indicates if there are unread notifications for this organization */
@@ -1202,6 +1177,12 @@ export interface CatalogTenant {
   /** @format uuid */
   id: string;
   name: string;
+  subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   /** Indicates if there are unread notifications for this organization */
   hasUnreadNotifications?: boolean;
   /** @format uuid */
@@ -2100,6 +2081,12 @@ export interface RequesterCertifiedAttribute {
   /** @format uuid */
   tenantId: string;
   tenantName: string;
+  tenantSubUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   /** @format uuid */
   attributeId: string;
   attributeName: string;
@@ -2231,6 +2218,12 @@ export interface CompactTenant {
   selfcareId?: string;
   name: string;
   logoUrl?: string;
+  subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
 }
 
 export interface Tenant {
@@ -2251,8 +2244,21 @@ export interface Tenant {
   /** @format date-time */
   onboardedAt?: string;
   subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   selfcareInstitutionType?: string;
   remoteIds?: TenantRemoteId[];
+}
+
+/** Parent tenant in the organizational hierarchy. */
+export interface ParentTenant {
+  /** @format uuid */
+  id: string;
+  name: string;
+  subUnitType?: TenantUnitType;
 }
 
 export interface TenantAttributes {
@@ -2466,6 +2472,9 @@ export interface DelegationTenant {
   /** @format uuid */
   id: string;
   name: string;
+  subUnitType?: TenantUnitType;
+  /** @maxItems 2 */
+  parentTenants?: ParentTenant[];
 }
 
 export interface DelegationTenants {
@@ -2481,6 +2490,9 @@ export interface DelegationEService {
   /** @format uuid */
   producerId: string;
   producerName: string;
+  producerSubUnitType?: TenantUnitType;
+  /** @maxItems 2 */
+  producerParentTenants?: ParentTenant[];
   descriptors: CompactDescriptor[];
 }
 
@@ -2822,6 +2834,9 @@ export interface EServiceTemplateInstance {
   /** @format uuid */
   producerId: string;
   producerName: string;
+  producerSubUnitType?: TenantUnitType;
+  /** @maxItems 2 */
+  producerParentTenants?: ParentTenant[];
   latestDescriptor?: CompactDescriptor;
   descriptors: CompactDescriptor[];
   instanceLabel?: string;
@@ -2897,7 +2912,6 @@ export interface Problem {
   detail?: string;
   /** @minItems 1 */
   errors?: ProblemError[];
-  userMessage?: string;
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -3521,38 +3535,6 @@ export interface GetEServicesCatalogParams {
   /**
    * @format int32
    * @min 1
-   * @max 50
-   */
-  limit: number;
-}
-
-export interface GetCompactCatalogEServicesParams {
-  /** Query to filter EServices by name */
-  q?: string;
-  /**
-   * comma separated sequence of states
-   * @default []
-   */
-  states?: EServiceDescriptorState[];
-  /**
-   * comma separated sequence of agreement states to filter the response with
-   * @default []
-   */
-  agreementStates?: AgreementState[];
-  /** EService Mode filter */
-  mode?: EServiceMode;
-  /** EService isConsumerDelegable filter */
-  isConsumerDelegable?: boolean;
-  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
-  personalData?: PersonalDataFilter;
-  /**
-   * @format int32
-   * @min 0
-   */
-  offset: number;
-  /**
-   * @format int32
-   * @min 1
    * @max 200
    */
   limit: number;
@@ -3985,14 +3967,6 @@ export interface DeleteEServiceParams {
 }
 
 export interface UpdateEServiceByIdParams {
-  /**
-   * The E-Service id to update
-   * @format uuid
-   */
-  eServiceId: string;
-}
-
-export interface PatchUpdateEServiceByIdParams {
   /**
    * The E-Service id to update
    * @format uuid
@@ -5015,12 +4989,12 @@ export interface UpdateVerifiedAttributeParams {
   attributeId: string;
 }
 
-export interface RevokeVerifiedAttributeParams {
-  /**
-   * Agreement id related to the Verified attribute revocation
-   * @format uuid
-   */
+export interface RevokeVerifiedAttributePayload {
+  /** @format uuid */
   agreementId: string;
+}
+
+export interface RevokeVerifiedAttributeParams {
   /**
    * The ID of the producer Delegation
    * @format uuid
@@ -7689,7 +7663,7 @@ export namespace Catalog {
       /**
        * @format int32
        * @min 1
-       * @max 50
+       * @max 200
        */
       limit: number;
     };
@@ -7712,52 +7686,6 @@ export namespace Catalog {
     export type RequestBody = CatalogFilterPayload;
     export type RequestHeaders = {};
     export type ResponseBody = CatalogEServices;
-  }
-
-  /**
-   * @description Retrieves a lightweight list of catalog EServices, meant to populate selects and autocomplete inputs
-   * @tags eservices
-   * @name GetCompactCatalogEServices
-   * @summary Retrieves a lightweight list of catalog EServices
-   * @request GET:/catalog/eservices
-   * @secure
-   */
-  export namespace GetCompactCatalogEServices {
-    export type RequestParams = {};
-    export type RequestQuery = {
-      /** Query to filter EServices by name */
-      q?: string;
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: EServiceDescriptorState[];
-      /**
-       * comma separated sequence of agreement states to filter the response with
-       * @default []
-       */
-      agreementStates?: AgreementState[];
-      /** EService Mode filter */
-      mode?: EServiceMode;
-      /** EService isConsumerDelegable filter */
-      isConsumerDelegable?: boolean;
-      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
-      personalData?: PersonalDataFilter;
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number;
-      /**
-       * @format int32
-       * @min 1
-       * @max 200
-       */
-      limit: number;
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = CompactCatalogEServices;
   }
 
   /**
@@ -8603,28 +8531,6 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = UpdateEServiceSeed;
-    export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
-  }
-
-  /**
-   * @description Partially updates the general information of the specified E-Service
-   * @tags eservices
-   * @name PatchUpdateEServiceById
-   * @summary Partially updates E-Service general information
-   * @request PATCH:/eservices/{eServiceId}
-   * @secure
-   */
-  export namespace PatchUpdateEServiceById {
-    export type RequestParams = {
-      /**
-       * The E-Service id to update
-       * @format uuid
-       */
-      eServiceId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = PatchUpdateEServiceSeed;
     export type RequestHeaders = {};
     export type ResponseBody = CreatedResource;
   }
