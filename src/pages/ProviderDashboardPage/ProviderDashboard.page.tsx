@@ -43,7 +43,10 @@ export default function ProviderDashboardPage() {
     t('actions.purposesAwaitingApproval')
   )
   const purposesReceivedAction = linkAction('PROVIDE_PURPOSE_LIST', t('actions.purposesReceived'))
-  const consumersAction = linkAction('PROVIDE_DASHBOARD_CONSUMERS', t('actions.consumers'))
+  const activeAgreementsAction = linkAction(
+    'PROVIDE_DASHBOARD_CONSUMERS',
+    t('actions.activeAgreements')
+  )
   const statuses = [
     {
       id: 'active',
@@ -118,13 +121,13 @@ export default function ProviderDashboardPage() {
       action: purposesAwaitingApprovalAction,
     },
     {
-      id: 'consumers',
-      heading: t('headings.consumers'),
+      id: 'activeAgreements',
+      heading: t('headings.activeAgreements'),
       content: {
         kind: 'metric',
-        metric: { value: dashboard.activeAgreements, label: t('units.consumers') },
+        metric: { value: dashboard.activeAgreements, label: t('units.activeAgreements') },
       },
-      action: consumersAction,
+      action: activeAgreementsAction,
     },
     {
       id: 'agreementsAndPurposes',
