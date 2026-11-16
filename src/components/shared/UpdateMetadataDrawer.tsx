@@ -73,11 +73,22 @@ export const UpdateMetadataDrawer: React.FC<UpdateMetadataDrawerProps> = ({
   }, [initialValues?.name, initialValues?.description, initialValues?.target, formMethods])
 
   const handleSubmit = (values: UpdateMetadataFormValues) => {
-    onSubmit({
+    const submittedValues = {
       name: values.name,
       description: values.description,
       ...(targetField ? { target: values.target } : {}),
-    })
+    }
+    const hasChanges =
+      submittedValues.name !== defaultValues.name ||
+      submittedValues.description !== defaultValues.description ||
+      (targetField !== undefined && submittedValues.target !== defaultValues.target)
+
+    if (!hasChanges) {
+      onClose()
+      return
+    }
+
+    onSubmit(submittedValues)
   }
 
   const handleTransitionExited = () => {

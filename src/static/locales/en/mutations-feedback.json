@@ -605,6 +605,15 @@
     }
   },
   "purpose": {
+    "patchUpdatePurpose": {
+      "loading": "The purpose is being updated",
+      "outcome": {
+        "successNameAndDescription": "You have updated the purpose name and description.",
+        "successName": "You have updated the purpose name.",
+        "successDescription": "You have updated the purpose description.",
+        "error": "The purpose name and/or description could not be updated. Please try again."
+      }
+    },
     "createDraft": {
       "loading": "Purpose draft is being created",
       "outcome": {
