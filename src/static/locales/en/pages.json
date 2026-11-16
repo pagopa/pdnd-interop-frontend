@@ -6,7 +6,7 @@
       "eservices": "Your e-service status",
       "pendingAgreements": "Fruition requests awaiting approval",
       "purposesAwaitingApproval": "Purposes awaiting approval",
-      "consumers": "Total consumers of my e-services",
+      "activeAgreements": "Active fruition requests",
       "agreementsAndPurposes": "Consumer breakdown by fruition status and purpose",
       "average": "Average purposes per e-service"
     },
@@ -25,7 +25,7 @@
       "eservices": "total e-services",
       "requests": "requests",
       "purposes": "purposes",
-      "consumers": "consumers",
+      "activeAgreements": "active requests",
       "purposesPerEservice": "purposes per e-service"
     },
     "sections": {
@@ -79,7 +79,7 @@
       "agreements": "View requests for approval",
       "purposesAwaitingApproval": "View purposes for approval",
       "purposesReceived": "View received purposes",
-      "consumers": "View consumer details"
+      "activeAgreements": "View consumer details"
     }
   },
   "providerDashboardConsumerList": {

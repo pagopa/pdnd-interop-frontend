@@ -6,7 +6,7 @@
       "eservices": "Stato dei tuoi e-service",
       "pendingAgreements": "Richieste di fruizione in attesa di approvazione",
       "purposesAwaitingApproval": "Finalit\u00e0 in attesa di approvazione",
-      "consumers": "Totale fruitori dei miei e-service",
+      "activeAgreements": "Richieste di fruizione attive",
       "agreementsAndPurposes": "Dettaglio fruitori per stato fruizione e finalit\u00e0",
       "average": "Media di finalit\u00e0 per e-service"
     },
@@ -25,7 +25,7 @@
       "eservices": "e-service totali",
       "requests": "richieste",
       "purposes": "finalit\u00e0",
-      "consumers": "fruitori",
+      "activeAgreements": "richieste attive",
       "purposesPerEservice": "finalit\u00e0 per e-service"
     },
     "sections": {
@@ -79,7 +79,7 @@
       "agreements": "Vai alle richieste da approvare",
       "purposesAwaitingApproval": "Vai alle finalit\u00e0 da approvare",
       "purposesReceived": "Vai alle finalità ricevute",
-      "consumers": "Vai al dettaglio fruitori"
+      "activeAgreements": "Vai al dettaglio fruitori"
     }
   },
   "providerDashboardConsumerList": {

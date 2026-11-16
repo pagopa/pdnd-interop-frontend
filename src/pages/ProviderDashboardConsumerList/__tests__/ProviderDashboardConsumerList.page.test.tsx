@@ -206,7 +206,10 @@ describe('ProviderDashboardConsumerList', () => {
       expect(
         within(row).getByRole('definition', { name: copy.columns.eservicesCount })
       ).toHaveTextContent('3')
-      await user.click(within(row).getByRole('button', { name: 'Vai al dettaglio di Consumer 02' }))
+      const mobileRow = row.parentElement!
+      await user.click(
+        within(mobileRow).getByRole('button', { name: 'Vai al dettaglio di Consumer 02' })
+      )
       expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_DASHBOARD_CONSUMER_DETAIL', {
         params: { consumerId: 'consumer-2' },
       })

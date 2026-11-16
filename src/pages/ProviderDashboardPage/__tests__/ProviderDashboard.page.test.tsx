@@ -190,7 +190,7 @@ describe('ProviderDashboardPage', () => {
     expect(cards[1].content).toMatchObject({ metric: { value: 13 } })
     expect(cards[2].content).toMatchObject({ metric: { value: 29 } })
     expect(cards[3].content).toMatchObject({
-      metric: { value: 14321, label: itPages.dashboard.units.consumers },
+      metric: { value: 14321, label: itPages.dashboard.units.activeAgreements },
     })
     expect(cards[4].content).toMatchObject({
       metrics: [{ value: 11001 }, { value: 2202 }, { value: 303 }],
@@ -316,7 +316,7 @@ describe('ProviderDashboardPage', () => {
                 'Stato dei tuoi e-service',
                 'Richieste di fruizione in attesa di approvazione',
                 'Finalità in attesa di approvazione',
-                'Totale fruitori dei miei e-service',
+                'Richieste di fruizione attive',
                 'Dettaglio fruitori per stato fruizione e finalità',
                 'Media di finalità per e-service',
               ],
@@ -330,7 +330,7 @@ describe('ProviderDashboardPage', () => {
                 'e-service totali',
                 'richieste',
                 'finalità',
-                'fruitori',
+                'richieste attive',
                 'finalità per e-service',
               ],
               sectionDescriptions: [
@@ -343,7 +343,7 @@ describe('ProviderDashboardPage', () => {
                 'Your e-service status',
                 'Fruition requests awaiting approval',
                 'Purposes awaiting approval',
-                'Total consumers of my e-services',
+                'Active fruition requests',
                 'Consumer breakdown by fruition status and purpose',
                 'Average purposes per e-service',
               ],
@@ -357,7 +357,7 @@ describe('ProviderDashboardPage', () => {
                 'total e-services',
                 'requests',
                 'purposes',
-                'consumers',
+                'active requests',
                 'purposes per e-service',
               ],
               sectionDescriptions: [
@@ -381,7 +381,7 @@ describe('ProviderDashboardPage', () => {
         dictionary.headings.eservices,
         dictionary.headings.pendingAgreements,
         dictionary.headings.purposesAwaitingApproval,
-        dictionary.headings.consumers,
+        dictionary.headings.activeAgreements,
         dictionary.headings.agreementsAndPurposes,
         dictionary.headings.average,
       ])
@@ -450,8 +450,8 @@ describe('ProviderDashboardPage', () => {
           destination: 'PROVIDE_PURPOSE_LIST',
         },
         {
-          heading: itPages.dashboard.headings.consumers,
-          text: itPages.dashboard.actions.consumers,
+          heading: itPages.dashboard.headings.activeAgreements,
+          text: itPages.dashboard.actions.activeAgreements,
           destination: 'PROVIDE_DASHBOARD_CONSUMERS',
         },
         {
@@ -485,7 +485,7 @@ describe('ProviderDashboardPage', () => {
           itPages.dashboard.actions.agreements,
           itPages.dashboard.actions.purposesAwaitingApproval,
           itPages.dashboard.actions.purposesReceived,
-          itPages.dashboard.actions.consumers,
+          itPages.dashboard.actions.activeAgreements,
           itPages.dashboard.sections.thresholds.viewAll,
         ])
       )
@@ -508,8 +508,8 @@ describe('ProviderDashboardPage', () => {
         destination: 'PROVIDE_ESERVICE_LIST',
       },
       {
-        heading: itPages.dashboard.headings.consumers,
-        label: itPages.dashboard.actions.consumers,
+        heading: itPages.dashboard.headings.activeAgreements,
+        label: itPages.dashboard.actions.activeAgreements,
         destination: 'PROVIDE_DASHBOARD_CONSUMERS',
       },
     ] as const
@@ -651,8 +651,8 @@ describe('ProviderDashboardPage tables', () => {
         ],
       })
       await renderDashboard()
-      const saturation = (await screen.findByText('E-service 1')).closest('dl')!
-      const archive = (await screen.findByText('Whole e-service')).closest('dl')!
+      const saturation = (await screen.findByText('E-service 1')).closest('dl')!.parentElement!
+      const archive = (await screen.findByText('Whole e-service')).closest('dl')!.parentElement!
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
       expect(screen.getByRole('group', { name: thresholds.columns.eservice })).toBeInTheDocument()
       expect(screen.getByRole('group', { name: archiving.columns.eservice })).toBeInTheDocument()
