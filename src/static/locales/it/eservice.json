@@ -268,6 +268,9 @@
                 "PA": "Pubbliche amministrazioni",
                 "PRIVATE": "Gestori di pubblici servizi, Società a controllo pubblico, Privati"
               }
+            },
+            "actions": {
+              "navigate": "Vai al template {{templateName}}"
             }
           }
         },
