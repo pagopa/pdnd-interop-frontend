@@ -1,6 +1,7 @@
 import { SELFCARE_BASE_URL } from '@/config/env'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogDeleteOperatorProps } from '@/types/dialog.types'
 import {
   Button,
@@ -20,6 +21,7 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const lang = useCurrentLanguage()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogDeleteOperator' })
@@ -54,7 +56,7 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleProceed}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleProceed}>
           {tCommon('confirm')}
         </Button>
       </DialogActions>

@@ -1,12 +1,20 @@
 import { queryOptions } from '@tanstack/react-query'
 import { EServiceServices } from './eservice.services'
 import type {
+  CatalogFilterPayload,
   GetCompactCatalogEServicesParams,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
 } from '../api.generatedTypes'
+
+function queryCatalogList(query: CatalogFilterPayload) {
+  return queryOptions({
+    queryKey: ['EServiceQueryCatalogList', query],
+    queryFn: () => EServiceServices.queryCatalogList(query),
+  })
+}
 
 function getCatalogList(params: GetEServicesCatalogParams) {
   return queryOptions({
@@ -101,4 +109,5 @@ export const EServiceQueries = {
   getProducers,
   getEServiceRiskAnalysis,
   getIsEServiceNameAvailable,
+  queryCatalogList,
 }

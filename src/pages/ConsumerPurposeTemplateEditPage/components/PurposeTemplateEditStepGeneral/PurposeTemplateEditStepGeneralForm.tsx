@@ -1,6 +1,6 @@
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { RHFTextField, RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { Box } from '@mui/system'
@@ -15,10 +15,8 @@ import { transformRiskAnalysisFormTemplateToSeed } from '@/utils/purposeTemplate
 
 export type PurposeTemplateEditStepGeneralFormValues = Omit<
   PurposeTemplateSeed,
-  'purposeRiskAnalysisForm' | 'purposeIsFreeOfCharge'
-> & {
-  purposeIsFreeOfCharge: 'true' | 'false'
-}
+  'purposeRiskAnalysisForm'
+>
 
 type PurposeTemplateEditStepGeneralFormProps = ActiveStepProps & {
   purposeTemplate: PurposeTemplateWithCompactCreator
@@ -39,13 +37,12 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
 
   const onSubmit = (values: PurposeTemplateEditStepGeneralFormValues) => {
     const { purposeIsFreeOfCharge, purposeFreeOfChargeReason, ...data } = values
-    const isFreeOfChargeBool = purposeIsFreeOfCharge === 'true'
     const purposeTemplateId = purposeTemplate.id
 
     const requestPayload: PurposeTemplateSeed = {
       ...data,
-      purposeIsFreeOfCharge: isFreeOfChargeBool,
-      purposeFreeOfChargeReason: isFreeOfChargeBool ? purposeFreeOfChargeReason : undefined,
+      purposeIsFreeOfCharge,
+      ...(purposeIsFreeOfCharge ? { purposeFreeOfChargeReason } : {}),
       handlesPersonalData: purposeTemplate.handlesPersonalData,
       purposeRiskAnalysisForm:
         purposeTemplate.purposeRiskAnalysisForm?.answers &&
@@ -95,22 +92,13 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
             rules={{ required: true, minLength: 10 }}
           />
 
-          <RHFRadioGroup
+          <RHFSwitch
             name="purposeIsFreeOfCharge"
-            label={t('edit.step1.purposeTemplateIsFreeOfCharge.radioButton.label')}
-            options={[
-              {
-                label: t('edit.step1.purposeTemplateIsFreeOfCharge.radioButton.YES'),
-                value: 'true',
-              },
-              {
-                label: t('edit.step1.purposeTemplateIsFreeOfCharge.radioButton.NO'),
-                value: 'false',
-              },
-            ]}
+            label={t('edit.step1.purposeTemplateIsFreeOfCharge.switchLabel')}
+            sx={{ pl: 2 }}
           />
 
-          {isFreeOfCharge === 'true' && (
+          {isFreeOfCharge && (
             <RHFTextField
               name="purposeFreeOfChargeReason"
               label={t('edit.step1.purposeTemplateIsFreeOfCharge.reasonField.label')}
@@ -118,6 +106,7 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
+              required
             />
           )}
 

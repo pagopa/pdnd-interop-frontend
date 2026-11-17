@@ -10,9 +10,10 @@ import { RHFRadioGroup } from './react-hook-form-inputs'
 
 type GracePeriodFieldProps = {
   description?: string
+  isDelegate?: boolean
 }
 
-export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description }) => {
+export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description, isDelegate }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'archiveGracePeriod' })
 
   const selectedGracePeriodDays = Number(
@@ -33,18 +34,16 @@ export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description 
       <RHFRadioGroup
         name="gracePeriodDays"
         label={
-          description ? (
-            <Stack component="span">
-              <Typography component="span" variant="inherit">
-                {t('label')}
-              </Typography>
+          <Stack component="span">
+            <Typography component="span" variant="body1" fontWeight={600}>
+              {t('label')}
+            </Typography>
+            {description && (
               <Typography component="span" variant="body2" fontWeight={400}>
                 {description}
               </Typography>
-            </Stack>
-          ) : (
-            t('label')
-          )
+            )}
+          </Stack>
         }
         options={options}
       />
@@ -54,7 +53,9 @@ export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description 
             strong: <Typography component="span" variant="inherit" fontWeight={600} />,
           }}
         >
-          {t('archiveDate', { date: formattedArchiveDate })}
+          {t(isDelegate ? 'archiveDateDelegate' : 'archiveDate', {
+            date: formattedArchiveDate,
+          })}
         </Trans>
       </Typography>
     </Stack>

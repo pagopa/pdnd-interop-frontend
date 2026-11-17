@@ -1,5 +1,10 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
-import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseJwt,
+  renderHookWithApplicationContext,
+  renderWithApplicationContext,
+} from '@/utils/testing.utils'
+import { StrictMode, useEffect } from 'react'
 import {
   type CatalogEServiceDescriptor,
   type DelegationTenant,
@@ -14,6 +19,9 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
+import { AgreementMutations } from '@/api/agreement'
+import { useDialogStore } from '@/stores'
+import type { MockInstance } from 'vitest'
 
 vi.mock('@/components/dialogs/DialogSelectAgreementConsumer/DialogSelectAgreementConsumer', () => ({
   DialogSelectAgreementConsumer: ({
@@ -890,6 +898,98 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.headerInfoActions).toHaveLength(0)
   })
 
+  it.each([
+    ['DEPRECATED', 'PUBLISHED'],
+    ['DEPRECATED', 'ARCHIVING'],
+    ['DEPRECATED', 'ARCHIVING_SUSPENDED'],
+    ['ARCHIVING', 'PUBLISHED'],
+  ] as const)(
+    'should expose a disabled subscribe action (no tooltip) for a non-subscriber viewing an obsolete version (viewed %s, active %s)',
+    (viewedState, activeDescriptorState) => {
+      mockUseJwt({ isAdmin: true })
+
+      const eserviceMock = createMockCatalogDescriptorEService({
+        agreements: [],
+        isMine: false,
+        isSubscribed: false,
+        hasCertifiedAttributes: true,
+      })
+
+      const descriptorMock = createMockEServiceDescriptorCatalog({
+        eservice: {
+          ...eserviceMock,
+          activeDescriptor: { id: 'active-id', state: activeDescriptorState },
+        },
+        state: viewedState,
+        id: 'obsolete-id',
+      })
+
+      const { result } = renderUseGetEServiceConsumerActionsHook(
+        descriptorMock,
+        undefined,
+        false,
+        'active-id'
+      )
+
+      expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+      expect(result.current.primaryAction?.disabled).toBe(true)
+      expect(result.current.primaryAction?.tooltip).toBeUndefined()
+      expect(result.current.secondaryAction).toBeUndefined()
+    }
+  )
+
+  it('should not expose the disabled obsolete-version subscribe action when viewing the latest version', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const descriptorMock = createMockEServiceDescriptorCatalog({
+      eservice: {
+        ...eserviceMock,
+        activeDescriptor: { id: 'active-id', state: 'PUBLISHED' },
+      },
+      state: 'PUBLISHED',
+      id: 'active-id',
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(descriptorMock)
+
+    expect(result.current.primaryAction?.disabled).not.toBe(true)
+  })
+
+  it.each<EServiceDescriptorState>(['ARCHIVING', 'ARCHIVING_SUSPENDED'])(
+    'should not expose the disabled subscribe action when viewing the latest version while the e-service is being archived (state %s)',
+    (state) => {
+      mockUseJwt({ isAdmin: true })
+
+      const eserviceMock = createMockCatalogDescriptorEService({
+        agreements: [],
+        isMine: false,
+        isSubscribed: false,
+        hasCertifiedAttributes: true,
+      })
+
+      const descriptorMock = createMockEServiceDescriptorCatalog({
+        eservice: {
+          ...eserviceMock,
+          activeDescriptor: { id: 'latest-id', state },
+        },
+        state,
+        id: 'latest-id',
+      })
+
+      const { result } = renderUseGetEServiceConsumerActionsHook(descriptorMock)
+
+      expect(result.current.primaryAction).toBeUndefined()
+      expect(result.current.secondaryAction).toBeUndefined()
+    }
+  )
+
   it('should not show the subscribe action when the requester already has a blocking agreement on an obsolete version', () => {
     mockUseJwt({ isAdmin: true })
 
@@ -1042,5 +1142,299 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.primaryAction?.variant).toBe('contained')
     expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.inspect')
     expect(result.current.secondaryAction?.variant).toBe('outlined')
+  })
+})
+
+type AgreementIdResponse = { id: string }
+
+function createDeferred<T>() {
+  let resolve!: (value: T) => void
+  let reject!: (reason: unknown) => void
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res
+    reject = rej
+  })
+  return { promise, resolve, reject }
+}
+
+describe('useGetEServiceConsumerActions tests - navigation after agreement creation', () => {
+  let createDraftSpy: MockInstance | undefined
+  let submitToOwnEServiceSpy: MockInstance | undefined
+
+  afterEach(() => {
+    createDraftSpy?.mockRestore()
+    submitToOwnEServiceSpy?.mockRestore()
+    createDraftSpy = undefined
+    submitToOwnEServiceSpy = undefined
+    act(() => {
+      useDialogStore.setState({ dialog: null })
+    })
+  })
+
+  function mockAgreementMutations() {
+    const deferred = createDeferred<AgreementIdResponse>()
+    const createDraftMutateAsync = vi.fn(() => deferred.promise)
+    const submitToOwnEServiceMutateAsync = vi.fn(() => deferred.promise)
+
+    createDraftSpy = vi.spyOn(AgreementMutations, 'useCreateDraft').mockReturnValue({
+      mutateAsync: createDraftMutateAsync,
+    } as unknown as ReturnType<typeof AgreementMutations.useCreateDraft>)
+    submitToOwnEServiceSpy = vi
+      .spyOn(AgreementMutations, 'useSubmitToOwnEService')
+      .mockReturnValue({
+        mutateAsync: submitToOwnEServiceMutateAsync,
+      } as unknown as ReturnType<typeof AgreementMutations.useSubmitToOwnEService>)
+
+    return { deferred, createDraftMutateAsync, submitToOwnEServiceMutateAsync }
+  }
+
+  /**
+   * Renders the hook in a multi-tenant scenario (own org + delegator without agreements), triggers
+   * the subscribe action and returns the `onSubmitCreate` callback handed to the select-consumer dialog.
+   */
+  function renderAndGetOnSubmitCreate({
+    withStrictMode = false,
+  }: { withStrictMode?: boolean } = {}) {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    let hookResult: ReturnType<typeof useGetEServiceConsumerActions>
+    let hookMounts = 0
+    function HookHarness() {
+      useEffect(() => {
+        hookMounts += 1
+      }, [])
+      hookResult = useGetEServiceConsumerActions(
+        createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+        [{ id: 'delegator-id', name: 'Delegator Name' }],
+        false
+      )
+      return null
+    }
+
+    const ui = withStrictMode ? (
+      <StrictMode>
+        <HookHarness />
+      </StrictMode>
+    ) : (
+      <HookHarness />
+    )
+    const rendered = renderWithApplicationContext(ui, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    function openSelectConsumerDialog() {
+      act(() => {
+        hookResult.primaryAction!.action()
+      })
+
+      const dialog = useDialogStore.getState().dialog
+      if (
+        dialog?.type !== 'selectAgreementConsumer' ||
+        !dialog.onSubmitCreate ||
+        !dialog.flowSignal
+      ) {
+        throw new Error('Expected the selectAgreementConsumer dialog with a flow signal to be open')
+      }
+      return { onSubmitCreate: dialog.onSubmitCreate, flowSignal: dialog.flowSignal }
+    }
+
+    /** Navigates the memory history and re-renders so the router context observes the new location. */
+    function navigateTo(pathname: string) {
+      act(() => rendered.history.push(pathname))
+      rendered.rerender(ui)
+    }
+
+    return {
+      ...rendered,
+      ...openSelectConsumerDialog(),
+      openSelectConsumerDialog,
+      navigateTo,
+      getHookMounts: () => hookMounts,
+    }
+  }
+
+  describe('origin flow lifetime handed to the select-consumer dialog', () => {
+    it.each([false, true])(
+      'should be active while the user stays on the origin route (StrictMode: %s)',
+      (withStrictMode) => {
+        mockAgreementMutations()
+        const { flowSignal } = renderAndGetOnSubmitCreate({ withStrictMode })
+        expect(flowSignal).toBeInstanceOf(AbortSignal)
+        expect(flowSignal.aborted).toBe(false)
+      }
+    )
+
+    it('should be permanently invalidated by a route change while the hook stays mounted', () => {
+      mockAgreementMutations()
+      const { flowSignal, navigateTo, getHookMounts, openSelectConsumerDialog } =
+        renderAndGetOnSubmitCreate()
+
+      navigateTo('/test')
+      expect(getHookMounts()).toBe(1)
+      expect(flowSignal.aborted).toBe(true)
+
+      navigateTo('/')
+      expect(getHookMounts()).toBe(1)
+      expect(flowSignal.aborted).toBe(true)
+
+      act(() => useDialogStore.setState({ dialog: null }))
+      const nextSignal = openSelectConsumerDialog().flowSignal
+      expect(nextSignal).not.toBe(flowSignal)
+      expect(nextSignal.aborted).toBe(false)
+      expect(flowSignal.aborted).toBe(true)
+    })
+
+    it('should not be invalidated by a same-route navigation (search change)', () => {
+      mockAgreementMutations()
+      const { flowSignal, navigateTo } = renderAndGetOnSubmitCreate()
+      navigateTo('/?tab=details')
+      expect(flowSignal.aborted).toBe(false)
+    })
+
+    it('should be permanently invalidated when the origin unmounts', () => {
+      mockAgreementMutations()
+      const { flowSignal, unmount } = renderAndGetOnSubmitCreate()
+      unmount()
+      expect(flowSignal.aborted).toBe(true)
+    })
+
+    it('should abort a superseded flow and abort the latest flow on owner unmount', () => {
+      mockAgreementMutations()
+      const { flowSignal, openSelectConsumerDialog, unmount } = renderAndGetOnSubmitCreate({
+        withStrictMode: true,
+      })
+      const nextSignal = openSelectConsumerDialog().flowSignal
+
+      expect(nextSignal).not.toBe(flowSignal)
+      expect(flowSignal.aborted).toBe(true)
+      expect(nextSignal.aborted).toBe(false)
+      unmount()
+      expect(nextSignal.aborted).toBe(true)
+    })
+  })
+
+  const branches = [
+    {
+      name: 'create draft (not own e-service)',
+      isOwnEService: false,
+      expectedPath: '/it/fruizione/richieste/new-agreement-id/modifica',
+      mutationKey: 'createDraftMutateAsync',
+    },
+    {
+      name: 'submit to own e-service',
+      isOwnEService: true,
+      expectedPath: '/it/fruizione/richieste/new-agreement-id',
+      mutationKey: 'submitToOwnEServiceMutateAsync',
+    },
+  ] as const
+
+  describe.each(branches)('$name branch', ({ isOwnEService, expectedPath, mutationKey }) => {
+    it('should navigate to the agreement when the mutation resolves while mounted', async () => {
+      const mocks = mockAgreementMutations()
+      const { history, onSubmitCreate } = renderAndGetOnSubmitCreate()
+
+      const pending = onSubmitCreate({ isOwnEService, delegationId: 'delegation-id' })
+      expect(mocks[mutationKey]).toHaveBeenCalledTimes(1)
+      expect(mocks[mutationKey]).toHaveBeenCalledWith(
+        expect.objectContaining({ delegationId: 'delegation-id' })
+      )
+
+      mocks.deferred.resolve({ id: 'new-agreement-id' })
+      await act(async () => {
+        await expect(pending).resolves.toBeUndefined()
+      })
+
+      expect(history.location.pathname).toBe(expectedPath)
+    })
+
+    it('should not navigate when the mutation resolves after the hook unmounts', async () => {
+      const mocks = mockAgreementMutations()
+      const { history, unmount, onSubmitCreate } = renderAndGetOnSubmitCreate()
+      const initialPathname = history.location.pathname
+
+      const pending = onSubmitCreate({ isOwnEService, delegationId: 'delegation-id' })
+      unmount()
+
+      mocks.deferred.resolve({ id: 'new-agreement-id' })
+      await expect(pending).resolves.toBeUndefined()
+
+      expect(history.location.pathname).toBe(initialPathname)
+    })
+
+    it('should propagate mutation rejections to the caller while mounted without navigating', async () => {
+      const mocks = mockAgreementMutations()
+      const { history, onSubmitCreate } = renderAndGetOnSubmitCreate()
+      const initialPathname = history.location.pathname
+      const error = new Error('mutation failed')
+
+      const pending = onSubmitCreate({ isOwnEService, delegationId: 'delegation-id' })
+      mocks.deferred.reject(error)
+
+      await expect(pending).rejects.toBe(error)
+      expect(history.location.pathname).toBe(initialPathname)
+    })
+
+    it('should propagate mutation rejections to the caller after the hook unmounts', async () => {
+      const mocks = mockAgreementMutations()
+      const { history, unmount, onSubmitCreate } = renderAndGetOnSubmitCreate()
+      const initialPathname = history.location.pathname
+      const error = new Error('mutation failed')
+
+      const pending = onSubmitCreate({ isOwnEService, delegationId: 'delegation-id' })
+      unmount()
+      mocks.deferred.reject(error)
+
+      await expect(pending).rejects.toBe(error)
+      expect(history.location.pathname).toBe(initialPathname)
+    })
+
+    it('should still navigate under React.StrictMode effect double-invocation', async () => {
+      const mocks = mockAgreementMutations()
+      const { history, onSubmitCreate } = renderAndGetOnSubmitCreate({ withStrictMode: true })
+
+      const pending = onSubmitCreate({ isOwnEService, delegationId: 'delegation-id' })
+      mocks.deferred.resolve({ id: 'new-agreement-id' })
+      await act(async () => {
+        await pending
+      })
+
+      expect(history.location.pathname).toBe(expectedPath)
+    })
+  })
+
+  it('should not navigate when the direct subscribe action resolves after the hook unmounts', async () => {
+    const mocks = mockAgreementMutations()
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result, history, unmount } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+    const initialPathname = history.location.pathname
+
+    act(() => {
+      result.current.primaryAction!.action()
+    })
+    expect(mocks.createDraftMutateAsync).toHaveBeenCalledTimes(1)
+
+    unmount()
+    mocks.deferred.resolve({ id: 'new-agreement-id' })
+    await mocks.deferred.promise
+    await Promise.resolve()
+
+    expect(history.location.pathname).toBe(initialPathname)
   })
 })

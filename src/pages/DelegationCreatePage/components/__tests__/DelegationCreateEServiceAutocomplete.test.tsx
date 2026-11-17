@@ -1,63 +1,138 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useQuery } from '@tanstack/react-query'
+import { vi } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { createMockCompactEServiceCatalog } from '../../../../../__mocks__/data/eservice.mocks'
 import { DelegationCreateEServiceAutocomplete } from '../DelegationCreateEServiceAutocomplete'
 
-vi.mock('@tanstack/react-query', async (importOriginal) => {
-  const actual = (await importOriginal()) as Record<string, unknown>
+const { mockedGetProviderList, mockedGetCompactCatalogList } = vi.hoisted(() => ({
+  mockedGetProviderList: vi.fn(() => ({ queryKey: ['provider-list'], queryFn: vi.fn() })),
+  mockedGetCompactCatalogList: vi.fn(() => ({
+    queryKey: ['compact-catalog-list'],
+    queryFn: vi.fn(),
+  })),
+}))
+
+vi.mock('@tanstack/react-query', async () => {
+  const actual =
+    await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
+
   return {
     ...actual,
-    useQuery: vi.fn((options: { queryKey?: unknown[]; select?: (data: unknown) => unknown }) => {
-      const key = Array.isArray(options?.queryKey) ? options.queryKey[0] : undefined
-      const eservices = {
-        results: [{ id: 'e-1', name: 'E-service 1', producer: { id: 'p-1', name: 'Org 1' } }],
-        pagination: { offset: 0, limit: 50, totalCount: 1 },
-      }
-      const empty = { results: [], pagination: { offset: 0, limit: 50, totalCount: 0 } }
-      const raw = key === 'EServiceGetCompactCatalogList' ? eservices : empty
-      const data = typeof options?.select === 'function' ? options.select(raw) : raw
-      return { data, isLoading: false, isFetching: false, isSuccess: true, isError: false }
-    }),
+    useQuery: vi.fn(),
   }
 })
 
-vi.mock('@pagopa/interop-fe-commons', async (importOriginal) => {
-  const actual = (await importOriginal()) as Record<string, unknown>
+vi.mock('@pagopa/interop-fe-commons', async () => {
+  const actual = await vi.importActual<typeof import('@pagopa/interop-fe-commons')>(
+    '@pagopa/interop-fe-commons'
+  )
+
   return {
     ...actual,
     useAutocompleteTextInput: () => ['', vi.fn()],
   }
 })
 
+vi.mock('@/api/eservice', () => ({
+  EServiceQueries: {
+    getProviderList: mockedGetProviderList,
+    getCompactCatalogList: mockedGetCompactCatalogList,
+  },
+}))
+
 vi.mock('@/components/shared/react-hook-form-inputs', () => ({
-  RHFAutocompleteSingle: ({ options }: { options: Array<{ label: string; value: string }> }) => (
-    <ul data-testid="rhf-autocomplete">
-      {options.map((opt, idx) => (
-        <li key={idx} data-testid={`option-${idx}`}>
-          {opt.label}
-        </li>
-      ))}
-    </ul>
+  RHFAutocompleteSingle: ({
+    label,
+    options,
+  }: {
+    label: string
+    options: Array<{ label: string; value: string }>
+  }) => (
+    <div>
+      <div>{label}</div>
+      <ul>
+        {options.map((option) => (
+          <li key={option.value}>{option.label}</li>
+        ))}
+      </ul>
+    </div>
   ),
 }))
 
-const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const methods = useForm({ defaultValues: { eserviceId: '' } })
-  return <FormProvider {...methods}>{children}</FormProvider>
-}
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
+}))
 
 describe('DelegationCreateEServiceAutocomplete', () => {
-  it('maps consumer e-services from the compact catalog endpoint into autocomplete options', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.mocked(useQuery).mockReturnValue({ data: [], isLoading: false } as ReturnType<
+      typeof useQuery
+    >)
+  })
+
+  it('filters out ARCHIVED e-services from the provider autocomplete for a producer delegation', () => {
     renderWithApplicationContext(
-      <Wrapper>
-        <DelegationCreateEServiceAutocomplete delegationKind="DELEGATED_CONSUMER" />
-      </Wrapper>,
+      <DelegationCreateEServiceAutocomplete delegationKind="DELEGATED_PRODUCER" />,
       { withReactQueryContext: true }
     )
 
-    expect(screen.getByTestId('rhf-autocomplete')).toBeInTheDocument()
-    expect(screen.getByTestId('option-0')).toBeInTheDocument()
+    expect(mockedGetProviderList).toHaveBeenCalledWith(
+      expect.objectContaining({
+        q: '',
+        limit: 50,
+        offset: 0,
+        delegated: false,
+        personalData: 'DEFINED',
+        states: [
+          'PUBLISHED',
+          'DEPRECATED',
+          'DRAFT',
+          'SUSPENDED',
+          'WAITING_FOR_APPROVAL',
+          'ARCHIVING',
+          'ARCHIVING_SUSPENDED',
+        ],
+      })
+    )
+
+    expect(mockedGetCompactCatalogList).toHaveBeenCalledWith(
+      expect.objectContaining({
+        q: '',
+        limit: 50,
+        offset: 0,
+        states: ['PUBLISHED'],
+        isConsumerDelegable: true,
+      })
+    )
+  })
+
+  it('maps consumer e-services from the compact catalog endpoint into autocomplete options', () => {
+    const eservice = createMockCompactEServiceCatalog({
+      id: 'e-1',
+      name: 'E-service 1',
+      producer: { id: 'p-1', name: 'Org 1' },
+    })
+
+    vi.mocked(useQuery).mockImplementation(
+      (options) =>
+        ({
+          data: options.queryKey[0] === 'compact-catalog-list' ? [eservice] : [],
+          isLoading: false,
+        }) as ReturnType<typeof useQuery>
+    )
+
+    renderWithApplicationContext(
+      <DelegationCreateEServiceAutocomplete delegationKind="DELEGATED_CONSUMER" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      screen.getByText('E-service 1 delegations.create.eserviceField.eserviceNameLabel Org 1')
+    ).toBeInTheDocument()
   })
 })

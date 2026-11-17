@@ -12,13 +12,18 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
+import {
+  useIsActionDisabledBySupport,
+  useIsSupportActionGuardEnabled,
+} from '@/hooks/useIsActionDisabledBySupport'
 
 export type DrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   title: React.ReactNode
   subtitle?: React.ReactNode
-  buttonAction?: ActionItem & {
+  buttonAction?: Omit<ActionItem, 'action'> & {
+    action: (event?: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
     disabled?: boolean
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
@@ -64,6 +69,23 @@ export const Drawer: React.FC<DrawerProps> = ({
   children,
   onTransitionExited,
 }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'drawer' })
+  const isSupportActionGuardEnabled = useIsSupportActionGuardEnabled()
+  const isButtonActionDisabled = useIsActionDisabledBySupport(buttonAction?.disabled)
+  const disabledTooltip = isSupportActionGuardEnabled
+    ? t('supportDisableInfo')
+    : buttonAction?.disabled
+      ? buttonAction.disabledTooltip
+      : undefined
+
+  const handleButtonAction = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (buttonAction?.type === 'submit') event.preventDefault()
+    const result = buttonAction?.action(event)
+    if (result) {
+      void result.catch(() => undefined)
+    }
+  }
+
   return (
     <MUIDrawer
       variant="temporary"
@@ -112,14 +134,14 @@ export const Drawer: React.FC<DrawerProps> = ({
             display="flex"
             alignItems="flex-end"
           >
-            <Tooltip arrow title={buttonAction.disabled ? buttonAction.disabledTooltip : undefined}>
-              <span tabIndex={buttonAction.disabled ? 0 : undefined} style={{ width: '100%' }}>
+            <Tooltip arrow title={disabledTooltip}>
+              <span tabIndex={isButtonActionDisabled ? 0 : undefined} style={{ width: '100%' }}>
                 <Button
-                  disabled={buttonAction.disabled}
+                  disabled={isButtonActionDisabled}
                   variant={buttonAction.variant ?? 'contained'}
                   color={buttonAction.color ?? 'primary'}
                   fullWidth
-                  onClick={buttonAction.action}
+                  onClick={handleButtonAction}
                   type={buttonAction.type ?? 'button'}
                   form={buttonAction.form ?? undefined}
                 >

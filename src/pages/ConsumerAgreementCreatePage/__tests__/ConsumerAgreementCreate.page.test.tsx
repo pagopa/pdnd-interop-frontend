@@ -130,4 +130,26 @@ describe('ConsumerAgreementCreatePage', () => {
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
   })
+
+  it('navigates to the agreement thank you page after submission', async () => {
+    const user = userEvent.setup()
+    submitAgreementDraftMock.mockImplementationOnce(
+      (_payload: unknown, { onSuccess }: { onSuccess: () => void }) => onSuccess()
+    )
+    const { default: ConsumerAgreementCreatePage } = await import('../ConsumerAgreementCreate.page')
+
+    render(<ConsumerAgreementCreatePage />)
+    await user.click(screen.getByRole('button', { name: 'edit.submitBtn' }))
+
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_AGREEMENT_CREATE_THANK_YOU', {
+      params: { agreementId: 'agreement-id' },
+      state: {
+        title: 'edit.thankYou.title',
+        description: 'edit.thankYou.description',
+        buttonLabel: 'edit.thankYou.action',
+        closeRouteKey: 'SUBSCRIBE_AGREEMENT_READ',
+        closeRouteParams: { agreementId: 'agreement-id' },
+      },
+    })
+  })
 })

@@ -7,7 +7,7 @@ export const createMockPublicKey = createMockFactory<PublicKey>({
   user: {
     userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     name: 'Mario',
-    surname: 'Rossi',
+    familyName: 'Rossi',
   },
   createdAt: '2023-02-28T10:57:30.512218Z',
   isOrphan: true,

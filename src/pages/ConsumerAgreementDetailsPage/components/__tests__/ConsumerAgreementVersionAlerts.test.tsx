@@ -30,7 +30,22 @@ describe('ConsumerAgreementVersionAlerts', () => {
     expect(alerts[0]).toHaveClass(/MuiAlert-standardInfo/)
   })
 
-  it('renders a single warning alert when state is ARCHIVING + scope DESCRIPTOR (no see-details action)', () => {
+  it('renders a warning alert plus obsolete-version info alert when state is ARCHIVING + scope DESCRIPTOR and the descriptor is obsolete', () => {
+    renderAlerts(
+      createMockEServiceDescriptorCatalog({
+        id: 'obsolete-descriptor-id',
+        state: 'ARCHIVING',
+        archivingSchedule: { scope: 'DESCRIPTOR', archivableOn: '2026-12-01T00:00:00.000Z' },
+      })
+    )
+    const alerts = screen.getAllByRole('alert')
+    expect(alerts).toHaveLength(2)
+    expect(alerts[0]).toHaveClass(/MuiAlert-standardWarning/)
+    expect(alerts[1]).toHaveClass(/MuiAlert-standardInfo/)
+    expect(screen.queryByRole('button', { name: 'seeDetails' })).toBeNull()
+  })
+
+  it('renders a single warning alert when state is ARCHIVING + scope DESCRIPTOR and the descriptor is the active one', () => {
     renderAlerts(
       createMockEServiceDescriptorCatalog({
         state: 'ARCHIVING',

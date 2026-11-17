@@ -13,20 +13,31 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import * as useErrorData from '@/stores/error-data.store'
 import userEvent from '@testing-library/user-event'
 import { assistanceLink } from '@/config/constants'
-import { SELFCARE_BASE_URL, AVATAR_BASEPATH } from '@/config/env'
+import { SELFCARE_BASE_URL, AVATAR_BASEPATH, FE_LOGIN_URL } from '@/config/env'
 import type { Mock } from 'vitest'
 import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 import type * as ReactQuery from '@tanstack/react-query'
+
+const localDevelopmentMocks = vi.hoisted(() => ({
+  identitySelectionEnabled: false,
+}))
+
+vi.mock('@/config/local-development', () => ({
+  get isLocalIdentitySelectionEnabled() {
+    return localDevelopmentMocks.identitySelectionEnabled
+  },
+}))
 
 // Functions and component mocks
 const mockTFunction = (key: string) => key
 
 const spyUseErrorData = vi.spyOn(useErrorData, 'useErrorData')
 
-vi.mock('@pagopa/mui-italia', () => {
+vi.mock('@pagopa/mui-italia', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@pagopa/mui-italia')>()
+
   return {
-    theme: vi.fn(),
-    CopyToClipboardButton: vi.fn(),
+    ...actual,
     HeaderAccount: ({
       onLogin,
       onAssistanceClick,
@@ -118,6 +129,10 @@ const mockParties: Array<SelfcareInstitution> = [
 ]
 
 describe('Header', () => {
+  afterEach(() => {
+    localDevelopmentMocks.identitySelectionEnabled = false
+  })
+
   it('getPartyList should return an Array of PartySwitchItem', () => {
     const result = getPartyList(mockParties, undefined, mockTFunction as TFunction<'common'>)
 
@@ -262,7 +277,8 @@ describe('Header', () => {
       productsData: mockProducts,
     })
 
-    const spyWindowOpen = vi.spyOn(window, 'open')
+    const spyWindowOpen = vi.spyOn(window, 'open').mockImplementation(() => null)
+    spyWindowOpen.mockClear()
 
     spyUseErrorData.mockReturnValue({
       correlationId: null,
@@ -293,7 +309,8 @@ describe('Header', () => {
       productsData: mockProducts,
     })
 
-    const spyWindowOpen = vi.spyOn(window, 'open')
+    const spyWindowOpen = vi.spyOn(window, 'open').mockImplementation(() => null)
+    spyWindowOpen.mockClear()
 
     const correlationId = 'test-correlation-id'
     const errorCode = 'test-error-code'
@@ -388,6 +405,30 @@ describe('Header', () => {
     expect(mockWindowAssign).toBeCalledWith(
       `${SELFCARE_BASE_URL}/token-exchange?institutionId=${'test-party-id'}&productId=prod-interop&lang=it`
     )
+  })
+
+  it('opens the configured local login instead of Selfcare in local development', async () => {
+    localDevelopmentMocks.identitySelectionEnabled = true
+    const user = userEvent.setup()
+    const jwtMock = createMockJwtUser()
+    mockUseGetData({
+      partiesData: mockParties,
+      productsData: mockProducts,
+    })
+    mockHeaderProduct(createMockPartySwitchItem(), createMockProductSwitchItem())
+    const mockWindowAssign = vi.fn()
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      assign: mockWindowAssign,
+    } as unknown as Location)
+
+    const screen = renderWithApplicationContext(<Header jwt={jwtMock} />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'test-selectedParty' }))
+
+    expect(mockWindowAssign).toHaveBeenCalledWith(FE_LOGIN_URL)
   })
 
   it('Header handleSelectProcuct action should return nothing if selfcareId from jwt is undefined', async () => {

@@ -11,12 +11,13 @@ import { LoadingButton } from '@mui/lab'
 import { Trans, useTranslation } from 'react-i18next'
 import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import { useNavigate } from '@/router'
 import type { DialogRequestRiskAnalysisCompilationProps } from '@/types/dialog.types'
 
 export const DialogRequestRiskAnalysisCompilation: React.FC<
   DialogRequestRiskAnalysisCompilationProps
-> = ({ purposeId, reviewerId, reviewerName }) => {
+> = ({ purposeId, reviewerIds, reviewerNames, hasRiskAnalysis }) => {
   const ariaLabelId = React.useId()
 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
@@ -24,18 +25,24 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
     keyPrefix: 'dialogRequestRiskAnalysisCompilation',
   })
 
+  const description = t(hasRiskAnalysis ? 'descriptionWithRiskAnalysis' : 'description', {
+    count: reviewerNames.length,
+    reviewerNames: reviewerNames.join(', '),
+  })
+
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
   const { mutate: assignReviewer, isPending } = PurposeMutations.useAssignRiskAnalysisReviewer({
-    showSuccessToast: true,
+    feedback: 'create',
   })
+  const isConfirmDisabled = useIsActionDisabledBySupport(isPending)
 
   const handleConfirm = () => {
     assignReviewer(
       {
         purposeId,
         reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-        reviewerIds: [reviewerId],
+        reviewerIds,
       },
       {
         onSuccess: () => {
@@ -62,7 +69,7 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
               strong: <Typography variant="inherit" component="span" fontWeight={600} />,
             }}
           >
-            {t('description', { reviewerName })}
+            {description}
           </Trans>
         </Typography>
       </DialogContent>
@@ -71,7 +78,12 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
         <Button variant="outlined" onClick={handleClose} disabled={isPending}>
           {tCommon('cancel')}
         </Button>
-        <LoadingButton variant="contained" loading={isPending} onClick={handleConfirm}>
+        <LoadingButton
+          variant="contained"
+          loading={isPending}
+          disabled={isConfirmDisabled}
+          onClick={handleConfirm}
+        >
           {tCommon('confirm')}
         </LoadingButton>
       </DialogActions>

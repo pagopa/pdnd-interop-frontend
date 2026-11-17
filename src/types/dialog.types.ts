@@ -8,6 +8,8 @@ import type {
   TargetTenantKind,
   CompactAgreement,
   CompactUser,
+  DelegationTenant,
+  RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
@@ -49,6 +51,7 @@ export type DialogProps =
   | DialogSelectAgreementConsumerProps
   | DialogRequestPurposeApprovalProps
   | DialogRequestRiskAnalysisCompilationProps
+  | DialogEditRiskAnalysisAssignmentProps
   | DialogApproveRiskAnalysisProps
   | DialogRejectRiskAnalysisProps
   | DialogShowEserviceVersionsListProps
@@ -60,6 +63,9 @@ export type DialogProps =
   | DialogReactivateArchivingDescriptorProps
   | DialogArchiveVersionProps
   | DialogCancelVersionArchivingProps
+  | DialogBlockArchivingRequestProps
+  | DialogDelegatorConfirmArchivingProps
+  | DialogDelegatorRejectArchivingProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -160,6 +166,7 @@ export type DialogRevokeDelegationProps = {
   type: 'revokeDelegation'
   delegationId: string
   eserviceName: string
+  delegateName: string
   delegationKind: DelegationKind
 }
 
@@ -172,6 +179,7 @@ export type DialogRejectDelegatedVersionDraftProps = {
 export type DialogSelectAgreementConsumerProps = {
   type: 'selectAgreementConsumer'
   action: 'inspect' | 'edit' | 'create'
+  initialSelectedConsumer?: DelegationTenant
   eservice: {
     id: string
     name: string
@@ -188,7 +196,14 @@ export type DialogSelectAgreementConsumerProps = {
   }: {
     isOwnEService: boolean
     delegationId?: string
-  }) => void
+  }) => void | Promise<void>
+  /**
+   * Lifetime of the flow that opened this dialog, provided by the originating hook.
+   * Aborted permanently on pathname change, owner unmount, or a subsequent flow opening.
+   * Only gates restoration after a failed `onSubmitCreate`; never cancels HTTP requests.
+   * When omitted the flow is considered active.
+   */
+  flowSignal?: AbortSignal
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
@@ -198,25 +213,40 @@ export type DialogTenantKindEserviceTemplateProps = {
 
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
-  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void | Promise<void>
 }
 
 export type DialogRequestPurposeApprovalProps = {
   type: 'requestPurposeApproval'
-  reviewer: CompactUser
+  reviewers: Array<CompactUser>
   onConfirm: VoidFunction
 }
 
 export type DialogRequestRiskAnalysisCompilationProps = {
   type: 'requestRiskAnalysisCompilation'
   purposeId: string
-  reviewerId: string
-  reviewerName: string
+  reviewerIds: string[]
+  reviewerNames: string[]
+  hasRiskAnalysis: boolean
+}
+
+export type DialogEditRiskAnalysisAssignmentProps = {
+  type: 'editRiskAnalysisAssignment'
+  /** Review mode currently persisted on the purpose. */
+  fromMode: RiskAnalysisReviewMode
+  /** Review mode the admin is about to save. */
+  toMode: RiskAnalysisReviewMode
+  /** Full names of the reviewers added on top of the persisted ones. */
+  addedReviewerNames: string[]
+  /** Full names of the persisted reviewers the admin is dropping. */
+  removedReviewerNames: string[]
+  onConfirm: VoidFunction
 }
 
 export type DialogApproveRiskAnalysisProps = {
   type: 'approveRiskAnalysis'
   purposeId: string
+  metadataVersionToSign: number
 }
 
 export type DialogRejectRiskAnalysisProps = {
@@ -236,11 +266,17 @@ export type DialogShowEserviceVersionsListProps = {
 export type DialogArchiveEserviceProps = {
   type: 'archiveEservice'
   eserviceId: string
+  isDelegate?: boolean
+  delegatorName?: string
 }
 
 export type DialogCancelEserviceArchivingProps = {
   type: 'cancelEserviceArchiving'
   eserviceId: string
+  isDelegate?: boolean
+  delegatorName?: string
+  archivingApproved?: boolean
+  archivingDate?: string
 }
 
 export type DialogSuspendArchivingEserviceProps = {
@@ -271,10 +307,35 @@ export type DialogArchiveVersionProps = {
   type: 'archiveVersion'
   eserviceId: string
   descriptorId: string
+  isDelegate?: boolean
+  delegatorName?: string
 }
 
 export type DialogCancelVersionArchivingProps = {
   type: 'cancelVersionArchiving'
   eserviceId: string
   descriptorId: string
+  isDelegate?: boolean
+  delegatorName?: string
+  archivingApproved?: boolean
+  archivingDate?: string
+}
+
+export type DialogBlockArchivingRequestProps = {
+  type: 'blockArchivingRequest'
+}
+
+export type DialogDelegatorConfirmArchivingProps = {
+  type: 'delegatorConfirmArchiving'
+  eserviceId: string
+  descriptorId?: string
+  delegatedName: string
+  gracePeriodDays: number
+}
+
+export type DialogDelegatorRejectArchivingProps = {
+  type: 'delegatorRejectArchiving'
+  eserviceId: string
+  descriptorId?: string
+  delegatedName: string
 }

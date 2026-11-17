@@ -1,4 +1,6 @@
 import { AgreementQueries } from '@/api/agreement'
+import { AuthHooks } from '@/api/auth'
+import { DelegationQueries } from '@/api/delegation'
 import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
@@ -17,6 +19,7 @@ import {
 import { ProviderAgreementDetailsContextProvider } from './components/ProviderAgreementDetailsContext'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
+import { NotFoundError } from '@/utils/errors.utils'
 
 const ProviderAgreementDetailsPage: React.FC = () => {
   return (
@@ -28,12 +31,33 @@ const ProviderAgreementDetailsPage: React.FC = () => {
 
 const ProviderAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
+  const { jwt } = AuthHooks.useJwt()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
+  const organizationId = jwt?.organizationId
+  const {
+    data: { results: producerDelegations },
+  } = useSuspenseQuery(
+    DelegationQueries.getList({
+      limit: 1,
+      offset: 0,
+      eserviceIds: [agreement.eservice.id],
+      states: ['ACTIVE'],
+      kind: 'DELEGATED_PRODUCER',
+      delegateIds: organizationId ? [organizationId] : [],
+    })
+  )
   const { actions } = useGetAgreementsActions(agreement, 'PRODUCER')
 
   useMarkNotificationsAsRead(agreementId)
+
+  const canAccessAgreement =
+    agreement.producer.id === organizationId || producerDelegations.length > 0
+
+  if (!canAccessAgreement) {
+    throw new NotFoundError()
+  }
 
   const suspendedBy = match(agreement)
     .with({ suspendedByProducer: true }, () => 'byProducer' as const)

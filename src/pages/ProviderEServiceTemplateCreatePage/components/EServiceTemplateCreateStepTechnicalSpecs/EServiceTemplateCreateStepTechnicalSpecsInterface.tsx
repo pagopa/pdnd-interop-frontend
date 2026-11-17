@@ -67,5 +67,10 @@ export function EServiceTemplateCreateStepTechnicalSpecsInterface() {
     )
   }
 
-  return <UploadDocumentsInterface onSubmit={onSubmit} />
+  return (
+    <UploadDocumentsInterface
+      onSubmit={onSubmit}
+      technology={eserviceTemplateVersion?.eserviceTemplate.technology}
+    />
+  )
 }

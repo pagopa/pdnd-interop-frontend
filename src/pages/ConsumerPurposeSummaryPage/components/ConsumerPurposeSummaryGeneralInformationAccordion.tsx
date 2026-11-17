@@ -8,6 +8,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 import { AuthHooks } from '@/api/auth'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -16,7 +17,7 @@ type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
 export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
 > = ({ purposeId }) => {
-  const { isReviewer } = AuthHooks.useJwt()
+  const { jwt, isReviewer } = AuthHooks.useJwt()
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
 
   const { data: remainingDailyCalls } = useQuery({
@@ -25,6 +26,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   })
 
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+  const { t: tCommon } = useTranslation('common')
 
   const generalInfoAlertProps = useGetPurposeInfoAlert({
     dailyCalls: purpose.currentVersion?.dailyCalls,
@@ -35,6 +37,18 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
     keyPrefix: 'summary.alerts',
     showFallback: false,
   })
+
+  const loggedReviewer = purpose?.reviewerWorkflow?.reviewers?.find((r) => r.userId === jwt?.uid)
+  const assignmentDate = loggedReviewer?.sentToReviewerAt
+    ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
+    : '-'
+  const reviewers = purpose.reviewerWorkflow?.reviewers ?? []
+  // An assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
+  // organization, or a different tenant in a delegation): fall back to a placeholder
+  // instead of rendering a blank value.
+  const reviewerNames = reviewers
+    .map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
+    .map((name) => name || tCommon('reviewerUnknown'))
 
   return (
     <Stack spacing={2}>
@@ -93,6 +107,20 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
           {generalInfoAlertProps && <Alert sx={{ mt: 3 }} {...generalInfoAlertProps} />}
         </Stack>
       </SectionContainer>
+      {isReviewer && (
+        <SectionContainer innerSection sx={{ pt: 4 }} title={t('assignmentSection.label')}>
+          <Stack spacing={2}>
+            <InformationContainer
+              label={t('assignmentSection.assignmentDate.label')}
+              content={assignmentDate}
+            />
+            <InformationContainer
+              label={t('assignmentSection.reviewers.label')}
+              content={reviewerNames.join(', ') || '-'}
+            />
+          </Stack>
+        </SectionContainer>
+      )}
     </Stack>
   )
 }

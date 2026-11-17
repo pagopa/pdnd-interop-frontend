@@ -1,5 +1,6 @@
 import type { PublicKey } from '@/api/api.generatedTypes'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
@@ -31,12 +32,13 @@ export const KeychainPublicKeysTableRow: React.FC<KeychainPublicKeysTableRowProp
   })
 
   const handlePrefetchKey = () => {
-    queryClient.prefetchQuery(
-      KeychainQueries.getProducerKeychainKey({
+    queryClient.prefetchQuery({
+      ...KeychainQueries.getProducerKeychainKey({
         producerKeychainId: keychainId,
         keyId,
-      })
-    )
+      }),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const color = publicKey.isOrphan ? 'error' : 'primary'

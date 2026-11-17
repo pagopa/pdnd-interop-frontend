@@ -1,5 +1,5 @@
 import React from 'react'
-import type { RouteKey, useParams } from '@/router'
+import type { useParams } from '@/router'
 import { Link } from '@/router'
 import {
   Avatar,
@@ -15,33 +15,29 @@ import {
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 
-type CatalogRoutesKeys = Extract<
-  RouteKey,
-  'SUBSCRIBE_CATALOG_VIEW' | 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'
+type EServiceTemplateCatalogCardRouteParams = ReturnType<
+  typeof useParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>
 >
-type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
-interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
+interface EServiceTemplateCatalogCardProps {
   title: string
   description: string
   producerName: string
   avatarURL?: string
   prefetchFn: () => void
-  to: TRouteKey
-  params: CatalogCardRouteParams<TRouteKey>
+  params: EServiceTemplateCatalogCardRouteParams
   disabled?: boolean
 }
 
-export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
+export function EServiceTemplateCatalogCard({
   title,
   description,
   disabled,
   producerName,
   avatarURL,
   prefetchFn,
-  to,
   params,
-}: CatalogCardProps<TRouteKey>) {
+}: EServiceTemplateCatalogCardProps) {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
 
@@ -114,7 +110,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
                 as="button"
                 size="small"
                 variant="contained"
-                to={to}
+                to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
                 params={params}
                 onFocusVisible={prefetchFn}
                 color="primary"
@@ -133,7 +129,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
   )
 }
 
-export const CatalogCardSkeleton = () => {
+export const EServiceTemplateCatalogCardSkeleton = () => {
   return (
     <Skeleton
       sx={{

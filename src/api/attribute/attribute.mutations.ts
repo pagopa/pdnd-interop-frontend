@@ -38,6 +38,7 @@ function useCreateVerified() {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
     },
   })
 }
@@ -49,6 +50,7 @@ function useCreateDeclared() {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
     },
   })
 }
@@ -190,6 +192,20 @@ function useRevokeDeclaredPartyAttribute() {
   })
 }
 
+function useUpdateCertifiedDiscreteAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.updateCertifiedDiscreteAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.updateCertifiedDiscreteAttribute,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
 export const AttributeMutations = {
   useCreateCertified,
   useCreateCertifiedDiscrete,
@@ -204,4 +220,5 @@ export const AttributeMutations = {
   useRevokeVerifiedPartyAttribute,
   useDeclarePartyAttribute,
   useRevokeDeclaredPartyAttribute,
+  useUpdateCertifiedDiscreteAttribute,
 }

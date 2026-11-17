@@ -5,7 +5,7 @@ import { STAGE } from '@/config/env'
 function getSessionToken() {
   return queryOptions({
     queryKey: ['AuthGetSessionToken'],
-    queryFn: AuthServices.getSessionToken,
+    queryFn: ({ signal }) => AuthServices.getSessionToken(signal),
     staleTime: Infinity,
     gcTime: Infinity,
     retry: false,

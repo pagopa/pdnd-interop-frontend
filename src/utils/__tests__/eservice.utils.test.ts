@@ -53,7 +53,8 @@ describe('getViewLatestVersionTargetId utility function testing', () => {
         { id: 'test-id-1', state: 'DEPRECATED', version: '1', audience: ['test-audience'] },
         { id: 'test-id-2', state: 'PUBLISHED', version: '2', audience: ['test-audience'] },
       ],
-      'test-id-1'
+      'test-id-1',
+      'consumer'
     )
 
     expect(result).toEqual('test-id-2')
@@ -65,13 +66,14 @@ describe('getViewLatestVersionTargetId utility function testing', () => {
         { id: 'test-id-1', state: 'DEPRECATED', version: '1', audience: ['test-audience'] },
         { id: 'test-id-2', state: 'PUBLISHED', version: '2', audience: ['test-audience'] },
       ],
-      'test-id-2'
+      'test-id-2',
+      'consumer'
     )
 
     expect(result).toBeUndefined()
   })
 
-  it('should ignore DRAFT, WAITING_FOR_APPROVAL and ARCHIVED descriptors when computing latest', () => {
+  it('should ignore DRAFT, WAITING_FOR_APPROVAL and ARCHIVED descriptors for consumer', () => {
     const result = getViewLatestVersionTargetId(
       [
         { id: 'test-id-1', state: 'DEPRECATED', version: '1', audience: ['test-audience'] },
@@ -85,22 +87,97 @@ describe('getViewLatestVersionTargetId utility function testing', () => {
         },
         { id: 'test-id-5', state: 'ARCHIVED', version: '5', audience: ['test-audience'] },
       ],
-      'test-id-1'
+      'test-id-1',
+      'consumer'
     )
 
     expect(result).toEqual('test-id-2')
   })
 
-  it('should return undefined when all non-current descriptors are filtered out', () => {
+  it('should return undefined for consumer when all non-current descriptors are filtered out', () => {
     const result = getViewLatestVersionTargetId(
       [
         { id: 'test-id-1', state: 'ARCHIVED', version: '1', audience: ['test-audience'] },
         { id: 'test-id-2', state: 'ARCHIVED', version: '2', audience: ['test-audience'] },
       ],
-      'test-id-1'
+      'test-id-1',
+      'consumer'
     )
 
     expect(result).toBeUndefined()
+  })
+
+  it('should return the latest descriptor id when the current is not the latest for provider', () => {
+    const result = getViewLatestVersionTargetId(
+      [
+        { id: 'test-id-1', state: 'DEPRECATED', version: '1', audience: ['test-audience'] },
+        { id: 'test-id-2', state: 'PUBLISHED', version: '2', audience: ['test-audience'] },
+      ],
+      'test-id-1',
+      'provider'
+    )
+
+    expect(result).toEqual('test-id-2')
+  })
+
+  it('should return undefined when the current descriptor is already the latest for provider', () => {
+    const result = getViewLatestVersionTargetId(
+      [
+        { id: 'test-id-1', state: 'DEPRECATED', version: '1', audience: ['test-audience'] },
+        { id: 'test-id-2', state: 'PUBLISHED', version: '2', audience: ['test-audience'] },
+      ],
+      'test-id-2',
+      'provider'
+    )
+
+    expect(result).toBeUndefined()
+  })
+
+  it('should ignore DRAFT and WAITING_FOR_APPROVAL but keep ARCHIVED descriptors for provider', () => {
+    const result = getViewLatestVersionTargetId(
+      [
+        { id: 'test-id-1', state: 'DEPRECATED', version: '1', audience: ['test-audience'] },
+        { id: 'test-id-2', state: 'PUBLISHED', version: '2', audience: ['test-audience'] },
+        { id: 'test-id-3', state: 'DRAFT', version: '3', audience: ['test-audience'] },
+        {
+          id: 'test-id-4',
+          state: 'WAITING_FOR_APPROVAL',
+          version: '4',
+          audience: ['test-audience'],
+        },
+        { id: 'test-id-5', state: 'ARCHIVED', version: '5', audience: ['test-audience'] },
+      ],
+      'test-id-1',
+      'provider'
+    )
+
+    expect(result).toEqual('test-id-5')
+  })
+
+  it('should return latest ARCHIVED descriptor for provider when all descriptors are ARCHIVED', () => {
+    const result = getViewLatestVersionTargetId(
+      [
+        { id: 'test-id-1', state: 'ARCHIVED', version: '1', audience: ['test-audience'] },
+        { id: 'test-id-2', state: 'ARCHIVED', version: '2', audience: ['test-audience'] },
+      ],
+      'test-id-1',
+      'provider'
+    )
+
+    expect(result).toEqual('test-id-2')
+  })
+
+  it('should keep ARCHIVED descriptors for provider when computing latest', () => {
+    const result = getViewLatestVersionTargetId(
+      [
+        { id: 'test-id-1', state: 'PUBLISHED', version: '1', audience: ['test-audience'] },
+        { id: 'test-id-2', state: 'ARCHIVED', version: '2', audience: ['test-audience'] },
+      ],
+      'test-id-1',
+      'provider'
+    )
+
+    expect(result).toEqual('test-id-2')
   })
 })
 

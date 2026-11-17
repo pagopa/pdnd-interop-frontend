@@ -10,6 +10,7 @@ import { AddKeychainToEServiceDrawer } from './AddKeychainToEServiceDrawer'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
 
 export const ProviderEserviceKeychainsTab: React.FC = () => {
@@ -32,21 +33,20 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
 
   const { mutateAsync: addKeychainToEService } = KeychainMutations.useAddKeychainToEService()
   const handleSubmit = async (selectedKeychain: CompactProducerKeychain) => {
-    addKeychainToEService({ keychainId: selectedKeychain.id, eserviceId: eserviceId })
-
-    closeDrawer()
+    await addKeychainToEService({ keychainId: selectedKeychain.id, eserviceId: eserviceId })
   }
 
   const canAddKeychain = isAdmin
 
   const handlePrefetchKeychainList = () => {
     if (!canAddKeychain) return
-    queryClient.prefetchQuery(
-      KeychainQueries.getKeychainsList({
+    queryClient.prefetchQuery({
+      ...KeychainQueries.getKeychainsList({
         limit: 50,
         offset: 0,
-      })
-    )
+      }),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

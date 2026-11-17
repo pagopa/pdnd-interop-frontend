@@ -41,7 +41,6 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
 
   const lastDescriptor = getLastDescriptor(delegation.eservice?.descriptors)
 
-  const downloadDelegationContract = DelegationDownloads.useDownloadDelegationContract()
   const downloadSignedDelegationContract = DelegationDownloads.useDownloadSignedDelegationContract()
 
   const handleDownloadSignedDelegationDocument = () => {
@@ -58,7 +57,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
 
   const handleDownloadRevokeSignedDelegationDocument = () => {
     if (!delegation.revocationSignedContract) return
-    downloadDelegationContract(
+    downloadSignedDelegationContract(
       {
         delegationId: delegationId,
         contractId: delegation.revocationSignedContract?.id,

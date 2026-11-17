@@ -13,6 +13,7 @@ import type {
   GetAttributesParams,
   GetRequesterCertifiedAttributesParams,
   RequesterCertifiedAttributes,
+  UpdateCertifiedDiscreteTenantAttributeSeed,
   UpdateVerifiedTenantAttributeSeed,
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
@@ -169,9 +170,9 @@ async function revokeVerifiedPartyAttribute({
   attributeId: string
   agreementId: string
 }) {
-  return axiosInstance.delete<Attribute>(
+  return axiosInstance.delete<void>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified/${attributeId}`,
-    { data: { agreementId } }
+    { params: { agreementId } }
   )
 }
 
@@ -182,6 +183,17 @@ async function declarePartyAttribute(payload: DeclaredTenantAttributeSeed) {
 async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: string }) {
   return axiosInstance.delete<Attribute>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/attributes/declared/${attributeId}`
+  )
+}
+
+async function updateCertifiedDiscreteAttribute({
+  tenantId,
+  attributeId,
+  ...payload
+}: { tenantId: string; attributeId: string } & UpdateCertifiedDiscreteTenantAttributeSeed) {
+  return axiosInstance.put(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete/${attributeId}`,
+    payload
   )
 }
 
@@ -205,4 +217,5 @@ export const AttributeServices = {
   revokeVerifiedPartyAttribute,
   declarePartyAttribute,
   revokeDeclaredPartyAttribute,
+  updateCertifiedDiscreteAttribute,
 }

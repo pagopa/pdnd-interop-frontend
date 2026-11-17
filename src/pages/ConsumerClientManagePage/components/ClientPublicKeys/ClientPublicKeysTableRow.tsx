@@ -1,4 +1,5 @@
 import { ClientQueries } from '@/api/client'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { Link } from '@/router'
 import { formatDateString } from '@/utils/format.utils'
@@ -33,7 +34,10 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' : 'SUBSCRIBE_CLIENT_KEY_EDIT'
 
   const handlePrefetchKey = () => {
-    queryClient.prefetchQuery(ClientQueries.getSingleKey(clientId, kid))
+    queryClient.prefetchQuery({
+      ...ClientQueries.getSingleKey(clientId, kid),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

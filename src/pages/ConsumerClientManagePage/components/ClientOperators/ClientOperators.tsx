@@ -8,6 +8,7 @@ import { ClientMutations, ClientQueries } from '@/api/client'
 import type { Users } from '@/api/api.generatedTypes'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { TenantQueries } from '@/api/tenant'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import { HeadSection } from '@/components/shared/HeadSection'
 import type { ActionItemButton } from '@/types/common.types'
@@ -29,8 +30,7 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
   const { data: currentOperators = [] } = useQuery(ClientQueries.getOperatorsList(clientId))
 
   const handleSubmit = async (operators: Users) => {
-    addOperators({ clientId, userIds: operators.map(({ userId }) => userId) })
-    closeDrawer()
+    await addOperators({ clientId, userIds: operators.map(({ userId }) => userId) })
   }
 
   const excludeOperatorsIdsList = currentOperators.map(({ userId }) => userId)
@@ -39,12 +39,13 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
 
   const handlePrefetchUserList = () => {
     if (!canAddOperator) return
-    queryClient.prefetchQuery(
-      TenantQueries.getPartyUsersList({
+    queryClient.prefetchQuery({
+      ...TenantQueries.getPartyUsersList({
         roles: ['admin', 'security'],
         tenantId: jwt?.organizationId as string,
-      })
-    )
+      }),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const action: ActionItemButton[] = [

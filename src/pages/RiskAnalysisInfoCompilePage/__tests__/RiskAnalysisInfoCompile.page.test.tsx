@@ -1,15 +1,31 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent, waitFor } from '@testing-library/react'
 import RiskAnalysisInfoCompilePage from '../RiskAnalysisInfoCompile.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import { formatDateStringNumeric } from '@/utils/format.utils'
+import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 
 mockUseParams({
   purposeId: 'purpose-id-001',
 })
 
 const mockNavigate = vi.fn()
+const reviewer1Id = 'reviewer-1-id'
+const reviewer2Id = 'reviewer-2-id'
+const reviewer1AssignmentDate = '2026-01-10T12:00:00.000Z'
+const reviewer2AssignmentDate = '2026-02-20T12:00:00.000Z'
+
+const { markNotificationsAsReadMock } = vi.hoisted(() => ({
+  markNotificationsAsReadMock: vi.fn(),
+}))
+
+vi.mock('@/api/notification/notification.services', () => ({
+  NotificationServices: {
+    markNotificationsAsReadByEntityId: markNotificationsAsReadMock,
+  },
+}))
 
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockNavigate)
 
@@ -36,6 +52,78 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
 describe('RiskAnalysisInfoCompilePage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer1Id } })
+  })
+
+  it('should mark notifications as read when the assigned reviewer opens the compilation entry page', async () => {
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer1Id } })
+    useQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        reviewerWorkflow: {
+          signingState: 'ASSIGNED',
+          reviewers: [{ userId: reviewer1Id, name: 'Mario', familyName: 'Rossi' }],
+        },
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: 'purpose-id-001' })
+    })
+  })
+
+  it('should mark notifications on entry without waiting for the purpose or repeating on load', async () => {
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer1Id } })
+    useQueryMock.mockReturnValue({ data: undefined, isLoading: true })
+
+    const { rerender } = renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: 'purpose-id-001' })
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        reviewerWorkflow: {
+          signingState: 'ASSIGNED',
+          reviewers: [{ userId: reviewer1Id, name: 'Mario', familyName: 'Rossi' }],
+        },
+      }),
+      isLoading: false,
+    })
+    rerender(<RiskAnalysisInfoCompilePage />)
+
+    expect(markNotificationsAsReadMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('should mark notifications for the route entity regardless of reviewer assignment', async () => {
+    mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: reviewer2Id } })
+    useQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        reviewerWorkflow: {
+          signingState: 'ASSIGNED',
+          reviewers: [{ userId: reviewer1Id, name: 'Mario', familyName: 'Rossi' }],
+        },
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await waitFor(() => {
+      expect(markNotificationsAsReadMock).toHaveBeenCalledWith({ entityId: 'purpose-id-001' })
+    })
   })
 
   it('should render page title', () => {
@@ -165,7 +253,10 @@ describe('RiskAnalysisInfoCompilePage', () => {
   })
 
   it('should navigate to compile page on begin compile click', () => {
-    const mockPurpose = createMockPurpose()
+    const mockPurpose = createMockPurpose({
+      riskAnalysisReviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+      reviewerWorkflow: { signingState: 'ASSIGNED' },
+    })
 
     useQueryMock.mockReturnValue({
       data: mockPurpose,
@@ -187,6 +278,118 @@ describe('RiskAnalysisInfoCompilePage', () => {
       params: {
         purposeId: mockPurpose.id,
       },
+    })
+  })
+
+  it('should redirect a submitted mode 2 analysis from the notification entry page to approval', () => {
+    const purpose = createMockPurpose({
+      riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerWorkflow: { signingState: 'SUBMITTED' },
+    })
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false, isFetching: false })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(mockNavigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_APPROVAL', {
+      params: { purposeId: purpose.id },
+      replace: true,
+    })
+    expect(screen.queryByRole('button', { name: 'beginCompileBtn' })).not.toBeInTheDocument()
+  })
+
+  it.each<RiskAnalysisSigningState>(['SIGNED', 'REJECTED'])(
+    'should redirect an old notification to the details when the analysis is %s',
+    (signingState) => {
+      const purpose = createMockPurpose({
+        riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        reviewerWorkflow: { signingState },
+      })
+      useQueryMock.mockReturnValue({ data: purpose, isLoading: false, isFetching: false })
+
+      renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      expect(mockNavigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+        params: { purposeId: purpose.id },
+        replace: true,
+      })
+      expect(screen.queryByRole('button', { name: 'beginCompileBtn' })).not.toBeInTheDocument()
+    }
+  )
+
+  it('should wait for the current purpose state before redirecting a notification', () => {
+    const purpose = createMockPurpose({
+      riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerWorkflow: { signingState: 'SUBMITTED' },
+    })
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false, isFetching: true })
+
+    const { rerender } = renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(screen.queryByRole('button', { name: 'beginCompileBtn' })).not.toBeInTheDocument()
+
+    useQueryMock.mockReturnValue({
+      data: { ...purpose, reviewerWorkflow: { signingState: 'SIGNED' } },
+      isLoading: false,
+      isFetching: false,
+    })
+    rerender(<RiskAnalysisInfoCompilePage />)
+
+    expect(mockNavigate).toHaveBeenCalledOnce()
+    expect(mockNavigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+      params: { purposeId: purpose.id },
+      replace: true,
+    })
+  })
+
+  it('should not redirect before the purpose has loaded', () => {
+    useQueryMock.mockReturnValue({ data: undefined, isLoading: true, isFetching: true })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: 'beginCompileBtn' })).toBeDisabled()
+  })
+
+  it('should prevent compilation while refreshing a cached assignment that has been signed', () => {
+    const purpose = createMockPurpose({
+      riskAnalysisReviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+      reviewerWorkflow: { signingState: 'ASSIGNED' },
+    })
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false, isFetching: true })
+
+    const { rerender } = renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const button = screen.getByRole('button', { name: 'beginCompileBtn' })
+    expect(button).toBeDisabled()
+    fireEvent.click(button)
+    expect(mockNavigate).not.toHaveBeenCalled()
+
+    useQueryMock.mockReturnValue({
+      data: { ...purpose, reviewerWorkflow: { signingState: 'SIGNED' } },
+      isLoading: false,
+      isFetching: false,
+    })
+    rerender(<RiskAnalysisInfoCompilePage />)
+
+    expect(mockNavigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+      params: { purposeId: purpose.id },
+      replace: true,
     })
   })
 
@@ -213,5 +416,63 @@ describe('RiskAnalysisInfoCompilePage', () => {
     fireEvent.click(button)
 
     expect(mockNavigate).not.toHaveBeenCalled()
+  })
+
+  it('should not show reviewers section when user is not reviewer', async () => {
+    const mockPurpose = createMockPurpose()
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+    mockUseJwt({ isReviewer: false })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('reviewersSection.assignmentDate.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('reviewersSection.reviewers.label')).not.toBeInTheDocument()
+  })
+
+  it('should show reviewers section when user is reviewer', async () => {
+    const mockPurpose = createMockPurpose({
+      reviewerWorkflow: {
+        reviewers: [
+          {
+            userId: reviewer1Id,
+            name: 'Mario',
+            familyName: 'Rossi',
+            sentToReviewerAt: reviewer1AssignmentDate,
+          },
+          {
+            userId: reviewer2Id,
+            name: 'Luigi',
+            familyName: 'Verdi',
+            sentToReviewerAt: reviewer2AssignmentDate,
+          },
+        ],
+      },
+    })
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+    mockUseJwt({ isReviewer: true, jwt: { uid: reviewer2Id } })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('reviewersSection.assignmentDate.label')).toBeInTheDocument()
+    expect(screen.queryByText('reviewersSection.reviewers.label')).toBeInTheDocument()
+    expect(screen.getByText(formatDateStringNumeric(reviewer2AssignmentDate))).toBeInTheDocument()
+    expect(
+      screen.queryByText(formatDateStringNumeric(reviewer1AssignmentDate))
+    ).not.toBeInTheDocument()
+    expect(screen.getByText('Mario Rossi, Luigi Verdi')).toBeInTheDocument()
   })
 })

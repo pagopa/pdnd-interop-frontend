@@ -14,6 +14,7 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type RejectPurposeVersionFormValues = {
   reason: string
@@ -31,14 +32,14 @@ export const DialogRejectPurposeVersion: React.FC<DialogRejectPurposeVersionProp
   })
   const { closeDialog } = useDialog()
   const { mutate: rejectVersion } = PurposeMutations.useRejectVersion()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const formMethods = useForm<RejectPurposeVersionFormValues>({
     defaultValues: { reason: '' },
   })
 
   const onSubmit = ({ reason }: RejectPurposeVersionFormValues) => {
-    rejectVersion({ purposeId, versionId, rejectionReason: reason })
-    closeDialog()
+    rejectVersion({ purposeId, versionId, rejectionReason: reason }, { onSuccess: closeDialog })
   }
 
   return (
@@ -72,7 +73,7 @@ export const DialogRejectPurposeVersion: React.FC<DialogRejectPurposeVersionProp
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {t('actions.cancelLabel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {t('actions.confirmLabel')}
             </Button>
           </DialogActions>

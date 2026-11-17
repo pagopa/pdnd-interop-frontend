@@ -3,14 +3,19 @@ import { useNavigate, useParams } from '@/router'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
 import { useQuery } from '@tanstack/react-query'
 import { useGetConsumerPurposeAlertProps } from '../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
-import { useDialog } from '@/stores'
+import { useDialog, useToastNotificationStore } from '@/stores'
+import { useTranslation } from 'react-i18next'
 
 export function useRiskAnalysisSummaryPage() {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'>()
   const navigate = useNavigate()
   const { openDialog } = useDialog()
+  const showToast = useToastNotificationStore((state) => state.showToast)
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.signRiskAnalysis.outcome',
+  })
 
-  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: purpose, isLoading, isFetching } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -44,9 +49,17 @@ export function useRiskAnalysisSummaryPage() {
 
   const handleApproveDraft = () => {
     if (!purpose?.currentVersion) return
+
+    const { metadataVersion } = purpose
+    if (metadataVersion === undefined) {
+      showToast(t('error'), 'error')
+      return
+    }
+
     openDialog({
       type: 'approveRiskAnalysis',
       purposeId,
+      metadataVersionToSign: metadataVersion,
     })
   }
 
@@ -62,6 +75,7 @@ export function useRiskAnalysisSummaryPage() {
     purposeId,
     purpose,
     isLoading,
+    isFetching,
     isEserviceDeliverMode,
     expirationDate,
     isRulesetExpired,
