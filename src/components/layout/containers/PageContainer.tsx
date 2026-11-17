@@ -21,6 +21,7 @@ type PageContainerActionsProps = {
 
 type PageContainerBreadcrumbsProps = {
   backToAction?: PageBackToAction
+  breadcrumbRouteLabelOverrides?: Partial<Record<RouteKey, string | false>>
 }
 
 type PageContainerIntroProps = {
@@ -110,7 +111,10 @@ const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description })
     description
   )
 }
-const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
+const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({
+  backToAction,
+  breadcrumbRouteLabelOverrides,
+}) => {
   return (
     <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
       {backToAction && (
@@ -130,7 +134,7 @@ const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ bac
           {backToAction.label}
         </Link>
       )}
-      <Breadcrumbs />
+      <Breadcrumbs routeLabelOverrides={breadcrumbRouteLabelOverrides} />
     </Stack>
   )
 }

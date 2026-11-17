@@ -5,6 +5,10 @@
     "eserviceOverThreshold": "Versioni di e-service sopra la soglia totale",
     "eserviceNearThreshold": "Versioni di e-service vicini alla soglia totale (oltre 90%)",
     "totalEservices": "Totale versioni di e-service",
+    "loadError": "Non è stato possibile caricare le versioni di e-service. Riprova.",
+    "retry": "Riprova",
+    "unavailable": "Non disponibile",
+    "loading": "Caricamento versioni di e-service in corso",
     "table": {
       "headlabels": {
         "eserviceAndVersion": "Nome e-service e versione",

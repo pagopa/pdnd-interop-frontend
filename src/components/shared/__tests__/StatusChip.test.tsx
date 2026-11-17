@@ -2,11 +2,58 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { StatusChip } from '../StatusChip'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
+import type { AgreementState, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 
 describe('StatusChip', () => {
+  it.each<[AgreementState, string]>([
+    ['ACTIVE', 'Success'],
+    ['SUSPENDED', 'Error'],
+    ['PENDING', 'Warning'],
+    ['ARCHIVED', 'Info'],
+    ['DRAFT', 'Info'],
+    ['REJECTED', 'Error'],
+    ['MISSING_CERTIFIED_ATTRIBUTES', 'Error'],
+  ])('renders the generic agreementState label and color for %s', (state, color) => {
+    renderWithApplicationContext(<StatusChip for="agreementState" state={state} />, {})
+
+    const chip = screen.getByText(`status.agreement.${state}`).closest('.MuiChip-root')
+    expect(chip).toHaveClass(`MuiChip-color${color}`, 'MuiChip-sizeSmall')
+    expect(screen.queryByText(/status.agreement.frontendStatus/)).not.toBeInTheDocument()
+  })
+
+  it('keeps suspension reasons for full agreements instead of the generic state label', () => {
+    const agreement = createMockAgreement({
+      state: 'SUSPENDED',
+      suspendedByPlatform: true,
+      suspendedByProducer: true,
+      suspendedByConsumer: true,
+    })
+    renderWithApplicationContext(<StatusChip for="agreement" agreement={agreement} />, {})
+
+    for (const reason of ['suspendedByPlatform', 'suspendedByProducer', 'suspendedByConsumer']) {
+      expect(
+        screen.getByText(`status.agreement.frontendStatus.${reason}`).closest('.MuiChip-root')
+      ).toHaveClass('MuiChip-colorError')
+    }
+    expect(screen.queryByText('status.agreement.SUSPENDED')).not.toBeInTheDocument()
+  })
+
+  it('keeps a full suspended agreement without reasons empty, unlike agreementState', () => {
+    const agreement = createMockAgreement({
+      state: 'SUSPENDED',
+      suspendedByPlatform: false,
+      suspendedByProducer: false,
+      suspendedByConsumer: false,
+    })
+    const { container } = renderWithApplicationContext(
+      <StatusChip for="agreement" agreement={agreement} />,
+      {}
+    )
+    expect(container.querySelector('.MuiChip-root')).not.toBeInTheDocument()
+  })
+
   // The risk analysis chip routes the state to its label key (i18n returns the key
   // as text in tests) and to its color through the shared data-driven arm, so both
   // the label namespace and the resolved `MuiChip-color*` class are asserted.

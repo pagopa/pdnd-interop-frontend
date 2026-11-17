@@ -134,5 +134,6 @@ export const {
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
+export const MOCK_PRODUCER_DASHBOARD = import.meta.env.REACT_APP_MOCK_PRODUCER_DASHBOARD === 'true'
 export const PUBLIC_URL = '/ui'
 export const FE_URL = `${window.location.origin}${PUBLIC_URL}`

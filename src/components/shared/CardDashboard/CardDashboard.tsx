@@ -21,7 +21,12 @@ export type CardDashboardStatus = {
 export type CardDashboardContent =
   | { kind: 'metric'; metric: CardDashboardMetric }
   | { kind: 'metrics'; metrics: readonly (CardDashboardMetric & { id: string })[] }
-  | { kind: 'status'; statuses: readonly CardDashboardStatus[]; totalLabel: string }
+  | {
+      kind: 'status'
+      statuses: readonly CardDashboardStatus[]
+      total?: number
+      totalLabel: string
+    }
   | { kind: 'consumption'; used: number; limit: number; unitLabel: string }
   | { kind: 'empty'; message: string; icon?: 'success' }
 
@@ -106,7 +111,7 @@ export function CardDashboard({
 
   if (content.kind === 'status') {
     const total = numberFormatter.format(
-      content.statuses.reduce((sum, status) => sum + status.count, 0)
+      content.total ?? content.statuses.reduce((sum, status) => sum + status.count, 0)
     )
     mainMetric = { value: total, label: content.totalLabel }
     donutProps = {
@@ -211,16 +216,28 @@ export function CardDashboard({
                 key={metric.id}
                 sx={{
                   display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'baseline',
+                  flexWrap: 'nowrap',
+                  alignItems: 'center',
                   gap: 1,
                   minWidth: 0,
                 }}
               >
-                <Typography component="p" sx={{ ...valueStyles, fontSize: 40 }}>
+                <Typography
+                  component="p"
+                  sx={{ ...valueStyles, fontSize: '2.25rem', flexShrink: 0, whiteSpace: 'nowrap' }}
+                >
                   {numberFormatter.format(metric.value)}
                 </Typography>
-                <Typography color="text.secondary" sx={{ minWidth: 0 }}>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    flex: '1 1 0',
+                    minWidth: 0,
+                    overflowWrap: 'anywhere',
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                  }}
+                >
                   {metric.label}
                 </Typography>
               </Box>

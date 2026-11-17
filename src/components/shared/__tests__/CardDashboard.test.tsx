@@ -1,5 +1,5 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { theme as interopTheme } from '@pagopa/interop-fe-commons'
+import { ThemeProvider } from '@mui/material/styles'
+import { theme } from '@pagopa/interop-fe-commons'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ReactNode } from 'react'
@@ -7,17 +7,6 @@ import { vi } from 'vitest'
 import { CardDashboard } from '../CardDashboard'
 import type { CardDashboardProps, CardDashboardStatus } from '../CardDashboard'
 
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: { height: '48px' },
-      },
-    },
-  },
-})
-Object.assign(theme, { colors: interopTheme.colors })
-Object.assign(theme.shape, { radius: interopTheme.shape.radius })
 const statuses: CardDashboardStatus[] = [
   { id: 'active', label: 'Attivi', count: 15, color: '#008000' },
   { id: 'draft', label: 'Bozze', count: 3, color: '#0000ff' },
@@ -103,8 +92,13 @@ describe('CardDashboard', () => {
     const labels = ['Totali', 'Attive', 'In attesa', 'Fallite']
     values.forEach((value, index) => {
       const row = screen.getByText(value).parentElement!
-      expect(within(row).getByText(labels[index])).toBeVisible()
-      expect(row).toHaveStyle({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline' })
+      const label = within(row).getByText(labels[index])
+      const number = screen.getByText(value)
+      expect(label).toBeVisible()
+      expect(label).toHaveStyle({ fontSize: '0.875rem', fontWeight: 600 })
+      expect(label).toHaveStyle({ flex: '1 1 0', minWidth: 0, overflowWrap: 'anywhere' })
+      expect(number).toHaveStyle({ fontSize: '2.25rem', flexShrink: 0, whiteSpace: 'nowrap' })
+      expect(row).toHaveStyle({ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' })
     })
     expect(screen.getByText(values[0]).parentElement!.parentElement).toHaveStyle({
       display: 'flex',
@@ -130,6 +124,25 @@ describe('CardDashboard', () => {
     expect(arcs).toHaveLength(3)
     arcs.forEach((arc, index) => expect(arc).toHaveAttribute('fill', statuses[index].color))
     expect(chart.firstElementChild).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it.each([37, 0])('uses explicit total %s without changing status counts', async (total) => {
+    renderCard({
+      heading: 'E-service',
+      content: { kind: 'status', statuses, total, totalLabel: 'Totali' },
+    })
+
+    expect(screen.queryByText('20')).not.toBeInTheDocument()
+    const chart = screen.getByRole('img', { name: `Totali: ${total}` })
+    expect(within(chart.parentElement!).getByText(String(total))).toBeVisible()
+    const entries = screen.getAllByRole('listitem')
+    statuses.forEach((status, index) => {
+      expect(within(entries[index]).getByText(status.label)).toBeVisible()
+      expect(within(entries[index]).getByText(String(status.count))).toBeVisible()
+    })
+    const arcs = await getDrawnArcs(chart)
+    expect(arcs).toHaveLength(3)
+    arcs.forEach((arc, index) => expect(arc).toHaveAttribute('fill', statuses[index].color))
   })
 
   it.each([

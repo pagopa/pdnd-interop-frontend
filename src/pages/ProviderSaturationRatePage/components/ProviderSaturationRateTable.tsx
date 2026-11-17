@@ -1,36 +1,37 @@
 import { useNavigate } from '@/router'
-import { Box, Stack, Typography, useTheme } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { MIIconButton, type MIPaginationProps, type MITableColumn } from '@pagopa/mui-italia'
 import { MITable } from '@pagopa/mui-italia/components/MITable'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useTranslation } from 'react-i18next'
 import type { ProducerDashboardSaturationItem } from '@/api/api.generatedTypes'
-import { PieChart } from '@mui/x-charts/PieChart'
+import { SaturationDonut } from '@/components/shared/SaturationDonut/SaturationDonut'
 
-type SaturationRateTableColumn = MITableColumn<ProducerDashboardSaturationItem> & {
-  isAction?: boolean
-}
 interface SaturationRateTableProps {
   saturationItems: Array<ProducerDashboardSaturationItem>
   pagination?: MIPaginationProps
+  /** Initial load: renders MITable skeleton rows. */
+  isLoading?: boolean
+  /** Background refetch (e.g. page/filter change while previous rows stay visible). */
+  isFetching?: boolean
 }
 
 const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
   saturationItems,
   pagination,
+  isLoading = false,
+  isFetching = false,
 }) => {
   const navigate = useNavigate()
-  const theme = useTheme()
-
   const { t } = useTranslation('dashboard', { keyPrefix: 'providerSaturationRatePage.table' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const columns: Array<SaturationRateTableColumn> = [
+  const columns: Array<MITableColumn<ProducerDashboardSaturationItem>> = [
     {
       id: 'eservice',
       header: t('headlabels.eserviceAndVersion'),
       renderCell: (item) => (
-        <Stack direction="column" spacing={1}>
+        <Stack component="span" direction="column" spacing={1}>
           <Typography variant="body2" component="span">
             {item.eservice.name}
           </Typography>
@@ -52,44 +53,9 @@ const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
     {
       id: 'percentage',
       header: t('headlabels.percentageRate'),
-      renderCell: (item) => {
-        const percentage = Math.min(100, Math.max(0, item.percentage))
-        const color =
-          item.percentage >= 90
-            ? theme.colors.error[600]
-            : item.percentage >= 70
-              ? theme.colors.warning[500]
-              : theme.colors.success[500]
-
-        return (
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Box aria-hidden="true" sx={{ width: 20, height: 20, flexShrink: 0 }}>
-              <PieChart
-                width={20}
-                height={20}
-                margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                series={[
-                  {
-                    data: [
-                      { id: 'used', value: percentage, color },
-                      { id: 'remaining', value: 100 - percentage, color: theme.palette.grey[200] },
-                    ],
-                    innerRadius: 6.4,
-                    outerRadius: 10,
-                  },
-                ]}
-                slotProps={{ legend: { hidden: true } }}
-                sx={{ '& .MuiPieArc-root': { stroke: 'none' } }}
-                tooltip={{ trigger: 'none' }}
-                skipAnimation
-              />
-            </Box>
-            <Typography variant="body2" component="span">
-              {item.percentage}%
-            </Typography>
-          </Stack>
-        )
-      },
+      renderCell: (item) => (
+        <SaturationDonut percentage={item.percentage} label={`${item.percentage}%`} />
+      ),
     },
     {
       id: 'approved_calls',
@@ -139,7 +105,16 @@ const ProviderSaturationRateTable: React.FC<SaturationRateTableProps> = ({
       columns={columns}
       rows={saturationItems}
       pagination={pagination}
-      getRowId={(item) => item.descriptorId}
+      isLoading={isLoading}
+      getRowId={(item) => `${item.eservice.id}-${item.descriptorId}`}
+      desktopTableProps={{
+        'aria-label': t('headlabels.eserviceAndVersion'),
+        'aria-busy': isFetching,
+      }}
+      mobileTableProps={{
+        'aria-label': t('headlabels.eserviceAndVersion'),
+        'aria-busy': isFetching,
+      }}
     />
   )
 }
