@@ -4,7 +4,7 @@ import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-input
 import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { CatalogEService, CompactEService } from '@/api/api.generatedTypes'
+import type { CompactCatalogEService, CompactEService } from '@/api/api.generatedTypes'
 import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
@@ -17,7 +17,9 @@ import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
-  const selectedEServiceRef = React.useRef<CatalogEService | CompactEService | undefined>(undefined)
+  const selectedEServiceRef = React.useRef<CompactCatalogEService | CompactEService | undefined>(
+    undefined
+  )
 
   const { jwt } = AuthHooks.useJwt()
 
@@ -26,7 +28,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     useAutocompleteTextInput()
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService | CompactEService) => {
+    (eservice: CompactCatalogEService | CompactEService) => {
       return `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`
     },
     [t]
@@ -62,7 +64,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   }
 
   const { data: eservices = [], isLoading: isEServiceLoading } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getCompactCatalogList({
       q: getQ(),
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
