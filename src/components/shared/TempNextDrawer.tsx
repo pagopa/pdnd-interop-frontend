@@ -47,7 +47,12 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
         <Stack flexGrow={1} overflow={'hidden'}>
           <Stack px={3} pt={3} flexGrow={1} overflow={'auto'}>
             <Stack mb={4}>
-              <Stack direction="row" alignItems={'start'} justifyContent={'space-between'} mb={2}>
+              <Stack
+                direction="row"
+                alignItems={'baseline'}
+                justifyContent={'space-between'}
+                mb={2}
+              >
                 <Typography variant="h6" color={theme.colors.neutral.black}>
                   {title}
                 </Typography>

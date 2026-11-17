@@ -1023,7 +1023,7 @@
     "patchUpdateEServiceTemplate": {
       "loading": "The e-service template is being updated",
       "outcome": {
-        "successMetadata": "You have updated the e-service template name, description and target audience.",
+        "successMetadata": "You have updated the e-service template name, description and/or target audience.",
         "successName": "You have updated the e-service template name.",
         "successDescription": "You have updated the e-service template description.",
         "successTarget": "You have updated the e-service template target audience.",
@@ -1219,7 +1219,7 @@
     "patchUpdatePurposeTemplate": {
       "loading": "The purpose template is being updated",
       "outcome": {
-        "successMetadata": "You have updated the purpose template name, description and target audience.",
+        "successMetadata": "You have updated the purpose template name, description and/or target audience.",
         "successName": "You have updated the purpose template name.",
         "successDescription": "You have updated the purpose template description.",
         "successTarget": "You have updated the purpose template target audience.",
