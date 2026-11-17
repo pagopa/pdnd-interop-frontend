@@ -317,7 +317,7 @@
     },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore.",
+      "providerRiskAnalysisAlert": "L’analisi del rischio è stata compilata dall’erogatore perché l’e-service associato a questa finalità riceve dati. Per questo non puoi modificarla.",
       "reviewStatus": {
         "chip": {
           "approvalToRequest": "Approvazione da richiedere",
