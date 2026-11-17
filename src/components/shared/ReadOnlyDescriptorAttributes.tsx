@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Stack, Box, Divider, Link } from '@mui/material'
+import { Stack, Box, Divider, Link, useTheme } from '@mui/material'
 import type { AttributeKey } from '@/types/attribute.types'
 import {
   SectionContainer,
@@ -115,6 +115,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
+  const theme = useTheme()
   const attributeGroups = descriptorAttributes[attributeKey]
 
   return (
@@ -123,7 +124,16 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
       title={tAttribute(`${attributeKey}.label`)}
       description={
         <Trans
-          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+          components={{
+            1: (
+              <Link
+                color={theme.colors.blue[500]}
+                underline="hover"
+                href={attributesHelpLink}
+                target="_blank"
+              />
+            ),
+          }}
         >
           {tAttribute(`${attributeKey}.description`)}
         </Trans>
