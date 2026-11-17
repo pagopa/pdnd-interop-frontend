@@ -1153,7 +1153,7 @@
           "label": "Nome e-service",
           "infoLabel": "Min 5 caratteri, max 60 caratteri",
           "validation": {
-            "sameValue": "Il nome dell'e-service deve essere diverso da quella attuale"
+            "sameValue": "Il nome dell'e-service deve essere diverso da quello attuale"
           }
         }
       },

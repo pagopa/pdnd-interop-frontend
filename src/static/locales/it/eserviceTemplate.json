@@ -116,7 +116,7 @@
           "label": "Nome template e-service",
           "infoLabel": "Min 5 caratteri, max 45 caratteri",
           "validation": {
-            "sameValue": "Il nome del template dell'e-service deve essere diverso da quella attuale"
+            "sameValue": "Il nome del template dell'e-service deve essere diverso da quello attuale"
           }
         }
       },
