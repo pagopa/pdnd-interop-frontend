@@ -39,7 +39,7 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
         ModalProps={{ onTransitionExited: onTransitionExited }}
         PaperProps={{
           sx: {
-            width: { xs: '100%', md: 375 },
+            width: { xs: '100%', md: 417 },
             maxWidth: '100%',
           },
         }}

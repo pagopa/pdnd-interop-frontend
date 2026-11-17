@@ -102,12 +102,10 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
               />
               <InformationContainer
                 label={t('nameAndDescription.descriptionField.label')}
-                direction="column"
                 content={purposeTemplate.purposeDescription}
               />
               <InformationContainer
                 label={t('nameAndDescription.targetField.label')}
-                direction="column"
                 content={purposeTemplate.targetDescription}
               />
             </Stack>
