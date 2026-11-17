@@ -73,7 +73,7 @@ const PurposeTemplatesTab = () => {
     eserviceIds: [eserviceId],
   }
 
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
     enabled: Boolean(eserviceId),
     placeholderData: keepPreviousData,
@@ -89,7 +89,10 @@ const PurposeTemplatesTab = () => {
     >
       <FiltersSection filters={filters} {...handlers} results={data?.pagination.totalCount} />
       {data && data.results.length > 0 ? (
-        <PurposeTemplatesTable data={data} pagination={paginationProps} />
+        <PurposeTemplatesTable
+          data={data}
+          pagination={{ ...paginationProps, count: getTotalPageCount(data.pagination.totalCount) }}
+        />
       ) : (
         <PurposeTemplatesEmpty />
       )}
@@ -100,6 +103,7 @@ const PurposeTemplatesTab = () => {
 const PurposeTemplatesTable: React.FC<{
   data: CatalogPurposeTemplates
   pagination: {
+    count: number
     page: number
     onPageChange: (page: number) => void
     itemsPerPageOptions: {
@@ -135,8 +139,9 @@ const PurposeTemplatesTable: React.FC<{
           header: '',
           renderCell: (row) => (
             <IconButton
+              aria-label={t('table.columns.actions.navigate', { templateName: row.purposeTitle })}
               onClick={() =>
-                navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
+                navigate('SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS', {
                   params: { purposeTemplateId: row.id },
                 })
               }
@@ -149,7 +154,7 @@ const PurposeTemplatesTable: React.FC<{
       getRowId={(row) => row.id}
       rows={data.results}
       pagination={{
-        count: data.pagination.totalCount,
+        count: pagination.count,
         page: pagination.page,
         onChange: (_, page) => pagination.onPageChange(page),
         itemsPerPageOptions: pagination.itemsPerPageOptions,
