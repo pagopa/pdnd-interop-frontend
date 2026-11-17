@@ -542,6 +542,38 @@ describe('RiskAnalysisListPage', () => {
     expect(await screen.findAllByText('2')).not.toHaveLength(0)
   })
 
+  it.each(['todo', 'done'])('should render the purpose header after the e-service in %s', (tab) => {
+    cleanup()
+    mockUseActiveTab.mockReturnValue({
+      activeTab: tab,
+      updateActiveTab: vi.fn(),
+    })
+
+    renderWithApplicationContext(<RiskAnalysisTable purposes={[]} />, {
+      withReactQueryContext: true,
+    })
+
+    const headers = screen.getAllByRole('columnheader')
+    expect(headers[1]).toHaveTextContent('eserviceName')
+    expect(headers[2]).toHaveTextContent('purposeName')
+    expect(headers[3]).toHaveTextContent('providerName')
+  })
+
+  it.each(['todo', 'done'])('should align skeleton cells with the headers in %s', (tab) => {
+    cleanup()
+    mockUseActiveTab.mockReturnValue({
+      activeTab: tab,
+      updateActiveTab: vi.fn(),
+    })
+
+    renderWithApplicationContext(<RiskAnalysisTableSkeleton />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getAllByRole('columnheader')).toHaveLength(7)
+    expect(screen.getAllByRole('cell')).toHaveLength(35)
+  })
+
   it('should render done table headers', () => {
     mockUseActiveTab.mockReturnValue({
       activeTab: 'done',

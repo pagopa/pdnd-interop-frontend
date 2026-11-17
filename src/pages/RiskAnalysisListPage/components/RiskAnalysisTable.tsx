@@ -15,6 +15,7 @@ const getHeadLabels = (activeTab: string, tCommon: TFunction<'common', 'table.he
     ? [
         tCommon('assignmentDate'),
         tCommon('eserviceName'),
+        tCommon('purposeName'),
         tCommon('providerName'),
         tCommon('reviewersCount'),
         tCommon('status'),
@@ -23,6 +24,7 @@ const getHeadLabels = (activeTab: string, tCommon: TFunction<'common', 'table.he
     : [
         tCommon('valuationDate'),
         tCommon('eserviceName'),
+        tCommon('purposeName'),
         tCommon('providerName'),
         tCommon('reviewer'),
         tCommon('status'),

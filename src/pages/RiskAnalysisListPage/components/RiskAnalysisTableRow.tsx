@@ -58,13 +58,14 @@ export const RiskAnalysisTableRow: React.FC<{
   const cellData = [
     <Stack direction="row" alignItems="center" key="date">
       {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
-      <Typography variant="body2" fontWeight={600}>
+      <Typography variant="body2" fontWeight={600} sx={{ whiteSpace: 'nowrap' }}>
         {assignedOrApprovedDate && isToday(assignedOrApprovedDate)
           ? t('today.label')
           : formattedDate}
       </Typography>
     </Stack>,
     purpose.eservice.name,
+    purpose.title,
     purpose.eservice.producer.name,
     activeTab === RiskAnalysisListPageTab.TODO ? String(reviewers.length) : reviewerFullName,
     purpose.reviewerWorkflow?.signingState
@@ -111,7 +112,8 @@ export const RiskAnalysisTableRowSkeleton: React.FC = () => {
         <Skeleton key={1} width={180} />,
         <Skeleton key={2} width={180} />,
         <Skeleton key={3} width={180} />,
-        <StatusChipSkeleton key={4} />,
+        <Skeleton key={4} width={180} />,
+        <StatusChipSkeleton key={5} />,
       ]}
     >
       <ActionMenuSkeleton />
