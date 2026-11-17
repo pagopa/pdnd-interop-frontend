@@ -1,6 +1,7 @@
 export { ProviderDashboardPage } from './ProviderDashboardPage'
 export { ProviderDashboardConsumerList } from './ProviderDashboardConsumerList'
 export { ProviderDashboardConsumerDetail } from './ProviderDashboardConsumerDetail'
+export { ProviderDashboardConsumerEServiceDetail } from './ProviderDashboardConsumerEServiceDetail'
 export { ProviderEServiceListPage } from './ProviderEServiceListPage'
 export { ProviderEServiceCreatePage } from './ProviderEServiceCreatePage'
 export { ProviderEServiceSummaryPage } from './ProviderEServiceSummaryPage'

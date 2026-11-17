@@ -169,16 +169,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       <TabContext value={selectedTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
           <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
-          <Tab label={t('tabs.monitoring')} value={PROVIDER_ESERVICE_MONITORING_TAB} />
           {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
+          <Tab label={t('tabs.monitoring')} value={PROVIDER_ESERVICE_MONITORING_TAB} />
         </TabList>
 
         <TabPanel value="eserviceDetails">
           <ProviderEserviceDetailsTab />
-        </TabPanel>
-
-        <TabPanel value={PROVIDER_ESERVICE_MONITORING_TAB}>
-          <ProviderEServiceMonitoringTab />
         </TabPanel>
 
         {canViewKeychains && (
@@ -186,6 +182,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
             <ProviderEserviceKeychainsTab />
           </TabPanel>
         )}
+
+        <TabPanel value={PROVIDER_ESERVICE_MONITORING_TAB}>
+          <ProviderEServiceMonitoringTab />
+        </TabPanel>
       </TabContext>
       {descriptor && (
         <EServiceVersionSelectorDrawer

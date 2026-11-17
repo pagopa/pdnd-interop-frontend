@@ -237,7 +237,7 @@ describe('ProviderEServiceMonitoringTab', () => {
       .forEach((row) => expect(row.querySelector('p p, p div')).toBeNull())
   })
 
-  it('opens the consumer detail from the preview chevron with the actual consumerId', async () => {
+  it('opens the consumer e-service detail from the preview chevron with the actual ids', async () => {
     const user = userEvent.setup()
     await renderTab()
     await waitForData()
@@ -257,12 +257,19 @@ describe('ProviderEServiceMonitoringTab', () => {
         name: copy.consumers.viewConsumerAriaLabel.replace('{{name}}', expected.consumer.name),
       })
     )
-    expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_DASHBOARD_CONSUMER_DETAIL', {
-      params: { consumerId: expected.consumer.id },
-    })
+    expect(navigateMock).toHaveBeenCalledExactlyOnceWith(
+      'PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL',
+      {
+        params: {
+          eserviceId: ESERVICE_ID,
+          descriptorId: DESCRIPTOR_ID,
+          consumerId: expected.consumer.id,
+        },
+      }
+    )
   })
 
-  it('hides the consumer chevron when the consumer detail route is not accessible', async () => {
+  it('hides the consumer chevron when the consumer e-service detail route is not accessible', async () => {
     mockUseJwt({ currentRoles: [] })
     await renderTab()
     await waitForData()

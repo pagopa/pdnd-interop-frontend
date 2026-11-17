@@ -113,7 +113,7 @@ const renderPage = async ({
                   }
                 />
                 <Route
-                  path="/:language/erogazione/e-service/:eserviceId/:descriptorId"
+                  path="/:language/erogazione/panoramica/fruitori/:consumerId/e-service/:eserviceId/:descriptorId"
                   element={<VersionDestination />}
                 />
               </Routes>
@@ -179,7 +179,7 @@ describe('ProviderDashboardConsumerDetail', () => {
       })
       expect(eserviceLink).toHaveAttribute(
         'href',
-        `/${language}/erogazione/e-service/${first.eservice.id}/${first.descriptorId}?tab=monitoring`
+        `/${language}/erogazione/panoramica/fruitori/${LOMBARDIA_ID}/e-service/${first.eservice.id}/${first.descriptorId}`
       )
       expect(eserviceLink).toHaveClass('MuiIconButton-colorInherit')
       expect(eserviceLink).not.toHaveClass('MuiIconButton-colorPrimary')
@@ -207,14 +207,18 @@ describe('ProviderDashboardConsumerDetail', () => {
     const user = userEvent.setup()
     await renderPage()
     const link = (
-      await screen.findAllByRole('link', { name: /^Vedi il monitoraggio dell'e-service /i })
+      await screen.findAllByRole('link', {
+        name: /^Vedi consumi previsti e finalità per l'e-service /i,
+      })
     )[0]
     link.focus()
     expect(link).toHaveFocus()
     await user.keyboard('{Enter}')
     expect(
       await screen.findByText(
-        /^Version destination \/it\/erogazione\/e-service\/[^/]+\/[^/?]+\?tab=monitoring$/
+        new RegExp(
+          `^Version destination /it/erogazione/panoramica/fruitori/${LOMBARDIA_ID}/e-service/[^/]+/[^/?]+$`
+        )
       )
     ).toBeInTheDocument()
   })
@@ -276,7 +280,7 @@ describe('ProviderDashboardConsumerDetail', () => {
         })
       ).toHaveAttribute(
         'href',
-        `/it/erogazione/e-service/${first.eservice.id}/${first.descriptorId}?tab=monitoring`
+        `/it/erogazione/panoramica/fruitori/${LOMBARDIA_ID}/e-service/${first.eservice.id}/${first.descriptorId}`
       )
       expect(group).toHaveAttribute('aria-busy', 'false')
       expect(screen.getByRole('textbox', { name: copy.searchPlaceholder })).toHaveValue('')

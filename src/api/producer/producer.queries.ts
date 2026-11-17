@@ -6,6 +6,7 @@ import type {
   GetProducerEServiceMonitoringParams,
   GetProducerEServiceMonitoringArchivingParams,
   GetProducerEServiceMonitoringSaturationParams,
+  GetProducerEServiceMonitoringConsumerPurposesParams,
 } from '../api.generatedTypes'
 import { ProducerServices } from './producer.services'
 
@@ -66,6 +67,15 @@ function getEServiceMonitoringSaturation(params: GetProducerEServiceMonitoringSa
   })
 }
 
+function getEServiceMonitoringConsumerPurposes(
+  params: GetProducerEServiceMonitoringConsumerPurposesParams
+) {
+  return queryOptions({
+    queryKey: ['ProducerGetEServiceMonitoringConsumerPurposes', params],
+    queryFn: () => ProducerServices.getEServiceMonitoringConsumerPurposes(params),
+  })
+}
+
 export const ProducerQueries = {
   getDashboard,
   getDashboardConsumers,
@@ -75,4 +85,5 @@ export const ProducerQueries = {
   getEServiceMonitoring,
   getEServiceMonitoringArchiving,
   getEServiceMonitoringSaturation,
+  getEServiceMonitoringConsumerPurposes,
 }

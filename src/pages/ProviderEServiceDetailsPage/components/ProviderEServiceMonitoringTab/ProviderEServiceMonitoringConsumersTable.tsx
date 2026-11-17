@@ -35,8 +35,8 @@ export function ProviderEServiceMonitoringConsumersTable({
     })
   )
 
-  const canViewConsumer = routes.PROVIDE_DASHBOARD_CONSUMER_DETAIL.authLevels.some((role) =>
-    currentRoles.includes(role)
+  const canViewConsumer = routes.PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL.authLevels.some(
+    (role) => currentRoles.includes(role)
   )
 
   const columns: MITableColumn<ProducerEServiceMonitoringSaturationItem>[] = [
@@ -87,8 +87,8 @@ export function ProviderEServiceMonitoringConsumersTable({
           <MIIconButton
             aria-label={t('viewConsumerAriaLabel', { name: row.consumer.name })}
             onClick={() =>
-              navigate('PROVIDE_DASHBOARD_CONSUMER_DETAIL', {
-                params: { consumerId: row.consumer.id },
+              navigate('PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL', {
+                params: { eserviceId, descriptorId, consumerId: row.consumer.id },
               })
             }
           >

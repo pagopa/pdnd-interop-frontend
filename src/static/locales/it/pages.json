@@ -120,7 +120,7 @@
     "retry": "Riprova",
     "version": "Versione {{version}}",
     "goToEService": "Vedi e-service",
-    "goToEServiceDetail": "Vedi il monitoraggio dell'e-service {{name}}, versione {{version}}",
+    "goToEServiceDetail": "Vedi consumi previsti e finalità per l'e-service {{name}}, versione {{version}}",
     "columns": {
       "eservice": "E-service",
       "agreementState": "Stato richiesta di fruizione",
@@ -134,6 +134,64 @@
       "DAILY_CALLS_DESC": "Chiamate giornaliere approvate (decrescente)",
       "DAILY_CALLS_ASC": "Chiamate giornaliere approvate (crescente)"
     }
+  },
+  "providerDashboardConsumerEServiceDetail": {
+    "fallbackTitle": "Dettaglio fruitore",
+    "description": "Vedi i consumi previsti e le finalità create dal fruitore per questo e-service.",
+    "breadcrumbManageEService": "Gestisci E-service",
+    "export": "Esporta",
+    "exportUnavailable": "L’esportazione dei dati non è ancora disponibile.",
+    "summary": {
+      "eservice": "E-service",
+      "eserviceValue": "{{name}}, V{{version}}",
+      "otherVersionsLabel": "Altre versioni",
+      "otherVersionAriaLabel": "Vedi la versione {{version}}",
+      "versionShort": "V{{version}}",
+      "threshold": "Soglia per fruitore",
+      "approvedCalls": "Stima totale chiamate approvate",
+      "dailyCalls": "{{value}} chiamate/giorno",
+      "customizedThreshold": "soglia personalizzata",
+      "attributeTooltip": "{{kind}}: {{name}}",
+      "attributeKind": {
+        "CERTIFIED": "Attributo certificato",
+        "CERTIFIED_DISCRETE": "Attributo certificato",
+        "DECLARED": "Attributo dichiarato",
+        "VERIFIED": "Attributo verificato"
+      },
+      "percentage": "{{value}}%",
+      "percentageAriaLabel": "{{value}}% della soglia per fruitore"
+    },
+    "waitingApproval": {
+      "title": "Hai delle finalità in attesa di approvazione",
+      "description": "Questo fruitore ha delle finalità che richiedono la tua approvazione. Puoi scegliere se approvarle o rifiutarle.",
+      "descriptionThresholdExceeded": "Le finalità attive di questo fruitore superano la soglia per fruitore che hai definito. Puoi scegliere se approvarle o rifiutarle.",
+      "loadError": "Non è stato possibile verificare se questo fruitore ha finalità in attesa di approvazione.",
+      "action": "Vai alle finalità da approvare"
+    },
+    "searchPlaceholder": "Cerca per nome finalità",
+    "filters": {
+      "title": "Filtra per stato",
+      "states": "Stato finalità"
+    },
+    "sorting": {
+      "DATE_DESC": "Dal più recente",
+      "DATE_ASC": "Dal meno recente",
+      "NAME_ASC": "Nome finalità (A-Z)",
+      "NAME_DESC": "Nome finalità (Z-A)"
+    },
+    "columns": {
+      "title": "Nome finalità",
+      "dailyCalls": "Stima chiamate",
+      "state": "Stato finalità",
+      "updatedAt": "Data ricezione richiesta",
+      "actions": "Azioni"
+    },
+    "tableAriaLabel": "Finalità di {{name}}",
+    "goToPurpose": "Vedi la finalità {{title}}",
+    "empty": "Nessuna finalità trovata",
+    "noRelationship": "Questo ente non ha finalità per questa versione dell’e-service.",
+    "loadError": "Non è stato possibile caricare i consumi e le finalità del fruitore. Riprova.",
+    "retry": "Riprova"
   },
   "consumerEServiceCatalog": {
     "title": "Catalogo degli e-service",

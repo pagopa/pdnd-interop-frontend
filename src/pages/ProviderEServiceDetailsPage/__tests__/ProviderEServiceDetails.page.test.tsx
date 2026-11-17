@@ -120,6 +120,11 @@ describe('ProviderEServiceDetailsPage', () => {
 
     expect(screen.getByRole('tab', { name: 'tabs.eserviceDetails' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'tabs.keychain' })).toBeInTheDocument()
+    expect(screen.getAllByRole('tab').map((tab) => tab.textContent)).toEqual([
+      'tabs.eserviceDetails',
+      'tabs.keychain',
+      'tabs.monitoring',
+    ])
     expect(screen.getByTestId('alerts')).toHaveAttribute('data-has-view-keychains', 'true')
   })
 

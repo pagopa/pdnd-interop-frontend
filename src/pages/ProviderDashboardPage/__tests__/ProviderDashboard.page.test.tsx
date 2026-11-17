@@ -7,7 +7,9 @@ import userEvent from '@testing-library/user-event'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { ThemeProvider } from '@mui/material'
-import { MemoryRouter, useLocation } from 'react-router-dom'
+import { BrowserRouter, MemoryRouter, useLocation } from 'react-router-dom'
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 import { theme } from '@pagopa/interop-fe-commons'
 import type * as LayoutContainers from '@/components/layout/containers'
 import ProviderDashboardPage from '../ProviderDashboard.page'
@@ -85,9 +87,18 @@ const dashboard: ProducerDashboard = {
 }
 
 const CurrentPath = () => <span data-testid="current-path">{useLocation().pathname}</span>
+let restoreBrowser: (() => void) | undefined
 
-const renderDashboard = async (language: 'it' | 'en' = 'it', waitForData = true) => {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+const renderDashboard = async (
+  language: 'it' | 'en' = 'it',
+  waitForData = true,
+  search = '',
+  throwOnError = false,
+  productionAdapter = false
+) => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false, throwOnError } },
+  })
   const i18n = createInstance()
   await i18n.init({
     lng: language,
@@ -98,18 +109,40 @@ const renderDashboard = async (language: 'it' | 'en' = 'it', waitForData = true)
     },
   })
 
+  if (productionAdapter) {
+    const originalUrl = window.location.href
+    const scroll = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
+    window.history.replaceState(null, '', `/it${search}`)
+    restoreBrowser = () => {
+      scroll.mockRestore()
+      window.history.replaceState(null, '', originalUrl)
+    }
+  }
+  const content = (
+    <>
+      <CurrentPath />
+      <ErrorBoundary fallback={<div role="alert">Dashboard error</div>}>
+        <Suspense fallback={<div role="status">Loading dashboard</div>}>
+          <ProviderDashboardPage />
+        </Suspense>
+      </ErrorBoundary>
+    </>
+  )
   const result = render(
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={['/it']}>
-            <CurrentPath />
-            <ErrorBoundary fallback={<div role="alert">Dashboard error</div>}>
-              <Suspense fallback={<div role="status">Loading dashboard</div>}>
-                <ProviderDashboardPage />
-              </Suspense>
-            </ErrorBoundary>
-          </MemoryRouter>
+          {productionAdapter ? (
+            <BrowserRouter>
+              <NuqsAdapter>{content}</NuqsAdapter>
+            </BrowserRouter>
+          ) : (
+            <MemoryRouter initialEntries={[`/it${search}`]}>
+              <NuqsTestingAdapter searchParams={search} hasMemory>
+                {content}
+              </NuqsTestingAdapter>
+            </MemoryRouter>
+          )}
         </ThemeProvider>
       </I18nextProvider>
     </QueryClientProvider>
@@ -121,7 +154,7 @@ const renderDashboard = async (language: 'it' | 'en' = 'it', waitForData = true)
   return { ...result, queryClient }
 }
 
-const getCards = () => cardMock.mock.calls.map(([props]) => props)
+const getCards = () => cardMock.mock.calls.slice(-6).map(([props]) => props)
 
 const saturationRow = (
   index: number,
@@ -141,10 +174,10 @@ const saturationRow = (
 const saturationResponse = (
   results: ProducerDashboardSaturationItem[]
 ): ProducerDashboardSaturation => ({
-  // summary/pagination are intentionally non-matching values: the UI must ignore them.
+  // The dashboard does not display the summary.
   summary: { overThreshold: 777, nearThreshold: 888, total: 999 },
   results,
-  pagination: { offset: 0, limit: 5, totalCount: 4242 },
+  pagination: { offset: 0, limit: 5, totalCount: results.length },
 })
 
 const emptyArchiving: MonitoringArchiving = { results: [] }
@@ -528,7 +561,10 @@ describe('ProviderDashboardPage', () => {
       await renderDashboard()
 
       expect(getCards()).toHaveLength(6)
-      expect(screen.queryByRole('button')).not.toBeInTheDocument()
+      const saturation = await getSectionTable('thresholds')
+      const archive = await getSectionTable('archiving')
+      expect(within(saturation).queryByRole('button')).not.toBeInTheDocument()
+      expect(within(archive).queryByRole('button')).not.toBeInTheDocument()
       expect(getCards().every((card) => card.action === undefined)).toBe(true)
       expect(navigateMock).not.toHaveBeenCalled()
     }
@@ -548,6 +584,10 @@ describe('ProviderDashboardPage tables', () => {
     vi.spyOn(ProducerServices, 'getDashboard').mockResolvedValue(dashboard)
     vi.spyOn(ProducerServices, 'getDashboardSaturation').mockResolvedValue(saturationResponse([]))
     vi.spyOn(ProducerServices, 'getDashboardArchiving').mockResolvedValue(emptyArchiving)
+  })
+  afterEach(() => {
+    restoreBrowser?.()
+    restoreBrowser = undefined
   })
 
   it('shows the exact ordered Italian headers and navigable consumption button', async () => {
@@ -598,7 +638,7 @@ describe('ProviderDashboardPage tables', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should request exactly the top five saturation rows by descending percentage without q', async () => {
+  it('requests the default page of saturation rows by descending percentage without q', async () => {
     const { queryClient } = await renderDashboard()
     await screen.findByText(thresholds.empty)
 
@@ -695,13 +735,13 @@ describe('ProviderDashboardPage tables', () => {
         })
       )
       expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_LIST')
-      expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+      expect(screen.getByRole('navigation')).toBeInTheDocument()
     } finally {
       vi.unstubAllGlobals()
     }
   })
 
-  it('should render saturation rows in backend order with localized values and no pagination', async () => {
+  it('renders saturation rows in backend order with localized values and pagination', async () => {
     vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
       saturationResponse([
         saturationRow(1, {
@@ -749,10 +789,133 @@ describe('ProviderDashboardPage tables', () => {
       expect(arcs[0]).toHaveAttribute('fill', theme.colors.error[600])
       expect(arcs[1]).toHaveAttribute('fill', theme.palette.grey[200])
     })
-    // Summary and pagination are ignored.
-    expect(screen.queryByText('4242')).not.toBeInTheDocument()
+    // Summary is not displayed on the dashboard.
     expect(screen.queryByText('999')).not.toBeInTheDocument()
-    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    expect(screen.getByRole('navigation')).toBeInTheDocument()
+  })
+
+  it('uses URL pagination and changes page and page size', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation).mockImplementation(async (params) => ({
+      ...saturationResponse([saturationRow(params.offset + 1)]),
+      pagination: { ...params, totalCount: 60 },
+    }))
+    await renderDashboard('it', true, '?offset=10&limit=10')
+    await screen.findByText('E-service 11')
+    expect(ProducerServices.getDashboardSaturation).toHaveBeenCalledExactlyOnceWith({
+      offset: 10,
+      limit: 10,
+      sortBy: 'PERCENTAGE_DESC',
+    })
+
+    await user.click(screen.getByRole('button', { name: /page 3/i }))
+    await screen.findByText('E-service 21')
+    await waitFor(() =>
+      expect(ProducerServices.getDashboardSaturation).toHaveBeenLastCalledWith({
+        offset: 20,
+        limit: 10,
+        sortBy: 'PERCENTAGE_DESC',
+      })
+    )
+    await user.click(screen.getByRole('combobox'))
+    expect(screen.getAllByRole('option').map((option) => option.textContent)).toEqual([
+      '5',
+      '10',
+      '15',
+    ])
+    await user.click(screen.getByRole('option', { name: '15' }))
+    await screen.findByText('E-service 1')
+    await waitFor(() =>
+      expect(ProducerServices.getDashboardSaturation).toHaveBeenLastCalledWith({
+        offset: 0,
+        limit: 15,
+        sortBy: 'PERCENTAGE_DESC',
+      })
+    )
+  })
+
+  it('uses the production router adapter without duplicate pagination requests', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation).mockImplementation(async (params) => ({
+      ...saturationResponse([saturationRow(params.offset + 1)]),
+      pagination: { ...params, totalCount: 60 },
+    }))
+    await renderDashboard('it', true, '', true, true)
+    await screen.findByText('E-service 1')
+    await waitFor(() =>
+      expect(ProducerServices.getDashboardSaturation).toHaveBeenCalledExactlyOnceWith({
+        offset: 0,
+        limit: 5,
+        sortBy: 'PERCENTAGE_DESC',
+      })
+    )
+    await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await screen.findByText('E-service 6')
+    await waitFor(() => expect(new URLSearchParams(window.location.search).get('offset')).toBe('5'))
+    expect(screen.queryByText('E-service 1')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('combobox'))
+    expect(screen.getAllByRole('option').map((option) => option.textContent)).toEqual([
+      '5',
+      '10',
+      '15',
+    ])
+    await user.click(screen.getByRole('option', { name: '10' }))
+    await screen.findByText('E-service 1')
+    await waitFor(() => expect(new URLSearchParams(window.location.search).get('limit')).toBe('10'))
+    expect(new URLSearchParams(window.location.search).has('offset')).toBe(false)
+    expect(vi.mocked(ProducerServices.getDashboardSaturation).mock.calls).toEqual([
+      [{ offset: 0, limit: 5, sortBy: 'PERCENTAGE_DESC' }],
+      [{ offset: 5, limit: 5, sortBy: 'PERCENTAGE_DESC' }],
+      [{ offset: 0, limit: 10, sortBy: 'PERCENTAGE_DESC' }],
+    ])
+  })
+
+  it('handles saturation errors inline even when queries default to throwing', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation)
+      .mockRejectedValueOnce(new Error('offline'))
+      .mockResolvedValueOnce(saturationResponse([saturationRow(1)]))
+    await renderDashboard('it', true, '', true)
+    expect(await screen.findByText(thresholds.loadError)).toBeVisible()
+    expect(screen.queryByText('Dashboard error')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: thresholds.retry }))
+    expect(await screen.findByText('E-service 1')).toBeVisible()
+  })
+
+  it('keeps the previous dashboard page busy while fetching and retries the failed page', async () => {
+    const user = userEvent.setup()
+    let rejectPage!: (error: Error) => void
+    vi.mocked(ProducerServices.getDashboardSaturation)
+      .mockResolvedValueOnce({
+        ...saturationResponse([saturationRow(1)]),
+        pagination: { offset: 0, limit: 5, totalCount: 20 },
+      })
+      .mockReturnValueOnce(
+        new Promise((_, reject) => {
+          rejectPage = reject
+        })
+      )
+      .mockResolvedValueOnce({
+        ...saturationResponse([saturationRow(6)]),
+        pagination: { offset: 5, limit: 5, totalCount: 20 },
+      })
+    await renderDashboard()
+    await screen.findByText('E-service 1')
+    await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await waitFor(() => expect(ProducerServices.getDashboardSaturation).toHaveBeenCalledTimes(2))
+    const table = await getSectionTable('thresholds')
+    expect(table).toHaveAttribute('aria-busy', 'true')
+    expect(within(table).getByText('E-service 1')).toBeVisible()
+    await act(async () => rejectPage(new Error('offline')))
+    expect(await screen.findByText(thresholds.loadError)).toBeVisible()
+    await user.click(screen.getByRole('button', { name: thresholds.retry }))
+    expect(await screen.findByText('E-service 6')).toBeVisible()
+    expect(ProducerServices.getDashboardSaturation).toHaveBeenLastCalledWith({
+      offset: 5,
+      limit: 5,
+      sortBy: 'PERCENTAGE_DESC',
+    })
   })
 
   it('should navigate from saturation rows to the descriptor detail', async () => {
@@ -937,7 +1100,10 @@ describe('ProviderDashboardPage tables', () => {
     await screen.findByText('E-service 1')
     await screen.findByText('Whole service')
 
-    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    const saturation = await getSectionTable('thresholds')
+    const archive = await getSectionTable('archiving')
+    expect(within(saturation).queryByRole('button')).not.toBeInTheDocument()
+    expect(within(archive).queryByRole('button')).not.toBeInTheDocument()
   })
 
   it('should keep unsorted backend saturation order and show fractional/over-100 percentages unclamped', async () => {

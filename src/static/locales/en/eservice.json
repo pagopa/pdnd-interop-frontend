@@ -772,7 +772,7 @@
         },
         "percentage": "{{value}}%",
         "dailyCalls": "{{approved}} / {{total}}",
-        "viewConsumerAriaLabel": "View consumer {{name}} details",
+        "viewConsumerAriaLabel": "View projected consumption and purposes of consumer {{name}}",
         "viewAll": "View all consumption per consumer",
         "viewAllUnavailable": "The full list of consumption per consumer is not available yet.",
         "loading": "Loading expected consumption per consumer",

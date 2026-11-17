@@ -7,6 +7,7 @@ import type {
   GetProducerEServiceMonitoringParams,
   GetProducerEServiceMonitoringArchivingParams,
   GetProducerEServiceMonitoringSaturationParams,
+  GetProducerEServiceMonitoringConsumerPurposesParams,
   MonitoringArchiving,
   ProducerDashboard,
   ProducerDashboardConsumer,
@@ -14,6 +15,7 @@ import type {
   ProducerDashboardSaturation,
   ProducerEServiceMonitoring,
   ProducerEServiceMonitoringSaturation,
+  ProducerEServiceMonitoringConsumerPurposes,
 } from '../api.generatedTypes'
 
 async function getDashboard(): Promise<ProducerDashboard> {
@@ -150,6 +152,30 @@ async function getEServiceMonitoringSaturation({
   return response.data
 }
 
+async function getEServiceMonitoringConsumerPurposes({
+  eserviceId,
+  descriptorId,
+  consumerId,
+  ...params
+}: GetProducerEServiceMonitoringConsumerPurposesParams): Promise<ProducerEServiceMonitoringConsumerPurposes> {
+  if (import.meta.env.DEV && APP_MODE === 'development' && MOCK_PRODUCER_DASHBOARD) {
+    const { loadMockProducerEServiceMonitoringConsumerPurposes } =
+      await import('../../../__mocks__/data/producer-monitoring.mocks')
+    return loadMockProducerEServiceMonitoringConsumerPurposes({
+      eserviceId,
+      descriptorId,
+      consumerId,
+      ...params,
+    })
+  }
+
+  const response = await axiosInstance.get<ProducerEServiceMonitoringConsumerPurposes>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}/monitoring/consumers/${consumerId}/purposes`,
+    { params }
+  )
+  return response.data
+}
+
 export const ProducerServices = {
   getDashboard,
   getDashboardConsumers,
@@ -159,4 +185,5 @@ export const ProducerServices = {
   getEServiceMonitoring,
   getEServiceMonitoringArchiving,
   getEServiceMonitoringSaturation,
+  getEServiceMonitoringConsumerPurposes,
 }

@@ -127,6 +127,12 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
         purpose: Purpose
       }
     | {
+        for: 'purposeState'
+        state: PurposeVersionState
+        suspendedByConsumer?: boolean
+        suspendedByProducer?: boolean
+      }
+    | {
         for: 'delegation'
         state: DelegationState
       }
@@ -193,6 +199,8 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     'isActiveDescriptor',
     'isDraftToCorrect',
     'attributeKey',
+    'suspendedByConsumer',
+    'suspendedByProducer',
   ])
 
   return match(props)
@@ -212,6 +220,29 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
       </Stack>
     ))
     .with({ for: 'purpose' }, ({ purpose }) => <PurposeStatusChip purpose={purpose} />)
+    .with({ for: 'purposeState' }, ({ state, suspendedByConsumer, suspendedByProducer }) => {
+      const suspendedLabels =
+        state === 'SUSPENDED'
+          ? [
+              suspendedByProducer && t('status.agreement.frontendStatus.suspendedByProducer'),
+              suspendedByConsumer && t('status.agreement.frontendStatus.suspendedByConsumer'),
+            ].filter((label): label is string => Boolean(label))
+          : []
+      const labels = suspendedLabels.length > 0 ? suspendedLabels : [t(`status.purpose.${state}`)]
+      return (
+        <Stack component="span" direction="row" spacing={1}>
+          {labels.map((label) => (
+            <Chip
+              key={label}
+              size="small"
+              label={label}
+              color={chipColors.purpose[state]}
+              {...chipProps}
+            />
+          ))}
+        </Stack>
+      )
+    })
     .with({ for: 'eservice' }, (p) => {
       const remappedState: EServiceDescriptorState = match(p.state)
         .with('ARCHIVING', () => 'PUBLISHED' as const)

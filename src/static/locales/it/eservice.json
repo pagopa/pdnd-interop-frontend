@@ -772,7 +772,7 @@
         },
         "percentage": "{{value}}%",
         "dailyCalls": "{{approved}} / {{total}}",
-        "viewConsumerAriaLabel": "Vedi il dettaglio del fruitore {{name}}",
+        "viewConsumerAriaLabel": "Vedi consumi previsti e finalità del fruitore {{name}}",
         "viewAll": "Vedi tutti i consumi per fruitore",
         "viewAllUnavailable": "L’elenco completo dei consumi per fruitore non è ancora disponibile.",
         "loading": "Caricamento dei consumi previsti per fruitore",

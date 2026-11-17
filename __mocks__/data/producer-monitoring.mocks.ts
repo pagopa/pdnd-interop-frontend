@@ -1,11 +1,15 @@
 import type {
   GetProducerEServiceMonitoringArchivingParams,
+  GetProducerEServiceMonitoringConsumerPurposesParams,
   GetProducerEServiceMonitoringParams,
   GetProducerEServiceMonitoringSaturationParams,
+  DateNameSortBy,
   MonitoringArchiving,
   ProducerEServiceMonitoring,
+  ProducerEServiceMonitoringConsumerPurposes,
   ProducerEServiceMonitoringSaturation,
   ProducerEServiceDescriptor,
+  PurposeVersionState,
 } from '@/api/api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 import {
@@ -262,4 +266,159 @@ export function getMockProducerEServiceMonitoringSaturation(
     results: filtered.slice(offset, offset + limit),
     pagination: { offset, limit, totalCount: filtered.length },
   })
+}
+
+function buildMockConsumerPurposes(
+  consumerName: string,
+  activePurposesCount: number,
+  waitingForApprovalDailyCalls = 0
+): ProducerEServiceMonitoringConsumerPurposes['results'] {
+  const purposes: ProducerEServiceMonitoringConsumerPurposes['results'] = Array.from(
+    { length: activePurposesCount },
+    (_, index) => ({
+      purposeId: `40000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`,
+      title: `Consultazione ${consumerName} ${index + 1}`,
+      dailyCalls: 1000 * (index + 1),
+      state: 'ACTIVE',
+      updatedAt: new Date(Date.UTC(2026, 10, 15 - index)).toISOString(),
+    })
+  )
+
+  const additionalStates: PurposeVersionState[] = ['DRAFT', 'SUSPENDED', 'ARCHIVED']
+  purposes.push(
+    ...additionalStates.map((state, index) => ({
+      purposeId: `40000000-0000-4000-8000-${String(activePurposesCount + index + 1).padStart(12, '0')}`,
+      title: `${state === 'DRAFT' ? 'Bozza' : state === 'SUSPENDED' ? 'Sospesa' : 'Archiviata'} ${consumerName}`,
+      dailyCalls: 0,
+      state,
+      updatedAt: new Date(Date.UTC(2026, 10, 12 - index)).toISOString(),
+    }))
+  )
+
+  // Mirrors the saturation fixture: a waiting purpose exists only when that consumer has waiting calls.
+  if (waitingForApprovalDailyCalls > 0) {
+    purposes.push({
+      purposeId: `40000000-0000-4000-8000-${String(activePurposesCount + additionalStates.length + 1).padStart(12, '0')}`,
+      title: `Nuova finalità ${consumerName}`,
+      dailyCalls: waitingForApprovalDailyCalls,
+      state: 'WAITING_FOR_APPROVAL',
+      updatedAt: new Date(Date.UTC(2026, 10, 16)).toISOString(),
+    })
+  }
+
+  return purposes
+}
+
+// Consumer-dashboard rows use their own descriptor IDs. Resolve only exact fixture pairs:
+// they are not real shell resources, and unrelated IDs must not acquire a fake relationship.
+function getDashboardConsumerSaturation(params: GetProducerEServiceMonitoringParams) {
+  for (const [consumerId, rows] of Object.entries(mockProducerDashboardConsumerEServices)) {
+    const row = rows.find(
+      (item) => item.eservice.id === params.eserviceId && item.descriptorId === params.descriptorId
+    )
+    if (!row) continue
+    const consumer = mockProducerDashboardConsumers.find(
+      (item) => item.consumer.id === consumerId
+    )?.consumer
+    if (!consumer) return undefined
+
+    const dailyCallsPerConsumer = 10000
+    return {
+      eservice: row.eservice,
+      version: row.version,
+      otherVersions: [],
+      dailyCallsPerConsumer,
+      results: [
+        {
+          consumer,
+          activePurposesCount: row.activePurposesCount,
+          approvedDailyCalls: row.approvedDailyCalls,
+          dailyCallsPerConsumer,
+          percentage: (row.approvedDailyCalls / dailyCallsPerConsumer) * 100,
+          waitingForApprovalDailyCalls: 0,
+        },
+      ],
+    }
+  }
+  return undefined
+}
+
+export function getMockProducerEServiceMonitoringConsumerPurposes(
+  {
+    eserviceId,
+    descriptorId: requestedDescriptorId,
+    consumerId,
+    offset,
+    limit,
+    q,
+    sortBy = 'DATE_DESC',
+    states,
+    includeArchived = false,
+  }: GetProducerEServiceMonitoringConsumerPurposesParams,
+  descriptor?: ProducerEServiceDescriptor
+): ProducerEServiceMonitoringConsumerPurposes {
+  const identity = { eserviceId, descriptorId: requestedDescriptorId }
+  // Preserve the shared monitoring fixtures (including their other consumers and versions).
+  const dashboardSaturation =
+    !descriptor && !(eserviceId === eservice.id && fixtures[requestedDescriptorId])
+      ? getDashboardConsumerSaturation(identity)
+      : undefined
+  const saturation =
+    dashboardSaturation ?? getKnownDescriptorFixture(identity, descriptor).saturation
+  const consumerPurposeRow = saturation.results.find(({ consumer }) => consumer.id === consumerId)
+  const consumer = consumerPurposeRow?.consumer
+  const query = q?.toLocaleLowerCase('it') ?? ''
+  const filtered = consumer
+    ? buildMockConsumerPurposes(
+        consumer.name,
+        consumerPurposeRow.activePurposesCount,
+        consumerPurposeRow.waitingForApprovalDailyCalls
+      ).filter(
+        (purpose) =>
+          purpose.title.toLocaleLowerCase('it').includes(query) &&
+          (includeArchived || purpose.state !== 'ARCHIVED') &&
+          (!states?.length || states.includes(purpose.state))
+      )
+    : []
+
+  filtered.sort((a, b) => {
+    const nameComparison = a.title.localeCompare(b.title, 'it')
+    let comparison: number
+    switch (sortBy as DateNameSortBy) {
+      case 'DATE_ASC':
+        comparison = a.updatedAt.localeCompare(b.updatedAt)
+        break
+      case 'NAME_ASC':
+        comparison = nameComparison
+        break
+      case 'NAME_DESC':
+        comparison = -nameComparison
+        break
+      default:
+        comparison = b.updatedAt.localeCompare(a.updatedAt)
+    }
+    return comparison || nameComparison || a.purposeId.localeCompare(b.purposeId)
+  })
+
+  return structuredClone({
+    eservice: saturation.eservice,
+    version: saturation.version,
+    otherVersions: saturation.otherVersions,
+    ...(consumer ? { consumer } : {}),
+    dailyCallsPerConsumer:
+      consumerPurposeRow?.dailyCallsPerConsumer ?? saturation.dailyCallsPerConsumer,
+    approvedDailyCalls: consumerPurposeRow?.approvedDailyCalls ?? 0,
+    percentage: consumerPurposeRow?.percentage ?? 0,
+    results: filtered.slice(offset, offset + limit),
+    pagination: { offset, limit, totalCount: filtered.length },
+  })
+}
+
+export async function loadMockProducerEServiceMonitoringConsumerPurposes(
+  params: GetProducerEServiceMonitoringConsumerPurposesParams
+): Promise<ProducerEServiceMonitoringConsumerPurposes> {
+  const descriptor = getDashboardConsumerSaturation(params)
+    ? undefined
+    : await getMockMonitoringDescriptor(params)
+  return getMockProducerEServiceMonitoringConsumerPurposes(params, descriptor)
 }
