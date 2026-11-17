@@ -163,7 +163,7 @@ const VersionInformationsSection = () => {
       <SectionContainer innerSection title={t('sections.lifecycle.title')}>
         <Stack spacing={2}>
           {activeDescriptor &&
-            parseInt(activeDescriptor.version) > parseInt(descriptor.version) &&
+            parseInt(activeDescriptor.version, 10) > parseInt(descriptor.version, 10) &&
             activeDescriptor.publishedAt && (
               <InformationContainer
                 label={t('sections.lifecycle.fields.lastVersionPublishedAt')}
