@@ -56,6 +56,6 @@ describe('formatTenantHierarchy utility function testing', () => {
         { id: 'parent-AOO', name: 'Parent AOO', subUnitType: 'AOO' },
         { id: 'parent root', name: 'Parent root' },
       ])
-    ).toBe('Tenant - Parent 1 - Parent 2')
+    ).toBe('Tenant-UO - Parent AOO - Parent root')
   })
 })
