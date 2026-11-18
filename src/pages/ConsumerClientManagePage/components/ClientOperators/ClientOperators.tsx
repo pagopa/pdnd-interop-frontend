@@ -30,8 +30,7 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
   const { data: currentOperators = [] } = useQuery(ClientQueries.getOperatorsList(clientId))
 
   const handleSubmit = async (operators: Users) => {
-    addOperators({ clientId, userIds: operators.map(({ userId }) => userId) })
-    closeDrawer()
+    await addOperators({ clientId, userIds: operators.map(({ userId }) => userId) })
   }
 
   const excludeOperatorsIdsList = currentOperators.map(({ userId }) => userId)

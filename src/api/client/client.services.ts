@@ -4,6 +4,7 @@ import type {
   AddUsersToClientPayload,
   Client,
   ClientSeed,
+  ClientUpdateSeed,
   CompactClients,
   CompactUsers,
   CreatedResource,
@@ -83,6 +84,14 @@ async function createInteropM2M(payload: ClientSeed) {
   return response.data
 }
 
+async function updateClient({ clientId, ...payload }: { clientId: string } & ClientUpdateSeed) {
+  const response = await axiosInstance.patch<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`,
+    payload
+  )
+  return response.data
+}
+
 function deleteOne({ clientId }: { clientId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`)
 }
@@ -139,6 +148,7 @@ function removeClientAdmin({ clientId, adminId }: { clientId: string; adminId: s
 }
 
 export const ClientServices = {
+  updateClient,
   getList,
   getSingle,
   getKeyList,

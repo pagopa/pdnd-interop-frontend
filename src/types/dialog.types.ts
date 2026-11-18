@@ -8,6 +8,7 @@ import type {
   TargetTenantKind,
   CompactAgreement,
   CompactUser,
+  DelegationTenant,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
@@ -178,6 +179,7 @@ export type DialogRejectDelegatedVersionDraftProps = {
 export type DialogSelectAgreementConsumerProps = {
   type: 'selectAgreementConsumer'
   action: 'inspect' | 'edit' | 'create'
+  initialSelectedConsumer?: DelegationTenant
   eservice: {
     id: string
     name: string
@@ -194,7 +196,14 @@ export type DialogSelectAgreementConsumerProps = {
   }: {
     isOwnEService: boolean
     delegationId?: string
-  }) => void
+  }) => void | Promise<void>
+  /**
+   * Lifetime of the flow that opened this dialog, provided by the originating hook.
+   * Aborted permanently on pathname change, owner unmount, or a subsequent flow opening.
+   * Only gates restoration after a failed `onSubmitCreate`; never cancels HTTP requests.
+   * When omitted the flow is considered active.
+   */
+  flowSignal?: AbortSignal
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
@@ -204,7 +213,7 @@ export type DialogTenantKindEserviceTemplateProps = {
 
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
-  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void | Promise<void>
 }
 
 export type DialogRequestPurposeApprovalProps = {
