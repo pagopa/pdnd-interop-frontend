@@ -23,6 +23,7 @@ const Recipient: TargetTenantKind[] = ['PA', 'PRIVATE']
 
 const PurposeTemplatesTab = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail.purposeTemplates' })
+  const navigate = useNavigate()
 
   const { eserviceId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
@@ -88,78 +89,56 @@ const PurposeTemplatesTab = () => {
       description={t('description')}
     >
       <FiltersSection filters={filters} {...handlers} results={data?.pagination.totalCount} />
-      {data && data.results.length > 0 ? (
-        <PurposeTemplatesTable
-          data={data}
-          pagination={{ ...paginationProps, count: getTotalPageCount(data.pagination.totalCount) }}
+      {isFetching || (data && data.results.length > 0) ? (
+        <Table
+          columns={[
+            {
+              id: 'name',
+              header: t('table.columns.name'),
+              renderCell: (row) => row.purposeTitle,
+            },
+            {
+              id: 'creator',
+              header: t('table.columns.creator'),
+              renderCell: (row) => row.creator.name,
+            },
+            {
+              id: 'recipient',
+              header: t('table.columns.recipient.label'),
+              renderCell: (row) => t(`table.columns.recipient.value.${row.targetTenantKind}`),
+            },
+            {
+              id: 'actions',
+              header: '',
+              renderCell: (row) => (
+                <IconButton
+                  aria-label={t('table.columns.actions.navigate', {
+                    templateName: row.purposeTitle,
+                  })}
+                  onClick={() =>
+                    navigate('SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS', {
+                      params: { purposeTemplateId: row.id },
+                    })
+                  }
+                >
+                  <ChevronRight />
+                </IconButton>
+              ),
+            },
+          ]}
+          getRowId={(row) => row.id}
+          rows={data?.results ?? []}
+          pagination={{
+            count: getTotalPageCount(data?.pagination.totalCount ?? 0),
+            page: paginationProps.page,
+            onChange: (_, page) => paginationProps.onPageChange(page),
+            itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+          }}
         />
       ) : (
         <PurposeTemplatesEmpty />
       )}
     </SectionContainer>
-  )
-}
-
-const PurposeTemplatesTable: React.FC<{
-  data: CatalogPurposeTemplates
-  pagination: {
-    count: number
-    page: number
-    onPageChange: (page: number) => void
-    itemsPerPageOptions: {
-      limit: number
-      options: number[]
-      onLimitChange: (limit: number) => void
-    }
-  }
-}> = ({ data, pagination }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail.purposeTemplates' })
-  const navigate = useNavigate()
-
-  return (
-    <Table
-      columns={[
-        {
-          id: 'name',
-          header: t('table.columns.name'),
-          renderCell: (row) => row.purposeTitle,
-        },
-        {
-          id: 'creator',
-          header: t('table.columns.creator'),
-          renderCell: (row) => row.creator.name,
-        },
-        {
-          id: 'recipient',
-          header: t('table.columns.recipient.label'),
-          renderCell: (row) => t(`table.columns.recipient.value.${row.targetTenantKind}`),
-        },
-        {
-          id: 'actions',
-          header: '',
-          renderCell: (row) => (
-            <IconButton
-              aria-label={t('table.columns.actions.navigate', { templateName: row.purposeTitle })}
-              onClick={() =>
-                navigate('SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS', {
-                  params: { purposeTemplateId: row.id },
-                })
-              }
-            >
-              <ChevronRight />
-            </IconButton>
-          ),
-        },
-      ]}
-      getRowId={(row) => row.id}
-      rows={data.results}
-      pagination={{
-        count: pagination.count,
-        page: pagination.page,
-        onChange: (_, page) => pagination.onPageChange(page),
-        itemsPerPageOptions: pagination.itemsPerPageOptions,
-      }}
-    />
   )
 }
 
