@@ -1,12 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close'
-import {
-  Drawer as MUIDrawer,
-  Stack,
-  Typography,
-  IconButton,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material'
+import { Drawer as MUIDrawer, Stack, Typography, useTheme, useMediaQuery } from '@mui/material'
+import { MIIconButton } from '@pagopa/mui-italia'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -45,7 +39,7 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
         ModalProps={{ onTransitionExited: onTransitionExited }}
         PaperProps={{
           sx: {
-            width: { xs: '100%', md: 375 },
+            width: { xs: '100%', md: 417 },
             maxWidth: '100%',
           },
         }}
@@ -53,18 +47,22 @@ export const TempNextDrawer: React.FC<DrawerProps> = ({
         <Stack flexGrow={1} overflow={'hidden'}>
           <Stack px={3} pt={3} flexGrow={1} overflow={'auto'}>
             <Stack mb={4}>
-              <Stack direction="row" alignItems={'start'} justifyContent={'space-between'} mb={2}>
-                <Typography variant="h5" color={theme.colors.neutral.black}>
+              <Stack
+                direction="row"
+                alignItems={'baseline'}
+                justifyContent={'space-between'}
+                mb={2}
+              >
+                <Typography variant="h6" color={theme.colors.neutral.black}>
                   {title}
                 </Typography>
-                <IconButton onClick={onClose} aria-label={t('closeIconAriaLabel')}>
-                  <CloseIcon
-                    fontSize="small"
-                    sx={{
-                      color: theme.colors.neutral.black,
-                    }}
-                  />
-                </IconButton>
+                <MIIconButton
+                  onClick={onClose}
+                  aria-label={t('closeIconAriaLabel')}
+                  sx={{ color: theme.colors.neutral.black }}
+                >
+                  <CloseIcon fontSize="small" />
+                </MIIconButton>
               </Stack>
               <Typography variant="body2" color={theme.colors.neutral.grey[700]}>
                 {subtitle}

@@ -11,6 +11,7 @@ import type {
   LinkedResource,
   PurposeTemplate,
   PurposeTemplateSeed,
+  PatchUpdatePurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
   RiskAnalysisTemplateAnswerAnnotation,
   RiskAnalysisTemplateAnswerAnnotationSeed,
@@ -74,6 +75,17 @@ async function getCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesPara
 async function createDraft(payload: PurposeTemplateSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
+    payload
+  )
+  return response.data
+}
+
+async function patchUpdatePurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: { purposeTemplateId: string } & PatchUpdatePurposeTemplateSeed) {
+  const response = await axiosInstance.patch<PurposeTemplate>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}`,
     payload
   )
   return response.data
@@ -302,6 +314,7 @@ async function downloadSignedRiskAnalysis({ purposeTemplateId }: { purposeTempla
 }
 
 export const PurposeTemplateServices = {
+  patchUpdatePurposeTemplate,
   getConsumerPurposeTemplatesList,
   getLinkableResources,
   getSingle,

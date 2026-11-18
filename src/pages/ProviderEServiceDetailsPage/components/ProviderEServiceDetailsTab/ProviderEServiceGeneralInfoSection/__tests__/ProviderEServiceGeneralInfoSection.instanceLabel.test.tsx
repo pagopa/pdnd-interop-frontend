@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { ProviderEServiceGeneralInfoSection } from '../ProviderEServiceGeneralInfoSection'
@@ -11,11 +11,11 @@ import * as EServiceModule from '@/api/eservice'
 import * as EServiceTemplateMutationsModule from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import type * as TanStackReactQuery from '@tanstack/react-query'
+import { ESERVICE_DESCRIPTION_MAX_LENGTH } from '@/config/constants'
 
 const mockUpdateInstanceLabel = vi.fn()
-const mockUpdateDescription = vi.fn()
-const mockUpdateName = vi.fn()
 const mockUpdatePersonalData = vi.fn()
+const mockPatchUpdateEServiceById = vi.fn()
 const mockDownloadConsumerList = vi.fn()
 const mockExportVersion = vi.fn()
 
@@ -31,15 +31,15 @@ vi.mock('@/config/tracking', () => ({
 }))
 
 let mockDescriptorData: ProducerEServiceDescriptor
+let mockIsDelegator = false
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
     getDescriptorProvider: vi.fn(),
   },
   EServiceMutations: {
-    useUpdateEServiceDescription: vi.fn(),
-    useUpdateEServiceName: vi.fn(),
     useUpdateEServicePersonalDataFlagAfterPublication: vi.fn(),
+    usePatchUpdateEServiceById: vi.fn(),
   },
   EServiceDownloads: {
     useDownloadConsumerList: vi.fn(),
@@ -63,7 +63,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => ({
 vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
   useGetProducerDelegationUserRole: () => ({
     isDelegate: false,
-    isDelegator: false,
+    isDelegator: mockIsDelegator,
     producerDelegations: [],
   }),
 }))
@@ -83,17 +83,16 @@ const baseTemplateDescriptor = createMockEServiceDescriptorProvider({
 
 beforeEach(() => {
   mockUseJwt()
+  mockIsDelegator = false
+  mockPatchUpdateEServiceById.mockReset()
 
-  vi.mocked(EServiceModule.EServiceMutations.useUpdateEServiceDescription).mockReturnValue({
-    mutate: mockUpdateDescription,
-  } as never)
-  vi.mocked(EServiceModule.EServiceMutations.useUpdateEServiceName).mockReturnValue({
-    mutate: mockUpdateName,
-  } as never)
   vi.mocked(
     EServiceModule.EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication
   ).mockReturnValue({
     mutate: mockUpdatePersonalData,
+  } as never)
+  vi.mocked(EServiceModule.EServiceMutations.usePatchUpdateEServiceById).mockReturnValue({
+    mutate: mockPatchUpdateEServiceById,
   } as never)
   vi.mocked(EServiceModule.EServiceDownloads.useDownloadConsumerList).mockReturnValue(
     mockDownloadConsumerList as never
@@ -110,7 +109,180 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
-describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-service from template)', () => {
+describe('ProviderEServiceGeneralInfoSection', () => {
+  it.each([
+    {
+      name: 'Updated e-service',
+      description: 'Example e-service description',
+      payload: { name: 'Updated e-service' },
+    },
+    {
+      name: 'Example e-service',
+      description: 'Updated e-service description',
+      payload: { description: 'Updated e-service description' },
+    },
+    {
+      name: 'Updated e-service',
+      description: 'Updated e-service description',
+      payload: { name: 'Updated e-service', description: 'Updated e-service description' },
+    },
+  ])('PATCHes only metadata fields that changed', async ({ name, description, payload }) => {
+    const user = userEvent.setup()
+    mockDescriptorData = createMockEServiceDescriptorProvider({
+      templateRef: undefined,
+      eservice: {
+        name: 'Example e-service',
+        description: 'Example e-service description',
+        personalData: false,
+      },
+    })
+    mockPatchUpdateEServiceById.mockImplementation(
+      (_payload: unknown, options: { onSuccess: () => void }) => options.onSuccess()
+    )
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'actions.edit' }))
+    const nameInput = screen.getByRole('textbox', {
+      name: 'updateMetadataDrawer.nameField.label',
+    })
+    if (name !== 'Example e-service') {
+      await user.clear(nameInput)
+      await user.type(nameInput, name)
+    }
+    if (description !== 'Example e-service description') {
+      const descriptionInput = screen.getByRole('textbox', {
+        name: 'updateMetadataDrawer.descriptionField.label',
+      })
+      await user.clear(descriptionInput)
+      await user.type(descriptionInput, description)
+    }
+    await user.click(screen.getByRole('button', { name: 'actions.saveEdits' }))
+
+    await waitFor(() => {
+      expect(mockPatchUpdateEServiceById).toHaveBeenCalledWith(
+        {
+          eserviceId: mockDescriptorData.eservice.id,
+          ...payload,
+        },
+        { onSuccess: expect.any(Function) }
+      )
+    })
+    await waitForElementToBeRemoved(nameInput)
+  })
+
+  it('closes the drawer without PATCHing when metadata is unchanged', async () => {
+    const user = userEvent.setup()
+    mockDescriptorData = createMockEServiceDescriptorProvider({
+      templateRef: undefined,
+      eservice: {
+        name: 'Example e-service',
+        description: 'Example e-service description',
+        personalData: false,
+      },
+    })
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'actions.edit' }))
+    const nameInput = screen.getByRole('textbox', {
+      name: 'updateMetadataDrawer.nameField.label',
+    })
+    const saveButton = screen.getByRole('button', { name: 'actions.saveEdits' })
+    expect(saveButton).toBeEnabled()
+    await user.click(saveButton)
+
+    expect(mockPatchUpdateEServiceById).not.toHaveBeenCalled()
+    await waitForElementToBeRemoved(nameInput)
+  })
+
+  it('keeps metadata visible without an edit action for a delegating organization administrator', () => {
+    mockUseJwt({ isAdmin: true })
+    mockIsDelegator = true
+    mockDescriptorData = createMockEServiceDescriptorProvider({
+      templateRef: undefined,
+      eservice: {
+        name: 'Example e-service',
+        description: 'Example e-service description',
+        personalData: false,
+      },
+    })
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'actions.edit' })).not.toBeInTheDocument()
+    expect(screen.getByText('Example e-service')).toBeVisible()
+    expect(screen.getByText('Example e-service description')).toBeVisible()
+  })
+
+  it('opens the metadata drawer with current values for a standalone e-service administrator', async () => {
+    const user = userEvent.setup()
+    mockDescriptorData = createMockEServiceDescriptorProvider({
+      templateRef: undefined,
+      eservice: {
+        name: 'Example e-service',
+        description: 'Example e-service description',
+        personalData: false,
+      },
+    })
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getByRole('heading', { name: 'nameAndDescription.title' })).toBeVisible()
+    expect(screen.getByText('Example e-service')).toBeVisible()
+    expect(screen.getByText('Example e-service description')).toBeVisible()
+    expect(screen.getAllByRole('button', { name: 'actions.edit' })).toHaveLength(1)
+
+    await user.click(screen.getByRole('button', { name: 'actions.edit' }))
+
+    expect(screen.getByText('updateMetadataDrawer.title')).toBeVisible()
+    expect(screen.getByText('updateMetadataDrawer.description')).toBeVisible()
+    expect(
+      screen.getByRole('textbox', { name: 'updateMetadataDrawer.nameField.label' })
+    ).toHaveValue(mockDescriptorData.eservice.name)
+    const descriptionInput = screen.getByRole('textbox', {
+      name: 'updateMetadataDrawer.descriptionField.label',
+    })
+    expect(descriptionInput).toHaveValue(mockDescriptorData.eservice.description)
+    expect(descriptionInput).toHaveAttribute('maxlength', String(ESERVICE_DESCRIPTION_MAX_LENGTH))
+
+    await user.click(screen.getByRole('button', { name: 'closeIconAriaLabel' }))
+
+    await waitFor(() => {
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    })
+  })
+
+  it.each(['viewer', 'operatorAPI'] as const)(
+    'keeps metadata visible without an edit action for a non-admin %s',
+    (role) => {
+      mockUseJwt({
+        isAdmin: false,
+        isViewer: role === 'viewer',
+        isOperatorAPI: role === 'operatorAPI',
+      })
+      mockDescriptorData = createMockEServiceDescriptorProvider({
+        templateRef: undefined,
+        eservice: {
+          name: 'Example e-service',
+          description: 'Example e-service description',
+          personalData: false,
+        },
+      })
+      renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+        withReactQueryContext: true,
+      })
+
+      expect(screen.queryByRole('button', { name: 'actions.edit' })).not.toBeInTheDocument()
+      expect(screen.getByText('Example e-service')).toBeVisible()
+      expect(screen.getByText('Example e-service description')).toBeVisible()
+    }
+  )
+
   it('renders exchange type for synchronous e-services', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider()
     renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {

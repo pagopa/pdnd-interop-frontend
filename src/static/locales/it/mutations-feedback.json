@@ -336,6 +336,15 @@
         "success": "Nome dell'e-service aggiornato correttamente"
       }
     },
+    "patchUpdateEServiceById": {
+      "loading": "Stiamo aggiornando il nome e la descrizione dell’e-service",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione dell’e-service.",
+        "successName": "Hai modificato il nome dell’e-service.",
+        "successDescription": "Hai modificato la descrizione dell’e-service.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione dell’e-service. Riprova."
+      }
+    },
     "updateEServiceInterfaceInfo": {
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
@@ -605,6 +614,15 @@
     }
   },
   "purpose": {
+    "patchUpdatePurpose": {
+      "loading": "Stiamo aggiornando la finalità",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione della finalità.",
+        "successName": "Hai modificato il nome della finalità.",
+        "successDescription": "Hai modificato la descrizione della finalità.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione della finalità. Riprova."
+      }
+    },
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {
@@ -768,6 +786,15 @@
     }
   },
   "client": {
+    "updateClient": {
+      "loading": "Stiamo aggiornando il client",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione del client.",
+        "successName": "Hai modificato il nome del client.",
+        "successDescription": "Hai modificato la descrizione del client.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione del client. Riprova."
+      }
+    },
     "create": {
       "loading": "Stiamo creando il client richiesto",
       "outcome": {
@@ -872,6 +899,15 @@
     }
   },
   "keychain": {
+    "updateKeychain": {
+      "loading": "Stiamo aggiornando il portachiavi",
+      "outcome": {
+        "successNameAndDescription": "Hai modificato il nome e la descrizione del portachiavi.",
+        "successName": "Hai modificato il nome del portachiavi.",
+        "successDescription": "Hai modificato la descrizione del portachiavi.",
+        "error": "Non è stato possibile modificare il nome e/o la descrizione del portachiavi. Riprova."
+      }
+    },
     "removeKeychainFromEService": {
       "loading": "Stiamo rimuovendo il portachiavi dall’e-service",
       "outcome": {
@@ -984,6 +1020,16 @@
     }
   },
   "eserviceTemplate": {
+    "patchUpdateEServiceTemplate": {
+      "loading": "Stiamo aggiornando il template e-service",
+      "outcome": {
+        "successMetadata": "Hai modificato il nome, la descrizione e/o i destinatari del template e-service.",
+        "successName": "Hai modificato il nome del template e-service.",
+        "successDescription": "Hai modificato la descrizione del template e-service.",
+        "successTarget": "Hai modificato i destinatari del template e-service.",
+        "error": "Non è stato possibile modificare il nome, la descrizione o i destinatari del template e-service. Riprova."
+      }
+    },
     "updateEServiceTemplateName": {
       "loading": "Stiamo modificando il nome del template dell'e-service",
       "outcome": {
@@ -1170,6 +1216,16 @@
     }
   },
   "purposeTemplate": {
+    "patchUpdatePurposeTemplate": {
+      "loading": "Stiamo aggiornando il template finalità",
+      "outcome": {
+        "successMetadata": "Hai modificato il nome, la descrizione e/o i destinatari del template finalità.",
+        "successName": "Hai modificato il nome del template finalità.",
+        "successDescription": "Hai modificato la descrizione del template finalità.",
+        "successTarget": "Hai modificato i destinatari del template finalità.",
+        "error": "Non è stato possibile modificare il nome, la descrizione o i destinatari del template finalità. Riprova."
+      }
+    },
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {
