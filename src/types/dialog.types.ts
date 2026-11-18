@@ -66,6 +66,10 @@ export type DialogProps =
   | DialogBlockArchivingRequestProps
   | DialogDelegatorConfirmArchivingProps
   | DialogDelegatorRejectArchivingProps
+  | DialogCreateAgreementProps
+  | DialogEditAgreementProps
+  | DialogInspectAgreementProps
+  | DialogUpdateAgreementProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -338,4 +342,20 @@ export type DialogDelegatorRejectArchivingProps = {
   eserviceId: string
   descriptorId?: string
   delegatedName: string
+}
+
+export type DialogCreateAgreementProps = {
+  type: 'createAgreement'
+}
+
+export type DialogEditAgreementProps = {
+  type: 'editAgreement'
+}
+
+export type DialogInspectAgreementProps = {
+  type: 'inspectAgreement'
+}
+
+export type DialogUpdateAgreementProps = {
+  type: 'updateAgreement'
 }

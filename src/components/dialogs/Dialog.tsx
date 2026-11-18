@@ -43,6 +43,10 @@ import type {
   DialogBlockArchivingRequestProps,
   DialogDelegatorConfirmArchivingProps,
   DialogDelegatorRejectArchivingProps,
+  DialogCreateAgreementProps,
+  DialogEditAgreementProps,
+  DialogInspectAgreementProps,
+  DialogUpdateAgreementProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -81,6 +85,10 @@ import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 import { DialogBlockArchivingRequest } from './DialogBlockArchivingRequest'
 import DialogDelegatorConfirmArchiving from './DialogDelegatorConfirmArchiving'
 import DialogDelegatorRejectArchiving from './DialogDelegatorRejectArchiving'
+import { DialogCreateAgreement } from './DialogAgreements/DialogCreateAgreement'
+import { DialogEditAgreement } from './DialogAgreements/DialogEditAgreement'
+import { DialogInspectAgreement } from './DialogAgreements/DialogInspectAgreement'
+import { DialogUpdateAgreement } from './DialogAgreements/DialogUpdateAgreement'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -120,7 +128,11 @@ function match<T>(
   onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T,
   onBlockArchivingRequest: (props: DialogBlockArchivingRequestProps) => T,
   onDelegatorConfirmArchiving: (props: DialogDelegatorConfirmArchivingProps) => T,
-  onDelegatorRejectArchiving: (props: DialogDelegatorRejectArchivingProps) => T
+  onDelegatorRejectArchiving: (props: DialogDelegatorRejectArchivingProps) => T,
+  onCreateAgreement: (props: DialogCreateAgreementProps) => T,
+  onEditAgreement: (props: DialogEditAgreementProps) => T,
+  onInspectAgreement: (props: DialogInspectAgreementProps) => T,
+  onUpdateAgreement: (props: DialogUpdateAgreementProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -200,6 +212,14 @@ function match<T>(
         return onDelegatorConfirmArchiving(props)
       case 'delegatorRejectArchiving':
         return onDelegatorRejectArchiving(props)
+      case 'createAgreement':
+        return onCreateAgreement(props)
+      case 'editAgreement':
+        return onEditAgreement(props)
+      case 'inspectAgreement':
+        return onInspectAgreement(props)
+      case 'updateAgreement':
+        return onUpdateAgreement(props)
     }
   }
 }
@@ -242,7 +262,11 @@ const _Dialog = match(
   (props) => <DialogCancelVersionArchiving {...props} />,
   () => <DialogBlockArchivingRequest />,
   (props) => <DialogDelegatorConfirmArchiving {...props} />,
-  (props) => <DialogDelegatorRejectArchiving {...props} />
+  (props) => <DialogDelegatorRejectArchiving {...props} />,
+  (props) => <DialogCreateAgreement {...props} />,
+  (props) => <DialogEditAgreement {...props} />,
+  (props) => <DialogInspectAgreement {...props} />,
+  (props) => <DialogUpdateAgreement {...props} />
 )
 
 export const Dialog: React.FC = () => {
