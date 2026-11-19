@@ -357,16 +357,23 @@ export type DialogDelegatorRejectArchivingProps = {
 
 export type DialogCreateAgreementProps = {
   type: 'createAgreement'
+  consumers: EServiceConsumer[]
 }
 
 export type DialogEditAgreementProps = {
   type: 'editAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
 }
 
 export type DialogInspectAgreementProps = {
   type: 'inspectAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
 }
 
 export type DialogUpdateAgreementProps = {
   type: 'updateAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
 }

@@ -1,13 +1,36 @@
-import { Stack } from '@mui/material'
+import type { EServiceConsumer } from '@/pages/ConsumerEServiceDetailsPage/hooks/useActions'
+import { Autocomplete } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 type ConsumerSelectorProps = {
-  consumers: {
-    id: string
-    name: string
-  }[]
+  consumers: EServiceConsumer[]
   onChange: (consumerId: string) => void
+  error?: boolean
 }
 
-export const ConsumerSelector: React.FC<ConsumerSelectorProps> = ({ consumers }) => {
-  return <Stack>ConsumerSelector</Stack>
+export const ConsumerSelector: React.FC<ConsumerSelectorProps> = ({
+  consumers,
+  onChange,
+  error,
+}) => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'consumer.detail.dialogs.agreements.common.fields.consumer',
+  })
+
+  return (
+    <Autocomplete
+      options={consumers.map((consumer) => ({
+        label: consumer.name,
+        value: consumer.id,
+      }))}
+      onChange={(option) => {
+        onChange(option?.value ?? '')
+      }}
+      label={t('label')}
+      placeholder={t('placeholder')}
+      required
+      error={error}
+      helperText={error ? t('error') : undefined}
+    />
+  )
 }

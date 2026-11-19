@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Tab, useTheme } from '@mui/material'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
-import { DelegationQueries } from '@/api/delegation'
-import { AuthHooks } from '@/api/auth'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
@@ -14,17 +12,18 @@ import { NewPageContainer } from '@/components/layout/containers/NewPageContaine
 import { useDialog } from '@/stores'
 import { getViewLatestVersionTargetId, isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsAlerts'
-import { useRequesterEserviceAgreement } from './hooks/useRequesterEserviceAgreement'
 import GeneralInfoTab from './components/GeneralInfoTab'
 import PurposeTemplatesTab from './components/PurposeTemplatesTab'
 import TechnicalSpecsTab from './components/TechnicalSpecsTab'
 import EntryRequirementsTab from './components/EntryRequirementsTab'
+import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
+import { useActions } from './hooks/useActions'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { jwt, isReviewer } = AuthHooks.useJwt()
   const theme = useTheme()
+  const navigate = useNavigate()
 
   const { activeTab, updateActiveTab } = useActiveTab('generalInfo')
   const { openDialog } = useDialog()
@@ -35,22 +34,12 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
-  const { data: delegators } = useQuery({
-    ...DelegationQueries.getConsumerDelegators({
-      limit: 50,
-      offset: 0,
-      eserviceIds: [eserviceId],
-    }),
-    enabled: Boolean(jwt?.organizationId) && !isReviewer,
-    select: ({ results }) => results ?? [],
-  })
-
   const viewLatestVersionTargetId = React.useMemo(
     () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId, 'consumer'),
     [descriptor?.eservice.descriptors, descriptorId]
   )
 
-  const { primary, secondary } = useActions()
+  const { primary, secondary, menu } = useActions()
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
@@ -70,6 +59,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       title={descriptor?.eservice.name || ''}
       primaryAction={primary}
       secondaryAction={secondary}
+      menuActions={menu}
       isLoading={!descriptor}
       infoSection={
         descriptor
@@ -92,7 +82,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
                 ? [
                     {
                       action: handleViewLatestVersion,
-                      label: t('actions.viewLatestVersion'),
+                      label: t('actions.version.change'),
                       icon: ReplayCircleFilledIcon,
                     },
                   ]

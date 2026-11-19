@@ -1,6 +1,52 @@
 {
   "consumer": {
     "detail": {
+      "actions": {
+        "version": {
+          "change": "View last version"
+        },
+        "agreements": {
+          "update": "Update to a new version",
+          "subscribe": "Request access",
+          "inspect": "View request",
+          "edit": "Complete request"
+        }
+      },
+      "dialogs": {
+        "agreements": {
+          "common": {
+            "fields": {
+              "consumer": {
+                "label": "Seleziona entity",
+                "placeholder": "Consumer entity",
+                "error": "Select another entity"
+              }
+            }
+          },
+          "subscribe": {
+            "title": "Request access to the e-service"
+          },
+          "update": {
+            "title": "Update access request",
+            "actions": {
+              "confirm": "Update request"
+            }
+          },
+          "inspect": {
+            "title": "View access request",
+            "description": "Select the organization for which you want to view the usage request.",
+            "actions": {
+              "confirm": "View access request"
+            }
+          },
+          "edit": {
+            "title": "Complete the access request",
+            "actions": {
+              "confirm": "Complete access request"
+            }
+          }
+        }
+      },
       "version": "Version",
       "tabs": {
         "ariaLabel": "Four different tabs to view the e-service details",

@@ -1,23 +1,174 @@
 import { useDialog } from '@/stores'
 import type { DialogCreateAgreementProps } from '@/types/dialog.types'
 import { MIDialog as Dialog } from '@pagopa/mui-italia'
-import React from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ConsumerSelector } from './components/ConsumerSelector'
+import { Stack } from '@mui/material'
+import { AuthHooks } from '@/api/auth'
+import { DelegationQueries } from '@/api/delegation'
+import { TenantQueries } from '@/api/tenant'
+import { useQuery } from '@tanstack/react-query'
+import { EServiceQueries } from '@/api/eservice'
+import { useNavigate, useParams } from '@/router'
+import { AgreementMutations } from '@/api/agreement'
 
-export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({}) => {
+export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ consumers }) => {
+  const [consumerId, setConsumerId] = useState<string>('')
   const { t: tCommon } = useTranslation('common')
-  const ariaLabelId = React.useId()
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'consumer.detail.dialogs.agreements.subscribe',
+  })
   const { closeDialog } = useDialog()
+  const ariaLabelId = React.useId()
+
+  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
+  const navigate = useNavigate()
+  const tenantId = AuthHooks.useJwt().jwt?.organizationId ?? ''
+
+  const { data: descriptor, isFetching: isFetchingDescriptor } = useQuery(
+    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
+  )
+
+  const { data: delegations, isFetching: isFetchingDelegations } = useQuery({
+    ...DelegationQueries.getList({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+      kind: 'DELEGATED_CONSUMER',
+      states: ['ACTIVE'],
+      delegateIds: [tenantId],
+      delegatorIds: [consumerId],
+    }),
+    enabled: Boolean(tenantId) && Boolean(consumerId),
+    select: ({ results }) => results,
+  })
+
+  const { data: hasTenantCertifiedAttributes, isFetching: isFetchingAttributes } = useQuery({
+    ...TenantQueries.getHasTenantCertifiedAttributes({
+      eserviceId: eserviceId,
+      descriptorId: descriptorId,
+      tenantId: consumerId,
+    }),
+    enabled: Boolean(consumerId),
+    select: ({ hasCertifiedAttributes }) => hasCertifiedAttributes,
+  })
+
+  const isAsyncExchange = descriptor?.eservice.asyncExchange ?? false
+
+  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
+  const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
+
+  const error = useMemo(() => {
+    return (
+      Boolean(consumerId) &&
+      !isFetchingAttributes &&
+      consumerId !== descriptor?.eservice.producer.id &&
+      !hasTenantCertifiedAttributes
+    )
+  }, [consumerId, descriptor, hasTenantCertifiedAttributes, isFetchingAttributes])
+
+  const onSubmit = useCallback(() => {
+    if (!consumerId) return
+    if (!tenantId) return
+    if (!descriptor) return
+    if (isFetchingAttributes || isFetchingDelegations || isFetchingDescriptor) return
+    if (consumerId !== tenantId && delegations?.length === 0) return
+    if (consumerId !== descriptor?.eservice.producer.id && !hasTenantCertifiedAttributes) return
+
+    let delegationId: string | undefined = undefined
+
+    if (consumerId !== tenantId) {
+      // If the consumer is not the tenant itself (the current user has been delegated), we need to get the delegation ID from the list of delegations
+      delegationId = delegations?.[0]?.id
+    }
+
+    // If the consumer is the producer of the e-service, we can submit the agreement directly to the e-service without creating a draft
+    if (consumerId === descriptor?.eservice.producer.id) {
+      submitToOwnEService(
+        {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+          delegationId: delegationId,
+        },
+        {
+          onSuccess({ id }) {
+            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
+          },
+        }
+      )
+      return
+    }
+
+    // If the consumer is not the producer of the e-service, we need to create a draft agreement first
+    createAgreementDraft(
+      {
+        eserviceName: descriptor.eservice.name,
+        eserviceId: descriptor.eservice.id,
+        eserviceVersion: descriptor.version,
+        descriptorId: descriptor.id,
+        delegationId: delegationId,
+      },
+      {
+        onSuccess({ id }) {
+          navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+        },
+      }
+    )
+  }, [
+    consumerId,
+    tenantId,
+    descriptor,
+    delegations,
+    hasTenantCertifiedAttributes,
+    isFetchingAttributes,
+    isFetchingDelegations,
+    isFetchingDescriptor,
+    submitToOwnEService,
+    createAgreementDraft,
+    navigate,
+  ])
   return (
     <Dialog
       aria-labelledby={ariaLabelId}
       onClose={closeDialog}
       onCloseButtonClick={closeDialog}
       closeButtonAriaLabel={tCommon('closeBtn')}
-      maxWidth="md"
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          p: 0,
+        },
+      }}
+      title={t('title')}
       open
+      primaryAction={{
+        label: tCommon('actions.confirm'),
+        onClick: onSubmit,
+        color: error ? 'error' : 'primary',
+        disabled:
+          !descriptor ||
+          !tenantId ||
+          !consumerId ||
+          isFetchingAttributes ||
+          isFetchingDelegations ||
+          isFetchingDescriptor ||
+          (consumerId !== descriptor?.eservice.producer.id && !hasTenantCertifiedAttributes) ||
+          (consumerId !== tenantId && delegations?.length === 0),
+      }}
+      secondaryAction={{
+        label: tCommon('actions.cancel'),
+        onClick: () => closeDialog(),
+      }}
     >
-      Create Agreement
+      <Stack gap={3} sx={{ px: 3 }}>
+        <ConsumerSelector
+          consumers={consumers}
+          onChange={(consumerId: string) => setConsumerId(consumerId)}
+          error={error}
+        />
+      </Stack>
     </Dialog>
   )
 }
