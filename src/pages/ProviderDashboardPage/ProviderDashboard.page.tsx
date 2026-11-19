@@ -4,7 +4,7 @@ import { MIButton } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
 import { ProducerQueries } from '@/api/producer'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import {
   CardDashboard,
@@ -14,6 +14,7 @@ import {
 import { routes, useNavigate } from '@/router'
 import { ProviderDashboardSaturationTable } from './components/ProviderDashboardSaturationTable'
 import { ProviderDashboardArchivingTable } from './components/ProviderDashboardArchivingTable'
+import { usePagination } from '@/hooks/usePagination'
 
 type DashboardDestination =
   | 'PROVIDE_ESERVICE_LIST'
@@ -27,6 +28,28 @@ export default function ProviderDashboardPage() {
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
   const { data: dashboard } = useSuspenseQuery(ProducerQueries.getDashboard())
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
+    limit: 5,
+    limitOptions: [5, 10, 15],
+  })
+  const saturation = useQuery({
+    ...ProducerQueries.getDashboardSaturation({
+      ...paginationParams,
+      sortBy: 'PERCENTAGE_DESC',
+    }),
+    placeholderData: keepPreviousData,
+    throwOnError: false,
+  })
+  const saturationPagination =
+    saturation.data && saturation.data.pagination.totalCount > 0
+      ? {
+          page: paginationProps.page,
+          onChange: (_: React.ChangeEvent<unknown>, page: number) =>
+            paginationProps.onPageChange(page),
+          count: getTotalPageCount(saturation.data.pagination.totalCount),
+          itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+        }
+      : undefined
 
   const linkAction = (
     destination: DashboardDestination,
@@ -165,7 +188,15 @@ export default function ProviderDashboardPage() {
           aria-labelledby="dashboard-thresholds-title"
           titleTypographyProps={{ id: 'dashboard-thresholds-title' }}
         >
-          <ProviderDashboardSaturationTable />
+          <ProviderDashboardSaturationTable
+            dashboard
+            saturationItems={saturation.data?.results ?? []}
+            pagination={saturationPagination}
+            isLoading={saturation.isPending}
+            isFetching={saturation.isFetching}
+            isError={saturation.isError}
+            onRetry={() => saturation.refetch()}
+          />
           {routes.PROVIDE_SATURATION_RATE.authLevels.some((role) =>
             currentRoles.includes(role)
           ) && (

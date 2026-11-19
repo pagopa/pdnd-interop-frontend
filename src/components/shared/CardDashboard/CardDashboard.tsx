@@ -27,13 +27,23 @@ export type CardDashboardContent =
       total?: number
       totalLabel: string
     }
-  | { kind: 'consumption'; used: number; limit: number; unitLabel: string }
+  | {
+      kind: 'consumption'
+      used: number
+      limit: number
+      unitLabel: string
+      /** Backend-provided percentage (0-100+); takes precedence over `used / limit`. */
+      percentage?: number
+    }
   | { kind: 'empty'; message: string; icon?: 'success' }
 
 export type CardDashboardAction = {
   type: 'primary' | 'link'
   text: string
   action?: () => void
+  /** Renders the action disabled; `disabledReason` is shown and linked as its description. */
+  disabled?: boolean
+  disabledReason?: string
 }
 
 export type CardDashboardProps = {
@@ -88,6 +98,7 @@ export function CardDashboard({
   footer,
 }: Readonly<CardDashboardProps>) {
   const headingId = useId()
+  const actionDescriptionId = useId()
   const theme = useTheme()
   const numberFormatter = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 })
   const valueStyles = {
@@ -125,7 +136,12 @@ export function CardDashboard({
   }
 
   if (content.kind === 'consumption') {
-    const ratio = content.limit > 0 ? content.used / content.limit : 0
+    const ratio =
+      content.percentage !== undefined
+        ? content.percentage / 100
+        : content.limit > 0
+          ? content.used / content.limit
+          : 0
     const visualRatio = Math.min(1, Math.max(0, ratio))
     const percentage = new Intl.NumberFormat(locale, {
       style: 'percent',
@@ -312,16 +328,32 @@ export function CardDashboard({
         <Stack spacing={2} alignItems="flex-start" sx={{ mt: 'auto', pt: '24px', minWidth: 0 }}>
           {footer && <Typography color="text.secondary">{footer}</Typography>}
           {action && (
-            <MIButton
-              type="button"
-              variant={action.type === 'primary' ? 'contained' : 'text'}
-              color="primary"
-              startIcon={action.type === 'primary' ? <Add /> : undefined}
-              endIcon={action.type === 'link' ? <ArrowForward /> : undefined}
-              onClick={action.action}
-            >
-              {action.text}
-            </MIButton>
+            <Stack spacing={0.5} alignItems="flex-start" sx={{ minWidth: 0 }}>
+              <MIButton
+                type="button"
+                variant={action.type === 'primary' ? 'contained' : 'text'}
+                color="primary"
+                startIcon={action.type === 'primary' ? <Add /> : undefined}
+                endIcon={action.type === 'link' ? <ArrowForward /> : undefined}
+                onClick={action.disabled ? undefined : action.action}
+                disabled={action.disabled}
+                aria-describedby={
+                  action.disabled && action.disabledReason ? actionDescriptionId : undefined
+                }
+              >
+                {action.text}
+              </MIButton>
+              {action.disabled && action.disabledReason && (
+                <Typography
+                  id={actionDescriptionId}
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ minWidth: 0 }}
+                >
+                  {action.disabledReason}
+                </Typography>
+              )}
+            </Stack>
           )}
         </Stack>
       )}

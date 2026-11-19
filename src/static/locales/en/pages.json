@@ -120,7 +120,7 @@
     "retry": "Retry",
     "version": "Version {{version}}",
     "goToEService": "View e-service",
-    "goToEServiceDetail": "View e-service {{name}}, version {{version}}",
+    "goToEServiceDetail": "View projected consumption and purposes for e-service {{name}}, version {{version}}",
     "columns": {
       "eservice": "E-service",
       "agreementState": "Agreement state",
@@ -134,6 +134,70 @@
       "DAILY_CALLS_DESC": "Approved daily calls (descending)",
       "DAILY_CALLS_ASC": "Approved daily calls (ascending)"
     }
+  },
+  "providerDashboardConsumerEServiceDetail": {
+    "fallbackTitle": "Consumer detail",
+    "description": "View the projected consumption and the purposes created by the consumer for this e-service.",
+    "breadcrumbManageEService": "Manage E-service",
+    "export": "Export",
+    "summary": {
+      "eservice": "E-service",
+      "eserviceValue": "{{name}}, V{{version}}",
+      "otherVersionsLabel": "Other versions",
+      "otherVersionAriaLabel": "View version {{version}}",
+      "versionShort": "V{{version}}",
+      "threshold": "Threshold per consumer",
+      "approvedCalls": "Estimated total approved calls",
+      "dailyCalls": "{{value}} calls/day",
+      "customizedThreshold": "customized threshold",
+      "attributeTooltip": "{{kind}}: {{name}}",
+      "attributeKind": {
+        "CERTIFIED": "Certified attribute",
+        "CERTIFIED_DISCRETE": "Certified attribute",
+        "DECLARED": "Declared attribute",
+        "VERIFIED": "Verified attribute"
+      },
+      "percentage": "{{value}}%",
+      "percentageAriaLabel": "{{value}}% of the threshold per consumer"
+    },
+    "waitingApproval": {
+      "title": "You have purposes waiting for approval",
+      "description": "This consumer has purposes that require your approval. You can choose whether to approve or reject them.",
+      "descriptionThresholdExceeded": "The active purposes of this consumer exceed the threshold per consumer you defined. You can choose whether to approve or reject them.",
+      "action": "Go to purposes to approve"
+    },
+    "searchPlaceholder": "Search by purpose name",
+    "filters": {
+      "title": "Filter by state",
+      "states": "Purpose state",
+      "selectAll": "Select all",
+      "includeArchived": "Include archived purposes",
+      "stateOptions": {
+        "ACTIVE": "Active",
+        "SUSPENDED": "Suspended",
+        "WAITING_FOR_APPROVAL": "Waiting for approval",
+        "REJECTED": "Rejected"
+      }
+    },
+    "sorting": {
+      "DATE_DESC": "Newest first",
+      "DATE_ASC": "Oldest first",
+      "NAME_ASC": "Purpose name (A-Z)",
+      "NAME_DESC": "Purpose name (Z-A)"
+    },
+    "columns": {
+      "title": "Purpose name",
+      "dailyCalls": "Estimated calls",
+      "state": "Purpose state",
+      "updatedAt": "Request received on",
+      "actions": "Actions"
+    },
+    "tableAriaLabel": "Purposes of {{name}}",
+    "goToPurpose": "View purpose {{title}}",
+    "empty": "No purposes found",
+    "noRelationship": "This organization has no purposes for this e-service version.",
+    "loadError": "Could not load the consumer projected consumption and purposes. Try again.",
+    "retry": "Retry"
   },
   "consumerEServiceCatalog": {
     "title": "E-service Catalog",

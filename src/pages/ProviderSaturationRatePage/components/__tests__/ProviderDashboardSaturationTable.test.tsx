@@ -4,7 +4,7 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { providerSaturationRateMockItems } from '../../providerSaturationRate.mock'
-import ProviderSaturationRateTable from '../ProviderSaturationRateTable'
+import { ProviderDashboardSaturationTable } from '@/pages/ProviderDashboardPage/components/ProviderDashboardSaturationTable'
 
 const navigateMock = vi.hoisted(() => vi.fn())
 vi.mock('@/router', () => ({ useNavigate: () => navigateMock }))
@@ -13,8 +13,8 @@ vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }))
 
-describe('ProviderSaturationRateTable', () => {
-  it('renders named mobile rows and preserves the accessible descriptor tracking action', async () => {
+describe('ProviderDashboardSaturationTable', () => {
+  it('renders named mobile rows and navigates to descriptor monitoring', async () => {
     vi.stubGlobal('matchMedia', (query: string) => ({
       matches: true,
       media: query,
@@ -29,7 +29,9 @@ describe('ProviderSaturationRateTable', () => {
     try {
       render(
         <ThemeProvider theme={theme}>
-          <ProviderSaturationRateTable saturationItems={[providerSaturationRateMockItems[0]]} />
+          <ProviderDashboardSaturationTable
+            saturationItems={[providerSaturationRateMockItems[0]]}
+          />
         </ThemeProvider>
       )
 
@@ -47,11 +49,35 @@ describe('ProviderSaturationRateTable', () => {
           eserviceId: providerSaturationRateMockItems[0].eservice.id,
           descriptorId: providerSaturationRateMockItems[0].descriptorId,
         },
-        urlParams: { tab: 'tracking' },
+        urlParams: { tab: 'monitoring' },
       })
     } finally {
       vi.unstubAllGlobals()
     }
+  })
+
+  it('formats counts and fractional percentages consistently with the dashboard', () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <ProviderDashboardSaturationTable
+          saturationItems={[
+            {
+              ...providerSaturationRateMockItems[0],
+              activePurposesCount: 12345,
+              percentage: 40.25,
+              approvedDailyCalls: 12000,
+              dailyCallsTotal: 10000,
+              waitingForApprovalDailyCalls: 15000,
+            },
+          ]}
+        />
+      </ThemeProvider>
+    )
+
+    expect(screen.getByText('12.345')).toBeVisible()
+    expect(screen.getByText('40,25%')).toBeVisible()
+    expect(screen.getByText('12.000 / 10.000')).toBeVisible()
+    expect(screen.getByText('15.000')).toBeVisible()
   })
 
   it.each([
@@ -66,7 +92,7 @@ describe('ProviderSaturationRateTable', () => {
   ])('renders a donut and a separate label for $percentage%', async ({ percentage, color }) => {
     render(
       <ThemeProvider theme={theme}>
-        <ProviderSaturationRateTable
+        <ProviderDashboardSaturationTable
           saturationItems={[{ ...providerSaturationRateMockItems[0], percentage }]}
         />
       </ThemeProvider>
@@ -103,7 +129,7 @@ describe('ProviderSaturationRateTable', () => {
   ])('clamps only the visual for $original%', async ({ original, boundary }) => {
     const table = (percentage: number) => (
       <ThemeProvider theme={theme}>
-        <ProviderSaturationRateTable
+        <ProviderDashboardSaturationTable
           saturationItems={[{ ...providerSaturationRateMockItems[0], percentage }]}
         />
       </ThemeProvider>

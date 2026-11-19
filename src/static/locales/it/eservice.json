@@ -724,12 +724,106 @@
       "eservice": "E-service in archiviazione il giorno {{ date }}"
     },
     "tabs": {
-      "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
+      "ariaLabel": "Tab per i dettagli dell'e-service, il monitoraggio e i portachiavi associati",
       "eserviceDetails": "Dettagli e-service",
       "keychain": "Portachiavi associati",
+      "monitoring": "Monitoraggio",
       "ariaLabelEserviceDetail": "Due tab diverse per i dettagli dell'e-service e i template di finalità collegati",
       "eserviceDetail": "Dettaglio e-service",
       "purposeTemplate": "Template finalità collegati"
+    },
+    "monitoring": {
+      "cards": {
+        "loading": "Caricamento dei dati di monitoraggio",
+        "loadError": "Non è stato possibile caricare i dati di monitoraggio.",
+        "retry": "Riprova"
+      },
+      "consumption": {
+        "title": "Consumo previsto, finalità e cambio di stima",
+        "description": "Tieni monitorato il consumo stimato dell’e-service.",
+        "export": "Esporta",
+        "consumptionCard": {
+          "heading": "Consumo previsto della soglia",
+          "unit": "chiamate API giornaliere approvate / totali"
+        },
+        "newPurposesCard": {
+          "heading": "Nuove finalità in attesa di approvazione",
+          "unit": "finalità",
+          "action": "Vedi finalità"
+        },
+        "quotaChangesCard": {
+          "heading": "Cambi di stima in attesa di approvazione",
+          "unit": "richieste",
+          "action": "Vedi richieste"
+        }
+      },
+      "consumers": {
+        "title": "Consumi previsti della soglia per fruitore",
+        "description": "Vedi i fruitori di questa versione ordinati per consumo previsto della soglia di chiamate API.",
+        "columns": {
+          "consumer": "Nome fruitore",
+          "purposes": "Finalità create",
+          "percentage": "Percentuale soglia per fruitore",
+          "calls": "Chiamate approvate / totale disponibile",
+          "callsToApprove": "Chiamate da approvare",
+          "actions": "Azioni"
+        },
+        "percentage": "{{value}}%",
+        "dailyCalls": "{{approved}} / {{total}}",
+        "viewConsumerAriaLabel": "Vedi consumi previsti e finalità del fruitore {{name}}",
+        "viewAll": "Vedi tutti i consumi per fruitore",
+        "loading": "Caricamento dei consumi previsti per fruitore",
+        "loadError": "Non è stato possibile caricare i consumi previsti per fruitore.",
+        "retry": "Riprova",
+        "empty": "Non ci sono fruitori con consumi previsti per questa versione."
+      },
+      "versions": {
+        "title": "Versioni dell’e-service e richieste di fruizione",
+        "description": "Vedi come sono distribuiti i fruitori tra le versioni e quante richieste di fruizione sono in attesa.",
+        "byVersionCard": {
+          "heading": "Fruitori per versione",
+          "totalLabel": "fruitori",
+          "version": "Versione {{version}}",
+          "olderVersions": "Versioni precedenti",
+          "medianUpgradeDays_one": "Tempo mediano di aggiornamento: {{count}} giorno",
+          "medianUpgradeDays_other": "Tempo mediano di aggiornamento: {{count}} giorni"
+        },
+        "byKindCard": {
+          "heading": "Fruitori per tipologia",
+          "pa": "Pubbliche amministrazioni",
+          "gspScp": "Gestori di pubblico servizio e società a controllo pubblico",
+          "private": "Privati",
+          "total": "Totale fruitori: {{total}}"
+        },
+        "pendingAgreementsCard": {
+          "heading": "Richieste di fruizione in attesa",
+          "unit": "richieste",
+          "action": "Vedi richieste di fruizione"
+        }
+      },
+      "archiving": {
+        "title": "Versioni in fase di archiviazione",
+        "description": "Vedi le versioni di questo e-service che stanno per essere archiviate e quanti fruitori ci sono.",
+        "columns": {
+          "version": "Versione",
+          "consumers": "Fruitori",
+          "archivableOn": "Data di archiviazione",
+          "actions": "Azioni"
+        },
+        "version": "Versione {{version}}",
+        "wholeEService": "Intero e-service",
+        "relative": {
+          "today": "oggi",
+          "inDays_one": "tra {{count}} giorno",
+          "inDays_other": "tra {{count}} giorni",
+          "pastDue": "archiviata"
+        },
+        "viewConsumersAriaLabel": "Vedi i fruitori: {{version}}",
+        "loading": "Caricamento delle versioni in fase di archiviazione",
+        "loadError": "Non è stato possibile caricare le versioni in fase di archiviazione.",
+        "retry": "Riprova",
+        "empty": "Non ci sono versioni di questo e-service in fase di archiviazione."
+      }
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",

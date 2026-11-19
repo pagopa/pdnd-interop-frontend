@@ -94,7 +94,8 @@ export default function ProviderDashboardConsumerDetail() {
         <IconButton
           component={RouterLink}
           color="inherit"
-          to={generatePath('PROVIDE_ESERVICE_MANAGE', {
+          to={generatePath('PROVIDE_DASHBOARD_CONSUMER_ESERVICE_DETAIL', {
+            consumerId,
             eserviceId: row.eservice.id,
             descriptorId: row.descriptorId,
           })}

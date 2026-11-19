@@ -14,7 +14,7 @@ import {
   Badge,
 } from '@mui/material'
 import { MIButton as Button } from '@pagopa/mui-italia'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useId, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FilterField } from './FilterField'
 import {
@@ -29,14 +29,20 @@ type AdditionalFiltersProps = {
   fields: AdditionalFiltersSection[]
   filters: FilterFieldsValues
   onChangeActiveFilters: FiltersHandler
+  /** Compact, unsectioned layout with actions directly below the fields. */
+  layout?: 'default' | 'compact'
 }
 
 export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   fields: sections,
   filters,
   onChangeActiveFilters,
+  layout = 'default',
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const titleId = useId()
+  const descriptionId = useId()
+  const isCompact = layout === 'compact'
 
   const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'drawer' })
   const { t } = useTranslation('filters', { keyPrefix: 'additionals' })
@@ -61,8 +67,8 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   }, [additionals])
 
   const activeFiltersCount = useMemo(() => {
-    return getActiveFiltersCount(filters)
-  }, [filters])
+    return getActiveFiltersCount(isCompact ? getFiltersValues(additionals, filters) : filters)
+  }, [filters, additionals, isCompact])
 
   const onSubmit: SubmitHandler<FilterFieldsValues> = useCallback(
     (data) => {
@@ -122,6 +128,10 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
         open={isOpen}
         onClose={onClose}
         PaperProps={{
+          role: 'dialog',
+          'aria-modal': true,
+          'aria-labelledby': titleId,
+          'aria-describedby': descriptionId,
           sx: {
             width: { xs: '100%', md: 375 },
             maxWidth: '100%',
@@ -135,15 +145,15 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
             overflow={'hidden'}
             onSubmit={formMethods.handleSubmit(onSubmit)}
           >
-            <Stack px={3} pt={2} flexGrow={1} overflow={'auto'}>
-              <Stack mb={5}>
+            <Stack px={3} pt={2} flexGrow={isCompact ? 0 : 1} overflow={'auto'}>
+              <Stack mb={isCompact ? 4 : 5}>
                 <Stack
                   direction="row"
                   alignItems={'center'}
                   justifyContent={'space-between'}
                   mb={3}
                 >
-                  <Typography variant="h5" color={theme.colors.neutral.black}>
+                  <Typography id={titleId} variant="h5" color={theme.colors.neutral.black}>
                     {t('title')}
                   </Typography>
                   <IconButton onClick={onClose} aria-label={tShared('closeIconAriaLabel')}>
@@ -155,15 +165,25 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
                     />
                   </IconButton>
                 </Stack>
-                <Typography variant="body2" color={theme.colors.neutral.grey[700]}>
+                <Typography
+                  id={descriptionId}
+                  variant="body2"
+                  color={theme.colors.neutral.grey[700]}
+                >
                   {t('subtitle')}
                 </Typography>
               </Stack>
               {sections.map((section) => (
-                <Stack key={section.title} gap={3} sx={{ mb: 4 }}>
-                  <Typography fontSize={'16px'} fontWeight={700} color={theme.colors.neutral.black}>
-                    {section.title}
-                  </Typography>
+                <Stack key={section.title} gap={3} sx={{ mb: isCompact ? 0 : 4 }}>
+                  {!isCompact && (
+                    <Typography
+                      fontSize={'16px'}
+                      fontWeight={700}
+                      color={theme.colors.neutral.black}
+                    >
+                      {section.title}
+                    </Typography>
+                  )}
                   {section.fields.map((field) => (
                     <FilterField key={field.name} field={field} />
                   ))}
@@ -173,10 +193,10 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
             <Stack
               direction={{ xs: 'column-reverse', md: 'row' }}
               pb={4}
-              pt={3}
+              pt={isCompact ? 4 : 3}
               px={3}
               justifyContent={{ xs: 'center', md: 'flex-end' }}
-              gap={{ xs: 3, md: 4 }}
+              gap={isCompact ? 2 : { xs: 3, md: 4 }}
             >
               <Button variant="text" type="button" onClick={onReset}>
                 {t('actions.reset')}

@@ -4,8 +4,9 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
-import { MemoryRouter } from 'react-router-dom'
+import { BrowserRouter, MemoryRouter } from 'react-router-dom'
 import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type {
   GetProducerDashboardSaturationParams,
@@ -97,7 +98,9 @@ const deferredResponse = () => {
 /** InformationContainer row (label + value) for the given summary label. */
 const summaryValue = (label: string) => screen.getByText(label).parentElement!.parentElement!
 
-const renderPage = async (search = '') => {
+let restoreBrowser: (() => void) | undefined
+
+const renderPage = async (search = '', productionAdapter = false) => {
   const i18n = createInstance()
   await i18n.init({
     lng: 'it',
@@ -117,15 +120,32 @@ const renderPage = async (search = '') => {
     defaultOptions: { queries: { retry: false, gcTime: 0, throwOnError: true } },
   })
   const onUrlUpdate = vi.fn()
+  if (productionAdapter) {
+    const originalUrl = window.location.href
+    const scroll = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
+    window.history.replaceState(null, '', `/saturation${search}`)
+    restoreBrowser = () => {
+      scroll.mockRestore()
+      window.history.replaceState(null, '', originalUrl)
+    }
+  }
   const view = render(
     <QueryClientProvider client={client}>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={[`/saturation${search}`]}>
-            <NuqsTestingAdapter searchParams={search} onUrlUpdate={onUrlUpdate} hasMemory>
-              <ProviderSaturationRatePage />
-            </NuqsTestingAdapter>
-          </MemoryRouter>
+          {productionAdapter ? (
+            <BrowserRouter>
+              <NuqsAdapter>
+                <ProviderSaturationRatePage />
+              </NuqsAdapter>
+            </BrowserRouter>
+          ) : (
+            <MemoryRouter initialEntries={[`/saturation${search}`]}>
+              <NuqsTestingAdapter searchParams={search} onUrlUpdate={onUrlUpdate} hasMemory>
+                <ProviderSaturationRatePage />
+              </NuqsTestingAdapter>
+            </MemoryRouter>
+          )}
         </ThemeProvider>
       </I18nextProvider>
     </QueryClientProvider>
@@ -141,6 +161,10 @@ describe('ProviderSaturationRatePage', () => {
   beforeEach(() => {
     getSaturation.mockReset()
     getSaturation.mockImplementation(async (params) => response(params))
+  })
+  afterEach(() => {
+    restoreBrowser?.()
+    restoreBrowser = undefined
   })
 
   it('renders the actual dashboard intro, outlined search and named table without false results', async () => {
@@ -294,6 +318,95 @@ describe('ProviderSaturationRatePage', () => {
     await screen.findByText('E-service 23')
     expect(dataRows()).toHaveLength(24)
     expect(dataRows()[0]).toHaveTextContent('E-service 00')
+  })
+
+  it('uses the production router adapter for pagination and filtering without extra requests', async () => {
+    const user = userEvent.setup()
+    await renderPage('?q=E-service&sortBy=NAME_ASC', true)
+    await screen.findByText('E-service 00')
+    await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await screen.findByText('E-service 10')
+    await waitFor(() =>
+      expect(new URLSearchParams(window.location.search).get('offset')).toBe('10')
+    )
+    expect(renderedNames()).toEqual(namesAt([10, 11, 12, 13, 14, 15, 16, 17, 18, 19]))
+
+    await user.click(screen.getByRole('combobox'))
+    await user.click(screen.getByRole('option', { name: '24' }))
+    await screen.findByText('E-service 23')
+    await waitFor(() => expect(new URLSearchParams(window.location.search).get('limit')).toBe('24'))
+    expect(new URLSearchParams(window.location.search).has('offset')).toBe(false)
+    expect(renderedNames()).toEqual(namesAt(Array.from({ length: 24 }, (_, index) => index)))
+
+    await user.clear(screen.getByRole('textbox', { name: copy.filters.label }))
+    await user.type(screen.getByRole('textbox', { name: copy.filters.label }), 'E-service 0')
+    await user.click(screen.getByRole('button', { name: itFilters.button }))
+    await waitFor(() => expect(renderedNames()).toEqual(namesAt([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])))
+    await waitFor(() =>
+      expect(new URLSearchParams(window.location.search).get('q')).toBe('E-service 0')
+    )
+    expect(getSaturation.mock.calls).toEqual([
+      [{ offset: 0, limit: 10, q: 'E-service', sortBy: 'NAME_ASC' }],
+      [{ offset: 10, limit: 10, q: 'E-service', sortBy: 'NAME_ASC' }],
+      [{ offset: 0, limit: 24, q: 'E-service', sortBy: 'NAME_ASC' }],
+      [{ offset: 0, limit: 24, q: 'E-service 0', sortBy: 'NAME_ASC' }],
+    ])
+  })
+
+  it('resets page on filtering and ignores a stale response after sorting with the production adapter', async () => {
+    const user = userEvent.setup()
+    await renderPage('?q=E-service&sortBy=NAME_ASC&offset=10', true)
+    await screen.findByText('E-service 10')
+    const previous = deferredResponse()
+    getSaturation.mockReturnValueOnce(previous.promise)
+    const input = screen.getByRole('textbox', { name: copy.filters.label })
+    await user.clear(input)
+    await user.type(input, 'E-service 0')
+    await user.click(screen.getByRole('button', { name: itFilters.button }))
+    await waitFor(() => expect(getSaturation).toHaveBeenCalledTimes(2))
+    expect(screen.getByRole('table')).toHaveAttribute('aria-busy', 'true')
+
+    await user.click(screen.getByRole('button', { name: sortLabels.NAME_ASC }))
+    await user.click(screen.getByRole('menuitem', { name: sortLabels.NAME_DESC }))
+    await waitFor(() => expect(renderedNames()).toEqual(namesAt([9, 8, 7, 6, 5, 4, 3, 2, 1, 0])))
+    await waitFor(() => {
+      const search = new URLSearchParams(window.location.search)
+      expect(search.get('q')).toBe('E-service 0')
+      expect(search.get('sortBy')).toBe('NAME_DESC')
+      expect(search.has('offset')).toBe(false)
+    })
+    await act(async () => {
+      previous.resolve({
+        ...response({ offset: 0, limit: 10, q: 'E-service 0', sortBy: 'NAME_ASC' }),
+        summary: { overThreshold: 0, nearThreshold: 0, total: 999 },
+      })
+      await previous.promise
+    })
+    expect(renderedNames()).toEqual(namesAt([9, 8, 7, 6, 5, 4, 3, 2, 1, 0]))
+    expect(summaryValue(copy.totalEservices)).toHaveTextContent('30')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(getSaturation.mock.calls).toEqual([
+      [{ offset: 10, limit: 10, q: 'E-service', sortBy: 'NAME_ASC' }],
+      [{ offset: 0, limit: 10, q: 'E-service 0', sortBy: 'NAME_ASC' }],
+      [{ offset: 0, limit: 10, q: 'E-service 0', sortBy: 'NAME_DESC' }],
+    ])
+  })
+
+  it('sanitizes invalid pagination in the production adapter without repeated requests', async () => {
+    await renderPage('?limit=51&offset=-4&sortBy=NAME_ASC', true)
+    await screen.findByText('E-service 00')
+    await waitFor(() => {
+      const search = new URLSearchParams(window.location.search)
+      expect(search.has('limit')).toBe(false)
+      expect(search.has('offset')).toBe(false)
+      expect(search.get('sortBy')).toBe('NAME_ASC')
+    })
+    expect(getSaturation).toHaveBeenCalledExactlyOnceWith({
+      offset: 0,
+      limit: 10,
+      q: undefined,
+      sortBy: 'NAME_ASC',
+    })
   })
 
   it('restores search, sorting and pagination from a direct URL', async () => {
