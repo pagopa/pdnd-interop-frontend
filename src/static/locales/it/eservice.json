@@ -813,10 +813,10 @@
         "version": "Versione {{version}}",
         "wholeEService": "Intero e-service",
         "relative": {
-          "today": "Oggi",
-          "inDays_one": "Tra {{count}} giorno",
-          "inDays_other": "Tra {{count}} giorni",
-          "pastDue": "Data superata"
+          "today": "oggi",
+          "inDays_one": "tra {{count}} giorno",
+          "inDays_other": "tra {{count}} giorni",
+          "pastDue": "archiviata"
         },
         "viewConsumersAriaLabel": "Vedi i fruitori: {{version}}",
         "loading": "Caricamento delle versioni in fase di archiviazione",

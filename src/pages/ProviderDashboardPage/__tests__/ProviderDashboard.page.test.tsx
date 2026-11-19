@@ -1038,8 +1038,8 @@ describe('ProviderDashboardPage tables', () => {
       const { columns } = (language === 'it' ? itPages : enPages).dashboard.sections.archiving
       const labels =
         language === 'it'
-          ? ['Data superata', 'Oggi', 'Tra 1 giorno', 'Tra 10 giorni', 'Tra 11 giorni']
-          : ['Date passed', 'Today', 'In 1 day', 'In 10 days', 'In 11 days']
+          ? ['archiviata', 'oggi', 'tra 1 giorno', 'tra 10 giorni', 'tra 11 giorni']
+          : ['archived', 'today', 'in 1 day', 'in 10 days', 'in 11 days']
       const days = [11, 12, 13, 22, 23]
       vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
         results: days.map((day, index) => ({
