@@ -87,6 +87,7 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
 import { ProviderSaturationRatePage } from '@/pages/ProviderSaturationRatePage'
+import ProviderEServiceMonitoringConsumersPage from '@/pages/ProviderEServiceMonitoringConsumersPage/ProviderEServiceMonitoringConsumers.page'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
@@ -186,6 +187,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL',
     path: '/erogazione/e-service/:eserviceId/:descriptorId/monitoraggio/fruitori/:consumerId',
     element: <ProviderDashboardConsumerEServiceDetail origin="monitoring" />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_MONITORING_CONSUMERS',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/monitoraggio/consumi-previsti',
+    element: <ProviderEServiceMonitoringConsumersPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
