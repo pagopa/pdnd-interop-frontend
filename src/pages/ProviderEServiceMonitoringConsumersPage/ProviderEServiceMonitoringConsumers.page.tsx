@@ -189,48 +189,50 @@ const ProviderEServiceMonitoringConsumersPage: React.FC = () => {
         </MIButton>
       }
     >
-      <Stack component="dl" spacing={3} sx={{ mt: 3, mb: 6 }}>
-        <InformationContainer
-          label={t('monitoringConsumersPage.eservice')}
-          content={
-            isFetching ? (
-              <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
-            ) : (
-              eserviceInformationContainerContent
-            )
-          }
-        />
-        <InformationContainer
-          label={t('monitoringConsumersPage.dailyCallsPerConsumer')}
-          content={
-            isFetching ? (
-              <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
-            ) : (
-              dailyCallsPerConsumerInformationContainerContent
-            )
-          }
-        />
-        <InformationContainer
-          label={t('monitoringConsumersPage.customizedQuotaConsumersOnConsumers')}
-          content={
-            isFetching ? (
-              <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
-            ) : (
-              `${data?.customizedQuotaConsumers.toString()}/${data?.activeConsumers}` || '-'
-            )
-          }
-        />
-        <InformationContainer
-          label={t('monitoringConsumersPage.dailyCallsTotal')}
-          content={
-            isFetching ? (
-              <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
-            ) : (
-              dailyCallsTotalInformationContainerContent
-            )
-          }
-        />
-      </Stack>
+      {(isFetching || data) && (
+        <Stack component="dl" spacing={3} sx={{ mt: 3, mb: 6 }}>
+          <InformationContainer
+            label={t('monitoringConsumersPage.eservice')}
+            content={
+              isFetching ? (
+                <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
+              ) : (
+                eserviceInformationContainerContent
+              )
+            }
+          />
+          <InformationContainer
+            label={t('monitoringConsumersPage.dailyCallsPerConsumer')}
+            content={
+              isFetching ? (
+                <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
+              ) : (
+                dailyCallsPerConsumerInformationContainerContent
+              )
+            }
+          />
+          <InformationContainer
+            label={t('monitoringConsumersPage.customizedQuotaConsumersOnConsumers')}
+            content={
+              isFetching ? (
+                <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
+              ) : (
+                `${data?.customizedQuotaConsumers.toString()}/${data?.activeConsumers}`
+              )
+            }
+          />
+          <InformationContainer
+            label={t('monitoringConsumersPage.dailyCallsTotal')}
+            content={
+              isFetching ? (
+                <Skeleton variant="text" sx={{ fontSize: '1rem', width: '200px' }} />
+              ) : (
+                dailyCallsTotalInformationContainerContent
+              )
+            }
+          />
+        </Stack>
+      )}
       <FiltersSection
         filters={filters}
         {...filtersHandlers}
