@@ -143,7 +143,7 @@ const ProviderEServiceMonitoringConsumersPage: React.FC = () => {
         }
       : undefined
 
-  const hasSingleVersion = data && data.version === '1'
+  const hasSingleVersion = !data?.otherVersions.length
   const eserviceInformationContainerContent = hasSingleVersion ? (
     `${data?.eservice.name}, V${data?.version}`
   ) : (
@@ -183,7 +183,8 @@ const ProviderEServiceMonitoringConsumersPage: React.FC = () => {
       description={t('description')}
       dashboardFlow
       titleAction={
-        <MIButton onClick={() => {}} variant="outlined" startIcon={<UploadFileIcon />}>
+        <MIButton disabled variant="outlined" startIcon={<UploadFileIcon />}>
+          {/* TODO: Implement export functionality when available */}
           {tCommon('export')}
         </MIButton>
       }
