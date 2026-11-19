@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useMutation } from '@tanstack/react-query'
 import { CancellationError, queryClient, queryClientConfig } from '../query-client'
+import axiosInstance from '../axios'
 import configuredI18n from '../react-i18next'
 import { useDialogStore, useLoadingOverlayStore, useToastNotificationStore } from '@/stores'
 import { useErrorDataStore } from '@/stores/error-data.store'
@@ -427,6 +428,41 @@ describe('queryClient error toasts', () => {
     })
     useErrorDataStore.getState().clearErrorData()
     queryClient.clear()
+  })
+
+  it.each([
+    { userMessage: backendUserMessage, label: fallbackLabel, expected: backendUserMessage },
+    { userMessage: undefined, label: fallbackLabel, expected: fallbackLabel },
+    { userMessage: undefined, label: undefined, expected: 'Errore inaspettato' },
+  ])('shows "$expected" for a backend 404', async ({ userMessage, label, expected }) => {
+    const mutation = queryClient.getMutationCache().build(queryClient, {
+      retry: false,
+      meta: { errorToastLabel: label },
+      mutationFn: () =>
+        axiosInstance.delete('/resource', {
+          adapter: async (config) => {
+            throw new AxiosError('Not found', AxiosError.ERR_BAD_REQUEST, config, undefined, {
+              config,
+              data: { ...validData, userMessage },
+              headers: new AxiosHeaders(),
+              status: 404,
+              statusText: 'Not Found',
+            })
+          },
+        }),
+    })
+
+    await expect(mutation.execute(undefined)).rejects.toBeInstanceOf(NotFoundError)
+    expect(useToastNotificationStore.getState()).toMatchObject({
+      isShown: true,
+      message: expected,
+      severity: 'error',
+      correlationId: validData.correlationId,
+    })
+    expect(useErrorDataStore.getState()).toMatchObject({
+      correlationId: validData.correlationId,
+      errorCode: validData.errors[0].code,
+    })
   })
 
   it.each(

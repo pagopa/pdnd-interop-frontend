@@ -26,10 +26,9 @@ const getHideOverlay = () => useLoadingOverlayStore.getState().hideOverlay
 const getOpenDialog = () => useDialogStore.getState().openDialog
 const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
-const getBackendErrorLabel = (error: unknown): string | undefined => {
-  if (!isAxiosError<Problem>(error)) return undefined
-
-  return error.response?.data?.userMessage
+const getBackendProblem = (error: unknown): Problem | undefined => {
+  if (error instanceof NotFoundError) return error.problem
+  return isAxiosError<Problem>(error) ? error.response?.data : undefined
 }
 
 const resolveMeta = (query: {
@@ -55,7 +54,7 @@ const resolveMeta = (query: {
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
 
-  const errorToastLabel = getBackendErrorLabel(error) ?? fallbackLabel
+  const errorToastLabel = getBackendProblem(error)?.userMessage ?? fallbackLabel
 
   const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
     const title =
@@ -199,12 +198,9 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
 
   const meta = resolveMeta({ mutation, error, variables, context })
   const errorToastLabel = meta.errorToastLabel || configuredI18n.t('error:default.title')
-  let correlationId
-  let errorCode
-  if (isAxiosError<Problem>(error)) {
-    correlationId = error.response?.data?.correlationId
-    errorCode = error.response?.data?.errors?.[0]?.code
-  }
+  const problem = getBackendProblem(error)
+  const correlationId = problem?.correlationId
+  const errorCode = problem?.errors?.[0]?.code
   if (correlationId && errorCode) {
     getSetErrorData()(correlationId, errorCode)
   }
