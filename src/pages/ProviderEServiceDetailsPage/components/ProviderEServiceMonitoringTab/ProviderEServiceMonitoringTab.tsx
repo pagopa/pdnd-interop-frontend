@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
-import { Box, useTheme } from '@mui/material'
+import { Box, Stack, useTheme } from '@mui/material'
 import { MIButton } from '@pagopa/mui-italia'
 import { useId } from 'react'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
