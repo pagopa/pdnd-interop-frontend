@@ -1,8 +1,9 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Alert, Box, Button, Typography } from '@mui/material'
+import { Alert, Box, Button, Stack, Typography } from '@mui/material'
 import {
   MIIconButton,
   MITable,
+  theme,
   type MIPaginationProps,
   type MITableColumn,
 } from '@pagopa/mui-italia'
@@ -16,6 +17,8 @@ import type {
 import { SaturationDonut } from '@/components/shared/SaturationDonut/SaturationDonut'
 import { routes, useNavigate } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { ErrorIcon } from '@/icons/ErrorIcon'
 
 type ProviderEServiceMonitoringConsumersTableProps = {
   eserviceId: string
@@ -46,6 +49,7 @@ export function ProviderEServiceMonitoringConsumersTable({
   onRetry,
 }: Readonly<ProviderEServiceMonitoringConsumersTableProps>) {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.monitoring.consumers' })
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'table' })
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
 
@@ -132,7 +136,27 @@ export function ProviderEServiceMonitoringConsumersTable({
   }
 
   if (isEmpty) {
-    return <Typography>{t('empty')}</Typography>
+    return (
+      <NoItemResults padding={1} borderRadius={0}>
+        <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>
+          <ErrorIcon />
+          <Stack alignItems="center">
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.colors.neutral.grey[650],
+              }}
+            >
+              {tShared('noResultsTitle')}
+            </Typography>
+            <Typography variant="caption" sx={{ color: theme.colors.neutral.grey[650] }}>
+              {tShared('noResultsDescription')}
+            </Typography>
+          </Stack>
+        </Stack>
+      </NoItemResults>
+    )
   }
 
   return (
