@@ -1,20 +1,12 @@
 import { AgreementQueries } from '@/api/agreement'
-import { PageContainer } from '@/components/layout/containers'
-import {
-  Filters,
-  Pagination,
-  useAutocompleteTextInput,
-  useFilters,
-  usePagination,
-} from '@pagopa/interop-fe-commons'
+import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  ConsumerAgreementsTable,
-  ConsumerAgreementsTableSkeleton,
-} from './components/ConsumerAgreementsTable'
+import { ConsumerAgreementsTable } from './components/ConsumerAgreementsTable'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { GetConsumerAgreementsParams } from '@/api/api.generatedTypes'
+import { usePagination } from '@/hooks/usePagination'
+import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
@@ -50,8 +42,7 @@ const ConsumerAgreementsListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
-    usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetConsumerAgreementsParams, 'limit' | 'offset'>
   >([
@@ -93,31 +84,23 @@ const ConsumerAgreementsListPage: React.FC = () => {
     ...filtersParams,
   }
 
-  const { data } = useQuery({
-    ...AgreementQueries.getConsumerAgreementsList(params),
-    placeholderData: keepPreviousData,
-  })
-
-  return (
-    <PageContainer title={t('title')} description={t('description')}>
-      <Filters {...filtersHandlers} />
-      <ConsumerAgreementsTableWrapper params={params} />
-      <Pagination
-        {...paginationProps}
-        rowPerPageOptions={rowPerPageOptions}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
-    </PageContainer>
-  )
-}
-
-const ConsumerAgreementsTableWrapper: React.FC<{ params: GetConsumerAgreementsParams }> = ({
-  params,
-}) => {
   const { data, isFetching } = useQuery(AgreementQueries.getConsumerAgreementsList(params))
 
-  if (!data && isFetching) return <ConsumerAgreementsTableSkeleton />
-  return <ConsumerAgreementsTable agreements={data?.results ?? []} />
+  return (
+    <NewPageContainer title={t('title')} description={t('description')}>
+      <Filters {...filtersHandlers} />
+      <ConsumerAgreementsTable
+        agreements={data?.results ?? []}
+        isLoading={!data && isFetching}
+        pagination={{
+          page: paginationProps.page,
+          itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+          count: getTotalPageCount(data?.pagination.totalCount),
+          onChange: (_, page) => paginationProps.onPageChange(page),
+        }}
+      />
+    </NewPageContainer>
+  )
 }
 
 export default ConsumerAgreementsListPage
