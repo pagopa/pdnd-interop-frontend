@@ -1,1 +1,1 @@
-export * from './ConsumerAgreementsTableRow'
+export * from './ConsumerAgreementsTable'
