@@ -105,10 +105,10 @@ Sezione «Versioni dell'e-service e richieste di fruizione» (contatori dell'int
 | --- | --- |
 | Fruitori per versione | `consumersByVersion.versions[]` (`version`, `consumersCount`) con totale esplicito `consumersByVersion.total`; voce «Versioni precedenti» solo se `olderVersionsConsumersCount` è presente; piè di card con tempo mediano di aggiornamento solo se `medianUpgradeDays` è presente |
 | Fruitori per tipologia | `consumersByKind.pa`, `gspScp`, `private`, totale `consumersByKind.total` |
-| Richieste di fruizione in attesa | `pendingAgreements`; l'azione apre `/erogazione/richieste` filtrato per `eservicesIds={eserviceId}` e `states=PENDING` (filtro sull'e-service, non sulla versione) |
+| Richieste di fruizione in attesa | `pendingAgreements`; l'azione, disponibile dopo il caricamento del nome dell'e-service, apre `/erogazione/richieste` con `eservicesIds` e `states` serializzati come JSON `[[etichetta,valore]]`, usando il nome dell'e-service e l'etichetta localizzata di `PENDING` (filtro sull'e-service, non sulla versione) |
 | Versioni in fase di archiviazione (tabella `MITable`) | per riga: versione (`version`, oppure «Intero e-service» se assente), `consumersCount`, `archivableOn` con data e distanza relativa in giorni di calendario nel fuso locale («Oggi», «Tra N giorni», «Data superata»); ordine del backend, senza riordinamento |
 
-Nella tabella di archiviazione il chevron è disabilitato, con motivazione in tooltip e nel nome accessibile, se la riga non ha `descriptorId` (archiviazione dell'intero e-service) o se è la versione già visualizzata; altrimenti apre la versione con `?tab=monitoring`.
+Nella tabella di archiviazione il chevron è visibile e abilitato su ogni riga. Il click non avvia ancora alcuna navigazione: sarà collegato alla futura pagina dei fruitori della versione selezionata.
 
 Le card riusano `CardDashboard` (`src/components/shared/CardDashboard`), esteso in modo retrocompatibile con `percentage` opzionale nel contenuto `consumption` e con `disabled`/`disabledReason` nelle azioni. Il componente supporta una motivazione opzionale, visibile e collegata con `aria-describedby`; le azioni disabilitate delle card di questo tab non impostano `disabledReason` e non mostrano tale motivazione.
 

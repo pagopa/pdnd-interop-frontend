@@ -818,9 +818,7 @@
           "inDays_other": "In {{count}} days",
           "pastDue": "Date passed"
         },
-        "viewVersionAriaLabel": "View monitoring for version {{version}}",
-        "currentVersion": "You are already viewing the monitoring of this version.",
-        "noVersion": "Archiving applies to the whole e-service: there is no version to open.",
+        "viewConsumersAriaLabel": "View consumers: {{version}}",
         "loading": "Loading versions being archived",
         "loadError": "Versions being archived could not be loaded.",
         "retry": "Retry",

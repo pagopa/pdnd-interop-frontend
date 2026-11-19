@@ -3,63 +3,26 @@ import { Alert, Box, Button, Typography } from '@mui/material'
 import { MIIconButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { AuthHooks } from '@/api/auth'
 import { ProducerQueries } from '@/api/producer'
 import type { MonitoringArchivingRow } from '@/api/api.generatedTypes'
 import { ArchivingDateCell } from '@/components/shared/ArchivingDateCell'
-import { routes, useNavigate } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
-import { PROVIDER_ESERVICE_MONITORING_TAB } from './monitoring.constants'
-import { MonitoringUnavailableIconAction } from './MonitoringUnavailableIconAction'
 
 type ProviderEServiceMonitoringArchivingTableProps = {
   eserviceId: string
-  descriptorId: string
 }
 
 /** Versions of the e-service being archived, preserving backend order. */
 export function ProviderEServiceMonitoringArchivingTable({
   eserviceId,
-  descriptorId,
 }: Readonly<ProviderEServiceMonitoringArchivingTableProps>) {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.monitoring.archiving' })
-  const navigate = useNavigate()
-  const { currentRoles } = AuthHooks.useJwt()
   const { data, isPending, isError, isFetching, refetch } = useQuery(
     ProducerQueries.getEServiceMonitoringArchiving({ eserviceId })
   )
 
-  const canOpenVersion = routes.PROVIDE_ESERVICE_MANAGE.authLevels.some((role) =>
-    currentRoles.includes(role)
-  )
-
   const getVersionLabel = (row: MonitoringArchivingRow) =>
     row.version ? t('version', { version: row.version }) : t('wholeEService')
-
-  const renderAction = (row: MonitoringArchivingRow) => {
-    if (!canOpenVersion) return null
-    const label = t('viewVersionAriaLabel', { version: row.version ?? getVersionLabel(row) })
-    if (!row.descriptorId) {
-      return <MonitoringUnavailableIconAction label={label} reason={t('noVersion')} />
-    }
-    if (row.descriptorId === descriptorId) {
-      return <MonitoringUnavailableIconAction label={label} reason={t('currentVersion')} />
-    }
-    const targetDescriptorId = row.descriptorId
-    return (
-      <MIIconButton
-        aria-label={label}
-        onClick={() =>
-          navigate('PROVIDE_ESERVICE_MANAGE', {
-            params: { eserviceId: row.eservice.id, descriptorId: targetDescriptorId },
-            urlParams: { tab: PROVIDER_ESERVICE_MONITORING_TAB },
-          })
-        }
-      >
-        <ChevronRightIcon />
-      </MIIconButton>
-    )
-  }
 
   const columns: MITableColumn<MonitoringArchivingRow>[] = [
     {
@@ -85,7 +48,12 @@ export function ProviderEServiceMonitoringArchivingTable({
       id: 'actions',
       header: t('columns.actions'),
       isAction: true,
-      renderCell: renderAction,
+      // TODO: Link the chevron to the consumer list for the selected version.
+      renderCell: (row) => (
+        <MIIconButton aria-label={t('viewConsumersAriaLabel', { version: getVersionLabel(row) })}>
+          <ChevronRightIcon />
+        </MIIconButton>
+      ),
     },
   ]
 

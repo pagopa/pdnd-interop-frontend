@@ -13,6 +13,8 @@ import { mockUseJwt } from '@/utils/testing.utils'
 import { formatDateStringNumeric, formatThousands } from '@/utils/format.utils'
 import itEservice from '@/static/locales/it/eservice.json'
 import enEservice from '@/static/locales/en/eservice.json'
+import itAgreement from '@/static/locales/it/agreement.json'
+import enAgreement from '@/static/locales/en/agreement.json'
 import {
   getMockProducerEServiceMonitoring,
   getMockProducerEServiceMonitoringArchiving,
@@ -23,6 +25,7 @@ import { ProviderEServiceMonitoringTab } from '../ProviderEServiceMonitoringTab'
 vi.unmock('react-i18next')
 
 const ESERVICE_ID = '10000000-0000-4000-8000-000000000001'
+const ESERVICE_NAME = 'E-service / dati & sicurezza'
 const DESCRIPTOR_ID = '20000000-0000-4000-8000-000000001001'
 const OLDEST_DESCRIPTOR_ID = '20000000-0000-4000-8000-000000000099'
 
@@ -36,20 +39,24 @@ const copy = itEservice.read.monitoring
 const renderTab = async ({
   language = 'it',
   descriptorId = DESCRIPTOR_ID,
-}: { language?: 'it' | 'en'; descriptorId?: string } = {}) => {
+  eserviceName = ESERVICE_NAME,
+}: { language?: 'it' | 'en'; descriptorId?: string; eserviceName?: string | null } = {}) => {
   vi.spyOn(router, 'useParams').mockReturnValue({ eserviceId: ESERVICE_ID, descriptorId })
   const i18n = createInstance()
   await i18n.init({
     lng: language,
     fallbackLng: false,
-    resources: { it: { eservice: itEservice }, en: { eservice: enEservice } },
+    resources: {
+      it: { eservice: itEservice, agreement: itAgreement },
+      en: { eservice: enEservice, agreement: enAgreement },
+    },
   })
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } })
   const view = () => (
     <QueryClientProvider client={client}>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-          <ProviderEServiceMonitoringTab />
+          <ProviderEServiceMonitoringTab eserviceName={eserviceName ?? undefined} />
         </ThemeProvider>
       </I18nextProvider>
     </QueryClientProvider>
@@ -324,17 +331,39 @@ describe('ProviderEServiceMonitoringTab', () => {
     }
   )
 
-  it('opens the agreement list filtered by e-service and PENDING state', async () => {
-    const user = userEvent.setup()
-    await renderTab()
+  it.each([
+    ['it', itEservice, itAgreement],
+    ['en', enEservice, enAgreement],
+  ] as const)(
+    'opens the agreement list with localized filters in %s',
+    async (language, eservice, agreement) => {
+      const user = userEvent.setup()
+      await renderTab({ language })
+      await waitForData(eservice.read.monitoring)
+
+      await user.click(
+        screen.getByRole('button', {
+          name: eservice.read.monitoring.versions.pendingAgreementsCard.action,
+        })
+      )
+      expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_AGREEMENT_LIST', {
+        urlParams: {
+          eservicesIds: JSON.stringify([[ESERVICE_NAME, ESERVICE_ID]]),
+          states: JSON.stringify([
+            [agreement.list.filters.statusField.optionLabels.PENDING, 'PENDING'],
+          ]),
+        },
+      })
+    }
+  )
+
+  it('hides the agreements CTA until the e-service name is available', async () => {
+    await renderTab({ eserviceName: null })
     await waitForData()
 
-    await user.click(
-      screen.getByRole('button', { name: copy.versions.pendingAgreementsCard.action })
-    )
-    expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_AGREEMENT_LIST', {
-      urlParams: { eservicesIds: ESERVICE_ID, states: 'PENDING' },
-    })
+    expect(
+      screen.queryByRole('button', { name: copy.versions.pendingAgreementsCard.action })
+    ).not.toBeInTheDocument()
   })
 
   it('hides the agreements CTA for roles without access to the agreement list', async () => {
@@ -347,7 +376,7 @@ describe('ProviderEServiceMonitoringTab', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('navigates archiving rows to the monitoring tab of another version and disables the current one', async () => {
+  it('keeps both version chevrons enabled without navigating', async () => {
     const user = userEvent.setup()
     await renderTab()
     await waitForData()
@@ -358,23 +387,24 @@ describe('ProviderEServiceMonitoringTab', () => {
       within(oldestRow).getByText(formatDateStringNumeric('2026-12-01T00:00:00Z'))
     ).toBeInTheDocument()
 
-    await user.click(
-      within(oldestRow).getByRole('button', {
-        name: copy.archiving.viewVersionAriaLabel.replace('{{version}}', '0'),
+    for (const [row, version] of [
+      [oldestRow, '0'],
+      [currentRow, '1'],
+    ] as const) {
+      const button = within(row).getByRole('button', {
+        name: copy.archiving.viewConsumersAriaLabel.replace(
+          '{{version}}',
+          copy.archiving.version.replace('{{version}}', version)
+        ),
       })
-    )
-    expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_ESERVICE_MANAGE', {
-      params: { eserviceId: ESERVICE_ID, descriptorId: OLDEST_DESCRIPTOR_ID },
-      urlParams: { tab: 'monitoring' },
-    })
-
-    const currentButton = within(currentRow).getByRole('button', {
-      name: `${copy.archiving.viewVersionAriaLabel.replace('{{version}}', '1')}. ${copy.archiving.currentVersion}`,
-    })
-    expect(currentButton).toBeDisabled()
+      expect(button).toBeEnabled()
+      await user.click(button)
+    }
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 
-  it('shows a disabled explained chevron for whole e-service archiving rows', async () => {
+  it('keeps the chevron enabled without navigating even for whole e-service archiving rows', async () => {
+    const user = userEvent.setup()
     getArchiving.mockResolvedValue({
       results: [
         {
@@ -388,11 +418,15 @@ describe('ProviderEServiceMonitoringTab', () => {
 
     const table = await screen.findByRole('table', { name: copy.archiving.title })
     await within(table).findByText(copy.archiving.wholeEService)
-    expect(
-      within(table).getByRole('button', {
-        name: `${copy.archiving.viewVersionAriaLabel.replace('{{version}}', copy.archiving.wholeEService)}. ${copy.archiving.noVersion}`,
-      })
-    ).toBeDisabled()
+    const button = within(table).getByRole('button', {
+      name: copy.archiving.viewConsumersAriaLabel.replace(
+        '{{version}}',
+        copy.archiving.wholeEService
+      ),
+    })
+    expect(button).toBeEnabled()
+    await user.click(button)
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 
   it.each([
@@ -468,9 +502,12 @@ describe('ProviderEServiceMonitoringTab', () => {
     const [oldestRow] = within(getArchivingTable()).getAllByRole('row').slice(1)
     expect(
       within(oldestRow).getByRole('button', {
-        name: `${copy.archiving.viewVersionAriaLabel.replace('{{version}}', '0')}. ${copy.archiving.currentVersion}`,
+        name: copy.archiving.viewConsumersAriaLabel.replace(
+          '{{version}}',
+          copy.archiving.version.replace('{{version}}', '0')
+        ),
       })
-    ).toBeDisabled()
+    ).toBeEnabled()
   })
 
   it('shows loading states without stale or zero values', async () => {

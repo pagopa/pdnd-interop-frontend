@@ -184,7 +184,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         )}
 
         <TabPanel value={PROVIDER_ESERVICE_MONITORING_TAB}>
-          <ProviderEServiceMonitoringTab />
+          <ProviderEServiceMonitoringTab eserviceName={descriptor?.eservice.name} />
         </TabPanel>
       </TabContext>
       {descriptor && (

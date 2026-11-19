@@ -72,7 +72,9 @@ vi.mock('../components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab
 }))
 
 vi.mock('../components/ProviderEServiceMonitoringTab/ProviderEServiceMonitoringTab', () => ({
-  ProviderEServiceMonitoringTab: () => <div data-testid="eservice-monitoring-tab" />,
+  ProviderEServiceMonitoringTab: ({ eserviceName }: { eserviceName?: string }) => (
+    <div data-testid="eservice-monitoring-tab" data-eservice-name={eserviceName} />
+  ),
 }))
 
 vi.mock('../components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts', () => ({
@@ -113,6 +115,14 @@ describe('ProviderEServiceDetailsPage', () => {
         },
       },
     })
+  })
+
+  it('passes the loaded e-service name to monitoring', () => {
+    renderPage('?tab=monitoring')
+    expect(screen.getByTestId('eservice-monitoring-tab')).toHaveAttribute(
+      'data-eservice-name',
+      'E-Service Name'
+    )
   })
 
   it('shows both tabs and wires the view-keychains action for admin users', () => {

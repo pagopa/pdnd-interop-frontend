@@ -818,9 +818,7 @@
           "inDays_other": "Tra {{count}} giorni",
           "pastDue": "Data superata"
         },
-        "viewVersionAriaLabel": "Vedi il monitoraggio della versione {{version}}",
-        "currentVersion": "Stai già visualizzando il monitoraggio di questa versione.",
-        "noVersion": "L’archiviazione riguarda l’intero e-service: non c’è una versione da aprire.",
+        "viewConsumersAriaLabel": "Vedi i fruitori: {{version}}",
         "loading": "Caricamento delle versioni in fase di archiviazione",
         "loadError": "Non è stato possibile caricare le versioni in fase di archiviazione.",
         "retry": "Riprova",

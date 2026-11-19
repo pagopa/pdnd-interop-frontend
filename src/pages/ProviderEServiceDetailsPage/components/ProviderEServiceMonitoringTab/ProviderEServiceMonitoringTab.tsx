@@ -22,9 +22,12 @@ import { ProviderEServiceMonitoringConsumersTable } from './ProviderEServiceMoni
  * "Monitoraggio" tab of the classic provider e-service details page. Every block owns its query
  * and its loading / error / empty state; query keys include the selected e-service/descriptor.
  */
-export function ProviderEServiceMonitoringTab() {
+export function ProviderEServiceMonitoringTab({
+  eserviceName,
+}: Readonly<{ eserviceName?: string }>) {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { t, i18n } = useTranslation('eservice', { keyPrefix: 'read.monitoring' })
+  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
   const theme = useTheme()
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
@@ -169,16 +172,22 @@ export function ProviderEServiceMonitoringTab() {
             label: t('versions.pendingAgreementsCard.unit'),
           },
         },
-        action: canViewAgreements
-          ? {
-              type: 'link',
-              text: t('versions.pendingAgreementsCard.action'),
-              action: () =>
-                navigate('PROVIDE_AGREEMENT_LIST', {
-                  urlParams: { eservicesIds: eserviceId, states: 'PENDING' },
-                }),
-            }
-          : undefined,
+        action:
+          canViewAgreements && eserviceName
+            ? {
+                type: 'link',
+                text: t('versions.pendingAgreementsCard.action'),
+                action: () =>
+                  navigate('PROVIDE_AGREEMENT_LIST', {
+                    urlParams: {
+                      eservicesIds: JSON.stringify([[eserviceName, eserviceId]]),
+                      states: JSON.stringify([
+                        [tAgreement('statusField.optionLabels.PENDING'), 'PENDING'],
+                      ]),
+                    },
+                  }),
+              }
+            : undefined,
       },
     ]
   }
@@ -242,10 +251,7 @@ export function ProviderEServiceMonitoringTab() {
           aria-labelledby={archivingTitleId}
           titleTypographyProps={{ id: archivingTitleId }}
         >
-          <ProviderEServiceMonitoringArchivingTable
-            eserviceId={eserviceId}
-            descriptorId={descriptorId}
-          />
+          <ProviderEServiceMonitoringArchivingTable eserviceId={eserviceId} />
         </SectionContainer>
       </Box>
     </Box>
