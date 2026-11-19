@@ -50,7 +50,10 @@ export function ProviderEServiceMonitoringArchivingTable({
       isAction: true,
       // TODO: Link the chevron to the consumer list for the selected version.
       renderCell: (row) => (
-        <MIIconButton aria-label={t('viewConsumersAriaLabel', { version: getVersionLabel(row) })}>
+        <MIIconButton
+          aria-label={t('viewConsumersAriaLabel', { version: getVersionLabel(row) })}
+          disabled
+        >
           <ChevronRightIcon />
         </MIIconButton>
       ),
