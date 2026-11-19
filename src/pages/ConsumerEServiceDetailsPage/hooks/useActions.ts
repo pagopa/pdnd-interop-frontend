@@ -478,6 +478,12 @@ export const useActions = (): {
    * He cannot perform actions that create new agreements (SUBSCRIBE) or edit existing ones (EDIT) because the descriptor is not the active one
    * */
 
+  /*
+   * CASE III: Current DESCRIPTOR is not the active one (DEPRECATED/ARCHIVING)
+   * In this case the user can perform the following actions based on some conditions: INSPECT, UPGRADE
+   * He cannot perform actions that create new agreements (SUBSCRIBE) or edit existing ones (EDIT) because the descriptor is not the active one
+   * */
+
   if (['DEPRECATED', 'ARCHIVING'].includes(descriptor.state)) {
     // UPGRADE ACTION
     const currentDescriptorUpgradables = upgradables.filter(
