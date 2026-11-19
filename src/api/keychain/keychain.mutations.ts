@@ -1,6 +1,36 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
 import { KeychainServices } from './keychain.services'
+import { KeychainQueries } from './keychain.queries'
+
+function useUpdateKeychain() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'keychain.updateKeychain' })
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: KeychainServices.updateKeychain,
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        match(variables)
+          .with({ name: P.string, description: P.string }, () =>
+            t('outcome.successNameAndDescription')
+          )
+          .with({ name: P.string }, () => t('outcome.successName'))
+          .with({ description: P.string }, () => t('outcome.successDescription'))
+          .otherwise(() => t('outcome.error')),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess: (
+      _data,
+      { producerKeychainId }: Parameters<typeof KeychainServices.updateKeychain>[0]
+    ) => {
+      queryClient.invalidateQueries(KeychainQueries.getSingle(producerKeychainId))
+      queryClient.invalidateQueries({ queryKey: ['KeychainGetList'] })
+      queryClient.invalidateQueries({ queryKey: ['KeychainGetAllList'] })
+    },
+  })
+}
 
 function useDeleteKeychain() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'keychain.deleteKeychain' })
@@ -123,6 +153,7 @@ function useRemoveUserFromProducerKeychain() {
 }
 
 export const KeychainMutations = {
+  useUpdateKeychain,
   useDeleteKeychain,
   useCreateKeychain,
   useRemoveKeychainFromEService,

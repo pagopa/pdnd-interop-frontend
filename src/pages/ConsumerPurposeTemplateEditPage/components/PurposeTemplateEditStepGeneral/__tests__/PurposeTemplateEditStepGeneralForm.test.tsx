@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockPurposeTemplate } from '../../../../../../__mocks__/data/purposeTemplate.mocks'
@@ -106,5 +106,70 @@ describe('PurposeTemplateEditStepGeneralForm', () => {
       purposeIsFreeOfCharge: false,
     })
     expect(payload).not.toHaveProperty('purposeFreeOfChargeReason')
+  })
+
+  it('accepts 1000000000 purpose daily calls', async () => {
+    const user = userEvent.setup()
+    renderComponent()
+
+    const input = screen.getByRole('spinbutton', {
+      name: 'edit.step1.APICallsField.label',
+    })
+    expect(input).toHaveAttribute('max', '1000000000')
+    await user.clear(input)
+    await user.type(input, '1000000000')
+    await user.click(screen.getByRole('button', { name: 'edit.forwardWithSaveBtn' }))
+
+    await waitFor(() => {
+      expect(updateDraftMock).toHaveBeenCalledWith(
+        expect.objectContaining({ purposeDailyCalls: 1_000_000_000 }),
+        expect.anything()
+      )
+    })
+  })
+
+  it('rejects purpose daily calls above 1000000000 with the maximum validation message', async () => {
+    const user = userEvent.setup()
+    renderComponent()
+
+    const input = screen.getByRole('spinbutton', {
+      name: 'edit.step1.APICallsField.label',
+    })
+    await user.clear(input)
+    await user.type(input, '1000000001')
+    await user.click(screen.getByRole('button', { name: 'edit.forwardWithSaveBtn' }))
+
+    expect(await screen.findByText('validation.number.max')).toBeInTheDocument()
+    expect(updateDraftMock).not.toHaveBeenCalled()
+  })
+
+  it('keeps requiring purpose daily calls to be at least one', async () => {
+    const user = userEvent.setup()
+    renderComponent()
+
+    const input = screen.getByRole('spinbutton', {
+      name: 'edit.step1.APICallsField.label',
+    })
+    await user.clear(input)
+    fireEvent.change(input, { target: { value: '0' } })
+    await user.click(screen.getByRole('button', { name: 'edit.forwardWithSaveBtn' }))
+
+    expect(await screen.findByText('validation.number.min')).toBeInTheDocument()
+    expect(updateDraftMock).not.toHaveBeenCalled()
+  })
+
+  it('keeps purpose daily calls required', async () => {
+    const user = userEvent.setup()
+    renderComponent()
+
+    await user.clear(
+      screen.getByRole('spinbutton', {
+        name: 'edit.step1.APICallsField.label',
+      })
+    )
+    await user.click(screen.getByRole('button', { name: 'edit.forwardWithSaveBtn' }))
+
+    expect(await screen.findByText('validation.mixed.required')).toBeInTheDocument()
+    expect(updateDraftMock).not.toHaveBeenCalled()
   })
 })

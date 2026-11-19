@@ -19,6 +19,12 @@ const mockOptions = [
   { label: 'Delta Item', value: 'delta' },
 ]
 
+const asyncExchangeOptions = [
+  { label: 'ALL', value: 'ALL' },
+  { label: 'SYNC', value: 'SYNC' },
+  { label: 'ASYNC', value: 'ASYNC' },
+]
+
 function TestWrapper({
   children,
   defaultValues = { selectedOption: null },
@@ -36,6 +42,9 @@ function TestWrapper({
     <FormProvider {...methods}>
       <form noValidate onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
         {children}
+        <button type="button" onClick={() => methods.reset({ selectedOption: null })}>
+          Reset form
+        </button>
       </form>
     </FormProvider>
   )
@@ -181,6 +190,92 @@ describe('RHFNewAutocompleteSingle', () => {
     await waitFor(() => {
       expect(input).toHaveValue('Option Gamma')
     })
+  })
+
+  it('clears the input when the form is reset after selecting an option', async () => {
+    const user = userEvent.setup()
+    renderWithAppContext(
+      <TestWrapper defaultValues={{ selectedOption: 'gamma' }}>
+        <RHFNewAutocompleteSingle
+          name="selectedOption"
+          label="Select an option"
+          options={mockOptions}
+        />
+      </TestWrapper>
+    )
+
+    const input = screen.getByRole('combobox')
+    await waitFor(() => expect(input).toHaveValue('Option Gamma'))
+
+    await user.click(screen.getByRole('button', { name: 'Reset form' }))
+
+    await waitFor(() => expect(input).toHaveValue(''))
+  })
+
+  it('clears typed input when resetting an unchanged form value', async () => {
+    const user = userEvent.setup()
+    renderWithAppContext(
+      <TestWrapper>
+        <RHFNewAutocompleteSingle
+          name="selectedOption"
+          label="Select an option"
+          options={mockOptions}
+        />
+      </TestWrapper>
+    )
+
+    const input = screen.getByRole('combobox')
+    await user.type(input, 'Beta')
+    expect(input).toHaveValue('Beta')
+
+    await user.click(screen.getByRole('button', { name: 'Reset form' }))
+
+    await waitFor(() => expect(input).toHaveValue(''))
+  })
+
+  it('shows all options including the initially selected value when opening', async () => {
+    const user = userEvent.setup()
+    renderWithAppContext(
+      <TestWrapper defaultValues={{ selectedOption: 'ALL' }}>
+        <RHFNewAutocompleteSingle
+          name="selectedOption"
+          label="Select an option"
+          options={asyncExchangeOptions}
+        />
+      </TestWrapper>
+    )
+
+    await user.click(screen.getByRole('combobox'))
+
+    const options = await screen.findAllByRole('option')
+    expect(options).toHaveLength(asyncExchangeOptions.length)
+    expect(screen.getByRole('option', { name: 'ALL' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'SYNC' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'ASYNC' })).toBeInTheDocument()
+  })
+
+  it('shows all options including the selected value when reopening', async () => {
+    const user = userEvent.setup()
+    renderWithAppContext(
+      <TestWrapper>
+        <RHFNewAutocompleteSingle
+          name="selectedOption"
+          label="Select an option"
+          options={asyncExchangeOptions}
+        />
+      </TestWrapper>
+    )
+
+    const input = screen.getByRole('combobox')
+    await user.click(input)
+    await user.click(await screen.findByRole('option', { name: 'ASYNC' }))
+    await user.click(input)
+
+    const options = await screen.findAllByRole('option')
+    expect(options).toHaveLength(asyncExchangeOptions.length)
+    expect(screen.getByRole('option', { name: 'ASYNC' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'ALL' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'SYNC' })).toBeInTheDocument()
   })
 
   it('calls onInputChange when user types into the input', async () => {

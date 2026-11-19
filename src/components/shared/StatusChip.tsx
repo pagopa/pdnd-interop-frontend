@@ -63,7 +63,7 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
 
 const CHIP_COLORS_RISK_ANALYSIS: Record<Exclude<RiskAnalysisSigningState, 'DRAFT'>, MUIColor> = {
   ASSIGNED: 'warning',
-  SUBMITTED: 'info',
+  SUBMITTED: 'warning',
   SIGNED: 'success',
   REJECTED: 'error',
 }

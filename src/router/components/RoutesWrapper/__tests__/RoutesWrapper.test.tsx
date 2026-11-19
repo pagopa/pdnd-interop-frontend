@@ -1,7 +1,7 @@
 import React from 'react'
 import RoutesWrapper from '../RoutesWrapper'
 import { RouterProvider, createBrowserRouter, createMemoryRouter } from 'react-router-dom'
-import { router } from '@/router/routes'
+import { routerRoutes } from '@/router/routes'
 import { beforeEach, vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
 import {
@@ -91,7 +91,7 @@ const renderRouterErrorPage = () => {
     throw new TokenExchangeError()
   })
 
-  const routerWithError = createMemoryRouter(router.routes, {
+  const routerWithError = createMemoryRouter(routerRoutes, {
     initialEntries: ['/'],
   })
 
@@ -107,8 +107,8 @@ const renderRouterErrorPage = () => {
 
 describe('RoutesWrapper', () => {
   it('should configure a React Router errorElement that covers every top-level route', () => {
-    expect('errorElement' in router.routes[0]).toBe(true)
-    expect(router.routes).toHaveLength(1)
+    expect('errorElement' in routerRoutes[0]).toBe(true)
+    expect(routerRoutes).toHaveLength(1)
   })
 
   it('should show the application ErrorPage when React Router catches a thrown error on a top-level route', () => {

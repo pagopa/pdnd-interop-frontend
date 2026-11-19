@@ -9,7 +9,7 @@ import {
   getFiltersValues,
 } from '@/utils/filters.utils'
 import { useTranslation } from 'react-i18next'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import isEqual from 'lodash/isEqual'
 
 type FiltersProps = {
@@ -35,13 +35,20 @@ export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiv
     [onChangeActiveFilters]
   )
 
+  const activeFiltersCount = getActiveFiltersCount(filters)
+  const prevActiveFiltersCount = useRef(activeFiltersCount)
+  const fieldsRef = useRef(fields)
+  fieldsRef.current = fields
+
   useEffect(() => {
-    // Reset form values when filters change and there are no active filters / Remove all active filters
-    const activeFiltersCount = getActiveFiltersCount(filters)
-    const defaultValues = getFiltersDefaultValues(fields)
-    const currentValues = getValues()
-    if (!activeFiltersCount && !isEqual(defaultValues, currentValues)) reset(defaultValues)
-  }, [reset, filters, getValues, fields])
+    // Reset only when active filters are removed from outside (active -> none),
+    // not on re-renders while the user is typing with no filters applied
+    if (prevActiveFiltersCount.current > 0 && activeFiltersCount === 0) {
+      const defaultValues = getFiltersDefaultValues(fieldsRef.current)
+      if (!isEqual(defaultValues, getValues())) reset(defaultValues)
+    }
+    prevActiveFiltersCount.current = activeFiltersCount
+  }, [reset, getValues, activeFiltersCount])
 
   return (
     <FormProvider {...formMethods}>

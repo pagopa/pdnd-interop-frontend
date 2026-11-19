@@ -7,6 +7,7 @@ import { AxiosError, AxiosHeaders } from 'axios'
 vi.mock('@/config/axios', () => ({
   default: {
     get: vi.fn(),
+    patch: vi.fn(),
     post: vi.fn(),
     put: vi.fn(),
   },
@@ -14,6 +15,20 @@ vi.mock('@/config/axios', () => ({
 
 describe('PurposeServices', () => {
   beforeEach(() => vi.resetAllMocks())
+
+  it.each([
+    { request: PurposeServices.patchUpdatePurpose, path: 'purposes' },
+    { request: PurposeServices.patchUpdateReversePurpose, path: 'reverse/purposes' },
+  ])('PATCHes $path with only the supplied fields', async ({ request, path }) => {
+    const data = { id: 'purpose-id' }
+    vi.mocked(axiosInstance.patch).mockResolvedValueOnce({ data })
+
+    expect(await request({ purposeId: 'purpose-id', title: 'Updated purpose' })).toEqual(data)
+    expect(axiosInstance.patch).toHaveBeenCalledWith(
+      `${BACKEND_FOR_FRONTEND_URL}/${path}/purpose-id`,
+      { title: 'Updated purpose' }
+    )
+  })
 
   const suspendedPurpose = createMockPurpose({
     suspendedByConsumer: true,
@@ -90,50 +105,27 @@ describe('PurposeServices', () => {
     },
   ] satisfies Array<{ name: string; request: () => Promise<unknown>; method: 'put' | 'post' }>
 
-  describe.each(operations)('$name after a concurrent approval', ({ request, method }) => {
-    const conflict = new AxiosError('Conflict', undefined, undefined, undefined, {
-      status: 409,
-      statusText: 'Conflict',
-      data: {},
-      headers: {},
-      config: { headers: new AxiosHeaders() },
-    })
-
-    it('explains that the analysis is already approved', async () => {
-      vi.mocked(axiosInstance[method]).mockRejectedValueOnce(conflict)
-      vi.mocked(axiosInstance.get).mockResolvedValueOnce({
-        data: createMockPurpose({ reviewerWorkflow: { reviewers: [], signingState: 'SIGNED' } }),
-        headers: {},
-      })
-      await expect(request()).rejects.toThrow('Risk analysis already approved')
-    })
-
-    it('explains that the analysis is already rejected', async () => {
-      vi.mocked(axiosInstance[method]).mockRejectedValueOnce(conflict)
-      vi.mocked(axiosInstance.get).mockResolvedValueOnce({
-        data: createMockPurpose({ reviewerWorkflow: { reviewers: [], signingState: 'REJECTED' } }),
-        headers: {},
-      })
-      await expect(request()).rejects.toThrow('Risk analysis already rejected')
-    })
-
-    it.each(['SUBMITTED', 'ASSIGNED'] as const)(
-      'preserves the original error for %s',
-      async (signingState) => {
+  describe.each(operations)('$name risk analysis', ({ request, method }) => {
+    it.each(['008-0052', '008-0053', '008-0054', '008-0001'])(
+      'preserves the original 409 with code %s without a diagnostic GET',
+      async (code) => {
+        const conflict = new AxiosError('Conflict', undefined, undefined, undefined, {
+          status: 409,
+          statusText: 'Conflict',
+          data: { correlationId: 'correlation-id', errors: [{ code }] },
+          headers: {},
+          config: { headers: new AxiosHeaders() },
+        })
         vi.mocked(axiosInstance[method]).mockRejectedValueOnce(conflict)
         vi.mocked(axiosInstance.get).mockResolvedValueOnce({
-          data: createMockPurpose({ reviewerWorkflow: { reviewers: [], signingState } }),
+          data: createMockPurpose({ reviewerWorkflow: { reviewers: [], signingState: 'SIGNED' } }),
           headers: {},
         })
+
         await expect(request()).rejects.toBe(conflict)
+        expect(axiosInstance.get).not.toHaveBeenCalled()
       }
     )
-
-    it('preserves the original error if refreshing fails', async () => {
-      vi.mocked(axiosInstance[method]).mockRejectedValueOnce(conflict)
-      vi.mocked(axiosInstance.get).mockRejectedValueOnce(new Error('Network error'))
-      await expect(request()).rejects.toBe(conflict)
-    })
 
     it('does not classify network failures as concurrent approvals', async () => {
       const error = new Error('Network error')

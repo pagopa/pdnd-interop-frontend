@@ -39,8 +39,7 @@ export const DialogRejectPurposeVersion: React.FC<DialogRejectPurposeVersionProp
   })
 
   const onSubmit = ({ reason }: RejectPurposeVersionFormValues) => {
-    rejectVersion({ purposeId, versionId, rejectionReason: reason })
-    closeDialog()
+    rejectVersion({ purposeId, versionId, rejectionReason: reason }, { onSuccess: closeDialog })
   }
 
   return (
