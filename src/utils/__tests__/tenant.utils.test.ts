@@ -1,5 +1,7 @@
 import {
   formatTenantHierarchy,
+  getTenantPageTitle,
+  getTenantPageDescription,
   hasTenantGivenConsumerDelegationAvailability,
   hasTenantGivenProducerDelegationAvailability,
   isTenantCertifier,
@@ -57,5 +59,32 @@ describe('formatTenantHierarchy utility function testing', () => {
         { id: 'parent root', name: 'Parent root' },
       ])
     ).toBe('Tenant-UO - Parent AOO - Parent root')
+  })
+})
+
+describe('Party registry page title and description', () => {
+  it('UO case: title includes UO and AOO, description shows root', () => {
+    const tenant = { ...mockTenant, name: 'Ufficio Permessi ZTL', subUnitType: 'UO' as const }
+    const parentTenants = [
+      { id: 'aoo-id', name: 'Direzione Mobilità', subUnitType: 'AOO' as const },
+      { id: 'comune-id', name: 'Comune di Milano' },
+    ]
+    expect(getTenantPageTitle(tenant, parentTenants)).toBe(
+      'Ufficio Permessi ZTL - Direzione Mobilità'
+    )
+    expect(getTenantPageDescription(parentTenants)).toBe('Comune di Milano')
+  })
+
+  it('AOO case: title is AOO only, description shows root', () => {
+    const tenant = { ...mockTenant, name: 'Direzione Mobilità', subUnitType: 'AOO' as const }
+    const parentTenants = [{ id: 'comune-id', name: 'Comune di Milano' }]
+    expect(getTenantPageTitle(tenant, parentTenants)).toBe('Direzione Mobilità')
+    expect(getTenantPageDescription(parentTenants)).toBe('Comune di Milano')
+  })
+
+  it('Root case: title is tenant name, description is empty', () => {
+    const tenant = { ...mockTenant, name: 'Comune di Milano', subUnitType: undefined }
+    expect(getTenantPageTitle(tenant)).toBe('Comune di Milano')
+    expect(getTenantPageDescription()).toBe('')
   })
 })

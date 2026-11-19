@@ -39,3 +39,29 @@ export function tenantKindForPurposeTemplate(tenantKind: TenantKind): TargetTena
 export function formatTenantHierarchy(tenantName: string, parentTenants?: ParentTenant[]): string {
   return [tenantName, ...(parentTenants?.map((parent) => parent.name) ?? [])].join(' - ')
 }
+
+export function getTenantPageTitle(tenant: Tenant, parentTenants?: ParentTenant[]): string {
+  /* Case root: title is the tenant name only */
+  if (!tenant.subUnitType) {
+    return tenant.name
+  }
+
+  /* Case UO: include the first parent tenant in the title */
+  if (tenant.subUnitType === 'UO' && parentTenants?.length) {
+    return `${tenant.name} - ${parentTenants[0]?.name ?? ''}`
+  }
+
+  /* Case AOO: title is the tenant name only */
+  return tenant.name
+}
+
+export function getTenantPageDescription(parentTenants?: ParentTenant[]): string {
+  /* Case root: description shows the root tenant name */
+  if (!parentTenants || parentTenants.length === 0) {
+    return ''
+  }
+
+  /* Case UO - AOO: find the root tenant in the parent tenants */
+  const root = parentTenants.find((parent) => !parent.subUnitType)
+  return root?.name ?? ''
+}
