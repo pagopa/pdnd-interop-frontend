@@ -57,6 +57,7 @@ describe('PartyRegistryPage', () => {
     })
 
     expect(screen.getByText('Ufficio Permessi ZTL - Direzione Mobilità')).toBeInTheDocument()
+    expect(screen.getByText('Comune di Milano')).toBeInTheDocument()
   })
 
   it('renders AOO case: title is AOO only, description with root', () => {
