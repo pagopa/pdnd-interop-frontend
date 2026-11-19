@@ -1,5 +1,4 @@
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
-import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
@@ -11,18 +10,17 @@ import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { match } from 'ts-pattern'
 import SendIcon from '@mui/icons-material/Send'
-import ArticleIcon from '@mui/icons-material/Article'
+import FeedIcon from '@mui/icons-material/Feed'
 import UpdateIcon from '@mui/icons-material/Update'
-import noop from 'lodash/noop'
+import PendingActionsIcon from '@mui/icons-material/PendingActions'
 
-type Consumer = {
+export type EServiceConsumer = {
   id: string
   name: string
 }
 
-type Agreement = {
+export type EServiceAgreement = {
   id: string
   consumerId: string
   descriptorId: string
@@ -33,8 +31,7 @@ export const useActions = (): {
   secondary?: ActionItemButton | undefined
   menu?: ActionItemButton[] | undefined
 } => {
-  const { t } = useTranslation('eservice')
-  const { t: tAgreement } = useTranslation('agreement')
+  const { t } = useTranslation('eservice', { keyPrefix: 'consumer.detail.actions.agreements' })
   const navigate = useNavigate()
 
   const { openDialog } = useDialog()
@@ -88,6 +85,7 @@ export const useActions = (): {
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
+  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
 
   /*
    * ESERVICE AGREEMENTS (OWN/ DELEGATED) DATA
@@ -136,120 +134,141 @@ export const useActions = (): {
   })
 
   const upgrade = useCallback(
-    (agreements: Agreement[], consuemrs: Consumer[]) => {
+    (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
+      if (agreements.length === 1 && agreements[0].consumerId === tenantId) {
+        // UPDATE DIRECTLY IF THERE IS ONLY ONE AGREEMENT AND IT IS FOR THE CURRENT USER ORGANIZATION
+        const agreement = agreements[0]
+
+        upgradeAgreement(
+          { agreementId: agreement.id },
+          {
+            onSuccess(data) {
+              /**
+               * When the subscriber is missing one or more verified/declared attributes,
+               * the new agreement is created as a DRAFT instead of being submitted to
+               * the provider. When this happens, the subscriber should be presented with
+               * the "draft edit" view of the agreement.
+               */
+              const agreementView =
+                data.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
+
+              navigate(agreementView, {
+                params: {
+                  agreementId: data.id,
+                },
+              })
+            },
+          }
+        )
+        return
+      }
+
       openDialog({
         type: 'updateAgreement',
+        agreements,
+        consumers,
       })
     },
-    [openDialog]
+    [tenantId, navigate, openDialog, upgradeAgreement]
   )
   const inspect = useCallback(
-    (inspectables: Agreement[]) => {
-      match(inspectables.length)
-        .with(0, () => {})
-        .with(1, () => {
-          navigate('SUBSCRIBE_AGREEMENT_READ', {
-            params: {
-              agreementId: inspectables[0].id,
-            },
-          })
+    (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
+      if (agreements.length === 1 && agreements[0].consumerId === tenantId) {
+        // INSPECT DIRECTLY IF THERE IS ONLY ONE AGREEMENT AND IT IS FOR THE CURRENT USER ORGANIZATION
+        navigate('SUBSCRIBE_AGREEMENT_READ', {
+          params: {
+            agreementId: agreements[0].id,
+          },
         })
-        .otherwise(() => {
-          openDialog({
-            type: 'inspectAgreement',
-          })
-        })
+        return
+      }
+
+      const subscribers: Record<string, true> = {}
+
+      agreements.forEach((agreement) => {
+        subscribers[agreement.consumerId] = true
+      })
+
+      openDialog({
+        type: 'inspectAgreement',
+        agreements,
+        consumers: consumers.filter((consumer) => subscribers[consumer.id]),
+      })
     },
-    [navigate, openDialog]
+    [tenantId, navigate, openDialog]
   )
   const edit = useCallback(
-    (editables: Agreement[]) => {
-      match(editables.length)
-        .with(0, () => {})
-        .with(1, () => {
-          navigate('SUBSCRIBE_AGREEMENT_EDIT', {
-            params: {
-              agreementId: editables[0].id,
-            },
-          })
+    (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
+      if (agreements.length === 1 && agreements[0].consumerId === tenantId) {
+        // EDIT DIRECTLY IF THERE IS ONLY ONE AGREEMENT AND IT IS FOR THE CURRENT USER ORGANIZATION
+
+        navigate('SUBSCRIBE_AGREEMENT_EDIT', {
+          params: {
+            agreementId: agreements[0].id,
+          },
         })
-        .otherwise(() => {
-          openDialog({
-            type: 'editAgreement',
-          })
-        })
+        return
+      }
+
+      const subscribers: Record<string, true> = {}
+
+      agreements.forEach((agreement) => {
+        subscribers[agreement.consumerId] = true
+      })
+
+      openDialog({
+        type: 'editAgreement',
+        agreements,
+        consumers: consumers.filter((consumer) => subscribers[consumer.id]),
+      })
     },
-    [navigate, openDialog]
+    [tenantId, navigate, openDialog]
   )
   const subscribe = useCallback(
-    (consumers: Consumer[], descriptor: CatalogEServiceDescriptor, tenantId: string) => {
-      // const create = ({
-      //   isOwnEService,
-      //   delegationId,
-      // }: {
-      //   isOwnEService: boolean
-      //   delegationId?: string
-      // }) => {
-      //   /**
-      //    * If the subscriber is the owner of the e-service or delegated by the owner,
-      //    * create and submit the agreement without passing through the draft
-      //    * */
-      //   if (isOwnEService) {
-      //     submitToOwnEService(
-      //       {
-      //         eserviceId: descriptor.eservice.id,
-      //         descriptorId: descriptor.id,
-      //         delegationId: delegationId,
-      //       },
-      //       {
-      //         onSuccess({ id }) {
-      //           navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
-      //         },
-      //       }
-      //     )
-      //     return
-      //   }
-      //
-      //   /**
-      //    * If the subscriber is not the owner of the e-service or delegated by the owner
-      //    * create the agreement draft
-      //    * */
-      //   createAgreementDraft(
-      //     {
-      //       eserviceName: descriptor.eservice.name,
-      //       eserviceId: descriptor.eservice.id,
-      //       eserviceVersion: descriptor.version,
-      //       descriptorId: descriptor.id,
-      //       delegationId: delegationId,
-      //     },
-      //     {
-      //       onSuccess({ id }) {
-      //         navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
-      //       },
-      //     }
-      //   )
-      // }
+    (consumers: EServiceConsumer[]) => {
+      if (!descriptor) return
 
-      match(consumers.length)
-        .with(0, () => {})
-        .with(1, () => {
-          const consumerId = consumers[0].id
+      if (consumers.length === 1 && consumers[0].id === tenantId) {
+        // SUBSCRIBE DIRECTLY IF THERE IS ONLY ONE CONSUMER AND IT IS THE CURRENT USER ORGANIZATION
 
-          if (consumerId === tenantId) {
-            // create({ isOwnEService: descriptor.eservice.producer.id === tenantId })
-          } else {
-            openDialog({
-              type: 'createAgreement',
-            })
+        if (descriptor.eservice.producer.id === tenantId) {
+          // If the subscriber is the owner of the e-service, create and submit the agreement without passing through the draft
+          submitToOwnEService(
+            {
+              eserviceId: descriptor.eservice.id,
+              descriptorId: descriptor.id,
+            },
+            {
+              onSuccess({ id }) {
+                navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
+              },
+            }
+          )
+          return
+        }
+
+        createAgreementDraft(
+          {
+            eserviceName: descriptor.eservice.name,
+            eserviceId: descriptor.eservice.id,
+            eserviceVersion: descriptor.version,
+            descriptorId: descriptor.id,
+          },
+          {
+            onSuccess({ id }) {
+              navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+            },
           }
-        })
-        .otherwise(() => {
-          openDialog({
-            type: 'createAgreement',
-          })
-        })
+        )
+        return
+      }
+
+      openDialog({
+        type: 'createAgreement',
+        consumers,
+      })
     },
-    [openDialog, submitToOwnEService, createAgreementDraft, navigate]
+    [descriptor, tenantId, openDialog, submitToOwnEService, createAgreementDraft, navigate]
   )
 
   if (
@@ -342,10 +361,10 @@ export const useActions = (): {
    *     the user can not operate any action different from the INSPECT and an alert is shown to the user to inform him that he can not operate
    * */
 
-  const inspectables: Agreement[] = []
-  const editables: Agreement[] = []
-  const subscribed: Agreement[] = []
-  const upgradables: Agreement[] = []
+  const inspectables: EServiceAgreement[] = []
+  const editables: EServiceAgreement[] = []
+  const subscribed: EServiceAgreement[] = []
+  const upgradables: EServiceAgreement[] = []
 
   agreements.forEach((agreement) => {
     if (agreement.descriptor.id === descriptor.id) {
@@ -401,7 +420,7 @@ export const useActions = (): {
   })
 
   // The possible consumers are the delegators and the current user organization
-  const consumers: Consumer[] = []
+  const consumers: EServiceConsumer[] = []
 
   if (hasAllCertifiedAttributes) {
     consumers.push({
@@ -430,44 +449,59 @@ export const useActions = (): {
     if (!isDelegator && upgradables.length > 0) {
       actions.push({
         action: () => upgrade(upgradables, consumers),
-        label: '',
+        label: t('update'),
+        icon: UpdateIcon,
       })
     }
 
     // INSPECT ACTION
     if (inspectables.length > 0) {
       actions.push({
-        action: () => inspect(inspectables),
-        label: '',
+        action: () => inspect(inspectables, consumers),
+        label: t('inspect'),
+        icon: FeedIcon,
       })
     }
 
     // EDIT ACTION
     if (!isDelegator && editables.length > 0) {
       actions.push({
-        action: () => edit(editables),
-        label: '',
+        action: () => edit(editables, consumers),
+        label: t('edit'),
+        icon: PendingActionsIcon,
       })
     }
 
     // SUBSCRIBE ACTION
     if (!isDelegator && subscribed.length < consumers.length) {
       actions.push({
-        action: () => subscribe(consumers, descriptor, tenantId),
-        label: '',
+        action: () => subscribe(consumers),
+        label: t('subscribe'),
+        icon: SendIcon,
       })
     }
   }
+
+  /*
+   * CASE II: Current DESCRIPTOR is SUSPENDED
+   * */
 
   if (descriptor.state === 'SUSPENDED') {
     // INSPECT ACTION
     if (inspectables.length > 0) {
       actions.push({
-        action: () => inspect(inspectables),
-        label: '',
+        action: () => inspect(inspectables, consumers),
+        label: t('inspect'),
+        icon: FeedIcon,
       })
     }
   }
+
+  /*
+   * CASE III: Current DESCRIPTOR is not the active one (DEPRECATED/ARCHIVING)
+   * In this case the user can perform the following actions based on some conditions: INSPECT, UPGRADE
+   * He cannot perform actions that create new agreements (SUBSCRIBE) or edit existing ones (EDIT) because the descriptor is not the active one
+   * */
 
   if (['DEPRECATED', 'ARCHIVING'].includes(descriptor.state)) {
     // UPGRADE ACTION
@@ -477,15 +511,17 @@ export const useActions = (): {
     if (!isDelegator && currentDescriptorUpgradables.length > 0) {
       actions.push({
         action: () => upgrade(currentDescriptorUpgradables, consumers),
-        label: '',
+        label: t('update'),
+        icon: UpdateIcon,
       })
     }
 
     // INSPECT ACTION
     if (inspectables.length > 0) {
       actions.push({
-        action: () => inspect(inspectables),
-        label: '',
+        action: () => inspect(inspectables, consumers),
+        label: t('inspect'),
+        icon: FeedIcon,
       })
     }
   }
@@ -501,20 +537,32 @@ export const useActions = (): {
 
   if (actions.length === 1) {
     return {
-      primary: actions[0],
+      primary: {
+        ...actions[0],
+        variant: 'contained',
+      },
       secondary: undefined,
     }
   }
 
   if (actions.length === 2) {
     return {
-      primary: actions[0],
-      secondary: actions[1],
+      primary: {
+        ...actions[0],
+        variant: 'contained',
+      },
+      secondary: {
+        ...actions[1],
+        variant: 'outlined',
+      },
     }
   }
 
   return {
-    primary: actions[0],
+    primary: {
+      ...actions[0],
+      variant: 'contained',
+    },
     menu: actions.slice(1),
   }
 }

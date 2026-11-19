@@ -11,6 +11,10 @@ import type {
   DelegationTenant,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
+import type {
+  EServiceAgreement,
+  EServiceConsumer,
+} from '@/pages/ConsumerEServiceDetailsPage/hooks/useActions'
 import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -346,16 +350,23 @@ export type DialogDelegatorRejectArchivingProps = {
 
 export type DialogCreateAgreementProps = {
   type: 'createAgreement'
+  consumers: EServiceConsumer[]
 }
 
 export type DialogEditAgreementProps = {
   type: 'editAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
 }
 
 export type DialogInspectAgreementProps = {
   type: 'inspectAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
 }
 
 export type DialogUpdateAgreementProps = {
   type: 'updateAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
 }

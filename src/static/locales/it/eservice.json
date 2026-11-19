@@ -1,6 +1,52 @@
 {
   "consumer": {
     "detail": {
+      "actions": {
+        "version": {
+          "change": "Vedi ultima versione"
+        },
+        "agreements": {
+          "update": "Aggiorna a nuova versione",
+          "subscribe": "Richiedi fruizione",
+          "inspect": "Visualizza richiesta",
+          "edit": "Completa richiesta"
+        }
+      },
+      "dialogs": {
+        "agreements": {
+          "common": {
+            "fields": {
+              "consumer": {
+                "label": "Seleziona ente",
+                "placeholder": "Ente fruitore",
+                "error": "Seleziona un altro ente"
+              }
+            }
+          },
+          "subscribe": {
+            "title": "Richiedi fruizione dell’e-service"
+          },
+          "update": {
+            "title": "Aggiorna richiesta di fruizione",
+            "actions": {
+              "confirm": "Aggiorna richiesta"
+            }
+          },
+          "inspect": {
+            "title": "Visualizza richiesta di fruizione",
+            "description": "Seleziona l’ente per cui vuoi visualizzare la richiesta di fruizione.",
+            "actions": {
+              "confirm": "Visualizza richiesta"
+            }
+          },
+          "edit": {
+            "title": "Completa richiesta di fruizione",
+            "actions": {
+              "confirm": "Completa richiesta"
+            }
+          }
+        }
+      },
       "version": "Versione",
       "tabs": {
         "ariaLabel": "Quattro tabs differenti per la gestione dei dettagli dell’e-service",
