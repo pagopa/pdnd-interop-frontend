@@ -81,6 +81,7 @@ describe('e-service monitoring consumer purposes service and query', () => {
       dailyCallsPerConsumer: 10000,
       approvedDailyCalls: 4000,
       percentage: 40,
+      waitingForApprovalPurposes: 1,
       results: [],
       pagination: { offset: 0, limit: 5, totalCount: 0 },
     }
@@ -107,6 +108,33 @@ describe('e-service monitoring consumer purposes service and query', () => {
     expect(config.params).not.toHaveProperty('consumerId')
     expect(axios.getUri(config)).toContain('states=ACTIVE,DRAFT')
     expect(axios.getUri(config)).toContain('includeArchived=false')
+  })
+
+  it('serializes multiple selected states and the archived toggle on the real HTTP path', async () => {
+    const { ProducerServices, axios } = await load(false, 'production', 'false')
+    respondWith({
+      eservice: { id: ids.eserviceId, name: resource.eservice.name },
+      version: resource.version,
+      otherVersions: [],
+      dailyCallsPerConsumer: 0,
+      approvedDailyCalls: 0,
+      percentage: 0,
+      waitingForApprovalPurposes: 0,
+      results: [],
+      pagination: { offset: 0, limit: 5, totalCount: 0 },
+    })
+    await ProducerServices.getEServiceMonitoringConsumerPurposes({
+      ...request,
+      q: 'a & b',
+      states: ['ACTIVE', 'SUSPENDED', 'WAITING_FOR_APPROVAL', 'REJECTED'],
+      includeArchived: true,
+    })
+    const uri = axios.getUri(adapter.mock.calls[0][0])
+    const params = new URL(uri, 'https://example.test').searchParams
+    expect(params.get('states')).toBe('ACTIVE,SUSPENDED,WAITING_FOR_APPROVAL,REJECTED')
+    expect(params.get('includeArchived')).toBe('true')
+    expect(params.get('q')).toBe('a & b')
+    expect(uri).not.toContain('states[]')
   })
 
   it('propagates real transport errors without a mock fallback', async () => {
@@ -293,6 +321,7 @@ describe('consumer purposes monitoring mock', () => {
     expect(noRelationship).not.toHaveProperty('consumer')
     expect(noRelationship.results).toEqual([])
     expect(noRelationship.pagination.totalCount).toBe(0)
+    expect(noRelationship.waitingForApprovalPurposes).toBe(0)
   })
 
   it('exposes waiting-for-approval purposes only for consumers with waiting calls in saturation', () => {
@@ -307,24 +336,43 @@ describe('consumer purposes monitoring mock', () => {
       })
 
     expect(waitingFor(0).pagination.totalCount).toBe(0)
+    expect(waitingFor(0).waitingForApprovalPurposes).toBe(0)
     ;[1, 2, 3].forEach((index) => {
       const response = waitingFor(index)
       expect(response.consumer?.id).toBe(mockProducerDashboardConsumers[index].consumer.id)
       expect(response.pagination.totalCount).toBe(1)
+      expect(response.waitingForApprovalPurposes).toBe(1)
       expect(response.results).toEqual([
         expect.objectContaining({ state: 'WAITING_FOR_APPROVAL', dailyCalls: 1000 }),
       ])
     })
     expect(waitingFor(4).pagination.totalCount).toBe(0)
+    expect(waitingFor(4).waitingForApprovalPurposes).toBe(0)
+  })
 
-    const activeOnly = getMockProducerEServiceMonitoringConsumerPurposes({
+  it('counts waiting purposes before applying search, state, archived and pagination parameters', () => {
+    const unfilteredRequest = {
       ...request,
       consumerId: mockProducerDashboardConsumers[1].consumer.id,
       q: undefined,
-      states: ['ACTIVE'],
+      states: undefined,
       offset: 0,
       limit: 50,
-    })
-    expect(activeOnly.results.every(({ state }) => state === 'ACTIVE')).toBe(true)
+    }
+    const unfiltered = getMockProducerEServiceMonitoringConsumerPurposes(unfilteredRequest)
+    const waiting = unfiltered.results.filter(({ state }) => state === 'WAITING_FOR_APPROVAL')
+    expect(waiting).toHaveLength(1)
+    expect(unfiltered.waitingForApprovalPurposes).toBe(waiting.length)
+
+    const variants: GetProducerEServiceMonitoringConsumerPurposesParams[] = [
+      { ...unfilteredRequest, q: 'nessuna finalità corrispondente' },
+      { ...unfilteredRequest, states: ['ACTIVE'], includeArchived: true },
+      { ...unfilteredRequest, offset: unfiltered.pagination.totalCount, limit: 1 },
+    ]
+    for (const params of variants) {
+      const response = getMockProducerEServiceMonitoringConsumerPurposes(params)
+      expect(response.results.some(({ state }) => state === 'WAITING_FOR_APPROVAL')).toBe(false)
+      expect(response.waitingForApprovalPurposes).toBe(waiting.length)
+    }
   })
 })

@@ -140,7 +140,6 @@
     "description": "Vedi i consumi previsti e le finalità create dal fruitore per questo e-service.",
     "breadcrumbManageEService": "Gestisci E-service",
     "export": "Esporta",
-    "exportUnavailable": "L’esportazione dei dati non è ancora disponibile.",
     "summary": {
       "eservice": "E-service",
       "eserviceValue": "{{name}}, V{{version}}",
@@ -165,13 +164,20 @@
       "title": "Hai delle finalità in attesa di approvazione",
       "description": "Questo fruitore ha delle finalità che richiedono la tua approvazione. Puoi scegliere se approvarle o rifiutarle.",
       "descriptionThresholdExceeded": "Le finalità attive di questo fruitore superano la soglia per fruitore che hai definito. Puoi scegliere se approvarle o rifiutarle.",
-      "loadError": "Non è stato possibile verificare se questo fruitore ha finalità in attesa di approvazione.",
       "action": "Vai alle finalità da approvare"
     },
     "searchPlaceholder": "Cerca per nome finalità",
     "filters": {
       "title": "Filtra per stato",
-      "states": "Stato finalità"
+      "states": "Stato finalità",
+      "selectAll": "Seleziona tutti",
+      "includeArchived": "Includi finalità archiviate",
+      "stateOptions": {
+        "ACTIVE": "Attivo",
+        "SUSPENDED": "Sospeso",
+        "WAITING_FOR_APPROVAL": "In attesa di approvazione",
+        "REJECTED": "Rifiutato"
+      }
     },
     "sorting": {
       "DATE_DESC": "Dal più recente",

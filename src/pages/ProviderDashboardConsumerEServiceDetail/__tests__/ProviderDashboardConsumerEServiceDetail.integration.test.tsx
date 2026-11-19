@@ -78,10 +78,7 @@ const dashboardPath = (consumerId: string, descriptorId = DESCRIPTOR_ID) =>
 const monitoringPath = (consumerId: string, descriptorId = DESCRIPTOR_ID) =>
   `/it/erogazione/e-service/${ESERVICE.id}/${descriptorId}/monitoraggio/fruitori/${consumerId}`
 
-const isWaitingProbe = (params: GetProducerEServiceMonitoringConsumerPurposesParams) =>
-  params.limit === 1 && params.states?.length === 1 && params.states[0] === 'WAITING_FOR_APPROVAL'
-const mainCalls = () => getPurposes.mock.calls.map(([p]) => p).filter((p) => !isWaitingProbe(p))
-const waitingCalls = () => getPurposes.mock.calls.map(([p]) => p).filter(isWaitingProbe)
+const mainCalls = () => getPurposes.mock.calls.map(([params]) => params)
 
 const localeModules = import.meta.glob<{ default: Record<string, unknown> }>(
   '/src/static/locales/it/*.json',
@@ -210,6 +207,7 @@ const buildPagedResponse = (
     dailyCallsPerConsumer: 10000,
     approvedDailyCalls: 1000,
     percentage: 10,
+    waitingForApprovalPurposes: 1,
     results: all.slice(params.offset, params.offset + params.limit),
     pagination: { offset: params.offset, limit: params.limit, totalCount: all.length },
   }
@@ -303,8 +301,8 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
           { label: ESERVICE.name },
         ])
       )
-      // Fixture consumer has no waiting purposes: no warning, but the probe ran.
-      expect(waitingCalls()).toHaveLength(1)
+      // This fixture has no waiting purposes, even though the table has rows.
+      expect(getPurposes).toHaveBeenCalledTimes(1)
       expect(screen.queryByText(copy.waitingApproval.title)).not.toBeInTheDocument()
 
       // The consumer breadcrumb goes back to the real consumer detail page.
@@ -382,7 +380,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
         },
         { label: routeLabels.PROVIDE_DASHBOARD_CONSUMER_ESERVICE_DETAIL },
       ])
-      expect(waitingCalls()).toHaveLength(0)
+      expect(getPurposes).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -394,6 +392,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
         screen.getByText(copy.waitingApproval.descriptionThresholdExceeded)
       ).toBeInTheDocument()
       expect(screen.queryByText(copy.waitingApproval.description)).not.toBeInTheDocument()
+      expect(getPurposes).toHaveBeenCalledTimes(1)
     })
 
     it('uses neutral wording when waiting purposes exist below the threshold', async () => {
@@ -403,29 +402,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
       expect(
         screen.queryByText(copy.waitingApproval.descriptionThresholdExceeded)
       ).not.toBeInTheDocument()
-      // The warning ignores the table filters: the probe is independent from them.
-      expect(waitingCalls()[0]).toEqual(
-        expect.objectContaining({ offset: 0, limit: 1, includeArchived: false })
-      )
-      expect(waitingCalls()[0].q).toBeUndefined()
-    })
-
-    it('surfaces an ancillary probe failure without hiding the purposes and recovers on retry', async () => {
-      let failProbe = true
-      getPurposes.mockImplementation(async (params) => {
-        if (isWaitingProbe(params) && failProbe) throw new Error('probe down')
-        return getMockProducerEServiceMonitoringConsumerPurposes(params)
-      })
-      const { user } = await renderApp(monitoringPath(LAZIO.id))
-      expect(await screen.findByText(copy.waitingApproval.loadError)).toBeInTheDocument()
-      expect(screen.queryByText(copy.waitingApproval.title)).not.toBeInTheDocument()
-      expect(screen.getByRole('table')).toBeInTheDocument()
-      expect(screen.queryByText(copy.loadError)).not.toBeInTheDocument()
-
-      failProbe = false
-      await user.click(screen.getByRole('button', { name: copy.retry }))
-      expect(await screen.findByText(copy.waitingApproval.title)).toBeInTheDocument()
-      expect(screen.queryByText(copy.waitingApproval.loadError)).not.toBeInTheDocument()
+      expect(getPurposes).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -435,30 +412,32 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     expect(screen.getByRole('heading', { level: 1, name: copy.fallbackTitle })).toBeInTheDocument()
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
     expect(screen.queryByText(copy.summary.threshold)).not.toBeInTheDocument()
-    expect(waitingCalls()).toHaveLength(0)
+    expect(getPurposes).toHaveBeenCalledTimes(1)
     expect(getBreadcrumbs().at(-2)?.label).toBe(routeLabels.PROVIDE_DASHBOARD_CONSUMER_DETAIL)
   })
 
   it('paginates through the URL and resets to page 1 when a state filter is applied', async () => {
-    getPurposes.mockImplementation(async (params) =>
-      isWaitingProbe(params)
-        ? buildPagedResponse({ ...params, states: ['WAITING_FOR_APPROVAL'] }, 0)
-        : buildPagedResponse(params, 23)
-    )
+    getPurposes.mockImplementation(async (params) => buildPagedResponse(params, 23))
     const { user } = await renderApp(dashboardPath(FIRST_CONSUMER.id))
     expect(await screen.findByText('Finalità 01')).toBeInTheDocument()
+    expect(screen.getByText(copy.waitingApproval.title)).toBeInTheDocument()
+    expect(getPurposes).toHaveBeenCalledTimes(1)
     expect(within(screen.getByRole('table')).getAllByRole('row')).toHaveLength(11)
 
     await user.click(screen.getByRole('button', { name: /pagina 2|page 2/i }))
     expect(await screen.findByText('Finalità 11')).toBeInTheDocument()
     expect(screen.queryByText('Finalità 01')).not.toBeInTheDocument()
+    expect(screen.getByText(copy.waitingApproval.title)).toBeInTheDocument()
+    expect(getPurposes).toHaveBeenCalledTimes(2)
     expect(mainCalls().at(-1)).toEqual(expect.objectContaining({ offset: 10, limit: 10 }))
     // nuqs updates the browser URL directly (shallow), so read it from window.location.
     await waitFor(() => expect(window.location.search).toContain('offset=10'))
 
     await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
     await user.click(await screen.findByRole('combobox', { name: copy.filters.states }))
-    await user.click(await screen.findByRole('option', { name: itCommon.status.purpose.SUSPENDED }))
+    await user.click(
+      await screen.findByRole('option', { name: copy.filters.stateOptions.SUSPENDED })
+    )
     await user.keyboard('{Escape}')
     await user.click(screen.getByRole('button', { name: itFilters.additionals.actions.apply }))
 
@@ -471,8 +450,259 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     await waitFor(() => expect(within(table).getAllByRole('row')).toHaveLength(9))
     expect(within(table).queryByText('Finalità 02')).not.toBeInTheDocument()
     expect(within(table).getByText('Finalità 01')).toBeInTheDocument()
+    expect(screen.getByText(copy.waitingApproval.title)).toBeInTheDocument()
+    expect(getPurposes).toHaveBeenCalledTimes(3)
     await waitFor(() => expect(window.location.search).not.toContain('offset=10'))
     expect(new URLSearchParams(window.location.search).get('states')).toBe('SUSPENDED')
+  })
+
+  it.each([
+    { origin: 'dashboard', path: dashboardPath(LAZIO.id) },
+    { origin: 'monitoring', path: monitoringPath(LAZIO.id) },
+  ])(
+    'applies and clears draft filters from $origin without changing search/sort or the warning',
+    async ({ path }) => {
+      const search = `?offset=10&q=${encodeURIComponent(LAZIO.name)}&sortBy=NAME_ASC`
+      const { user } = await renderApp(`${path}${search}`)
+      await screen.findByRole('table')
+      await screen.findByText(copy.waitingApproval.title)
+
+      await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+      const drawer = await screen.findByRole('dialog', { name: itFilters.additionals.title })
+      expect(drawer).toHaveAccessibleDescription(itFilters.additionals.subtitle)
+      expect(within(drawer).getAllByText(itFilters.additionals.title)).toHaveLength(1)
+      const archived = within(drawer).getByLabelText(copy.filters.includeArchived)
+      expect(archived).not.toBeChecked()
+      await user.click(archived)
+      await user.click(within(drawer).getByRole('combobox', { name: copy.filters.states }))
+      const list = await screen.findByRole('listbox')
+      expect(
+        within(list)
+          .getAllByRole('option')
+          .map((option) => option.textContent)
+      ).toEqual([
+        copy.filters.selectAll,
+        copy.filters.stateOptions.ACTIVE,
+        copy.filters.stateOptions.SUSPENDED,
+        copy.filters.stateOptions.WAITING_FOR_APPROVAL,
+        copy.filters.stateOptions.REJECTED,
+      ])
+      await user.click(within(list).getByRole('option', { name: copy.filters.selectAll }))
+      for (const option of within(list).getAllByRole('option').slice(1)) {
+        expect(option).toHaveAttribute('aria-selected', 'true')
+      }
+      // Select all is reversible. Leave one individual state selected for the API assertion.
+      await user.click(within(list).getByRole('option', { name: copy.filters.selectAll }))
+      for (const option of within(list).getAllByRole('option').slice(1)) {
+        expect(option).toHaveAttribute('aria-selected', 'false')
+      }
+      await user.click(
+        within(list).getByRole('option', { name: copy.filters.stateOptions.SUSPENDED })
+      )
+      await user.keyboard('{Escape}')
+      expect(mainCalls()).toHaveLength(1)
+      expect(window.location.search).not.toContain('includeArchived')
+      await user.click(
+        within(drawer).getByRole('button', { name: itFilters.additionals.actions.apply })
+      )
+      await waitFor(() =>
+        expect(mainCalls().at(-1)).toEqual(
+          expect.objectContaining({
+            states: ['SUSPENDED'],
+            includeArchived: true,
+            offset: 0,
+            q: LAZIO.name,
+            sortBy: 'NAME_ASC',
+          })
+        )
+      )
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+      await waitFor(() => {
+        const params = new URLSearchParams(window.location.search)
+        expect(params.get('states')).toBe('SUSPENDED')
+        expect(params.get('includeArchived')).toBe('true')
+        expect(params.has('offset')).toBe(false)
+      })
+      expect(screen.getByText(copy.waitingApproval.title)).toBeInTheDocument()
+      expect(getPurposes).toHaveBeenCalledTimes(2)
+
+      await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+      const reopened = await screen.findByRole('dialog')
+      expect(within(reopened).getByLabelText(copy.filters.includeArchived)).toBeChecked()
+      expect(
+        within(reopened).getByRole('combobox', { name: copy.filters.states })
+      ).toHaveTextContent(copy.filters.stateOptions.SUSPENDED)
+      await user.click(
+        within(reopened).getByRole('button', { name: itFilters.additionals.actions.reset })
+      )
+      await waitFor(() =>
+        expect(mainCalls().at(-1)).toEqual(
+          expect.objectContaining({
+            states: undefined,
+            includeArchived: false,
+            offset: 0,
+            q: LAZIO.name,
+            sortBy: 'NAME_ASC',
+          })
+        )
+      )
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+      expect(screen.getByRole('textbox', { name: copy.searchPlaceholder })).toHaveValue(LAZIO.name)
+      expect(screen.getByText(copy.waitingApproval.title)).toBeInTheDocument()
+      expect(getPurposes).toHaveBeenCalledTimes(3)
+      await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+      const cleared = await screen.findByRole('dialog')
+      expect(within(cleared).getByLabelText(copy.filters.includeArchived)).not.toBeChecked()
+      expect(
+        within(cleared).getByRole('combobox', { name: copy.filters.states })
+      ).not.toHaveTextContent(copy.filters.stateOptions.SUSPENDED)
+    }
+  )
+
+  it.each(['close', 'escape', 'backdrop'] as const)(
+    'discards pending filters on %s and restores the applied URL values on reopening',
+    async (dismiss) => {
+      const { user } = await renderApp(
+        `${dashboardPath(FIRST_CONSUMER.id)}?states=SUSPENDED&includeArchived=true`
+      )
+      await screen.findByRole('table')
+      await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+      const drawer = await screen.findByRole('dialog')
+      await user.click(within(drawer).getByLabelText(copy.filters.includeArchived))
+      await user.click(within(drawer).getByRole('combobox', { name: copy.filters.states }))
+      await user.click(
+        await screen.findByRole('option', { name: copy.filters.stateOptions.ACTIVE })
+      )
+      await user.keyboard('{Escape}')
+      if (dismiss === 'close') {
+        await user.click(
+          within(drawer).getByRole('button', { name: itShared.drawer.closeIconAriaLabel })
+        )
+      } else if (dismiss === 'escape') {
+        await user.keyboard('{Escape}')
+      } else {
+        await user.click(document.querySelector<HTMLElement>('.MuiBackdrop-root')!)
+      }
+      await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+      expect(mainCalls()).toHaveLength(1)
+      const params = new URLSearchParams(window.location.search)
+      expect(params.get('states')).toBe('SUSPENDED')
+      expect(params.get('includeArchived')).toBe('true')
+
+      await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+      const reopened = await screen.findByRole('dialog')
+      expect(within(reopened).getByLabelText(copy.filters.includeArchived)).toBeChecked()
+      const select = within(reopened).getByRole('combobox', { name: copy.filters.states })
+      expect(select).toHaveTextContent(copy.filters.stateOptions.SUSPENDED)
+      expect(select).not.toHaveTextContent(copy.filters.stateOptions.ACTIVE)
+    }
+  )
+
+  it.each([
+    { origin: 'dashboard', path: dashboardPath(FIRST_CONSUMER.id) },
+    { origin: 'monitoring', path: monitoringPath(FIRST_CONSUMER.id) },
+  ])('restores applied filters on browser back and forward from $origin', async ({ path }) => {
+    const { user } = await renderApp(`${path}?states=SUSPENDED&offset=10`)
+    await screen.findByText(FIRST_CONSUMER.name, { selector: 'h1' })
+    await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+    const drawer = await screen.findByRole('dialog')
+    const archived = within(drawer).getByLabelText(copy.filters.includeArchived)
+    archived.focus()
+    await user.keyboard(' ')
+    expect(archived).toBeChecked()
+    await user.click(within(drawer).getByRole('combobox', { name: copy.filters.states }))
+    await user.click(await screen.findByRole('option', { name: copy.filters.stateOptions.ACTIVE }))
+    await user.keyboard('{Escape}')
+    await user.click(
+      within(drawer).getByRole('button', { name: itFilters.additionals.actions.apply })
+    )
+    await waitFor(() => {
+      const params = new URLSearchParams(window.location.search)
+      expect(params.get('states')).toBe('SUSPENDED,ACTIVE')
+      expect(params.get('includeArchived')).toBe('true')
+      expect(params.has('offset')).toBe(false)
+    })
+    await waitFor(() =>
+      expect(mainCalls().at(-1)).toEqual(
+        expect.objectContaining({
+          states: ['SUSPENDED', 'ACTIVE'],
+          includeArchived: true,
+          offset: 0,
+        })
+      )
+    )
+
+    window.history.back()
+    await waitFor(() => {
+      const params = new URLSearchParams(window.location.search)
+      expect(params.get('states')).toBe('SUSPENDED')
+      expect(params.has('includeArchived')).toBe(false)
+      expect(params.get('offset')).toBe('10')
+    })
+    await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+    const restored = await screen.findByRole('dialog')
+    expect(within(restored).getByLabelText(copy.filters.includeArchived)).not.toBeChecked()
+    const restoredSelect = within(restored).getByRole('combobox', { name: copy.filters.states })
+    expect(restoredSelect).toHaveTextContent(copy.filters.stateOptions.SUSPENDED)
+    expect(restoredSelect).not.toHaveTextContent(copy.filters.stateOptions.ACTIVE)
+    await user.click(
+      within(restored).getByRole('button', { name: itShared.drawer.closeIconAriaLabel })
+    )
+
+    window.history.forward()
+    await waitFor(() =>
+      expect(new URLSearchParams(window.location.search).get('includeArchived')).toBe('true')
+    )
+    await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+    const forwarded = await screen.findByRole('dialog')
+    expect(within(forwarded).getByLabelText(copy.filters.includeArchived)).toBeChecked()
+    expect(
+      within(forwarded).getByRole('combobox', { name: copy.filters.states })
+    ).toHaveTextContent(copy.filters.stateOptions.ACTIVE)
+  })
+
+  it('includes archived rows only after applying the toggle and restores it from the URL', async () => {
+    const { user, unmount } = await renderApp(
+      `${monitoringPath(FIRST_CONSUMER.id)}?q=Archiviata&sortBy=NAME_ASC`
+    )
+    await screen.findByText(copy.empty)
+    await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+    const drawer = await screen.findByRole('dialog')
+    await user.click(within(drawer).getByLabelText(copy.filters.includeArchived))
+    expect(screen.queryByText(`Archiviata ${FIRST_CONSUMER.name}`)).not.toBeInTheDocument()
+    await user.click(
+      within(drawer).getByRole('button', { name: itFilters.additionals.actions.apply })
+    )
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+    expect(await screen.findByText(`Archiviata ${FIRST_CONSUMER.name}`)).toBeInTheDocument()
+    await waitFor(() => expect(window.location.search).toContain('includeArchived=true'))
+    const savedURL = window.location.pathname + window.location.search
+    unmount()
+
+    await renderApp(savedURL)
+    expect(await screen.findByText(`Archiviata ${FIRST_CONSUMER.name}`)).toBeInTheDocument()
+    expect(mainCalls().at(-1)).toEqual(
+      expect.objectContaining({ includeArchived: true, q: 'Archiviata', sortBy: 'NAME_ASC' })
+    )
+  })
+
+  it('opens the responsive bottom drawer and applies filters on mobile', async () => {
+    stubMobile()
+    const { user } = await renderApp(monitoringPath(FIRST_CONSUMER.id))
+    await screen.findByText(FIRST_CONSUMER.name, { selector: 'h1' })
+    await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
+    const drawer = await screen.findByRole('dialog', { name: itFilters.additionals.title })
+    expect(drawer).toHaveClass('MuiDrawer-paperAnchorBottom')
+    await user.click(within(drawer).getByLabelText(copy.filters.includeArchived))
+    await user.click(
+      within(drawer).getByRole('button', { name: itFilters.additionals.actions.apply })
+    )
+    await waitFor(() =>
+      expect(mainCalls().at(-1)).toEqual(
+        expect.objectContaining({ includeArchived: true, offset: 0 })
+      )
+    )
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
   })
 
   it('navigates to the provider purpose detail from the row action', async () => {

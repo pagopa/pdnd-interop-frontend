@@ -742,7 +742,6 @@
         "title": "Consumo previsto, finalità e cambio di stima",
         "description": "Tieni monitorato il consumo stimato dell’e-service.",
         "export": "Esporta",
-        "exportUnavailable": "L’esportazione dei dati non è ancora disponibile.",
         "consumptionCard": {
           "heading": "Consumo previsto della soglia",
           "unit": "chiamate API giornaliere approvate / totali"
@@ -756,8 +755,7 @@
           "heading": "Cambi di stima in attesa di approvazione",
           "unit": "richieste",
           "action": "Vedi richieste"
-        },
-        "purposesActionUnavailable": "L’elenco delle finalità non permette ancora di filtrare per versione e tipo di richiesta."
+        }
       },
       "consumers": {
         "title": "Consumi previsti della soglia per fruitore",
@@ -774,7 +772,6 @@
         "dailyCalls": "{{approved}} / {{total}}",
         "viewConsumerAriaLabel": "Vedi consumi previsti e finalità del fruitore {{name}}",
         "viewAll": "Vedi tutti i consumi per fruitore",
-        "viewAllUnavailable": "L’elenco completo dei consumi per fruitore non è ancora disponibile.",
         "loading": "Caricamento dei consumi previsti per fruitore",
         "loadError": "Non è stato possibile caricare i consumi previsti per fruitore.",
         "retry": "Riprova",

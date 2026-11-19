@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
-import { Box, Stack, Typography, useTheme } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import { MIButton } from '@pagopa/mui-italia'
 import { useId } from 'react'
 import { useQuery } from '@tanstack/react-query'
@@ -28,7 +28,6 @@ export function ProviderEServiceMonitoringTab() {
   const theme = useTheme()
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
-  const exportDescriptionId = useId()
   const consumersTitleId = useId()
   const archivingTitleId = useId()
   const consumptionTitleId = useId()
@@ -44,11 +43,11 @@ export function ProviderEServiceMonitoringTab() {
     currentRoles.includes(role)
   )
 
+  // TODO: Enable these actions when purpose lists support version and request-type filters.
   const unavailablePurposesAction = (text: string): CardDashboardAction => ({
     type: 'link',
     text,
     disabled: true,
-    disabledReason: t('consumption.purposesActionUnavailable'),
   })
 
   const buildConsumptionCards = (data: ProducerEServiceMonitoring): MonitoringCard[] => [
@@ -199,22 +198,16 @@ export function ProviderEServiceMonitoringTab() {
           title={t('consumption.title')}
           description={t('consumption.description')}
           action={
-            // No export implementation exists yet: disabled with a visible explanation.
-            <Stack spacing={0.5} alignItems={{ xs: 'flex-start', sm: 'flex-end' }}>
-              <MIButton
-                type="button"
-                variant="outlined"
-                size="small"
-                startIcon={<FileDownloadOutlinedIcon />}
-                disabled
-                aria-describedby={exportDescriptionId}
-              >
-                {t('consumption.export')}
-              </MIButton>
-              <Typography id={exportDescriptionId} variant="caption" color="text.secondary">
-                {t('consumption.exportUnavailable')}
-              </Typography>
-            </Stack>
+            // TODO: Implement export of monitoring data.
+            <MIButton
+              type="button"
+              variant="outlined"
+              size="small"
+              startIcon={<FileDownloadOutlinedIcon />}
+              disabled
+            >
+              {t('consumption.export')}
+            </MIButton>
           }
         />
         <MonitoringCardsGrid

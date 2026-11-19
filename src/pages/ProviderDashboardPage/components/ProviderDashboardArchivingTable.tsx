@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { ProducerQueries } from '@/api/producer'
 import type { MonitoringArchivingRow } from '@/api/api.generatedTypes'
-import { formatDateStringNumeric, formatThousands } from '@/utils/format.utils'
+import { ArchivingDateCell } from '@/components/shared/ArchivingDateCell'
+import { formatThousands } from '@/utils/format.utils'
 import { DashboardEServiceAction } from './DashboardEServiceAction'
 
 /** Preserve backend order and independently optional descriptor and version fields. */
@@ -42,7 +43,7 @@ export function ProviderDashboardArchivingTable() {
     {
       id: 'archivableOn',
       header: t('columns.archivableOn'),
-      renderCell: (row) => formatDateStringNumeric(row.archivableOn),
+      renderCell: (row) => <ArchivingDateCell archivableOn={row.archivableOn} />,
     },
     {
       id: 'actions',

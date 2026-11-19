@@ -23,13 +23,12 @@ export const PURPOSES_SORT_OPTIONS: DateNameSortBy[] = [
 ]
 export const PURPOSES_DEFAULT_SORT: DateNameSortBy = 'DATE_DESC'
 
-/** `includeArchived` is always false on this page, so ARCHIVED is not offered as a filter. */
+/** Archived purposes are included through a separate toggle, not a state option. */
 export const PURPOSE_STATE_FILTER_OPTIONS: PurposeVersionState[] = [
   'ACTIVE',
-  'WAITING_FOR_APPROVAL',
   'SUSPENDED',
+  'WAITING_FOR_APPROVAL',
   'REJECTED',
-  'DRAFT',
 ]
 
 /** Keep the same thresholds as the monitoring SaturationDonut. */

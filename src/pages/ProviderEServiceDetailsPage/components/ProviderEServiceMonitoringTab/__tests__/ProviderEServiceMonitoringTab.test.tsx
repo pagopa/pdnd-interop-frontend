@@ -282,27 +282,47 @@ describe('ProviderEServiceMonitoringTab', () => {
     expect(within(getConsumersTable()).queryByTestId('ChevronRightIcon')).not.toBeInTheDocument()
   })
 
-  it('disables export, view-all and purpose CTAs with an accessible explanation', async () => {
-    await renderTab()
-    await waitForData()
+  it.each([
+    {
+      language: 'it',
+      labels: itEservice.read.monitoring,
+      notices: [
+        'L’esportazione dei dati non è ancora disponibile.',
+        'L’elenco completo dei consumi per fruitore non è ancora disponibile.',
+        'L’elenco delle finalità non permette ancora di filtrare per versione e tipo di richiesta.',
+      ],
+    },
+    {
+      language: 'en',
+      labels: enEservice.read.monitoring,
+      notices: [
+        'Data export is not available yet.',
+        'The full list of consumption per consumer is not available yet.',
+        'The purpose list cannot yet be filtered by version and request type.',
+      ],
+    },
+  ] as const)(
+    'keeps unavailable CTAs disabled without placeholder notices in $language',
+    async ({ language, labels, notices }) => {
+      await renderTab({ language })
+      await waitForData(labels)
 
-    const expectDisabledWithReason = (name: string, reason: string) => {
-      const button = screen.getByRole('button', { name })
-      expect(button).toBeDisabled()
-      expect(button).toHaveAccessibleDescription(reason)
+      for (const name of [
+        labels.consumption.export,
+        labels.consumers.viewAll,
+        labels.consumption.newPurposesCard.action,
+        labels.consumption.quotaChangesCard.action,
+      ]) {
+        const button = screen.getByRole('button', { name })
+        expect(button).toBeDisabled()
+        expect(button).not.toHaveAttribute('aria-describedby')
+        expect(button).not.toHaveAccessibleDescription()
+        button.click()
+      }
+      for (const notice of notices) expect(screen.queryByText(notice)).not.toBeInTheDocument()
+      expect(navigateMock).not.toHaveBeenCalled()
     }
-    expectDisabledWithReason(copy.consumption.export, copy.consumption.exportUnavailable)
-    expectDisabledWithReason(copy.consumers.viewAll, copy.consumers.viewAllUnavailable)
-    expectDisabledWithReason(
-      copy.consumption.newPurposesCard.action,
-      copy.consumption.purposesActionUnavailable
-    )
-    expectDisabledWithReason(
-      copy.consumption.quotaChangesCard.action,
-      copy.consumption.purposesActionUnavailable
-    )
-    expect(navigateMock).not.toHaveBeenCalled()
-  })
+  )
 
   it('opens the agreement list filtered by e-service and PENDING state', async () => {
     const user = userEvent.setup()
@@ -375,35 +395,65 @@ describe('ProviderEServiceMonitoringTab', () => {
     ).toBeDisabled()
   })
 
-  it('renders past, today and singular/plural future date chips in the archiving rows', async () => {
+  it.each([
+    ['it', 'desktop'],
+    ['it', 'mobile'],
+    ['en', 'desktop'],
+    ['en', 'mobile'],
+  ] as const)('renders archiving chips in %s on %s', async (language, viewport) => {
+    if (viewport === 'mobile') {
+      vi.stubGlobal('matchMedia', (query: string) => ({
+        matches: query.includes('max-width'),
+        media: query,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }))
+    }
     vi.useFakeTimers({ toFake: ['Date'] })
-    vi.setSystemTime(new Date(2026, 10, 12, 12))
+    vi.setSystemTime(new Date(2026, 10, 12, 23, 55))
     try {
+      const { archiving } = (language === 'en' ? enEservice : itEservice).read.monitoring
+      const days = [11, 12, 13, 22, 23]
       getArchiving.mockResolvedValue({
-        results: [11, 12, 13, 14].map((day, index) => ({
+        results: days.map((day, index) => ({
           eservice: { id: ESERVICE_ID, name: 'Anagrafe Nazionale' },
           descriptorId: `version-${index}`,
           version: String(index),
           consumersCount: 0,
-          archivableOn: new Date(2026, 10, day, 18).toISOString(),
+          archivableOn: new Date(2026, 10, day, 0, 5).toISOString(),
         })),
       })
-      await renderTab()
-      const table = await screen.findByRole('table', { name: copy.archiving.title })
-      await within(table).findByText(copy.archiving.relative.today)
-      const rows = within(table).getAllByRole('row').slice(1)
+      await renderTab({ language })
+      const table = await screen.findByRole(viewport === 'mobile' ? 'group' : 'table', {
+        name: archiving.title,
+        busy: false,
+      })
+      const dateCells =
+        viewport === 'mobile'
+          ? within(table).getAllByRole('definition', { name: archiving.columns.archivableOn })
+          : within(table)
+              .getAllByRole('row')
+              .slice(1)
+              .map((row) => within(row).getAllByRole('cell')[2])
       const expected = [
-        copy.archiving.relative.pastDue,
-        copy.archiving.relative.today,
-        copy.archiving.relative.inDays_one.replace('{{count}}', '1'),
-        copy.archiving.relative.inDays_other.replace('{{count}}', '2'),
+        archiving.relative.pastDue,
+        archiving.relative.today,
+        archiving.relative.inDays_one.replace('{{count}}', '1'),
+        archiving.relative.inDays_other.replace('{{count}}', '10'),
+        archiving.relative.inDays_other.replace('{{count}}', '11'),
       ]
-      rows.forEach((row, index) => {
-        expect(within(row).getByText(expected[index])).toBeInTheDocument()
-        expect(row.querySelector('p p, p div')).toBeNull()
+      expect(dateCells).toHaveLength(expected.length)
+      dateCells.forEach((cell, index) => {
+        const chip = within(cell).getByText(expected[index]).closest('.MuiChip-root')
+        expect(chip).toHaveClass(index === 4 ? 'MuiChip-colorInfo' : 'MuiChip-colorError')
+        expect(chip?.previousElementSibling).toHaveTextContent(`${days[index]}/11/2026`)
+        expect(cell.querySelector('p p, p div')).toBeNull()
       })
     } finally {
       vi.useRealTimers()
+      if (viewport === 'mobile') vi.unstubAllGlobals()
     }
   })
 

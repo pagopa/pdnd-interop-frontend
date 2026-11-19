@@ -140,7 +140,6 @@
     "description": "View the projected consumption and the purposes created by the consumer for this e-service.",
     "breadcrumbManageEService": "Manage E-service",
     "export": "Export",
-    "exportUnavailable": "Data export is not available yet.",
     "summary": {
       "eservice": "E-service",
       "eserviceValue": "{{name}}, V{{version}}",
@@ -165,13 +164,20 @@
       "title": "You have purposes waiting for approval",
       "description": "This consumer has purposes that require your approval. You can choose whether to approve or reject them.",
       "descriptionThresholdExceeded": "The active purposes of this consumer exceed the threshold per consumer you defined. You can choose whether to approve or reject them.",
-      "loadError": "It was not possible to check whether this consumer has purposes waiting for approval.",
       "action": "Go to purposes to approve"
     },
     "searchPlaceholder": "Search by purpose name",
     "filters": {
       "title": "Filter by state",
-      "states": "Purpose state"
+      "states": "Purpose state",
+      "selectAll": "Select all",
+      "includeArchived": "Include archived purposes",
+      "stateOptions": {
+        "ACTIVE": "Active",
+        "SUSPENDED": "Suspended",
+        "WAITING_FOR_APPROVAL": "Waiting for approval",
+        "REJECTED": "Rejected"
+      }
     },
     "sorting": {
       "DATE_DESC": "Newest first",

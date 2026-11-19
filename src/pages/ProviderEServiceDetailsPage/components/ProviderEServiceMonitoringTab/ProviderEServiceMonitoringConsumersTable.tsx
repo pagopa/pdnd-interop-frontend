@@ -1,8 +1,7 @@
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Alert, Box, Button, Stack, Typography } from '@mui/material'
+import { Alert, Box, Button, Typography } from '@mui/material'
 import { MIButton, MIIconButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
-import { useId } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
@@ -26,7 +25,6 @@ export function ProviderEServiceMonitoringConsumersTable({
   const { t } = useTranslation('eservice', { keyPrefix: 'read.monitoring.consumers' })
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
-  const viewAllDescriptionId = useId()
   const { data, isPending, isError, isFetching, refetch } = useQuery(
     ProducerQueries.getEServiceMonitoringSaturation({
       eserviceId,
@@ -132,22 +130,12 @@ export function ProviderEServiceMonitoringConsumersTable({
         />
         {!isPending && data?.results.length === 0 && <Typography>{t('empty')}</Typography>}
       </Box>
-      {/* No per-version consumer list route exists yet: disabled with a visible explanation. */}
-      <Stack spacing={0.5} alignItems="flex-start" sx={{ mt: 2 }}>
-        <MIButton
-          type="button"
-          variant="text"
-          color="primary"
-          endIcon={<ArrowForward />}
-          disabled
-          aria-describedby={viewAllDescriptionId}
-        >
+      {/* TODO: Add a full per-version consumer consumption list and connect this action. */}
+      <Box sx={{ mt: 2 }}>
+        <MIButton type="button" variant="text" color="primary" endIcon={<ArrowForward />} disabled>
           {t('viewAll')}
         </MIButton>
-        <Typography id={viewAllDescriptionId} variant="caption" color="text.secondary">
-          {t('viewAllUnavailable')}
-        </Typography>
-      </Stack>
+      </Box>
     </>
   )
 }

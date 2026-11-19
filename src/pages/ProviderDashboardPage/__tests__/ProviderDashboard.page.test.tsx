@@ -21,6 +21,8 @@ import itPages from '@/static/locales/it/pages.json'
 import enPages from '@/static/locales/en/pages.json'
 import itDashboard from '@/static/locales/it/dashboard.json'
 import enDashboard from '@/static/locales/en/dashboard.json'
+import itEservice from '@/static/locales/it/eservice.json'
+import enEservice from '@/static/locales/en/eservice.json'
 import { ProducerServices } from '@/api/producer'
 import type {
   MonitoringArchiving,
@@ -104,8 +106,8 @@ const renderDashboard = async (
     lng: language,
     fallbackLng: false,
     resources: {
-      it: { pages: itPages, dashboard: itDashboard },
-      en: { pages: enPages, dashboard: enDashboard },
+      it: { pages: itPages, dashboard: itDashboard, eservice: itEservice },
+      en: { pages: enPages, dashboard: enDashboard, eservice: enEservice },
     },
   })
 
@@ -1011,6 +1013,63 @@ describe('ProviderDashboardPage tables', () => {
     expect(navigateMock).toHaveBeenLastCalledWith('PROVIDE_ESERVICE_MANAGE', {
       params: { eserviceId: 'es-c', descriptorId: 'desc-c' },
     })
+  })
+
+  it.each([
+    ['it', 'desktop'],
+    ['it', 'mobile'],
+    ['en', 'desktop'],
+    ['en', 'mobile'],
+  ] as const)('shows calendar-day chips in %s on %s', async (language, viewport) => {
+    if (viewport === 'mobile') {
+      vi.stubGlobal('matchMedia', (query: string) => ({
+        matches: query.includes('max-width'),
+        media: query,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }))
+    }
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 12, 23, 55))
+
+    try {
+      const { columns } = (language === 'it' ? itPages : enPages).dashboard.sections.archiving
+      const labels =
+        language === 'it'
+          ? ['Data superata', 'Oggi', 'Tra 1 giorno', 'Tra 10 giorni', 'Tra 11 giorni']
+          : ['Date passed', 'Today', 'In 1 day', 'In 10 days', 'In 11 days']
+      const days = [11, 12, 13, 22, 23]
+      vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+        results: days.map((day, index) => ({
+          eservice: { id: `es-${index}`, name: `Service ${index}` },
+          consumersCount: 0,
+          archivableOn: new Date(2026, 10, day, 0, 5).toISOString(),
+        })),
+      })
+      await renderDashboard(language)
+      const table = await screen.findByRole(viewport === 'mobile' ? 'group' : 'table', {
+        name: columns.eservice,
+        busy: false,
+      })
+
+      const dateCells =
+        viewport === 'mobile'
+          ? within(table).getAllByRole('definition', { name: columns.archivableOn })
+          : getBodyRows(table).map((row) => within(row).getAllByRole('cell')[3])
+      expect(dateCells).toHaveLength(days.length)
+      labels.forEach((label, index) => {
+        const cell = dateCells[index]
+        const chip = within(cell).getByText(label).closest('.MuiChip-root')
+        expect(chip).toHaveClass(index === 4 ? 'MuiChip-colorInfo' : 'MuiChip-colorError')
+        expect(chip?.previousElementSibling).toHaveTextContent(`${days[index]}/11/2026`)
+        expect(cell.querySelector('p p, p div')).toBeNull()
+      })
+    } finally {
+      vi.useRealTimers()
+      if (viewport === 'mobile') vi.unstubAllGlobals()
+    }
   })
 
   it('should show independent loading skeletons until each table resolves', async () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getArchivingRelativeDate } from '../monitoring.utils'
+import { getArchivingRelativeDate } from '../archiving.utils'
 
 describe('getArchivingRelativeDate', () => {
   const now = new Date(2026, 5, 10, 18, 30)
@@ -23,5 +23,14 @@ describe('getArchivingRelativeDate', () => {
       kind: 'pastDue',
     })
     expect(getArchivingRelativeDate('not-a-date', now)).toBeUndefined()
+  })
+
+  it('counts leap day across February into March', () => {
+    expect(
+      getArchivingRelativeDate(
+        new Date(2028, 2, 1, 0, 5).toISOString(),
+        new Date(2028, 1, 28, 23, 55)
+      )
+    ).toEqual({ kind: 'inDays', count: 2 })
   })
 })

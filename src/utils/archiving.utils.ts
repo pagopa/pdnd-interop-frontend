@@ -1,6 +1,6 @@
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 
-export type ArchivingRelativeDate =
+type ArchivingRelativeDate =
   | { kind: 'pastDue' }
   | { kind: 'today' }
   | { kind: 'inDays'; count: number }

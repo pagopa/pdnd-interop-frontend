@@ -76,7 +76,6 @@ const buildResponse = (
   overrides: Partial<ProducerEServiceMonitoringConsumerPurposes> = {}
 ): ProducerEServiceMonitoringConsumerPurposes => {
   const isOther = params.consumerId === OTHER_CONSUMER_ID
-  const isWaitingProbe = params.states?.length === 1 && params.states[0] === 'WAITING_FOR_APPROVAL'
   return {
     eservice: { id: ESERVICE_ID, name: 'Anagrafe nazionale' },
     version: '2',
@@ -90,42 +89,41 @@ const buildResponse = (
       : { id: 'attr-1', name: 'Regioni', kind: 'CERTIFIED' },
     approvedDailyCalls: 9500,
     percentage: 95,
-    results: isWaitingProbe
-      ? []
-      : isOther
-        ? [
-            {
-              purposeId: 'purpose-roma',
-              title: 'Finalità Roma',
-              dailyCalls: 10,
-              state: 'ACTIVE',
-              updatedAt: '2025-02-01T10:00:00Z',
-            },
-          ]
-        : [
-            {
-              purposeId: 'purpose-1',
-              title: 'Verifica residenza',
-              dailyCalls: 1200,
-              state: 'ACTIVE',
-              updatedAt: '2025-03-01T10:00:00Z',
-            },
-            {
-              purposeId: 'purpose-2',
-              title: 'Controllo ISEE',
-              dailyCalls: 300,
-              state: 'SUSPENDED',
-              suspendedByConsumer: true,
-              updatedAt: '2025-02-01T10:00:00Z',
-            },
-          ],
+    waitingForApprovalPurposes: isOther ? 0 : 2,
+    results: isOther
+      ? [
+          {
+            purposeId: 'purpose-roma',
+            title: 'Finalità Roma',
+            dailyCalls: 10,
+            state: 'ACTIVE',
+            updatedAt: '2025-02-01T10:00:00Z',
+          },
+        ]
+      : [
+          {
+            purposeId: 'purpose-1',
+            title: 'Verifica residenza',
+            dailyCalls: 1200,
+            state: 'ACTIVE',
+            updatedAt: '2025-03-01T10:00:00Z',
+          },
+          {
+            purposeId: 'purpose-2',
+            title: 'Controllo ISEE',
+            dailyCalls: 300,
+            state: 'SUSPENDED',
+            suspendedByConsumer: true,
+            updatedAt: '2025-02-01T10:00:00Z',
+          },
+        ],
     pagination: {
       offset: params.offset,
       limit: params.limit,
-      totalCount: isWaitingProbe ? (isOther ? 0 : 2) : isOther ? 1 : 2,
+      totalCount: isOther ? 1 : 2,
     },
     ...overrides,
-  } as ProducerEServiceMonitoringConsumerPurposes
+  }
 }
 
 const dashboardPath = (consumerId = CONSUMER_ID) =>
@@ -186,10 +184,7 @@ const renderPage = async ({
   )
 }
 
-const mainCalls = () =>
-  getPurposes.mock.calls
-    .map(([params]) => params)
-    .filter((params) => !(params.limit === 1 && params.states?.[0] === 'WAITING_FOR_APPROVAL'))
+const mainCalls = () => getPurposes.mock.calls.map(([params]) => params)
 const breadcrumbs = () =>
   JSON.parse(screen.getByTestId('breadcrumbs').textContent ?? '{}') as Record<string, string>
 
@@ -270,12 +265,23 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
 
     const exportButton = screen.getByRole('button', { name: labels.export })
     expect(exportButton).toBeDisabled()
-    expect(exportButton).toHaveAccessibleDescription(labels.exportUnavailable)
+    expect(exportButton).not.toHaveAttribute('aria-describedby')
+    expect(exportButton).not.toHaveAccessibleDescription()
+    expect(
+      screen.queryByText(
+        language === 'it'
+          ? 'L’esportazione dei dati non è ancora disponibile.'
+          : 'Data export is not available yet.'
+      )
+    ).not.toBeInTheDocument()
+    exportButton.click()
+    expect(exportButton).toBeDisabled()
   })
 
   it('requests newest first by default with includeArchived=false', async () => {
     await renderPage()
     await screen.findByRole('table')
+    expect(getPurposes).toHaveBeenCalledTimes(1)
     expect(mainCalls()[0]).toEqual(
       expect.objectContaining({
         eserviceId: ESERVICE_ID,
@@ -318,6 +324,7 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     await renderPage()
     const cta = await screen.findByRole('link', { name: copy.waitingApproval.action })
     expect(screen.getByText(copy.waitingApproval.title)).toBeInTheDocument()
+    expect(getPurposes).toHaveBeenCalledTimes(1)
     const url = new URL(cta.getAttribute('href') ?? '', 'http://localhost')
     expect(url.pathname).toBe('/it/erogazione/finalita')
     expect(JSON.parse(url.searchParams.get('eservicesIds') ?? '')).toEqual([
@@ -333,6 +340,24 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
       ],
     ])
   })
+
+  it.each(['zero', 'missing'] as const)(
+    'hides the warning when the aggregate is %s',
+    async (value) => {
+      getPurposes.mockImplementation(async (params) => {
+        const response = buildResponse(params, { waitingForApprovalPurposes: 0 })
+        if (value === 'missing') Reflect.deleteProperty(response, 'waitingForApprovalPurposes')
+        return response
+      })
+      await renderPage()
+      expect(await screen.findByRole('table')).toBeInTheDocument()
+      expect(screen.queryByText(copy.waitingApproval.title)).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('link', { name: copy.waitingApproval.action })
+      ).not.toBeInTheDocument()
+      expect(getPurposes).toHaveBeenCalledTimes(1)
+    }
+  )
 
   it('submits the search and resets the page', async () => {
     const user = userEvent.setup()
@@ -350,6 +375,49 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     await screen.findByRole('table')
     expect(mainCalls()[0].states).toEqual(['SUSPENDED', 'ACTIVE'])
   })
+
+  it.each([
+    { language: 'it' as const, pages: itPages, filters: itFilters },
+    { language: 'en' as const, pages: enPages, filters: enFilters },
+  ])(
+    'renders the localized drawer and selects all states with the keyboard in $language',
+    async ({ language, pages, filters }) => {
+      const user = userEvent.setup()
+      const labels = pages.providerDashboardConsumerEServiceDetail
+      await renderPage({ language })
+      await screen.findByRole('table')
+      const trigger = screen.getByRole('button', { name: filters.additionals.trigger })
+      trigger.focus()
+      await user.keyboard('{Enter}')
+      const drawer = await screen.findByRole('dialog', { name: filters.additionals.title })
+      expect(drawer).toHaveAccessibleDescription(filters.additionals.subtitle)
+      expect(within(drawer).getByLabelText(labels.filters.includeArchived)).not.toBeChecked()
+      const select = within(drawer).getByRole('combobox', { name: labels.filters.states })
+      select.focus()
+      await user.keyboard('{ArrowDown}')
+      const all = await screen.findByRole('option', { name: labels.filters.selectAll })
+      expect(all).toHaveFocus()
+      await user.keyboard('{Enter}')
+      for (const state of ['ACTIVE', 'SUSPENDED', 'WAITING_FOR_APPROVAL', 'REJECTED'] as const) {
+        expect(
+          screen.getByRole('option', { name: labels.filters.stateOptions[state] })
+        ).toHaveAttribute('aria-selected', 'true')
+      }
+      await user.keyboard('{Escape}')
+      await user.click(
+        within(drawer).getByRole('button', { name: filters.additionals.actions.apply })
+      )
+      await waitFor(() =>
+        expect(mainCalls().at(-1)?.states).toEqual([
+          'ACTIVE',
+          'SUSPENDED',
+          'WAITING_FOR_APPROVAL',
+          'REJECTED',
+        ])
+      )
+      await waitFor(() => expect(trigger).toHaveFocus())
+    }
+  )
 
   it('changes sort and resets the page', async () => {
     const user = userEvent.setup()
@@ -404,12 +472,15 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: copy.retry }))
     expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(await screen.findByText(copy.waitingApproval.title)).toBeInTheDocument()
+    expect(getPurposes).toHaveBeenCalledTimes(2)
   })
 
   it('shows the no-relationship state when consumer is missing', async () => {
     getPurposes.mockImplementation(async (params) =>
       buildResponse(params, {
         consumer: undefined,
+        waitingForApprovalPurposes: 0,
         results: [],
         pagination: { offset: 0, limit: 10, totalCount: 0 },
       })

@@ -73,6 +73,7 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
       return (
         <RHFNewSelect
           multiple
+          selectAllLabel={(field as SelectFilterFieldOptions).selectAllLabel}
           name={field.name}
           label={field.label}
           options={(field as SelectFilterFieldOptions).options}

@@ -1475,6 +1475,8 @@ export interface ProducerEServiceMonitoringConsumerPurposes {
   approvedDailyCalls: number
   /** @format int32 */
   percentage: number
+  /** TODO: cambiare nome campo */
+  waitingForApprovalPurposes: number
   results: ProducerEServiceMonitoringConsumerPurposesItem[]
   pagination: Pagination
 }

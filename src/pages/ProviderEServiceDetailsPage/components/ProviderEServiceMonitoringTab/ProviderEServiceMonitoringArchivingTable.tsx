@@ -1,15 +1,15 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Alert, Box, Button, Chip, Stack, Typography } from '@mui/material'
+import { Alert, Box, Button, Typography } from '@mui/material'
 import { MIIconButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
 import { ProducerQueries } from '@/api/producer'
 import type { MonitoringArchivingRow } from '@/api/api.generatedTypes'
+import { ArchivingDateCell } from '@/components/shared/ArchivingDateCell'
 import { routes, useNavigate } from '@/router'
-import { formatDateStringNumeric, formatThousands } from '@/utils/format.utils'
+import { formatThousands } from '@/utils/format.utils'
 import { PROVIDER_ESERVICE_MONITORING_TAB } from './monitoring.constants'
-import { getArchivingRelativeDate } from './monitoring.utils'
 import { MonitoringUnavailableIconAction } from './MonitoringUnavailableIconAction'
 
 type ProviderEServiceMonitoringArchivingTableProps = {
@@ -35,13 +35,6 @@ export function ProviderEServiceMonitoringArchivingTable({
 
   const getVersionLabel = (row: MonitoringArchivingRow) =>
     row.version ? t('version', { version: row.version }) : t('wholeEService')
-
-  const getRelativeLabel = (archivableOn: string) => {
-    const relative = getArchivingRelativeDate(archivableOn)
-    if (!relative) return undefined
-    if (relative.kind === 'inDays') return t('relative.inDays', { count: relative.count })
-    return t(`relative.${relative.kind}`)
-  }
 
   const renderAction = (row: MonitoringArchivingRow) => {
     if (!canOpenVersion) return null
@@ -86,24 +79,7 @@ export function ProviderEServiceMonitoringArchivingTable({
     {
       id: 'archivableOn',
       header: t('columns.archivableOn'),
-      renderCell: (row) => {
-        const relativeLabel = getRelativeLabel(row.archivableOn)
-        return (
-          <Stack
-            component="span"
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            flexWrap="wrap"
-            gap={1}
-          >
-            <Typography component="span" variant="body2">
-              {formatDateStringNumeric(row.archivableOn)}
-            </Typography>
-            {relativeLabel && <Chip component="span" size="small" label={relativeLabel} />}
-          </Stack>
-        )
-      },
+      renderCell: (row) => <ArchivingDateCell archivableOn={row.archivableOn} />,
     },
     {
       id: 'actions',

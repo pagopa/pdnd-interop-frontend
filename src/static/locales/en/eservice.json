@@ -742,7 +742,6 @@
         "title": "Expected consumption, purposes and estimate changes",
         "description": "Keep track of the estimated consumption of the e-service.",
         "export": "Export",
-        "exportUnavailable": "Data export is not available yet.",
         "consumptionCard": {
           "heading": "Expected threshold consumption",
           "unit": "approved / total daily API calls"
@@ -756,8 +755,7 @@
           "heading": "Estimate changes awaiting approval",
           "unit": "requests",
           "action": "View requests"
-        },
-        "purposesActionUnavailable": "The purpose list cannot yet be filtered by version and request type."
+        }
       },
       "consumers": {
         "title": "Expected threshold consumption per consumer",
@@ -774,7 +772,6 @@
         "dailyCalls": "{{approved}} / {{total}}",
         "viewConsumerAriaLabel": "View projected consumption and purposes of consumer {{name}}",
         "viewAll": "View all consumption per consumer",
-        "viewAllUnavailable": "The full list of consumption per consumer is not available yet.",
         "loading": "Loading expected consumption per consumer",
         "loadError": "Expected consumption per consumer could not be loaded.",
         "retry": "Retry",

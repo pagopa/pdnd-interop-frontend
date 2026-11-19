@@ -1,17 +1,8 @@
-import React, { useId } from 'react'
+import React from 'react'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  IconButton,
-  Skeleton,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { Alert, AlertTitle, Box, Button, IconButton, Skeleton, Typography } from '@mui/material'
 import { MIButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -21,7 +12,6 @@ import { ProducerQueries } from '@/api/producer'
 import type {
   DateNameSortBy,
   GetProducerEServiceMonitoringConsumerPurposesParams,
-  ProducerEServiceMonitoringConsumerPurposes,
   ProducerEServiceMonitoringConsumerPurposesItem,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
@@ -68,20 +58,18 @@ export default function ProviderDashboardConsumerEServiceDetail({
 }: Readonly<ProviderDashboardConsumerEServiceDetailProps>) {
   const { t } = useTranslation('pages', { keyPrefix: 'providerDashboardConsumerEServiceDetail' })
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list.filters.statusField' })
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'status.purpose' })
   const routeKey = ROUTE_KEY_BY_ORIGIN[origin]
   const { eserviceId, descriptorId, consumerId } = useParams<typeof routeKey>()
   const identity: Identity = { eserviceId, descriptorId, consumerId }
   const generatePath = useGeneratePath()
   const { currentRoles } = AuthHooks.useJwt()
-  const exportDescriptionId = useId()
 
   const canAccess = (key: RouteKey) =>
     routes[key].authLevels.some((role) => currentRoles.includes(role))
   const canViewPurposeDetails = canAccess('PROVIDE_PURPOSE_DETAILS')
   const canViewPurposeList = canAccess('PROVIDE_PURPOSE_LIST')
 
-  const filtersHandlers = useFilters<{ q: string; states: string[] }>(
+  const filtersHandlers = useFilters<{ q: string; states: string[]; includeArchived: boolean }>(
     [{ name: 'q', label: t('searchPlaceholder'), type: 'freetext' }],
     [
       {
@@ -91,10 +79,16 @@ export default function ProviderDashboardConsumerEServiceDetail({
             name: 'states',
             label: t('filters.states'),
             type: 'select-multiple',
+            selectAllLabel: t('filters.selectAll'),
             options: PURPOSE_STATE_FILTER_OPTIONS.map((value) => ({
               value,
-              label: tCommon(value),
+              label: t(`filters.stateOptions.${value}`),
             })),
+          },
+          {
+            name: 'includeArchived',
+            label: t('filters.includeArchived'),
+            type: 'boolean',
           },
         ],
       },
@@ -118,7 +112,7 @@ export default function ProviderDashboardConsumerEServiceDetail({
       q: filtersHandlers.filters.q || undefined,
       sortBy: sorting.sortBy as DateNameSortBy,
       states: states.length > 0 ? states : undefined,
-      includeArchived: false,
+      includeArchived: filtersHandlers.filters.includeArchived ?? false,
     }),
     throwOnError: false,
     // Keep rows only while paging/filtering the same consumer/e-service version.
@@ -130,27 +124,6 @@ export default function ProviderDashboardConsumerEServiceDetail({
 
   const consumer = isError ? undefined : data?.consumer
   const isNoRelationship = !isError && Boolean(data) && !data?.consumer
-
-  // The response has no "waiting for approval" counter: ask for a single row of that state to know
-  // whether any exist regardless of the filters the user applied to the table.
-  const {
-    data: waitingForApprovalCount = 0,
-    isError: isWaitingForApprovalError,
-    isFetching: isWaitingForApprovalFetching,
-    refetch: refetchWaitingForApproval,
-  } = useQuery({
-    ...ProducerQueries.getEServiceMonitoringConsumerPurposes({
-      ...identity,
-      offset: 0,
-      limit: 1,
-      states: ['WAITING_FOR_APPROVAL'],
-      includeArchived: false,
-    }),
-    enabled: Boolean(consumer),
-    throwOnError: false,
-    select: (response: ProducerEServiceMonitoringConsumerPurposes) =>
-      response.consumer ? response.pagination.totalCount : 0,
-  })
 
   const title = consumer?.name ?? t('fallbackTitle')
   const eserviceName = isError ? undefined : data?.eservice.name
@@ -216,23 +189,17 @@ export default function ProviderDashboardConsumerEServiceDetail({
   ]
 
   const exportAction = (
-    // No export implementation exists yet: disabled with a visible explanation.
-    <Stack spacing={0.5} alignItems={{ xs: 'flex-start', sm: 'flex-end' }}>
-      <MIButton
-        type="button"
-        variant="outlined"
-        size="small"
-        color="primary"
-        startIcon={<FileDownloadOutlinedIcon />}
-        disabled
-        aria-describedby={exportDescriptionId}
-      >
-        {t('export')}
-      </MIButton>
-      <Typography id={exportDescriptionId} variant="caption" color="text.secondary">
-        {t('exportUnavailable')}
-      </Typography>
-    </Stack>
+    // TODO: Implement export for the consumer's purposes.
+    <MIButton
+      type="button"
+      variant="outlined"
+      size="small"
+      color="primary"
+      startIcon={<FileDownloadOutlinedIcon />}
+      disabled
+    >
+      {t('export')}
+    </MIButton>
   )
 
   const renderBody = () => {
@@ -275,26 +242,7 @@ export default function ProviderDashboardConsumerEServiceDetail({
       <>
         <ConsumerEServiceSummary data={data} getVersionPath={getVersionPath} />
 
-        {isWaitingForApprovalError && (
-          <Alert
-            severity="warning"
-            sx={{ mt: 4, alignItems: 'center' }}
-            action={
-              <Button
-                color="inherit"
-                size="small"
-                onClick={() => refetchWaitingForApproval()}
-                disabled={isWaitingForApprovalFetching}
-              >
-                {t('retry')}
-              </Button>
-            }
-          >
-            {t('waitingApproval.loadError')}
-          </Alert>
-        )}
-
-        {!isWaitingForApprovalError && waitingForApprovalCount > 0 && (
+        {(data.waitingForApprovalPurposes ?? 0) > 0 && (
           <Alert
             severity="warning"
             sx={{ mt: 4, alignItems: 'center' }}
@@ -332,6 +280,7 @@ export default function ProviderDashboardConsumerEServiceDetail({
             filters={filtersHandlers.filters as FilterFieldsValues}
             results={data.pagination.totalCount}
             submitButtonVariant="outlined"
+            additionalFiltersLayout="compact"
             sorting={{
               ...sorting,
               onSortingChange: (value) => {

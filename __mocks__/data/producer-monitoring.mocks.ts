@@ -367,19 +367,23 @@ export function getMockProducerEServiceMonitoringConsumerPurposes(
     dashboardSaturation ?? getKnownDescriptorFixture(identity, descriptor).saturation
   const consumerPurposeRow = saturation.results.find(({ consumer }) => consumer.id === consumerId)
   const consumer = consumerPurposeRow?.consumer
-  const query = q?.toLocaleLowerCase('it') ?? ''
-  const filtered = consumer
+  const purposes = consumerPurposeRow
     ? buildMockConsumerPurposes(
-        consumer.name,
+        consumerPurposeRow.consumer.name,
         consumerPurposeRow.activePurposesCount,
         consumerPurposeRow.waitingForApprovalDailyCalls
-      ).filter(
-        (purpose) =>
-          purpose.title.toLocaleLowerCase('it').includes(query) &&
-          (includeArchived || purpose.state !== 'ARCHIVED') &&
-          (!states?.length || states.includes(purpose.state))
       )
     : []
+  const waitingForApprovalPurposes = purposes.filter(
+    ({ state }) => state === 'WAITING_FOR_APPROVAL'
+  ).length
+  const query = q?.toLocaleLowerCase('it') ?? ''
+  const filtered = purposes.filter(
+    (purpose) =>
+      purpose.title.toLocaleLowerCase('it').includes(query) &&
+      (includeArchived || purpose.state !== 'ARCHIVED') &&
+      (!states?.length || states.includes(purpose.state))
+  )
 
   filtered.sort((a, b) => {
     const nameComparison = a.title.localeCompare(b.title, 'it')
@@ -409,6 +413,7 @@ export function getMockProducerEServiceMonitoringConsumerPurposes(
       consumerPurposeRow?.dailyCallsPerConsumer ?? saturation.dailyCallsPerConsumer,
     approvedDailyCalls: consumerPurposeRow?.approvedDailyCalls ?? 0,
     percentage: consumerPurposeRow?.percentage ?? 0,
+    waitingForApprovalPurposes,
     results: filtered.slice(offset, offset + limit),
     pagination: { offset, limit, totalCount: filtered.length },
   })
