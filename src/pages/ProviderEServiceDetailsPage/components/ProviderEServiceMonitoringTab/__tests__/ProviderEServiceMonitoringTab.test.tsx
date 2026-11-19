@@ -376,8 +376,7 @@ describe('ProviderEServiceMonitoringTab', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('keeps both version chevrons enabled without navigating', async () => {
-    const user = userEvent.setup()
+  it('keeps both version chevrons disabled until the consumers page exists', async () => {
     await renderTab()
     await waitForData()
 
@@ -397,14 +396,12 @@ describe('ProviderEServiceMonitoringTab', () => {
           copy.archiving.version.replace('{{version}}', version)
         ),
       })
-      expect(button).toBeEnabled()
-      await user.click(button)
+      expect(button).toBeDisabled()
     }
     expect(navigateMock).not.toHaveBeenCalled()
   })
 
-  it('keeps the chevron enabled without navigating even for whole e-service archiving rows', async () => {
-    const user = userEvent.setup()
+  it('keeps the chevron disabled for whole e-service archiving rows', async () => {
     getArchiving.mockResolvedValue({
       results: [
         {
@@ -424,8 +421,7 @@ describe('ProviderEServiceMonitoringTab', () => {
         copy.archiving.wholeEService
       ),
     })
-    expect(button).toBeEnabled()
-    await user.click(button)
+    expect(button).toBeDisabled()
     expect(navigateMock).not.toHaveBeenCalled()
   })
 
@@ -507,7 +503,7 @@ describe('ProviderEServiceMonitoringTab', () => {
           copy.archiving.version.replace('{{version}}', '0')
         ),
       })
-    ).toBeEnabled()
+    ).toBeDisabled()
   })
 
   it('shows loading states without stale or zero values', async () => {
