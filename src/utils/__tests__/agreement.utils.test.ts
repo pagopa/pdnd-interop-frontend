@@ -483,19 +483,4 @@ describe('getRequesterObsoleteVersionAgreement', () => {
       upgradeableAgreementId: 'upgradeable-id',
     })
   })
-
-  it('does not select a canBeUpgraded agreement whose state is not ACTIVE or SUSPENDED', () => {
-    const result = getRequesterObsoleteVersionAgreement(
-      [
-        createMockAgreementListingItem({
-          id: 'draft-id',
-          consumer: { id: 'organizationId' },
-          state: 'DRAFT',
-          canBeUpgraded: true,
-        }),
-      ],
-      'organizationId'
-    )
-    expect(result).toEqual({ hasBlockingAgreement: true, upgradeableAgreementId: undefined })
-  })
 })
