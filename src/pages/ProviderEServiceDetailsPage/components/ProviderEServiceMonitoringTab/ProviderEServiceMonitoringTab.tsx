@@ -2,7 +2,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { Box, useTheme } from '@mui/material'
 import { MIButton } from '@pagopa/mui-italia'
 import { useId } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
 import { ProducerQueries } from '@/api/producer'
@@ -17,6 +17,8 @@ import { MonitoringCardsGrid, type MonitoringCard } from './MonitoringCardsGrid'
 import { MonitoringSectionHeader } from './MonitoringSectionHeader'
 import { ProviderEServiceMonitoringArchivingTable } from './ProviderEServiceMonitoringArchivingTable'
 import { ProviderEServiceMonitoringConsumersTable } from './ProviderEServiceMonitoringConsumersTable'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import { usePagination } from '@/hooks/usePagination'
 
 /**
  * "Monitoraggio" tab of the classic provider e-service details page. Every block owns its query
@@ -35,12 +37,39 @@ export function ProviderEServiceMonitoringTab({
   const archivingTitleId = useId()
   const consumptionTitleId = useId()
   const versionsTitleId = useId()
+  const viewAllDescriptionId = useId()
   const locale = i18n.language === 'en' ? 'en-US' : 'it-IT'
 
   const monitoringQuery = useQuery(
     ProducerQueries.getEServiceMonitoring({ eserviceId, descriptorId })
   )
   const monitoring = monitoringQuery.data
+
+  const { paginationProps, getTotalPageCount } = usePagination({
+    limit: 5,
+    limitOptions: [5, 10, 15],
+  })
+
+  const { data, isPending, isFetching, isError, refetch } = useQuery({
+    ...ProducerQueries.getEServiceMonitoringSaturation({
+      eserviceId,
+      descriptorId,
+    }),
+    placeholderData: keepPreviousData,
+    // Handled inline below with an explicit retry instead of the route-level error boundary.
+    throwOnError: false,
+  })
+
+  const tablePagination =
+    data && data.pagination.totalCount > 0
+      ? {
+          page: paginationProps.page,
+          onChange: (_: React.ChangeEvent<unknown>, page: number) =>
+            paginationProps.onPageChange(page),
+          count: getTotalPageCount(data.pagination.totalCount),
+          itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+        }
+      : undefined
 
   const canViewAgreements = routes.PROVIDE_AGREEMENT_LIST.authLevels.some((role) =>
     currentRoles.includes(role)
@@ -232,7 +261,29 @@ export function ProviderEServiceMonitoringTab({
           <ProviderEServiceMonitoringConsumersTable
             eserviceId={eserviceId}
             descriptorId={descriptorId}
+            consumersData={data}
+            isLoading={isPending}
+            isFetching={isFetching}
+            isError={isError}
+            onRetry={() => refetch()}
+            pagination={tablePagination}
           />
+          <Stack spacing={0.5} alignItems="flex-start" sx={{ mt: 2 }}>
+            <MIButton
+              type="button"
+              variant="text"
+              color="primary"
+              endIcon={<ArrowForward />}
+              aria-describedby={viewAllDescriptionId}
+              onClick={() =>
+                navigate('PROVIDE_ESERVICE_MONITORING_CONSUMERS', {
+                  params: { eserviceId, descriptorId },
+                })
+              }
+            >
+              {t('consumers.viewAll')}
+            </MIButton>
+          </Stack>
         </SectionContainer>
       </Box>
       <Box component="section" aria-labelledby={versionsTitleId} sx={{ mt: 6 }}>

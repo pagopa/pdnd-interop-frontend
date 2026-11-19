@@ -759,7 +759,7 @@
       },
       "consumers": {
         "title": "Expected threshold consumption per consumer",
-        "description": "View the consumers of this version sorted by expected consumption of the API call threshold.",
+        "description": "View the consumers of the e-service sorted by expected consumption of the API call threshold.",
         "columns": {
           "consumer": "Consumer name",
           "purposes": "Purposes created",
@@ -775,7 +775,15 @@
         "loading": "Loading expected consumption per consumer",
         "loadError": "Expected consumption per consumer could not be loaded.",
         "retry": "Retry",
-        "empty": "There are no consumers with expected consumption for this version."
+        "empty": "There are no consumers with expected consumption for this version.",
+        "monitoringConsumersPage": {
+          "eservice": "E-service",
+          "dailyCallsPerConsumer": "Threshold per consumer",
+          "customizedQuotaConsumersOnConsumers": "Custom quotas/total number of consumers",
+          "dailyCallsTotal": "Total threshold",
+          "goToAnotherVersion": "Go to another version",
+          "editThreshold": "Edit threshold"
+        }
       },
       "versions": {
         "title": "E-service versions and agreement requests",

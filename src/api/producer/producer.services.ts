@@ -6,7 +6,6 @@ import type {
   GetProducerDashboardSaturationParams,
   GetProducerEServiceMonitoringParams,
   GetProducerEServiceMonitoringArchivingParams,
-  GetProducerEServiceMonitoringSaturationParams,
   GetProducerEServiceMonitoringConsumerPurposesParams,
   MonitoringArchiving,
   ProducerDashboard,
@@ -17,6 +16,10 @@ import type {
   ProducerEServiceMonitoringSaturation,
   ProducerEServiceMonitoringConsumerPurposes,
 } from '../api.generatedTypes'
+import {
+  withDefaultEServiceMonitoringSaturationParams,
+  type GetProducerEServiceMonitoringSaturationRequest,
+} from './producer.monitoring'
 
 async function getDashboard(): Promise<ProducerDashboard> {
   // Dev-only offline mock. `import.meta.env.DEV` is statically false in production builds,
@@ -135,19 +138,27 @@ async function getEServiceMonitoringSaturation({
   eserviceId,
   descriptorId,
   ...params
-}: GetProducerEServiceMonitoringSaturationParams): Promise<ProducerEServiceMonitoringSaturation> {
+}: GetProducerEServiceMonitoringSaturationRequest): Promise<ProducerEServiceMonitoringSaturation> {
+  const resolvedParams = withDefaultEServiceMonitoringSaturationParams({
+    eserviceId,
+    descriptorId,
+    ...params,
+  })
+  const { offset, limit, sortBy, q } = resolvedParams
+  const requestParams = { offset, limit, sortBy, ...(q !== undefined ? { q } : {}) }
+
   if (import.meta.env.DEV && APP_MODE === 'development' && MOCK_PRODUCER_DASHBOARD) {
     const { getMockProducerEServiceMonitoringSaturation, getMockMonitoringDescriptor } =
       await import('../../../__mocks__/data/producer-monitoring.mocks')
     return getMockProducerEServiceMonitoringSaturation(
-      { eserviceId, descriptorId, ...params },
+      { eserviceId, descriptorId, ...requestParams },
       await getMockMonitoringDescriptor({ eserviceId, descriptorId })
     )
   }
 
   const response = await axiosInstance.get<ProducerEServiceMonitoringSaturation>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}/monitoring/saturation`,
-    { params }
+    { params: requestParams }
   )
   return response.data
 }

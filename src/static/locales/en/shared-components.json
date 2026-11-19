@@ -621,6 +621,7 @@
     "PROVIDE_SATURATION_RATE": "Projected consumption",
     "PROVIDE_DASHBOARD_CONSUMER_ESERVICE_DETAIL": "Projected consumption and purposes",
     "PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL": "Projected consumption and purposes",
+    "PROVIDE_ESERVICE_MONITORING_CONSUMERS": "Projected consumption",
     "PROVIDE_ESERVICE_LIST": "My E-services",
     "PROVIDE_AGREEMENT_READ": "Manage Request",
     "PROVIDE_AGREEMENT_LIST": "Received Requests",
