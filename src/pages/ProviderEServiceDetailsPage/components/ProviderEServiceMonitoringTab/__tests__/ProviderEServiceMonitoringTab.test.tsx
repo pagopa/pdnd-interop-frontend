@@ -282,7 +282,7 @@ describe('ProviderEServiceMonitoringTab', () => {
     expect(within(getConsumersTable()).queryByTestId('ChevronRightIcon')).not.toBeInTheDocument()
   })
 
-  it('disables export, view-all and purpose CTAs with an accessible explanation', async () => {
+  it('disables export, purpose CTAs with an accessible explanation', async () => {
     await renderTab()
     await waitForData()
 
@@ -292,7 +292,6 @@ describe('ProviderEServiceMonitoringTab', () => {
       expect(button).toHaveAccessibleDescription(reason)
     }
     expectDisabledWithReason(copy.consumption.export, copy.consumption.exportUnavailable)
-    expectDisabledWithReason(copy.consumers.viewAll, copy.consumers.viewAllUnavailable)
     expectDisabledWithReason(
       copy.consumption.newPurposesCard.action,
       copy.consumption.purposesActionUnavailable

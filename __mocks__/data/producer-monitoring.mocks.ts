@@ -2,7 +2,6 @@ import type {
   GetProducerEServiceMonitoringArchivingParams,
   GetProducerEServiceMonitoringConsumerPurposesParams,
   GetProducerEServiceMonitoringParams,
-  GetProducerEServiceMonitoringSaturationParams,
   DateNameSortBy,
   MonitoringArchiving,
   ProducerEServiceMonitoring,
@@ -11,6 +10,10 @@ import type {
   ProducerEServiceDescriptor,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
+import {
+  type GetProducerEServiceMonitoringSaturationRequest,
+  withDefaultEServiceMonitoringSaturationParams,
+} from '@/api/producer/producer.monitoring'
 import { NotFoundError } from '@/utils/errors.utils'
 import {
   mockProducerDashboardConsumerEServices,
@@ -222,16 +225,17 @@ export function getMockProducerEServiceMonitoringArchiving({
 }
 
 export function getMockProducerEServiceMonitoringSaturation(
-  {
+  params: GetProducerEServiceMonitoringSaturationRequest,
+  descriptor?: ProducerEServiceDescriptor
+): ProducerEServiceMonitoringSaturation {
+  const {
     eserviceId,
     descriptorId: requestedDescriptorId,
     offset,
     limit,
     q,
     sortBy = 'PERCENTAGE_DESC',
-  }: GetProducerEServiceMonitoringSaturationParams,
-  descriptor?: ProducerEServiceDescriptor
-): ProducerEServiceMonitoringSaturation {
+  } = withDefaultEServiceMonitoringSaturationParams(params)
   const { saturation: fixture } = getKnownDescriptorFixture(
     {
       eserviceId,
