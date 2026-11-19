@@ -78,7 +78,7 @@
       },
       "email": {
         "title": "Configurazione delle preferenze di notifica tramite email",
-        "description": "Le notifiche email ti informeranno sulla tua casella personale gli eventi che ti riguardano. La mail che utilizzeremo è quella che ci hai fornito in fase di iscrizione.",
+        "description": "Le notifiche email ti informeranno sulla tua casella personale sugli eventi che ti riguardano. La mail che utilizzeremo è quella che ci hai fornito in fase di iscrizione.",
         "linkLabel": "Non è la tua mail? Scopri come aggiornarla",
         "mailLabel": "Indirizzo email",
         "enableSectionAllNotifications": "Abilita tutto",
@@ -94,7 +94,7 @@
         },
         "customNotificationSwitch": {
           "label": "Attiva le notifiche personalizzate",
-          "description": "Configura per quale eventi vuoi essere notificato immediatamente"
+          "description": "Configura per quali eventi vuoi essere notificato immediatamente"
         }
       },
       "sections": {
@@ -126,7 +126,7 @@
               },
               "purposeStateUpdated": {
                 "label": "Variazione di stato di una finalità",
-                "description": "Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata"
+                "description": "Avvisami quando una finalità viene sospesa, archiviata o riattivata"
               },
               "purposeRiskAnalysisAssignmentStatusToAdmin": {
                 "label": "Stato delle assegnazioni di un’analisi del rischio",
@@ -211,7 +211,7 @@
               },
               "newTemplateVersion": {
                 "label": "Nuova versione di template",
-                "description": "Avvisami quando il creatore di un template di mio interesse e-service pubblica una nuova versione"
+                "description": "Avvisami quando il creatore di un template di mio interesse pubblica una nuova versione"
               },
               "templatePropertiesUpdated": {
                 "label": "Variazione delle proprietà di un template",
