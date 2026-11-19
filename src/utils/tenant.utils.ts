@@ -48,20 +48,20 @@ export function getTenantPageTitle(tenant: Tenant, parentTenants?: ParentTenant[
 
   /* Case UO: include the first parent tenant in the title */
   if (tenant.subUnitType === 'UO' && parentTenants?.length) {
-    return `${tenant.name} - ${parentTenants[0]?.name ?? ''}`
+    return [tenant.name, parentTenants[0]?.name].filter(Boolean).join(' - ')
   }
 
   /* Case AOO: title is the tenant name only */
   return tenant.name
 }
 
-export function getTenantPageDescription(parentTenants?: ParentTenant[]): string {
+export function getTenantPageDescription(parentTenants?: ParentTenant[]): string | undefined {
   /* Case root: description shows the root tenant name */
   if (!parentTenants || parentTenants.length === 0) {
-    return ''
+    return undefined
   }
 
   /* Case UO - AOO: find the root tenant in the parent tenants */
   const root = parentTenants.find((parent) => !parent.subUnitType)
-  return root?.name ?? ''
+  return root?.name
 }

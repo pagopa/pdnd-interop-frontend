@@ -82,9 +82,9 @@ describe('Party registry page title and description', () => {
     expect(getTenantPageDescription(parentTenants)).toBe('Comune di Milano')
   })
 
-  it('Root case: title is tenant name, description is empty', () => {
+  it('Root case: title is tenant name, description is undefined', () => {
     const tenant = { ...mockTenant, name: 'Comune di Milano', subUnitType: undefined }
     expect(getTenantPageTitle(tenant)).toBe('Comune di Milano')
-    expect(getTenantPageDescription()).toBe('')
+    expect(getTenantPageDescription()).toBeUndefined()
   })
 })
