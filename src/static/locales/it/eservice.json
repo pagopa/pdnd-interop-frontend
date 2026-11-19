@@ -761,7 +761,7 @@
       },
       "consumers": {
         "title": "Consumi previsti della soglia per fruitore",
-        "description": "Vedi i fruitori di questa versione ordinati per consumo previsto della soglia di chiamate API.",
+        "description": "Vedi i fruitori dell’e-service ordinati per i consumi previsti della loro soglia di chiamate API.",
         "columns": {
           "consumer": "Nome fruitore",
           "purposes": "Finalità create",
@@ -778,7 +778,15 @@
         "loading": "Caricamento dei consumi previsti per fruitore",
         "loadError": "Non è stato possibile caricare i consumi previsti per fruitore.",
         "retry": "Riprova",
-        "empty": "Non ci sono fruitori con consumi previsti per questa versione."
+        "empty": "Non ci sono fruitori con consumi previsti per questa versione.",
+        "monitoringConsumersPage": {
+          "eservice": "E-service",
+          "dailyCallsPerConsumer": "Soglia per fruitore",
+          "customizedQuotaConsumersOnConsumers": "Soglie personalizzate/numero totale di fruitori",
+          "dailyCallsTotal": "Soglia totale",
+          "goToAnotherVersion": "Vai a un’altra versione",
+          "editThreshold": "Modifica soglia"
+        }
       },
       "versions": {
         "title": "Versioni dell’e-service e richieste di fruizione",

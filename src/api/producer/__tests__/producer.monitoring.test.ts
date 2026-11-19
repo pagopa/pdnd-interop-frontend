@@ -400,11 +400,37 @@ describe('monitoring service and query options', () => {
     }
   )
 
+  it('uses preview defaults when saturation pagination and sorting params are omitted', async () => {
+    const { ProducerServices, BACKEND_FOR_FRONTEND_URL } = await load(false, 'production', 'false')
+    const saturationBody = getMockProducerEServiceMonitoringSaturation(preview)
+    adapter.mockImplementation(async (config) => ({
+      config,
+      data: saturationBody,
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+    }))
+
+    await expect(ProducerServices.getEServiceMonitoringSaturation(ids)).resolves.toBe(
+      saturationBody
+    )
+    expect(adapter).toHaveBeenCalledTimes(1)
+    expect(adapter.mock.calls[0][0].url).toBe(
+      `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${ids.eserviceId}/descriptors/${ids.descriptorId}/monitoring/saturation`
+    )
+    expect(adapter.mock.calls[0][0].params).toEqual({
+      offset: 0,
+      limit: 5,
+      sortBy: 'PERCENTAGE_DESC',
+    })
+  })
+
   it('keys queries by resource and all saturation request parameters', async () => {
     const { ProducerQueries } = await load(true, 'development', 'true')
     const counter = ProducerQueries.getEServiceMonitoring(ids)
     const archiving = ProducerQueries.getEServiceMonitoringArchiving({ eserviceId: ids.eserviceId })
     const saturation = ProducerQueries.getEServiceMonitoringSaturation(preview)
+    const saturationWithDefaults = ProducerQueries.getEServiceMonitoringSaturation(ids)
     expect(counter.queryKey).not.toEqual(
       ProducerQueries.getEServiceMonitoring({ ...ids, descriptorId: 'other' }).queryKey
     )
@@ -420,6 +446,7 @@ describe('monitoring service and query options', () => {
     expect(saturation.queryKey).not.toEqual(
       ProducerQueries.getEServiceMonitoringSaturation({ ...preview, sortBy: 'NAME_ASC' }).queryKey
     )
+    expect(saturationWithDefaults.queryKey).toEqual(saturation.queryKey)
     expect(counter.queryKey).not.toEqual(saturation.queryKey)
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
     expect(await client.fetchQuery(counter)).toMatchObject({ percentage: 77 })

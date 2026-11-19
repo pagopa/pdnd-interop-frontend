@@ -1,39 +1,56 @@
-import ArrowForward from '@mui/icons-material/ArrowForward'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Alert, Box, Button, Stack, Typography } from '@mui/material'
-import { MIButton, MIIconButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
-import { useId } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { Alert, Box, Button, Typography } from '@mui/material'
+import {
+  MIIconButton,
+  MITable,
+  type MIPaginationProps,
+  type MITableColumn,
+} from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
-import { ProducerQueries } from '@/api/producer'
-import type { ProducerEServiceMonitoringSaturationItem } from '@/api/api.generatedTypes'
+import type {
+  ProducerEServiceMonitoringSaturation,
+  ProducerEServiceMonitoringSaturationItem,
+  SaturationSortBy,
+} from '@/api/api.generatedTypes'
 import { SaturationDonut } from '@/components/shared/SaturationDonut/SaturationDonut'
 import { routes, useNavigate } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
-import { MONITORING_CONSUMERS_PREVIEW_PARAMS } from './monitoring.constants'
 
 type ProviderEServiceMonitoringConsumersTableProps = {
   eserviceId: string
   descriptorId: string
+  consumersData?: ProducerEServiceMonitoringSaturation
+  pagination?: MIPaginationProps
+  isLoading?: boolean
+  isFetching?: boolean
+  isError?: boolean
+  onRetry?: () => void
+  queryParams?: {
+    offset?: number
+    limit?: number
+    q?: string
+    sortBy?: SaturationSortBy
+  }
 }
 
 /** Top five consumers of the selected version by expected threshold consumption. */
 export function ProviderEServiceMonitoringConsumersTable({
   eserviceId,
   descriptorId,
+  consumersData,
+  pagination,
+  isLoading,
+  isFetching,
+  isError,
+  onRetry,
 }: Readonly<ProviderEServiceMonitoringConsumersTableProps>) {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.monitoring.consumers' })
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
-  const viewAllDescriptionId = useId()
-  const { data, isPending, isError, isFetching, refetch } = useQuery(
-    ProducerQueries.getEServiceMonitoringSaturation({
-      eserviceId,
-      descriptorId,
-      ...MONITORING_CONSUMERS_PREVIEW_PARAMS,
-    })
-  )
+
+  const consumers = consumersData?.results ?? []
+  const isEmpty = !isLoading && (!consumersData || consumers.length === 0)
 
   const canViewConsumer = routes.PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL.authLevels.some(
     (role) => currentRoles.includes(role)
@@ -104,7 +121,7 @@ export function ProviderEServiceMonitoringConsumersTable({
         severity="error"
         sx={{ mt: 3 }}
         action={
-          <Button color="inherit" size="small" onClick={() => refetch()} disabled={isFetching}>
+          <Button color="inherit" size="small" onClick={onRetry} disabled={isFetching}>
             {t('retry')}
           </Button>
         }
@@ -114,40 +131,28 @@ export function ProviderEServiceMonitoringConsumersTable({
     )
   }
 
+  if (isEmpty) {
+    return <Typography>{t('empty')}</Typography>
+  }
+
   return (
     <>
       <Box
         sx={{ mt: 3 }}
         aria-busy={isFetching}
-        role={isPending ? 'status' : undefined}
-        aria-label={isPending ? t('loading') : undefined}
+        role={isLoading ? 'status' : undefined}
+        aria-label={isLoading ? t('loading') : undefined}
       >
         <MITable
           columns={columns}
-          rows={data?.results ?? []}
-          isLoading={isPending}
+          rows={consumers}
+          isLoading={isLoading}
           getRowId={(row) => row.consumer.id}
+          pagination={pagination}
           desktopTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
           mobileTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
         />
-        {!isPending && data?.results.length === 0 && <Typography>{t('empty')}</Typography>}
       </Box>
-      {/* No per-version consumer list route exists yet: disabled with a visible explanation. */}
-      <Stack spacing={0.5} alignItems="flex-start" sx={{ mt: 2 }}>
-        <MIButton
-          type="button"
-          variant="text"
-          color="primary"
-          endIcon={<ArrowForward />}
-          disabled
-          aria-describedby={viewAllDescriptionId}
-        >
-          {t('viewAll')}
-        </MIButton>
-        <Typography id={viewAllDescriptionId} variant="caption" color="text.secondary">
-          {t('viewAllUnavailable')}
-        </Typography>
-      </Stack>
     </>
   )
 }
