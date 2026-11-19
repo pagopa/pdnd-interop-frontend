@@ -125,7 +125,7 @@ const Intro: React.FC<IntroProps> = ({
     <Box sx={{ flex: 1 }}>
       <Stack direction="row" alignItems="center" spacing={2}>
         {title && (
-          <Typography component="h1" variant="h4" maxWidth="50%">
+          <Typography component="h1" variant="h4" maxWidth="50%" id="page-title">
             {title}
           </Typography>
         )}
