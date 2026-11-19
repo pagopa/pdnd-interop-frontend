@@ -102,7 +102,7 @@ describe('PartyRegistryPage', () => {
     expect(screen.getByText('Comune di Milano')).toBeInTheDocument()
   })
 
-  it('fallback to jwt organization name when getTenantPageTitle returns empty', () => {
+  it('fallback to jwt organization name when formatHierarchyWithoutParentRoot returns empty', () => {
     const mockUser = {
       id: 'test-id',
       name: '',

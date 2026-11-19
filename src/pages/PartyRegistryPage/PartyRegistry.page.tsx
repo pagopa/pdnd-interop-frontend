@@ -8,13 +8,14 @@ import {
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
 import { PartyGeneralInfoSection } from './components/PartyGeneralInfoSection'
-import { getTenantPageTitle, getTenantPageDescription } from '@/utils/tenant.utils'
+import { formatHierarchyWithoutParentRoot, getRootTenantFromHierarchy } from '@/utils/tenant.utils'
 
 const PartyRegistryPage: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
   const { data: user } = TenantHooks.useGetActiveUserParty()
-  const pageTitle = (getTenantPageTitle(user, user?.parentTenants) || jwt?.organization.name) ?? ''
-  const pageDescription = getTenantPageDescription(user?.parentTenants)
+  const pageTitle =
+    (formatHierarchyWithoutParentRoot(user, user?.parentTenants) || jwt?.organization.name) ?? ''
+  const pageDescription = getRootTenantFromHierarchy(user?.parentTenants)
 
   return (
     <PageContainer title={pageTitle} description={pageDescription}>

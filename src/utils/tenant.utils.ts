@@ -40,8 +40,11 @@ export function formatTenantHierarchy(tenantName: string, parentTenants?: Parent
   return [tenantName, ...(parentTenants?.map((parent) => parent.name) ?? [])].join(' - ')
 }
 
-export function getTenantPageTitle(tenant: Tenant, parentTenants?: ParentTenant[]): string {
-  /* Case root: title is the tenant name only */
+export function formatHierarchyWithoutParentRoot(
+  tenant: Tenant,
+  parentTenants?: ParentTenant[]
+): string {
+  /* Case root: gets the tenant name only */
   if (!tenant.subUnitType) {
     return tenant.name
   }
@@ -51,17 +54,10 @@ export function getTenantPageTitle(tenant: Tenant, parentTenants?: ParentTenant[
     return [tenant.name, parentTenants[0]?.name].filter(Boolean).join(' - ')
   }
 
-  /* Case AOO: title is the tenant name only */
+  /* Case AOO: gets the tenant name only */
   return tenant.name
 }
 
-export function getTenantPageDescription(parentTenants?: ParentTenant[]): string | undefined {
-  /* Case root: description shows the root tenant name */
-  if (!parentTenants || parentTenants.length === 0) {
-    return undefined
-  }
-
-  /* Case UO - AOO: find the root tenant in the parent tenants */
-  const root = parentTenants.find((parent) => !parent.subUnitType)
-  return root?.name
+export function getRootTenantFromHierarchy(parentTenants?: ParentTenant[]): string | undefined {
+  return parentTenants?.find((parent) => !parent.subUnitType)?.name
 }
