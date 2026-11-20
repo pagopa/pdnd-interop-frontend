@@ -102,8 +102,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
 
-  const { mutate: addAnnotationToAnswer } = PurposeTemplateMutations.useAddAnnotationToAnswer()
-  const { mutate: updateAnswerAnnotation } = PurposeTemplateMutations.useUpdateAnswerAnnotation()
+  const { mutateAsync: addAnnotationToAnswer } = PurposeTemplateMutations.useAddAnnotationToAnswer()
+  const { mutateAsync: updateAnswerAnnotation } =
+    PurposeTemplateMutations.useUpdateAnswerAnnotation()
   const { mutate: deleteAnswerAnnotation } = PurposeTemplateMutations.useDeleteAnswerAnnotation()
   const { mutate: addDocumentToAnnotation } = PurposeTemplateMutations.useAddDocumentsToAnnotation()
   const { mutate: deleteDocumentFromAnnotation } = PurposeTemplateMutations.useDeleteDocument()
@@ -133,22 +134,17 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     openDrawer()
   }
 
-  const handleAnnotationSubmit = (annotation: RiskAnalysisTemplateAnswerAnnotation) => {
+  // Rejects on failure so the drawer stays open with the draft (error toast handled globally)
+  const handleAnnotationSubmit = async (annotation: RiskAnalysisTemplateAnswerAnnotation) => {
     const existingAnswerId = watch(`answerIds.${questionKey}`)
 
     if (existingAnswerId) {
-      updateAnswerAnnotation(
-        {
-          purposeTemplateId,
-          answerId: existingAnswerId,
-          annotationText: { text: annotation.text },
-        },
-        {
-          onSuccess: (updatedAnnotation) => {
-            setValue(`annotations.${questionKey}`, updatedAnnotation, { shouldDirty: true })
-          },
-        }
-      )
+      const updatedAnnotation = await updateAnswerAnnotation({
+        purposeTemplateId,
+        answerId: existingAnswerId,
+        annotationText: { text: annotation.text },
+      })
+      setValue(`annotations.${questionKey}`, updatedAnnotation, { shouldDirty: true })
       return
     }
 
@@ -164,18 +160,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       },
     }
 
-    addAnnotationToAnswer(
-      { purposeTemplateId, answerRequest },
-      {
-        onSuccess: (savedAnswer) => {
-          // Save the answerId for future updates
-          setValue(`answerIds.${questionKey}`, savedAnswer.id, { shouldDirty: true })
-          if (savedAnswer.annotation) {
-            setValue(`annotations.${questionKey}`, savedAnswer.annotation, { shouldDirty: true })
-          }
-        },
-      }
-    )
+    const savedAnswer = await addAnnotationToAnswer({ purposeTemplateId, answerRequest })
+    // Save the answerId for future updates
+    setValue(`answerIds.${questionKey}`, savedAnswer.id, { shouldDirty: true })
+    if (savedAnswer.annotation) {
+      setValue(`annotations.${questionKey}`, savedAnswer.annotation, { shouldDirty: true })
+    }
   }
 
   const clearAnnotation = () => {

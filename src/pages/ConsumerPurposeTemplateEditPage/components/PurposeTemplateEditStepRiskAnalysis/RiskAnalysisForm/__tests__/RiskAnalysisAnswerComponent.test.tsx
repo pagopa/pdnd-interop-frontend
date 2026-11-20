@@ -22,6 +22,7 @@ const mockShowToast = vi.fn()
 const mockOpenDialog = vi.fn()
 const mockOpenDrawer = vi.fn()
 const mockCloseDrawer = vi.fn()
+const mockSubmitError = vi.fn()
 
 const mockAddAnnotationToAnswer = vi.fn()
 const mockUpdateAnswerAnnotation = vi.fn()
@@ -55,11 +56,11 @@ vi.spyOn(
 vi.spyOn(
   PurposeTemplateMutations.PurposeTemplateMutations,
   'useAddAnnotationToAnswer'
-).mockReturnValue({ mutate: mockAddAnnotationToAnswer } as never)
+).mockReturnValue({ mutateAsync: mockAddAnnotationToAnswer } as never)
 vi.spyOn(
   PurposeTemplateMutations.PurposeTemplateMutations,
   'useUpdateAnswerAnnotation'
-).mockReturnValue({ mutate: mockUpdateAnswerAnnotation } as never)
+).mockReturnValue({ mutateAsync: mockUpdateAnswerAnnotation } as never)
 vi.spyOn(
   PurposeTemplateMutations.PurposeTemplateMutations,
   'useDeleteAnswerAnnotation'
@@ -87,12 +88,18 @@ vi.mock('@/components/shared/AddAnnotationDrawer', () => ({
   }: {
     isOpen: boolean
     onClose: () => void
-    onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void
+    onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void | Promise<void>
     initialAnnotation?: RiskAnalysisTemplateAnswerAnnotation
     question: string
   }) => (
     <div data-testid="add-annotation-drawer" style={{ display: isOpen ? 'block' : 'none' }}>
-      <button onClick={() => onSubmit({ id: 'test-id', text: 'Test annotation', docs: [] })}>
+      <button
+        onClick={() => {
+          void Promise.resolve(
+            onSubmit({ id: 'test-id', text: 'Test annotation', docs: [] })
+          ).catch(mockSubmitError)
+        }}
+      >
         Submit Annotation
       </button>
       <button onClick={onClose}>Close Drawer</button>
@@ -167,15 +174,15 @@ const FormWrapper: React.FC<{
 describe('RiskAnalysisAnswerComponent', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAddAnnotationToAnswer.mockImplementation((_variables, callbacks) =>
-      callbacks?.onSuccess?.({
-        id: 'answer-id',
-        annotation: { id: 'annotation-id', text: 'Test annotation', docs: [] },
-      })
-    )
-    mockUpdateAnswerAnnotation.mockImplementation((_variables, callbacks) =>
-      callbacks?.onSuccess?.({ id: 'annotation-id', text: 'Updated annotation', docs: [] })
-    )
+    mockAddAnnotationToAnswer.mockResolvedValue({
+      id: 'answer-id',
+      annotation: { id: 'annotation-id', text: 'Test annotation', docs: [] },
+    })
+    mockUpdateAnswerAnnotation.mockResolvedValue({
+      id: 'annotation-id',
+      text: 'Updated annotation',
+      docs: [],
+    })
     mockDeleteAnswerAnnotation.mockImplementation((_variables, callbacks) =>
       callbacks?.onSuccess?.()
     )
@@ -435,21 +442,18 @@ describe('RiskAnalysisAnswerComponent', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(mockAddAnnotationToAnswer).toHaveBeenCalledWith(
-          {
-            purposeTemplateId,
-            answerRequest: {
-              answerKey: questionKey,
-              answerData: {
-                values: ['value1'],
-                editable: false,
-                annotation: { text: 'Test annotation' },
-                suggestedValues: [],
-              },
+        expect(mockAddAnnotationToAnswer).toHaveBeenCalledWith({
+          purposeTemplateId,
+          answerRequest: {
+            answerKey: questionKey,
+            answerData: {
+              values: ['value1'],
+              editable: false,
+              annotation: { text: 'Test annotation' },
+              suggestedValues: [],
             },
           },
-          expect.objectContaining({ onSuccess: expect.any(Function) })
-        )
+        })
       })
 
       expect(mockSetValue).toHaveBeenCalledWith(`answerIds.${questionKey}`, 'answer-id', {
@@ -496,14 +500,11 @@ describe('RiskAnalysisAnswerComponent', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(mockUpdateAnswerAnnotation).toHaveBeenCalledWith(
-          {
-            purposeTemplateId,
-            answerId: 'existing-answer-id',
-            annotationText: { text: 'Test annotation' },
-          },
-          expect.objectContaining({ onSuccess: expect.any(Function) })
-        )
+        expect(mockUpdateAnswerAnnotation).toHaveBeenCalledWith({
+          purposeTemplateId,
+          answerId: 'existing-answer-id',
+          annotationText: { text: 'Test annotation' },
+        })
       })
 
       expect(mockSetValue).toHaveBeenCalledWith(
@@ -515,7 +516,7 @@ describe('RiskAnalysisAnswerComponent', () => {
 
     it('does not save a new annotation locally when the mutation fails', async () => {
       const user = userEvent.setup()
-      mockAddAnnotationToAnswer.mockImplementationOnce(() => undefined)
+      mockAddAnnotationToAnswer.mockRejectedValueOnce(new Error('Save failed'))
       mockWatch.mockImplementation((path: string) => {
         if (path === `answerIds.${questionKey}`) return undefined
         if (path === `answers.${questionKey}`) return ['value1']
@@ -542,9 +543,36 @@ describe('RiskAnalysisAnswerComponent', () => {
       await user.click(screen.getByText('Submit Annotation'))
 
       expect(mockAddAnnotationToAnswer).toHaveBeenCalledWith(
-        expect.objectContaining({ purposeTemplateId }),
-        expect.objectContaining({ onSuccess: expect.any(Function) })
+        expect.objectContaining({ purposeTemplateId })
       )
+      await waitFor(() => expect(mockSubmitError).toHaveBeenCalledWith(expect.any(Error)))
+      expect(mockSetValue).not.toHaveBeenCalled()
+      expect(mockShowToast).not.toHaveBeenCalled()
+    })
+
+    it('does not update an existing annotation locally when the mutation fails', async () => {
+      const user = userEvent.setup()
+      mockUpdateAnswerAnnotation.mockRejectedValueOnce(new Error('Update failed'))
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
+        return undefined
+      })
+      render(
+        <FormWrapper>
+          <RiskAnalysisAnswerComponent
+            questionKey={questionKey}
+            question="Test Question"
+            questionType="radio"
+          />
+        </FormWrapper>
+      )
+      await user.click(screen.getByText('Submit Annotation'))
+      await waitFor(() => expect(mockSubmitError).toHaveBeenCalledWith(expect.any(Error)))
+      expect(mockUpdateAnswerAnnotation).toHaveBeenCalledWith({
+        purposeTemplateId,
+        answerId: 'existing-answer-id',
+        annotationText: { text: 'Test annotation' },
+      })
       expect(mockSetValue).not.toHaveBeenCalled()
       expect(mockShowToast).not.toHaveBeenCalled()
     })
