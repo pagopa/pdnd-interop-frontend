@@ -224,6 +224,28 @@ describe('useActions', () => {
     })
   })
 
+  it('opens the subscribe dialog with only consumers who do not already have an agreement', () => {
+    mockQueryResults({
+      agreements: [
+        createMockAgreementListingItem({
+          id: AGREEMENT_ID,
+          state: 'PENDING',
+          consumer: { id: 'delegator-id', name: 'Delegator' },
+          descriptor: { id: DESCRIPTOR_ID, version: '1' },
+        }),
+      ],
+      delegators: [{ id: 'delegator-id', name: 'Delegator' }],
+    })
+
+    const { result } = renderUseActions()
+    result.current.secondary?.action()
+
+    expect(useDialogStore.getState().dialog).toMatchObject({
+      type: 'createAgreement',
+      consumers: [{ id: TENANT_ID, name: TENANT_NAME }],
+    })
+  })
+
   it('groups available actions and opens an update dialog with only eligible consumers', () => {
     mockQueryResults({
       agreements: [
