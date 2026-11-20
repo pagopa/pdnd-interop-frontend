@@ -1,6 +1,7 @@
 import React from 'react'
 import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
-import { Alert, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
+import { MIAlert as Alert } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { getEServiceDescriptorAlertSpec } from '@/utils/eservice.utils'
 
