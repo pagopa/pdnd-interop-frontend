@@ -24,12 +24,29 @@
             }
           },
           "subscribe": {
-            "title": "Richiedi fruizione dell’e-service"
+            "title": "Richiedi fruizione dell’e-service",
+            "description": {
+              "base": "Seleziona il tuo ente o un ente da cui hai ricevuto una delega. L’ente deve possedere gli attributi certificati richiesti dall’e-service.",
+              "owned": "Seleziona l’ente per cui vuoi fare una richiesta di fruizione."
+            },
+            "alerts": {
+              "missingAttributes": "Il tuo ente non possiede gli attributi certificati richiesti dall’e-service. Puoi fare richiesta per un ente che ti ha delegato, se possiede gli attributi richiesti.",
+              "missingAttributesDelegated": "L’ente selezionato non possiede gli attributi certificati richiesti dall’e-service, seleziona un altro ente.",
+              "delegated": "L’ente selezionato possiede gli attributi certificati richiesti dall’e-service. Per l’approvazione saranno verificati anche gli altri requisiti di accesso.",
+              "owned": "Il tuo ente ha creato questo e-service: la richiesta di fruizione sarà approvata automaticamente, anche senza possedere gli attributi necessari.",
+              "ownedDelegated": "Stai facendo richiesta di fruizione del tuo e-service per un ente che ti ha delegato: per l’approvazione saranno considerati i suoi attributi. "
+            }
           },
           "update": {
             "title": "Aggiorna richiesta di fruizione",
+            "description": "Seleziona l’ente per cui vuoi aggiornare la richiesta di fruizione.",
             "actions": {
               "confirm": "Aggiorna richiesta"
+            },
+            "alerts": {
+              "missingAttributes": "Il tuo ente non possiede gli attributi certificati richiesti dalla nuova versione dell’e-service. Puoi fare richiesta per un ente che ti ha delegato, se possiede gli attributi richiesti.",
+              "missingAttributesDelegated": "L’ente selezionato non possiede gli attributi certificati richiesti dalla nuova versione dell'e-service, seleziona un altro ente.",
+              "delegated": "L’ente selezionato possiede gli attributi certificati richiesti dalla nuova versione dell’e-service. Per l’approvazione saranno verificati anche gli altri requisiti di accesso."
             }
           },
           "inspect": {
@@ -41,9 +58,7 @@
           },
           "edit": {
             "title": "Completa richiesta di fruizione",
-            "actions": {
-              "confirm": "Completa richiesta"
-            }
+            "description": "Seleziona l’ente per cui vuoi completare una richiesta di fruizione."
           }
         }
       },

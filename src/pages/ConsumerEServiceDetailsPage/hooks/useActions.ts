@@ -46,9 +46,9 @@ export const useActions = (): {
    * */
 
   const [
-    { data: certified, isFetching: isFetchingCertified },
-    { data: verified, isFetching: isFetchingVerified },
-    { data: declared, isFetching: isFetchingDeclared },
+    { data: certified, isLoading: isLoadingCertified },
+    { data: verified, isLoading: isLoadingVerified },
+    { data: declared, isLoading: isLoadingDeclared },
   ] = useQueries({
     queries: [
       AttributeQueries.getPartyCertifiedList(tenantId),
@@ -61,7 +61,7 @@ export const useActions = (): {
    * ESERVICE DESCRIPTOR DATA
    * */
 
-  const { data: descriptor, isFetching: isFetchingCurrentDescriptor } = useQuery(
+  const { data: descriptor, isLoading: isLoadingCurrentDescriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
@@ -69,7 +69,7 @@ export const useActions = (): {
    * ESERVICE ACTIVE DESCRIPTOR DATA
    * */
 
-  const { data: activeDescriptor, isFetching: isFetchingActiveDescriptor } = useQuery({
+  const { data: activeDescriptor, isLoading: isLoadingActiveDescriptor } = useQuery({
     ...EServiceQueries.getDescriptorCatalog(
       eserviceId,
       descriptor?.eservice.activeDescriptor?.id as string
@@ -92,7 +92,7 @@ export const useActions = (): {
    * */
 
   // The main problem is that the agreements are limited to 50 in this case
-  const { data: agreements, isFetching: isFetchingAgreements } = useQuery({
+  const { data: agreements, isLoading: isLoadingAgreements } = useQuery({
     ...AgreementQueries.getConsumerAgreementsList({
       limit: 50,
       offset: 0,
@@ -107,7 +107,7 @@ export const useActions = (): {
    * DELEGATORS DATA: Delegators that have delegated to the current user organization for the current eService
    * */
 
-  const { data: delegators, isFetching: isFetchingDelegators } = useQuery({
+  const { data: delegators, isLoading: isLoadingDelegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
       limit: 50,
       offset: 0,
@@ -120,7 +120,7 @@ export const useActions = (): {
   /*
    * DELEGATIONS DATA: Delegations that the current user organization has given to other organizations for the current eService
    * */
-  const { data: delegations, isFetching: isFetchingDelegations } = useQuery({
+  const { data: delegations, isLoading: isLoadingDelegations } = useQuery({
     ...DelegationQueries.getList({
       limit: 50,
       offset: 0,
@@ -135,8 +135,15 @@ export const useActions = (): {
 
   const upgrade = useCallback(
     (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
-      if (agreements.length === 1 && agreements[0].consumerId === tenantId) {
-        // UPDATE DIRECTLY IF THERE IS ONLY ONE AGREEMENT AND IT IS FOR THE CURRENT USER ORGANIZATION
+      if (
+        consumers.length === 1 &&
+        agreements.length === 1 &&
+        agreements[0].consumerId === tenantId
+      ) {
+        // UPDATE DIRECTLY IF THERE IS ONLY ONE POSSIBLE CONSUMER
+        // This case implies that the agreements length is 1 and the only agreement is for the current user organization,
+        // so the user can update directly without passing through the dialog
+        // NOTE: The first condition will imply that the others are true, they are just for clarity and to avoid mistakes in the future if the code is modified
         const agreement = agreements[0]
 
         upgradeAgreement(
@@ -163,18 +170,31 @@ export const useActions = (): {
         return
       }
 
+      const subscribers: Record<string, true> = {}
+
+      agreements.forEach((agreement) => {
+        subscribers[agreement.consumerId] = true
+      })
+
       openDialog({
         type: 'updateAgreement',
         agreements,
-        consumers,
+        consumers: consumers.filter((consumer) => subscribers[consumer.id]),
       })
     },
     [tenantId, navigate, openDialog, upgradeAgreement]
   )
   const inspect = useCallback(
     (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
-      if (agreements.length === 1 && agreements[0].consumerId === tenantId) {
-        // INSPECT DIRECTLY IF THERE IS ONLY ONE AGREEMENT AND IT IS FOR THE CURRENT USER ORGANIZATION
+      if (
+        consumers.length === 1 &&
+        agreements.length === 1 &&
+        agreements[0].consumerId === tenantId
+      ) {
+        // INSPECT DIRECTLY IF THERE IS ONLY ONE POSSIBLE CONSUMER
+        // This case implies that the agreements length is 1 and the only agreement is for the current user organization,
+        // so the user can inspect directly without passing through the dialog
+        // NOTE: The first condition will imply that the others are true, they are just for clarity and to avoid mistakes in the future if the code is modified
         navigate('SUBSCRIBE_AGREEMENT_READ', {
           params: {
             agreementId: agreements[0].id,
@@ -199,8 +219,15 @@ export const useActions = (): {
   )
   const edit = useCallback(
     (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
-      if (agreements.length === 1 && agreements[0].consumerId === tenantId) {
-        // EDIT DIRECTLY IF THERE IS ONLY ONE AGREEMENT AND IT IS FOR THE CURRENT USER ORGANIZATION
+      if (
+        consumers.length === 1 &&
+        agreements.length === 1 &&
+        agreements[0].consumerId === tenantId
+      ) {
+        // EDIT DIRECTLY IF THERE IS ONLY ONE POSSIBLE CONSUMER
+        // This case implies that the agreements length is 1 and the only agreement is for the current user organization,
+        // so the user can edit directly without passing through the dialog
+        // NOTE: The first condition will imply that the others are true, they are just for clarity and to avoid mistakes in the future if the code is modified
 
         navigate('SUBSCRIBE_AGREEMENT_EDIT', {
           params: {
@@ -229,7 +256,8 @@ export const useActions = (): {
       if (!descriptor) return
 
       if (consumers.length === 1 && consumers[0].id === tenantId) {
-        // SUBSCRIBE DIRECTLY IF THERE IS ONLY ONE CONSUMER AND IT IS THE CURRENT USER ORGANIZATION
+        // EDIT DIRECTLY IF THERE IS ONLY ONE POSSIBLE CONSUMER
+        // This case implies that the consumers length is 1 and the only consumer is the current user organization
 
         if (descriptor.eservice.producer.id === tenantId) {
           // If the subscriber is the owner of the e-service, create and submit the agreement without passing through the draft
@@ -272,14 +300,14 @@ export const useActions = (): {
   )
 
   if (
-    isFetchingCertified ||
-    isFetchingVerified ||
-    isFetchingDeclared ||
-    isFetchingCurrentDescriptor ||
-    isFetchingActiveDescriptor ||
-    isFetchingAgreements ||
-    isFetchingDelegators ||
-    isFetchingDelegations ||
+    isLoadingCertified ||
+    isLoadingVerified ||
+    isLoadingDeclared ||
+    isLoadingCurrentDescriptor ||
+    isLoadingActiveDescriptor ||
+    isLoadingAgreements ||
+    isLoadingDelegators ||
+    isLoadingDelegations ||
     !tenant ||
     !tenantId ||
     !certified ||
@@ -306,33 +334,16 @@ export const useActions = (): {
    * */
 
   let hasAllCertifiedAttributes = false
-  let hasAllVerifiedAttributes = false
-  let hasAllDeclaredAttributes = false
 
   if (activeDescriptor) {
     // Check if the current user organization is the producer of the current eService, in that case it owns all the attributes required by the descriptor
     if (isMine) {
       hasAllCertifiedAttributes = true
-      hasAllDeclaredAttributes = true
-      hasAllVerifiedAttributes = true
     } else {
       hasAllCertifiedAttributes = hasAllDescriptorAttributes(
         'certified',
         certified.attributes,
         activeDescriptor.attributes.certified
-      )
-
-      hasAllVerifiedAttributes = hasAllDescriptorAttributes(
-        'verified',
-        verified.attributes,
-        activeDescriptor.attributes.verified,
-        activeDescriptor.eservice.producer.id
-      )
-
-      hasAllDeclaredAttributes = hasAllDescriptorAttributes(
-        'declared',
-        declared.attributes,
-        activeDescriptor.attributes.declared
       )
     }
   }
@@ -422,12 +433,10 @@ export const useActions = (): {
   // The possible consumers are the delegators and the current user organization
   const consumers: EServiceConsumer[] = []
 
-  if (hasAllCertifiedAttributes) {
-    consumers.push({
-      id: tenantId,
-      name: tenant.name,
-    })
-  }
+  consumers.push({
+    id: tenantId,
+    name: tenant.name,
+  })
 
   delegators.forEach((delegator) => {
     consumers.push({
@@ -447,11 +456,14 @@ export const useActions = (): {
     // The user is on the active descriptor view of the e-service
     // UPGRADE ACTION
     if (!isDelegator && upgradables.length > 0) {
-      actions.push({
-        action: () => upgrade(upgradables, consumers),
-        label: t('update'),
-        icon: UpdateIcon,
-      })
+      if (consumers.length > 1 || (consumers.length === 1 && hasAllCertifiedAttributes)) {
+        // The action is available consumers are more than one or the only consumer is the current user organization and he has all the attributes required by the active descriptor
+        actions.push({
+          action: () => upgrade(upgradables, consumers),
+          label: t('update'),
+          icon: UpdateIcon,
+        })
+      }
     }
 
     // INSPECT ACTION
@@ -474,11 +486,14 @@ export const useActions = (): {
 
     // SUBSCRIBE ACTION
     if (!isDelegator && subscribed.length < consumers.length) {
-      actions.push({
-        action: () => subscribe(consumers),
-        label: t('subscribe'),
-        icon: SendIcon,
-      })
+      if (consumers.length > 1 || (consumers.length === 1 && hasAllCertifiedAttributes)) {
+        // The action is available consumers are more than one or the only consumer is the current user organization and he has all the attributes required by the active descriptor
+        actions.push({
+          action: () => subscribe(consumers),
+          label: t('subscribe'),
+          icon: SendIcon,
+        })
+      }
     }
   }
 
@@ -509,11 +524,14 @@ export const useActions = (): {
       (agreement) => agreement.descriptorId === descriptor.id
     )
     if (!isDelegator && currentDescriptorUpgradables.length > 0) {
-      actions.push({
-        action: () => upgrade(currentDescriptorUpgradables, consumers),
-        label: t('update'),
-        icon: UpdateIcon,
-      })
+      if (consumers.length > 1 || (consumers.length === 1 && hasAllCertifiedAttributes)) {
+        // The action is available consumers are more than one or the only consumer is the current user organization and he has all the attributes required by the active descriptor
+        actions.push({
+          action: () => upgrade(currentDescriptorUpgradables, consumers),
+          label: t('update'),
+          icon: UpdateIcon,
+        })
+      }
     }
 
     // INSPECT ACTION
