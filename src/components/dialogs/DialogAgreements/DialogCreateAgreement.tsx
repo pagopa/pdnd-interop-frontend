@@ -94,6 +94,7 @@ export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ co
         {
           onSuccess({ id }) {
             navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
+            closeDialog()
           },
         }
       )
@@ -112,6 +113,7 @@ export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ co
       {
         onSuccess({ id }) {
           navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+          closeDialog()
         },
       }
     )
@@ -127,6 +129,7 @@ export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ co
     submitToOwnEService,
     createAgreementDraft,
     navigate,
+    closeDialog,
   ])
   return (
     <Dialog
