@@ -13,6 +13,7 @@ import AttachFile from '@mui/icons-material/AttachFile'
 import { secondsToMinutes } from 'date-fns'
 import Launch from '@mui/icons-material/Launch'
 import { IconLink } from '@/components/shared/IconLink'
+import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 
 const TechnicalSpecsTab = () => {
   return (
@@ -61,16 +62,6 @@ const SpecsSection = () => {
 
   return (
     <SectionContainer title={t('title')}>
-      {/* <SectionContainer innerSection title={t('sections.identifiers.title')}> */}
-      {/*   <Stack spacing={2}> */}
-      {/*     <InformationContainer */}
-      {/*       label={t('sections.identifiers.fields.id')} */}
-      {/*       content={descriptor.eservice.id} */}
-      {/*     /> */}
-      {/*     <InformationContainer label={t('sections.identifiers.fields.keychain')} content={''} /> */}
-      {/*     <Divider /> */}
-      {/*   </Stack> */}
-      {/* </SectionContainer> */}
       <SectionContainer innerSection title={t('sections.interface.title')}>
         <Stack spacing={2}>
           <InformationContainer
@@ -172,7 +163,7 @@ const SpecsSection = () => {
             <InformationContainer
               label={t('sections.asyncExchange.fields.bulk.label')}
               content={t(
-                `sections.asyncExchange.fields.bulk.value.${descriptor.asyncExchangeProperties?.confirmation ?? false}`
+                `sections.asyncExchange.fields.bulk.value.${descriptor.asyncExchangeProperties?.bulk ?? false}`
               )}
             />
             <Divider />
@@ -257,7 +248,7 @@ const SignalHubSection = () => {
             1: (
               <IconLink
                 color={theme.colors.blue[500]}
-                href={''}
+                href={SIGNALHUB_GUIDE_URL}
                 target="_blank"
                 endIcon={<Launch fontSize="small" />}
               />
