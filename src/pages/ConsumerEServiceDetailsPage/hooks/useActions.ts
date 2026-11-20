@@ -252,7 +252,7 @@ export const useActions = (): {
     [tenantId, navigate, openDialog]
   )
   const subscribe = useCallback(
-    (consumers: EServiceConsumer[]) => {
+    (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
       if (!descriptor) return
 
       if (consumers.length === 1 && consumers[0].id === tenantId) {
@@ -291,9 +291,15 @@ export const useActions = (): {
         return
       }
 
+      const subscribers: Record<string, true> = {}
+
+      agreements.forEach((agreement) => {
+        subscribers[agreement.consumerId] = true
+      })
+
       openDialog({
         type: 'createAgreement',
-        consumers,
+        consumers: consumers.filter((consumer) => subscribers[consumer.id]),
       })
     },
     [descriptor, tenantId, openDialog, submitToOwnEService, createAgreementDraft, navigate]
@@ -489,7 +495,7 @@ export const useActions = (): {
       if (consumers.length > 1 || (consumers.length === 1 && hasAllCertifiedAttributes)) {
         // The action is available consumers are more than one or the only consumer is the current user organization and he has all the attributes required by the active descriptor
         actions.push({
-          action: () => subscribe(consumers),
+          action: () => subscribe(subscribed, consumers),
           label: t('subscribe'),
           icon: SendIcon,
         })
@@ -501,7 +507,7 @@ export const useActions = (): {
    * CASE II: Current DESCRIPTOR is SUSPENDED
    * */
 
-  if (descriptor.state === 'SUSPENDED') {
+  if (['SUSPENDED', 'ARCHIVING_SUSPENDED'].includes(descriptor.state)) {
     // INSPECT ACTION
     if (inspectables.length > 0) {
       actions.push({
