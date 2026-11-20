@@ -240,6 +240,34 @@ function useAddAnnotationToAnswer() {
   })
 }
 
+function useUpdateAnswerAnnotation() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.addAnnotationToAnswer',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.updateRiskAnalysisAnswerAnnotation,
+    meta: {
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useDeleteAnswerAnnotation() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.deleteAnnotation',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.deleteRiskAnalysisAnswerAnnotation,
+    meta: {
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useAddDocumentsToAnnotation() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purposeTemplate.addDocumentsToAnswer',
@@ -296,6 +324,8 @@ export const PurposeTemplateMutations = {
   useReactivatePurposeTemplate,
   useArchivePurposeTemplate,
   useAddAnnotationToAnswer,
+  useUpdateAnswerAnnotation,
+  useDeleteAnswerAnnotation,
   useAddDocumentsToAnnotation,
   useDownloadDocument,
   useUpdatePrettyNameAnnotationAssociatedDocument,

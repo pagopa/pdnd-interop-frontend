@@ -1,4 +1,5 @@
 import { useLoadingOverlay, useToastNotification } from '@/stores'
+import { showBackendErrorToast } from '@/config/query-client'
 
 export function downloadFile(responseData: File | string, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octet-stream' })
@@ -55,7 +56,7 @@ export function useDownloadFile<T = unknown[]>(
       config?.onSuccess?.()
     } catch (error) {
       console.error(error)
-      labels.errorToastLabel && showToast(labels.errorToastLabel, 'error')
+      if (labels.errorToastLabel) showBackendErrorToast(error, labels.errorToastLabel)
       config?.onError?.(error)
     } finally {
       hideOverlay()

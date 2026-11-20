@@ -26,10 +26,20 @@ const getHideOverlay = () => useLoadingOverlayStore.getState().hideOverlay
 const getOpenDialog = () => useDialogStore.getState().openDialog
 const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
-const getBackendErrorLabel = (error: unknown): string | undefined => {
-  if (!isAxiosError<Problem>(error)) return undefined
+const getBackendProblem = (error: unknown): Problem | undefined =>
+  isAxiosError<Problem>(error) ? error.response?.data : undefined
 
-  return error.response?.data?.userMessage
+/** Shows the backend `userMessage` when available, otherwise the fallback label. */
+export const showBackendErrorToast = (error: unknown, fallbackLabel?: string) => {
+  const problem = getBackendProblem(error)
+  const errorToastLabel =
+    (problem?.userMessage ?? fallbackLabel) || configuredI18n.t('error:default.title')
+  const correlationId = problem?.correlationId
+  const errorCode = problem?.errors?.[0]?.code
+  if (correlationId && errorCode) {
+    getSetErrorData()(correlationId, errorCode)
+  }
+  getShowToast()(errorToastLabel, 'error', correlationId)
 }
 
 const resolveMeta = (query: {
@@ -55,7 +65,7 @@ const resolveMeta = (query: {
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
 
-  const errorToastLabel = getBackendErrorLabel(error) ?? fallbackLabel
+  const errorToastLabel = getBackendProblem(error)?.userMessage ?? fallbackLabel
 
   const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
     const title =
@@ -198,17 +208,7 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   if (error instanceof CancellationError) return
 
   const meta = resolveMeta({ mutation, error, variables, context })
-  const errorToastLabel = meta.errorToastLabel || configuredI18n.t('error:default.title')
-  let correlationId
-  let errorCode
-  if (isAxiosError<Problem>(error)) {
-    correlationId = error.response?.data?.correlationId
-    errorCode = error.response?.data?.errors?.[0]?.code
-  }
-  if (correlationId && errorCode) {
-    getSetErrorData()(correlationId, errorCode)
-  }
-  getShowToast()(errorToastLabel, 'error', correlationId)
+  showBackendErrorToast(error, meta.errorToastLabel)
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {
