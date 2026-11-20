@@ -5,7 +5,9 @@ import { MIDialog as Dialog } from '@pagopa/mui-italia'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerSelector } from './components/ConsumerSelector'
+import { Actions } from './components/Actions'
 import { useNavigate } from '@/router'
+import FeedIcon from '@mui/icons-material/Feed'
 
 export const DialogInspectAgreement: React.FC<DialogInspectAgreementProps> = ({
   agreements,
@@ -49,16 +51,18 @@ export const DialogInspectAgreement: React.FC<DialogInspectAgreementProps> = ({
         },
       }}
       title={t('title')}
+      description={t('description')}
       open
-      primaryAction={{
-        label: t('actions.confirm'),
-        onClick: onSubmit,
-        disabled: !consumerId,
-      }}
-      secondaryAction={{
-        label: tCommon('actions.cancel'),
-        onClick: () => closeDialog(),
-      }}
+      renderFooter={
+        <Actions
+          confirm={{
+            disabled: !consumerId,
+            label: t('actions.confirm'),
+            icon: <FeedIcon />,
+            onClick: onSubmit,
+          }}
+        />
+      }
     >
       <Stack gap={3} sx={{ px: 3 }}>
         <ConsumerSelector

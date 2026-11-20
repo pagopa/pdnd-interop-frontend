@@ -1,6 +1,6 @@
 import { useDialog } from '@/stores'
 import type { DialogCreateAgreementProps } from '@/types/dialog.types'
-import { MIDialog as Dialog } from '@pagopa/mui-italia'
+import { MIDialog as Dialog, MIAlert as Alert } from '@pagopa/mui-italia'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerSelector } from './components/ConsumerSelector'
@@ -142,6 +142,11 @@ export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ co
         },
       }}
       title={t('title')}
+      description={
+        tenantId === descriptor?.eservice.producer.id
+          ? t('description.owned')
+          : t('description.base')
+      }
       open
       primaryAction={{
         label: tCommon('actions.confirm'),
@@ -162,13 +167,68 @@ export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ co
         onClick: () => closeDialog(),
       }}
     >
-      <Stack gap={3} sx={{ px: 3 }}>
+      <Stack gap={2} sx={{ px: 3 }}>
         <ConsumerSelector
           consumers={consumers}
           onChange={(consumerId: string) => setConsumerId(consumerId)}
           error={error}
         />
+        <AttributesAlert
+          consumerId={consumerId}
+          producerId={descriptor?.eservice.producer.id}
+          tenantId={tenantId}
+          hasTenantCertifiedAttributes={hasTenantCertifiedAttributes}
+        />
       </Stack>
     </Dialog>
   )
+}
+
+const AttributesAlert: React.FC<{
+  hasTenantCertifiedAttributes?: boolean
+  tenantId?: string
+  consumerId?: string
+  producerId?: string
+}> = ({ hasTenantCertifiedAttributes, consumerId, tenantId, producerId }) => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'consumer.detail.dialogs.agreements.subscribe',
+  })
+
+  if (!consumerId || !producerId || !tenantId || hasTenantCertifiedAttributes === undefined)
+    return null
+
+  if (consumerId === tenantId) {
+    // CONSUMER IS THE TENANT ITSELF
+
+    if (consumerId === producerId) {
+      // CONSUMER IS ALSO THE PRODUCER OF THE E-SERVICE
+      // We inform the user that no further approval is needed, since the consumer is the producer of the e-service
+      return <Alert severity="info">{t('alerts.owned')}</Alert>
+    }
+
+    if (!hasTenantCertifiedAttributes) {
+      // CONSUMER IS NOT THE PRODUCER AND HE DOES NOT HAVE CERTIFIED ATTRIBUTES
+      return <Alert severity="error">{t('alerts.missingAttributes')}</Alert>
+    }
+  }
+
+  if (consumerId !== tenantId) {
+    // CONSUMER IS NOT THE TENANT ITSELF
+    if (consumerId !== producerId) {
+      // CONSUMER IS NOT THE PRODUCER OF THE E-SERVICE
+      if (!hasTenantCertifiedAttributes) {
+        // CONSUMER IS NOT THE PRODUCER AND HE DOES NOT HAVE CERTIFIED ATTRIBUTES
+        return <Alert severity="error">{t('alerts.missingAttributesDelegated')}</Alert>
+      }
+
+      if (tenantId === producerId) {
+        // TENANT IS THE PRODUCER OF THE E-SERVICE
+        return <Alert severity="info">{t('alerts.ownedDelegated')}</Alert>
+      }
+
+      return <Alert severity="info">{t('alerts.delegated')}</Alert>
+    }
+  }
+
+  return null
 }

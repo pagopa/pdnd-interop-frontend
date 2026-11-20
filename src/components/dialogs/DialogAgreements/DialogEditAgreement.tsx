@@ -49,6 +49,7 @@ export const DialogEditAgreement: React.FC<DialogEditAgreementProps> = ({
         },
       }}
       title={t('title')}
+      description={t('description')}
       open
       primaryAction={{
         label: t('actions.confirm'),
