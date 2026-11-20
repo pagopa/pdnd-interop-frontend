@@ -13,7 +13,8 @@ type AddAnnotationFormValues = {
 type AddAnnotationDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void
+  /** The drawer closes only when this resolves: a rejection keeps it open with the draft. */
+  onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void | Promise<void>
   initialAnnotation?: RiskAnalysisTemplateAnswerAnnotation
   question: string
 }
@@ -52,9 +53,14 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
     }
   }, [isOpen, initialAnnotation, formMethods])
 
-  const onSubmitAnnotationText = ({ annotation }: AddAnnotationFormValues) => {
+  const onSubmitAnnotationText = async ({ annotation }: AddAnnotationFormValues) => {
+    try {
+      await onSubmit(annotation)
+    } catch {
+      // Error feedback is up to the caller: keep the draft for a retry
+      return
+    }
     onClose()
-    onSubmit(annotation)
   }
 
   const handleTransitionExited = () => {
@@ -80,6 +86,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
         buttonAction={{
           label: tCommon('addBtn'),
           action: formMethods.handleSubmit(onSubmitAnnotationText),
+          disabled: formMethods.formState.isSubmitting,
         }}
         onTransitionExited={handleTransitionExited}
       >

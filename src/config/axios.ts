@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { UnauthorizedError, NotFoundError } from '@/utils/errors.utils'
+import type { Problem } from '@/api/api.generatedTypes'
 import i18next from 'i18next'
 import type { LangCode } from '@/types/common.types'
 
@@ -82,14 +83,32 @@ axiosInstance.interceptors.request.use(
   }
 )
 
+/** Binary requests (file downloads) receive the error Problem as Blob/ArrayBuffer: decode it as JSON. */
+const parseBinaryErrorData = async (data: unknown) => {
+  try {
+    const text =
+      data instanceof Blob
+        ? await data.text()
+        : data instanceof ArrayBuffer
+          ? new TextDecoder().decode(data)
+          : undefined
+    return text === undefined ? data : (JSON.parse(text) as Problem)
+  } catch {
+    return data
+  }
+}
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response
   },
-  (error) => {
-    const isAxiosError = axios.isAxiosError(error)
+  async (error) => {
+    const isAxiosError = axios.isAxiosError<Problem>(error)
+    if (isAxiosError && error.response) {
+      error.response.data = (await parseBinaryErrorData(error.response.data)) as Problem
+    }
     if (isAxiosError && error.response?.status === 404) {
-      return Promise.reject(new NotFoundError())
+      return Promise.reject(new NotFoundError(error.response.data))
     }
     if (isAxiosError && error.response?.status === 401) {
       return Promise.reject(new UnauthorizedError())
