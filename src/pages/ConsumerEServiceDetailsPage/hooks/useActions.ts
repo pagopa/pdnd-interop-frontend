@@ -299,7 +299,7 @@ export const useActions = (): {
 
       openDialog({
         type: 'createAgreement',
-        consumers: consumers.filter((consumer) => subscribers[consumer.id]),
+        consumers: consumers.filter((consumer) => !subscribers[consumer.id]),
       })
     },
     [descriptor, tenantId, openDialog, submitToOwnEService, createAgreementDraft, navigate]
