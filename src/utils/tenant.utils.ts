@@ -1,4 +1,10 @@
-import type { Tenant, TenantFeature, TenantKind, TargetTenantKind } from '@/api/api.generatedTypes'
+import type {
+  Tenant,
+  TenantFeature,
+  TenantKind,
+  TargetTenantKind,
+  ParentTenant,
+} from '@/api/api.generatedTypes'
 
 export function isTenantCertifier(tenant: Tenant) {
   return tenant.features.some((feature) => 'certifier' in feature && feature.certifier?.certifierId)
@@ -28,4 +34,8 @@ export function tenantKindForPurposeTemplate(tenantKind: TenantKind): TargetTena
     return 'PRIVATE'
   }
   return tenantKind
+}
+
+export function formatTenantHierarchy(tenantName: string, parentTenants?: ParentTenant[]): string {
+  return [tenantName, ...(parentTenants?.map((parent) => parent.name) ?? [])].join(' - ')
 }
