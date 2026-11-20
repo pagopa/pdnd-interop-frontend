@@ -161,6 +161,7 @@ describe('DialogCreateAgreement', () => {
     expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_AGREEMENT_EDIT', {
       params: { agreementId: 'created-agreement-id' },
     })
+    expect(closeDialogMock).toHaveBeenCalledOnce()
   })
 
   it('submits directly when the consumer is the producer', async () => {
@@ -181,6 +182,7 @@ describe('DialogCreateAgreement', () => {
     expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_AGREEMENT_READ', {
       params: { agreementId: 'submitted-agreement-id' },
     })
+    expect(closeDialogMock).toHaveBeenCalledOnce()
     expect(createDraftMock).not.toHaveBeenCalled()
   })
 })
