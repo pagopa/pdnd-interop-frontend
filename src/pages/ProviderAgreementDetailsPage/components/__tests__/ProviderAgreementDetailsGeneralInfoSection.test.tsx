@@ -42,8 +42,31 @@ function mockUseProviderAgreementDetailsContext(agreement = agreementMock) {
 }
 
 describe('ProviderAgreementDetailsGeneralInfoSection', () => {
+  it('should not show signed agreement download while the agreement is pending', () => {
+    mockUseProviderAgreementDetailsContext({
+      ...agreementMock,
+      state: 'PENDING',
+      isContractPresent: false,
+      isDocumentReady: false,
+    })
+    const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(
+      screen.queryByRole('button', {
+        name: /agreement.providerRead.sections.generalInformations.documentation.link.label/i,
+      })
+    ).not.toBeInTheDocument()
+  })
+
   it('should disable download of signed agreement if document is not ready yet', () => {
-    mockUseProviderAgreementDetailsContext()
+    mockUseProviderAgreementDetailsContext({
+      ...agreementMock,
+      isContractPresent: false,
+      isDocumentReady: false,
+    })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -59,7 +82,11 @@ describe('ProviderAgreementDetailsGeneralInfoSection', () => {
   })
 
   it('should be available download of signed agreement if document is ready', () => {
-    mockUseProviderAgreementDetailsContext({ ...agreementMock, isDocumentReady: true })
+    mockUseProviderAgreementDetailsContext({
+      ...agreementMock,
+      isContractPresent: false,
+      isDocumentReady: true,
+    })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -73,7 +100,11 @@ describe('ProviderAgreementDetailsGeneralInfoSection', () => {
   })
 
   it('should download signed document when clicking download button', () => {
-    mockUseProviderAgreementDetailsContext({ ...agreementMock, isDocumentReady: true })
+    mockUseProviderAgreementDetailsContext({
+      ...agreementMock,
+      isContractPresent: false,
+      isDocumentReady: true,
+    })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
       withReactQueryContext: true,
       withRouterContext: true,

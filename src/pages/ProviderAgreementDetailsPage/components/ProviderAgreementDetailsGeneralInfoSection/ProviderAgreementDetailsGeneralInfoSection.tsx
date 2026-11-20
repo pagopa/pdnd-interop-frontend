@@ -62,7 +62,7 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
 
   const actions = []
 
-  if (agreement.isContractPresent) {
+  if (agreement.state !== 'PENDING') {
     actions.push({
       startIcon: <DownloadIcon fontSize="small" />,
       label: t('documentation.link.label'),
