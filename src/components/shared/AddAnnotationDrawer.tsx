@@ -86,6 +86,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
         buttonAction={{
           label: tCommon('addBtn'),
           action: formMethods.handleSubmit(onSubmitAnnotationText),
+          disabled: formMethods.formState.isSubmitting,
         }}
         onTransitionExited={handleTransitionExited}
       >

@@ -174,7 +174,7 @@ describe('AddAnnotationDrawer', () => {
       // Vitest reports unhandled rejections as test-run errors.
     })
 
-    it('closes only after a pending submission resolves', async () => {
+    it('disables submit while saving and closes only after the pending submission resolves', async () => {
       let resolveSave!: () => void
       const pendingSave = new Promise<void>((resolve) => {
         resolveSave = resolve
@@ -188,14 +188,22 @@ describe('AddAnnotationDrawer', () => {
       fireEvent.change(screen.getByLabelText('purposeTemplate.label'), {
         target: { value: 'Pending draft' },
       })
-      fireEvent.click(screen.getByText('common.addBtn'))
+      const addButton = screen.getByRole('button', { name: 'common.addBtn' })
+      fireEvent.click(addButton)
       await waitFor(() => expect(onSubmit).toHaveBeenCalledOnce())
+      expect(addButton).toBeDisabled()
+      fireEvent.click(addButton)
+      fireEvent.keyDown(addButton, { key: 'Enter' })
+      fireEvent.click(addButton)
+      await act(async () => {})
+      expect(onSubmit).toHaveBeenCalledOnce()
       expect(onClose).not.toHaveBeenCalled()
       await act(async () => {
         resolveSave()
         await pendingSave
       })
       await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+      expect(onSubmit).toHaveBeenCalledOnce()
     })
 
     it('should preserve initial annotation id when submitting', async () => {
