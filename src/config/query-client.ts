@@ -31,6 +31,19 @@ const getBackendProblem = (error: unknown): Problem | undefined => {
   return isAxiosError<Problem>(error) ? error.response?.data : undefined
 }
 
+/** Shows the backend `userMessage` when available, otherwise the fallback label. */
+export const showBackendErrorToast = (error: unknown, fallbackLabel?: string) => {
+  const problem = getBackendProblem(error)
+  const errorToastLabel =
+    (problem?.userMessage ?? fallbackLabel) || configuredI18n.t('error:default.title')
+  const correlationId = problem?.correlationId
+  const errorCode = problem?.errors?.[0]?.code
+  if (correlationId && errorCode) {
+    getSetErrorData()(correlationId, errorCode)
+  }
+  getShowToast()(errorToastLabel, 'error', correlationId)
+}
+
 const resolveMeta = (query: {
   mutation: Mutation<unknown, unknown, unknown>
   data?: unknown
@@ -197,14 +210,7 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   if (error instanceof CancellationError) return
 
   const meta = resolveMeta({ mutation, error, variables, context })
-  const errorToastLabel = meta.errorToastLabel || configuredI18n.t('error:default.title')
-  const problem = getBackendProblem(error)
-  const correlationId = problem?.correlationId
-  const errorCode = problem?.errors?.[0]?.code
-  if (correlationId && errorCode) {
-    getSetErrorData()(correlationId, errorCode)
-  }
-  getShowToast()(errorToastLabel, 'error', correlationId)
+  showBackendErrorToast(error, meta.errorToastLabel)
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {

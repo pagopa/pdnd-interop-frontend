@@ -83,12 +83,30 @@ axiosInstance.interceptors.request.use(
   }
 )
 
+/** Binary requests (file downloads) receive the error Problem as Blob/ArrayBuffer: decode it as JSON. */
+const parseBinaryErrorData = async (data: unknown) => {
+  try {
+    const text =
+      data instanceof Blob
+        ? await data.text()
+        : data instanceof ArrayBuffer
+          ? new TextDecoder().decode(data)
+          : undefined
+    return text === undefined ? data : (JSON.parse(text) as Problem)
+  } catch {
+    return data
+  }
+}
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response
   },
-  (error) => {
+  async (error) => {
     const isAxiosError = axios.isAxiosError<Problem>(error)
+    if (isAxiosError && error.response) {
+      error.response.data = (await parseBinaryErrorData(error.response.data)) as Problem
+    }
     if (isAxiosError && error.response?.status === 404) {
       return Promise.reject(new NotFoundError(error.response.data))
     }
