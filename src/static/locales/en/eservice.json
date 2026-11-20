@@ -1,6 +1,67 @@
 {
   "consumer": {
     "detail": {
+      "actions": {
+        "version": {
+          "change": "View last version"
+        },
+        "agreements": {
+          "update": "Update to a new version",
+          "subscribe": "Request access",
+          "inspect": "View request",
+          "edit": "Complete request"
+        }
+      },
+      "dialogs": {
+        "agreements": {
+          "common": {
+            "fields": {
+              "consumer": {
+                "label": "Seleziona entity",
+                "placeholder": "Consumer entity",
+                "error": "Select another entity"
+              }
+            }
+          },
+          "subscribe": {
+            "title": "Request access to the e-service",
+            "description": {
+              "base": "Select your organization or an organization from which you have received authorization. The organization must possess the certified attributes required by the e-service.",
+              "owned": "Select the organization for which you wish to submit a request for access or use."
+            },
+            "alerts": {
+              "missingAttributes": "Your organization does not possess the certified attributes required by the e-service. You may submit a request on behalf of an organization that has delegated authority to you, provided that it possesses the required attributes.",
+              "missingAttributesDelegated": "The selected entity does not possess the certified attributes required by the e-service; please select another entity.",
+              "delegated": "The selected entity possesses the certified attributes required by the e-service. Other access requirements will also be verified for the purpose of approval.",
+              "owned": "Your organization has created this e-service: the request for access will be approved automatically, even if you do not possess the necessary attributes.",
+              "ownedDelegated": "Stai facendo richiesta di fruizione del tuo e-service per un ente che ti ha delegato: per l’approvazione saranno considerati i suoi attributi. "
+            }
+          },
+          "update": {
+            "title": "Update access request",
+            "description": "Select the organization for which you wish to update the usage request.",
+            "actions": {
+              "confirm": "Update request"
+            },
+            "alerts": {
+              "missingAttributes": "Your organization does not possess the certified attributes required by the new version of the e-service. You may submit a request on behalf of an organization that has delegated authority to you, provided that it possesses the required attributes.",
+              "missingAttributesDelegated": "The selected entity does not possess the certified attributes required by the new version of the e-service; please select another entity.",
+              "delegated": "The selected entity possesses the certified attributes required by the new version of the e-service. Other access requirements will also be verified for the purpose of approval."
+            }
+          },
+          "inspect": {
+            "title": "View access request",
+            "description": "Select the organization for which you want to view the usage request.",
+            "actions": {
+              "confirm": "View access request"
+            }
+          },
+          "edit": {
+            "title": "Complete the access request",
+            "description": "Select the organization for which you wish to complete a request for access or use."
+          }
+        }
+      },
       "version": "Version",
       "tabs": {
         "ariaLabel": "Four different tabs to view the e-service details",
