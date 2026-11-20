@@ -152,10 +152,6 @@ const ConsumerClientManagePage: React.FC = () => {
         </Stack>
       }
       isLoading={isLoadingClient}
-      backToAction={{
-        label: t('actions.backToClientsLabel'),
-        to: clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST',
-      }}
     >
       {clientKind === 'API' && (
         <Grid container>

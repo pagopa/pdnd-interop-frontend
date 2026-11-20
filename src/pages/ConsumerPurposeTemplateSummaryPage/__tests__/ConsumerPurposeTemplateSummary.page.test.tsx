@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { PageNavigationProps } from '@/components/layout/containers/PageNavigation'
 
 const navigateMock = vi.fn()
 const publishDraftMock = vi.fn()
@@ -29,7 +30,21 @@ vi.mock('@/router', () => ({
 }))
 
 vi.mock('@/components/layout/containers', () => ({
-  PageContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  PageContainer: ({
+    children,
+    navigation,
+  }: {
+    children: React.ReactNode
+    navigation?: PageNavigationProps
+  }) => (
+    <div
+      data-testid="page-container"
+      data-navigation-mode={navigation?.mode}
+      data-exit-route={navigation?.exitAction?.to}
+    >
+      {children}
+    </div>
+  ),
 }))
 
 vi.mock('@/components/shared/SummaryAccordion', () => ({
@@ -79,5 +94,18 @@ describe('ConsumerPurposeTemplateSummaryPage', () => {
         closeRouteParams: { purposeTemplateId: 'purpose-template-id' },
       },
     })
+  })
+
+  it('uses the purpose-template list as its Exit destination', async () => {
+    const { default: ConsumerPurposeTemplateSummaryPage } =
+      await import('../ConsumerPurposeTemplateSummary.page')
+
+    render(<ConsumerPurposeTemplateSummaryPage />)
+
+    expect(screen.getByTestId('page-container')).toHaveAttribute('data-navigation-mode', 'wizard')
+    expect(screen.getByTestId('page-container')).toHaveAttribute(
+      'data-exit-route',
+      'SUBSCRIBE_PURPOSE_TEMPLATE_LIST'
+    )
   })
 })

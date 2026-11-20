@@ -1,5 +1,6 @@
 export * from './PageBottomActionsContainer'
 export * from './SectionContainer'
 export * from './PageContainer'
+export { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 export * from './AttributeContainer'
 export * from './AttributeGroupContainer'

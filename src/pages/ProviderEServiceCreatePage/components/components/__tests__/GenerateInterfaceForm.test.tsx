@@ -3,6 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { GenerateInterfaceForm } from '../GenerateInterfaceForm'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { useForm } from 'react-hook-form'
+import { PageContainer } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 import {
   createMockEServiceDescriptorProviderWithTemplateRef,
   mockUseEServiceCreateContext,
@@ -142,7 +145,8 @@ describe('GenerateInterfaceForm', () => {
       expect(deleteAndUpdateRESTInfo).toHaveBeenCalledWith(
         expect.objectContaining({
           serverUrls: [{ url: 'https://api.test.com', description: 'Production environment' }],
-        })
+        }),
+        expect.objectContaining({ onSuccess: expect.any(Function) })
       )
     })
   })
@@ -164,7 +168,8 @@ describe('GenerateInterfaceForm', () => {
 
     await waitFor(() => {
       expect(deleteAndUpdateRESTInfo).toHaveBeenCalledWith(
-        expect.objectContaining({ serverUrls: [{ url: 'https://api.test.com' }] })
+        expect.objectContaining({ serverUrls: [{ url: 'https://api.test.com' }] }),
+        expect.objectContaining({ onSuccess: expect.any(Function) })
       )
     })
   })
@@ -316,5 +321,100 @@ describe('GenerateInterfaceForm', () => {
       expect(deleteAndUpdateSOAPInfo).toHaveBeenCalled()
     })
     expect(deleteAndUpdateRESTInfo).not.toHaveBeenCalled()
+  })
+
+  describe('PageContainer unsaved changes', () => {
+    const exitDialog = { name: 'exitDialog.title' }
+
+    // Clean outer owner registered on the same step, like EServiceCreateStepTechSpec
+    const CleanOuterForm = () => {
+      const methods = useForm({ defaultValues: { voucherLifespan: 1 } })
+      usePageContainerFormDirtyState(methods.control)
+      return null
+    }
+
+    const renderInWizard = () => {
+      mockUseEServiceCreateContext({
+        descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+      })
+      return renderWithApplicationContext(
+        // Prevents the exit link from navigating so the prompt state can be asserted repeatedly
+        <div
+          onClickCapture={(event) => {
+            if ((event.target as Element).closest('a')) event.preventDefault()
+          }}
+        >
+          <PageContainer navigation={{ mode: 'wizard', exitAction: { to: 'DEFAULT' } }}>
+            <CleanOuterForm />
+            <GenerateInterfaceForm />
+          </PageContainer>
+        </div>,
+        { withReactQueryContext: true, withRouterContext: true, withDialogContext: true }
+      )
+    }
+
+    it('does not prompt on exit when the interface metadata is untouched', async () => {
+      renderInWizard()
+
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('prompts on exit for an interface-only metadata edit and keeps it on cancel', async () => {
+      renderInWizard()
+
+      const contactName = screen.getByLabelText(/contactSection.contactNameField/)
+      await userEvent.type(contactName, 'John')
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+
+      await userEvent.click(screen.getByRole('button', { name: 'exitDialog.cancelButton' }))
+      await waitFor(() => expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument())
+      expect(contactName).toHaveValue('John')
+
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+    })
+
+    it('prompts on exit after adding a server URL entry only', async () => {
+      renderInWizard()
+
+      await userEvent.click(screen.getByText('serverSection.add'))
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+    })
+
+    it('does not prompt on exit after reverting an interface metadata edit', async () => {
+      renderInWizard()
+
+      const contactName = screen.getByLabelText(/contactSection.contactNameField/)
+      const initialValue = (contactName as HTMLInputElement).value
+      await userEvent.type(contactName, 'John')
+      await userEvent.clear(contactName)
+      if (initialValue) await userEvent.type(contactName, initialValue)
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('does not prompt on exit once the interface metadata has been saved', async () => {
+      deleteAndUpdateRESTInfo.mockImplementationOnce(
+        (_payload: unknown, options?: { onSuccess?: VoidFunction }) => options?.onSuccess?.()
+      )
+      renderInWizard()
+
+      await userEvent.type(screen.getByLabelText(/contactSection.contactNameField/), 'John')
+      await userEvent.type(screen.getByLabelText(/contactSection.emailField/), 'john@test.com')
+      await userEvent.type(screen.getByLabelText(/serverSection.label/), 'https://api.test.com')
+      await userEvent.click(screen.getByText('save'))
+      await waitFor(() => expect(deleteAndUpdateRESTInfo).toHaveBeenCalled())
+
+      await userEvent.click(screen.getByRole('link', { name: 'exitButton' }))
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
   })
 })
