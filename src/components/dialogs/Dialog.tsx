@@ -16,6 +16,7 @@ import type {
   DialogRemoveOperatorFromClientProps,
   DialogRevokeCertifiedAttributeProps,
   DialogSessionExpiredProps,
+  DialogUpgradeAgreementVersionProps,
   DialogSetTenantMailProps,
   DialogRemoveUserFromKeychainProps,
   DialogDeleteProducerKeychainKeyProps,
@@ -51,6 +52,7 @@ import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
 import { useDialogStore } from '@/stores'
+import { DialogUpgradeAgreementVersion } from './DialogUpgradeAgreementVersion'
 import { DialogRemoveOperatorFromClient } from './DialogRemoveOperatorFromClient'
 import { DialogDeleteOperator } from './DialogDeleteOperator'
 import { DialogRevokeCertifiedAttribute } from './DialogRevokeCertifiedAttribute'
@@ -93,6 +95,7 @@ function match<T>(
   onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
   onShowSessionExpired: (props: DialogSessionExpiredProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
+  onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T,
   onDeleteOperator: (props: DialogDeleteOperatorProps) => T,
   onDeleteAnnotation: (props: DialogDeleteAnnotationProps) => T,
   onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T,
@@ -142,6 +145,8 @@ function match<T>(
         return onShowSessionExpired(props)
       case 'rejectAgreement':
         return onRejectAgreement(props)
+      case 'upgradeAgreementVersion':
+        return onUpgradeAgreementVersion(props)
       case 'deleteOperator':
         return onDeleteOperator(props)
       case 'deleteAnnotation':
@@ -224,6 +229,7 @@ const _Dialog = match(
   (props) => <DialogAttributeDetails {...props} />,
   (props) => <DialogSessionExpired {...props} />,
   (props) => <DialogRejectAgreement {...props} />,
+  (props) => <DialogUpgradeAgreementVersion {...props} />,
   (props) => <DialogDeleteOperator {...props} />,
   (props) => <DialogDeleteAnnotation {...props} />,
   (props) => <DialogRemoveOperatorFromClient {...props} />,
