@@ -1,4 +1,5 @@
 import type {
+  Agreement,
   RequesterCertifiedAttribute,
   CompactPurposeEService,
   CompactDescriptor,
@@ -33,6 +34,7 @@ export type DialogProps =
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogRejectAgreementProps
+  | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
   | DialogDeleteAnnotationProps
   | DialogRemoveOperatorFromClientProps
@@ -94,6 +96,12 @@ export type DialogBasicProps = DialogDefaultProps & {
 export type DialogRejectAgreementProps = {
   type: 'rejectAgreement'
   agreementId: string
+}
+
+export type DialogUpgradeAgreementVersionProps = {
+  type: 'upgradeAgreementVersion'
+  agreement: Agreement
+  hasMissingAttributes: boolean
 }
 
 export type DialogDeleteOperatorProps = {
