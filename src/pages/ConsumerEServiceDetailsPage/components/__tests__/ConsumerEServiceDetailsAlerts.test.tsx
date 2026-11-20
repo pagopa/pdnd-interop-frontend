@@ -22,7 +22,7 @@ describe('ConsumerEServiceDetailsAlerts', () => {
   it('renders the descriptor state alert', () => {
     renderAlerts(createMockEServiceDescriptorCatalog({ state: 'SUSPENDED' }))
 
-    expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardError/)
+    expect(screen.getByRole('alert')).toHaveTextContent('suspended')
   })
 
   it('warns when an async e-service has no producer keychain', () => {
