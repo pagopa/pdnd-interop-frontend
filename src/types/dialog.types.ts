@@ -1,14 +1,11 @@
 import type {
-  Agreement,
   RequesterCertifiedAttribute,
   CompactPurposeEService,
   CompactDescriptor,
   DelegationKind,
   TenantKind,
   TargetTenantKind,
-  CompactAgreement,
   CompactUser,
-  DelegationTenant,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
 import type {
@@ -36,7 +33,6 @@ export type DialogProps =
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogRejectAgreementProps
-  | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
   | DialogDeleteAnnotationProps
   | DialogRemoveOperatorFromClientProps
@@ -52,7 +48,6 @@ export type DialogProps =
   | DialogRejectDelegatedVersionDraftProps
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
-  | DialogSelectAgreementConsumerProps
   | DialogRequestPurposeApprovalProps
   | DialogRequestRiskAnalysisCompilationProps
   | DialogEditRiskAnalysisAssignmentProps
@@ -99,12 +94,6 @@ export type DialogBasicProps = DialogDefaultProps & {
 export type DialogRejectAgreementProps = {
   type: 'rejectAgreement'
   agreementId: string
-}
-
-export type DialogUpgradeAgreementVersionProps = {
-  type: 'upgradeAgreementVersion'
-  agreement: Agreement
-  hasMissingAttributes: boolean
 }
 
 export type DialogDeleteOperatorProps = {
@@ -182,36 +171,6 @@ export type DialogRejectDelegatedVersionDraftProps = {
   type: 'rejectDelegatedVersionDraft'
   eserviceId: string
   descriptorId: string
-}
-
-export type DialogSelectAgreementConsumerProps = {
-  type: 'selectAgreementConsumer'
-  action: 'inspect' | 'edit' | 'create'
-  initialSelectedConsumer?: DelegationTenant
-  eservice: {
-    id: string
-    name: string
-    producerId: string
-  }
-  descriptor: {
-    id: string
-    version: string
-  }
-  agreements: CompactAgreement[]
-  onSubmitCreate?: ({
-    isOwnEService,
-    delegationId,
-  }: {
-    isOwnEService: boolean
-    delegationId?: string
-  }) => void | Promise<void>
-  /**
-   * Lifetime of the flow that opened this dialog, provided by the originating hook.
-   * Aborted permanently on pathname change, owner unmount, or a subsequent flow opening.
-   * Only gates restoration after a failed `onSubmitCreate`; never cancels HTTP requests.
-   * When omitted the flow is considered active.
-   */
-  flowSignal?: AbortSignal
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
