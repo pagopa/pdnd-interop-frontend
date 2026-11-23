@@ -105,7 +105,10 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           : undefined
       }
     >
-      <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
+      <ConsumerEServiceDetailsAlerts
+        descriptor={descriptor}
+        updateTab={(tab: string) => updateActiveTab({}, tab)}
+      />
       <TabContext value={activeTab}>
         <TabList
           sx={{

@@ -4,15 +4,62 @@ import { Stack } from '@mui/material'
 import { MIAlert as Alert } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { getEServiceDescriptorAlertSpec } from '@/utils/eservice.utils'
+import { AuthHooks } from '@/api/auth'
+import { useQuery } from '@tanstack/react-query'
+import { DelegationQueries } from '@/api/delegation'
+import { useParams } from '@/router'
+import { AttributeQueries } from '@/api/attribute'
+import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
+import { EServiceQueries } from '@/api/eservice'
 
 type ConsumerEServiceDetailsAlertsProps = {
   descriptor: CatalogEServiceDescriptor | undefined
+  updateTab?: (tab: string) => void
 }
 
 export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAlertsProps> = ({
   descriptor,
+  updateTab,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.alert' })
+  const { isReviewer, jwt } = AuthHooks.useJwt()
+  const { eserviceId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
+
+  const tenantId = jwt?.organizationId
+
+  /*
+   * DELEGATORS DATA: Delegators that have delegated to the current user organization for the current eService
+   * */
+
+  const { data: delegators } = useQuery({
+    ...DelegationQueries.getConsumerDelegators({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+    }),
+    enabled: Boolean(tenantId) && !isReviewer,
+    select: ({ results }) => results ?? [],
+  })
+
+  /*
+   * TENANT ATTRIBUTES DATA: Attributes that the current user organization owns
+   * */
+
+  const { data: certified } = useQuery({
+    ...AttributeQueries.getPartyCertifiedList(tenantId),
+  })
+
+  /*
+   * ESERVICE ACTIVE DESCRIPTOR DATA
+   * */
+
+  const { data: activeDescriptor } = useQuery({
+    ...EServiceQueries.getDescriptorCatalog(
+      eserviceId,
+      descriptor?.eservice.activeDescriptor?.id as string
+    ),
+    enabled: !!descriptor?.eservice.activeDescriptor?.id,
+  })
 
   if (!descriptor) return null
 
@@ -32,7 +79,25 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
     descriptor.eservice.hasProducerKeychain === true &&
     descriptor.eservice.hasProducerKeychainKeys === false
 
-  if (!alert && !isMissingProducerKeychain && !isMissingProducerKeychainKeys) return null
+  const isMine = descriptor.eservice.producer.id === tenantId
+
+  let hasAllCertifiedAttributes = true
+
+  if (!isMine && activeDescriptor && certified && delegators?.length === 0) {
+    hasAllCertifiedAttributes = hasAllDescriptorAttributes(
+      'certified',
+      certified.attributes,
+      activeDescriptor?.attributes.certified
+    )
+  }
+
+  if (
+    !alert &&
+    !isMissingProducerKeychain &&
+    !isMissingProducerKeychainKeys &&
+    hasAllCertifiedAttributes
+  )
+    return null
 
   return (
     <Stack spacing={2} sx={{ mb: 3 }}>
@@ -42,6 +107,17 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
       )}
       {isMissingProducerKeychainKeys && (
         <Alert severity="warning">{t('missingProducerKeychainKeys')}</Alert>
+      )}
+      {!hasAllCertifiedAttributes && (
+        <Alert
+          severity="error"
+          action={{
+            label: t('missingCertifiedAttribute.action'),
+            onClick: () => updateTab?.('entryRequirements'),
+          }}
+        >
+          {t('missingCertifiedAttribute.content')}
+        </Alert>
       )}
     </Stack>
   )

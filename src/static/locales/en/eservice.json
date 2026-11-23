@@ -1120,7 +1120,11 @@
       "missingProducerKeychainKeys": "The producer has not linked any keys to this async e-service keychain yet. Data exchange is currently unavailable.",
       "providerMissingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",
       "providerMissingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange.",
-      "viewProducerKeychains": "View keychains"
+      "viewProducerKeychains": "View keychains",
+      "missingCertifiedAttribute": {
+        "content": "Your organization does not possess the necessary attributes to request access.",
+        "action": "Check the entry requirements"
+      }
     },
     "dialogSuspendArchivingEservice": {
       "title": "Suspend version of e-service being archived",
