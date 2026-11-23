@@ -59,6 +59,7 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
           color="inherit"
           startIcon={<CloseIcon />}
           variant="naked"
+          sx={{ fontSize: '1rem' }}
         >
           {t('exitButton')}
         </Link>
