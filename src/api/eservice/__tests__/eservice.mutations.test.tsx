@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { EServiceMutations } from '../eservice.mutations'
+import { EServiceServices } from '../eservice.services'
+import { EServiceQueries } from '../eservice.queries'
 import { queryClient } from '@/config/query-client'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
@@ -13,6 +15,7 @@ vi.mock('../eservice.services', () => ({
     rejectDelegatedEServiceArchivingRequest: vi.fn(),
     approveDelegatedVersionArchivingRequest: vi.fn(),
     rejectDelegatedVersionArchivingRequest: vi.fn(),
+    patchUpdateEServiceById: vi.fn().mockResolvedValue({ id: 'resource-id' }),
   },
 }))
 
@@ -164,5 +167,58 @@ describe('EServiceMutations delegator archiving toasts', () => {
     expect(mutationMeta?.errorToastLabel).toBe(
       'eservice.rejectDelegatedArchivingVersion.outcome.error'
     )
+  })
+})
+
+describe('EServiceMutations.usePatchUpdateEServiceById', () => {
+  it('selects success snackbar copy from the partial metadata payload', () => {
+    const { result } = renderHookWithApplicationContext(
+      () => EServiceMutations.usePatchUpdateEServiceById(),
+      { withReactQueryContext: true }
+    )
+
+    result.current.mutate({
+      eserviceId: 'eservice-id',
+      descriptorId: 'descriptor-id',
+      name: 'Updated name',
+      description: 'Updated description',
+    })
+
+    const mutationMeta = queryClient.getMutationCache().getAll().at(-1)?.meta
+    const successToastLabel = mutationMeta?.successToastLabel
+    if (typeof successToastLabel !== 'function') {
+      throw new Error('Expected the PATCH mutation to choose snackbar copy from its payload')
+    }
+
+    expect(
+      successToastLabel(undefined, { name: 'Updated name', description: 'Updated description' })
+    ).toBe('eservice.patchUpdateEServiceById.outcome.successNameAndDescription')
+    expect(successToastLabel(undefined, { name: 'Updated name' })).toBe(
+      'eservice.patchUpdateEServiceById.outcome.successName'
+    )
+    expect(successToastLabel(undefined, { description: 'Updated description' })).toBe(
+      'eservice.patchUpdateEServiceById.outcome.successDescription'
+    )
+    expect(mutationMeta.errorToastLabel).toBe('eservice.patchUpdateEServiceById.outcome.error')
+  })
+
+  it('sends the partial metadata payload and invalidates the provider descriptor', async () => {
+    const descriptorQuery = EServiceQueries.getDescriptorProvider('eservice-id', 'descriptor-id')
+    queryClient.setQueryData(descriptorQuery.queryKey, {})
+    const { result } = renderHookWithApplicationContext(
+      () => EServiceMutations.usePatchUpdateEServiceById(),
+      { withReactQueryContext: true }
+    )
+
+    await result.current.mutateAsync({
+      eserviceId: 'eservice-id',
+      name: 'Updated name',
+    })
+
+    expect(EServiceServices.patchUpdateEServiceById).toHaveBeenCalledWith({
+      eserviceId: 'eservice-id',
+      name: 'Updated name',
+    })
+    expect(queryClient.getQueryState(descriptorQuery.queryKey)?.isInvalidated).toBe(true)
   })
 })

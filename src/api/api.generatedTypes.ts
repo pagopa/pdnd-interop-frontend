@@ -5063,10 +5063,10 @@ export interface UpdateVerifiedAttributeParams {
 
 export interface RevokeVerifiedAttributeParams {
   /**
-   * Agreement id related to the Verified attribute revocation
+   * The ID of the producer Delegation
    * @format uuid
    */
-  agreementId: string;
+  delegationId?: string;
   /**
    * The ID of the producer Delegation
    * @format uuid

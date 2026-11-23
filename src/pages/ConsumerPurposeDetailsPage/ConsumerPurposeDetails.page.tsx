@@ -57,7 +57,6 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   return (
     <PageContainer
       title={purpose?.title}
-      description={purpose?.description}
       isLoading={isPurposeLoading || isDescriptorLoading}
       topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}

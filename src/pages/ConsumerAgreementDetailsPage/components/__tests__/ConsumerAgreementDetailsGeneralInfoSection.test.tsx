@@ -56,11 +56,11 @@ vi.mock('@/api/agreement', () => ({
     useDownloadSignedContract: () => mockDownloadSignedContract,
   },
 }))
-function mockUseConsumerAgreementDetailsContext() {
+function mockUseConsumerAgreementDetailsContext(agreement = agreementMock) {
   const useConsumerAgreementDetailsContextSpy = vi
     .spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext')
     .mockReturnValue({
-      agreement: agreementMock,
+      agreement,
       descriptorAttributes: {
         certified: [],
         declared: [],
@@ -116,8 +116,31 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     expect(consumerAgreementName).toBeInTheDocument()
   })
 
+  it('should not show signed agreement download while the agreement is pending', () => {
+    mockUseConsumerAgreementDetailsContext({
+      ...agreementMock,
+      state: 'PENDING',
+      isContractPresent: false,
+      isDocumentReady: false,
+    })
+    const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(
+      screen.queryByRole('button', {
+        name: /agreement.consumerRead.sections.generalInformations.documentation.link.label/i,
+      })
+    ).not.toBeInTheDocument()
+  })
+
   it('should not be available download of signed agreement if document is not ready yet', () => {
-    mockUseConsumerAgreementDetailsContext()
+    mockUseConsumerAgreementDetailsContext({
+      ...agreementMock,
+      isContractPresent: false,
+      isDocumentReady: false,
+    })
     const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -132,6 +155,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   it('should be available download of signed agreement if document is ready', () => {
     const agreementWithDocumentReady = {
       ...agreementMock,
+      isContractPresent: false,
       isDocumentReady: true,
     }
     vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
@@ -156,6 +180,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   it('should download signed document when clicking download button', async () => {
     const agreementWithDocumentReady = {
       ...agreementMock,
+      isContractPresent: false,
       isDocumentReady: true,
     }
     vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
