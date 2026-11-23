@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen, within } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { queryOptions } from '@tanstack/react-query'
 import { createMemoryHistory } from 'history'
@@ -65,9 +65,58 @@ const mockInstancesQuery = (response: Partial<EServiceTemplateInstances>) =>
       })
     )
 
-const renderTable = (searchParams = '') =>
-  renderWithApplicationContext(
-    <NuqsTestingAdapter hasMemory>
+const lastInstancesQuery = () => {
+  const calls = vi.mocked(EServiceTemplateQueries.getProviderEServiceTemplateInstancesList).mock
+    .calls
+  return calls[calls.length - 1][0]
+}
+
+type InitialFilters = { producerName?: string; states?: string[]; offset?: number }
+
+const buildSearchParams = ({ producerName, states, offset }: InitialFilters = {}) => {
+  const params = new URLSearchParams()
+  if (producerName) params.set('producerName', producerName)
+  if (states) params.set('states', states.join(','))
+  if (offset) params.set('offset', String(offset))
+  const search = params.toString()
+  return search ? `?${search}` : ''
+}
+
+const applyTenantFilter = async (user: ReturnType<typeof userEvent.setup>, value: string) => {
+  await user.type(await screen.findByRole('textbox', { name: /tenantField/ }), `${value}{Enter}`)
+}
+
+const submitFilters = (user: ReturnType<typeof userEvent.setup>) =>
+  user.click(screen.getByRole('button', { name: 'button' }))
+
+// mui-italia Autocomplete scrolls the highlighted option with a CSS.escape-d "#id" selector that jsdom cannot parse
+const ignoreUnparsableScrollSelector = () => {
+  const querySelector = Element.prototype.querySelector
+  vi.spyOn(Element.prototype, 'querySelector').mockImplementation(function (
+    this: Element,
+    selector: string
+  ) {
+    return selector.startsWith('\\#') ? null : querySelector.call(this, selector)
+  })
+}
+
+const selectStates = async (user: ReturnType<typeof userEvent.setup>, labels: RegExp[]) => {
+  ignoreUnparsableScrollSelector()
+  await user.click(await screen.findByRole('combobox', { name: /statusField\.label/ }))
+  for (const label of labels) {
+    await user.click(await screen.findByRole('option', { name: label }))
+  }
+  await submitFilters(user)
+}
+
+const resetFilters = async (user: ReturnType<typeof userEvent.setup>) => {
+  await user.click(await screen.findByRole('button', { name: 'remove' }))
+}
+
+const renderTable = (initialFilters: InitialFilters = {}) => {
+  const searchParams = buildSearchParams(initialFilters)
+  return renderWithApplicationContext(
+    <NuqsTestingAdapter searchParams={searchParams} hasMemory>
       <ProviderEServiceTemplateUsingTenantsTable
         eserviceTemplateId="template-1"
         eserviceTemplateVersions={eserviceTemplateVersions}
@@ -76,6 +125,7 @@ const renderTable = (searchParams = '') =>
     { withRouterContext: true, withReactQueryContext: true },
     createMemoryHistory({ initialEntries: [`/${searchParams}`] })
   )
+}
 
 describe('ProviderEServiceTemplateUsingTenantsTable', () => {
   beforeEach(() => {
@@ -225,10 +275,117 @@ describe('ProviderEServiceTemplateUsingTenantsTable', () => {
 
   it('shows the no results message when the filters match nothing', async () => {
     mockInstancesQuery({})
-    renderTable('?producerName=unknown')
+    renderTable({ producerName: 'unknown' })
 
     expect(await screen.findByText('list.usingTenantTable.noResultsLabel')).toBeInTheDocument()
     expect(screen.queryByText('list.usingTenantTable.noDataLabel')).not.toBeInTheDocument()
+  })
+
+  it('queries with default pagination and no filters', () => {
+    mockInstancesQuery({})
+    renderTable()
+
+    expect(lastInstancesQuery()).toEqual({
+      eserviceTemplateId: 'template-1',
+      limit: 10,
+      offset: 0,
+    })
+  })
+
+  it('reads the initial filters from the url', () => {
+    mockInstancesQuery({ results: instances, pagination: { offset: 0, limit: 10, totalCount: 2 } })
+    renderTable({ producerName: 'first', states: ['PUBLISHED'] })
+
+    expect(lastInstancesQuery()).toMatchObject({
+      producerName: 'first',
+      states: ['PUBLISHED'],
+    })
+  })
+
+  it('adds the tenant name to the payload only after submitting the filters', async () => {
+    mockInstancesQuery({ results: instances, pagination: { offset: 0, limit: 10, totalCount: 2 } })
+    const user = userEvent.setup()
+    renderTable()
+
+    await user.type(await screen.findByRole('textbox', { name: /tenantField/ }), 'first')
+    expect(lastInstancesQuery().producerName).toBeUndefined()
+
+    await user.keyboard('{Enter}')
+
+    await waitFor(() => expect(lastInstancesQuery().producerName).toBe('first'))
+  })
+
+  it('adds the selected states to the payload once the filters are submitted', async () => {
+    mockInstancesQuery({ results: instances, pagination: { offset: 0, limit: 10, totalCount: 2 } })
+    const user = userEvent.setup()
+    renderTable()
+
+    await selectStates(user, [/optionLabels\.ACTIVE/, /optionLabels\.SUSPENDED/])
+
+    await waitFor(() => expect(lastInstancesQuery().states).toEqual(['PUBLISHED', 'SUSPENDED']))
+  })
+
+  it('removes the filters from the payload when they are reset', async () => {
+    mockInstancesQuery({ results: instances, pagination: { offset: 0, limit: 10, totalCount: 2 } })
+    const user = userEvent.setup()
+    renderTable({ producerName: 'first', states: ['PUBLISHED'] })
+    expect(lastInstancesQuery()).toMatchObject({ producerName: 'first', states: ['PUBLISHED'] })
+
+    await resetFilters(user)
+
+    await waitFor(() => {
+      expect(lastInstancesQuery().producerName).toBeUndefined()
+      expect(lastInstancesQuery().states).toBeUndefined()
+    })
+  })
+
+  it('returns to the first page when the filters are applied', async () => {
+    mockInstancesQuery({
+      results: instances,
+      pagination: { offset: 10, limit: 10, totalCount: 25 },
+    })
+    const user = userEvent.setup()
+    renderTable({ offset: 10 })
+    expect(lastInstancesQuery().offset).toBe(10)
+
+    await applyTenantFilter(user, 'first')
+
+    await waitFor(() =>
+      expect(lastInstancesQuery()).toMatchObject({ producerName: 'first', offset: 0 })
+    )
+  })
+
+  it('returns to the first page when the filters are reset', async () => {
+    mockInstancesQuery({
+      results: instances,
+      pagination: { offset: 10, limit: 10, totalCount: 25 },
+    })
+    const user = userEvent.setup()
+    renderTable({ producerName: 'first', offset: 10 })
+    expect(lastInstancesQuery()).toMatchObject({ producerName: 'first', offset: 10 })
+
+    await resetFilters(user)
+
+    await waitFor(() => {
+      expect(lastInstancesQuery().producerName).toBeUndefined()
+      expect(lastInstancesQuery().offset).toBe(0)
+    })
+  })
+
+  it('keeps the filters visible to let users change them when no result matches', async () => {
+    mockInstancesQuery({})
+    renderTable({ producerName: 'unknown' })
+
+    expect(await screen.findByRole('textbox', { name: /tenantField/ })).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /statusField\.label/ })).toBeInTheDocument()
+  })
+
+  it('hides the filters when the template has no instances and no filter is set', async () => {
+    mockInstancesQuery({})
+    renderTable()
+
+    await screen.findByText('list.usingTenantTable.noDataLabel')
+    expect(screen.queryByRole('textbox', { name: /tenantField/ })).not.toBeInTheDocument()
   })
 
   it('shows the empty state without filters when the template has no instances', async () => {
