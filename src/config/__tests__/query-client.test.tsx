@@ -1,7 +1,13 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useMutation } from '@tanstack/react-query'
-import { CancellationError, queryClient, queryClientConfig } from '../query-client'
+import {
+  CancellationError,
+  queryClient,
+  queryClientConfig,
+  showBackendErrorToast,
+} from '../query-client'
+import axiosInstance from '../axios'
 import configuredI18n from '../react-i18next'
 import { useDialogStore, useLoadingOverlayStore, useToastNotificationStore } from '@/stores'
 import { useErrorDataStore } from '@/stores/error-data.store'
@@ -429,6 +435,41 @@ describe('queryClient error toasts', () => {
     queryClient.clear()
   })
 
+  it.each([
+    { userMessage: backendUserMessage, label: fallbackLabel, expected: backendUserMessage },
+    { userMessage: undefined, label: fallbackLabel, expected: fallbackLabel },
+    { userMessage: undefined, label: undefined, expected: 'Errore inaspettato' },
+  ])('shows "$expected" for a backend 404', async ({ userMessage, label, expected }) => {
+    const mutation = queryClient.getMutationCache().build(queryClient, {
+      retry: false,
+      meta: { errorToastLabel: label },
+      mutationFn: () =>
+        axiosInstance.delete('/resource', {
+          adapter: async (config) => {
+            throw new AxiosError('Not found', AxiosError.ERR_BAD_REQUEST, config, undefined, {
+              config,
+              data: { ...validData, userMessage },
+              headers: new AxiosHeaders(),
+              status: 404,
+              statusText: 'Not Found',
+            })
+          },
+        }),
+    })
+
+    await expect(mutation.execute(undefined)).rejects.toBeInstanceOf(NotFoundError)
+    expect(useToastNotificationStore.getState()).toMatchObject({
+      isShown: true,
+      message: expected,
+      severity: 'error',
+      correlationId: validData.correlationId,
+    })
+    expect(useErrorDataStore.getState()).toMatchObject({
+      correlationId: validData.correlationId,
+      errorCode: validData.errors[0].code,
+    })
+  })
+
   it.each(
     [
       { language: 'it', genericLabel: 'Errore inaspettato' },
@@ -751,5 +792,36 @@ describe('queryClient error toasts', () => {
       correlationId,
     })
     expect(useErrorDataStore.getState()).toMatchObject({ correlationId: null, errorCode: null })
+  })
+})
+
+describe('showBackendErrorToast', () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  const makeAxiosError = (data: Record<string, unknown>) =>
+    new AxiosError('request failed', undefined, undefined, undefined, { data } as AxiosResponse)
+
+  it('prefers the backend userMessage and forwards the correlation ID', () => {
+    const toast = vi.spyOn(useToastNotificationStore.getState(), 'showToast')
+    showBackendErrorToast(
+      makeAxiosError({ userMessage: 'Backend message', correlationId: 'corr-1' }),
+      'Frontend fallback'
+    )
+
+    expect(toast).toHaveBeenCalledWith('Backend message', 'error', 'corr-1')
+  })
+
+  it('uses the fallback when the backend has no userMessage', () => {
+    const toast = vi.spyOn(useToastNotificationStore.getState(), 'showToast')
+    showBackendErrorToast(makeAxiosError({ correlationId: 'corr-2' }), 'Frontend fallback')
+
+    expect(toast).toHaveBeenCalledWith('Frontend fallback', 'error', 'corr-2')
+  })
+
+  it('uses the default translated title when neither backend nor fallback labels exist', () => {
+    const toast = vi.spyOn(useToastNotificationStore.getState(), 'showToast')
+    showBackendErrorToast(new Error('request failed'))
+
+    expect(toast).toHaveBeenCalledWith(configuredI18n.t('error:default.title'), 'error', undefined)
   })
 })

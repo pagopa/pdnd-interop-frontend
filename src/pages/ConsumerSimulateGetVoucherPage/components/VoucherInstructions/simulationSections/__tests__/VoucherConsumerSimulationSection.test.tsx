@@ -1,4 +1,5 @@
 import React from 'react'
+import { AxiosError, type AxiosResponse } from 'axios'
 import { act, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -179,7 +180,8 @@ describe('VoucherConsumerSimulationSection', () => {
     expect(await screen.findByText('generalForm.purposeSelectInput.error')).toBeInTheDocument()
     expect(showToast).toHaveBeenCalledExactlyOnceWith(
       'generalForm.purposeSelectInput.error',
-      'error'
+      'error',
+      undefined
     )
     expect(getClient).toHaveBeenCalledTimes(4)
     expect(screen.queryByText('queryErrorFallback')).not.toBeInTheDocument()
@@ -206,6 +208,29 @@ describe('VoucherConsumerSimulationSection', () => {
     expect(getClient).toHaveBeenLastCalledWith(clientId)
     expect(showToast).not.toHaveBeenCalled()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('shows the backend userMessage and correlation ID for a failed client query', async () => {
+    const showToast = vi.spyOn(useToastNotificationStore.getState(), 'showToast')
+    const error = new AxiosError(
+      'Unable to load client',
+      AxiosError.ERR_BAD_RESPONSE,
+      undefined,
+      undefined,
+      {
+        data: { userMessage: 'Messaggio backend', correlationId: 'corr-1' },
+        status: 500,
+        statusText: 'Internal Server Error',
+        headers: {},
+        config: {},
+      } as AxiosResponse
+    )
+    vi.spyOn(ClientServices, 'getSingle').mockRejectedValue(error)
+
+    renderSection()
+
+    expect(await screen.findByText('Messaggio backend')).toBeInTheDocument()
+    expect(showToast).toHaveBeenCalledExactlyOnceWith('Messaggio backend', 'error', 'corr-1')
   })
 
   it('keeps cached purposes disabled after a failed refresh', async () => {

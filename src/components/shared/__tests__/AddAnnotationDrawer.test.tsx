@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen, fireEvent, waitFor } from '@testing-library/react'
+import { act, screen, fireEvent, waitFor } from '@testing-library/react'
 import { AddAnnotationDrawer } from '../AddAnnotationDrawer'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
@@ -147,8 +147,63 @@ describe('AddAnnotationDrawer', () => {
       fireEvent.click(addButton)
 
       await waitFor(() => {
-        expect(defaultProps.onClose).toHaveBeenCalled()
+        expect(defaultProps.onClose).toHaveBeenCalledOnce()
       })
+      expect(defaultProps.onSubmit.mock.invocationCallOrder[0]).toBeLessThan(
+        defaultProps.onClose.mock.invocationCallOrder[0]
+      )
+    })
+
+    it('keeps the draft open when submission rejects without an unhandled rejection', async () => {
+      const onSubmit = vi.fn().mockRejectedValue(new Error('Save failed'))
+      const onClose = vi.fn()
+      renderWithApplicationContext(
+        <AddAnnotationDrawer question="" {...defaultProps} onSubmit={onSubmit} onClose={onClose} />,
+        { withReactQueryContext: true }
+      )
+      const textField = screen.getByLabelText('purposeTemplate.label')
+      fireEvent.change(textField, { target: { value: 'Draft to keep' } })
+      fireEvent.click(screen.getByText('common.addBtn'))
+      await waitFor(() => expect(onSubmit).toHaveBeenCalledOnce())
+      await act(async () => {
+        await Promise.resolve()
+      })
+      expect(onClose).not.toHaveBeenCalled()
+      expect(textField).toHaveValue('Draft to keep')
+      expect(screen.getByText('purposeTemplate.title')).toBeInTheDocument()
+      // Vitest reports unhandled rejections as test-run errors.
+    })
+
+    it('disables submit while saving and closes only after the pending submission resolves', async () => {
+      let resolveSave!: () => void
+      const pendingSave = new Promise<void>((resolve) => {
+        resolveSave = resolve
+      })
+      const onSubmit = vi.fn().mockReturnValue(pendingSave)
+      const onClose = vi.fn()
+      renderWithApplicationContext(
+        <AddAnnotationDrawer question="" {...defaultProps} onSubmit={onSubmit} onClose={onClose} />,
+        { withReactQueryContext: true }
+      )
+      fireEvent.change(screen.getByLabelText('purposeTemplate.label'), {
+        target: { value: 'Pending draft' },
+      })
+      const addButton = screen.getByRole('button', { name: 'common.addBtn' })
+      fireEvent.click(addButton)
+      await waitFor(() => expect(onSubmit).toHaveBeenCalledOnce())
+      expect(addButton).toBeDisabled()
+      fireEvent.click(addButton)
+      fireEvent.keyDown(addButton, { key: 'Enter' })
+      fireEvent.click(addButton)
+      await act(async () => {})
+      expect(onSubmit).toHaveBeenCalledOnce()
+      expect(onClose).not.toHaveBeenCalled()
+      await act(async () => {
+        resolveSave()
+        await pendingSave
+      })
+      await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+      expect(onSubmit).toHaveBeenCalledOnce()
     })
 
     it('should preserve initial annotation id when submitting', async () => {

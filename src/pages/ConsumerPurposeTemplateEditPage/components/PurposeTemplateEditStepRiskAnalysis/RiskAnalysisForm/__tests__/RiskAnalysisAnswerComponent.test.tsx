@@ -2,12 +2,10 @@ import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { AxiosError, AxiosHeaders } from 'axios'
 import { FormProvider, useForm, type UseFormSetValue, type UseFormWatch } from 'react-hook-form'
 import { RiskAnalysisAnswerComponent } from '../RiskAnalysisAnswerComponent'
 import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
 import * as router from '@/router'
-import * as PurposeTemplateServices from '@/api/purposeTemplate/purposeTemplate.services'
 import * as PurposeTemplateMutations from '@/api/purposeTemplate/purposeTemplate.mutations'
 import * as PurposeTemplateDownloads from '@/api/purposeTemplate/purposeTemplate.downloads'
 import * as useDrawerStateHook from '@/hooks/useDrawerState'
@@ -24,7 +22,13 @@ const mockShowToast = vi.fn()
 const mockOpenDialog = vi.fn()
 const mockOpenDrawer = vi.fn()
 const mockCloseDrawer = vi.fn()
+const mockSubmitError = vi.fn()
 
+const mockAddAnnotationToAnswer = vi.fn()
+const mockUpdateAnswerAnnotation = vi.fn()
+const mockDeleteAnswerAnnotation = vi.fn()
+const mockAddDocumentToAnnotation = vi.fn()
+const mockDeleteDocumentFromAnnotation = vi.fn()
 const mockUpdateDocumentPrettyName = vi.fn()
 const mockDownloadAnnotationDocument = vi.fn()
 
@@ -50,53 +54,29 @@ vi.spyOn(
 } as never)
 
 vi.spyOn(
+  PurposeTemplateMutations.PurposeTemplateMutations,
+  'useAddAnnotationToAnswer'
+).mockReturnValue({ mutateAsync: mockAddAnnotationToAnswer } as never)
+vi.spyOn(
+  PurposeTemplateMutations.PurposeTemplateMutations,
+  'useUpdateAnswerAnnotation'
+).mockReturnValue({ mutateAsync: mockUpdateAnswerAnnotation } as never)
+vi.spyOn(
+  PurposeTemplateMutations.PurposeTemplateMutations,
+  'useDeleteAnswerAnnotation'
+).mockReturnValue({ mutate: mockDeleteAnswerAnnotation } as never)
+vi.spyOn(
+  PurposeTemplateMutations.PurposeTemplateMutations,
+  'useAddDocumentsToAnnotation'
+).mockReturnValue({ mutate: mockAddDocumentToAnnotation } as never)
+vi.spyOn(PurposeTemplateMutations.PurposeTemplateMutations, 'useDeleteDocument').mockReturnValue({
+  mutate: mockDeleteDocumentFromAnnotation,
+} as never)
+
+vi.spyOn(
   PurposeTemplateDownloads.PurposeTemplateDownloads,
   'useDownloadAnnotationDocument'
 ).mockReturnValue(mockDownloadAnnotationDocument)
-
-vi.spyOn(
-  PurposeTemplateServices.PurposeTemplateServices,
-  'addRiskAnalysisAnswer'
-).mockResolvedValue({
-  id: 'answer-id',
-  annotation: {
-    id: 'annotation-id',
-    text: 'Test annotation',
-    docs: [],
-  },
-} as never)
-
-vi.spyOn(
-  PurposeTemplateServices.PurposeTemplateServices,
-  'updateRiskAnalysisAnswerAnnotation'
-).mockResolvedValue({
-  id: 'annotation-id',
-  text: 'Updated annotation',
-  docs: [],
-} as never)
-
-vi.spyOn(
-  PurposeTemplateServices.PurposeTemplateServices,
-  'deleteRiskAnalysisAnswerAnnotation'
-).mockResolvedValue(undefined)
-
-vi.spyOn(
-  PurposeTemplateServices.PurposeTemplateServices,
-  'addDocumentToAnnotation'
-).mockResolvedValue({
-  id: 'doc-id',
-  name: 'test-doc.pdf',
-  prettyName: 'test-doc.pdf',
-  contentType: 'application/pdf',
-  path: '/path/to/test-doc.pdf',
-  createdAt: '2023-01-01T00:00:00Z',
-  checksum: 'checksum-test',
-} as never)
-
-vi.spyOn(
-  PurposeTemplateServices.PurposeTemplateServices,
-  'deleteDocumentFromAnnotation'
-).mockResolvedValue(undefined)
 
 vi.mock('@/components/shared/AddAnnotationDrawer', () => ({
   AddAnnotationDrawer: ({
@@ -108,12 +88,18 @@ vi.mock('@/components/shared/AddAnnotationDrawer', () => ({
   }: {
     isOpen: boolean
     onClose: () => void
-    onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void
+    onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void | Promise<void>
     initialAnnotation?: RiskAnalysisTemplateAnswerAnnotation
     question: string
   }) => (
     <div data-testid="add-annotation-drawer" style={{ display: isOpen ? 'block' : 'none' }}>
-      <button onClick={() => onSubmit({ id: 'test-id', text: 'Test annotation', docs: [] })}>
+      <button
+        onClick={() => {
+          void Promise.resolve(
+            onSubmit({ id: 'test-id', text: 'Test annotation', docs: [] })
+          ).catch(mockSubmitError)
+        }}
+      >
         Submit Annotation
       </button>
       <button onClick={onClose}>Close Drawer</button>
@@ -188,6 +174,32 @@ const FormWrapper: React.FC<{
 describe('RiskAnalysisAnswerComponent', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockAddAnnotationToAnswer.mockResolvedValue({
+      id: 'answer-id',
+      annotation: { id: 'annotation-id', text: 'Test annotation', docs: [] },
+    })
+    mockUpdateAnswerAnnotation.mockResolvedValue({
+      id: 'annotation-id',
+      text: 'Updated annotation',
+      docs: [],
+    })
+    mockDeleteAnswerAnnotation.mockImplementation((_variables, callbacks) =>
+      callbacks?.onSuccess?.()
+    )
+    mockAddDocumentToAnnotation.mockImplementation((_variables, callbacks) =>
+      callbacks?.onSuccess?.({
+        id: 'doc-id',
+        name: 'test-doc.pdf',
+        prettyName: 'test-doc.pdf',
+        contentType: 'application/pdf',
+        path: '/path/to/test-doc.pdf',
+        createdAt: '2023-01-01T00:00:00Z',
+        checksum: 'checksum-test',
+      })
+    )
+    mockDeleteDocumentFromAnnotation.mockImplementation((_variables, callbacks) =>
+      callbacks?.onSuccess?.()
+    )
     mockWatch.mockImplementation((path: string) => {
       if (path === `annotations.${questionKey}`) return undefined
       if (path === `assignToTemplateUsers.${questionKey}`) return false
@@ -430,18 +442,14 @@ describe('RiskAnalysisAnswerComponent', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(
-          PurposeTemplateServices.PurposeTemplateServices.addRiskAnalysisAnswer
-        ).toHaveBeenCalledWith({
+        expect(mockAddAnnotationToAnswer).toHaveBeenCalledWith({
           purposeTemplateId,
           answerRequest: {
             answerKey: questionKey,
             answerData: {
               values: ['value1'],
               editable: false,
-              annotation: {
-                text: 'Test annotation',
-              },
+              annotation: { text: 'Test annotation' },
               suggestedValues: [],
             },
           },
@@ -456,7 +464,6 @@ describe('RiskAnalysisAnswerComponent', () => {
         expect.objectContaining({ text: 'Test annotation' }),
         { shouldDirty: true }
       )
-      expect(mockShowToast).toHaveBeenCalledWith('notifications.annotationAddedSuccess', 'success')
     })
 
     it('should update existing annotation when answerId exists', async () => {
@@ -493,9 +500,7 @@ describe('RiskAnalysisAnswerComponent', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(
-          PurposeTemplateServices.PurposeTemplateServices.updateRiskAnalysisAnswerAnnotation
-        ).toHaveBeenCalledWith({
+        expect(mockUpdateAnswerAnnotation).toHaveBeenCalledWith({
           purposeTemplateId,
           answerId: 'existing-answer-id',
           annotationText: { text: 'Test annotation' },
@@ -507,17 +512,11 @@ describe('RiskAnalysisAnswerComponent', () => {
         expect.objectContaining({ text: 'Updated annotation' }),
         { shouldDirty: true }
       )
-      expect(mockShowToast).toHaveBeenCalledWith('notifications.annotationAddedSuccess', 'success')
     })
 
-    it('should handle annotation creation error', async () => {
+    it('does not save a new annotation locally when the mutation fails', async () => {
       const user = userEvent.setup()
-      const error = new Error('API Error')
-      vi.spyOn(
-        PurposeTemplateServices.PurposeTemplateServices,
-        'addRiskAnalysisAnswer'
-      ).mockRejectedValueOnce(error)
-
+      mockAddAnnotationToAnswer.mockRejectedValueOnce(new Error('Save failed'))
       mockWatch.mockImplementation((path: string) => {
         if (path === `answerIds.${questionKey}`) return undefined
         if (path === `answers.${questionKey}`) return ['value1']
@@ -525,7 +524,6 @@ describe('RiskAnalysisAnswerComponent', () => {
         if (path === `assignToTemplateUsers.${questionKey}`) return false
         return undefined
       })
-
       vi.spyOn(useDrawerStateHook, 'useDrawerState').mockReturnValue({
         isOpen: true,
         openDrawer: mockOpenDrawer,
@@ -542,17 +540,41 @@ describe('RiskAnalysisAnswerComponent', () => {
         </FormWrapper>
       )
 
-      const submitButton = screen.getByText('Submit Annotation')
-      await user.click(submitButton)
+      await user.click(screen.getByText('Submit Annotation'))
 
-      await waitFor(() => {
-        expect(mockShowToast).toHaveBeenCalledWith('notifications.annotationAddError', 'error')
-        expect(mockSetValue).toHaveBeenCalledWith(
-          `annotations.${questionKey}`,
-          expect.objectContaining({ text: 'Test annotation' }),
-          { shouldDirty: true }
-        )
+      expect(mockAddAnnotationToAnswer).toHaveBeenCalledWith(
+        expect.objectContaining({ purposeTemplateId })
+      )
+      await waitFor(() => expect(mockSubmitError).toHaveBeenCalledWith(expect.any(Error)))
+      expect(mockSetValue).not.toHaveBeenCalled()
+      expect(mockShowToast).not.toHaveBeenCalled()
+    })
+
+    it('does not update an existing annotation locally when the mutation fails', async () => {
+      const user = userEvent.setup()
+      mockUpdateAnswerAnnotation.mockRejectedValueOnce(new Error('Update failed'))
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
+        return undefined
       })
+      render(
+        <FormWrapper>
+          <RiskAnalysisAnswerComponent
+            questionKey={questionKey}
+            question="Test Question"
+            questionType="radio"
+          />
+        </FormWrapper>
+      )
+      await user.click(screen.getByText('Submit Annotation'))
+      await waitFor(() => expect(mockSubmitError).toHaveBeenCalledWith(expect.any(Error)))
+      expect(mockUpdateAnswerAnnotation).toHaveBeenCalledWith({
+        purposeTemplateId,
+        answerId: 'existing-answer-id',
+        annotationText: { text: 'Test annotation' },
+      })
+      expect(mockSetValue).not.toHaveBeenCalled()
+      expect(mockShowToast).not.toHaveBeenCalled()
     })
 
     it('should delete annotation when delete button is clicked', async () => {
@@ -593,48 +615,33 @@ describe('RiskAnalysisAnswerComponent', () => {
             onProceed: expect.any(Function),
           })
         )
-        expect(
-          PurposeTemplateServices.PurposeTemplateServices.deleteRiskAnalysisAnswerAnnotation
-        ).toHaveBeenCalledWith({
-          purposeTemplateId,
-          answerId: 'answer-id',
-        })
+        expect(mockDeleteAnswerAnnotation).toHaveBeenCalledWith(
+          { purposeTemplateId, answerId: 'answer-id' },
+          expect.objectContaining({ onSuccess: expect.any(Function) })
+        )
         expect(mockSetValue).toHaveBeenCalledWith(`annotations.${questionKey}`, undefined, {
           shouldDirty: true,
         })
         expect(mockSetValue).toHaveBeenCalledWith(`answerIds.${questionKey}`, undefined, {
           shouldDirty: true,
         })
-        expect(mockShowToast).toHaveBeenCalledWith(
-          'notifications.annotationDeletedSuccess',
-          'success'
-        )
       })
     })
 
-    it('should handle annotation deletion error', async () => {
+    it('keeps an annotation when its delete mutation fails', async () => {
       const user = userEvent.setup()
-      const error = new Error('Delete Error')
-      vi.spyOn(
-        PurposeTemplateServices.PurposeTemplateServices,
-        'deleteRiskAnalysisAnswerAnnotation'
-      ).mockRejectedValueOnce(error)
-
-      const mockAnnotation: RiskAnalysisTemplateAnswerAnnotation = {
+      mockDeleteAnswerAnnotation.mockImplementationOnce(() => undefined)
+      const annotation: RiskAnalysisTemplateAnswerAnnotation = {
         id: 'annotation-id',
         text: 'Test annotation',
         docs: [],
       }
-
       mockWatch.mockImplementation((path: string) => {
-        if (path === `annotations.${questionKey}`) return mockAnnotation
+        if (path === `annotations.${questionKey}`) return annotation
         if (path === `answerIds.${questionKey}`) return 'answer-id'
         return undefined
       })
-
-      mockOpenDialog.mockImplementation(({ onProceed }: { onProceed: () => void }) => {
-        onProceed()
-      })
+      mockOpenDialog.mockImplementation(({ onProceed }: { onProceed: () => void }) => onProceed())
 
       render(
         <FormWrapper>
@@ -646,12 +653,47 @@ describe('RiskAnalysisAnswerComponent', () => {
         </FormWrapper>
       )
 
-      const deleteButton = screen.getByText('deleteAnnotationBtn')
-      await user.click(deleteButton)
+      await user.click(screen.getByText('deleteAnnotationBtn'))
+      expect(mockDeleteAnswerAnnotation).toHaveBeenCalledWith(
+        { purposeTemplateId, answerId: 'answer-id' },
+        expect.objectContaining({ onSuccess: expect.any(Function) })
+      )
+      expect(mockSetValue).not.toHaveBeenCalled()
+      expect(mockShowToast).not.toHaveBeenCalled()
+    })
 
-      await waitFor(() => {
-        expect(mockShowToast).toHaveBeenCalledWith('notifications.annotationDeleteError', 'error')
+    it('deletes a local-only annotation without calling a mutation', async () => {
+      const user = userEvent.setup()
+      const annotation: RiskAnalysisTemplateAnswerAnnotation = {
+        id: 'annotation-id',
+        text: 'Local annotation',
+        docs: [],
+      }
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `annotations.${questionKey}`) return annotation
+        if (path === `answerIds.${questionKey}`) return undefined
+        return undefined
       })
+      mockOpenDialog.mockImplementation(({ onProceed }: { onProceed: () => void }) => onProceed())
+      render(
+        <FormWrapper>
+          <RiskAnalysisAnswerComponent
+            questionKey={questionKey}
+            question="Test Question"
+            questionType="radio"
+          />
+        </FormWrapper>
+      )
+
+      await user.click(screen.getByText('deleteAnnotationBtn'))
+      expect(mockDeleteAnswerAnnotation).not.toHaveBeenCalled()
+      expect(mockSetValue).toHaveBeenCalledWith(`annotations.${questionKey}`, undefined, {
+        shouldDirty: true,
+      })
+      expect(mockShowToast).toHaveBeenCalledWith(
+        'notifications.annotationDeletedSuccess',
+        'success'
+      )
     })
   })
 
@@ -799,168 +841,60 @@ describe('RiskAnalysisAnswerComponent', () => {
         await user.click(uploadButton)
 
         await waitFor(() => {
-          expect(
-            PurposeTemplateServices.PurposeTemplateServices.addDocumentToAnnotation
-          ).toHaveBeenCalledWith({
-            purposeTemplateId,
-            answerId: 'answer-id',
-            documentPayload: {
-              prettyName: 'test.pdf',
-              doc: mockFile,
+          expect(mockAddDocumentToAnnotation).toHaveBeenCalledWith(
+            {
+              purposeTemplateId,
+              answerId: 'answer-id',
+              documentPayload: { prettyName: 'test.pdf', doc: mockFile },
             },
-          })
+            expect.objectContaining({ onSuccess: expect.any(Function) })
+          )
         })
-
-        expect(mockShowToast).toHaveBeenCalledWith(
-          'notifications.documentUploadedSuccess',
-          'success'
-        )
       }
     })
 
-    const uploadRequestConfig = {
-      headers: new AxiosHeaders({ 'X-Correlation-Id': 'request-correlation-id' }),
-    }
+    it('keeps the upload available for retry when the mutation fails', async () => {
+      const user = userEvent.setup()
+      const mockFile = new File(['content'], 'test.pdf', { type: 'application/pdf' })
+      mockAddDocumentToAnnotation.mockImplementationOnce(() => undefined)
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
+        if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
+        if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
+        return undefined
+      })
+      const { container } = render(
+        <FormWrapper>
+          <RiskAnalysisAnswerComponent
+            questionKey={questionKey}
+            question="Test Question"
+            questionType="radio"
+          />
+        </FormWrapper>
+      )
 
-    it.each([
-      {
-        scenario: 'an Axios response containing a correlation ID',
-        error: new AxiosError(
-          'Upload failed',
-          AxiosError.ERR_BAD_RESPONSE,
-          uploadRequestConfig,
-          null,
-          {
-            data: { correlationId: 'upload-correlation-id' },
-            status: 500,
-            statusText: 'Internal Server Error',
-            headers: new AxiosHeaders(),
-            config: uploadRequestConfig,
-          }
-        ),
-        correlationId: 'upload-correlation-id',
-        message: 'notifications.documentUploadError',
-      },
-      {
-        scenario: 'an Axios response containing both userMessage and correlation ID',
-        error: new AxiosError(
-          'Upload failed',
-          AxiosError.ERR_BAD_RESPONSE,
-          uploadRequestConfig,
-          null,
-          {
-            data: {
-              userMessage: 'Backend upload message',
-              correlationId: 'upload-correlation-id',
-            },
-            status: 400,
-            statusText: 'Bad Request',
-            headers: new AxiosHeaders(),
-            config: uploadRequestConfig,
-          }
-        ),
-        correlationId: 'upload-correlation-id',
-        message: 'Backend upload message',
-      },
-      {
-        scenario: 'an Axios response with an empty userMessage',
-        error: new AxiosError(
-          'Upload failed',
-          AxiosError.ERR_BAD_RESPONSE,
-          uploadRequestConfig,
-          null,
-          {
-            data: { userMessage: '', correlationId: 'upload-correlation-id' },
-            status: 400,
-            statusText: 'Bad Request',
-            headers: new AxiosHeaders(),
-            config: uploadRequestConfig,
-          }
-        ),
-        correlationId: 'upload-correlation-id',
-        message: 'notifications.documentUploadError',
-      },
-      {
-        scenario: 'an Axios response without a correlation ID',
-        error: new AxiosError(
-          'Upload failed',
-          AxiosError.ERR_BAD_RESPONSE,
-          uploadRequestConfig,
-          null,
-          {
-            data: {},
-            status: 500,
-            statusText: 'Internal Server Error',
-            headers: new AxiosHeaders(),
-            config: uploadRequestConfig,
-          }
-        ),
-        correlationId: undefined,
-        message: 'notifications.documentUploadError',
-      },
-      {
-        scenario: 'an Axios network error without a response',
-        error: new AxiosError('Network Error', AxiosError.ERR_NETWORK, uploadRequestConfig),
-        correlationId: undefined,
-        message: 'notifications.documentUploadError',
-      },
-      {
-        scenario: 'a non-Axios error',
-        error: new Error('Upload failed'),
-        correlationId: undefined,
-        message: 'notifications.documentUploadError',
-      },
-    ])(
-      'should preserve the upload for retry after $scenario',
-      async ({ error, correlationId, message }) => {
-        const user = userEvent.setup()
-        const mockFile = new File(['content'], 'test.pdf', { type: 'application/pdf' })
-        const addDocument = vi.mocked(
-          PurposeTemplateServices.PurposeTemplateServices.addDocumentToAnnotation
-        )
-        addDocument.mockRejectedValueOnce(error)
+      await user.click(screen.getByText('addDocumentBtn'))
+      const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]')
+      if (!fileInput) throw new Error('Document upload input is missing')
+      await user.upload(fileInput, mockFile)
+      await user.click(screen.getByRole('button', { name: 'uploadBtn' }))
 
-        mockWatch.mockImplementation((path: string) => {
-          if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
-          if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
-          if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
-          return undefined
-        })
-
-        const { container } = render(
-          <FormWrapper>
-            <RiskAnalysisAnswerComponent
-              questionKey={questionKey}
-              question="Test Question"
-              questionType="radio"
-            />
-          </FormWrapper>
-        )
-
-        await user.click(screen.getByText('addDocumentBtn'))
-        const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]')
-        if (!fileInput) throw new Error('Document upload input is missing')
-
-        await user.upload(fileInput, mockFile)
-        await user.click(screen.getByRole('button', { name: 'uploadBtn' }))
-
-        await waitFor(() => {
-          expect(mockShowToast).toHaveBeenCalledExactlyOnceWith(message, 'error', correlationId)
-        })
-
-        expect(addDocument).toHaveBeenCalledExactlyOnceWith({
+      expect(mockAddDocumentToAnnotation).toHaveBeenCalledWith(
+        {
           purposeTemplateId,
           answerId: 'existing-answer-id',
           documentPayload: { prettyName: mockFile.name, doc: mockFile },
-        })
-        expect(mockSetValue).not.toHaveBeenCalled()
-        expect(screen.getByTestId('document-doc-1')).toBeInTheDocument()
-        expect(screen.queryByTestId('document-doc-id')).not.toBeInTheDocument()
-        expect(screen.getByText(mockFile.name)).toBeVisible()
-        expect(screen.getByRole('button', { name: 'uploadBtn' }).closest('form')).toBeVisible()
-        expect(screen.getByRole('button', { name: 'uploadBtn' })).toBeEnabled()
-      }
-    )
+        },
+        expect.objectContaining({ onSuccess: expect.any(Function) })
+      )
+      expect(mockSetValue).not.toHaveBeenCalled()
+      expect(screen.getByTestId('document-doc-1')).toBeInTheDocument()
+      expect(screen.queryByTestId('document-doc-id')).not.toBeInTheDocument()
+      expect(screen.getByText(mockFile.name)).toBeVisible()
+      expect(screen.getByRole('button', { name: 'uploadBtn' }).closest('form')).toBeVisible()
+      expect(screen.getByRole('button', { name: 'uploadBtn' })).toBeEnabled()
+      expect(mockShowToast).not.toHaveBeenCalled()
+    })
 
     it('should delete document successfully', async () => {
       const user = userEvent.setup()
@@ -986,21 +920,40 @@ describe('RiskAnalysisAnswerComponent', () => {
       await user.click(deleteButton)
 
       await waitFor(() => {
-        expect(
-          PurposeTemplateServices.PurposeTemplateServices.deleteDocumentFromAnnotation
-        ).toHaveBeenCalledWith({
-          purposeTemplateId,
-          answerId: 'answer-id',
-          documentId: 'doc-1',
-        })
+        expect(mockDeleteDocumentFromAnnotation).toHaveBeenCalledWith(
+          { purposeTemplateId, answerId: 'answer-id', documentId: 'doc-1' },
+          expect.objectContaining({ onSuccess: expect.any(Function) })
+        )
         expect(mockSetValue).toHaveBeenCalledWith(`annotations.${questionKey}.docs`, [], {
           shouldDirty: true,
         })
-        expect(mockShowToast).toHaveBeenCalledWith(
-          'notifications.documentDeletedSuccess',
-          'success'
-        )
       })
+    })
+
+    it('deletes a local-only document and shows local success feedback', async () => {
+      const user = userEvent.setup()
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
+        if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
+        if (path === `answerIds.${questionKey}`) return undefined
+        return undefined
+      })
+      render(
+        <FormWrapper>
+          <RiskAnalysisAnswerComponent
+            questionKey={questionKey}
+            question="Test Question"
+            questionType="radio"
+          />
+        </FormWrapper>
+      )
+
+      await user.click(screen.getByText('Delete'))
+      expect(mockDeleteDocumentFromAnnotation).not.toHaveBeenCalled()
+      expect(mockSetValue).toHaveBeenCalledWith(`annotations.${questionKey}.docs`, [], {
+        shouldDirty: true,
+      })
+      expect(mockShowToast).toHaveBeenCalledWith('notifications.documentDeletedSuccess', 'success')
     })
 
     it('should download document', async () => {

@@ -1,7 +1,13 @@
+import type { Problem } from '@/api/api.generatedTypes'
+
 /**
  * This error is thrown when a query to the api returns a 404 status code.
  */
-export class NotFoundError extends Error {}
+export class NotFoundError extends Error {
+  constructor(public readonly problem?: Problem) {
+    super()
+  }
+}
 
 /**
  * This error is thrown when an api calls returns a 401 status code.
