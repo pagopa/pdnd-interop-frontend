@@ -10,7 +10,6 @@ import { DelegationQueries } from '@/api/delegation'
 import { useParams } from '@/router'
 import { AttributeQueries } from '@/api/attribute'
 import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
-import { EServiceQueries } from '@/api/eservice'
 
 type ConsumerEServiceDetailsAlertsProps = {
   descriptor: CatalogEServiceDescriptor | undefined
@@ -49,18 +48,6 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
     ...AttributeQueries.getPartyCertifiedList(tenantId),
   })
 
-  /*
-   * ESERVICE ACTIVE DESCRIPTOR DATA
-   * */
-
-  const { data: activeDescriptor } = useQuery({
-    ...EServiceQueries.getDescriptorCatalog(
-      eserviceId,
-      descriptor?.eservice.activeDescriptor?.id as string
-    ),
-    enabled: !!descriptor?.eservice.activeDescriptor?.id,
-  })
-
   if (!descriptor) return null
 
   const alert = getEServiceDescriptorAlertSpec({
@@ -83,11 +70,17 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
 
   let hasAllCertifiedAttributes = true
 
-  if (!isMine && activeDescriptor && certified && delegators?.length === 0) {
+  if (
+    !isMine &&
+    descriptor &&
+    descriptor.state === 'PUBLISHED' &&
+    certified &&
+    delegators?.length === 0
+  ) {
     hasAllCertifiedAttributes = hasAllDescriptorAttributes(
       'certified',
       certified.attributes,
-      activeDescriptor?.attributes.certified
+      descriptor?.attributes.certified
     )
   }
 
