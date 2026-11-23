@@ -6,6 +6,8 @@ import { I18nextProvider } from 'react-i18next'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { MemoryRouter } from 'react-router-dom'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 import * as router from '@/router'
 import { ProducerServices } from '@/api/producer'
 import type { ProducerEServiceMonitoring } from '@/api/api.generatedTypes'
@@ -15,6 +17,8 @@ import itEservice from '@/static/locales/it/eservice.json'
 import enEservice from '@/static/locales/en/eservice.json'
 import itAgreement from '@/static/locales/it/agreement.json'
 import enAgreement from '@/static/locales/en/agreement.json'
+import itShared from '@/static/locales/it/shared-components.json'
+import enShared from '@/static/locales/en/shared-components.json'
 import {
   getMockProducerEServiceMonitoring,
   getMockProducerEServiceMonitoringArchiving,
@@ -47,8 +51,8 @@ const renderTab = async ({
     lng: language,
     fallbackLng: false,
     resources: {
-      it: { eservice: itEservice, agreement: itAgreement },
-      en: { eservice: enEservice, agreement: enAgreement },
+      it: { eservice: itEservice, agreement: itAgreement, 'shared-components': itShared },
+      en: { eservice: enEservice, agreement: enAgreement, 'shared-components': enShared },
     },
   })
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } })
@@ -56,7 +60,11 @@ const renderTab = async ({
     <QueryClientProvider client={client}>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-          <ProviderEServiceMonitoringTab eserviceName={eserviceName ?? undefined} />
+          <MemoryRouter>
+            <NuqsAdapter>
+              <ProviderEServiceMonitoringTab eserviceName={eserviceName ?? undefined} />
+            </NuqsAdapter>
+          </MemoryRouter>
         </ThemeProvider>
       </I18nextProvider>
     </QueryClientProvider>
@@ -295,7 +303,6 @@ describe('ProviderEServiceMonitoringTab', () => {
       labels: itEservice.read.monitoring,
       notices: [
         'L’esportazione dei dati non è ancora disponibile.',
-        'L’elenco completo dei consumi per fruitore non è ancora disponibile.',
         'L’elenco delle finalità non permette ancora di filtrare per versione e tipo di richiesta.',
       ],
     },
@@ -304,19 +311,28 @@ describe('ProviderEServiceMonitoringTab', () => {
       labels: enEservice.read.monitoring,
       notices: [
         'Data export is not available yet.',
-        'The full list of consumption per consumer is not available yet.',
         'The purpose list cannot yet be filtered by version and request type.',
       ],
     },
   ] as const)(
-    'keeps unavailable CTAs disabled without placeholder notices in $language',
+    'keeps unavailable CTAs disabled and opens the full consumers list in $language',
     async ({ language, labels, notices }) => {
+      const user = userEvent.setup()
       await renderTab({ language })
       await waitForData(labels)
 
+      const viewAllButton = screen.getByRole('button', { name: labels.consumers.viewAll })
+      expect(viewAllButton).toBeEnabled()
+      await user.click(viewAllButton)
+      expect(navigateMock).toHaveBeenCalledExactlyOnceWith(
+        'PROVIDE_ESERVICE_MONITORING_CONSUMERS',
+        {
+          params: { eserviceId: ESERVICE_ID, descriptorId: DESCRIPTOR_ID },
+        }
+      )
+
       for (const name of [
         labels.consumption.export,
-        labels.consumers.viewAll,
         labels.consumption.newPurposesCard.action,
         labels.consumption.quotaChangesCard.action,
       ]) {
@@ -327,7 +343,6 @@ describe('ProviderEServiceMonitoringTab', () => {
         button.click()
       }
       for (const notice of notices) expect(screen.queryByText(notice)).not.toBeInTheDocument()
-      expect(navigateMock).not.toHaveBeenCalled()
     }
   )
 
@@ -530,7 +545,7 @@ describe('ProviderEServiceMonitoringTab', () => {
     getArchiving.mockResolvedValue({ results: [] })
     await renderTab()
 
-    expect(await screen.findByText(copy.consumers.empty)).toBeInTheDocument()
+    expect(await screen.findByText(itShared.table.noResultsTitle)).toBeInTheDocument()
     expect(await screen.findByText(copy.archiving.empty)).toBeInTheDocument()
   })
 
