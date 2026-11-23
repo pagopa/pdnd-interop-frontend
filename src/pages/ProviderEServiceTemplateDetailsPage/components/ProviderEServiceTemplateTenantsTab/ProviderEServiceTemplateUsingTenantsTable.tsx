@@ -146,8 +146,20 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
     },
   ]
 
-  if (!isLoading && instances.length === 0)
-    return <NoItemResults>{t('list.usingTenantTable.noDataLabel')}</NoItemResults>
+  if (!isLoading && instances.length === 0) {
+    const areFiltersEmpty =
+      filtersParams.producerName === undefined && filtersParams.states === undefined
+    return (
+      <>
+        {!areFiltersEmpty && <Filters {...filtersHandlers} />}
+        <NoItemResults>
+          {areFiltersEmpty
+            ? t('list.usingTenantTable.noDataLabel')
+            : t('list.usingTenantTable.noResultsLabel')}
+        </NoItemResults>
+      </>
+    )
+  }
 
   return (
     <>
