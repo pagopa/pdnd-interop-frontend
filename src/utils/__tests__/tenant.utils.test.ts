@@ -1,4 +1,7 @@
 import {
+  formatTenantHierarchy,
+  formatHierarchyWithoutParentRoot,
+  getRootTenantFromHierarchy,
   hasTenantGivenConsumerDelegationAvailability,
   hasTenantGivenProducerDelegationAvailability,
   isTenantCertifier,
@@ -37,5 +40,51 @@ describe('hasTenantGivenProducerDelegationAvailability utility function testing'
   it('should correctly verify if tenant has given the producer delegations availability', () => {
     const result = hasTenantGivenConsumerDelegationAvailability(mockTenant)
     expect(result).toBe(true)
+  })
+})
+
+describe('formatTenantHierarchy utility function testing', () => {
+  it('returns the tenant name when parent tenants are undefined', () => {
+    expect(formatTenantHierarchy('Tenant')).toBe('Tenant')
+  })
+
+  it('returns the tenant name when there are no parent tenants', () => {
+    expect(formatTenantHierarchy('Tenant', [])).toBe('Tenant')
+  })
+
+  it('joins the tenant name and parent names in order', () => {
+    expect(
+      formatTenantHierarchy('Tenant-UO', [
+        { id: 'parent-AOO', name: 'Parent AOO', subUnitType: 'AOO' },
+        { id: 'parent root', name: 'Parent root' },
+      ])
+    ).toBe('Tenant-UO - Parent AOO - Parent root')
+  })
+})
+
+describe('Party registry page title and description', () => {
+  it('UO case: title includes UO and AOO, description shows root', () => {
+    const tenant = { ...mockTenant, name: 'Ufficio Permessi ZTL', subUnitType: 'UO' as const }
+    const parentTenants = [
+      { id: 'aoo-id', name: 'Direzione Mobilità', subUnitType: 'AOO' as const },
+      { id: 'comune-id', name: 'Comune di Milano' },
+    ]
+    expect(formatHierarchyWithoutParentRoot(tenant, parentTenants)).toBe(
+      'Ufficio Permessi ZTL - Direzione Mobilità'
+    )
+    expect(getRootTenantFromHierarchy(parentTenants)).toBe('Comune di Milano')
+  })
+
+  it('AOO case: title is AOO only, description shows root', () => {
+    const tenant = { ...mockTenant, name: 'Direzione Mobilità', subUnitType: 'AOO' as const }
+    const parentTenants = [{ id: 'comune-id', name: 'Comune di Milano' }]
+    expect(formatHierarchyWithoutParentRoot(tenant, parentTenants)).toBe('Direzione Mobilità')
+    expect(getRootTenantFromHierarchy(parentTenants)).toBe('Comune di Milano')
+  })
+
+  it('Root case: title is tenant name, description is undefined', () => {
+    const tenant = { ...mockTenant, name: 'Comune di Milano', subUnitType: undefined }
+    expect(formatHierarchyWithoutParentRoot(tenant)).toBe('Comune di Milano')
+    expect(getRootTenantFromHierarchy()).toBeUndefined()
   })
 })

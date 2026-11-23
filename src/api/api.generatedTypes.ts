@@ -1192,6 +1192,12 @@ export interface CompactOrganization {
   /** @format uuid */
   id: string;
   name: string;
+  subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   kind?: TenantKind;
   contactMail?: Mail;
   /** Indicates if there are unread notifications for this organization */
@@ -1202,6 +1208,12 @@ export interface CatalogTenant {
   /** @format uuid */
   id: string;
   name: string;
+  subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   /** Indicates if there are unread notifications for this organization */
   hasUnreadNotifications?: boolean;
   /** @format uuid */
@@ -2100,6 +2112,12 @@ export interface RequesterCertifiedAttribute {
   /** @format uuid */
   tenantId: string;
   tenantName: string;
+  tenantSubUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   /** @format uuid */
   attributeId: string;
   attributeName: string;
@@ -2231,6 +2249,12 @@ export interface CompactTenant {
   selfcareId?: string;
   name: string;
   logoUrl?: string;
+  subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
 }
 
 export interface Tenant {
@@ -2251,8 +2275,21 @@ export interface Tenant {
   /** @format date-time */
   onboardedAt?: string;
   subUnitType?: TenantUnitType;
+  /**
+   * Parent tenants, from the immediate parent up to the root, when available. Omitted when none are resolved.
+   * @maxItems 2
+   */
+  parentTenants?: ParentTenant[];
   selfcareInstitutionType?: string;
   remoteIds?: TenantRemoteId[];
+}
+
+/** Parent tenant in the organizational hierarchy. */
+export interface ParentTenant {
+  /** @format uuid */
+  id: string;
+  name: string;
+  subUnitType?: TenantUnitType;
 }
 
 export interface TenantAttributes {
@@ -2466,6 +2503,9 @@ export interface DelegationTenant {
   /** @format uuid */
   id: string;
   name: string;
+  subUnitType?: TenantUnitType;
+  /** @maxItems 2 */
+  parentTenants?: ParentTenant[];
 }
 
 export interface DelegationTenants {
@@ -2481,6 +2521,9 @@ export interface DelegationEService {
   /** @format uuid */
   producerId: string;
   producerName: string;
+  producerSubUnitType?: TenantUnitType;
+  /** @maxItems 2 */
+  producerParentTenants?: ParentTenant[];
   descriptors: CompactDescriptor[];
 }
 
@@ -2822,6 +2865,9 @@ export interface EServiceTemplateInstance {
   /** @format uuid */
   producerId: string;
   producerName: string;
+  producerSubUnitType?: TenantUnitType;
+  /** @maxItems 2 */
+  producerParentTenants?: ParentTenant[];
   latestDescriptor?: CompactDescriptor;
   descriptors: CompactDescriptor[];
   instanceLabel?: string;
@@ -5017,10 +5063,10 @@ export interface UpdateVerifiedAttributeParams {
 
 export interface RevokeVerifiedAttributeParams {
   /**
-   * Agreement id related to the Verified attribute revocation
+   * The ID of the producer Delegation
    * @format uuid
    */
-  agreementId: string;
+  delegationId?: string;
   /**
    * The ID of the producer Delegation
    * @format uuid
