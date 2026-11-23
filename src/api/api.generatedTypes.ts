@@ -5068,6 +5068,11 @@ export interface RevokeVerifiedAttributeParams {
    */
   delegationId?: string;
   /**
+   * The ID of the producer Delegation
+   * @format uuid
+   */
+  delegationId?: string;
+  /**
    * Tenant id which attribute needs to be verified
    * @format uuid
    */
