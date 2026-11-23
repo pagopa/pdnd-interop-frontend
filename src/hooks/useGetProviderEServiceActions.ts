@@ -436,7 +436,9 @@ export function useGetProviderEServiceActions(
       deleteAction,
       suspendAction,
     ])
-    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+    ])
     .with(
       {
         isAdmin: true,
@@ -445,7 +447,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction]
+      () => [cloneAction, editDraftAction]
     )
     .with(
       {
@@ -455,7 +457,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [editDraftAction]
+      () => [cloneAction, editDraftAction]
     )
     .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
@@ -492,10 +494,9 @@ export function useGetProviderEServiceActions(
       deleteAction,
       suspendAction,
     ])
-    .with(
-      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
-      () => []
-    )
+    .with({ isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+    ])
     .with(
       {
         isAdmin: false,
@@ -504,7 +505,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction]
+      () => [cloneAction, editDraftAction]
     )
     .with(
       {
@@ -514,7 +515,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [editDraftAction]
+      () => [cloneAction, editDraftAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
@@ -565,7 +566,9 @@ export function useGetProviderEServiceActions(
       editDraftAction,
       deleteAction,
     ])
-    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+    ])
     .with(
       {
         isAdmin: true,
@@ -574,7 +577,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => []
+      () => [cloneAction]
     )
     .with(
       {
@@ -584,7 +587,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [editDraftAction]
+      () => [cloneAction, editDraftAction]
     )
     .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       reactivateAction,
@@ -621,10 +624,9 @@ export function useGetProviderEServiceActions(
       editDraftAction,
       deleteAction,
     ])
-    .with(
-      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
-      () => []
-    )
+    .with({ isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+    ])
     .with(
       {
         isAdmin: false,
@@ -633,7 +635,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => []
+      () => [cloneAction]
     )
     .with(
       {
@@ -643,7 +645,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [editDraftAction]
+      () => [cloneAction, editDraftAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       reactivateAction,
@@ -1160,8 +1162,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
-    ARCHIVING: isDelegator ? [] : [suspendAction, cloneAction],
-    ARCHIVING_SUSPENDED: isDelegator ? [] : [reactivateAction, cloneAction],
+    ARCHIVING: isDelegator ? [cloneAction] : [suspendAction, cloneAction],
+    ARCHIVING_SUSPENDED: isDelegator ? [cloneAction] : [reactivateAction, cloneAction],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -1176,8 +1178,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
-    ARCHIVING: [],
-    ARCHIVING_SUSPENDED: [],
+    ARCHIVING: isDelegator ? [cloneAction] : [],
+    ARCHIVING_SUSPENDED: isDelegator ? [cloneAction] : [],
   }
 
   const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
@@ -1280,7 +1282,7 @@ export function useGetProviderEServiceActions(
     .with({ state: 'PUBLISHED', isDelegator: true }, () => ({
       primary: undefined,
       header: [],
-      menu: viewAllVersionsItems,
+      menu: [...cloneItems, ...viewAllVersionsItems],
     }))
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
@@ -1303,7 +1305,7 @@ export function useGetProviderEServiceActions(
     .with({ state: 'SUSPENDED', isDelegator: true }, () => ({
       primary: undefined,
       header: [],
-      menu: where === 'detailsPage' ? viewAllVersionsItems : [],
+      menu: where === 'detailsPage' ? [...cloneItems, ...viewAllVersionsItems] : [],
     }))
     .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
       primary: undefined,

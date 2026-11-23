@@ -12,6 +12,7 @@ import type {
   KeySeed,
   ProducerKeychain,
   ProducerKeychainSeed,
+  ProducerKeychainUpdateSeed,
   PublicKey,
   PublicKeys,
 } from '../api.generatedTypes'
@@ -69,6 +70,17 @@ async function getProducerKeychainUsersList(producerKeychainId: string) {
 async function createKeychain(payload: ProducerKeychainSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains`,
+    payload
+  )
+  return response.data
+}
+
+async function updateKeychain({
+  producerKeychainId,
+  ...payload
+}: { producerKeychainId: string } & ProducerKeychainUpdateSeed) {
+  const response = await axiosInstance.patch<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}`,
     payload
   )
   return response.data
@@ -167,6 +179,7 @@ async function removeUserFromKeychain({
 }
 
 export const KeychainServices = {
+  updateKeychain,
   getSingle,
   getKeychainsList,
   getAllKeychainsList,

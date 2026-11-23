@@ -1,5 +1,5 @@
 import type {
-  CatalogEService,
+  CompactCatalogEService,
   CompactEService,
   GetCatalogPurposeTemplatesParams,
   PurposeEServiceSeed,
@@ -28,7 +28,7 @@ import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.qu
 
 export type PurposeCreateFormValues = {
   consumerId: string
-  eservice: CatalogEService | CompactEService | undefined
+  eservice: CompactCatalogEService | CompactEService | undefined
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null

@@ -18,7 +18,6 @@ import type {
   RiskAnalysisTemplateAnswerAnnotationDocument,
   EServiceDoc,
 } from '@/api/api.generatedTypes'
-import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
@@ -103,6 +102,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
 
+  const { mutateAsync: addAnnotationToAnswer } = PurposeTemplateMutations.useAddAnnotationToAnswer()
+  const { mutateAsync: updateAnswerAnnotation } =
+    PurposeTemplateMutations.useUpdateAnswerAnnotation()
+  const { mutate: deleteAnswerAnnotation } = PurposeTemplateMutations.useDeleteAnswerAnnotation()
+  const { mutate: addDocumentToAnnotation } = PurposeTemplateMutations.useAddDocumentsToAnnotation()
+  const { mutate: deleteDocumentFromAnnotation } = PurposeTemplateMutations.useDeleteDocument()
   const { mutate: updateDocumentPrettyName } =
     PurposeTemplateMutations.useUpdatePrettyNameAnnotationAssociatedDocument()
   const downloadAnnotationDocument = PurposeTemplateDownloads.useDownloadAnnotationDocument()
@@ -129,92 +134,64 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     openDrawer()
   }
 
+  // Rejects on failure so the drawer stays open with the draft (error toast handled globally)
   const handleAnnotationSubmit = async (annotation: RiskAnalysisTemplateAnswerAnnotation) => {
-    try {
-      // Check if we already have an answerId (from previous creation)
-      const existingAnswerId = watch(`answerIds.${questionKey}`)
+    const existingAnswerId = watch(`answerIds.${questionKey}`)
 
-      if (existingAnswerId) {
-        // Update existing annotation using PUT API
-        const updatedAnnotation = await PurposeTemplateServices.updateRiskAnalysisAnswerAnnotation({
-          purposeTemplateId,
-          answerId: existingAnswerId,
-          annotationText: { text: annotation.text },
-        })
-        setValue(`annotations.${questionKey}`, updatedAnnotation, { shouldDirty: true })
-
-        // Show success notification
-        showToast(t('notifications.annotationAddedSuccess'), 'success')
-      } else {
-        // Create new annotation using POST API
-        const answerRequest: RiskAnalysisTemplateAnswerRequest = {
-          answerKey: questionKey,
-          answerData: {
-            values: assignToTemplateUsers ? [] : questionValues,
-            editable: assignToTemplateUsers,
-            annotation: {
-              text: annotation.text,
-            },
-            suggestedValues: suggestedValues,
-          },
-        }
-
-        const savedAnswer = await PurposeTemplateServices.addRiskAnalysisAnswer({
-          purposeTemplateId,
-          answerRequest,
-        })
-
-        // Save the answerId for future updates
-        setValue(`answerIds.${questionKey}`, savedAnswer.id, { shouldDirty: true })
-
-        // Update the form with the saved annotation
-        if (savedAnswer.annotation) {
-          setValue(`annotations.${questionKey}`, savedAnswer.annotation, { shouldDirty: true })
-        }
-
-        // Show success notification
-        showToast(t('notifications.annotationAddedSuccess'), 'success')
-      }
-    } catch (error) {
-      console.error('Error saving annotation:', error)
-      // Show error notification
-      showToast(t('notifications.annotationAddError'), 'error')
-      // Fallback: save locally anyway
-      setValue(`annotations.${questionKey}`, annotation, { shouldDirty: true })
+    if (existingAnswerId) {
+      const updatedAnnotation = await updateAnswerAnnotation({
+        purposeTemplateId,
+        answerId: existingAnswerId,
+        annotationText: { text: annotation.text },
+      })
+      setValue(`annotations.${questionKey}`, updatedAnnotation, { shouldDirty: true })
+      return
     }
+
+    const answerRequest: RiskAnalysisTemplateAnswerRequest = {
+      answerKey: questionKey,
+      answerData: {
+        values: assignToTemplateUsers ? [] : questionValues,
+        editable: assignToTemplateUsers,
+        annotation: {
+          text: annotation.text,
+        },
+        suggestedValues: suggestedValues,
+      },
+    }
+
+    const savedAnswer = await addAnnotationToAnswer({ purposeTemplateId, answerRequest })
+    // Save the answerId for future updates
+    setValue(`answerIds.${questionKey}`, savedAnswer.id, { shouldDirty: true })
+    if (savedAnswer.annotation) {
+      setValue(`annotations.${questionKey}`, savedAnswer.annotation, { shouldDirty: true })
+    }
+  }
+
+  const clearAnnotation = () => {
+    setValue(`annotations.${questionKey}`, undefined, { shouldDirty: true })
+    setValue(`answerIds.${questionKey}`, undefined, { shouldDirty: true })
+    setValue(`__annotationUpload.${questionKey}`, null, { shouldDirty: true })
+    setShowDocInput(false)
   }
 
   const handleRemove = () => {
     openDialog({
       type: 'deleteAnnotation',
-      onProceed: async () => {
-        try {
-          // Check if we have an answerId (annotation exists in database)
-          const existingAnswerId = watch(`answerIds.${questionKey}`)
+      onProceed: () => {
+        const existingAnswerId = watch(`answerIds.${questionKey}`)
 
-          if (existingAnswerId) {
-            // Delete annotation from database
-            await PurposeTemplateServices.deleteRiskAnalysisAnswerAnnotation({
-              purposeTemplateId,
-              answerId: existingAnswerId,
-            })
-          }
-
-          // Clear form fields
-          setValue(`annotations.${questionKey}`, undefined, { shouldDirty: true })
-          setValue(`answerIds.${questionKey}`, undefined, { shouldDirty: true })
-          // Clear the upload input field
-          setValue(`__annotationUpload.${questionKey}`, null, { shouldDirty: true })
-          // Reset the document input state
-          setShowDocInput(false)
-
-          // Show success notification
+        if (!existingAnswerId) {
+          // The annotation exists only locally: nothing to delete on the backend
+          clearAnnotation()
           showToast(t('notifications.annotationDeletedSuccess'), 'success')
-        } catch (error) {
-          console.error('Error deleting annotation:', error)
-          // Show error notification
-          showToast(t('notifications.annotationDeleteError'), 'error')
+          return
         }
+
+        deleteAnswerAnnotation(
+          { purposeTemplateId, answerId: existingAnswerId },
+          { onSuccess: clearAnnotation }
+        )
       },
     })
   }
@@ -234,44 +211,30 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     setSelectedFile(file)
   }
 
+  const getCurrentDocs = () =>
+    (watch(`annotations.${questionKey}.docs`) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ??
+    []
+
   const handleDocumentSubmit = async ({ doc }: { doc: File | null }) => {
     if (!doc) return
 
-    try {
-      const existingAnswerId = watch(`answerIds.${questionKey}`)
-
-      const documentPayload = {
-        prettyName: doc.name,
-        doc,
-      }
-
-      const uploadedDoc = await PurposeTemplateServices.addDocumentToAnnotation({
+    addDocumentToAnnotation(
+      {
         purposeTemplateId,
-        answerId: existingAnswerId,
-        documentPayload,
-      })
-
-      // Update form with the uploaded document
-      const currentDocs =
-        (watch(
-          `annotations.${questionKey}.docs`
-        ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
-      setValue(`annotations.${questionKey}.docs`, [...currentDocs, uploadedDoc], {
-        shouldDirty: true,
-      })
-
-      // Reset document form and hide input
-      documentFormMethods.reset()
-      setShowDocInput(false)
-      setSelectedFile(null)
-
-      // Show success notification
-      showToast(t('notifications.documentUploadedSuccess'), 'success')
-    } catch (error) {
-      console.error('Error uploading document:', error)
-      // Show error notification
-      showToast(t('notifications.documentUploadError'), 'error')
-    }
+        answerId: watch(`answerIds.${questionKey}`),
+        documentPayload: { prettyName: doc.name, doc },
+      },
+      {
+        onSuccess: (uploadedDoc) => {
+          setValue(`annotations.${questionKey}.docs`, [...getCurrentDocs(), uploadedDoc], {
+            shouldDirty: true,
+          })
+          documentFormMethods.reset()
+          setShowDocInput(false)
+          setSelectedFile(null)
+        },
+      }
+    )
   }
 
   const handleDocumentDownload = async (doc: EServiceDoc) => {
@@ -286,35 +249,26 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   }
 
   const handleDelete = async (doc: EServiceDoc) => {
-    try {
-      const existingAnswerId = watch(`answerIds.${questionKey}`)
-
-      if (existingAnswerId) {
-        // Delete document from backend
-        await PurposeTemplateServices.deleteDocumentFromAnnotation({
-          purposeTemplateId,
-          answerId: existingAnswerId,
-          documentId: doc.id,
-        })
-      }
-
-      // Update form by removing the document
-      const currentDocs =
-        (watch(
-          `annotations.${questionKey}.docs`
-        ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
+    const existingAnswerId = watch(`answerIds.${questionKey}`)
+    const removeDocFromForm = () => {
       setValue(
         `annotations.${questionKey}.docs`,
-        currentDocs.filter((d) => d.id !== doc.id),
+        getCurrentDocs().filter((d) => d.id !== doc.id),
         { shouldDirty: true }
       )
-
-      // Show success notification
-      showToast(t('notifications.documentDeletedSuccess'), 'success')
-    } catch (error) {
-      console.error('Error deleting document:', error)
-      showToast(t('notifications.documentDeleteError'), 'error')
     }
+
+    if (!existingAnswerId) {
+      // The document exists only locally: nothing to delete on the backend
+      removeDocFromForm()
+      showToast(t('notifications.documentDeletedSuccess'), 'success')
+      return
+    }
+
+    deleteDocumentFromAnnotation(
+      { purposeTemplateId, answerId: existingAnswerId, documentId: doc.id },
+      { onSuccess: removeDocFromForm }
+    )
   }
 
   const handleUpdatePrettyName = (documentId: string, prettyName: string) => {

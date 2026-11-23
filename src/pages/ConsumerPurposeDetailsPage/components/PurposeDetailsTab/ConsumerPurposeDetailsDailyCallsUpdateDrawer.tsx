@@ -97,10 +97,11 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
           label={t('dailyCallsFormField.label')}
           infoLabel={t('dailyCallsFormField.infoLabel')}
           focusOnMount={true}
-          inputProps={{ min: '1' }}
+          inputProps={{ min: '1', max: '1000000000' }}
           rules={{
             required: true,
             min: 1,
+            max: 1_000_000_000,
             validate: (value) =>
               value !== currentDailyCalls || t('dailyCallsFormField.validation.sameValue'),
           }}

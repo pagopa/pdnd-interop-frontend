@@ -48,10 +48,11 @@ export function PurposeLoadEstimationSection({
         label={t('edit.loadEstimationSection.dailyCalls.label')}
         infoLabel={t('edit.loadEstimationSection.dailyCalls.infoLabel')}
         type="number"
-        inputProps={{ min: '1' }}
+        inputProps={{ min: '1', max: '1000000000' }}
         rules={{
           required: true,
           min: 1,
+          max: 1_000_000_000,
           validate: (value) =>
             Number.isInteger(Number(value)) ||
             t('edit.loadEstimationSection.dailyCalls.validation.integer'),

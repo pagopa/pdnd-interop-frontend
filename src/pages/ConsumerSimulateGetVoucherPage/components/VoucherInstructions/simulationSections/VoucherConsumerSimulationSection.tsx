@@ -7,7 +7,7 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { ClientQueries } from '@/api/client'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
-import { useToastNotification } from '@/stores'
+import { showBackendErrorToast } from '@/config/query-client'
 import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
 import {
   INTERACTION_TYPE,
@@ -24,7 +24,6 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
   const { t } = useTranslation('voucher')
   const { watch, setValue } = useFormContext<VoucherConsumerSimulationSectionForm>()
   const clientKind = useClientKind()
-  const { showToast } = useToastNotification()
 
   const clientId = watch('clientId') || ''
   const interactionType = watch('interactionType')
@@ -44,6 +43,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
     data: client,
     isFetching: isFetchingClient,
     isError: isClientError,
+    error: clientError,
   } = useQuery({
     ...ClientQueries.getSingle(clientId),
     enabled: Boolean(clientId),
@@ -66,9 +66,9 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
 
   useEffect(() => {
     if (clientKind === 'CONSUMER' && isClientError && !isFetchingClient) {
-      showToast(t('generalForm.purposeSelectInput.error'), 'error')
+      showBackendErrorToast(clientError, t('generalForm.purposeSelectInput.error'))
     }
-  }, [clientKind, isClientError, isFetchingClient, showToast, t])
+  }, [clientKind, isClientError, isFetchingClient, clientError, t])
 
   useEffect(() => {
     if (
