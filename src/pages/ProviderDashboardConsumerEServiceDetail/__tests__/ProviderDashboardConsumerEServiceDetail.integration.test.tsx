@@ -102,6 +102,10 @@ const MonitoringEntryPoint = () => {
     <ProviderEServiceMonitoringConsumersTable
       eserviceId={eserviceId!}
       descriptorId={descriptorId!}
+      consumersData={getMockProducerEServiceMonitoringSaturation({
+        eserviceId: eserviceId!,
+        descriptorId: descriptorId!,
+      })}
     />
   )
 }
