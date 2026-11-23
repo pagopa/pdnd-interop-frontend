@@ -41,7 +41,7 @@ export function formatTenantHierarchy(tenantName: string, parentTenants?: Parent
 }
 
 export function formatHierarchyWithoutParentRoot(
-  tenant: Tenant,
+  tenant: Pick<Tenant, 'name' | 'subUnitType'>,
   parentTenants?: ParentTenant[]
 ): string {
   /* Case root: gets the tenant name only */
