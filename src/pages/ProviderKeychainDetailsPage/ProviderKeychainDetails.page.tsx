@@ -125,10 +125,6 @@ const ProviderKeychainDetailsPage: React.FC = () => {
         </Stack>
       }
       isLoading={isLoadingKeychain}
-      backToAction={{
-        label: t('actions.backToKeychainsListLabel'),
-        to: 'SUBSCRIBE_CATALOG_LIST',
-      }}
     >
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">

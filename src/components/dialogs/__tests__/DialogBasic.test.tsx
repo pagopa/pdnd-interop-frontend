@@ -3,8 +3,50 @@ import userEvent from '@testing-library/user-event'
 import { DialogBasic } from '../DialogBasic'
 import { apiGuideLink } from '@/config/constants'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
+import { Dialog } from '../Dialog'
+import { useDialog } from '@/stores'
 
 describe('DialogBasic', () => {
+  it('keeps a regular basic mutation confirmation disabled for support through the dialog host', async () => {
+    const user = userEvent.setup()
+    const onProceed = vi.fn()
+    const MutationAction = () => {
+      const { openDialog } = useDialog()
+      return (
+        <button
+          onClick={() =>
+            openDialog({
+              type: 'basic',
+              title: 'Confirm mutation',
+              onProceed,
+              disabled: false,
+              checkbox: 'I understand',
+            })
+          }
+        >
+          Open mutation
+        </button>
+      )
+    }
+
+    renderWithApplicationContext(
+      <SupportActionGuardProvider isSupport>
+        <MutationAction />
+        <Dialog />
+      </SupportActionGuardProvider>,
+      {}
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Open mutation' }))
+    await user.click(screen.getByRole('checkbox', { name: 'I understand' }))
+    expect(screen.getByRole('checkbox', { name: 'I understand' })).toBeChecked()
+    const confirmButton = screen.getByRole('button', { name: 'confirm' })
+    expect(confirmButton).toBeDisabled()
+    expect(onProceed).not.toHaveBeenCalled()
+    expect(screen.getByRole('dialog', { name: 'Confirm mutation' })).toBeVisible()
+  })
+
   it('should render a description link when provided', () => {
     renderWithApplicationContext(
       <DialogBasic

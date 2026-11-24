@@ -18,6 +18,7 @@ import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { EServiceMutations } from '@/api/eservice'
 import SaveIcon from '@mui/icons-material/Save'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 export interface ExtendedTemplateInstanceInterfaceMetadata extends Omit<
   TemplateInstanceInterfaceMetadata,
@@ -71,6 +72,7 @@ export const GenerateInterfaceForm: React.FC = () => {
     EServiceMutations.useDeleteAndUpdateEServiceInterfaceSOAPInfo()
 
   const formMethods = useForm({ defaultValues })
+  usePageContainerFormDirtyState(formMethods.control)
 
   const fieldsArray = useFieldArray({
     control: formMethods.control,
@@ -89,15 +91,24 @@ export const GenerateInterfaceForm: React.FC = () => {
       }))
     }
 
+    // Saved values become the new baseline so the page stops reporting unsaved changes
+    const onSuccess = () => formMethods.reset(values)
+
     if (descriptor.eservice.technology === 'REST') {
       onRestApiSubmit(
         values,
         mapServerUrls(values.serverUrls),
         descriptor?.eservice.id,
-        descriptor?.id
+        descriptor?.id,
+        onSuccess
       )
     } else {
-      onSoapApiSubmit(mapServerUrls(values.serverUrls), descriptor?.eservice.id, descriptor?.id)
+      onSoapApiSubmit(
+        mapServerUrls(values.serverUrls),
+        descriptor?.eservice.id,
+        descriptor?.id,
+        onSuccess
+      )
     }
   }
 
@@ -105,7 +116,8 @@ export const GenerateInterfaceForm: React.FC = () => {
     values: ExtendedTemplateInstanceInterfaceMetadata,
     serverUrls: TemplateInstanceInterfaceServerUrlSeed[],
     eserviceId: string,
-    descriptorId: string
+    descriptorId: string,
+    onSuccess: VoidFunction
   ) => {
     const payload: TemplateInstanceInterfaceRESTSeed = {
       contactName: values?.contactName as string,
@@ -114,28 +126,35 @@ export const GenerateInterfaceForm: React.FC = () => {
       ...(values.termsAndConditionsUrl && { termsAndConditionsUrl: values.termsAndConditionsUrl }),
       serverUrls,
     }
-    deleteAndUpdateEServiceRESTInterfaceInfo({
-      ...payload,
-      eserviceId,
-      descriptorId,
-      documentId: descriptor?.interface?.id,
-    })
+    deleteAndUpdateEServiceRESTInterfaceInfo(
+      {
+        ...payload,
+        eserviceId,
+        descriptorId,
+        documentId: descriptor?.interface?.id,
+      },
+      { onSuccess }
+    )
   }
 
   const onSoapApiSubmit = (
     serverUrls: TemplateInstanceInterfaceServerUrlSeed[],
     eserviceId: string,
-    descriptorId: string
+    descriptorId: string,
+    onSuccess: VoidFunction
   ) => {
     const payload: TemplateInstanceInterfaceSOAPSeed = {
       serverUrls,
     }
-    deleteAndUpdateEServiceSOAPInterfaceInfo({
-      ...payload,
-      eserviceId,
-      descriptorId,
-      documentId: descriptor?.interface?.id,
-    })
+    deleteAndUpdateEServiceSOAPInterfaceInfo(
+      {
+        ...payload,
+        eserviceId,
+        descriptorId,
+        documentId: descriptor?.interface?.id,
+      },
+      { onSuccess }
+    )
   }
 
   return (
