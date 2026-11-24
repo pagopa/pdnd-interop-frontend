@@ -13,6 +13,30 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni template",
+        "generalInformationTitle": "Informazioni generali",
+        "nameAndDescription": {
+          "title": "Nome, descrizione e destinatari",
+          "nameField": { "label": "Nome del template" },
+          "descriptionField": { "label": "Descrizione del template" },
+          "targetField": { "label": "A chi è rivolto il template" }
+        },
+        "versionSection": { "title": "Versione" },
+        "updateMetadataDrawer": {
+          "title": "Modifica nome, descrizione e destinatari",
+          "description": "Qui puoi aggiornare il nome, la descrizione e i destinatari del template e-service. Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
+          "nameField": {
+            "label": "Nome del template",
+            "helperText": "È il nome che comparirà nel catalogo template e-service e che diventerà il nome di base di tutti gli e-service creati a partire da questo template. Min 5 caratteri, max {{maxLength}} caratteri."
+          },
+          "descriptionField": {
+            "label": "Descrizione del template",
+            "helperText": "Descrivi quali dati il fruitore deve fornire e quali dati l’e-service restituisce. Min 10 caratteri, max {{maxLength}} caratteri"
+          },
+          "targetField": {
+            "label": "A chi è rivolto questo template?",
+            "helperText": "Min 10 caratteri, max 250 caratteri"
+          }
+        },
         "version": {
           "label": "Stai vedendo la versione"
         },

@@ -2292,6 +2292,8 @@ export interface VerifiedTenantAttributeSeed {
   id: string;
   /** @format uuid */
   agreementId: string;
+  /** @format uuid */
+  delegationId?: string;
   /** @format date-time */
   expirationDate?: string;
 }
@@ -5020,6 +5022,11 @@ export interface RevokeVerifiedAttributeParams {
    */
   agreementId: string;
   /**
+   * The ID of the producer Delegation
+   * @format uuid
+   */
+  delegationId?: string;
+  /**
    * Tenant id which attribute needs to be verified
    * @format uuid
    */
@@ -7488,6 +7495,11 @@ export namespace Tenants {
        * @format uuid
        */
       agreementId: string;
+      /**
+       * The ID of the producer Delegation
+       * @format uuid
+       */
+      delegationId?: string;
     };
     export type RequestBody = never;
     export type RequestHeaders = {};

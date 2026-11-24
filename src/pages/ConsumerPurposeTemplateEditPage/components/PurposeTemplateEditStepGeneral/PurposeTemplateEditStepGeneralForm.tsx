@@ -114,13 +114,12 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
             name="purposeDailyCalls"
             label={t('edit.step1.APICallsField.label')}
             type="number"
-            inputProps={{ min: '1' }}
+            inputProps={{ min: '1', max: '1000000000' }}
             sx={{ mb: 0 }}
-            rules={{ required: true, min: 1 }}
+            rules={{ required: true, min: 1, max: 1_000_000_000 }}
           />
         </SectionContainer>
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST', label: t('backToListBtn'), type: 'link' }}
           forward={{
             label: t('edit.forwardWithSaveBtn'),
             type: 'submit',
