@@ -142,6 +142,8 @@
     "export": "Export",
     "summary": {
       "eservice": "E-service",
+      "consumer": "Consumer",
+      "version": "Version",
       "eserviceValue": "{{name}}, V{{version}}",
       "otherVersionsLabel": "Other versions",
       "otherVersionAriaLabel": "View version {{version}}",

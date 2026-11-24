@@ -53,7 +53,7 @@ vi.mock('@/components/layout/containers', async (importOriginal) => {
     }) => (
       <main>
         <div data-testid="breadcrumbs">{JSON.stringify(breadcrumbRouteLabelOverrides ?? {})}</div>
-        {!isLoading && <h1>{title}</h1>}
+        {!isLoading && title && <h1>{title}</h1>}
         <p>{description}</p>
         {titleAction}
         {children}
@@ -186,7 +186,10 @@ const renderPage = async ({
 
 const mainCalls = () => getPurposes.mock.calls.map(([params]) => params)
 const breadcrumbs = () =>
-  JSON.parse(screen.getByTestId('breadcrumbs').textContent ?? '{}') as Record<string, string>
+  JSON.parse(screen.getByTestId('breadcrumbs').textContent ?? '{}') as Record<
+    string,
+    string | false
+  >
 
 describe('ProviderDashboardConsumerEServiceDetail', () => {
   beforeEach(() => {
@@ -226,10 +229,18 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     const user = userEvent.setup()
     await renderPage({ language })
     expect(
-      await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
-    ).toBeInTheDocument()
+      await screen.findByRole('heading', { level: 1, name: 'Anagrafe nazionale' })
+    ).toBeVisible()
     expect(screen.getByText(labels.description)).toBeInTheDocument()
-    expect(screen.getByText('Anagrafe nazionale, V2')).toBeInTheDocument()
+    const summary = screen.getByText(labels.summary.consumer).closest('dl')!
+    const entries = Array.from(summary.children)
+    expect(entries.slice(0, 4).map((entry) => entry.textContent)).toEqual([
+      labels.summary.consumer,
+      'Regione Lombardia',
+      labels.summary.version,
+      expect.stringContaining(labels.summary.versionShort.replace('{{version}}', '2')),
+    ])
+    expect(within(summary).queryByText('Anagrafe nazionale, V2')).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', {
         name: labels.summary.otherVersionAriaLabel.replace('{{version}}', '1'),
@@ -277,6 +288,49 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     exportButton.click()
     expect(exportButton).toBeDisabled()
   })
+
+  it.each([
+    { language: 'it', labels: itPages.providerDashboardConsumerEServiceDetail },
+    { language: 'en', labels: enPages.providerDashboardConsumerEServiceDetail },
+  ] as const)(
+    'keeps the monitoring e-service summary in $language',
+    async ({ language, labels }) => {
+      await renderPage({ origin: 'monitoring', language })
+      expect(
+        await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
+      ).toBeVisible()
+      const summary = screen.getByText(labels.summary.eservice).closest('dl')!
+      const entries = Array.from(summary.children)
+      expect(entries[0]).toHaveTextContent(labels.summary.eservice)
+      expect(entries[1]).toHaveTextContent(
+        labels.summary.eserviceValue
+          .replace('{{name}}', 'Anagrafe nazionale')
+          .replace('{{version}}', '2')
+      )
+      expect(within(summary).queryByText(labels.summary.consumer)).not.toBeInTheDocument()
+      expect(
+        within(summary).getByRole('link', {
+          name: labels.summary.otherVersionAriaLabel.replace('{{version}}', '1'),
+        })
+      ).toHaveAttribute(
+        'href',
+        `/${language}/erogazione/e-service/${ESERVICE_ID}/descriptor-1/monitoraggio/fruitori/${CONSUMER_ID}`
+      )
+    }
+  )
+
+  it.each(['dashboard', 'monitoring'] as const)(
+    'omits other-version links when there are none in %s',
+    async (origin) => {
+      getPurposes.mockImplementation(async (params) => buildResponse(params, { otherVersions: [] }))
+      await renderPage({ origin })
+      await screen.findByRole('table')
+      expect(screen.queryByText(copy.summary.otherVersionsLabel)).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('link', { name: /Vai alla versione|Go to version/i })
+      ).not.toBeInTheDocument()
+    }
+  )
 
   it('requests newest first by default with includeArchived=false', async () => {
     await renderPage()
@@ -431,7 +485,7 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     )
   })
 
-  it('uses dashboard breadcrumbs: consumer name then e-service name', async () => {
+  it('uses dashboard breadcrumbs with the consumers list and the consumer name', async () => {
     await renderPage({ origin: 'dashboard' })
     await screen.findByRole('table')
     expect(breadcrumbs()).toEqual({
@@ -440,12 +494,12 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     })
   })
 
-  it('uses monitoring breadcrumbs: Gestisci E-service then e-service name', async () => {
+  it('uses monitoring breadcrumbs without the management parent', async () => {
     await renderPage({ origin: 'monitoring' })
     await screen.findByRole('table')
     expect(breadcrumbs()).toEqual({
-      PROVIDE_ESERVICE_MANAGE: copy.breadcrumbManageEService,
-      PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL: 'Anagrafe nazionale',
+      PROVIDE_ESERVICE_MANAGE: false,
+      PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL: 'Regione Lombardia',
     })
     expect(
       screen.getByRole('link', {
@@ -464,19 +518,25 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
   })
 
-  it('shows an error with retry', async () => {
-    const user = userEvent.setup()
-    getPurposes.mockRejectedValueOnce(new Error('boom'))
-    await renderPage()
-    expect(await screen.findByText(copy.loadError)).toBeInTheDocument()
-    expect(screen.queryByRole('table')).not.toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: copy.retry }))
-    expect(await screen.findByRole('table')).toBeInTheDocument()
-    expect(await screen.findByText(copy.waitingApproval.title)).toBeInTheDocument()
-    expect(getPurposes).toHaveBeenCalledTimes(2)
-  })
+  it.each(['dashboard', 'monitoring'] as const)(
+    'shows an error with retry in %s',
+    async (origin) => {
+      const user = userEvent.setup()
+      getPurposes.mockRejectedValueOnce(new Error('boom'))
+      await renderPage({ origin })
+      expect(await screen.findByText(copy.loadError)).toBeInTheDocument()
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: copy.retry }))
+      expect(await screen.findByRole('table')).toBeInTheDocument()
+      expect(await screen.findByText(copy.waitingApproval.title)).toBeInTheDocument()
+      expect(getPurposes).toHaveBeenCalledTimes(2)
+    }
+  )
 
-  it('shows the no-relationship state when consumer is missing', async () => {
+  it.each([
+    { origin: 'dashboard', title: 'Anagrafe nazionale' },
+    { origin: 'monitoring', title: copy.fallbackTitle },
+  ] as const)('shows the $origin fallback when consumer is missing', async ({ origin, title }) => {
     getPurposes.mockImplementation(async (params) =>
       buildResponse(params, {
         consumer: undefined,
@@ -485,9 +545,9 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
         pagination: { offset: 0, limit: 10, totalCount: 0 },
       })
     )
-    await renderPage()
+    await renderPage({ origin })
     expect(await screen.findByText(copy.noRelationship)).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 1, name: copy.fallbackTitle })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: title })).toBeInTheDocument()
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
     expect(screen.queryByText(copy.waitingApproval.title)).not.toBeInTheDocument()
   })
@@ -510,7 +570,7 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
           })
         : Promise.resolve(buildResponse(params))
     )
-    await renderPage()
+    await renderPage({ origin: 'monitoring' })
     await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
     await user.click(screen.getByRole('button', { name: 'switch consumer' }))
     await waitFor(() => expect(screen.queryByText('Verifica residenza')).not.toBeInTheDocument())

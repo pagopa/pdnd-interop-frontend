@@ -142,6 +142,8 @@
     "export": "Esporta",
     "summary": {
       "eservice": "E-service",
+      "consumer": "Fruitore",
+      "version": "Versione",
       "eserviceValue": "{{name}}, V{{version}}",
       "otherVersionsLabel": "Altre versioni",
       "otherVersionAriaLabel": "Vedi la versione {{version}}",

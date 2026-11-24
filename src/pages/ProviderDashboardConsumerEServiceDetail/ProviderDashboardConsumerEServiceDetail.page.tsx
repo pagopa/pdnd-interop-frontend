@@ -125,14 +125,21 @@ export default function ProviderDashboardConsumerEServiceDetail({
   const consumer = isError ? undefined : data?.consumer
   const isNoRelationship = !isError && Boolean(data) && !data?.consumer
 
-  const title = consumer?.name ?? t('fallbackTitle')
   const eserviceName = isError ? undefined : data?.eservice.name
+  const title = (origin === 'dashboard' ? eserviceName : consumer?.name) ?? t('fallbackTitle')
 
   const breadcrumbRouteLabelOverrides: Partial<Record<RouteKey, string | false>> = {
     ...(origin === 'dashboard'
-      ? consumer && { PROVIDE_DASHBOARD_CONSUMER_DETAIL: consumer.name }
-      : { PROVIDE_ESERVICE_MANAGE: t('breadcrumbManageEService') }),
-    ...(eserviceName && { [routeKey]: eserviceName }),
+      ? {
+          // Erogazione > Panoramica > Lista fruitori > {consumer} > {e-service}. Until the consumer
+          // is known (loading/error/no relationship) the parent keeps its generic route label.
+          ...(consumer && { PROVIDE_DASHBOARD_CONSUMER_DETAIL: consumer.name }),
+          ...(eserviceName && { [routeKey]: eserviceName }),
+        }
+      : {
+          PROVIDE_ESERVICE_MANAGE: false,
+          ...(consumer && { [routeKey]: consumer.name }),
+        }),
   }
 
   const getVersionPath = (otherDescriptorId: string) =>
@@ -189,17 +196,21 @@ export default function ProviderDashboardConsumerEServiceDetail({
   ]
 
   const exportAction = (
-    // TODO: Implement export for the consumer's purposes.
-    <MIButton
-      type="button"
-      variant="outlined"
-      size="small"
-      color="primary"
-      startIcon={<FileDownloadOutlinedIcon />}
-      disabled
-    >
-      {t('export')}
-    </MIButton>
+    // Never shrink/wrap the action and keep it right-aligned even when it is the only header item
+    // (no title while loading); the title is the flexible item and wraps instead.
+    <Box sx={{ ml: 'auto', flexShrink: 0, whiteSpace: 'nowrap' }}>
+      {/* TODO: Implement export for the consumer's purposes. */}
+      <MIButton
+        type="button"
+        variant="outlined"
+        size="small"
+        color="primary"
+        startIcon={<FileDownloadOutlinedIcon />}
+        disabled
+      >
+        {t('export')}
+      </MIButton>
+    </Box>
   )
 
   const renderBody = () => {
@@ -240,7 +251,12 @@ export default function ProviderDashboardConsumerEServiceDetail({
 
     return (
       <>
-        <ConsumerEServiceSummary data={data} getVersionPath={getVersionPath} />
+        <ConsumerEServiceSummary
+          data={data}
+          consumerName={consumer.name}
+          origin={origin}
+          getVersionPath={getVersionPath}
+        />
 
         {(data.waitingForApprovalPurposes ?? 0) > 0 && (
           <Alert
@@ -321,10 +337,13 @@ export default function ProviderDashboardConsumerEServiceDetail({
   }
 
   return (
+    // `isLoading` is intentionally not forwarded: PageContainer would replace the whole intro
+    // (subtitle and export action included) with a skeleton. Only the title depends on the data,
+    // so it is omitted while pending (avoids a stale/fallback heading) and the body shows its own
+    // busy skeleton.
     <PageContainer
       dashboardFlow
-      isLoading={isPending}
-      title={title}
+      title={isPending ? undefined : title}
       description={t('description')}
       titleAction={exportAction}
       breadcrumbRouteLabelOverrides={breadcrumbRouteLabelOverrides}
