@@ -101,16 +101,12 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
     expect(downloadButton).not.toBeInTheDocument()
   })
 
-  it.each([undefined, purpose.currentVersion?.riskAnalysisDocument])(
-    'shows the download disabled after activation while the signed PDF is not ready (base PDF: %j)',
-    (riskAnalysisDocument) => {
-      const mockPurposeWithDocumentNotReady: Purpose = {
-        ...purpose,
-        isDocumentReady: false,
-        currentVersion: { ...purpose.currentVersion!, riskAnalysisDocument },
-      }
+  it.each([false, true])(
+    'shows the download disabled without signed PDF metadata (isDocumentReady: %s)',
+    (isDocumentReady) => {
+      const purposeWithoutSignedDocument: Purpose = { ...purpose, isDocumentReady }
       const screen = renderWithApplicationContext(
-        <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentNotReady} />,
+        <ProviderPurposeDetailsGeneralInfoSection purpose={purposeWithoutSignedDocument} />,
         {
           withReactQueryContext: true,
           withRouterContext: true,
