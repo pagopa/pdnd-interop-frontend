@@ -9,6 +9,10 @@ import type {
   CompactUser,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
+import type {
+  EServiceAgreement,
+  EServiceConsumer,
+} from '@/pages/ConsumerEServiceDetailsPage/hooks/useActions'
 import type { NavigationTarget, RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
