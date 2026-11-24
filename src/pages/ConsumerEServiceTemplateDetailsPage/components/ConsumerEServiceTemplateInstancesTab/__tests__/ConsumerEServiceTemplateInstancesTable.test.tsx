@@ -49,9 +49,9 @@ const mockInstancesQuery = (response: Partial<EServiceTemplateInstances>) =>
       })
     )
 
-const renderTable = () =>
+const renderTable = (searchParams = '') =>
   renderWithApplicationContext(
-    <NuqsTestingAdapter hasMemory>
+    <NuqsTestingAdapter searchParams={searchParams} hasMemory>
       <ConsumerEServiceTemplateInstancesTable
         eserviceTemplateId="template-id"
         eserviceTemplateVersions={eserviceTemplateVersions}
@@ -283,6 +283,17 @@ describe('ConsumerEServiceTemplateInstancesTable', () => {
     await screen.findByText('First Producer')
 
     expect(screen.getByRole('navigation')).toBeInTheDocument()
+  })
+
+  it('keeps the pagination instead of the empty state when the current page is out of range', async () => {
+    mockInstancesQuery({
+      results: [],
+      pagination: { offset: 20, limit: 10, totalCount: 15 },
+    })
+    renderTable('?offset=20')
+
+    expect(await screen.findByRole('navigation')).toBeInTheDocument()
+    expect(screen.queryByText('list.myInstancesTable.noDataLabel')).not.toBeInTheDocument()
   })
 
   it('shows the empty state message when there are no instances', async () => {

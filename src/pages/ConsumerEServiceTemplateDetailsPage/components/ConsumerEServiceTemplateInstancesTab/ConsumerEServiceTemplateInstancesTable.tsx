@@ -128,7 +128,7 @@ export const ConsumerEServiceTemplateInstancesTable: React.FC<
     },
   ]
 
-  if (!isLoading && instances.length === 0) {
+  if (!isLoading && totalCount === 0) {
     return <NoItemResults>{t('list.myInstancesTable.noDataLabel')}</NoItemResults>
   }
 
