@@ -80,14 +80,6 @@ export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({
       id: 'producer',
       header: tHead('providerName'),
       renderCell: ({ eservice: { producer } }) => {
-        producer.subUnitType = 'AOO'
-        producer.name = 'Direzione Mobilità'
-        producer.parentTenants = [
-          {
-            id: '321',
-            name: 'Comune di Milano',
-          },
-        ]
         const rootTenantName = getRootTenantFromHierarchy(producer.parentTenants)
 
         return (
