@@ -1,4 +1,0 @@
-export {
-  EServiceTemplateInstancesTableRow as ConsumerEServiceTemplateInstancesTableRow,
-  EServiceTemplateInstancesTableRowSkeleton as ConsumerEServiceTemplateInstancesTableRowSkeleton,
-} from '@/components/shared/EserviceTemplate/EServiceTemplateInstancesTableRow'

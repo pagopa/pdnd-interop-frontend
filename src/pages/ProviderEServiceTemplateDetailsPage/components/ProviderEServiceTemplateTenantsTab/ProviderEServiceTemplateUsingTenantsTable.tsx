@@ -86,7 +86,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
         const rootTenantName = getRootTenantFromHierarchy(instance.producerParentTenants)
 
         return (
-          <Stack>
+          <Stack spacing={0.5}>
             <span>
               {formatHierarchyWithoutParentRoot(
                 { name: instance.producerName, subUnitType: instance.producerSubUnitType },
