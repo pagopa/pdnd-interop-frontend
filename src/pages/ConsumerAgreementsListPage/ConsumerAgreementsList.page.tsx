@@ -1,12 +1,17 @@
 import { AgreementQueries } from '@/api/agreement'
-import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
-import React from 'react'
+import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerAgreementsTable } from './components/ConsumerAgreementsTable'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { GetConsumerAgreementsParams } from '@/api/api.generatedTypes'
 import { usePagination } from '@/hooks/usePagination'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
+import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
+import { useFilters } from '@/hooks/useFilters'
+import type { FilterFields } from '@/types/filters.types'
+
+type ConsumerAgreementsFilters = Omit<GetConsumerAgreementsParams, 'limit' | 'offset'>
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
@@ -43,9 +48,7 @@ const ConsumerAgreementsListPage: React.FC = () => {
   })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
-  const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetConsumerAgreementsParams, 'limit' | 'offset'>
-  >([
+  const fields: FilterFields<keyof ConsumerAgreementsFilters> = [
     {
       name: 'eservicesIds',
       label: tAgreement('eserviceField.label'),
@@ -77,7 +80,27 @@ const ConsumerAgreementsListPage: React.FC = () => {
         { label: tAgreement('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
       ],
     },
-  ])
+  ]
+  const { filters, ...filtersHandlers } = useFilters<ConsumerAgreementsFilters>(fields)
+
+  const filtersParams = useMemo(() => {
+    const mappedFilters: ConsumerAgreementsFilters = {}
+    Object.entries(filters).forEach(([key, value]) => {
+      if (
+        value === null ||
+        value === false ||
+        value === '' ||
+        (Array.isArray(value) && value.length === 0)
+      ) {
+        mappedFilters[key as keyof ConsumerAgreementsFilters] = undefined
+        return
+      }
+
+      mappedFilters[key as keyof ConsumerAgreementsFilters] = value as never
+    })
+
+    return mappedFilters
+  }, [filters])
 
   const params: GetConsumerAgreementsParams = {
     ...paginationParams,
@@ -88,7 +111,12 @@ const ConsumerAgreementsListPage: React.FC = () => {
 
   return (
     <NewPageContainer title={t('title')} description={t('description')}>
-      <Filters {...filtersHandlers} />
+      <FiltersSection
+        filters={filters}
+        {...filtersHandlers}
+        results={data?.pagination.totalCount}
+        submitButtonVariant="outlined"
+      />
       <ConsumerAgreementsTable
         agreements={data?.results ?? []}
         isLoading={!data && isFetching}
