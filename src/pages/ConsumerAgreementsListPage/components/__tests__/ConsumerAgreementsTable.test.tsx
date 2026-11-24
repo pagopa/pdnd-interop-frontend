@@ -170,6 +170,7 @@ describe.each(['desktop', 'mobile'])('ConsumerAgreementsTable on %s', (layout) =
           eservice: {
             producer: {
               name: 'Registry provider',
+              subUnitType: 'UO',
               parentTenants: [{ id: 'root', name: rootName }],
             },
           },
