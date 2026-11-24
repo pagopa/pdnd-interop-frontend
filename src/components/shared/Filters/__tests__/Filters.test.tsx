@@ -44,7 +44,25 @@ describe('Filters', () => {
     render(<Filters fields={fields} filters={{}} onChangeActiveFilters={onChangeActiveFilters} />)
     expect(screen.getByTestId('field-q')).toBeInTheDocument()
     expect(screen.getByTestId('field-name')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'button' })).toHaveAttribute('type', 'submit')
+    const submitButton = screen.getByRole('button', { name: 'button' })
+    expect(submitButton).toHaveAttribute('type', 'submit')
+    expect(submitButton).toHaveClass('MuiButton-contained')
+  })
+
+  it.each([
+    { variant: 'text', className: 'MuiButton-text' },
+    { variant: 'outlined', className: 'MuiButton-outlined' },
+  ] as const)('uses the requested $variant submit button variant', ({ variant, className }) => {
+    render(
+      <Filters
+        fields={fields}
+        filters={{}}
+        onChangeActiveFilters={onChangeActiveFilters}
+        submitButtonVariant={variant}
+      />
+    )
+
+    expect(screen.getByRole('button', { name: 'button' })).toHaveClass(className)
   })
 
   it('initializes the fields with the given filters values', () => {

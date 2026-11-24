@@ -1,6 +1,6 @@
 import type { FilterFields, FilterFieldsValues, FiltersHandler } from '@/types/filters.types'
 import { Grid } from '@mui/material'
-import { MIButton as Button } from '@pagopa/mui-italia'
+import { MIButton as Button, type MIButtonProps } from '@pagopa/mui-italia'
 import { FilterField } from './FilterField'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import {
@@ -16,9 +16,15 @@ type FiltersProps = {
   filters: FilterFieldsValues
   fields: FilterFields
   onChangeActiveFilters: FiltersHandler
+  submitButtonVariant?: MIButtonProps['variant']
 }
 
-export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiveFilters }) => {
+export const Filters: React.FC<FiltersProps> = ({
+  fields,
+  filters,
+  onChangeActiveFilters,
+  submitButtonVariant = 'contained',
+}) => {
   const { t } = useTranslation('filters')
   const values = getFiltersValues(fields, filters)
 
@@ -74,7 +80,7 @@ export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiv
         <Grid item xs={12} md={md}>
           <Button
             type="submit"
-            variant="contained"
+            variant={submitButtonVariant}
             color="primary"
             sx={{ width: { xs: '100%', md: 'auto' } }}
           >
