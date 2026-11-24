@@ -15,6 +15,7 @@ import {
 import { PurposeDownloads, PurposeMutations } from '@/api/purpose'
 import DownloadIcon from '@mui/icons-material/Download'
 import { AuthHooks } from '@/api/auth'
+import { shouldShowRiskAnalysisDownload } from '@/utils/purpose.utils'
 
 type ConsumerPurposeDetailsGeneralInfoSectionProps = {
   purpose: Purpose
@@ -52,14 +53,17 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   }
 
   const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
+  const { currentVersion } = purpose
+  const signedContractId = currentVersion?.signedContract?.id
+  const canDownloadRiskAnalysis = purpose.isDocumentReady && Boolean(signedContractId)
 
   const handleDownloadSignedDocument = () => {
-    if (!purpose.currentVersion || !purpose.currentVersion.signedContract) return
+    if (!purpose.isDocumentReady || !currentVersion || !signedContractId) return
     downloadSignedRiskAnalysis(
       {
         purposeId: purpose.id,
-        versionId: purpose.currentVersion.id,
-        signedContractId: purpose.currentVersion.signedContract?.id,
+        versionId: currentVersion.id,
+        signedContractId,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )
@@ -71,8 +75,8 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     component: 'button',
     type: 'button',
     sx: { fontWeight: '700' },
-    disabled: purpose.isDocumentReady === false,
-    tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
+    disabled: !canDownloadRiskAnalysis,
+    tooltip: !canDownloadRiskAnalysis ? tShared('notAvailableYet') : undefined,
     onClick: handleDownloadSignedDocument,
     'data-testid': 'download-risk-analysis-document-button',
   }
@@ -83,9 +87,9 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     <SectionContainer
       title={t('title')}
       bottomActions={[
-        ...(!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument
-          ? []
-          : [downloadRiskAnalysisDocumentAction]),
+        ...(shouldShowRiskAnalysisDownload(currentVersion)
+          ? [downloadRiskAnalysisDocumentAction]
+          : []),
         {
           startIcon: <LinkIcon fontSize="small" />,
           label: t('agreementLink.label'),
