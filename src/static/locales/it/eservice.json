@@ -1,6 +1,24 @@
 {
   "consumer": {
     "detail": {
+      "alerts": {
+        "deprecated": "Questa versione dell’e-service è obsoleta, ma è ancora attiva. È disponibile una nuova versione.",
+        "deprecatedArchivingDescriptorWithAgreements": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Dopo questa data potrai utilizzare solo la nuova versione per scambiare dati con l’e-service.",
+        "deprecatedArchivingDescriptorWithoutAgreements": "Questa versione è in fase di archiviazione. Sarà archiviata il giorno {{date}} e non può accettare nuove richieste di fruizione.",
+        "deprecatedArchivingEServiceWithAgreements": "Questo e-service è in fase di archiviazione e sarà archiviato il giorno {{date}}.",
+        "deprecatedArchivingEServiceWithoutAgreements": "Questo e-service è in fase di archiviazione. Sarà archiviato il giorno {{date}} e non può accettare nuove richieste di fruizione.",
+        "suspended": "Questa versione è al momento sospesa. Fino alla sua riattivazione non può accettare nuove richieste di fruizione.",
+        "suspendedWithAgreements": "Questa versione è al momento sospesa. Fino alla sua riattivazione non potrai scambiare dati.",
+        "archivingEService": "Questo e-service è in fase di archiviazione. Sarà archiviato il giorno {{date}} e non può accettare nuove richieste di fruizione.",
+        "archivingEServiceWithAgreements": "Questo e-service è in fase di archiviazione e sarà archiviato il giorno {{date}}.",
+        "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
+        "missingProducerKeychainKeys": "L’erogatore non ha ancora collegato le chiavi al portachiavi di questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
+        "viewProducerKeychains": "Collega portachiavi",
+        "missingCertifiedAttribute": {
+          "content": "Il tuo ente non possiede gli attributi necessari per richiedere la fruizione.",
+          "action": "Verifica i requisiti di accesso"
+        }
+      },
       "actions": {
         "version": {
           "change": "Vedi ultima versione"
@@ -1120,11 +1138,7 @@
       "missingProducerKeychainKeys": "L’erogatore non ha ancora collegato le chiavi al portachiavi di questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
       "providerMissingProducerKeychain": "Collega un portachiavi a questo e-service asincrono per abilitare lo scambio dati.",
       "providerMissingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service asincrono per abilitare lo scambio dati.",
-      "viewProducerKeychains": "Collega portachiavi",
-      "missingCertifiedAttribute": {
-        "content": "Il tuo ente non possiede gli attributi necessari per richiedere la fruizione.",
-        "action": "Verifica i requisiti di accesso"
-      }
+      "viewProducerKeychains": "Collega portachiavi"
     },
     "dialogSuspendArchivingEservice": {
       "title": "Sospendi versione di e-service in fase di archiviazione",
