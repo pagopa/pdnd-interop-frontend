@@ -83,6 +83,10 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
         { withReactQueryContext: true, withRouterContext: true },
         createMemoryHistory({ initialEntries: [`/test?tab=${attributeKey}`] })
       )
+      const attributeTabName = `step2.thresholdsAndAttributes.accessRequirements.tabs.${attributeKey}`
+      if (attributeKey !== 'certified') {
+        await userEvent.click(screen.getByRole('tab', { name: attributeTabName }))
+      }
       const initialLocation = history.location
 
       await userEvent.click(screen.getByRole('button', { name: 'Remove removed-requirement' }))
@@ -98,6 +102,9 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
       })
       expect(history.location).toEqual(initialLocation)
+      if (attributeKey !== 'certified') {
+        await userEvent.click(screen.getByRole('tab', { name: attributeTabName }))
+      }
       expect(
         screen.queryByRole('button', { name: 'Remove removed-requirement' })
       ).not.toBeInTheDocument()
