@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm@sha256:49698b6eae8a476ebfe37652b03a415d66f4e7ea8e1f8253a46b7a7836fe59ef
+FROM mcr.microsoft.com/devcontainers/typescript-node:24-bookworm@sha256:973037be1c64ff7f0b9409ae136fd7fe83718b2af30e8872ba11ac69a422eb9b
 
 ENV npm_config_store_dir=/home/node/.local/share/pnpm/store \
     PLAYWRIGHT_BROWSERS_PATH=/home/node/.cache/ms-playwright

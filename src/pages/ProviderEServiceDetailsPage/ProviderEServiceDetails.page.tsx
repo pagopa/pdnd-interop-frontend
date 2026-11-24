@@ -106,10 +106,6 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       menuActions={menuActions}
       isLoading={!descriptor}
       byDelegationChip={descriptor?.delegation ? { delegation: descriptor.delegation } : undefined}
-      backToAction={{
-        label: t('actions.backToListLabel'),
-        to: 'PROVIDE_ESERVICE_LIST',
-      }}
       infoSection={
         descriptor
           ? {

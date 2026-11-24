@@ -71,7 +71,7 @@ vi.mock('@/api/purpose', () => ({
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
-    getCatalogList: () => ({
+    getCompactCatalogList: () => ({
       queryKey: ['eservices'],
       queryFn: async () => ({
         results: [],

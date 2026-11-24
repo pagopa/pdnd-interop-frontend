@@ -43,9 +43,10 @@ const ProviderKeychainCreatePage: React.FC = () => {
   return (
     <PageContainer
       title={t('create.title')}
-      backToAction={{
-        label: t('create.actions.backToKeychainsLabel'),
-        to: 'PROVIDE_KEYCHAINS_LIST',
+      navigation={{
+        mode: 'wizard',
+        exitAction: { to: 'PROVIDE_KEYCHAINS_LIST' },
+        hasUnsavedChanges: formMethods.formState.isDirty,
       }}
     >
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>

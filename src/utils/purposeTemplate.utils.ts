@@ -2,6 +2,7 @@ import { match } from 'ts-pattern'
 import type {
   CatalogEService,
   CatalogEServiceTemplate,
+  CompactCatalogEService,
   EServiceDoc,
   LinkableResource,
   LinkableResourceRequest,
@@ -11,8 +12,14 @@ import type {
   RiskAnalysisTemplateAnswerSeed,
 } from '@/api/api.generatedTypes'
 
+// Linked resources rendered in the edit step, normalized from the BE linkable resources.
 export type LinkableCandidate =
   | { resourceKind: 'ESERVICE'; value: CatalogEService }
+  | { resourceKind: 'ESERVICE_TEMPLATE'; value: CatalogEServiceTemplate }
+
+// Options offered by the resource autocomplete, e-services come from the compact catalog endpoint.
+export type LinkableOption =
+  | { resourceKind: 'ESERVICE'; value: CompactCatalogEService }
   | { resourceKind: 'ESERVICE_TEMPLATE'; value: CatalogEServiceTemplate }
 
 export type LinkableResourceView = {
@@ -23,14 +30,14 @@ export type LinkableResourceView = {
 }
 
 export function mergeLinkableCandidates(
-  eservices: CatalogEService[],
+  eservices: CompactCatalogEService[],
   templates: CatalogEServiceTemplate[]
-): LinkableCandidate[] {
+): LinkableOption[] {
   const standaloneEServices = eservices.filter(
     (e) => e.activeDescriptor?.templateVersionId === undefined
   )
 
-  const candidates: LinkableCandidate[] = [
+  const candidates: LinkableOption[] = [
     ...templates.map((t) => ({ resourceKind: 'ESERVICE_TEMPLATE' as const, value: t })),
     ...standaloneEServices.map((e) => ({ resourceKind: 'ESERVICE' as const, value: e })),
   ]
@@ -74,7 +81,7 @@ export function viewLinkableResource(resource: LinkableResource): LinkableResour
     .exhaustive()
 }
 
-export function viewLinkableCandidate(candidate: LinkableCandidate): LinkableResourceView {
+export function viewLinkableCandidate(candidate: LinkableOption): LinkableResourceView {
   return match(candidate)
     .with({ resourceKind: 'ESERVICE' }, (c) => ({
       kind: 'ESERVICE' as const,

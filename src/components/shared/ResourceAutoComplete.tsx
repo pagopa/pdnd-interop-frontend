@@ -11,7 +11,7 @@ import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes
 import {
   mergeLinkableCandidates,
   viewLinkableCandidate,
-  type LinkableCandidate,
+  type LinkableOption,
 } from '@/utils/purposeTemplate.utils'
 
 export type AlreadySelectedResourceId = {
@@ -20,13 +20,13 @@ export type AlreadySelectedResourceId = {
 }
 
 export type ResourceAutoCompleteProps = {
-  onAddResource: (resource: LinkableCandidate) => void
+  onAddResource: (resource: LinkableOption) => void
   alreadySelectedResourceIds: AlreadySelectedResourceId[]
   purposeTemplate: PurposeTemplateWithCompactCreator
   direction?: 'column' | 'row'
 }
 
-type ResourceAutoCompleteFormValues = { resource: LinkableCandidate | null }
+type ResourceAutoCompleteFormValues = { resource: LinkableOption | null }
 
 export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
   onAddResource,
@@ -48,7 +48,7 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
     purposeTemplate.handlesPersonalData === true ? 'TRUE' : 'FALSE'
 
   const formatResourceLabel = React.useCallback(
-    (candidate: LinkableCandidate) => {
+    (candidate: LinkableOption) => {
       const view = viewLinkableCandidate(candidate)
       const labelKey = view.kind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
       return t(labelKey, { name: view.name, publisher: view.publisherName })
@@ -62,7 +62,7 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
     selectedResource && searchParam === formatResourceLabel(selectedResource) ? '' : searchParam
 
   const { data: eservicesData } = useQuery(
-    EServiceQueries.getCatalogList({
+    EServiceQueries.getCompactCatalogList({
       q,
       states: ['PUBLISHED'],
       limit: 50,

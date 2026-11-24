@@ -102,10 +102,6 @@ const RiskAnalysisDetailsPage: React.FC = () => {
           ? { for: 'riskAnalysisList', state: concludedSigningState }
           : undefined
       }
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
-      }}
     >
       {purpose && concludedSigningState ? (
         <>

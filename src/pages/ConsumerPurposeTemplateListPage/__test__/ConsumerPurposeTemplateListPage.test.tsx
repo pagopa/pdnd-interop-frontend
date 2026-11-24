@@ -10,11 +10,11 @@ import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.qu
 import { EServiceQueries } from '@/api/eservice'
 import { queryClient } from '@/config/query-client'
 import { queryOptions } from '@tanstack/react-query'
-import { createMockEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
+import { createMockCompactEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
 import type {
-  CatalogEServices,
+  CompactCatalogEServices,
   CreatorPurposeTemplates,
-  GetEServicesCatalogParams,
+  GetCompactCatalogEServicesParams,
   GetCreatorPurposeTemplatesParams,
 } from '@/api/api.generatedTypes'
 
@@ -75,16 +75,18 @@ describe('ConsumerPurposeTemplateListPage draft lifecycle', () => {
     vi.spyOn(PurposeTemplateServices, 'createDraft').mockImplementation(createDraft)
     vi.spyOn(Router, 'useNavigate').mockReturnValue(navigate)
     vi.spyOn(Stores, 'useDialog').mockReturnValue({ openDialog, closeDialog: vi.fn() })
-    vi.spyOn(EServiceQueries, 'getCatalogList').mockReturnValue(
+    vi.spyOn(EServiceQueries, 'getCompactCatalogList').mockReturnValue(
       queryOptions<
-        CatalogEServices,
+        CompactCatalogEServices,
         Error,
-        CatalogEServices,
-        Array<string | GetEServicesCatalogParams>
+        CompactCatalogEServices,
+        Array<string | GetCompactCatalogEServicesParams>
       >({
         queryKey: ['catalog-options'],
         queryFn: async () => ({
-          results: [createMockEServiceCatalog({ id: 'eservice-id', name: 'Published service' })],
+          results: [
+            createMockCompactEServiceCatalog({ id: 'eservice-id', name: 'Published service' }),
+          ],
           pagination: { offset: 0, limit: 50, totalCount: 1 },
         }),
       })
