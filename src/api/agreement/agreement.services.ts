@@ -216,15 +216,6 @@ async function clone({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
-//__TO_BE_REMOVED_ //
-async function downloadContract({ agreementId }: { agreementId: string }) {
-  const response = await axiosInstance.get(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/contract`,
-    { responseType: 'arraybuffer' }
-  )
-  return response.data
-}
-
 async function downloadSignedContract({ agreementId }: { agreementId: string }) {
   const response = await axiosInstance.get(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/signedContract`,
@@ -256,6 +247,5 @@ export const AgreementServices = {
   archive,
   upgrade,
   clone,
-  downloadContract,
   downloadSignedContract,
 }

@@ -80,20 +80,6 @@ async function rejectConsumerDelegation({
   )
 }
 
-async function downloadDelegationContract({
-  delegationId,
-  contractId,
-}: {
-  delegationId: string
-  contractId: string
-}) {
-  const response = await axiosInstance.get<File>(
-    `${BACKEND_FOR_FRONTEND_URL}/delegations/${delegationId}/contracts/${contractId}`,
-    { responseType: 'arraybuffer' }
-  )
-  return response.data
-}
-
 async function downloadSignedDelegationContract({
   delegationId,
   contractId,
@@ -190,7 +176,6 @@ export const DelegationServices = {
   revokeProducerDelegation,
   approveConsumerDelegation,
   rejectConsumerDelegation,
-  downloadDelegationContract,
   createProducerDelegationAndEservice,
   createConsumerDelegation,
   getConsumerDelegators,
