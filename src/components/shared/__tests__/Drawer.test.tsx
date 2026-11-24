@@ -1,10 +1,11 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import React from 'react'
 import { Drawer } from '../Drawer'
 import { beforeEach, vi } from 'vitest'
 import { Typography } from '@mui/material'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
 import userEvent from '@testing-library/user-event'
+import { FormProvider, useForm } from 'react-hook-form'
 
 describe('Drawer test', () => {
   beforeEach(() => {
@@ -20,6 +21,54 @@ describe('Drawer test', () => {
 
     expect(container).toBeEmptyDOMElement()
   })
+
+  it('renders node titles, text subtitles, and the action-specific disabled reason', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn()
+    render(
+      <Drawer
+        isOpen
+        onClose={vi.fn()}
+        title={<Typography component="h2">Member details</Typography>}
+        subtitle="Choose members"
+        buttonAction={{
+          label: 'Save',
+          action,
+          disabled: true,
+          disabledTooltip: 'No changes',
+          variant: 'outlined',
+          color: 'primary',
+        }}
+      >
+        <Typography>Members</Typography>
+      </Drawer>
+    )
+    expect(screen.getByRole('heading', { name: 'Member details' })).toBeVisible()
+    expect(screen.getByText('Choose members')).toBeVisible()
+    const button = screen.getByRole('button', { name: 'Save' })
+    expect(button).toBeDisabled()
+    await user.hover(button.parentElement!)
+    expect(await screen.findByRole('tooltip', { name: 'No changes' })).toBeVisible()
+    expect(action).not.toHaveBeenCalled()
+  })
+
+  it.each(['close icon', 'Escape'])(
+    'forwards cancellation through %s without running the action',
+    async (method) => {
+      const user = userEvent.setup()
+      const onClose = vi.fn()
+      const action = vi.fn()
+      render(
+        <Drawer isOpen onClose={onClose} title="Members" buttonAction={{ label: 'Save', action }}>
+          <Typography>Details</Typography>
+        </Drawer>
+      )
+      if (method === 'Escape') await user.keyboard('{Escape}')
+      else await user.click(screen.getByRole('button', { name: 'closeIconAriaLabel' }))
+      expect(onClose).toHaveBeenCalledOnce()
+      expect(action).not.toHaveBeenCalled()
+    }
+  )
 
   it('should disable the action button for support users', () => {
     render(
@@ -58,5 +107,145 @@ describe('Drawer test', () => {
     await user.hover(confirmButton.parentElement!)
 
     expect(await screen.findByText('supportDisableInfo')).toBeVisible()
+  })
+
+  it('keeps the drawer open when an async action rejects', async () => {
+    const user = userEvent.setup()
+    const mutation = vi.fn().mockRejectedValue(new Error('request failed'))
+    const onClose = vi.fn()
+
+    render(
+      <Drawer
+        isOpen
+        onClose={onClose}
+        title="test title"
+        buttonAction={{
+          label: 'Confirm',
+          action: async () => {
+            await mutation()
+            onClose()
+          },
+        }}
+      >
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+
+    await waitFor(() => expect(mutation).toHaveBeenCalledOnce())
+    expect(onClose).not.toHaveBeenCalled()
+    expect(screen.getByText('TEST CHILDREN')).toBeInTheDocument()
+  })
+
+  it('closes the drawer after an async action succeeds', async () => {
+    const user = userEvent.setup()
+    const mutation = vi.fn().mockResolvedValue(undefined)
+    const onClose = vi.fn()
+
+    render(
+      <Drawer
+        isOpen
+        onClose={onClose}
+        title="test title"
+        buttonAction={{
+          label: 'Confirm',
+          action: async () => {
+            await mutation()
+            onClose()
+          },
+        }}
+      >
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+
+    await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+  })
+
+  it('forwards the action button click event to form submit handlers', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn()
+
+    render(
+      <Drawer
+        isOpen
+        onClose={vi.fn()}
+        title="test title"
+        buttonAction={{ label: 'Confirm', action }}
+      >
+        <Typography>TEST CHILDREN</Typography>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }))
+
+    expect(action).toHaveBeenCalledWith(expect.objectContaining({ type: 'click' }))
+  })
+
+  it('prevents native form submission for submit actions while forwarding the click event', async () => {
+    const user = userEvent.setup()
+    const action = vi.fn((event?: React.MouseEvent<HTMLButtonElement>) => {
+      expect(event?.defaultPrevented).toBe(true)
+    })
+    const onNativeSubmit = vi.fn((event: React.FormEvent) => event.preventDefault())
+
+    render(
+      <Drawer
+        isOpen
+        onClose={vi.fn()}
+        title="test title"
+        buttonAction={{
+          label: 'Submit form',
+          action,
+          type: 'submit',
+          form: 'native-form',
+        }}
+      >
+        <form id="native-form" onSubmit={onNativeSubmit}>
+          <Typography>TEST CHILDREN</Typography>
+        </form>
+      </Drawer>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Submit form' }))
+
+    expect(action).toHaveBeenCalledOnce()
+    expect(onNativeSubmit).not.toHaveBeenCalled()
+  })
+
+  it('submits a React Hook Form handler passed as the drawer action', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+
+    const FormDrawer = () => {
+      const formMethods = useForm({ defaultValues: { name: 'Test name' } })
+
+      return (
+        <FormProvider {...formMethods}>
+          <Drawer
+            isOpen
+            onClose={vi.fn()}
+            title="test title"
+            buttonAction={{
+              label: 'Submit form',
+              action: formMethods.handleSubmit(onSubmit),
+            }}
+          >
+            <Typography>TEST CHILDREN</Typography>
+          </Drawer>
+        </FormProvider>
+      )
+    }
+
+    render(<FormDrawer />)
+
+    await user.click(screen.getByRole('button', { name: 'Submit form' }))
+
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({ name: 'Test name' }, expect.anything())
+    )
   })
 })

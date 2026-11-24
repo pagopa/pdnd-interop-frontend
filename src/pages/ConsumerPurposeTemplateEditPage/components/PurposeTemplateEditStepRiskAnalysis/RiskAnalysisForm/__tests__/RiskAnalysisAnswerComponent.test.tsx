@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
+import { AxiosError, AxiosHeaders } from 'axios'
 import { FormProvider, useForm, type UseFormSetValue, type UseFormWatch } from 'react-hook-form'
 import { RiskAnalysisAnswerComponent } from '../RiskAnalysisAnswerComponent'
 import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
@@ -11,6 +12,10 @@ import * as PurposeTemplateMutations from '@/api/purposeTemplate/purposeTemplate
 import * as PurposeTemplateDownloads from '@/api/purposeTemplate/purposeTemplate.downloads'
 import * as useDrawerStateHook from '@/hooks/useDrawerState'
 import * as stores from '@/stores'
+import { PageContainer } from '@/components/layout/containers'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { useDialog as useRealDialog, useDialogStore } from '@/stores/dialog.store'
 
 const purposeTemplateId = 'test-template-id'
 const questionKey = 'test-question-key'
@@ -817,6 +822,150 @@ describe('RiskAnalysisAnswerComponent', () => {
       }
     })
 
+    const uploadRequestConfig = {
+      headers: new AxiosHeaders({ 'X-Correlation-Id': 'request-correlation-id' }),
+    }
+
+    it.each([
+      {
+        scenario: 'an Axios response containing a correlation ID',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: { correlationId: 'upload-correlation-id' },
+            status: 500,
+            statusText: 'Internal Server Error',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: 'upload-correlation-id',
+        message: 'notifications.documentUploadError',
+      },
+      {
+        scenario: 'an Axios response containing both userMessage and correlation ID',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: {
+              userMessage: 'Backend upload message',
+              correlationId: 'upload-correlation-id',
+            },
+            status: 400,
+            statusText: 'Bad Request',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: 'upload-correlation-id',
+        message: 'Backend upload message',
+      },
+      {
+        scenario: 'an Axios response with an empty userMessage',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: { userMessage: '', correlationId: 'upload-correlation-id' },
+            status: 400,
+            statusText: 'Bad Request',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: 'upload-correlation-id',
+        message: 'notifications.documentUploadError',
+      },
+      {
+        scenario: 'an Axios response without a correlation ID',
+        error: new AxiosError(
+          'Upload failed',
+          AxiosError.ERR_BAD_RESPONSE,
+          uploadRequestConfig,
+          null,
+          {
+            data: {},
+            status: 500,
+            statusText: 'Internal Server Error',
+            headers: new AxiosHeaders(),
+            config: uploadRequestConfig,
+          }
+        ),
+        correlationId: undefined,
+        message: 'notifications.documentUploadError',
+      },
+      {
+        scenario: 'an Axios network error without a response',
+        error: new AxiosError('Network Error', AxiosError.ERR_NETWORK, uploadRequestConfig),
+        correlationId: undefined,
+        message: 'notifications.documentUploadError',
+      },
+      {
+        scenario: 'a non-Axios error',
+        error: new Error('Upload failed'),
+        correlationId: undefined,
+        message: 'notifications.documentUploadError',
+      },
+    ])(
+      'should preserve the upload for retry after $scenario',
+      async ({ error, correlationId, message }) => {
+        const user = userEvent.setup()
+        const mockFile = new File(['content'], 'test.pdf', { type: 'application/pdf' })
+        const addDocument = vi.mocked(
+          PurposeTemplateServices.PurposeTemplateServices.addDocumentToAnnotation
+        )
+        addDocument.mockRejectedValueOnce(error)
+
+        mockWatch.mockImplementation((path: string) => {
+          if (path === `annotations.${questionKey}`) return mockAnnotationWithDocs
+          if (path === `annotations.${questionKey}.docs`) return mockAnnotationWithDocs.docs
+          if (path === `answerIds.${questionKey}`) return 'existing-answer-id'
+          return undefined
+        })
+
+        const { container } = render(
+          <FormWrapper>
+            <RiskAnalysisAnswerComponent
+              questionKey={questionKey}
+              question="Test Question"
+              questionType="radio"
+            />
+          </FormWrapper>
+        )
+
+        await user.click(screen.getByText('addDocumentBtn'))
+        const fileInput = container.querySelector<HTMLInputElement>('input[type="file"]')
+        if (!fileInput) throw new Error('Document upload input is missing')
+
+        await user.upload(fileInput, mockFile)
+        await user.click(screen.getByRole('button', { name: 'uploadBtn' }))
+
+        await waitFor(() => {
+          expect(mockShowToast).toHaveBeenCalledExactlyOnceWith(message, 'error', correlationId)
+        })
+
+        expect(addDocument).toHaveBeenCalledExactlyOnceWith({
+          purposeTemplateId,
+          answerId: 'existing-answer-id',
+          documentPayload: { prettyName: mockFile.name, doc: mockFile },
+        })
+        expect(mockSetValue).not.toHaveBeenCalled()
+        expect(screen.getByTestId('document-doc-1')).toBeInTheDocument()
+        expect(screen.queryByTestId('document-doc-id')).not.toBeInTheDocument()
+        expect(screen.getByText(mockFile.name)).toBeVisible()
+        expect(screen.getByRole('button', { name: 'uploadBtn' }).closest('form')).toBeVisible()
+        expect(screen.getByRole('button', { name: 'uploadBtn' })).toBeEnabled()
+      }
+    )
+
     it('should delete document successfully', async () => {
       const user = userEvent.setup()
 
@@ -974,6 +1123,161 @@ describe('RiskAnalysisAnswerComponent', () => {
           shouldDirty: true,
         })
       })
+    })
+  })
+
+  describe('PageContainer unsaved changes for the annotation document form', () => {
+    const exitDialog = { name: 'exitDialog.title' }
+    const pendingFile = new File(['content'], 'pending.pdf', { type: 'application/pdf' })
+
+    // Outer risk analysis form registered like RiskAnalysisFormTemplate; it stays clean because
+    // watch/setValue are mocked, so only the inner annotation-document form can be dirty.
+    const RegisteredOuterFormWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+      const formMethods = useForm<FormValues>({
+        defaultValues: {
+          answers: {},
+          annotations: {},
+          answerIds: {},
+          assignToTemplateUsers: {},
+          suggestedValues: {},
+        },
+      })
+      usePageContainerFormDirtyState(formMethods.control)
+
+      formMethods.watch = mockWatch as UseFormWatch<FormValues>
+      formMethods.setValue = mockSetValue as UseFormSetValue<FormValues>
+
+      return <FormProvider {...formMethods}>{children}</FormProvider>
+    }
+
+    const renderInWizard = () =>
+      renderWithApplicationContext(
+        // Prevents the exit link from navigating so the prompt state can be asserted repeatedly
+        <div
+          onClickCapture={(event) => {
+            if ((event.target as Element).closest('a')) event.preventDefault()
+          }}
+        >
+          <PageContainer navigation={{ mode: 'wizard', exitAction: { to: 'DEFAULT' } }}>
+            <RegisteredOuterFormWrapper>
+              <RiskAnalysisAnswerComponent
+                questionKey={questionKey}
+                question="Test Question"
+                questionType="radio"
+              />
+            </RegisteredOuterFormWrapper>
+          </PageContainer>
+        </div>,
+        { withRouterContext: true, withDialogContext: true }
+      )
+
+    const getFileInput = () => document.querySelector('input[type="file"]') as HTMLInputElement
+
+    const clickExit = (user: ReturnType<typeof userEvent.setup>) =>
+      user.click(screen.getByRole('link', { name: 'exitButton' }))
+
+    const cancelExit = async (user: ReturnType<typeof userEvent.setup>) => {
+      await user.click(screen.getByRole('button', { name: 'exitDialog.cancelButton' }))
+      await waitFor(() => expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument())
+    }
+
+    beforeEach(() => {
+      // The real dialog store is needed to render and cancel the PageNavigation exit dialog
+      vi.mocked(stores.useDialog).mockImplementation(useRealDialog)
+      mockWatch.mockImplementation((path: string) => {
+        if (path === `annotations.${questionKey}`)
+          return { id: 'annotation-id', text: 'Test annotation', docs: [] }
+        if (path === `annotations.${questionKey}.docs`) return []
+        if (path === `answerIds.${questionKey}`) return 'answer-id'
+        return undefined
+      })
+    })
+
+    afterEach(() => {
+      useDialogStore.getState().closeDialog()
+      vi.mocked(stores.useDialog).mockReturnValue({ openDialog: mockOpenDialog } as never)
+    })
+
+    it('does not prompt on exit when the document input is open but no file is selected', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await clickExit(user)
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await clickExit(user)
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('prompts on exit for a pending annotation document, keeps it on cancel and stops after removal', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await user.upload(getFileInput(), pendingFile)
+      await screen.findByText('uploadBtn')
+
+      await clickExit(user)
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+
+      await cancelExit(user)
+      expect(screen.getByText('uploadBtn')).toBeInTheDocument()
+
+      await clickExit(user)
+      expect(screen.getByRole('dialog', exitDialog)).toBeInTheDocument()
+      await cancelExit(user)
+
+      const removeFileButton = screen
+        .getAllByTestId('CloseIcon')
+        .map((icon) => icon.closest('button'))
+        .find((button) => button && !button.closest('nav, a'))
+      await user.click(removeFileButton!)
+      await waitFor(() => expect(screen.queryByText('uploadBtn')).not.toBeInTheDocument())
+
+      await clickExit(user)
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('does not prompt on exit after the pending annotation document has been uploaded', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await user.upload(getFileInput(), pendingFile)
+      await user.click(await screen.findByText('uploadBtn'))
+
+      await waitFor(() =>
+        expect(mockShowToast).toHaveBeenCalledWith(
+          'notifications.documentUploadedSuccess',
+          'success'
+        )
+      )
+      await clickExit(user)
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
+    })
+
+    it('does not prompt on exit after the annotation holding a pending document is deleted', async () => {
+      const user = userEvent.setup()
+      renderInWizard()
+
+      await user.click(screen.getByText('addDocumentBtn'))
+      await user.upload(getFileInput(), pendingFile)
+      await screen.findByText('uploadBtn')
+
+      await user.click(screen.getByText('deleteAnnotationBtn'))
+      await user.click(await screen.findByRole('button', { name: 'proceedLabel' }))
+      await waitFor(() =>
+        expect(mockShowToast).toHaveBeenCalledWith(
+          'notifications.annotationDeletedSuccess',
+          'success'
+        )
+      )
+
+      await clickExit(user)
+
+      expect(screen.queryByRole('dialog', exitDialog)).not.toBeInTheDocument()
     })
   })
 })

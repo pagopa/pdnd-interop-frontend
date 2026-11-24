@@ -1,4 +1,5 @@
 import userEvent from '@testing-library/user-event'
+import { createMemoryHistory, type MemoryHistory } from 'history'
 import { NewPageContainer, type PageContainerProps } from '../NewPageContainer'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { ActionItemButton } from '@/types/common.types'
@@ -18,22 +19,25 @@ const mockDelegation: DelegationWithCompactTenants = {
   delegate: { id: 'delegate-id', name: 'Ente Delegato' },
 }
 
-const renderComponent = ({
-  children,
-  title,
-  backToAction,
-  statusChip,
-  byDelegationChip,
-  primaryAction,
-  secondaryAction,
-  menuActions,
-  description,
-  infoSection,
-}: PageContainerProps) => {
+const renderComponent = (
+  {
+    children,
+    title,
+    statusChip,
+    byDelegationChip,
+    primaryAction,
+    secondaryAction,
+    menuActions,
+    description,
+    infoSection,
+    navigation,
+  }: PageContainerProps,
+  history: MemoryHistory = createMemoryHistory()
+) => {
   return renderWithApplicationContext(
     <NewPageContainer
       title={title}
-      backToAction={backToAction}
+      navigation={navigation}
       statusChip={statusChip}
       byDelegationChip={byDelegationChip}
       primaryAction={primaryAction}
@@ -44,7 +48,8 @@ const renderComponent = ({
     >
       {children}
     </NewPageContainer>,
-    { withRouterContext: true }
+    { withRouterContext: true },
+    history
   )
 }
 
@@ -82,25 +87,14 @@ describe('NewPageContainer', () => {
     expect(statusChip).toBeInTheDocument()
   })
 
-  it('should correctly render the backToAction link that navigate to the DEFAULT route passed', async () => {
-    const { history, ...screen } = renderComponent({
+  it('does not render a browser back button by default', () => {
+    const screen = renderComponent({
       children: 'Test children',
       title: 'Test title',
-      backToAction: {
-        label: 'test backToAction',
-        to: 'DEFAULT',
-      },
     })
 
-    const user = userEvent.setup()
-
-    const backToActionButton = screen.getByRole('link', { name: 'test backToAction' })
-
-    expect(backToActionButton).toBeInTheDocument()
-
-    await user.click(backToActionButton)
-
-    expect(history.location.pathname).toEqual('/it/')
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(screen.getByText('Test title')).toBeInTheDocument()
   })
 
   it('should correctly render the description', () => {
@@ -193,7 +187,7 @@ describe('NewPageContainer', () => {
 
     await user.click(infoSectionShortcut)
 
-    expect(history.location.pathname).toEqual('/it/')
+    expect(history.location.pathname).toEqual('/it')
   })
 
   it('should correctly render the infoSection with the label and the shortcut passed. That shortcut should be a button', () => {

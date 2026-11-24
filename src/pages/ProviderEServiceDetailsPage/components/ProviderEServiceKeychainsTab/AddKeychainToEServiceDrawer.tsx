@@ -18,7 +18,7 @@ type AddKeychainFormValues = {
 type AddKeychainToEServiceDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  onSubmit: (selectedKeychain: CompactProducerKeychain) => void
+  onSubmit: (selectedKeychain: CompactProducerKeychain) => void | Promise<void>
   excludeKeychainsIdsList: Array<string>
 }
 
@@ -80,9 +80,12 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
   }))
 
   const _onSubmit = ({ selectedKeychain }: AddKeychainFormValues) => {
-    onClose()
     if (!selectedKeychain) return
-    onSubmit(selectedKeychain)
+    const result = onSubmit(selectedKeychain)
+    if (result) {
+      return result.then(onClose)
+    }
+    onClose()
   }
 
   const handleTransitionExited = () => {

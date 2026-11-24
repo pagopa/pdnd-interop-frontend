@@ -153,6 +153,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   it('should be available download of signed agreement if document is ready', () => {
     const agreementWithDocumentReady = {
       ...agreementMock,
+      isContractPresent: false,
       isDocumentReady: true,
     }
     vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
@@ -177,6 +178,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   it('should download signed document when clicking download button', async () => {
     const agreementWithDocumentReady = {
       ...agreementMock,
+      isContractPresent: false,
       isDocumentReady: true,
     }
     vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
