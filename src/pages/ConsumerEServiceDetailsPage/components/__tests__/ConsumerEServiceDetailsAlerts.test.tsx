@@ -3,10 +3,9 @@ import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { ConsumerEServiceDetailsAlerts } from '../ConsumerEServiceDetailsAlerts'
+import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 
-const renderAlerts = (
-  descriptor: ReturnType<typeof createMockEServiceDescriptorCatalog> | undefined
-) =>
+const renderAlerts = (descriptor: CatalogEServiceDescriptor | undefined) =>
   renderWithApplicationContext(<ConsumerEServiceDetailsAlerts descriptor={descriptor} />, {
     withRouterContext: true,
   })
