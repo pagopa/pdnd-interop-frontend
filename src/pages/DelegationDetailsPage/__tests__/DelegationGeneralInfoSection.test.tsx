@@ -62,7 +62,6 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 })
 
 const mockDownloadSignedContract = vi.fn()
-const mockDownloadDelegationContract = vi.fn()
 
 vi.mock('@/api/delegation', async () => {
   const actual = await vi.importActual<typeof DelegationApi>('@/api/delegation')
@@ -70,7 +69,6 @@ vi.mock('@/api/delegation', async () => {
   return {
     ...actual,
     DelegationDownloads: {
-      useDownloadDelegationContract: () => mockDownloadDelegationContract,
       useDownloadSignedDelegationContract: () => mockDownloadSignedContract,
     },
   }
@@ -81,10 +79,6 @@ const server = setupServer(
     return res(
       ctx.json<Delegation>(
         createMockDelegation({
-          activationContract: {
-            id: 'contract-id-123',
-            prettyName: 'Delegation Contract',
-          },
           activationSignedContract: {
             id: 'contract-signed-id-123',
             prettyName: 'Delegation Contract Signed',
@@ -171,6 +165,5 @@ describe('DelegationGeneralInfoSection', () => {
       { delegationId, contractId: 'revocation-signed-id-123' },
       'Revocation Contract Signed.pdf'
     )
-    expect(mockDownloadDelegationContract).not.toHaveBeenCalled()
   })
 })

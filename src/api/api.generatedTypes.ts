@@ -866,13 +866,13 @@ export interface Agreement {
   /** set of the certified discrete attributes belonging to this agreement, if any. */
   certifiedDiscreteAttributes: CertifiedDiscreteAttribute[];
   /** set of the declared attributes belonging to this agreement, if any. */
-  declaredAttributes: DeclaredAttribute[]
-  suspendedByConsumer?: boolean
-  suspendedByProducer?: boolean
-  suspendedByPlatform?: boolean
-  consumerNotes?: string
-  rejectionReason?: string
-  consumerDocuments: Document[]
+  declaredAttributes: DeclaredAttribute[];
+  suspendedByConsumer?: boolean;
+  suspendedByProducer?: boolean;
+  suspendedByPlatform?: boolean;
+  consumerNotes?: string;
+  rejectionReason?: string;
+  consumerDocuments: Document[];
   /** @format date-time */
   createdAt: string;
   /** @format date-time */
@@ -1868,17 +1868,8 @@ export interface PurposeVersion {
    * @max 1000000000
    */
   dailyCalls: number;
-  riskAnalysisDocument?: PurposeVersionDocument;
   rejectionReason?: string;
   signedContract?: PurposeVersionSignedDocument;
-}
-
-export interface PurposeVersionDocument {
-  /** @format uuid */
-  id: string;
-  contentType: string;
-  /** @format date-time */
-  createdAt: string;
 }
 
 /** contains the purposeId and the versionId of the created resource */
@@ -2489,8 +2480,6 @@ export interface Delegation {
   eservice?: DelegationEService;
   delegate: DelegationTenant;
   delegator: DelegationTenant;
-  activationContract?: Document;
-  revocationContract?: Document;
   /** @format date-time */
   createdAt: string;
   /** @format date-time */
@@ -3399,14 +3388,6 @@ export interface RemoveAgreementConsumerDocumentParams {
   agreementId: string;
   /** @format uuid */
   documentId: string;
-}
-
-export interface GetAgreementContractParams {
-  /**
-   * The identifier of the agreement
-   * @format uuid
-   */
-  agreementId: string;
 }
 
 export interface SubmitAgreementParams {
@@ -4503,24 +4484,6 @@ export interface CreatePurposeVersionParams {
   purposeId: string;
 }
 
-export interface GetRiskAnalysisDocumentParams {
-  /**
-   * the purpose id
-   * @format uuid
-   */
-  purposeId: string;
-  /**
-   * the version Id
-   * @format uuid
-   */
-  versionId: string;
-  /**
-   * the document id
-   * @format uuid
-   */
-  documentId: string;
-}
-
 export interface GetSignedDocumentParams {
   /**
    * the purpose id
@@ -4808,14 +4771,6 @@ export interface PatchUpdatePurposeTemplateParams {
 export interface DeletePurposeTemplateParams {
   /**
    * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
-export interface GetRiskAnalysisTemplateDocumentParams {
-  /**
-   * The identifier of the Purpose Template
    * @format uuid
    */
   purposeTemplateId: string;
@@ -5607,13 +5562,6 @@ export interface RevokeConsumerDelegationParams {
    * @format uuid
    */
   delegationId: string;
-}
-
-export interface GetDelegationContractParams {
-  /** @format uuid */
-  delegationId: string;
-  /** @format uuid */
-  contractId: string;
 }
 
 export interface GetDelegationSignedContractParams {
@@ -6920,28 +6868,6 @@ export namespace Agreements {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = void;
-  }
-
-  /**
-   * @description returns the agreement contract for a given agreementId
-   * @tags agreements
-   * @name GetAgreementContract
-   * @summary retrieves the agreement contract
-   * @request GET:/agreements/{agreementId}/contract
-   * @secure
-   */
-  export namespace GetAgreementContract {
-    export type RequestParams = {
-      /**
-       * The identifier of the agreement
-       * @format uuid
-       */
-      agreementId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Blob;
   }
 
   /**
@@ -10141,38 +10067,6 @@ export namespace Purposes {
   }
 
   /**
-   * @description Get a Risk Analysis document
-   * @tags purposes
-   * @name GetRiskAnalysisDocument
-   * @summary Get an Risk Analysis document
-   * @request GET:/purposes/{purposeId}/versions/{versionId}/documents/{documentId}
-   * @secure
-   */
-  export namespace GetRiskAnalysisDocument {
-    export type RequestParams = {
-      /**
-       * the purpose id
-       * @format uuid
-       */
-      purposeId: string;
-      /**
-       * the version Id
-       * @format uuid
-       */
-      versionId: string;
-      /**
-       * the document id
-       * @format uuid
-       */
-      documentId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Blob;
-  }
-
-  /**
    * @description Get a signed document
    * @tags purposes
    * @name GetSignedDocument
@@ -10814,28 +10708,6 @@ export namespace PurposeTemplates {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = void;
-  }
-
-  /**
-   * @description Returns the unsigned Risk Analysis Template document file for a given purposeTemplateId
-   * @tags purposeTemplates
-   * @name GetRiskAnalysisTemplateDocument
-   * @summary Downloads the unsigned Risk Analysis Template document
-   * @request GET:/purposeTemplates/{purposeTemplateId}/riskAnalysisDocument
-   * @secure
-   */
-  export namespace GetRiskAnalysisTemplateDocument {
-    export type RequestParams = {
-      /**
-       * The identifier of the Purpose Template
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Blob;
   }
 
   /**
@@ -12332,27 +12204,6 @@ export namespace Delegations {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Delegation;
-  }
-
-  /**
-   * @description Retrieve a contract of a delegation
-   * @tags delegations
-   * @name GetDelegationContract
-   * @summary Retrieve a contract of a delegation
-   * @request GET:/delegations/{delegationId}/contracts/{contractId}
-   * @secure
-   */
-  export namespace GetDelegationContract {
-    export type RequestParams = {
-      /** @format uuid */
-      delegationId: string;
-      /** @format uuid */
-      contractId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = Blob;
   }
 
   /**

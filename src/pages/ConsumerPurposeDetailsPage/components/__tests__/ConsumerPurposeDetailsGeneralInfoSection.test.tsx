@@ -204,7 +204,6 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
           ...purpose.currentVersion!,
           state,
           firstActivationAt: undefined,
-          riskAnalysisDocument: undefined,
         },
       }
       const screen = renderWithApplicationContext(
@@ -230,7 +229,6 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
         ...purpose.currentVersion!,
         state: 'DRAFT',
         firstActivationAt: undefined,
-        riskAnalysisDocument: undefined,
       },
     }
     const screen = renderWithApplicationContext(
