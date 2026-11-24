@@ -1,12 +1,17 @@
 import React from 'react'
+import { screen } from '@testing-library/react'
 import { useQuery } from '@tanstack/react-query'
 import { vi } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { createMockCompactEServiceCatalog } from '../../../../../__mocks__/data/eservice.mocks'
 import { DelegationCreateEServiceAutocomplete } from '../DelegationCreateEServiceAutocomplete'
 
-const { mockedGetProviderList, mockedGetCatalogList } = vi.hoisted(() => ({
+const { mockedGetProviderList, mockedGetCompactCatalogList } = vi.hoisted(() => ({
   mockedGetProviderList: vi.fn(() => ({ queryKey: ['provider-list'], queryFn: vi.fn() })),
-  mockedGetCatalogList: vi.fn(() => ({ queryKey: ['catalog-list'], queryFn: vi.fn() })),
+  mockedGetCompactCatalogList: vi.fn(() => ({
+    queryKey: ['compact-catalog-list'],
+    queryFn: vi.fn(),
+  })),
 }))
 
 vi.mock('@tanstack/react-query', async () => {
@@ -33,7 +38,7 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
     getProviderList: mockedGetProviderList,
-    getCatalogList: mockedGetCatalogList,
+    getCompactCatalogList: mockedGetCompactCatalogList,
   },
 }))
 
@@ -95,7 +100,7 @@ describe('DelegationCreateEServiceAutocomplete', () => {
       })
     )
 
-    expect(mockedGetCatalogList).toHaveBeenCalledWith(
+    expect(mockedGetCompactCatalogList).toHaveBeenCalledWith(
       expect.objectContaining({
         q: '',
         limit: 50,
@@ -104,5 +109,30 @@ describe('DelegationCreateEServiceAutocomplete', () => {
         isConsumerDelegable: true,
       })
     )
+  })
+
+  it('maps consumer e-services from the compact catalog endpoint into autocomplete options', () => {
+    const eservice = createMockCompactEServiceCatalog({
+      id: 'e-1',
+      name: 'E-service 1',
+      producer: { id: 'p-1', name: 'Org 1' },
+    })
+
+    vi.mocked(useQuery).mockImplementation(
+      (options) =>
+        ({
+          data: options.queryKey[0] === 'compact-catalog-list' ? [eservice] : [],
+          isLoading: false,
+        }) as ReturnType<typeof useQuery>
+    )
+
+    renderWithApplicationContext(
+      <DelegationCreateEServiceAutocomplete delegationKind="DELEGATED_CONSUMER" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      screen.getByText('E-service 1 delegations.create.eserviceField.eserviceNameLabel Org 1')
+    ).toBeInTheDocument()
   })
 })

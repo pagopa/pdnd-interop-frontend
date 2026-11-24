@@ -44,7 +44,8 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   const error = formState.errors[name]?.message as string | undefined
 
   const handleFileRemoved = () => {
-    setValue(name, null)
+    // shouldDirty recomputes formState.isDirty, so removing a pending file restores a clean form
+    setValue(name, null, { shouldDirty: true })
     if (onValueChange) onValueChange(null)
   }
 
@@ -74,7 +75,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
                 if (onValueChange) onValueChange(file)
               }}
               onFileRemoved={() => {
-                setValue(name, null)
+                setValue(name, null, { shouldDirty: true })
                 if (onValueChange) onValueChange(null)
               }}
               error={!!error}

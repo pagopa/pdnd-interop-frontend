@@ -120,7 +120,6 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
           dailyCallsTotal={purpose.dailyCallsTotal}
         />
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
           forward={{
             label: isReceive ? t('edit.endWithSaveBtn') : t('edit.forwardWithSaveBtn'),
             type: 'submit',

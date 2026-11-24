@@ -1,26 +1,20 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
+import { PageContainerFormDirtyStateContext } from '@/hooks/usePageContainerFormDirtyState'
 import type { ActionItemButton } from '@/types/common.types'
-import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Link, type RouteKey } from '@/router'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { PageNavigation, type PageNavigationProps } from './PageNavigation'
 
-export type PageBackToAction = {
-  label: string
-  to: RouteKey
-  params?: Record<string, string>
-  urlParams?: Record<string, string>
-}
+export { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 type PageContainerActionsProps = {
   statusChip?: React.ComponentProps<typeof StatusChip>
   topSideActions?: Array<ActionItemButton>
 }
 
-type PageContainerBreadcrumbsProps = {
-  backToAction?: PageBackToAction
+type PageContainerNavigationProps = {
+  navigation?: PageNavigationProps
 }
 
 type PageContainerIntroProps = {
@@ -33,51 +27,147 @@ type PageContainerProps = {
   sx?: SxProps
   children: React.ReactNode
 } & PageContainerActionsProps &
-  PageContainerBreadcrumbsProps &
+  PageContainerNavigationProps &
   PageContainerIntroProps
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
-  backToAction?: PageBackToAction
+  navigation?: PageNavigationProps
 }
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
+  // Registered react-hook-form owners are retained (clean or dirty) until they unregister,
+  // so their current state stays authoritative for the current step.
+  const [formDirtyOwners, setFormDirtyOwners] = React.useState<
+    Record<string, { stepKey: string | number | undefined; isDirty: boolean }>
+  >({})
+  // DOM fallback is used only when the step has no registered forms.
+  const [hasDomUnsavedChanges, setHasDomUnsavedChanges] = React.useState(false)
+  const isWizard = props.navigation?.mode === 'wizard'
+  const wizardStepKey = props.navigation?.mode === 'wizard' ? props.navigation.stepKey : undefined
+
+  React.useEffect(() => {
+    setHasDomUnsavedChanges(false)
+  }, [wizardStepKey])
+
+  const updateOwner = React.useCallback(
+    (ownerId: string, stepKey: string | number | undefined, isDirty: boolean) => {
+      setFormDirtyOwners((owners) => {
+        const owner = owners[ownerId]
+        if (owner && owner.stepKey === stepKey && owner.isDirty === isDirty) return owners
+        return { ...owners, [ownerId]: { stepKey, isDirty } }
+      })
+    },
+    []
+  )
+  const unregisterOwner = React.useCallback((ownerId: string) => {
+    setFormDirtyOwners((owners) => {
+      if (!(ownerId in owners)) return owners
+      const { [ownerId]: _owner, ...remainingOwners } = owners
+      return remainingOwners
+    })
+  }, [])
+  const formDirtyState = React.useMemo(
+    () => ({ updateOwner, unregisterOwner, stepKey: wizardStepKey }),
+    [unregisterOwner, updateOwner, wizardStepKey]
+  )
+  const currentStepOwners = Object.values(formDirtyOwners).filter(
+    (owner) => owner.stepKey === wizardStepKey
+  )
+  const hasRegisteredForms = currentStepOwners.length > 0
+  const hasUnsavedChanges = hasRegisteredForms
+    ? currentStepOwners.some((owner) => owner.isDirty)
+    : hasDomUnsavedChanges
+
+  React.useEffect(() => {
+    if (hasRegisteredForms) setHasDomUnsavedChanges(false)
+  }, [hasRegisteredForms])
+
+  const navigation =
+    props.navigation?.mode === 'wizard'
+      ? {
+          ...props.navigation,
+          hasUnsavedChanges: props.navigation.hasUnsavedChanges ?? hasUnsavedChanges,
+        }
+      : props.navigation
+
   return (
     <Box>
-      <PageContainerBreadcrumbs {...props} />
-      {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
-      {!isLoading && <PageContainerActions {...props} />}
-      <Box sx={{ mt: 1 }}>{children}</Box>
+      <PageContainerNavigation navigation={navigation} />
+      {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerHeader {...props} />}
+      <PageContainerFormDirtyStateContext.Provider value={formDirtyState}>
+        <Box
+          sx={{ mt: 1 }}
+          onChangeCapture={
+            isWizard && !hasRegisteredForms ? () => setHasDomUnsavedChanges(true) : undefined
+          }
+        >
+          {children}
+        </Box>
+      </PageContainerFormDirtyStateContext.Provider>
     </Box>
   )
 }
 
 export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   children,
-  backToAction,
+  navigation,
 }) => {
   return (
     <Box>
-      <PageContainerBreadcrumbs backToAction={backToAction} />
+      <PageContainerNavigation navigation={navigation} />
       <PageContainerIntroSkeleton />
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
   )
 }
 
-const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, description }) => {
+const PageContainerHeader: React.FC<PageContainerIntroProps & PageContainerActionsProps> = ({
+  title,
+  description,
+  statusChip,
+  topSideActions,
+}) => {
+  const hasTitleGroup = Boolean(title || statusChip)
+  const hasActions = Boolean(topSideActions && topSideActions.length > 0)
+
+  if (!hasTitleGroup && !hasActions && !description) return null
+
   return (
     <Box>
-      <Stack direction="row" alignItems="end" spacing={2}>
-        <Box sx={{ flex: 1 }}>
-          {title && (
-            <Typography component="h1" variant="h4">
-              {title}
-            </Typography>
+      {(hasTitleGroup || hasActions) && (
+        <Stack
+          data-testid="page-container-header"
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          columnGap={2}
+          rowGap={1}
+          sx={{ minHeight: 40 }}
+        >
+          {hasTitleGroup && (
+            <Stack
+              data-testid="page-container-header-title"
+              direction="row"
+              alignItems="center"
+              flexWrap="wrap"
+              columnGap={2}
+              rowGap={1}
+              sx={{ minWidth: 0 }}
+            >
+              {title && (
+                <Typography component="h1" variant="h4" sx={{ overflowWrap: 'anywhere' }}>
+                  {title}
+                </Typography>
+              )}
+              {statusChip && <StatusChip {...statusChip} />}
+            </Stack>
           )}
-          {description && <PageContainerSubtitle description={description} />}
-        </Box>
-      </Stack>
+          {hasActions && <PageContainerActions topSideActions={topSideActions} />}
+        </Stack>
+      )}
+      {description && <PageContainerSubtitle description={description} />}
     </Box>
   )
 }
@@ -95,72 +185,49 @@ const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description })
     description
   )
 }
-const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
-  return (
-    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-      {backToAction && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Link
-          to={backToAction.to}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          params={backToAction.params}
-          options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
-          as="button"
-          startIcon={<ArrowBackIcon />}
-          size="small"
-          variant="naked"
-        >
-          {backToAction.label}
-        </Link>
-      )}
-      <Breadcrumbs />
-    </Stack>
-  )
-}
+const PageContainerNavigation: React.FC<PageContainerNavigationProps> = ({ navigation }) => (
+  <PageNavigation {...(navigation ?? {})} />
+)
 
-const PageContainerActions: React.FC<PageContainerActionsProps> = ({
-  statusChip,
+const PageContainerActions: React.FC<Pick<PageContainerActionsProps, 'topSideActions'>> = ({
   topSideActions,
 }) => {
-  if (!statusChip && !topSideActions) return null
+  if (!topSideActions || topSideActions.length === 0) return null
 
   return (
     <Stack
-      sx={{ mt: 1, minHeight: 40 }}
+      data-testid="page-container-header-actions"
       direction="row"
       alignItems="center"
-      justifyContent="space-between"
+      justifyContent="flex-end"
+      flexWrap="wrap"
+      gap={1}
+      sx={{ ml: 'auto' }}
     >
-      <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
-      <Stack direction="row" spacing={1}>
-        {topSideActions &&
-          topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
-            const Wrapper = tooltip
-              ? ({ children }: { children: React.ReactElement }) => (
-                  <Tooltip arrow title={tooltip}>
-                    <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
-                  </Tooltip>
-                )
-              : React.Fragment
-
-            return (
-              <Wrapper key={i}>
-                <Button
-                  onClick={action}
-                  variant="text"
-                  size="small"
-                  color={color}
-                  startIcon={Icon && <Icon />}
-                  {...props}
-                >
-                  {label}
-                </Button>
-              </Wrapper>
+      {topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+        const Wrapper = tooltip
+          ? ({ children }: { children: React.ReactElement }) => (
+              <Tooltip arrow title={tooltip}>
+                <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+              </Tooltip>
             )
-          })}
-      </Stack>
+          : React.Fragment
+
+        return (
+          <Wrapper key={i}>
+            <Button
+              onClick={action}
+              variant="text"
+              size="small"
+              color={color}
+              startIcon={Icon && <Icon />}
+              {...props}
+            >
+              {label}
+            </Button>
+          </Wrapper>
+        )
+      })}
     </Stack>
   )
 }

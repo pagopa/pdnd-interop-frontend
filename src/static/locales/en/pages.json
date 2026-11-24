@@ -4,20 +4,20 @@
     "description": "The e-service catalog contains all the databases that other entities have made available. You can subscribe to those of interest to you."
   },
   "consumerAgreementsList": {
-    "title": "Your Submitted Requests",
-    "description": "Submitted requests will be collected in this area."
+    "title": "Submitted requests",
+    "description": "View and manage the fruition requests you have submitted to exchange data with the e-services."
   },
   "providerEServiceList": {
-    "title": "My E-services",
-    "description": "Manage and provide new e-services from this dedicated area."
+    "title": "My e-services",
+    "description": "Create and manage your e-services."
   },
   "providerAgreementsList": {
-    "title": "Received Requests",
-    "description": "In this area you can manage all the requests that have been sent to you by entities that wish to use your e-services. Received requests are collected here."
+    "title": "Received requests",
+    "description": "View and manage the requests that other entities have sent you to use your e-services."
   },
   "consumerPurposesList": {
-    "title": "My Submitted Purposes",
-    "description": "When your fruition requests are accepted, you will need to fill a purpose to describe how you will process the data you receive. Your purposes are collected in this area."
+    "title": "Submitted purposes",
+    "description": "When your fruition requests are approved, you will need to fill in a purpose describing how you will process the data you receive. Here you can manage them or create new ones."
   },
   "consumerClientList": {
     "title": "My E-service API Clients",
