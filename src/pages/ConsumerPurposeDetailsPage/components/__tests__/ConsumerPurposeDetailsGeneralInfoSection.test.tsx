@@ -194,23 +194,60 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     expect(providerField).toBeInTheDocument()
   })
 
-  it('should not be available the download of the signed risk analysis document if document is not ready yet', () => {
-    const mockPurposeWithDocumentNotReady = { ...purpose, isDocumentReady: false }
+  it.each(['ACTIVE', 'SUSPENDED', 'ARCHIVED'] as const)(
+    'shows the download disabled in state %s before PDF metadata is available',
+    (state) => {
+      const mockPurposeWithDocumentNotReady: Purpose = {
+        ...purpose,
+        isDocumentReady: false,
+        currentVersion: {
+          ...purpose.currentVersion!,
+          state,
+          firstActivationAt: undefined,
+          riskAnalysisDocument: undefined,
+        },
+      }
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentNotReady} />,
+        {
+          withReactQueryContext: true,
+          withRouterContext: true,
+        }
+      )
+
+      expect(
+        screen.getByRole('button', {
+          name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
+        })
+      ).toBeDisabled()
+    }
+  )
+
+  it('hides the download for a draft with no document', () => {
+    const draftPurpose: Purpose = {
+      ...purpose,
+      currentVersion: {
+        ...purpose.currentVersion!,
+        state: 'DRAFT',
+        firstActivationAt: undefined,
+        riskAnalysisDocument: undefined,
+      },
+    }
     const screen = renderWithApplicationContext(
-      <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentNotReady} />,
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={draftPurpose} />,
       {
         withReactQueryContext: true,
         withRouterContext: true,
       }
     )
 
-    const downloadButton = screen.getByRole('button', {
+    const downloadButton = screen.queryByRole('button', {
       name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
     })
-    expect(downloadButton).toBeDisabled()
+    expect(downloadButton).not.toBeInTheDocument()
   })
 
-  it('should be available the download of the signed risk analysis document if document is already available', () => {
+  it('keeps the download disabled if readiness is reported but the signed document is missing', () => {
     const mockPurposeWithDocumentReady: Purpose = { ...purpose, isDocumentReady: true }
     const screen = renderWithApplicationContext(
       <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
@@ -223,7 +260,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     const downloadButton = screen.getByRole('button', {
       name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
     })
-    expect(downloadButton).toBeEnabled()
+    expect(downloadButton).toBeDisabled()
   })
 
   it('should display correct agreement link', () => {
@@ -272,6 +309,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
       name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
     })
 
+    expect(downloadButton).toBeEnabled()
     fireEvent.click(downloadButton)
     expect(downloadSignedRiskAnalysisMock).toHaveBeenCalledOnce()
   })

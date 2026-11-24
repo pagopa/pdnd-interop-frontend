@@ -2,6 +2,11 @@ import type { CompactUser, Purpose, RiskAnalysisReviewMode } from '@/api/api.gen
 import type { TFunction } from 'i18next'
 import { match, P } from 'ts-pattern'
 
+export function shouldShowRiskAnalysisDownload(currentVersion: Purpose['currentVersion']) {
+  const state = currentVersion?.state
+  return state === 'ACTIVE' || state === 'SUSPENDED' || state === 'ARCHIVED'
+}
+
 export function getPurposeFailureReasons(
   purpose: Purpose
 ): Array<'eservice' | 'agreement' | 'purpose'> {

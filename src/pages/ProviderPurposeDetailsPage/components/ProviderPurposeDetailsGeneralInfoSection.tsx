@@ -8,6 +8,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import { PurposeDownloads } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
+import { shouldShowRiskAnalysisDownload } from '@/utils/purpose.utils'
 
 type ProviderPurposeDetailsGeneralInfoSectionProps = {
   purpose: Purpose
@@ -25,19 +26,17 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
   const generatePath = useGeneratePath()
 
   const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
+  const { currentVersion } = purpose
+  const signedContractId = currentVersion?.signedContract?.id
+  const canDownloadRiskAnalysis = purpose.isDocumentReady && Boolean(signedContractId)
 
   const handleDownloadSignedDocument = () => {
-    if (
-      !purpose.currentVersion ||
-      !purpose.currentVersion.riskAnalysisDocument ||
-      !purpose.currentVersion.signedContract?.id
-    )
-      return
+    if (!purpose.isDocumentReady || !currentVersion || !signedContractId) return
     downloadSignedRiskAnalysis(
       {
         purposeId: purpose.id,
-        versionId: purpose.currentVersion.id,
-        signedContractId: purpose.currentVersion.signedContract?.id,
+        versionId: currentVersion.id,
+        signedContractId,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )
@@ -47,9 +46,9 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
-    disabled: purpose.isDocumentReady === false,
+    disabled: !canDownloadRiskAnalysis,
     onClick: handleDownloadSignedDocument,
-    tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
+    tooltip: !canDownloadRiskAnalysis ? tShared('notAvailableYet') : undefined,
     startIcon: <DownloadIcon fontSize="small" />,
   }
 
@@ -57,9 +56,9 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     <SectionContainer
       title={t('title')}
       bottomActions={[
-        ...(!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument
-          ? []
-          : [downloadRiskAnalysisDocumentAction]),
+        ...(shouldShowRiskAnalysisDownload(currentVersion)
+          ? [downloadRiskAnalysisDocumentAction]
+          : []),
         {
           label: t('agreementLink.label'),
           href:

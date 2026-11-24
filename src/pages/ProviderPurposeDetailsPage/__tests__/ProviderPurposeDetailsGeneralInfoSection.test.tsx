@@ -62,10 +62,33 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
     expect(consumerField).toBeInTheDocument()
   })
 
-  it('Should not be available chance to download riskAnalysis if currentVersion is not defined', () => {
-    const mockPurposeWithoutCurrentVersion = { ...purpose, currentVersion: undefined }
+  it('hides the download during reactivation approval even when the previous signed PDF is ready', () => {
+    const suspendedVersion = {
+      ...purpose.currentVersion!,
+      state: 'SUSPENDED' as const,
+      signedContract: {
+        id: 'signed-contract-id',
+        contentType: 'application/pdf',
+        createdAt: '2023-02-03T08:26:43.049Z',
+        signedAt: '2023-02-03T08:26:43.139Z',
+      },
+    }
+    const waitingForApprovalVersion = {
+      id: 'reactivation-version-id',
+      state: 'WAITING_FOR_APPROVAL' as const,
+      dailyCalls: suspendedVersion.dailyCalls,
+      createdAt: '2023-02-04T08:26:43.139Z',
+    }
+    const purposeAwaitingReactivation: Purpose = {
+      ...purpose,
+      currentVersion: undefined,
+      waitingForApprovalVersion,
+      versions: [suspendedVersion, waitingForApprovalVersion],
+      suspendedByConsumer: true,
+      isDocumentReady: true,
+    }
     const screen = renderWithApplicationContext(
-      <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithoutCurrentVersion} />,
+      <ProviderPurposeDetailsGeneralInfoSection purpose={purposeAwaitingReactivation} />,
       {
         withReactQueryContext: true,
         withRouterContext: true,
@@ -78,24 +101,44 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
     expect(downloadButton).not.toBeInTheDocument()
   })
 
-  it('Should not be available chance to download risk analysisDocument if isDocumentReady is false', () => {
-    const mockPurposeWithDocumentNotReady = { ...purpose, isDocumentReady: false }
-    const screen = renderWithApplicationContext(
-      <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentNotReady} />,
-      {
-        withReactQueryContext: true,
-        withRouterContext: true,
+  it.each([undefined, purpose.currentVersion?.riskAnalysisDocument])(
+    'shows the download disabled after activation while the signed PDF is not ready (base PDF: %j)',
+    (riskAnalysisDocument) => {
+      const mockPurposeWithDocumentNotReady: Purpose = {
+        ...purpose,
+        isDocumentReady: false,
+        currentVersion: { ...purpose.currentVersion!, riskAnalysisDocument },
       }
-    )
+      const screen = renderWithApplicationContext(
+        <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentNotReady} />,
+        {
+          withReactQueryContext: true,
+          withRouterContext: true,
+        }
+      )
 
-    const downloadButton = screen.getByRole('button', {
-      name: 'purpose.providerView.sections.generalInformations.riskAnalysis.link.label',
-    })
-    expect(downloadButton).toBeDisabled()
-  })
+      expect(
+        screen.getByRole('button', {
+          name: 'purpose.providerView.sections.generalInformations.riskAnalysis.link.label',
+        })
+      ).toBeDisabled()
+    }
+  )
 
-  it('Should be avialable chance to download risk analysisDocument if isDocumentReady is true', () => {
-    const mockPurposeWithDocumentReady = { ...purpose, isDocumentReady: true }
+  it('enables the download when the signed PDF is ready', () => {
+    const mockPurposeWithDocumentReady: Purpose = {
+      ...purpose,
+      isDocumentReady: true,
+      currentVersion: {
+        ...purpose.currentVersion!,
+        signedContract: {
+          id: 'signed-contract-id',
+          contentType: 'application/pdf',
+          createdAt: '2021-01-01T00:00:00Z',
+          signedAt: '2021-01-01T00:00:00Z',
+        },
+      },
+    }
     const screen = renderWithApplicationContext(
       <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
       {
@@ -107,7 +150,7 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
     const downloadButton = screen.getByRole('button', {
       name: 'purpose.providerView.sections.generalInformations.riskAnalysis.link.label',
     })
-    expect(downloadButton).toBeInTheDocument()
+    expect(downloadButton).toBeEnabled()
   })
 
   it("Should visible purpose's template name if purpose is inherited from a purpose template", () => {
