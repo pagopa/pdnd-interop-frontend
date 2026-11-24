@@ -866,14 +866,13 @@ export interface Agreement {
   /** set of the certified discrete attributes belonging to this agreement, if any. */
   certifiedDiscreteAttributes: CertifiedDiscreteAttribute[];
   /** set of the declared attributes belonging to this agreement, if any. */
-  declaredAttributes: DeclaredAttribute[];
-  suspendedByConsumer?: boolean;
-  suspendedByProducer?: boolean;
-  suspendedByPlatform?: boolean;
-  isContractPresent: boolean;
-  consumerNotes?: string;
-  rejectionReason?: string;
-  consumerDocuments: Document[];
+  declaredAttributes: DeclaredAttribute[]
+  suspendedByConsumer?: boolean
+  suspendedByProducer?: boolean
+  suspendedByPlatform?: boolean
+  consumerNotes?: string
+  rejectionReason?: string
+  consumerDocuments: Document[]
   /** @format date-time */
   createdAt: string;
   /** @format date-time */

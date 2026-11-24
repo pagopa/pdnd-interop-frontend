@@ -46,7 +46,6 @@ describe('ProviderAgreementDetailsGeneralInfoSection', () => {
     mockUseProviderAgreementDetailsContext({
       ...agreementMock,
       state: 'PENDING',
-      isContractPresent: false,
       isDocumentReady: false,
     })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
@@ -64,7 +63,6 @@ describe('ProviderAgreementDetailsGeneralInfoSection', () => {
   it('should disable download of signed agreement if document is not ready yet', () => {
     mockUseProviderAgreementDetailsContext({
       ...agreementMock,
-      isContractPresent: false,
       isDocumentReady: false,
     })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
@@ -84,7 +82,6 @@ describe('ProviderAgreementDetailsGeneralInfoSection', () => {
   it('should be available download of signed agreement if document is ready', () => {
     mockUseProviderAgreementDetailsContext({
       ...agreementMock,
-      isContractPresent: false,
       isDocumentReady: true,
     })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
@@ -102,7 +99,6 @@ describe('ProviderAgreementDetailsGeneralInfoSection', () => {
   it('should download signed document when clicking download button', () => {
     mockUseProviderAgreementDetailsContext({
       ...agreementMock,
-      isContractPresent: false,
       isDocumentReady: true,
     })
     const screen = renderWithApplicationContext(<ProviderAgreementDetailsGeneralInfoSection />, {
