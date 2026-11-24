@@ -8,16 +8,45 @@ import { StatusChip } from '@/components/shared/StatusChip'
 import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { Link } from '@/router'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Stack, Tooltip } from '@mui/material'
+import { Stack, Tooltip, Typography, type TypographyProps } from '@mui/material'
 import { MITable, type MITableColumn, type MIPaginationProps } from '@pagopa/mui-italia'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { formatHierarchyWithoutParentRoot, getRootTenantFromHierarchy } from '@/utils/tenant.utils'
 
 type ConsumerAgreementsProps = {
   agreements: Array<AgreementListEntry>
   isLoading?: boolean
   pagination?: MIPaginationProps
+}
+
+const TruncatedText: React.FC<
+  Pick<TypographyProps, 'variant' | 'color'> & { children: string | undefined }
+> = ({ children, variant, color }) => {
+  const [isTruncated, setIsTruncated] = React.useState(false)
+
+  // Check if the text is truncated so it can show the tooltip
+  const checkOverflow = (event: React.SyntheticEvent<HTMLElement>) => {
+    const element = event.currentTarget
+    setIsTruncated(element.scrollWidth > element.clientWidth)
+  }
+
+  return (
+    <Tooltip title={isTruncated ? children : ''} describeChild arrow placement="top">
+      <Typography
+        variant={variant}
+        color={color}
+        noWrap
+        tabIndex={children ? 0 : undefined}
+        onMouseEnter={checkOverflow}
+        onFocus={checkOverflow}
+        onTouchStart={checkOverflow}
+      >
+        {children}
+      </Typography>
+    </Tooltip>
+  )
 }
 
 export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
@@ -43,7 +72,7 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
             agreement.delegation.delegate.id === jwt?.organizationId)
 
         return (
-          <Stack direction="row" alignItems="center">
+          <Stack direction="row" alignItems="center" sx={{ maxWidth: '23.5rem' }}>
             {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
             {t('eserviceName', {
               name: agreement.eservice.name,
@@ -57,7 +86,22 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
     {
       id: 'provider',
       header: tCommon('providerName'),
-      renderCell: (agreement) => agreement.eservice.producer.name,
+      renderCell: (agreement) => {
+        const providerName = formatHierarchyWithoutParentRoot(
+          agreement.eservice.producer,
+          agreement.eservice.producer.parentTenants
+        )
+        const rootName = getRootTenantFromHierarchy(agreement.eservice.producer.parentTenants)
+
+        return (
+          <Stack spacing={0.5} sx={{ maxWidth: '13.625rem' }}>
+            <TruncatedText variant="body2">{providerName}</TruncatedText>
+            <TruncatedText variant="caption" color="text.secondary">
+              {rootName}
+            </TruncatedText>
+          </Stack>
+        )
+      },
     },
     {
       id: 'status',
@@ -116,5 +160,3 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
     />
   )
 }
-
-// Check if all is correct from the removed TableRow

@@ -64,7 +64,7 @@ describe('ConsumerAgreementsTable', () => {
     expect(
       table.getByRole('cell', { name: 'eserviceName Population registry 2' })
     ).toBeInTheDocument()
-    expect(table.getByRole('cell', { name: 'Registry provider' })).toBeInTheDocument()
+    expect(table.getByRole('cell', { name: /Registry provider/ })).toBeInTheDocument()
     expect(table.getByRole('cell', { name: 'status.agreement.ACTIVE' })).toBeInTheDocument()
   })
 
@@ -86,7 +86,9 @@ describe('ConsumerAgreementsTable', () => {
       expect(
         screen.queryByRole('link', { name: action === 'edit' ? 'inspect' : 'edit' })
       ).not.toBeInTheDocument()
-      await user.tab()
+      for (let i = 0; i < 3 && document.activeElement !== link; i++) {
+        await user.tab()
+      }
       expect(link).toHaveFocus()
       await user.keyboard('{Enter}')
 
@@ -158,6 +160,61 @@ describe.each(['desktop', 'mobile'])('ConsumerAgreementsTable on %s', (layout) =
       }))
     )
   })
+
+  it.each([false, true])(
+    'shows provider tooltips only for clipped text (clipped: %s)',
+    async (clipped) => {
+      const rootName = 'Root organization'
+      renderTable([
+        createMockAgreementListingItem({
+          eservice: {
+            producer: {
+              name: 'Registry provider',
+              parentTenants: [{ id: 'root', name: rootName }],
+            },
+          },
+        }),
+      ])
+      const user = userEvent.setup()
+      const providerName = `Registry provider - ${rootName}`
+      const provider = screen.getByText(providerName)
+      const root = screen.getByText(rootName)
+      for (const element of [provider, root]) {
+        Object.defineProperty(element, 'clientWidth', { configurable: true, value: 100 })
+        Object.defineProperty(element, 'scrollWidth', {
+          configurable: true,
+          value: clipped ? 101 : 100,
+        })
+      }
+
+      await user.tab()
+      expect(provider).toHaveFocus()
+      if (clipped) {
+        expect(await screen.findByRole('tooltip')).toHaveTextContent(providerName)
+      } else {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+        expect(provider).not.toHaveAttribute('title')
+      }
+
+      await user.tab()
+      expect(root).toHaveFocus()
+      if (clipped) {
+        expect(await screen.findByRole('tooltip')).toHaveTextContent(rootName)
+      } else {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+        expect(root).not.toHaveAttribute('title')
+      }
+
+      await user.tab()
+      await user.hover(provider)
+      if (clipped) {
+        expect(await screen.findByRole('tooltip')).toHaveTextContent(providerName)
+      } else {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+        expect(provider).not.toHaveAttribute('title')
+      }
+    }
+  )
 
   it('exposes labelled data and the details navigation without row actions', async () => {
     const { history } = renderTable()
