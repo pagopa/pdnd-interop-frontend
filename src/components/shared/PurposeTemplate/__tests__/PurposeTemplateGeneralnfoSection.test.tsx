@@ -146,6 +146,33 @@ describe('PurposeTemplateGeneralInfoSection', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should display the creator hierarchy from the sub-unit up to the root tenant', () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS' })
+    mockUseJwt({ isAdmin: true, jwt: { organizationId: purposeTemplate.creator.id } })
+
+    const view = renderWithApplicationContext(
+      <PurposeTemplateGeneralInfoSection
+        purposeTemplate={{
+          ...purposeTemplate,
+          creator: {
+            ...purposeTemplate.creator,
+            name: 'Ufficio permessi ZTL',
+            subUnitType: 'UO',
+            parentTenants: [
+              { id: 'aoo-id', name: 'Direzione Mobilità', subUnitType: 'AOO' },
+              { id: 'comune-id', name: 'Comune di Milano' },
+            ],
+          },
+        }}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      view.getByText('Ufficio permessi ZTL - Direzione Mobilità - Comune di Milano')
+    ).toBeInTheDocument()
+  })
+
   it('should open the metadata drawer with current values when editable', async () => {
     const user = userEvent.setup()
     const view = renderSection('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS')
