@@ -967,6 +967,8 @@ export interface CatalogFilterPayload {
   mode?: EServiceMode;
   /** If true, returns only e-services with Signal Hub enabled */
   onlySignalHubEnabled?: boolean;
+  /** If true, returns only consumer delegable e-services; if false, only non consumer delegable ones */
+  isConsumerDelegable?: boolean;
   /**
    * Returns only e-services belonging to the given template collection
    * @format uuid
@@ -7712,6 +7714,22 @@ export namespace Catalog {
     export type RequestBody = CatalogFilterPayload;
     export type RequestHeaders = {};
     export type ResponseBody = CatalogEServices;
+  }
+
+  /**
+   * @description Retrieves at most 12 EServices of the catalog. The most recent EService is first. The requester has the certified attributes that each EService requires. The requester has no active or suspended agreement for these EServices.
+   * @tags eservices
+   * @name GetFeaturedEServicesCatalog
+   * @summary Retrieves the featured EServices of the catalog
+   * @request GET:/catalog/featured
+   * @secure
+   */
+  export namespace GetFeaturedEServicesCatalog {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogEService[];
   }
 
   /**
