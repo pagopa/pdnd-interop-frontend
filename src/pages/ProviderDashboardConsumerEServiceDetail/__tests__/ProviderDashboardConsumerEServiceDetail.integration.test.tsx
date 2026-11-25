@@ -495,7 +495,15 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     ] as const)(
       'recovers $origin breadcrumbs after an error in $language',
       async ({ language, pages, shared, origin }) => {
+        let releaseRetry: () => void = () => {}
         getPurposes.mockRejectedValueOnce(new Error('boom'))
+        getPurposes.mockImplementationOnce(
+          (params) =>
+            new Promise((resolve) => {
+              releaseRetry = () =>
+                resolve(getMockProducerEServiceMonitoringConsumerPurposes(params))
+            })
+        )
         const path = (origin === 'dashboard' ? dashboardPath : monitoringPath)(LAZIO.id).replace(
           '/it/',
           `/${language}/`
@@ -514,7 +522,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
         const { user } = await renderApp(path)
         expect(await screen.findByText(labels.loadError)).toBeInTheDocument()
         expect(screen.getByRole('heading', { level: 1, name: labels.fallbackTitle })).toBeVisible()
-        expect(getBreadcrumbs()).toEqual([
+        const fallbackBreadcrumbs = [
           ...parents(shared.routeLabels.PROVIDE_DASHBOARD_CONSUMER_DETAIL),
           {
             label:
@@ -522,12 +530,36 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
                 ? shared.routeLabels.PROVIDE_DASHBOARD_CONSUMER_ESERVICE_DETAIL
                 : shared.routeLabels.PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL,
           },
-        ])
+        ]
+        expect(getBreadcrumbs()).toEqual(fallbackBreadcrumbs)
+        const assertHeader = () => {
+          expect(screen.getByText(labels.description)).toBeVisible()
+          const exportButton = screen.getByRole('button', { name: labels.export })
+          expect(exportButton).toBeDisabled()
+          expect(exportButton.parentElement).toHaveStyle({
+            marginLeft: 'auto',
+            flexShrink: '0',
+            whiteSpace: 'nowrap',
+          })
+        }
+        assertHeader()
         expect(screen.queryByRole('table')).not.toBeInTheDocument()
         await user.click(screen.getByRole('button', { name: labels.retry }))
+        await waitFor(() => expect(getPurposes).toHaveBeenCalledTimes(2))
+        // A pending retry must not restore stale data or turn Export into an available action.
+        assertHeader()
+        expect(getBreadcrumbs()).toEqual(fallbackBreadcrumbs)
+        expect(screen.queryByRole('table')).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: labels.retry })).not.toBeInTheDocument()
+        expect(screen.getByRole('status')).toHaveAttribute('aria-busy', 'true')
+        expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
+
+        releaseRetry()
         const title = origin === 'dashboard' ? ESERVICE.name : LAZIO.name
         expect(await screen.findByRole('heading', { level: 1, name: title })).toBeVisible()
         expect(getBreadcrumbs()).toEqual([...parents(LAZIO.name), { label: title }])
+        assertHeader()
+        expect(screen.queryByText(labels.loadError)).not.toBeInTheDocument()
         expect(getPurposes).toHaveBeenCalledTimes(2)
       }
     )
