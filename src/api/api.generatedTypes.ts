@@ -150,6 +150,14 @@ export type EServiceSortBy =
   | "CREATED_AT_ASC"
   | "CREATED_AT_DESC";
 
+/** Category of the use case */
+export type CatalogUseCaseField =
+  | "CITIZEN_SERVICES"
+  | "WELFARE"
+  | "MOBILITY"
+  | "EDUCATION"
+  | "HEALTHCARE";
+
 /**
  * EService Descriptor policy for new Agreements approval.
  * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
@@ -916,6 +924,19 @@ export interface AgreementRejectionPayload {
 export interface CatalogEServices {
   results: CatalogEService[];
   pagination: Pagination;
+}
+
+export interface CatalogUseCase {
+  name: string;
+  description?: string;
+  /** Identifier of the use case page on api.gov.it */
+  slug: string;
+  /** Category of the use case */
+  fieldId: CatalogUseCaseField;
+  /** EServices with a valid agreement of the requester */
+  subscribedEservices: CatalogEService[];
+  /** EServices without a valid agreement of the requester */
+  unsubscribedEservices: CatalogEService[];
 }
 
 export interface CatalogEService {
@@ -7730,6 +7751,22 @@ export namespace Catalog {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = CatalogEService[];
+  }
+
+  /**
+   * @description Retrieves the use cases of the catalog in the language of the Accept-Language header, with italian as fallback. The EServices of each use case are split between the EServices with a valid agreement of the requester and the others. The EServices that are not found are ignored.
+   * @tags eservices
+   * @name GetCatalogUseCases
+   * @summary Retrieves the use cases of the catalog
+   * @request GET:/catalog/use-cases
+   * @secure
+   */
+  export namespace GetCatalogUseCases {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogUseCase[];
   }
 
   /**
