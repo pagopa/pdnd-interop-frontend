@@ -5,10 +5,13 @@ import type {
   GetProducerDashboardSaturationParams,
   GetProducerEServiceMonitoringParams,
   GetProducerEServiceMonitoringArchivingParams,
-  GetProducerEServiceMonitoringSaturationParams,
   GetProducerEServiceMonitoringConsumerPurposesParams,
 } from '../api.generatedTypes'
 import { ProducerServices } from './producer.services'
+import {
+  withDefaultEServiceMonitoringSaturationParams,
+  type GetProducerEServiceMonitoringSaturationRequest,
+} from './producer.monitoring'
 
 function getDashboard() {
   return queryOptions({
@@ -60,10 +63,11 @@ function getEServiceMonitoringArchiving(params: GetProducerEServiceMonitoringArc
   })
 }
 
-function getEServiceMonitoringSaturation(params: GetProducerEServiceMonitoringSaturationParams) {
+function getEServiceMonitoringSaturation(params: GetProducerEServiceMonitoringSaturationRequest) {
+  const resolvedParams = withDefaultEServiceMonitoringSaturationParams(params)
   return queryOptions({
-    queryKey: ['ProducerGetEServiceMonitoringSaturation', params],
-    queryFn: () => ProducerServices.getEServiceMonitoringSaturation(params),
+    queryKey: ['ProducerGetEServiceMonitoringSaturation', resolvedParams],
+    queryFn: () => ProducerServices.getEServiceMonitoringSaturation(resolvedParams),
   })
 }
 
