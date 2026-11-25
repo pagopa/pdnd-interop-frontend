@@ -120,7 +120,6 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     mockUseConsumerAgreementDetailsContext({
       ...agreementMock,
       state: 'PENDING',
-      isContractPresent: false,
       isDocumentReady: false,
     })
     const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
@@ -138,7 +137,6 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   it('should not be available download of signed agreement if document is not ready yet', () => {
     mockUseConsumerAgreementDetailsContext({
       ...agreementMock,
-      isContractPresent: false,
       isDocumentReady: false,
     })
     const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
