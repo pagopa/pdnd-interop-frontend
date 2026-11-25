@@ -27,11 +27,13 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
   const { data, isError } = useQuery({
     ...EServiceQueries.getFeaturedEServicesCatalog(),
     placeholderData: keepPreviousData,
+    throwOnError: false,
   })
 
   const { data: useCases, isError: isUseCasesError } = useQuery({
     ...EServiceQueries.getCatalogUseCases(),
     placeholderData: keepPreviousData,
+    throwOnError: false,
   })
 
   const eservicesEmptyState =
@@ -76,7 +78,10 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
 const EServiceCatalogWrapper: React.FC<{
   params: Pick<CatalogFilterPayload, 'offset' | 'limit'>
 }> = ({ params: { offset, limit } }) => {
-  const { data, isFetching } = useQuery(EServiceQueries.getFeaturedEServicesCatalog())
+  const { data, isFetching } = useQuery({
+    ...EServiceQueries.getFeaturedEServicesCatalog(),
+    throwOnError: false,
+  })
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
   return <EServiceCatalogGrid eservices={data?.slice(offset, offset + limit)} />

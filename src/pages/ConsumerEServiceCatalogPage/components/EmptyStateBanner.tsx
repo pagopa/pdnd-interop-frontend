@@ -25,7 +25,15 @@ const EmptyStateBanner: React.FC<EmptyStateBannerProps> = ({
           variant: 'label',
           fontWeight: 500,
         }}
-        sx={{ '& .MuiCardHeader-avatar': { mr: 1, height: '24px', width: '24px' }, p: 0 }}
+        sx={(theme) => ({
+          '& .MuiCardHeader-avatar': {
+            mr: 1,
+            height: '24px',
+            width: '24px',
+            color: theme.colors.neutral.grey[300],
+          },
+          p: 0,
+        })}
       />
       <CardContent sx={{ mt: 0.5, ml: 4, mb: 0, p: 0, '&:last-child': { pb: 0 } }}>
         <Typography variant="body2" fontSize={'0.9rem'}>
