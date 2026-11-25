@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from '@mui/material'
 
@@ -189,5 +189,57 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     const selectInput = screen.getByRole('combobox', { name: 'label' })
     expect(selectInput).toHaveAccessibleDescription('testInfoLabel')
+  })
+
+  it('marks the field as required and shows the validation error linked to the select', async () => {
+    const user = userEvent.setup()
+    const Form = () => {
+      const methods = useForm({ defaultValues: { testSelect: '' } })
+      return (
+        <ThemeProvider theme={theme}>
+          <FormProvider {...methods}>
+            <form noValidate onSubmit={methods.handleSubmit(() => undefined)}>
+              <RHFNewSelect
+                name="testSelect"
+                label="label"
+                options={options}
+                rules={{ required: true }}
+              />
+              <button type="submit">submit</button>
+            </form>
+          </FormProvider>
+        </ThemeProvider>
+      )
+    }
+    render(<Form />)
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+
+    const alert = await screen.findByRole('alert')
+    expect(alert).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /label/ })).toHaveAccessibleDescription(
+      alert.textContent ?? ''
+    )
+
+    await user.click(screen.getByRole('combobox', { name: /label/ }))
+    await user.click(screen.getByRole('option', { name: 'option1' }))
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+    await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument())
+  })
+
+  it('does not open when disabled and renders without infoLabel', async () => {
+    const user = userEvent.setup()
+    render(
+      <ThemeProvider theme={theme}>
+        <TestInputWrapper>
+          <RHFNewSelect name="testSelect" label="label" options={options} disabled />
+        </TestInputWrapper>
+      </ThemeProvider>
+    )
+    const select = screen.getByRole('combobox', { name: 'label' })
+    await user.click(select)
+    expect(screen.queryByRole('option', { name: 'option1' })).not.toBeInTheDocument()
+    expect(select).not.toHaveAccessibleDescription()
   })
 })

@@ -376,12 +376,18 @@ describe('ProviderEServiceMonitoringTab', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('keeps both version chevrons disabled until the consumers page exists', async () => {
-    await renderTab()
-    await waitForData()
+  it.each([
+    ['it', itEservice],
+    ['en', enEservice],
+  ] as const)('keeps both numbered version chevrons disabled in %s', async (language, resource) => {
+    const labels = resource.read.monitoring
+    await renderTab({ language })
+    await waitForData(labels)
 
-    const [oldestRow, currentRow] = within(getArchivingTable()).getAllByRole('row').slice(1)
-    expect(within(oldestRow).getByText('Versione 0')).toBeInTheDocument()
+    const [oldestRow, currentRow] = within(getArchivingTable(labels)).getAllByRole('row').slice(1)
+    expect(
+      within(oldestRow).getByText(labels.archiving.version.replace('{{version}}', '0'))
+    ).toBeInTheDocument()
     expect(
       within(oldestRow).getByText(formatDateStringNumeric('2026-12-01T00:00:00Z'))
     ).toBeInTheDocument()
@@ -391,9 +397,9 @@ describe('ProviderEServiceMonitoringTab', () => {
       [currentRow, '1'],
     ] as const) {
       const button = within(row).getByRole('button', {
-        name: copy.archiving.viewConsumersAriaLabel.replace(
+        name: labels.archiving.viewConsumersAriaLabel.replace(
           '{{version}}',
-          copy.archiving.version.replace('{{version}}', version)
+          labels.archiving.version.replace('{{version}}', version)
         ),
       })
       expect(button).toBeDisabled()
@@ -401,29 +407,37 @@ describe('ProviderEServiceMonitoringTab', () => {
     expect(navigateMock).not.toHaveBeenCalled()
   })
 
-  it('keeps the chevron disabled for whole e-service archiving rows', async () => {
-    getArchiving.mockResolvedValue({
-      results: [
-        {
-          eservice: { id: ESERVICE_ID, name: 'Anagrafe Nazionale' },
-          consumersCount: 7,
-          archivableOn: '2027-03-01T00:00:00Z',
-        },
-      ],
-    })
-    await renderTab()
+  it.each([
+    ['it', itEservice],
+    ['en', enEservice],
+  ] as const)(
+    'leaves a missing version blank with a disabled generic chevron in %s',
+    async (language, resource) => {
+      const labels = resource.read.monitoring
+      getArchiving.mockResolvedValue({
+        results: [
+          {
+            eservice: { id: ESERVICE_ID, name: 'Anagrafe Nazionale' },
+            consumersCount: 7,
+            archivableOn: '2027-03-01T00:00:00Z',
+          },
+        ],
+      })
+      await renderTab({ language })
 
-    const table = await screen.findByRole('table', { name: copy.archiving.title })
-    await within(table).findByText(copy.archiving.wholeEService)
-    const button = within(table).getByRole('button', {
-      name: copy.archiving.viewConsumersAriaLabel.replace(
-        '{{version}}',
-        copy.archiving.wholeEService
-      ),
-    })
-    expect(button).toBeDisabled()
-    expect(navigateMock).not.toHaveBeenCalled()
-  })
+      const table = await screen.findByRole('table', { name: labels.archiving.title })
+      const button = await within(table).findByRole('button', {
+        name: labels.archiving.viewConsumersUnnumberedAriaLabel,
+      })
+      expect(button).toBeDisabled()
+      const row = within(table).getAllByRole('row')[1]
+      expect(within(row).getAllByRole('cell')[0]).toHaveTextContent(/^$/)
+      expect(row).not.toHaveTextContent('Intero e-service')
+      expect(row).not.toHaveTextContent('Whole e-service')
+      expect(row).not.toHaveTextContent('undefined')
+      expect(navigateMock).not.toHaveBeenCalled()
+    }
+  )
 
   it.each([
     ['it', 'desktop'],

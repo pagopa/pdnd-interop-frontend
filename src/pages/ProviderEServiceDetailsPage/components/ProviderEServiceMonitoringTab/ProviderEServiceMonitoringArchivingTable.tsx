@@ -22,7 +22,7 @@ export function ProviderEServiceMonitoringArchivingTable({
   )
 
   const getVersionLabel = (row: MonitoringArchivingRow) =>
-    row.version ? t('version', { version: row.version }) : t('wholeEService')
+    row.version ? t('version', { version: row.version }) : ''
 
   const columns: MITableColumn<MonitoringArchivingRow>[] = [
     {
@@ -51,7 +51,11 @@ export function ProviderEServiceMonitoringArchivingTable({
       // TODO: Link the chevron to the consumer list for the selected version.
       renderCell: (row) => (
         <MIIconButton
-          aria-label={t('viewConsumersAriaLabel', { version: getVersionLabel(row) })}
+          aria-label={
+            row.version
+              ? t('viewConsumersAriaLabel', { version: getVersionLabel(row) })
+              : t('viewConsumersUnnumberedAriaLabel')
+          }
           disabled
         >
           <ChevronRightIcon />

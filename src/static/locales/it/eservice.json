@@ -811,7 +811,6 @@
           "actions": "Azioni"
         },
         "version": "Versione {{version}}",
-        "wholeEService": "Intero e-service",
         "relative": {
           "today": "oggi",
           "inDays_one": "tra {{count}} giorno",
@@ -819,6 +818,7 @@
           "pastDue": "archiviata"
         },
         "viewConsumersAriaLabel": "Vedi i fruitori: {{version}}",
+        "viewConsumersUnnumberedAriaLabel": "Vedi i fruitori",
         "loading": "Caricamento delle versioni in fase di archiviazione",
         "loadError": "Non è stato possibile caricare le versioni in fase di archiviazione.",
         "retry": "Riprova",

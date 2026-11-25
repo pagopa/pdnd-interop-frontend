@@ -811,7 +811,6 @@
           "actions": "Actions"
         },
         "version": "Version {{version}}",
-        "wholeEService": "Whole e-service",
         "relative": {
           "today": "today",
           "inDays_one": "in {{count}} day",
@@ -819,6 +818,7 @@
           "pastDue": "archived"
         },
         "viewConsumersAriaLabel": "View consumers: {{version}}",
+        "viewConsumersUnnumberedAriaLabel": "View consumers",
         "loading": "Loading versions being archived",
         "loadError": "Versions being archived could not be loaded.",
         "retry": "Retry",
