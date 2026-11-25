@@ -117,13 +117,12 @@ const ConsumerPurposesListPage: React.FC = () => {
     },
   ]
 
-  const { data, isFetching, isPlaceholderData } = useQuery({
+  const { data, isFetching } = useQuery({
     ...PurposeQueries.getConsumersList(params),
-    placeholderData: keepPreviousData,
     enabled: Boolean(jwt?.organizationId),
   })
 
-  const isLoading = isFetching && (!data || isPlaceholderData)
+  const isLoading = !data && isFetching
   const totalCount = data?.pagination.totalCount ?? 0
 
   return (

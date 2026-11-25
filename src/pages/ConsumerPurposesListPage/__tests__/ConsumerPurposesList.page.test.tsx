@@ -300,7 +300,7 @@ describe('ConsumerPurposesListPage table', () => {
     expect(screen.queryByText('list.noResultsLabel')).not.toBeInTheDocument()
   })
 
-  it('shows the loading table while the next page loads, keeping the previous total', async () => {
+  it('shows the loading table while the next page loads', async () => {
     const spy = mockQueries({
       results: [createMockPurpose({ title: 'First page', currentVersion: { state: 'ACTIVE' } })],
       pagination: { offset: 0, limit: 10, totalCount: 25 },
@@ -335,8 +335,6 @@ describe('ConsumerPurposesListPage table', () => {
 
     await waitFor(() => expect(screen.getByRole('table')).toHaveAttribute('aria-busy', 'true'))
     expect(screen.queryByText('First page')).not.toBeInTheDocument()
-    // MITable hides the pagination while loading, but it must not be unmounted nor reset to an empty total
-    expect(screen.getByRole('navigation', { hidden: true })).toBeInTheDocument()
 
     resolveSecondPage()
 
