@@ -143,12 +143,13 @@ export type EServiceProducerCategory =
   | "ISTITUTI_RICERCA"
   | "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI";
 
-/** Sort criteria for the catalog query */
+/** Sort criteria for the catalog query; defaults to CREATED_AT_DESC, including RELEVANCE without a non-empty keyword */
 export type EServiceSortBy =
   | "NAME_ASC"
   | "NAME_DESC"
   | "CREATED_AT_ASC"
-  | "CREATED_AT_DESC";
+  | "CREATED_AT_DESC"
+  | "RELEVANCE";
 
 /** Category of the use case */
 export type CatalogUseCaseField =
@@ -208,6 +209,14 @@ export type LinkableResourceRequest =
   | ({
       resourceKind: "ESERVICE_TEMPLATE";
     } & LinkableEServiceTemplateRequest);
+
+export type CatalogQueryResult =
+  | ({
+      resultType: "eservice";
+    } & CatalogEServiceQueryResult)
+  | ({
+      resultType: "template";
+    } & CatalogTemplateInstancesGroupQueryResult);
 
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
@@ -968,7 +977,7 @@ export interface CatalogFilterPayload {
   limit: number;
   /** Case-insensitive text search on e-service name, description and producer name */
   keyword?: string;
-  /** Sort criteria for the catalog query */
+  /** Sort criteria for the catalog query; defaults to CREATED_AT_DESC, including RELEVANCE without a non-empty keyword */
   sortBy?: EServiceSortBy;
   /** If true, excludes e-services whose relevant descriptor is SUSPENDED */
   onlyActiveEservices?: boolean;
@@ -997,6 +1006,45 @@ export interface CatalogFilterPayload {
   templateId?: string;
   /** Filter by producer tenant ids */
   producersIds?: string[];
+  /** If true, groups the instances of the same template into a single result, when the other filters allow it */
+  groupByTemplate?: boolean;
+}
+
+export interface CatalogQueryResults {
+  results: CatalogQueryResult[];
+  pagination: Pagination;
+}
+
+export interface CatalogEServiceQueryResult {
+  resultType: "eservice";
+  /** @format uuid */
+  id: string;
+  name: string;
+  description: string;
+  producer: CatalogTenant;
+  isMine: boolean;
+  activeDescriptor?: CompactDescriptor;
+  /** Indicates if there are unread notifications for this e-service */
+  hasUnreadNotifications?: boolean;
+  personalData?: boolean;
+  asyncExchange?: boolean;
+}
+
+/** The catalog instances of an e-service template, shown as a single result */
+export interface CatalogTemplateInstancesGroupQueryResult {
+  resultType: "template";
+  /**
+   * The e-service template id
+   * @format uuid
+   */
+  id: string;
+  name: string;
+  description: string;
+  /**
+   * Number of template instances available in the catalog that match the filters
+   * @format int32
+   */
+  numInstances: number;
 }
 
 export interface CompactClients {
@@ -7734,7 +7782,7 @@ export namespace Catalog {
     export type RequestQuery = {};
     export type RequestBody = CatalogFilterPayload;
     export type RequestHeaders = {};
-    export type ResponseBody = CatalogEServices;
+    export type ResponseBody = CatalogQueryResults;
   }
 
   /**
