@@ -1,7 +1,8 @@
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 export const useActiveTab = (defaultTab: string) => {
   const [searchParams, setSearchParams] = useSearchParams({ tab: defaultTab })
+  const location = useLocation()
 
   const activeTab = searchParams.get('tab') || defaultTab
 
@@ -11,7 +12,10 @@ export const useActiveTab = (defaultTab: string) => {
     searchParams.delete('signingStates')
     searchParams.delete('eservicesIds')
 
-    setSearchParams({ ...Object.fromEntries(searchParams), tab: newTab })
+    setSearchParams(
+      { ...Object.fromEntries(searchParams), tab: newTab },
+      { replace: true, state: location.state }
+    )
   }
 
   return { activeTab, updateActiveTab }

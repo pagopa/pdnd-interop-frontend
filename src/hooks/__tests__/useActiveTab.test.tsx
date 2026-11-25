@@ -16,6 +16,26 @@ function createMemoryHistoryWithTestSearchParams(searchParams?: Record<string, s
 }
 
 describe('determine whether business logic to move among tabs works', () => {
+  it('preserves navigation state when changing tabs', () => {
+    const state = { parentQueryParams: 'keyword=test&offset=9' }
+    const memoryHistory = createMemoryHistory({
+      initialEntries: [{ pathname: '/', state }],
+    })
+    const { result } = renderHookWithApplicationContext(
+      () => useActiveTab(testTabInitialValue),
+      { withRouterContext: true },
+      memoryHistory
+    )
+
+    act(() => {
+      result.current.updateActiveTab({}, 'secondTab')
+    })
+
+    expect(memoryHistory.location.search).toBe('?tab=secondTab')
+    expect(memoryHistory.location.state).toEqual(state)
+    expect(memoryHistory.action).toBe('REPLACE')
+  })
+
   it('moves between tabs', () => {
     const memoryHistory = createMemoryHistoryWithTestSearchParams()
     const { result, rerender } = renderHookWithApplicationContext(

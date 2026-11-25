@@ -8,6 +8,7 @@ type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useP
 
 type ActionButtonProps = {
   to: CatalogRoutesKeys
+  state?: Record<string, unknown>
   params: CatalogCardRouteParams<CatalogRoutesKeys>
   prefetchFn: () => void
   disabled?: boolean
@@ -18,6 +19,7 @@ type ActionButtonProps = {
 
 export const EServiceCatalogCardActionButton: React.FC<ActionButtonProps> = ({
   to,
+  state,
   params,
   prefetchFn,
   disabled,
@@ -34,6 +36,7 @@ export const EServiceCatalogCardActionButton: React.FC<ActionButtonProps> = ({
             size="small"
             variant="naked"
             to={to}
+            options={{ state }}
             params={params}
             onFocusVisible={prefetchFn}
             color="primary"
@@ -51,6 +54,7 @@ export const EServiceCatalogCardActionButton: React.FC<ActionButtonProps> = ({
       size="small"
       variant="naked"
       to={to}
+      options={{ state }}
       params={params}
       onFocusVisible={prefetchFn}
       color="primary"
