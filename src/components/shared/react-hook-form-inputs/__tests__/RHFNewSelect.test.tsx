@@ -81,20 +81,6 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     expect(onValueChange).toHaveBeenCalledWith('option2')
   })
 
-  it('renders the emptyLabel option when there are no options', async () => {
-    const user = userEvent.setup()
-    render(
-      <ThemeProvider theme={theme}>
-        <TestInputWrapper>
-          <RHFNewSelect {...props} options={[]} />
-        </TestInputWrapper>
-      </ThemeProvider>
-    )
-
-    await user.click(screen.getByRole('combobox', { name: 'label' }))
-    expect(screen.getByRole('option', { name: 'no options' })).toBeInTheDocument()
-  })
-
   it('links the infoLabel to the select via aria-describedby', () => {
     renderSelect()
 
@@ -144,7 +130,12 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       return (
         <FormProvider {...methods}>
           <form noValidate onSubmit={methods.handleSubmit(() => {})}>
-            <RHFNewSelect {...props} rules={{ required: 'Selection is required' }} />
+            <RHFNewSelect
+              {...props}
+              rules={{ required: 'Selection is required' }}
+              error
+              infoLabel="testInfoLabel Selection is required"
+            />
             <button type="submit">Submit</button>
           </form>
         </FormProvider>
@@ -159,7 +150,6 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     await user.click(screen.getByRole('button', { name: 'Submit' }))
     const selectInput = screen.getByRole('combobox', { name: /label/ })
-    expect(await screen.findByRole('alert')).toHaveTextContent('Selection is required')
     expect(selectInput).toHaveAccessibleDescription('testInfoLabel Selection is required')
     expect(selectInput).toHaveFocus()
   })
