@@ -1,25 +1,21 @@
 import React, { useId } from 'react'
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  type SelectChangeEvent,
-} from '@mui/material'
+import { type SelectChangeEvent } from '@mui/material'
+import type { MISelectOption } from '@pagopa/mui-italia'
 import { MISelect, type MISelectProps } from '@pagopa/mui-italia'
 import { Controller, useFormContext } from 'react-hook-form'
-import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
 
-export type RHFNewSelectProps = Omit<MISelectProps, 'onChange' | 'label' | 'value'> & {
+export type RHFNewSelectProps = Omit<
+  MISelectProps,
+  'onChange' | 'label' | 'value' | 'options' | 'ref'
+> & {
   name: string
-  options: Array<InputOption & { disabled?: boolean }>
+  options: MISelectOption[]
   label?: string
   rules?: ControllerProps['rules']
-  onValueChange?: (value: string | number) => void
-  emptyLabel?: string
+  onValueChange?: (value: string | number | Array<string | number>) => void
   infoLabel?: string
 }
 
@@ -29,77 +25,51 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
   label,
   rules,
   onValueChange,
-  emptyLabel,
   disabled,
   infoLabel,
   ...props
 }) => {
-  const { formState } = useFormContext()
+  const { control } = useFormContext()
   const { t } = useTranslation()
-  const labelId = useId()
   const errorId = useId()
   const infoId = useId()
-  const error = formState.errors[name]?.message as string | undefined
 
-  const describedBy = [infoLabel && infoId, error && errorId].filter(Boolean).join(' ') || undefined
-
+  const { formState } = useFormContext()
+  const errorMessage = formState.errors[name]?.message as string | undefined
+  const isError = Boolean(errorMessage)
   const conditionalRules = mapValidationErrorMessages(rules, t)
 
   return (
     <Controller
       name={name}
+      control={control}
       rules={conditionalRules}
-      render={({ field: { ref, onChange, value, ...fieldProps } }) => (
-        <FormControl
-          fullWidth
-          error={!!error}
+      render={({ field: { ref, onChange, value } }) => (
+        <MISelect
+          {...props}
+          fullWidth={props.fullWidth ?? true}
+          value={value ?? (props.multiple ? [] : '')}
+          id={name}
+          inputRef={ref}
+          helperText={infoLabel}
+          label={label ?? null}
+          options={options}
+          onChange={(e: SelectChangeEvent<unknown>) => {
+            // MISelect values come from the string or number options, or their array in multiple mode.
+            const value = e.target.value as string | number | Array<string | number>
+            onChange(value)
+            onValueChange?.(value)
+          }}
           disabled={disabled}
-          required={Boolean(rules?.required)}
-        >
-          <InputLabel id={labelId}>{label}</InputLabel>
-          <MISelect
-            {...props}
-            {...fieldProps}
-            value={value ?? ''}
-            labelId={labelId}
-            ref={ref}
-            id={name}
-            inputRef={ref}
-            label={label}
-            onChange={(e: SelectChangeEvent<unknown>) => {
-              const value = e.target.value as string | number
-              onChange(value)
-              if (onValueChange) onValueChange(value)
-            }}
-            disabled={disabled}
-            aria-describedby={describedBy}
-            aria-invalid={!!error}
-          >
-            {options.length > 0 ? (
-              options.map((option, index) => (
-                <MenuItem
-                  key={`${name}-${option.value}-${index}`}
-                  value={option.value}
-                  disabled={option.disabled}
-                >
-                  {option.label}
-                </MenuItem>
-              ))
-            ) : (
-              <MenuItem value="">{emptyLabel ?? ''}</MenuItem>
-            )}
-          </MISelect>
-          {infoLabel && (
-            <FormHelperText id={infoId} component="span" error={false} sx={{ fontWeight: 400 }}>
-              {infoLabel}
-            </FormHelperText>
-          )}
-          {error && (
-            <FormHelperText id={errorId} role="alert">
-              {error}
-            </FormHelperText>
-          )}
-        </FormControl>
+          error={isError || props.error}
+          required={Boolean(rules?.required) || props.required}
+          aria-describedby={
+            [props['aria-describedby'], infoLabel && infoId, errorMessage && errorId]
+              .filter(Boolean)
+              .join(' ') || undefined
+          }
+          aria-invalid={isError}
+        />
       )}
     />
   )
