@@ -17,12 +17,15 @@ import type {
   RiskAnalysisTemplateAnswerRequest,
   RiskAnalysisTemplateAnswerAnnotationDocument,
   EServiceDoc,
+  Problem,
 } from '@/api/api.generatedTypes'
+import { isAxiosError } from 'axios'
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
 import { getDownloadDocumentName } from '@/utils/purposeTemplate.utils'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 // Document Upload Form Component
 const DocumentUploadForm: React.FC<{
@@ -96,9 +99,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   // Form for document upload
+  // The pending document is kept registered (no shouldUnregister) and explicitly reset whenever
+  // the input is hidden, so its dirty state stays comparable with the default value.
   const documentFormMethods = useForm<{ doc: File | null }>({
-    shouldUnregister: true,
+    defaultValues: { doc: null },
   })
+  // Independent from the outer risk analysis form: a pending (not yet uploaded) document
+  // must be reported to the PageContainer on its own.
+  usePageContainerFormDirtyState(documentFormMethods.control)
 
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
@@ -206,7 +214,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{
           // Clear the upload input field
           setValue(`__annotationUpload.${questionKey}`, null, { shouldDirty: true })
           // Reset the document input state
+          documentFormMethods.reset()
           setShowDocInput(false)
+          setSelectedFile(null)
 
           // Show success notification
           showToast(t('notifications.annotationDeletedSuccess'), 'success')
@@ -269,8 +279,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       showToast(t('notifications.documentUploadedSuccess'), 'success')
     } catch (error) {
       console.error('Error uploading document:', error)
-      // Show error notification
-      showToast(t('notifications.documentUploadError'), 'error')
+      const problem = isAxiosError<Problem>(error) ? error.response?.data : undefined
+      showToast(
+        problem?.userMessage || t('notifications.documentUploadError'),
+        'error',
+        problem?.correlationId
+      )
     }
   }
 

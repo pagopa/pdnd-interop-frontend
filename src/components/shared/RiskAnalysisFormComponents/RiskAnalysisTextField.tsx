@@ -12,6 +12,7 @@ import { RemoveCircleOutline } from '@mui/icons-material'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
 import { useRiskAnalysisDisplayError } from './RiskAnalysisRequiredMessageContext'
 import { match, P } from 'ts-pattern'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   questionKey: string
@@ -35,14 +36,21 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
 }) => {
   const { setValue, watch, control } = useFormContext()
 
-  // Form for suggested value input
-  const suggestedValueFormMethods = useForm<{ suggestedValue: string }>({
-    defaultValues: { suggestedValue: '' },
-    shouldUnregister: true,
-  })
-
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { isFromPurposeTemplate, type } = usePurposeCreateContext()
+  const suggestedValueDefaultValues = React.useMemo(() => ({ suggestedValue: '' }), [])
+  const suggestedValueFormMethods = useForm({
+    defaultValues: suggestedValueDefaultValues,
+    shouldUnregister: true,
+  })
+  const isSuggestedValueFormVisible = !!isFromPurposeTemplate && type !== 'consumer'
+  usePageContainerFormDirtyState(suggestedValueFormMethods.control, isSuggestedValueFormVisible)
+  const { reset: resetSuggestedValueForm } = suggestedValueFormMethods
+  React.useEffect(() => {
+    // Match the former child form's unmount lifecycle without retaining hidden drafts.
+    if (!isSuggestedValueFormVisible) resetSuggestedValueForm(suggestedValueDefaultValues)
+  }, [isSuggestedValueFormVisible, resetSuggestedValueForm, suggestedValueDefaultValues])
+
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { t: tCommon } = useTranslation('common')
 
@@ -109,27 +117,18 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
       : undefined
 
   const handleAddSuggestedValue = () => {
-    const suggestedValue = suggestedValueFormMethods.getValues('suggestedValue')
-    if (suggestedValue.trim()) {
-      const currentValues = suggestedValues || []
-      setValue(suggestedValuesName, [...currentValues, suggestedValue.trim()], {
-        shouldDirty: true,
-      })
-      suggestedValueFormMethods.reset({ suggestedValue: '' })
-    }
+    const suggestedValue = suggestedValueFormMethods.getValues('suggestedValue').trim()
+    if (!suggestedValue) return
+    setValue(suggestedValuesName, [...suggestedValues, suggestedValue], {
+      shouldDirty: true,
+    })
+    suggestedValueFormMethods.reset(suggestedValueDefaultValues)
   }
 
   const handleRemoveSuggestedValue = (index: number) => {
     const currentValues = suggestedValues || []
     const newValues = currentValues.filter((_, i) => i !== index)
     setValue(suggestedValuesName, newValues, { shouldDirty: true })
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      handleAddSuggestedValue()
-    }
   }
 
   // If this is from purpose template, show the new suggested values UI
@@ -195,7 +194,12 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
                   label={t('answerInputPlaceholder')}
                   name="suggestedValue"
                   size="small"
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      event.preventDefault()
+                      handleAddSuggestedValue()
+                    }
+                  }}
                   inputProps={{ maxLength: 250 }}
                   sx={{ flex: 1 }}
                 />

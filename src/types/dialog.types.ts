@@ -8,9 +8,10 @@ import type {
   TargetTenantKind,
   CompactAgreement,
   CompactUser,
+  DelegationTenant,
   RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
-import type { RouteKey } from '@/router'
+import type { NavigationTarget, RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -28,6 +29,7 @@ export type DialogDefaultProps = {
 
 export type DialogProps =
   | DialogBasicProps
+  | DialogNavigationProps
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogRejectAgreementProps
@@ -80,11 +82,21 @@ export type DialogBasicProps = DialogDefaultProps & {
   title: string
   description?: string
   descriptionLink?: DialogDescriptionLink
+  cancelLabel?: string
   proceedLabel?: string
   onProceed: VoidFunction
   onCancel?: VoidFunction
   disabled?: boolean
   checkbox?: string
+}
+
+// Navigation confirmations cannot execute arbitrary (potentially mutating) callbacks.
+export type DialogNavigationProps = Pick<
+  DialogBasicProps,
+  'title' | 'description' | 'cancelLabel' | 'proceedLabel' | 'maxWidth'
+> & {
+  type: 'navigation'
+  destination: NavigationTarget
 }
 
 export type DialogRejectAgreementProps = {
@@ -178,6 +190,7 @@ export type DialogRejectDelegatedVersionDraftProps = {
 export type DialogSelectAgreementConsumerProps = {
   type: 'selectAgreementConsumer'
   action: 'inspect' | 'edit' | 'create'
+  initialSelectedConsumer?: DelegationTenant
   eservice: {
     id: string
     name: string
@@ -194,7 +207,14 @@ export type DialogSelectAgreementConsumerProps = {
   }: {
     isOwnEService: boolean
     delegationId?: string
-  }) => void
+  }) => void | Promise<void>
+  /**
+   * Lifetime of the flow that opened this dialog, provided by the originating hook.
+   * Aborted permanently on pathname change, owner unmount, or a subsequent flow opening.
+   * Only gates restoration after a failed `onSubmitCreate`; never cancels HTTP requests.
+   * When omitted the flow is considered active.
+   */
+  flowSignal?: AbortSignal
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
@@ -204,7 +224,7 @@ export type DialogTenantKindEserviceTemplateProps = {
 
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
-  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void | Promise<void>
 }
 
 export type DialogRequestPurposeApprovalProps = {

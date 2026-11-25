@@ -1,0 +1,9 @@
+{
+  "title": "Select local identity",
+  "subtitle": "Choose the party and user used to open PDND Interoperability.",
+  "tenantLabel": "Party",
+  "userLabel": "User",
+  "submitButton": "Continue",
+  "loadError": "Local identities could not be loaded.",
+  "submitError": "The selected identity could not be activated."
+}

@@ -2,10 +2,10 @@
   "notifications": {
     "page": {
       "title": "Notifications",
-      "description": "View all notifications for your user account.",
-      "addNotificationConfigBtn": "Configure Notifications",
-      "notNotificationAvailable": "You have not yet received any platform notifications.",
-      "noItemsConfigurationLink": "Configure notification settings",
+      "description": "Here you can find the notifications related to your organisation, as well as those related to delegations.",
+      "addNotificationConfigBtn": "Manage notifications",
+      "notNotificationAvailable": "You have not received any platform notifications yet.",
+      "noItemsConfigurationLink": "Configure notification preferences",
       "rowActions": {
         "lastUpdate": "Last update: ",
         "updateButton": "Update",

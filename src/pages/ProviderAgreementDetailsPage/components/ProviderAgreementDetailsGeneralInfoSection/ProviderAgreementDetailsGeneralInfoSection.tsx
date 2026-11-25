@@ -17,6 +17,7 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'providerRead.sections.generalInformations',
   })
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
   const { agreement } = useProviderAgreementDetailsContext()
   const downloadSignedContract = AgreementDownloads.useDownloadSignedContract()
 
@@ -61,12 +62,15 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
 
   const actions = []
 
-  if (agreement.isContractPresent) {
+  if (agreement.state !== 'PENDING') {
     actions.push({
       startIcon: <DownloadIcon fontSize="small" />,
       label: t('documentation.link.label'),
+      'data-testid': 'download-agreement-document-button',
       component: 'button',
       type: 'button',
+      disabled: !agreement.isDocumentReady,
+      tooltip: !agreement.isDocumentReady ? tShared('notAvailableYet') : undefined,
       onClick: handleDownloadSignedDocument,
     })
   }

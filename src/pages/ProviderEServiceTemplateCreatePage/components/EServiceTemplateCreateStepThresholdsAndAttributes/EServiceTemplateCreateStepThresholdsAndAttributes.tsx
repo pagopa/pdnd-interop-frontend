@@ -2,6 +2,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import { usePageContainerFormDirtyState } from '@/hooks/usePageContainerFormDirtyState'
 import { Alert, Box, Link, Stack, Tab, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -55,6 +56,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
   }
 
   const formMethods = useForm({ defaultValues })
+  usePageContainerFormDirtyState(formMethods.control)
   const isThresholdSectionVisible = formMethods.watch('thresholdsSection')
 
   const { activeTab, updateActiveTab } = useActiveTab('certified')

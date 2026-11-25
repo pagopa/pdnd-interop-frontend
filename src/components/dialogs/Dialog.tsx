@@ -1,11 +1,12 @@
 import React from 'react'
-import { DialogBasic } from './DialogBasic'
+import { DialogBasic, DialogNavigation } from './DialogBasic'
 import { DialogAttributeDetails } from './DialogAttributeDetails'
 import { DialogSessionExpired } from './DialogSessionExpired'
 import { DialogDeleteAnnotation } from './DialogDeleteAnnotation'
 import type {
   DialogAttributeDetailsProps,
   DialogBasicProps,
+  DialogNavigationProps,
   DialogDeleteOperatorProps,
   DialogDeleteAnnotationProps,
   DialogClonePurposeProps,
@@ -84,6 +85,7 @@ import DialogDelegatorRejectArchiving from './DialogDelegatorRejectArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
+  onNavigation: (props: DialogNavigationProps) => T,
   onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
   onShowSessionExpired: (props: DialogSessionExpiredProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
@@ -126,6 +128,8 @@ function match<T>(
     switch (props.type) {
       case 'basic':
         return onBasic(props)
+      case 'navigation':
+        return onNavigation(props)
       case 'showAttributeDetails':
         return onShowAttributeDetails(props)
       case 'sessionExpired':
@@ -206,6 +210,7 @@ function match<T>(
 
 const _Dialog = match(
   (props) => <DialogBasic {...props} />,
+  (props) => <DialogNavigation {...props} />,
   (props) => <DialogAttributeDetails {...props} />,
   (props) => <DialogSessionExpired {...props} />,
   (props) => <DialogRejectAgreement {...props} />,

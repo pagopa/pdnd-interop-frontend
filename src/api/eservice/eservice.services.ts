@@ -1,8 +1,10 @@
+import { parse as parseContentDisposition } from 'content-disposition'
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   CatalogEServiceDescriptor,
   CatalogEServices,
+  CompactCatalogEServices,
   CompactOrganizations,
   CreatedEServiceDescriptor,
   CreatedResource,
@@ -15,11 +17,13 @@ import type {
   EServiceRiskAnalysisSeed,
   EServiceSeed,
   FileResource,
+  GetCompactCatalogEServicesParams,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
   GracePeriodDays,
+  PatchUpdateEServiceSeed,
   PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -62,6 +66,14 @@ async function getCatalogList(params: GetEServicesCatalogParams) {
 
 async function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'limit' | 'offset'>) {
   return await getAllFromPaginated((offset, limit) => getCatalogList({ ...params, limit, offset }))
+}
+
+async function getCompactCatalogList(params: GetCompactCatalogEServicesParams) {
+  const response = await axiosInstance.get<CompactCatalogEServices>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices`,
+    { params }
+  )
+  return response.data
 }
 
 async function getProviderList(params: GetProducerEServicesParams) {
@@ -525,10 +537,14 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
     { responseType: 'arraybuffer' }
   )
 
-  const filename =
-    response?.headers?.['content-disposition']?.split('filename=')[1] || 'consumers.csv'
+  const contentDisposition = response?.headers?.['content-disposition']
+  // For "eservice – test.csv", the BE sends filename="eservice ? test.csv" and
+  // filename*=UTF-8''eservice%20%E2%80%93%20test.csv. Parse the header to preserve the original name.
+  const filename = contentDisposition
+    ? parseContentDisposition(contentDisposition).parameters.filename
+    : undefined
 
-  return { file: response.data, filename }
+  return { file: response.data, filename: filename || 'consumers.csv' }
 }
 
 async function updateEServiceDescription({
@@ -537,6 +553,17 @@ async function updateEServiceDescription({
 }: { eserviceId: string } & EServiceDescriptionUpdateSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/description/update`,
+    payload
+  )
+  return response.data
+}
+
+async function patchUpdateEServiceById({
+  eserviceId,
+  ...payload
+}: { eserviceId: string } & PatchUpdateEServiceSeed) {
+  const response = await axiosInstance.patch<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`,
     payload
   )
   return response.data
@@ -783,6 +810,7 @@ async function updateEServiceDelegationFlagsAfterPublication({
 export const EServiceServices = {
   getCatalogList,
   getAllCatalogEServices,
+  getCompactCatalogList,
   getProviderList,
   getSingle,
   getDescriptorCatalog,
@@ -824,6 +852,7 @@ export const EServiceServices = {
   downloadVersionDraftDocument,
   downloadConsumerList,
   updateEServiceDescription,
+  patchUpdateEServiceById,
   exportVersion,
   importVersion,
   updateDescriptorAttributes,

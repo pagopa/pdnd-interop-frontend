@@ -336,6 +336,15 @@
         "success": "E-service name updated successfully"
       }
     },
+    "patchUpdateEServiceById": {
+      "loading": "E-service name and description are being updated",
+      "outcome": {
+        "successNameAndDescription": "You have modified the e-service name and description.",
+        "successName": "You have modified the e-service name.",
+        "successDescription": "You have modified the e-service description.",
+        "error": "It was not possible to modify the e-service name and/or description. Please try again."
+      }
+    },
     "updateEServiceInterfaceInfo": {
       "loading": "E-service interface info is being updated",
       "outcome": {
@@ -605,6 +614,15 @@
     }
   },
   "purpose": {
+    "patchUpdatePurpose": {
+      "loading": "The purpose is being updated",
+      "outcome": {
+        "successNameAndDescription": "You have updated the purpose name and description.",
+        "successName": "You have updated the purpose name.",
+        "successDescription": "You have updated the purpose description.",
+        "error": "The purpose name and/or description could not be updated. Please try again."
+      }
+    },
     "createDraft": {
       "loading": "Purpose draft is being created",
       "outcome": {
@@ -769,6 +787,15 @@
     }
   },
   "client": {
+    "updateClient": {
+      "loading": "The client is being updated",
+      "outcome": {
+        "successNameAndDescription": "You have updated the client name and description.",
+        "successName": "You have updated the client name.",
+        "successDescription": "You have updated the client description.",
+        "error": "The client name and/or description could not be updated. Please try again."
+      }
+    },
     "create": {
       "loading": "Client is being created",
       "outcome": {
@@ -873,6 +900,15 @@
     }
   },
   "keychain": {
+    "updateKeychain": {
+      "loading": "The keychain is being updated",
+      "outcome": {
+        "successNameAndDescription": "You have updated the keychain name and description.",
+        "successName": "You have updated the keychain name.",
+        "successDescription": "You have updated the keychain description.",
+        "error": "The keychain name and/or description could not be updated. Please try again."
+      }
+    },
     "removeKeychainFromEService": {
       "loading": "Keychain is being removed from the e-service",
       "outcome": {
@@ -985,6 +1021,16 @@
     }
   },
   "eserviceTemplate": {
+    "patchUpdateEServiceTemplate": {
+      "loading": "The e-service template is being updated",
+      "outcome": {
+        "successMetadata": "You have updated the e-service template name, description and/or target audience.",
+        "successName": "You have updated the e-service template name.",
+        "successDescription": "You have updated the e-service template description.",
+        "successTarget": "You have updated the e-service template target audience.",
+        "error": "The e-service template name, description or target audience could not be updated. Please try again."
+      }
+    },
     "updateEServiceTemplateName": {
       "loading": "E-service template name is being updated",
       "outcome": {
@@ -1171,6 +1217,16 @@
     }
   },
   "purposeTemplate": {
+    "patchUpdatePurposeTemplate": {
+      "loading": "The purpose template is being updated",
+      "outcome": {
+        "successMetadata": "You have updated the purpose template name, description and/or target audience.",
+        "successName": "You have updated the purpose template name.",
+        "successDescription": "You have updated the purpose template description.",
+        "successTarget": "You have updated the purpose template target audience.",
+        "error": "The purpose template name, description or target audience could not be updated. Please try again."
+      }
+    },
     "createDraft": {
       "loading": "Facilitated purpose template draft is being created",
       "outcome": {

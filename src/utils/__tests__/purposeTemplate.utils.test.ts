@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import type { CatalogEService, CatalogEServiceTemplate } from '@/api/api.generatedTypes'
 import { createMockEServiceCatalog } from '../../../__mocks__/data/eservice.mocks'
 import { createMockCatalogEServiceTemplate } from '../../../__mocks__/data/eserviceTemplate.mocks'
-import { mergeLinkableCandidates, type LinkableCandidate } from '../purposeTemplate.utils'
+import { mergeLinkableCandidates, type LinkableOption } from '../purposeTemplate.utils'
 
 function makeEservice(
   id: string,
@@ -41,7 +41,7 @@ function makeTemplate(
   })
 }
 
-function extractKeys(opts: LinkableCandidate[]): string[] {
+function extractKeys(opts: LinkableOption[]): string[] {
   return opts.map((o) => `${o.resourceKind}:${o.value.id}`)
 }
 
