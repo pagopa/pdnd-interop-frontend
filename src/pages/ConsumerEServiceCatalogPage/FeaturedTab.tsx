@@ -1,6 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import { usePagination } from '@/hooks/usePagination'
-import { Box } from '@mui/material'
+import { Stack } from '@mui/material'
 import { MIPagination } from '@pagopa/mui-italia'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
@@ -49,7 +49,7 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
     .exhaustive()
 
   return (
-    <>
+    <Stack gap={3}>
       {emptyState && (
         <EmptyStateBanner
           title={t(`emptyStateBanner.${emptyState}.title`)}
@@ -61,17 +61,15 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
       {!eservicesEmptyState && <EServiceCatalogWrapper params={paginationParams} />}
 
       {data && data.length !== 0 && (
-        <Box mt={3}>
-          <MIPagination
-            page={paginationProps.page}
-            count={getTotalPageCount(data?.length)}
-            onChange={(_, page) => paginationProps.onPageChange(page)}
-          />
-        </Box>
+        <MIPagination
+          page={paginationProps.page}
+          count={getTotalPageCount(data?.length)}
+          onChange={(_, page) => paginationProps.onPageChange(page)}
+        />
       )}
 
       {!useCasesEmptyState && <UseCasesSection useCases={useCases} />}
-    </>
+    </Stack>
   )
 }
 
