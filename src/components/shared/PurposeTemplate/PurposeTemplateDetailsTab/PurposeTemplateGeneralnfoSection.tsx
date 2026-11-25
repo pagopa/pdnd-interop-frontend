@@ -15,6 +15,7 @@ import {
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { useCurrentRoute } from '@/router'
 import { AuthHooks } from '@/api/auth'
+import { formatTenantHierarchy } from '@/utils/tenant.utils'
 
 type PurposeTemplateGeneralInfoSectionProps = {
   purposeTemplate: PurposeTemplateWithCompactCreator
@@ -119,7 +120,10 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
             <Stack spacing={2}>
               <InformationContainer
                 label={t('producerName')}
-                content={purposeTemplate.creator.name}
+                content={formatTenantHierarchy(
+                  purposeTemplate.creator.name,
+                  purposeTemplate.creator.parentTenants
+                )}
               />
               <InformationContainer label={t('tenantKind')} content={tenantKindTranslationKey} />
               <InformationContainer
