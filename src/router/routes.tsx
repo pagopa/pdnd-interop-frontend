@@ -79,6 +79,7 @@ import RiskAnalysisDetailsPage from '@/pages/RiskAnalysisDetailsPage/RiskAnalysi
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
+import ConsumerTemplateInstacesGroupPage from '@/pages/ConsumerTemplateInstancesGroupPage/ConsumerTemplateInstancesGroup.page'
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
@@ -242,6 +243,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SUBSCRIBE_CATALOG_LIST',
     path: '/catalogo-e-service',
     element: <ConsumerEServiceCatalogPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer', 'viewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_TEMPLATE_INSTANCES_GROUP',
+    path: '/catalogo-e-service/:templateInstancesGroupId',
+    element: <ConsumerTemplateInstacesGroupPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security', 'api', 'reviewer', 'viewer'],

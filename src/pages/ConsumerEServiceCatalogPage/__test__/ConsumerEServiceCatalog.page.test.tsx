@@ -64,7 +64,12 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
   it('queries with default pagination and sorting when no filter is set', () => {
     renderPage()
 
-    expect(lastCatalogQuery()).toEqual({ limit: 9, offset: 0, sortBy: 'CREATED_AT_DESC' })
+    expect(lastCatalogQuery()).toEqual({
+      limit: 9,
+      offset: 0,
+      groupByTemplate: true,
+      sortBy: 'CREATED_AT_DESC',
+    })
   })
 
   it("does not render pagination when there aren't items", async () => {
@@ -114,6 +119,12 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
     })
   })
 
+  it('omits mode from the payload when ALL is selected', () => {
+    renderPage('?mode=ALL')
+
+    expect(lastCatalogQuery().mode).toBeUndefined()
+  })
+
   it('adds the keyword to the payload after submitting the main filters', async () => {
     const user = userEvent.setup()
     renderPage()
@@ -158,6 +169,19 @@ describe('ConsumerEServiceCatalogPage filters and query payload', () => {
     await user.click(within(drawer).getByRole('button', { name: 'actions.apply' }))
 
     await waitFor(() => expect(lastCatalogQuery().asyncExchange).toBe(true))
+  })
+
+  it('maps SYNC asyncExchange selection to false in the payload', async () => {
+    const user = userEvent.setup()
+    renderPage()
+
+    await user.click(screen.getByRole('button', { name: 'trigger' }))
+    const drawer = await screen.findByRole('presentation')
+    await user.click(within(drawer).getByRole('combobox', { name: /asyncExchangeField\.label/ }))
+    await user.click(await screen.findByRole('option', { name: /options\.SYNC/ }))
+    await user.click(within(drawer).getByRole('button', { name: 'actions.apply' }))
+
+    await waitFor(() => expect(lastCatalogQuery().asyncExchange).toBe(false))
   })
 
   it('removes the filters from the payload when they are reset', async () => {
