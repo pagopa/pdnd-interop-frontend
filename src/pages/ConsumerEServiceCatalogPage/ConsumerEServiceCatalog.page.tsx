@@ -5,7 +5,7 @@ import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdates
 import { Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import AllEServicesTab from './AllEservicesTab'
+import AllEServicesTab from './AllEServicesTab'
 import FeaturedEServicesTab from './FeaturedEServicesTab'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
