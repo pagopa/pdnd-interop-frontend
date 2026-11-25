@@ -12,7 +12,6 @@ import type {
   EServiceMode,
   EServiceProducerCategory,
   EServiceSortBy,
-  RequesterDelegationRole,
 } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
 import { useSorting } from '@/hooks/useSorting'
@@ -36,12 +35,6 @@ const producerCategoriesOptions: EServiceProducerCategory[] = [
   'STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI',
 ]
 
-const requesterDelegationRolesOptions: (RequesterDelegationRole | 'ALL')[] = [
-  'ALL',
-  'DELEGATE',
-  'DELEGATOR',
-]
-
 const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'RECEIVE', 'DELIVER']
 
 const sortByOptions: EServiceSortBy[] = [
@@ -49,6 +42,12 @@ const sortByOptions: EServiceSortBy[] = [
   'CREATED_AT_DESC',
   'NAME_ASC',
   'NAME_DESC',
+]
+
+const delegationOptions: ('ALL' | 'DELEGATED' | 'NOT_DELEGATED')[] = [
+  'ALL',
+  'DELEGATED',
+  'NOT_DELEGATED',
 ]
 
 const AllEServicesTab: React.FC = () => {
@@ -175,16 +174,14 @@ const AllEServicesTab: React.FC = () => {
         title: tEservice('filters.side.delegationAndSignalHub.title'),
         fields: [
           {
-            name: 'requesterDelegationRoles',
-            label: tEservice(
-              'filters.side.delegationAndSignalHub.requesterDelegationRolesField.label'
-            ),
+            name: 'isConsumerDelegable',
+            label: tEservice('filters.side.delegationAndSignalHub.delegationsField.label'),
             type: 'autocomplete-single',
-            options: requesterDelegationRolesOptions.map((role) => ({
+            options: delegationOptions.map((delegation) => ({
               label: tEservice(
-                `filters.side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
+                `filters.side.delegationAndSignalHub.delegationsField.options.${delegation}`
               ),
-              value: role,
+              value: delegation,
             })),
           },
           {
@@ -231,16 +228,16 @@ const AllEServicesTab: React.FC = () => {
         return
       }
 
-      if (key === 'requesterDelegationRoles') {
+      if (key === 'isConsumerDelegable') {
         match(value)
           .with('ALL', () => {
-            mappedFilters[key] = ['DELEGATE', 'DELEGATOR']
+            mappedFilters[key] = undefined
           })
-          .with('DELEGATE', () => {
-            mappedFilters[key] = ['DELEGATE']
+          .with('DELEGATED', () => {
+            mappedFilters[key] = true
           })
-          .with('DELEGATOR', () => {
-            mappedFilters[key] = ['DELEGATOR']
+          .with('NOT_DELEGATED', () => {
+            mappedFilters[key] = false
           })
           .otherwise(() => {
             mappedFilters[key] = undefined

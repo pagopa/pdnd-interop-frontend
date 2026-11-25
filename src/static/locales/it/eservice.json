@@ -661,7 +661,15 @@
           }
         },
         "delegationAndSignalHub": {
-          "title": "Notifiche modifica dati",
+          "title": "Deleghe e notifiche modifica dati",
+          "delegationsField": {
+            "label": "Deleghe in fruizione",
+            "options": {
+              "ALL": "Tutti",
+              "DELEGATED": "E-service fruibili con delega",
+              "NOT_DELEGATED": "E-service non fruibili con delega"
+            }
+          },
           "onlySignalHubEnabledField": {
             "label": "Signal Hub",
             "description": "Con servizio di notifica in caso di variazione dati"

@@ -334,6 +334,28 @@ export interface Dependency {
   value: string;
 }
 
+export interface PatchUpdateEServiceSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name?: string;
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string;
+  /** EService Descriptor State */
+  technology?: EServiceTechnology;
+  /** Risk Analysis Mode */
+  mode?: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean | null;
+  asyncExchange?: boolean | null;
+}
+
 export interface UpdateEServiceSeed {
   name: string;
   description: string;
@@ -1124,6 +1146,20 @@ export interface CompactEServices {
   pagination: Pagination;
 }
 
+export interface CompactCatalogEService {
+  /** @format uuid */
+  id: string;
+  name: string;
+  producer: CompactOrganization;
+  personalData?: boolean;
+  activeDescriptor?: CompactDescriptor;
+}
+
+export interface CompactCatalogEServices {
+  results: CompactCatalogEService[];
+  pagination: Pagination;
+}
+
 export interface CompactPurposeEService {
   /** @format uuid */
   id: string;
@@ -1480,6 +1516,34 @@ export interface PurposeTemplateSeed {
   handlesPersonalData: boolean;
 }
 
+export interface PatchUpdatePurposeTemplateSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  targetDescription?: string;
+  targetTenantKind?: TargetTenantKind;
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  purposeTitle?: string;
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  purposeDescription?: string;
+  purposeIsFreeOfCharge?: boolean;
+  purposeFreeOfChargeReason?: string | null;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number | null;
+  handlesPersonalData?: boolean;
+}
+
 export interface RiskAnalysisFormTemplate {
   /**
    * @minLength 1
@@ -1752,6 +1816,51 @@ export interface ProducerKeychain {
 export interface EServiceAdditionDetailsSeed {
   /** @format uuid */
   eserviceId: string;
+}
+
+export interface PatchPurposeUpdateContent {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  title?: string;
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string;
+  isFreeOfCharge?: boolean;
+  freeOfChargeReason?: string | null;
+  riskAnalysisForm?: RiskAnalysisFormSeed;
+  /**
+   * Maximum number of daily calls that this version can perform
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  dailyCalls?: number;
+}
+
+export interface PatchReversePurposeUpdateContent {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  title?: string;
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string;
+  isFreeOfCharge?: boolean;
+  freeOfChargeReason?: string | null;
+  /**
+   * Maximum number of daily calls that this version can perform
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  dailyCalls?: number;
 }
 
 /** contains the expected payload for purpose update. */
@@ -2254,6 +2363,8 @@ export interface VerifiedTenantAttributeSeed {
   id: string;
   /** @format uuid */
   agreementId: string;
+  /** @format uuid */
+  delegationId?: string;
   /** @format date-time */
   expirationDate?: string;
 }
@@ -2497,6 +2608,10 @@ export interface RejectDelegationPayload {
 }
 
 export interface EServiceTemplateNameUpdateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 45
+   */
   name: string;
 }
 
@@ -2647,6 +2762,31 @@ export interface CreatedEServiceTemplateVersion {
   id: string;
   /** @format uuid */
   versionId: string;
+}
+
+export interface PatchUpdateEServiceTemplateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 45
+   */
+  name?: string;
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  intendedTarget?: string;
+  /**
+   * @minLength 10
+   * @maxLength 400
+   */
+  description?: string;
+  /** EService Descriptor State */
+  technology?: EServiceTechnology;
+  /** Risk Analysis Mode */
+  mode?: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  personalData?: boolean | null;
+  asyncExchange?: boolean | null;
 }
 
 export interface UpdateEServiceTemplateSeed {
@@ -2828,6 +2968,7 @@ export interface Problem {
   detail?: string;
   /** @minItems 1 */
   errors?: ProblemError[];
+  userMessage?: string;
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -3451,6 +3592,38 @@ export interface GetEServicesCatalogParams {
   /**
    * @format int32
    * @min 1
+   * @max 50
+   */
+  limit: number;
+}
+
+export interface GetCompactCatalogEServicesParams {
+  /** Query to filter EServices by name */
+  q?: string;
+  /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: EServiceDescriptorState[];
+  /**
+   * comma separated sequence of agreement states to filter the response with
+   * @default []
+   */
+  agreementStates?: AgreementState[];
+  /** EService Mode filter */
+  mode?: EServiceMode;
+  /** EService isConsumerDelegable filter */
+  isConsumerDelegable?: boolean;
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter;
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number;
+  /**
+   * @format int32
+   * @min 1
    * @max 200
    */
   limit: number;
@@ -3890,6 +4063,14 @@ export interface UpdateEServiceByIdParams {
   eServiceId: string;
 }
 
+export interface PatchUpdateEServiceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
 export interface UpdateEServiceTemplateInstanceByIdParams {
   /**
    * The E-Service id to update
@@ -4202,6 +4383,14 @@ export interface GetProducerEServiceDescriptorParams {
   descriptorId: string;
 }
 
+export interface PatchUpdateReversePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
 export interface UpdateReversePurposeParams {
   /**
    * the purpose id
@@ -4483,6 +4672,14 @@ export interface RevokeDeclaredAttributeParams {
   attributeId: string;
 }
 
+export interface PatchUpdatePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
 export interface GetPurposeParams {
   /**
    * the purpose id
@@ -4665,6 +4862,14 @@ export interface GetPurposeTemplateParams {
 }
 
 export interface UpdatePurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface PatchUpdatePurposeTemplateParams {
   /**
    * the purpose template id
    * @format uuid
@@ -4881,11 +5086,6 @@ export interface UpdateVerifiedAttributeParams {
   attributeId: string;
 }
 
-export interface RevokeVerifiedAttributePayload {
-  /** @format uuid */
-  agreementId: string;
-}
-
 export interface RevokeVerifiedAttributeParams {
   /**
    * Agreement id related to the Verified attribute revocation
@@ -5007,6 +5207,14 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number;
+}
+
+export interface UpdateClientParams {
+  /**
+   * The Client id
+   * @format uuid
+   */
+  clientId: string;
 }
 
 export interface GetClientParams {
@@ -5230,6 +5438,14 @@ export interface GetProducerKeychainsParams {
    * @max 50
    */
   limit: number;
+}
+
+export interface UpdateProducerKeychainParams {
+  /**
+   * The Producer Keychain id
+   * @format uuid
+   */
+  producerKeychainId: string;
 }
 
 export interface GetProducerKeychainParams {
@@ -5483,6 +5699,14 @@ export interface GetDelegationSignedContractParams {
    * @format uuid
    */
   contractId: string;
+}
+
+export interface PatchUpdateEServiceTemplateParams {
+  /**
+   * The E-Service id to retrieve
+   * @format uuid
+   */
+  eServiceTemplateId: string;
 }
 
 export interface UpdateEServiceTemplateParams {
@@ -5879,6 +6103,8 @@ export interface GetDigestNotificationDeeplinkParams {
   entityId?: string;
   /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
   selfcareId?: string;
+  /** Optional purpose state filter for the destination page */
+  states?: "DRAFT";
   /** The type of the notification */
   digestNotificationType: string;
 }
@@ -7334,8 +7560,19 @@ export namespace Tenants {
        */
       attributeId: string;
     };
-    export type RequestQuery = {};
-    export type RequestBody = RevokeVerifiedAttributePayload;
+    export type RequestQuery = {
+      /**
+       * Agreement id related to the Verified attribute revocation
+       * @format uuid
+       */
+      agreementId: string;
+      /**
+       * The ID of the producer Delegation
+       * @format uuid
+       */
+      delegationId?: string;
+    };
+    export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -8444,6 +8681,28 @@ export namespace Eservices {
   }
 
   /**
+   * @description Partially updates the general information of the specified E-Service
+   * @tags eservices
+   * @name PatchUpdateEServiceById
+   * @summary Partially updates E-Service general information
+   * @request PATCH:/eservices/{eServiceId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceById {
+    export type RequestParams = {
+      /**
+       * The E-Service id to update
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchUpdateEServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
+  }
+
+  /**
    * @description Add a risk analysis to an EService
    * @tags eservices
    * @name AddRiskAnalysisToEService
@@ -8751,6 +9010,28 @@ export namespace Eservices {
     export type RequestBody = EServiceTemplateSeed;
     export type RequestHeaders = {};
     export type ResponseBody = CreatedEServiceTemplateVersion;
+  }
+
+  /**
+   * @description Partially updates the general information of the specified E-Service Template
+   * @tags eserviceTemplates
+   * @name PatchUpdateEServiceTemplate
+   * @summary Partially updates E-Service Template general information
+   * @request PATCH:/eservices/templates/{eServiceTemplateId}
+   * @secure
+   */
+  export namespace PatchUpdateEServiceTemplate {
+    export type RequestParams = {
+      /**
+       * The E-Service id to retrieve
+       * @format uuid
+       */
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchUpdateEServiceTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
 
   /**
@@ -9722,6 +10003,28 @@ export namespace Reverse {
   }
 
   /**
+   * @description Partially updates a Purpose of an EService with Receive mode
+   * @tags purposes
+   * @name PatchUpdateReversePurpose
+   * @summary Partially updates a reverse Purpose
+   * @request PATCH:/reverse/purposes/{purposeId}
+   * @secure
+   */
+  export namespace PatchUpdateReversePurpose {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchReversePurposeUpdateContent;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
+  }
+
+  /**
    * @description Updates a reverse Purpose
    * @tags purposes
    * @name UpdateReversePurpose
@@ -10155,6 +10458,28 @@ export namespace Purposes {
   }
 
   /**
+   * @description Partially updates a Purpose of an EService with Deliver mode
+   * @tags purposes
+   * @name PatchUpdatePurpose
+   * @summary Partially updates a Purpose
+   * @request PATCH:/purposes/{purposeId}
+   * @secure
+   */
+  export namespace PatchUpdatePurpose {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchPurposeUpdateContent;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
+  }
+
+  /**
    * @description Retrieve the Purpose
    * @tags purposes
    * @name GetPurpose
@@ -10517,6 +10842,28 @@ export namespace PurposeTemplates {
     };
     export type RequestQuery = {};
     export type RequestBody = PurposeTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeTemplate;
+  }
+
+  /**
+   * @description Partially updates the general information of the specified Purpose Template
+   * @tags purposeTemplates
+   * @name PatchUpdatePurposeTemplate
+   * @summary Partially updates Purpose Template general information
+   * @request PATCH:/purposeTemplates/{purposeTemplateId}
+   * @secure
+   */
+  export namespace PatchUpdatePurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchUpdatePurposeTemplateSeed;
     export type RequestHeaders = {};
     export type ResponseBody = PurposeTemplate;
   }
@@ -11102,6 +11449,28 @@ export namespace Clients {
   }
 
   /**
+   * @description Updates a Client
+   * @tags clients
+   * @name UpdateClient
+   * @summary Update a Client
+   * @request PATCH:/clients/{clientId}
+   * @secure
+   */
+  export namespace UpdateClient {
+    export type RequestParams = {
+      /**
+       * The Client id
+       * @format uuid
+       */
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = ClientUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Retrieves a Client
    * @tags clients
    * @name GetClient
@@ -11647,6 +12016,28 @@ export namespace ProducerKeychains {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = CompactProducerKeychains;
+  }
+
+  /**
+   * @description Updates a Producer Keychain
+   * @tags producerKeychain
+   * @name UpdateProducerKeychain
+   * @summary Update a Producer Keychain
+   * @request PATCH:/producerKeychains/{producerKeychainId}
+   * @secure
+   */
+  export namespace UpdateProducerKeychain {
+    export type RequestParams = {
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = ProducerKeychainUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 
   /**
@@ -12354,6 +12745,8 @@ export namespace EmailDeepLink {
       entityId?: string;
       /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
       selfcareId?: string;
+      /** Optional purpose state filter for the destination page */
+      states?: "DRAFT";
     };
     export type RequestBody = never;
     export type RequestHeaders = {};

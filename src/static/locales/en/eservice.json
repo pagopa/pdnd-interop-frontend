@@ -661,7 +661,15 @@
           }
         },
         "delegationAndSignalHub": {
-          "title": "Data change notifications",
+          "title": "Delegations and data change notifications",
+          "delegationsField": {
+            "label": "Consumer delegations",
+            "options": {
+              "ALL": "All",
+              "DELEGATED": "E-services available with delegation",
+              "NOT_DELEGATED": "E-services not available with delegation"
+            }
+          },
           "onlySignalHubEnabledField": {
             "label": "Signal Hub",
             "description": "Includes a notification service for data changes"
