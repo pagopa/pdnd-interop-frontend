@@ -159,14 +159,6 @@ export type CatalogUseCaseField =
   | "EDUCATION"
   | "HEALTHCARE";
 
-/** Category of the use case */
-export type CatalogUseCaseField =
-  | "CITIZEN_SERVICES"
-  | "WELFARE"
-  | "MOBILITY"
-  | "EDUCATION"
-  | "HEALTHCARE";
-
 /**
  * EService Descriptor policy for new Agreements approval.
  * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
@@ -7794,19 +7786,19 @@ export namespace Catalog {
   }
 
   /**
-   * @description Retrieves the use cases of the catalog in the language of the Accept-Language header, with italian as fallback. The EServices of each use case are split between the EServices with a valid agreement of the requester and the others. The EServices that are not found are ignored.
+   * @description Retrieves at most 12 EServices of the catalog. The most recent EService is first. The requester has the certified attributes that each EService requires. The requester has no active or suspended agreement for these EServices.
    * @tags eservices
-   * @name GetCatalogUseCases
-   * @summary Retrieves the use cases of the catalog
-   * @request GET:/catalog/use-cases
+   * @name GetFeaturedEServicesCatalog
+   * @summary Retrieves the featured EServices of the catalog
+   * @request GET:/catalog/featured
    * @secure
    */
-  export namespace GetCatalogUseCases {
+  export namespace GetFeaturedEServicesCatalog {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = CatalogUseCase[];
+    export type ResponseBody = CatalogEService[];
   }
 
   /**
