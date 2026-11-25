@@ -17,7 +17,7 @@ type AddOperatorsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   excludeOperatorsIdsList: Array<string>
-  onSubmit: (relationshipIds: Users) => void
+  onSubmit: (relationshipIds: Users) => void | Promise<void>
 }
 
 export const AddOperatorsToClientDrawer: React.FC<AddOperatorsDrawerProps> = ({
@@ -57,8 +57,11 @@ export const AddOperatorsToClientDrawer: React.FC<AddOperatorsDrawerProps> = ({
   }))
 
   const _onSubmit = ({ selectedOperators }: AddSecurityOperatorFormValues) => {
+    const result = onSubmit(selectedOperators)
+    if (result) {
+      return result.then(onClose)
+    }
     onClose()
-    onSubmit(selectedOperators)
   }
 
   const handleTransitionExited = () => {

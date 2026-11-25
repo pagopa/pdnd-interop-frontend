@@ -37,7 +37,7 @@ const producerCategoriesOptions: EServiceProducerCategory[] = [
   'STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI',
 ]
 
-const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'RECEIVE', 'DELIVER']
+const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'DELIVER', 'RECEIVE']
 
 const sortByOptions: EServiceSortBy[] = [
   'CREATED_AT_DESC',

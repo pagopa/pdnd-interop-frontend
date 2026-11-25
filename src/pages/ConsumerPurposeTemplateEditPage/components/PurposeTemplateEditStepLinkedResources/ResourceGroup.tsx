@@ -8,7 +8,11 @@ import { ResourceAutoComplete } from '@/components/shared/ResourceAutoComplete'
 import { ResourceContainer } from '@/components/layout/containers/ResourceContainer'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import { toLinkableResourceRequest, type LinkableCandidate } from '@/utils/purposeTemplate.utils'
+import {
+  toLinkableResourceRequest,
+  type LinkableCandidate,
+  type LinkableOption,
+} from '@/utils/purposeTemplate.utils'
 
 export type ResourceGroupProps = {
   group: LinkableCandidate[]
@@ -42,7 +46,7 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
   const [isAutocompleteShown, setIsAutocompleteShown] = React.useState(true)
   const { mutate: linkResource } = PurposeTemplateMutations.useLinkResourceToPurposeTemplate()
 
-  const handleAddResource = (candidate: LinkableCandidate) => {
+  const handleAddResource = (candidate: LinkableOption) => {
     const payload = {
       purposeTemplateId: purposeTemplate.id,
       ...toLinkableResourceRequest({

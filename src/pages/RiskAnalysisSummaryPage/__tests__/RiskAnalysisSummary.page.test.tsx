@@ -81,6 +81,8 @@ vi.mock('@tanstack/react-query', async () => {
       data: mockedPurposeData,
       isLoading: isPurposeLoading,
       isFetching: isPurposeFetching,
+      isFetchedAfterMount: !isPurposeLoading && !isPurposeFetching,
+      isSuccess: !isPurposeLoading,
     }),
   }
 })
@@ -94,6 +96,10 @@ vi.mock('@/pages/ConsumerPurposeSummaryPage/components', () => ({
     <div data-testid="general-info-accordion" />
   ),
   ConsumerPurposeSummaryRiskAnalysisAccordion: () => <div data-testid="risk-analysis-accordion" />,
+}))
+
+vi.mock('@/components/layout/Breadcrumbs', () => ({
+  Breadcrumbs: () => <div data-testid="breadcrumbs" />,
 }))
 
 const mockRouteKey = (routeKey: string) => {
@@ -253,6 +259,12 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     })
 
     expect(screen.getByText('titleSummary')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      '/it/analisi-del-rischio'
+    )
+    expect(screen.queryByRole('button', { name: 'actions.back' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('breadcrumbs')).not.toBeInTheDocument()
   })
 
   it('should render approval page title', () => {
@@ -264,6 +276,9 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     })
 
     expect(screen.getByText('titleApproval')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'actions.back' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'exitButton' })).not.toBeInTheDocument()
+    expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument()
   })
 
   it('should render main sections', () => {

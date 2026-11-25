@@ -98,7 +98,10 @@ const chipColors = {
   eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
   purposeTemplate: CHIP_COLORS_PURPOSE_TEMPLATE,
   riskAnalysis: CHIP_COLORS_RISK_ANALYSIS,
-  riskAnalysisList: CHIP_COLORS_RISK_ANALYSIS,
+  riskAnalysisList: {
+    ...CHIP_COLORS_RISK_ANALYSIS,
+    SUBMITTED: 'info',
+  },
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &

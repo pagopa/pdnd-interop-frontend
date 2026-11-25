@@ -1,0 +1,35 @@
+{
+  "name": "PDND Interop full stack",
+  "dockerComposeFile": [
+    "../../interop-be-monorepo/docker/docker-compose.yml",
+    "../../interop-be-monorepo/.local-development/dashboard/compose.yml",
+    "compose.yml",
+    "../.local-development/frontend/compose.yml"
+  ],
+  "service": "frontend",
+  "runServices": ["dashboard", "frontend"],
+  "workspaceFolder": "${localWorkspaceFolder}",
+  "initializeCommand": ["bash", ".devcontainer/initialize.sh", "--open-dashboard"],
+  "overrideCommand": false,
+  "shutdownAction": "none",
+  "remoteUser": "node",
+  "updateRemoteUserUID": false,
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "remote.restoreForwardedPorts": false,
+        "remote.forwardOnOpen": false,
+        "task.allowAutomaticTasks": "on"
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}

@@ -12,10 +12,7 @@ const ConsumerPurposeCreatePage: React.FC = () => {
   return (
     <PageContainer
       title={t('create.emptyTitle')}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_LIST',
-      }}
+      navigation={{ mode: 'wizard', exitAction: { to: 'SUBSCRIBE_PURPOSE_LIST' } }}
     >
       <RequiredTextLabel />
       <PurposeCreateForm purposeTemplateId={purposeTemplateId} />
