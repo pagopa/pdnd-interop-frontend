@@ -5,6 +5,7 @@ import { ThemeProvider } from '@mui/material'
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFNewSelect } from '@/components/shared/react-hook-form-inputs/RHFNewSelect'
 import { theme } from '@pagopa/mui-italia'
+import { FormProvider, useForm } from 'react-hook-form'
 
 const options = [
   { label: 'option1', value: 'option1' },
@@ -85,7 +86,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     render(
       <ThemeProvider theme={theme}>
         <TestInputWrapper>
-          <RHFNewSelect {...props} options={[]} emptyLabel="no options" />
+          <RHFNewSelect {...props} options={[]} />
         </TestInputWrapper>
       </ThemeProvider>
     )
@@ -99,5 +100,67 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     const selectInput = screen.getByRole('combobox', { name: 'label' })
     expect(selectInput).toHaveAccessibleDescription('testInfoLabel')
+  })
+
+  it('updates and submits multiple values, including when the initial value is undefined', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    const onValueChange = vi.fn()
+    const Form = () => {
+      const methods = useForm<{ testSelect: string[] }>()
+      return (
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <RHFNewSelect {...props} multiple onValueChange={onValueChange} />
+            <button type="submit">Submit</button>
+          </form>
+        </FormProvider>
+      )
+    }
+
+    render(
+      <ThemeProvider theme={theme}>
+        <Form />
+      </ThemeProvider>
+    )
+
+    const selectInput = screen.getByRole('combobox', { name: 'label' })
+    await user.click(selectInput)
+    await user.click(screen.getByRole('option', { name: 'option1' }))
+    await user.click(screen.getByRole('option', { name: 'option2' }))
+    await user.keyboard('{Escape}')
+
+    expect(selectInput).toHaveTextContent('option1')
+    expect(selectInput).toHaveTextContent('option2')
+    expect(onValueChange).toHaveBeenLastCalledWith(['option1', 'option2'])
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+    expect(onSubmit).toHaveBeenCalledWith({ testSelect: ['option1', 'option2'] }, expect.anything())
+  })
+
+  it('associates validation errors and guidance with the select', async () => {
+    const user = userEvent.setup()
+    const Form = () => {
+      const methods = useForm({ defaultValues: { testSelect: '' } })
+      return (
+        <FormProvider {...methods}>
+          <form noValidate onSubmit={methods.handleSubmit(() => {})}>
+            <RHFNewSelect {...props} rules={{ required: 'Selection is required' }} />
+            <button type="submit">Submit</button>
+          </form>
+        </FormProvider>
+      )
+    }
+
+    render(
+      <ThemeProvider theme={theme}>
+        <Form />
+      </ThemeProvider>
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+    const selectInput = screen.getByRole('combobox', { name: /label/ })
+    expect(await screen.findByRole('alert')).toHaveTextContent('Selection is required')
+    expect(selectInput).toHaveAccessibleDescription('testInfoLabel Selection is required')
+    expect(selectInput).toHaveFocus()
   })
 })
