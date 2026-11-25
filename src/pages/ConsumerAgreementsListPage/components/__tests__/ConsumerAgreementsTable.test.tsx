@@ -140,7 +140,12 @@ describe.each(['desktop', 'mobile'])('ConsumerAgreementsTable on %s', (layout) =
     count: 3,
     page: 1,
     onChange: vi.fn(),
-    itemsPerPageOptions: { limit: 10, options: [10, 24, 36], onLimitChange: vi.fn() },
+    itemsPerPageOptions: {
+      label: 'itemsPerPage',
+      limit: 10,
+      options: [10, 24, 36],
+      onLimitChange: vi.fn(),
+    },
   }
 
   beforeEach(() => {
@@ -255,9 +260,7 @@ describe.each(['desktop', 'mobile'])('ConsumerAgreementsTable on %s', (layout) =
     renderTable([agreement], false, pagination)
 
     expect(screen.getByRole('navigation', { name: 'pagination navigation' })).toBeInTheDocument()
-    expect(
-      screen.getByRole('combobox', { name: 'Select number of items per page' })
-    ).toHaveTextContent('10')
+    expect(screen.getByRole('combobox', { name: 'itemsPerPage' })).toHaveTextContent('10')
   })
 
   it('announces loading without showing no-results or navigation', () => {

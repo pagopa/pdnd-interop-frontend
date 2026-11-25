@@ -65,6 +65,7 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
     {
       id: 'eservice',
       header: tCommon('eserviceName'),
+      maxWidth: '23.5rem',
       renderCell: (agreement) => {
         const isDelegated =
           agreement.delegation &&
@@ -72,7 +73,7 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
             agreement.delegation.delegate.id === jwt?.organizationId)
 
         return (
-          <Stack direction="row" alignItems="center" sx={{ maxWidth: '23.5rem' }}>
+          <Stack direction="row" alignItems="center">
             {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
             {t('eserviceName', {
               name: agreement.eservice.name,
@@ -86,6 +87,7 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
     {
       id: 'provider',
       header: tCommon('providerName'),
+      maxWidth: '13.625rem',
       renderCell: (agreement) => {
         const providerName = formatHierarchyWithoutParentRoot(
           agreement.eservice.producer,
@@ -94,7 +96,7 @@ export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({
         const rootName = getRootTenantFromHierarchy(agreement.eservice.producer.parentTenants)
 
         return (
-          <Stack spacing={0.5} sx={{ maxWidth: '13.625rem' }}>
+          <Stack spacing={0.5}>
             <TruncatedText variant="body2">{providerName}</TruncatedText>
             <TruncatedText variant="caption" color="text.secondary">
               {rootName}
