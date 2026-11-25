@@ -4,9 +4,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/material'
 import type {
-  CatalogQueryEService,
+  CatalogEServiceQueryResult,
   CatalogQueryResult,
-  CatalogQueryTemplateInstancesGroup,
+  CatalogTemplateInstancesGroupQueryResult,
 } from '@/api/api.generatedTypes'
 import { PREFETCH_STALE_TIME, SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
 import { EServiceQueries } from '@/api/eservice'
@@ -49,7 +49,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ catalo
       </NoItemResults>
     )
 
-  const handlePrefetchEService = (eservice: CatalogQueryEService) => {
+  const handlePrefetchEService = (eservice: CatalogEServiceQueryResult) => {
     if (!eservice.activeDescriptor) return
     queryClient.prefetchQuery({
       ...EServiceQueries.getDescriptorCatalog(eservice.id, eservice.activeDescriptor.id),
@@ -57,7 +57,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ catalo
     })
   }
 
-  const handlePrefetchTemplate = (template: CatalogQueryTemplateInstancesGroup) => {
+  const handlePrefetchTemplate = (template: CatalogTemplateInstancesGroupQueryResult) => {
     queryClient.prefetchQuery({
       ...EServiceTemplateQueries.getSingleByEServiceTemplateId(template.id),
       staleTime: PREFETCH_STALE_TIME,
@@ -71,7 +71,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ catalo
           {catalogItem.resultType === 'eservice' && (
             <EServiceCatalogCard
               key={catalogItem.activeDescriptor?.id}
-              eservice={catalogItem}
+              eservice={catalogItem as CatalogEServiceQueryResult}
               disabled={!!SH_ESERVICES_TO_HIDE_TEMP[STAGE]?.includes(catalogItem.id)}
               prefetchFn={() => handlePrefetchEService(catalogItem)}
               avatarUrl={

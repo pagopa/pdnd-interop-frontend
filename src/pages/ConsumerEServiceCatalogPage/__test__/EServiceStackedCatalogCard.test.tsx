@@ -1,13 +1,13 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
-import type { CatalogQueryTemplateInstancesGroup } from '@/api/api.generatedTypes'
+import type { CatalogTemplateInstancesGroupQueryResult } from '@/api/api.generatedTypes'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
 import { EServiceStackedCatalogCard } from '../components/EServiceStackedCatalogCard'
 
 mockUseJwt()
 
-const templateInstancesGroup: CatalogQueryTemplateInstancesGroup = {
+const templateInstancesGroup: CatalogTemplateInstancesGroupQueryResult = {
   resultType: 'template',
   id: 'template-id',
   name: 'Template group',

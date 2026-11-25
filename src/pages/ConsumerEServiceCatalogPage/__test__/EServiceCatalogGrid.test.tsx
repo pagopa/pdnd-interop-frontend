@@ -1,9 +1,9 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type {
-  CatalogQueryEService,
+  CatalogEServiceQueryResult,
   CatalogQueryResult,
-  CatalogQueryTemplateInstancesGroup,
+  CatalogTemplateInstancesGroupQueryResult,
 } from '@/api/api.generatedTypes'
 
 const { getDescriptorCatalogMock, getTemplateByIdMock } = vi.hoisted(() => ({
@@ -25,12 +25,12 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { EServiceCatalogGrid } from '../components/EServiceCatalogGrid'
 
-const eservice: CatalogQueryEService = {
+const eservice: CatalogEServiceQueryResult = {
   ...createMockEServiceCatalog(),
   resultType: 'eservice',
 }
 
-const templateGroup: CatalogQueryTemplateInstancesGroup = {
+const templateGroup: CatalogTemplateInstancesGroupQueryResult = {
   resultType: 'template',
   id: 'template-id',
   name: 'Template group',
@@ -94,7 +94,7 @@ describe('EServiceCatalogGrid', () => {
 
   it('does not prefetch an e-service without an active descriptor', async () => {
     const user = userEvent.setup()
-    const eserviceWithoutActiveDescriptor: CatalogQueryEService = {
+    const eserviceWithoutActiveDescriptor: CatalogEServiceQueryResult = {
       ...eservice,
       activeDescriptor: undefined,
     }

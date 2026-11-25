@@ -3,13 +3,18 @@ import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
 import { EServiceCatalogCard } from '../components/EServiceCatalogCard'
+import type { CatalogEServiceQueryResult } from '@/api/api.generatedTypes'
 
 mockUseJwt()
+
+const eserviceMock: CatalogEServiceQueryResult = {
+  ...createMockEServiceCatalog(),
+  resultType: 'eservice',
+}
 
 describe('Checks CatalogCard button', () => {
   it('navigate correctly when click on button inspect', async () => {
     const user = userEvent.setup()
-    const eserviceMock = createMockEServiceCatalog()
     const { history, ...screen } = renderWithApplicationContext(
       <EServiceCatalogCard eservice={eserviceMock} prefetchFn={() => {}} disabled={false} />,
       {
@@ -26,7 +31,6 @@ describe('Checks CatalogCard button', () => {
   })
 
   it('renders correctly when disabled is true', () => {
-    const eserviceMock = createMockEServiceCatalog()
     const { getByRole } = renderWithApplicationContext(
       <EServiceCatalogCard eservice={eserviceMock} prefetchFn={() => {}} disabled={true} />,
       {
@@ -41,7 +45,6 @@ describe('Checks CatalogCard button', () => {
   })
 
   it('does not render tooltip wrapper when disabled is false', () => {
-    const eserviceMock = createMockEServiceCatalog()
     const { queryByRole } = renderWithApplicationContext(
       <EServiceCatalogCard eservice={eserviceMock} prefetchFn={() => {}} disabled={false} />,
       {

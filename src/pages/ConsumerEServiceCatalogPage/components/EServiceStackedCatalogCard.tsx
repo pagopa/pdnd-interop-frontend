@@ -1,4 +1,4 @@
-import type { CatalogQueryTemplateInstancesGroup } from '@/api/api.generatedTypes'
+import type { CatalogTemplateInstancesGroupQueryResult } from '@/api/api.generatedTypes'
 import { Avatar, Card, CardContent, Typography, CardActions } from '@mui/material'
 import { commonTitleTextStyle, commonDescTextStyle } from '../style/commonStyle'
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined'
@@ -14,7 +14,7 @@ const CollectionIconAvatar: React.FC = () => (
 )
 
 interface EServiceStackedCatalogCardProps {
-  templateInstancesGroup: CatalogQueryTemplateInstancesGroup
+  templateInstancesGroup: CatalogTemplateInstancesGroupQueryResult
   avatarUrl?: string
   disabled: boolean
   prefetchFn: () => void
