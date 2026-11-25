@@ -7820,17 +7820,47 @@ export namespace Catalog {
   /**
    * @description Retrieves a lightweight list of catalog EServices, meant to populate selects and autocomplete inputs
    * @tags eservices
-   * @name GetFeaturedEServicesCatalog
-   * @summary Retrieves the featured EServices of the catalog
-   * @request GET:/catalog/featured
+   * @name GetCompactCatalogEServices
+   * @summary Retrieves a lightweight list of catalog EServices
+   * @request GET:/catalog/eservices
    * @secure
    */
-  export namespace GetFeaturedEServicesCatalog {
+  export namespace GetCompactCatalogEServices {
     export type RequestParams = {};
-    export type RequestQuery = {};
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string;
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: EServiceDescriptorState[];
+      /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      agreementStates?: AgreementState[];
+      /** EService Mode filter */
+      mode?: EServiceMode;
+      /** EService isConsumerDelegable filter */
+      isConsumerDelegable?: boolean;
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter;
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number;
+      /**
+       * @format int32
+       * @min 1
+       * @max 200
+       */
+      limit: number;
+    };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = CatalogEService[];
+    export type ResponseBody = CompactCatalogEServices;
   }
 
   /**
