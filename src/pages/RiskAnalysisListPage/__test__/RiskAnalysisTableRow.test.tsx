@@ -44,6 +44,17 @@ function renderRow(
 }
 
 describe('RiskAnalysisTableRow', () => {
+  it.each(['todo', 'done'])(
+    'should show the purpose title immediately after the e-service in the %s tab',
+    (tab) => {
+      renderRow(tab === 'todo' ? 'ASSIGNED' : 'SIGNED', {}, tab)
+
+      const cells = screen.getAllByRole('cell')
+      expect(cells).toHaveLength(7)
+      expect(cells[2]).toBe(screen.getByRole('cell', { name: 'Verifica residenza' }))
+    }
+  )
+
   it.each<RiskAnalysisSigningState>(['SIGNED', 'REJECTED'])(
     'should link a %s risk analysis to the purpose detail page',
     async (signingState) => {
