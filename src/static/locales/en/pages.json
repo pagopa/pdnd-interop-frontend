@@ -4,7 +4,7 @@
     "description": "The e-service catalog contains all the databases that other entities have made available. You can subscribe to those of interest to you.",
     "tabs": {
       "ariaLabel": "Two different tabs for featured e-services and for all e-services",
-      "featuredEServices": "Featured e-services",
+      "featured": "Featured",
       "allEServices": "All e-services"
     }
   },
