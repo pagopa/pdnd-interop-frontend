@@ -41,26 +41,38 @@ const PurposeTemplatesTab = () => {
 
   const { filters, ...handlers } = useFilters<
     Omit<GetCatalogPurposeTemplatesParams, 'limit' | 'offset' | 'eserviceIds'>
-  >([
-    {
-      name: 'q',
-      label: t('filters.name.label'),
-      type: 'freetext',
-    },
-    {
-      name: 'creatorIds',
-      label: t('filters.creator.label'),
-      type: 'autocomplete-multiple',
-      options: creators,
-      onTextInputChange: setCreatorsAutocompleteInput,
-    },
-    {
-      name: 'targetTenantKind',
-      label: t('filters.recipient.label'),
-      type: 'autocomplete-single',
-      options: Recipient.map((r) => ({ label: t(`filters.recipient.options.${r}`), value: r })),
-    },
-  ])
+  >(
+    [
+      {
+        name: 'q',
+        label: t('filters.name.label'),
+        type: 'freetext',
+      },
+      {
+        name: 'creatorIds',
+        label: t('filters.creator.label'),
+        type: 'autocomplete-multiple',
+        options: creators,
+        onTextInputChange: setCreatorsAutocompleteInput,
+      },
+    ],
+    [
+      {
+        title: '',
+        fields: [
+          {
+            name: 'targetTenantKind',
+            label: t('filters.recipient.label'),
+            type: 'autocomplete-single',
+            options: Recipient.map((r) => ({
+              label: t(`filters.recipient.options.${r}`),
+              value: r,
+            })),
+          },
+        ],
+      },
+    ]
+  )
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
     limit: 10,
