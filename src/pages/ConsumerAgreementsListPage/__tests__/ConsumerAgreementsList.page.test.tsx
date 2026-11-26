@@ -213,7 +213,7 @@ describe('ConsumerAgreementsListPage filters and pagination', () => {
     await user.click(within(pagination).getByRole('button', { name: /2/ }))
 
     expect(await screen.findByRole('cell', { name: 'Provider 10/10' })).toBeInTheDocument()
-    await user.click(screen.getByRole('combobox', { name: 'Select number of items per page' }))
+    await user.click(within(screen.getByTestId('items-per-page-select')).getByRole('combobox'))
     await user.click(await screen.findByRole('option', { name: '24' }))
 
     expect(await screen.findByRole('cell', { name: 'Provider 0/24' })).toBeInTheDocument()
@@ -241,8 +241,6 @@ describe('ConsumerAgreementsListPage filters and pagination', () => {
     expect(
       screen.queryByRole('navigation', { name: 'pagination navigation' })
     ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('combobox', { name: 'Select number of items per page' })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByTestId('items-per-page-select')).not.toBeInTheDocument()
   })
 })
