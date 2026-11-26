@@ -1,17 +1,24 @@
-import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { MITable, type MITableColumn } from '@pagopa/mui-italia'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import {
-  ProviderEServiceTemplateUsingTenantsTableRow,
-  ProviderEServiceTemplateUsingTenantsTableRowSkeleton,
-} from './ProviderEServiceTemplateUsingTenantsTableRow'
+import { AuthHooks } from '@/api/auth'
 import type {
   CompactEServiceTemplateVersion,
+  EServiceDescriptorState,
+  EServiceTemplateInstance,
   GetEServiceTemplateInstancesParams,
 } from '@/api/api.generatedTypes'
-import { Alert } from '@mui/material'
+import { getTemplateVersionNumber } from '@/components/shared/EserviceTemplate/eserviceTemplate.utils'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { StatusChip } from '@/components/shared/StatusChip'
+import { Filters, useFilters } from '@pagopa/interop-fe-commons'
+import { usePagination } from '@/hooks/usePagination'
+import { Link } from '@/router'
+import { formatHierarchyWithoutParentRoot, getRootTenantFromHierarchy } from '@/utils/tenant.utils'
+import { Stack, Typography } from '@mui/material'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
@@ -21,10 +28,13 @@ type ProviderEServiceTemplateUsingTenantsTableProps = {
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
 > = ({ eserviceTemplateId, eserviceTemplateVersions }) => {
-  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
-    usePagination()
+  const { jwt } = AuthHooks.useJwt()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
+  const { t } = useTranslation('eserviceTemplate')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const { t: tActions } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServiceTemplateInstancesParams, 'limit' | 'offset'>
@@ -45,105 +55,129 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 
   const queryParams = { ...paginationParams, ...filtersParams }
 
-  const { data: templateInstancesCount } = useQuery({
-    ...EServiceTemplateQueries.getProviderEServiceTemplateInstancesList({
-      ...queryParams,
-      eserviceTemplateId: eserviceTemplateId,
-    }),
-    select: (data) => data.pagination.totalCount,
-  })
-
-  const isDataEmpty = Boolean(!templateInstancesCount || templateInstancesCount === 0)
-  const areFiltersEmpty = Boolean(
-    filtersParams.producerName === undefined && filtersParams.states === undefined
-  )
-
-  return (
-    <>
-      {(!isDataEmpty || !areFiltersEmpty) && <Filters {...filtersHandlers} />}
-      <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
-        <ProviderEServiceTemplateUsingTenantsTableWrapper
-          params={queryParams}
-          eserviceTemplateId={eserviceTemplateId}
-          eserviceTemplateVersions={eserviceTemplateVersions}
-          noTableData={isDataEmpty && areFiltersEmpty}
-        />
-      </React.Suspense>
-      <Pagination
-        {...paginationProps}
-        rowPerPageOptions={rowPerPageOptions}
-        totalPages={getTotalPageCount(templateInstancesCount)}
-      />
-    </>
-  )
-}
-
-const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
-  params: GetEServiceTemplateInstancesParams
-  eserviceTemplateId: string
-  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
-  noTableData: boolean
-}> = ({ params, eserviceTemplateId, eserviceTemplateVersions, noTableData }) => {
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'list.usingTenantTable' })
-
-  const { data: templateInstances } = useSuspenseQuery(
+  const { data, isFetching } = useQuery(
     EServiceTemplateQueries.getProviderEServiceTemplateInstancesList({
-      ...params,
-      eserviceTemplateId: eserviceTemplateId,
+      ...queryParams,
+      eserviceTemplateId,
     })
   )
 
-  const headLabels = [
-    tCommon('eserviceTemplateUsingTenant'),
-    tCommon('eserviceTemplateInstanceLabel'),
-    tCommon('eserviceTemplateInstanceVersion'),
-    tCommon('eserviceTemplateInstanceState'),
-    '',
+  const isLoading = !data && isFetching
+  const totalCount = data?.pagination.totalCount ?? 0
+  const instances = data?.results ?? []
+
+  const getDetailsRoute = (instance: EServiceTemplateInstance) => {
+    if (instance.producerId !== jwt?.organizationId) return 'SUBSCRIBE_CATALOG_VIEW'
+    if (instance.latestDescriptor?.state === 'DRAFT') return 'PROVIDE_ESERVICE_SUMMARY'
+    return 'PROVIDE_ESERVICE_MANAGE'
+  }
+
+  const columns: Array<MITableColumn<EServiceTemplateInstance>> = [
+    {
+      id: 'tenant',
+      header: tCommon('eserviceTemplateUsingTenant'),
+      renderCell: (instance) => {
+        const rootTenantName = getRootTenantFromHierarchy(instance.producerParentTenants)
+
+        return (
+          <Stack>
+            <span>
+              {formatHierarchyWithoutParentRoot(
+                { name: instance.producerName, subUnitType: instance.producerSubUnitType },
+                instance.producerParentTenants
+              )}
+            </span>
+            {rootTenantName && (
+              <Typography variant="caption" color="text.secondary">
+                {rootTenantName}
+              </Typography>
+            )}
+          </Stack>
+        )
+      },
+    },
+    {
+      id: 'label',
+      header: tCommon('eserviceTemplateInstanceLabel'),
+      renderCell: (instance) => instance.instanceLabel || '-',
+    },
+    {
+      id: 'version',
+      header: tCommon('eserviceTemplateInstanceVersion'),
+      renderCell: (instance) =>
+        `${
+          getTemplateVersionNumber(
+            instance.latestDescriptor?.templateVersionId as string,
+            eserviceTemplateVersions
+          ) ?? '-'
+        }`,
+    },
+    {
+      id: 'state',
+      header: tCommon('eserviceTemplateInstanceState'),
+      renderCell: (instance) =>
+        instance.latestDescriptor?.state ? (
+          <StatusChip
+            for="eservice"
+            state={instance.latestDescriptor.state as EServiceDescriptorState}
+          />
+        ) : null,
+    },
+    {
+      id: 'details',
+      header: '',
+      isAction: true,
+      renderCell: (instance) =>
+        instance.latestDescriptor ? (
+          <Link
+            as="button"
+            variant="naked"
+            size="small"
+            to={getDetailsRoute(instance)}
+            params={{
+              eserviceId: instance.id,
+              descriptorId: instance.latestDescriptor.id,
+            }}
+            aria-label={tActions('inspect')}
+          >
+            <ChevronRightIcon />
+          </Link>
+        ) : null,
+    },
   ]
-  const isEmpty = templateInstances.results.length === 0
+
+  if (!isLoading && instances.length === 0) {
+    const areFiltersEmpty =
+      filtersParams.producerName === undefined && filtersParams.states === undefined
+    return (
+      <>
+        {!areFiltersEmpty && <Filters {...filtersHandlers} />}
+        <NoItemResults>
+          {areFiltersEmpty
+            ? t('list.usingTenantTable.noDataLabel')
+            : t('list.usingTenantTable.noResultsLabel')}
+        </NoItemResults>
+      </>
+    )
+  }
 
   return (
     <>
-      {isEmpty ? (
-        <Alert severity="info"> {noTableData ? t('noDataLabel') : t('noResultsLabel')} </Alert>
-      ) : (
-        <Table
-          headLabels={headLabels}
-          isEmpty={isEmpty}
-          noDataLabel={noTableData ? t('noDataLabel') : t('noResultsLabel')}
-        >
-          {templateInstances?.results.map((instance) => (
-            <ProviderEServiceTemplateUsingTenantsTableRow
-              type="provider"
-              key={instance.id}
-              instance={instance}
-              eserviceTemplateVersions={eserviceTemplateVersions}
-            />
-          ))}
-        </Table>
-      )}
+      <Filters {...filtersHandlers} />
+      <MITable
+        columns={columns}
+        rows={instances}
+        getRowId={(instance) => instance.id}
+        isLoading={isLoading}
+        pagination={{
+          page: paginationProps.page,
+          itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+          count: getTotalPageCount(totalCount),
+          onChange: (_, page) => paginationProps.onPageChange(page),
+        }}
+        desktopTableProps={{ 'aria-label': t('read.tabs.eserviceTemplateTenants') }}
+        mobileTableProps={{ 'aria-label': t('read.tabs.eserviceTemplateTenants') }}
+      />
     </>
-  )
-}
-
-export const ProviderEServiceTemplateUsingTenantsTableSkeleton: React.FC = () => {
-  const { t: tCommon } = useTranslation('common')
-
-  const headLabels = [
-    tCommon('table.headData.eserviceTemplateUsingTenant'),
-    tCommon('table.headData.eserviceTemplateInstanceLabel'),
-    tCommon('table.headData.eserviceTemplateInstanceVersion'),
-    tCommon('table.headData.eserviceTemplateInstanceState'),
-    '',
-  ]
-  return (
-    <Table headLabels={headLabels}>
-      <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
-      <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
-      <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
-      <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
-      <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
-    </Table>
   )
 }
