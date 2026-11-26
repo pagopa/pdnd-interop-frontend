@@ -141,4 +141,45 @@ describe('ConsumerPurposeSummaryGeneralInformationAccordion', () => {
     ).not.toBeInTheDocument()
     expect(screen.getByText('Mario Rossi, Luigi Verdi')).toBeInTheDocument()
   })
+
+  it('should show only the producer name when it has no parent tenants', () => {
+    mockUseJwt({ isReviewer: false })
+    useSuspenseQueryMock.mockReturnValue({
+      data: createMockPurpose({ eservice: { producer: { name: 'Comune di Torino' } } }),
+    })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryGeneralInformationAccordion purposeId="purpose-id" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('Comune di Torino')).toBeInTheDocument()
+  })
+
+  it('should show the producer hierarchy from the sub-unit up to the root tenant', () => {
+    mockUseJwt({ isReviewer: false })
+    useSuspenseQueryMock.mockReturnValue({
+      data: createMockPurpose({
+        eservice: {
+          producer: {
+            name: 'Ufficio permessi ZTL',
+            subUnitType: 'UO',
+            parentTenants: [
+              { id: 'aoo-id', name: 'Direzione Mobilità', subUnitType: 'AOO' },
+              { id: 'comune-id', name: 'Comune di Milano' },
+            ],
+          },
+        },
+      }),
+    })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryGeneralInformationAccordion purposeId="purpose-id" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      screen.getByText('Ufficio permessi ZTL - Direzione Mobilità - Comune di Milano')
+    ).toBeInTheDocument()
+  })
 })

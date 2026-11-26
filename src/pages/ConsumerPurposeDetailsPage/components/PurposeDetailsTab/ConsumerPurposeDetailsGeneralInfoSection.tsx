@@ -15,6 +15,7 @@ import {
 import { PurposeDownloads, PurposeMutations } from '@/api/purpose'
 import DownloadIcon from '@mui/icons-material/Download'
 import { AuthHooks } from '@/api/auth'
+import { formatTenantHierarchy } from '@/utils/tenant.utils'
 
 type ConsumerPurposeDetailsGeneralInfoSectionProps = {
   purpose: Purpose
@@ -150,7 +151,10 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
             />
             <InformationContainer
               label={t('specifications.providerField.label')}
-              content={purpose.eservice.producer.name}
+              content={formatTenantHierarchy(
+                purpose.eservice.producer.name,
+                purpose.eservice.producer.parentTenants
+              )}
             />
             {purpose.delegation && (
               <>

@@ -9,6 +9,7 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 import { AuthHooks } from '@/api/auth'
 import { formatDateStringNumeric } from '@/utils/format.utils'
+import { formatTenantHierarchy } from '@/utils/tenant.utils'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -77,7 +78,10 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
         label={t('eservice.label')}
       />
       <InformationContainer
-        content={purpose.eservice.producer.name}
+        content={formatTenantHierarchy(
+          purpose.eservice.producer.name,
+          purpose.eservice.producer.parentTenants
+        )}
         direction="row"
         label={t('producer.label')}
       />
