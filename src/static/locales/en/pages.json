@@ -1,5 +1,13 @@
 {
   "dashboard": {
+    "empty": {
+      "eservices": "Your organization has no e-services",
+      "createEservice": "Create e-service",
+      "pendingAgreements": "You have no fruition requests to approve",
+      "purposesAwaitingApproval": "You have no purposes to approve",
+      "consumersHeading": "Consumers of your e-services",
+      "consumers": "Your e-services have no consumers"
+    },
     "title": "Dashboard",
     "description": "This page gives you a complete overview of how your e-services are performing and whether any action is needed.",
     "headings": {
@@ -47,7 +55,7 @@
         "loading": "Loading projected e-service consumption",
         "loadError": "Unable to load projected e-service consumption.",
         "retry": "Retry",
-        "empty": "No e-service versions with projected consumption to show.",
+        "empty": "There is no data available for your organization",
         "viewVersion": "View version",
         "viewVersionAriaLabel": "View version {{version}} of {{name}}"
       },
@@ -66,7 +74,7 @@
         "loading": "Loading e-services being archived",
         "loadError": "Unable to load e-services being archived.",
         "retry": "Retry",
-        "empty": "No e-service versions are currently being archived.",
+        "empty": "There are no e-services or versions being archived",
         "viewVersion": "View version",
         "viewVersionAriaLabel": "View version {{version}} of {{name}}",
         "viewUnnumberedVersionAriaLabel": "View the version of {{name}}",

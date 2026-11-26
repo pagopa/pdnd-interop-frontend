@@ -40,7 +40,13 @@ const renderTab = async ({
   language = 'it',
   descriptorId = DESCRIPTOR_ID,
   eserviceName = ESERVICE_NAME,
-}: { language?: 'it' | 'en'; descriptorId?: string; eserviceName?: string | null } = {}) => {
+  dailyCallsPerConsumer = 2000,
+}: {
+  language?: 'it' | 'en'
+  descriptorId?: string
+  eserviceName?: string | null
+  dailyCallsPerConsumer?: number | null
+} = {}) => {
   vi.spyOn(router, 'useParams').mockReturnValue({ eserviceId: ESERVICE_ID, descriptorId })
   const i18n = createInstance()
   await i18n.init({
@@ -56,7 +62,10 @@ const renderTab = async ({
     <QueryClientProvider client={client}>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-          <ProviderEServiceMonitoringTab eserviceName={eserviceName ?? undefined} />
+          <ProviderEServiceMonitoringTab
+            eserviceName={eserviceName ?? undefined}
+            dailyCallsPerConsumer={dailyCallsPerConsumer ?? undefined}
+          />
         </ThemeProvider>
       </I18nextProvider>
     </QueryClientProvider>
@@ -533,19 +542,248 @@ describe('ProviderEServiceMonitoringTab', () => {
     expect(
       screen.queryByRole('region', { name: copy.consumption.consumptionCard.heading })
     ).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.consumers.empty)).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.consumption.newPurposesCard.empty)).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.consumption.quotaChangesCard.empty)).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.versions.pendingAgreementsCard.empty)).not.toBeInTheDocument()
   })
 
-  it('shows empty states for tables', async () => {
+  it.each([
+    ['it', itEservice],
+    ['en', enEservice],
+  ] as const)('renders an empty consumer panel in %s', async (language, resource) => {
+    const labels = resource.read.monitoring
     getSaturation.mockImplementation(async (params) => ({
       ...getMockProducerEServiceMonitoringSaturation(params),
       results: [],
       pagination: { offset: 0, limit: 5, totalCount: 0 },
     }))
     getArchiving.mockResolvedValue({ results: [] })
-    await renderTab()
+    await renderTab({ language })
 
-    expect(await screen.findByText(copy.consumers.empty)).toBeInTheDocument()
-    expect(await screen.findByText(copy.archiving.empty)).toBeInTheDocument()
+    const message = await screen.findByText(labels.consumers.empty)
+    const section = screen.getByRole('region', { name: labels.consumers.title })
+    expect(within(section).getByText(labels.consumers.description)).toBeInTheDocument()
+    expect(within(section).queryByRole('table')).not.toBeInTheDocument()
+    expect(within(section).queryByRole('columnheader')).not.toBeInTheDocument()
+    expect(within(section).queryByRole('row')).not.toBeInTheDocument()
+    expect(within(section).queryByRole('button')).not.toBeInTheDocument()
+    expect(within(section).queryByRole('navigation')).not.toBeInTheDocument()
+    const panel = message.closest('[role="status"]')
+    expect(panel?.parentElement).toHaveAttribute('aria-busy', 'false')
+    expect(panel).toHaveStyle({ minHeight: '200px', flexDirection: 'column', textAlign: 'center' })
+    expect(within(panel as HTMLElement).getByTestId('ErrorOutlineIcon')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    )
+    const archiveMessage = await screen.findByText(labels.archiving.empty)
+    const archive = screen.getByRole('region', { name: labels.archiving.title })
+    expect(archiveMessage.closest('[role="status"]')).toContainElement(
+      within(archive).getByTestId('ErrorOutlineIcon')
+    )
+    expect(within(archive).queryByRole('table')).not.toBeInTheDocument()
+    expect(within(archive).queryByRole('columnheader')).not.toBeInTheDocument()
+    expect(within(archive).queryByRole('row')).not.toBeInTheDocument()
+  })
+
+  it.each([
+    ['it', itEservice, '0 / 50.000', '2000'],
+    ['en', enEservice, '0 / 50,000', '2,000'],
+  ] as const)('renders empty cards in %s', async (language, resource, total, perConsumer) => {
+    const labels = resource.read.monitoring
+    getMonitoring.mockImplementation(async (params) => ({
+      ...getMockProducerEServiceMonitoring(params),
+      approvedDailyCalls: 0,
+      percentage: 0,
+      dailyCallsTotal: 50000,
+      waitingForApprovalNewPurposes: 0,
+      waitingForApprovalQuotaChanges: 0,
+      pendingAgreements: 0,
+      consumersByVersion: {
+        total: 0,
+        versions: [{ descriptorId: DESCRIPTOR_ID, version: '1', consumersCount: 0 }],
+        olderVersionsConsumersCount: 0,
+        medianUpgradeDays: 0,
+      },
+      consumersByKind: { total: 0, pa: 0, gspScp: 0, private: 0 },
+    }))
+    await renderTab({ language })
+    await waitForData(labels)
+
+    const consumption = screen.getByRole('region', {
+      name: labels.consumption.consumptionCard.heading,
+    })
+    expect(within(consumption).getByText('0%')).toBeVisible()
+    expect(within(consumption).getByText(total)).toBeVisible()
+    expect(
+      within(consumption).getByText(labels.consumption.consumptionCard.description)
+    ).toBeVisible()
+    const consumers = screen.getByRole('region', { name: labels.versions.byVersionCard.heading })
+    expect(within(consumers).getByText('0')).toBeVisible()
+    expect(within(consumers).getByText(labels.versions.byVersionCard.totalLabel)).toBeVisible()
+    expect(
+      within(consumers).queryByText(labels.versions.byVersionCard.olderVersions)
+    ).not.toBeInTheDocument()
+    expect(within(consumers).queryByText(/Version[ei] 1/)).not.toBeInTheDocument()
+    expect(consumers.querySelector('section > .MuiStack-root')).toBeNull()
+    for (const card of [consumption, consumers]) {
+      const chart = within(card).getByRole('img')
+      await waitFor(() => {
+        const arcs = Array.from(chart.querySelectorAll('path.MuiPieArc-root')).filter((arc) =>
+          /a/i.test(arc.getAttribute('d') ?? '')
+        )
+        expect(arcs).toHaveLength(1)
+        expect(arcs[0]).toHaveAttribute('fill', theme.palette.grey[200])
+      })
+    }
+    const kinds = screen.getByRole('region', { name: labels.versions.byKindCard.heading })
+    expect(within(kinds).getAllByText('0')).toHaveLength(3)
+    for (const label of [
+      labels.versions.byKindCard.pa,
+      labels.versions.byKindCard.gspScp,
+      labels.versions.byKindCard.private,
+    ]) {
+      expect(within(kinds).getByText(label)).toBeVisible()
+    }
+    expect(
+      within(kinds).queryByText(labels.versions.byKindCard.total.replace('{{total}}', '0'))
+    ).not.toBeInTheDocument()
+    const purposes = screen.getByRole('region', {
+      name: labels.consumption.newPurposesCard.heading,
+    })
+    expect(
+      within(purposes).getByText(labels.consumption.newPurposesCard.thresholdHeading)
+    ).toBeVisible()
+    expect(within(purposes).getByText(perConsumer)).toBeVisible()
+    expect(
+      within(purposes).getByText(labels.consumption.newPurposesCard.thresholdUnit)
+    ).toBeVisible()
+    for (const [heading, message, hasCheck] of [
+      [labels.consumption.newPurposesCard.heading, labels.consumption.newPurposesCard.empty, true],
+      [
+        labels.consumption.quotaChangesCard.heading,
+        labels.consumption.quotaChangesCard.empty,
+        false,
+      ],
+      [
+        labels.versions.pendingAgreementsCard.heading,
+        labels.versions.pendingAgreementsCard.empty,
+        true,
+      ],
+    ] as const) {
+      const card = screen.getByRole('region', { name: heading })
+      expect(within(card).getByText(message)).toBeVisible()
+      expect(within(card).queryByText('0')).not.toBeInTheDocument()
+      expect(within(card).queryByRole('button')).not.toBeInTheDocument()
+      expect(within(card).queryByRole('img')).not.toBeInTheDocument()
+      if (hasCheck) {
+        expect(within(card).getByTestId('CheckRoundedIcon').parentElement).toHaveAttribute(
+          'aria-hidden',
+          'true'
+        )
+      } else {
+        expect(within(card).queryByTestId('CheckRoundedIcon')).not.toBeInTheDocument()
+      }
+    }
+  })
+
+  it.each([
+    ['waitingForApprovalNewPurposes', copy.consumption.newPurposesCard],
+    ['waitingForApprovalQuotaChanges', copy.consumption.quotaChangesCard],
+    ['pendingAgreements', copy.versions.pendingAgreementsCard],
+  ] as const)('handles zero %s alone', async (field, emptyCard) => {
+    getMonitoring.mockImplementation(async (params) => ({
+      ...getMockProducerEServiceMonitoring(params),
+      [field]: 0,
+    }))
+    await renderTab()
+    await waitForData()
+    expect(screen.getByText(emptyCard.empty)).toBeVisible()
+    expect(screen.queryByRole('button', { name: emptyCard.action })).not.toBeInTheDocument()
+    const nonemptyCards = [
+      copy.consumption.newPurposesCard,
+      copy.consumption.quotaChangesCard,
+      copy.versions.pendingAgreementsCard,
+    ].filter((card) => card !== emptyCard)
+    for (const card of nonemptyCards) {
+      const region = screen.getByRole('region', { name: card.heading })
+      expect(within(region).queryByText(card.empty)).not.toBeInTheDocument()
+      expect(within(region).getByRole('button', { name: card.action })).toBeVisible()
+    }
+    expect(
+      within(
+        screen.getByRole('region', { name: copy.consumption.consumptionCard.heading })
+      ).getByText('77%')
+    ).toBeVisible()
+  })
+
+  it('does not invent a missing configured per-consumer threshold', async () => {
+    getMonitoring.mockImplementation(async (params) => ({
+      ...getMockProducerEServiceMonitoring(params),
+      waitingForApprovalNewPurposes: 0,
+    }))
+    await renderTab({ dailyCallsPerConsumer: null })
+    await waitForData()
+    expect(screen.getByText(copy.consumption.newPurposesCard.empty)).toBeVisible()
+    expect(
+      screen.queryByText(copy.consumption.newPurposesCard.thresholdHeading)
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps a different configured threshold when only purposes are empty', async () => {
+    getMonitoring.mockImplementation(async (params) => ({
+      ...getMockProducerEServiceMonitoring(params),
+      waitingForApprovalNewPurposes: 0,
+    }))
+    await renderTab({ dailyCallsPerConsumer: 12500 })
+    await waitForData()
+    const purposes = screen.getByRole('region', { name: copy.consumption.newPurposesCard.heading })
+    expect(within(purposes).getByText('12.500')).toBeVisible()
+    expect(within(purposes).getByText(copy.consumption.newPurposesCard.thresholdUnit)).toBeVisible()
+  })
+
+  it.each(['version', 'kind'] as const)(
+    'handles empty %s independently',
+    async (emptyBreakdown) => {
+      getMonitoring.mockImplementation(async (params) => {
+        const data = getMockProducerEServiceMonitoring(params)
+        if (emptyBreakdown === 'version') {
+          data.consumersByVersion = { total: 0, versions: [] }
+        } else {
+          data.consumersByKind = { total: 0, pa: 0, gspScp: 0, private: 0 }
+        }
+        return data
+      })
+      await renderTab()
+      await waitForData()
+      const version = screen.getByRole('region', { name: copy.versions.byVersionCard.heading })
+      const kind = screen.getByRole('region', { name: copy.versions.byKindCard.heading })
+      if (emptyBreakdown === 'version') {
+        expect(within(version).getByText('0')).toBeVisible()
+        expect(within(kind).queryByText('0')).not.toBeInTheDocument()
+      } else {
+        expect(within(kind).getAllByText('0')).toHaveLength(3)
+        expect(within(version).queryByText('0')).not.toBeInTheDocument()
+      }
+      expect(screen.queryByText(copy.versions.pendingAgreementsCard.empty)).not.toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: copy.versions.pendingAgreementsCard.action })
+      ).toBeVisible()
+    }
+  )
+
+  it('shows an error rather than a cached empty consumer panel when a background request fails', async () => {
+    getSaturation.mockImplementation(async (params) => ({
+      ...getMockProducerEServiceMonitoringSaturation(params),
+      results: [],
+      pagination: { offset: 0, limit: 5, totalCount: 0 },
+    }))
+    const { client } = await renderTab()
+    await screen.findByText(copy.consumers.empty)
+    getSaturation.mockRejectedValue(new Error('background saturation'))
+    await client.invalidateQueries({ queryKey: ['ProducerGetEServiceMonitoringSaturation'] })
+    expect(await screen.findByText(copy.consumers.loadError)).toBeVisible()
+    expect(screen.queryByText(copy.consumers.empty)).not.toBeInTheDocument()
   })
 
   it('shows errors per block and recovers on retry', async () => {
@@ -558,6 +796,10 @@ describe('ProviderEServiceMonitoringTab', () => {
     expect(await screen.findAllByText(copy.cards.loadError)).toHaveLength(2)
     expect(await screen.findByText(copy.consumers.loadError)).toBeInTheDocument()
     expect(await screen.findByText(copy.archiving.loadError)).toBeInTheDocument()
+    expect(screen.queryByText(copy.consumers.empty)).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.consumption.newPurposesCard.empty)).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.consumption.quotaChangesCard.empty)).not.toBeInTheDocument()
+    expect(screen.queryByText(copy.versions.pendingAgreementsCard.empty)).not.toBeInTheDocument()
 
     const retryButtons = screen.getAllByRole('button', { name: copy.cards.retry })
     expect(retryButtons).toHaveLength(4)

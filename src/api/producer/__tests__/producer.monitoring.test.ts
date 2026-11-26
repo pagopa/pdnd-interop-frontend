@@ -291,14 +291,16 @@ describe('monitoring service and query options', () => {
     expect(adapter).toHaveBeenCalledTimes(1)
   })
 
-  it('uses mocks only when explicitly enabled in development', async () => {
+  it('uses populated mocks for fixture resources with consistent pagination', async () => {
     const { ProducerServices } = await load(true, 'development', 'true')
     await expect(ProducerServices.getEServiceMonitoring(ids)).resolves.toMatchObject({
       percentage: 77,
     })
-    await expect(ProducerServices.getEServiceMonitoringSaturation(preview)).resolves.toMatchObject({
-      pagination: { offset: 0, limit: 5, totalCount: 25 },
-    })
+    for (const params of [preview, { ...preview, offset: 7, limit: 2, q: 'Comune' }]) {
+      await expect(ProducerServices.getEServiceMonitoringSaturation(params)).resolves.toEqual(
+        getMockProducerEServiceMonitoringSaturation(params)
+      )
+    }
     await expect(ProducerServices.getEServiceMonitoringArchiving(ids)).resolves.toMatchObject({
       results: expect.arrayContaining([expect.objectContaining({ eservice: row.eservice })]),
     })
@@ -314,6 +316,7 @@ describe('monitoring service and query options', () => {
   it.each([
     [true, 'development', 'false'],
     [true, 'test', 'true'],
+    [false, 'development', 'true'],
     [false, 'production', 'true'],
   ])(
     'uses real transport with DEV=%s MODE=%s flag=%s, preserving responses and errors',

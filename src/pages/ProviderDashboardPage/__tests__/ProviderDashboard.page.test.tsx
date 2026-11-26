@@ -15,6 +15,7 @@ import type * as LayoutContainers from '@/components/layout/containers'
 import ProviderDashboardPage from '../ProviderDashboard.page'
 import { CardDashboard } from '@/components/shared/CardDashboard/CardDashboard'
 import type { CardDashboardProps } from '@/components/shared/CardDashboard/CardDashboard'
+import type * as DashboardCard from '@/components/shared/CardDashboard/CardDashboard'
 import { mockUseJwt } from '@/utils/testing.utils'
 import * as router from '@/router'
 import itPages from '@/static/locales/it/pages.json'
@@ -28,6 +29,7 @@ import type {
   MonitoringArchiving,
   MonitoringArchivingRow,
   ProducerDashboard,
+  ProducerDashboardConsumers,
   ProducerDashboardSaturation,
   ProducerDashboardSaturationItem,
 } from '@/api/api.generatedTypes'
@@ -86,6 +88,27 @@ const dashboard: ProducerDashboard = {
     purposesWithoutAgreement: 303,
   },
   averageActivePurposesPerEService: 4.7,
+}
+
+const consumers: ProducerDashboardConsumers = {
+  totalConsumers: 42,
+  results: [],
+  pagination: { offset: 0, limit: 1, totalCount: 42 },
+}
+
+const emptyDashboard: ProducerDashboard = {
+  eservices: { total: 0, published: 0, suspended: 0, archiving: 0, archivingSuspended: 0 },
+  pendingAgreements: 0,
+  waitingForApprovalPurposes: 0,
+  activeAgreements: 0,
+  alignment: { aligned: 0, agreementWithoutPurposes: 0, purposesWithoutAgreement: 0 },
+  averageActivePurposesPerEService: 0,
+}
+
+const emptyConsumers: ProducerDashboardConsumers = {
+  totalConsumers: 0,
+  results: [],
+  pagination: { offset: 0, limit: 1, totalCount: 0 },
 }
 
 const CurrentPath = () => <span data-testid="current-path">{useLocation().pathname}</span>
@@ -185,10 +208,10 @@ const saturationResponse = (
 const emptyArchiving: MonitoringArchiving = { results: [] }
 
 const getSectionTable = async (section: 'thresholds' | 'archiving') => {
-  const tables = await screen.findAllByRole('table')
-  const index = section === 'thresholds' ? 0 : 1
-  // While loading, the skeleton table is the one inside the status region.
-  return tables[index]
+  const region = document.querySelector<HTMLElement>(
+    `[aria-labelledby="dashboard-${section}-title"]`
+  )!
+  return within(region).findByRole('table')
 }
 
 const getBodyRows = (table: HTMLElement) => within(table).getAllByRole('row').slice(1)
@@ -199,6 +222,7 @@ describe('ProviderDashboardPage', () => {
     mockUseJwt({ currentRoles: ['admin'] })
     vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
     vi.spyOn(ProducerServices, 'getDashboard').mockResolvedValue(dashboard)
+    vi.spyOn(ProducerServices, 'getDashboardConsumers').mockResolvedValue(consumers)
     vi.spyOn(ProducerServices, 'getDashboardSaturation').mockResolvedValue(saturationResponse([]))
     vi.spyOn(ProducerServices, 'getDashboardArchiving').mockResolvedValue(emptyArchiving)
   })
@@ -269,7 +293,7 @@ describe('ProviderDashboardPage', () => {
     await act(async () => resolveDashboard(dashboard))
 
     await screen.findByRole('heading', { level: 1 })
-    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+    expect(screen.queryByText('Loading dashboard')).not.toBeInTheDocument()
     expect(getCards()).toHaveLength(6)
   })
 
@@ -283,26 +307,19 @@ describe('ProviderDashboardPage', () => {
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
 
-  it('should preserve valid zero values for an empty dashboard', async () => {
-    vi.mocked(ProducerServices.getDashboard).mockResolvedValue({
-      eservices: { total: 0, published: 0, suspended: 0, archiving: 0, archivingSuspended: 0 },
-      pendingAgreements: 0,
-      waitingForApprovalPurposes: 0,
-      activeAgreements: 0,
-      alignment: { aligned: 0, agreementWithoutPurposes: 0, purposesWithoutAgreement: 0 },
-      averageActivePurposesPerEService: 0,
-    })
+  it('should preserve valid zero metrics and show empty content only for the first four cards', async () => {
+    vi.mocked(ProducerServices.getDashboard).mockResolvedValue(emptyDashboard)
+    vi.mocked(ProducerServices.getDashboardConsumers).mockResolvedValue(emptyConsumers)
 
     await renderDashboard()
 
     const cards = getCards()
-    expect(cards[0].content).toMatchObject({
-      total: 0,
-      statuses: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }],
-    })
-    for (const index of [1, 2, 3, 5]) {
-      expect(cards[index].content).toMatchObject({ metric: { value: 0 } })
+    for (const index of [0, 1, 2, 3]) {
+      expect(cards[index].content.kind).toBe('empty')
     }
+    expect(cards[5].content).toMatchObject({
+      metric: { value: 0, label: itPages.dashboard.units.purposesPerEservice },
+    })
     expect(cards[4].content).toMatchObject({
       metrics: [{ value: 0 }, { value: 0 }, { value: 0 }],
     })
@@ -435,22 +452,7 @@ describe('ProviderDashboardPage', () => {
         expect(screen.getByText(section.description)).toBeInTheDocument()
         expect(await screen.findByText(section.empty)).toBeInTheDocument()
       }
-      const saturationHeaders = (language === 'it' ? itDashboard : enDashboard)
-        .providerSaturationRatePage.table.headlabels
-      const saturationTable = await getSectionTable('thresholds')
-      const archivingTable = await getSectionTable('archiving')
-      expect(
-        within(saturationTable)
-          .getAllByRole('columnheader')
-          .slice(0, 5)
-          .map((header) => header.textContent)
-      ).toEqual(Object.values(saturationHeaders))
-      expect(
-        within(archivingTable)
-          .getAllByRole('columnheader')
-          .slice(0, 4)
-          .map((header) => header.textContent)
-      ).toEqual(Object.values(dictionary.sections.archiving.columns).slice(0, 4))
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
       for (const name of Object.values(dictionary.actions)) {
         expect(screen.getAllByRole('button', { name }).length).toBeGreaterThan(0)
       }
@@ -563,14 +565,222 @@ describe('ProviderDashboardPage', () => {
       await renderDashboard()
 
       expect(getCards()).toHaveLength(6)
-      const saturation = await getSectionTable('thresholds')
-      const archive = await getSectionTable('archiving')
-      expect(within(saturation).queryByRole('button')).not.toBeInTheDocument()
-      expect(within(archive).queryByRole('button')).not.toBeInTheDocument()
+      await screen.findByText(itPages.dashboard.sections.thresholds.empty)
+      await screen.findByText(itPages.dashboard.sections.archiving.empty)
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
       expect(getCards().every((card) => card.action === undefined)).toBe(true)
       expect(navigateMock).not.toHaveBeenCalled()
     }
   )
+})
+
+describe('ProviderDashboardPage loaded-empty presentation', () => {
+  const defaultCardImplementation = cardMock.getMockImplementation()
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    const actual = await vi.importActual<typeof DashboardCard>(
+      '@/components/shared/CardDashboard/CardDashboard'
+    )
+    cardMock.mockImplementation(actual.CardDashboard)
+    mockUseJwt({ currentRoles: ['admin'] })
+    vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
+    vi.spyOn(ProducerServices, 'getDashboard').mockResolvedValue(emptyDashboard)
+    vi.spyOn(ProducerServices, 'getDashboardConsumers').mockResolvedValue(emptyConsumers)
+    vi.spyOn(ProducerServices, 'getDashboardSaturation').mockResolvedValue(saturationResponse([]))
+    vi.spyOn(ProducerServices, 'getDashboardArchiving').mockResolvedValue(emptyArchiving)
+  })
+
+  afterEach(() => {
+    cardMock.mockImplementation(defaultCardImplementation!)
+  })
+
+  it.each([
+    { language: 'it', dictionary: itPages.dashboard },
+    { language: 'en', dictionary: enPages.dashboard },
+  ] as const)(
+    'renders the six loaded-empty cards in $language',
+    async ({ language, dictionary }) => {
+      const { container } = await renderDashboard(language)
+      const cards = getCards()
+      const regions = [
+        dictionary.headings.eservices,
+        dictionary.headings.pendingAgreements,
+        dictionary.headings.purposesAwaitingApproval,
+        dictionary.empty.consumersHeading,
+        dictionary.headings.agreementsAndPurposes,
+        dictionary.headings.average,
+      ].map((name) => screen.getByRole('region', { name }))
+      const messages = [
+        dictionary.empty.eservices,
+        dictionary.empty.pendingAgreements,
+        dictionary.empty.purposesAwaitingApproval,
+        dictionary.empty.consumers,
+      ]
+      for (const [index, message] of messages.entries()) {
+        expect(within(regions[index]).getByText(message)).toBeVisible()
+        expect(within(regions[index]).queryByText('0')).not.toBeInTheDocument()
+        expect(within(regions[index]).queryByRole('list')).not.toBeInTheDocument()
+        expect(within(regions[index]).queryByRole('img')).not.toBeInTheDocument()
+        expect(within(regions[index]).queryByTestId('CheckRoundedIcon') !== null).toBe(
+          index === 1 || index === 2
+        )
+        if (index > 0) {
+          expect(within(regions[index]).queryByRole('button')).not.toBeInTheDocument()
+        }
+      }
+      expect(within(regions[4]).getAllByText('0')).toHaveLength(3)
+      for (const label of Object.values(dictionary.metrics)) {
+        expect(within(regions[4]).getByText(label)).toBeVisible()
+      }
+      expect(within(regions[5]).getByText('0')).toBeVisible()
+      expect(within(regions[5]).getByText(dictionary.units.purposesPerEservice)).toBeVisible()
+      expect(within(regions[5]).queryByRole('button')).not.toBeInTheDocument()
+      expect(cards.map((card) => card.content.kind)).toEqual([
+        'empty',
+        'empty',
+        'empty',
+        'empty',
+        'metrics',
+        'metric',
+      ])
+      expect(ProducerServices.getDashboardConsumers).toHaveBeenCalledExactlyOnceWith({
+        offset: 0,
+        limit: 1,
+      })
+      const grid = container.querySelector('.MuiGrid-container')
+      expect(grid?.children).toHaveLength(6)
+      for (const item of Array.from(grid?.children ?? [])) {
+        expect(item).toHaveClass('MuiGrid-grid-xs-12', 'MuiGrid-grid-sm-6', 'MuiGrid-grid-lg-4')
+      }
+      const create = within(regions[0]).getByRole('button', {
+        name: dictionary.empty.createEservice,
+      })
+      expect(create).toHaveClass('MuiButton-contained')
+      expect(within(create).getByTestId('AddIcon')).toBeInTheDocument()
+      await userEvent.setup().click(create)
+      expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_ESERVICE_CREATE')
+    }
+  )
+
+  it.each(['admin', 'api', 'support', 'security', 'viewer', 'reviewer', 'none'] as const)(
+    'gates empty-state creation for %s without exposing normal card actions',
+    async (role) => {
+      mockUseJwt({ currentRoles: role === 'none' ? [] : [role] })
+      await renderDashboard()
+      const create = screen.queryByRole('button', { name: itPages.dashboard.empty.createEservice })
+      if (role === 'admin' || role === 'api') {
+        expect(create).toBeEnabled()
+        await userEvent.setup().click(create!)
+        expect(navigateMock).toHaveBeenCalledExactlyOnceWith('PROVIDE_ESERVICE_CREATE')
+      } else {
+        expect(create).not.toBeInTheDocument()
+        expect(navigateMock).not.toHaveBeenCalled()
+      }
+      for (const label of Object.values(itPages.dashboard.actions)) {
+        expect(screen.queryByRole('button', { name: label })).not.toBeInTheDocument()
+      }
+    }
+  )
+
+  it('decides each empty state independently and uses the consumer total, not active agreements', async () => {
+    vi.mocked(ProducerServices.getDashboard).mockResolvedValue({
+      ...dashboard,
+      eservices: { ...dashboard.eservices, total: 0 },
+      waitingForApprovalPurposes: 0,
+    })
+    // Active agreements are nonzero, but the dedicated consumer count is zero.
+    await renderDashboard()
+    const cards = getCards()
+    expect(cards.map((card) => card.content.kind)).toEqual([
+      'empty',
+      'metric',
+      'empty',
+      'empty',
+      'metrics',
+      'metric',
+    ])
+    expect(cards[1].content).toMatchObject({ metric: { value: dashboard.pendingAgreements } })
+    expect(cards[1].action?.text).toBe(itPages.dashboard.actions.agreements)
+    expect(cards[5].action?.text).toBe(itPages.dashboard.actions.purposesReceived)
+    expect(cards[2].action).toBeUndefined()
+    expect(cards[3].action).toBeUndefined()
+  })
+
+  it('does not infer no consumers from zero active agreements or an empty limited result list', async () => {
+    vi.mocked(ProducerServices.getDashboardConsumers).mockResolvedValue(consumers)
+    await renderDashboard()
+    expect(getCards()[3]).toMatchObject({
+      heading: itPages.dashboard.headings.activeAgreements,
+      content: {
+        kind: 'metric',
+        metric: { value: 0, label: itPages.dashboard.units.activeAgreements },
+      },
+      action: { type: 'link', text: itPages.dashboard.actions.activeAgreements },
+    })
+    expect(screen.queryByText(itPages.dashboard.empty.consumers)).not.toBeInTheDocument()
+  })
+
+  it('keeps a nonzero e-service total and purposes visible alongside zero pending agreements', async () => {
+    vi.mocked(ProducerServices.getDashboard).mockResolvedValue({
+      ...emptyDashboard,
+      eservices: { ...emptyDashboard.eservices, total: 1 },
+      waitingForApprovalPurposes: 3,
+    })
+    vi.mocked(ProducerServices.getDashboardConsumers).mockResolvedValue(consumers)
+    await renderDashboard()
+    const cards = getCards()
+    expect(cards.map((card) => card.content.kind)).toEqual([
+      'status',
+      'empty',
+      'metric',
+      'metric',
+      'metrics',
+      'metric',
+    ])
+    expect(cards[0].content).toMatchObject({
+      total: 1,
+      statuses: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }],
+    })
+    expect(cards[0].action?.text).toBe(itPages.dashboard.actions.eservices)
+    expect(cards[1].action).toBeUndefined()
+    expect(cards[2].content).toMatchObject({ metric: { value: 3 } })
+    expect(cards[2].action?.text).toBe(itPages.dashboard.actions.purposesAwaitingApproval)
+    expect(cards[5].content).toMatchObject({
+      metric: { value: 0, label: itPages.dashboard.units.purposesPerEservice },
+    })
+    expect(cards[5].action).toBeUndefined()
+    expect(screen.queryByText(itPages.dashboard.empty.eservices)).not.toBeInTheDocument()
+    expect(
+      screen.queryByText(itPages.dashboard.empty.purposesAwaitingApproval)
+    ).not.toBeInTheDocument()
+  })
+
+  it('does not show empty cards while the independent consumer count is loading', async () => {
+    let resolveConsumers!: (data: ProducerDashboardConsumers) => void
+    vi.mocked(ProducerServices.getDashboardConsumers).mockReturnValue(
+      new Promise((resolve) => {
+        resolveConsumers = resolve
+      })
+    )
+    await renderDashboard('it', false)
+    await waitFor(() => expect(ProducerServices.getDashboardConsumers).toHaveBeenCalled())
+    expect(screen.getByRole('status')).toHaveTextContent('Loading dashboard')
+    expect(cardMock).not.toHaveBeenCalled()
+    expect(screen.queryByText(itPages.dashboard.empty.consumers)).not.toBeInTheDocument()
+    await act(async () => resolveConsumers(emptyConsumers))
+    expect(await screen.findByText(itPages.dashboard.empty.consumers)).toBeVisible()
+  })
+
+  it('does not treat a failed consumer query as a loaded zero', async () => {
+    vi.mocked(ProducerServices.getDashboardConsumers).mockRejectedValue(
+      new Error('Consumers unavailable')
+    )
+    await renderDashboard('it', false)
+    expect(await screen.findByRole('alert')).toHaveTextContent('Dashboard error')
+    expect(cardMock).not.toHaveBeenCalled()
+    expect(screen.queryByText(itPages.dashboard.empty.consumers)).not.toBeInTheDocument()
+  })
 })
 
 describe('ProviderDashboardPage tables', () => {
@@ -584,6 +794,7 @@ describe('ProviderDashboardPage tables', () => {
     mockUseJwt({ currentRoles: ['admin'] })
     vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
     vi.spyOn(ProducerServices, 'getDashboard').mockResolvedValue(dashboard)
+    vi.spyOn(ProducerServices, 'getDashboardConsumers').mockResolvedValue(consumers)
     vi.spyOn(ProducerServices, 'getDashboardSaturation').mockResolvedValue(saturationResponse([]))
     vi.spyOn(ProducerServices, 'getDashboardArchiving').mockResolvedValue(emptyArchiving)
   })
@@ -594,6 +805,18 @@ describe('ProviderDashboardPage tables', () => {
 
   it('shows the exact ordered Italian headers and navigable consumption button', async () => {
     const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation).mockResolvedValue(
+      saturationResponse([saturationRow(1)])
+    )
+    vi.mocked(ProducerServices.getDashboardArchiving).mockResolvedValue({
+      results: [
+        {
+          eservice: { id: 'es', name: 'E-service' },
+          consumersCount: 1,
+          archivableOn: '2026-12-01T09:00:00Z',
+        },
+      ],
+    })
     await renderDashboard()
     const saturation = await getSectionTable('thresholds')
     const archive = await getSectionTable('archiving')
@@ -1100,7 +1323,7 @@ describe('ProviderDashboardPage tables', () => {
 
     await act(async () => resolveArchiving(emptyArchiving))
     expect(await screen.findByText(archiving.empty)).toBeInTheDocument()
-    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+    expect(screen.queryByRole('status', { name: archiving.loading })).not.toBeInTheDocument()
   })
 
   it('should show an error with retry per table without affecting the other table or the cards', async () => {
@@ -1136,8 +1359,17 @@ describe('ProviderDashboardPage tables', () => {
   it('should show localized empty states in English', async () => {
     await renderDashboard('en')
 
-    expect(await screen.findByText(enPages.dashboard.sections.thresholds.empty)).toBeInTheDocument()
-    expect(await screen.findByText(enPages.dashboard.sections.archiving.empty)).toBeInTheDocument()
+    for (const section of ['thresholds', 'archiving'] as const) {
+      const message = await screen.findByText(enPages.dashboard.sections[section].empty)
+      const panel = message.closest('[role="status"]') as HTMLElement
+      expect(within(panel).getByTestId('ErrorOutlineIcon')).toBeInTheDocument()
+      const region = screen.getByRole('region', {
+        name: enPages.dashboard.sections[section].title,
+      })
+      expect(within(region).queryByRole('table')).not.toBeInTheDocument()
+      expect(within(region).queryByRole('columnheader')).not.toBeInTheDocument()
+      expect(within(region).queryByRole('row')).not.toBeInTheDocument()
+    }
   })
 
   it('should hide row actions for roles without access to e-service routes', async () => {

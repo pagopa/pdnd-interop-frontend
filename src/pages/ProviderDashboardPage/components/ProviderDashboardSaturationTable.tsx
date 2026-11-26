@@ -8,6 +8,7 @@ import { useNavigate } from '@/router'
 import type { ProducerDashboardSaturationItem } from '@/api/api.generatedTypes'
 import { SaturationDonut } from '@/components/shared/SaturationDonut/SaturationDonut'
 import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
 import { ErrorIcon } from '@/icons/ErrorIcon'
 import { formatThousands } from '@/utils/format.utils'
 import { DashboardEServiceAction } from './DashboardEServiceAction'
@@ -211,6 +212,8 @@ export function ProviderDashboardSaturationTable({
             </Stack>
           </Stack>
         </NoItemResults>
+      ) : isEmpty && dashboard ? (
+        <EmptyTableState message={tDashboard('empty')} />
       ) : (
         <MITable
           columns={columns}
@@ -222,7 +225,6 @@ export function ProviderDashboardSaturationTable({
           mobileTableProps={{ 'aria-label': ariaLabel, 'aria-busy': isFetching }}
         />
       )}
-      {isEmpty && dashboard && <Typography aria-live="polite">{tDashboard('empty')}</Typography>}
     </Box>
   )
 }

@@ -8,6 +8,7 @@ import { AuthHooks } from '@/api/auth'
 import { ProducerQueries } from '@/api/producer'
 import type { ProducerEServiceMonitoringSaturationItem } from '@/api/api.generatedTypes'
 import { SaturationDonut } from '@/components/shared/SaturationDonut/SaturationDonut'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
 import { routes, useNavigate } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
 import { MONITORING_CONSUMERS_PREVIEW_PARAMS } from './monitoring.constants'
@@ -112,6 +113,14 @@ export function ProviderEServiceMonitoringConsumersTable({
     )
   }
 
+  if (!isPending && data?.results.length === 0) {
+    return (
+      <Box sx={{ mt: 3 }} aria-busy={isFetching}>
+        <EmptyTableState message={t('empty')} />
+      </Box>
+    )
+  }
+
   return (
     <>
       <Box
@@ -128,7 +137,6 @@ export function ProviderEServiceMonitoringConsumersTable({
           desktopTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
           mobileTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
         />
-        {!isPending && data?.results.length === 0 && <Typography>{t('empty')}</Typography>}
       </Box>
       {/* TODO: Add a full per-version consumer consumption list and connect this action. */}
       <Box sx={{ mt: 2 }}>

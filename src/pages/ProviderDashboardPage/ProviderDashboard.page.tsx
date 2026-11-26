@@ -15,6 +15,7 @@ import { routes, useNavigate } from '@/router'
 import { ProviderDashboardSaturationTable } from './components/ProviderDashboardSaturationTable'
 import { ProviderDashboardArchivingTable } from './components/ProviderDashboardArchivingTable'
 import { usePagination } from '@/hooks/usePagination'
+import type { UserProductRole } from '@/types/party.types'
 
 type DashboardDestination =
   | 'PROVIDE_ESERVICE_LIST'
@@ -28,6 +29,10 @@ export default function ProviderDashboardPage() {
   const navigate = useNavigate()
   const { currentRoles } = AuthHooks.useJwt()
   const { data: dashboard } = useSuspenseQuery(ProducerQueries.getDashboard())
+  const { data: consumers } = useSuspenseQuery({
+    ...ProducerQueries.getDashboardConsumers({ offset: 0, limit: 1 }),
+    refetchInterval: 60_000,
+  })
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
     limit: 5,
     limitOptions: [5, 10, 15],
@@ -55,11 +60,21 @@ export default function ProviderDashboardPage() {
     destination: DashboardDestination,
     text: string
   ): CardDashboardAction | undefined =>
-    routes[destination].authLevels.some((role) => currentRoles.includes(role))
+    routes[destination].authLevels.some((role: UserProductRole) => currentRoles.includes(role))
       ? { type: 'link', text, action: () => navigate(destination) }
       : undefined
 
   const eservicesAction = linkAction('PROVIDE_ESERVICE_LIST', t('actions.eservices'))
+  const createEserviceAction: CardDashboardAction | undefined =
+    routes.PROVIDE_ESERVICE_CREATE.authLevels.some((role: UserProductRole) =>
+      currentRoles.includes(role)
+    )
+      ? {
+          type: 'primary',
+          text: t('empty.createEservice'),
+          action: () => navigate('PROVIDE_ESERVICE_CREATE'),
+        }
+      : undefined
   const agreementsAction = linkAction('PROVIDE_AGREEMENT_LIST', t('actions.agreements'))
   const purposesAwaitingApprovalAction = linkAction(
     'PROVIDE_PURPOSE_LIST',
@@ -117,40 +132,56 @@ export default function ProviderDashboardPage() {
     {
       id: 'eservices',
       heading: t('headings.eservices'),
-      content: {
-        kind: 'status',
-        statuses,
-        total: dashboard.eservices.total,
-        totalLabel: t('units.eservices'),
-      },
-      action: eservicesAction,
+      content:
+        dashboard.eservices.total === 0
+          ? { kind: 'empty', message: t('empty.eservices') }
+          : {
+              kind: 'status',
+              statuses,
+              total: dashboard.eservices.total,
+              totalLabel: t('units.eservices'),
+            },
+      action: dashboard.eservices.total === 0 ? createEserviceAction : eservicesAction,
     },
     {
       id: 'pendingRequests',
       heading: t('headings.pendingAgreements'),
-      content: {
-        kind: 'metric',
-        metric: { value: dashboard.pendingAgreements, label: t('units.requests') },
-      },
-      action: agreementsAction,
+      content:
+        dashboard.pendingAgreements === 0
+          ? { kind: 'empty', message: t('empty.pendingAgreements'), icon: 'success' }
+          : {
+              kind: 'metric',
+              metric: { value: dashboard.pendingAgreements, label: t('units.requests') },
+            },
+      action: dashboard.pendingAgreements === 0 ? undefined : agreementsAction,
     },
     {
       id: 'purposes',
       heading: t('headings.purposesAwaitingApproval'),
-      content: {
-        kind: 'metric',
-        metric: { value: dashboard.waitingForApprovalPurposes, label: t('units.purposes') },
-      },
-      action: purposesAwaitingApprovalAction,
+      content:
+        dashboard.waitingForApprovalPurposes === 0
+          ? { kind: 'empty', message: t('empty.purposesAwaitingApproval'), icon: 'success' }
+          : {
+              kind: 'metric',
+              metric: { value: dashboard.waitingForApprovalPurposes, label: t('units.purposes') },
+            },
+      action:
+        dashboard.waitingForApprovalPurposes === 0 ? undefined : purposesAwaitingApprovalAction,
     },
     {
       id: 'activeAgreements',
-      heading: t('headings.activeAgreements'),
-      content: {
-        kind: 'metric',
-        metric: { value: dashboard.activeAgreements, label: t('units.activeAgreements') },
-      },
-      action: activeAgreementsAction,
+      heading:
+        consumers.totalConsumers === 0
+          ? t('empty.consumersHeading')
+          : t('headings.activeAgreements'),
+      content:
+        consumers.totalConsumers === 0
+          ? { kind: 'empty', message: t('empty.consumers') }
+          : {
+              kind: 'metric',
+              metric: { value: dashboard.activeAgreements, label: t('units.activeAgreements') },
+            },
+      action: consumers.totalConsumers === 0 ? undefined : activeAgreementsAction,
     },
     {
       id: 'agreementsAndPurposes',
@@ -167,7 +198,7 @@ export default function ProviderDashboardPage() {
           label: t('units.purposesPerEservice'),
         },
       },
-      action: purposesReceivedAction,
+      action: dashboard.averageActivePurposesPerEService === 0 ? undefined : purposesReceivedAction,
     },
   ]
 
@@ -197,7 +228,7 @@ export default function ProviderDashboardPage() {
             isError={saturation.isError}
             onRetry={() => saturation.refetch()}
           />
-          {routes.PROVIDE_SATURATION_RATE.authLevels.some((role) =>
+          {routes.PROVIDE_SATURATION_RATE.authLevels.some((role: UserProductRole) =>
             currentRoles.includes(role)
           ) && (
             <Box sx={{ mt: 2 }}>

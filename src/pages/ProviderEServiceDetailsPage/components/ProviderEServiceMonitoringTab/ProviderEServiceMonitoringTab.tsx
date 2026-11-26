@@ -24,7 +24,8 @@ import { ProviderEServiceMonitoringConsumersTable } from './ProviderEServiceMoni
  */
 export function ProviderEServiceMonitoringTab({
   eserviceName,
-}: Readonly<{ eserviceName?: string }>) {
+  dailyCallsPerConsumer,
+}: Readonly<{ eserviceName?: string; dailyCallsPerConsumer?: number }>) {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { t, i18n } = useTranslation('eservice', { keyPrefix: 'read.monitoring' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
@@ -57,6 +58,7 @@ export function ProviderEServiceMonitoringTab({
     {
       id: 'consumption',
       heading: t('consumption.consumptionCard.heading'),
+      subtitle: t('consumption.consumptionCard.description'),
       locale,
       content: {
         kind: 'consumption',
@@ -70,27 +72,51 @@ export function ProviderEServiceMonitoringTab({
       id: 'newPurposes',
       heading: t('consumption.newPurposesCard.heading'),
       locale,
-      content: {
-        kind: 'metric',
-        metric: {
-          value: data.waitingForApprovalNewPurposes,
-          label: t('consumption.newPurposesCard.unit'),
-        },
-      },
-      action: unavailablePurposesAction(t('consumption.newPurposesCard.action')),
+      content:
+        data.waitingForApprovalNewPurposes === 0
+          ? {
+              kind: 'empty',
+              message: t('consumption.newPurposesCard.empty'),
+              icon: 'success',
+              secondaryMetric:
+                dailyCallsPerConsumer !== undefined
+                  ? {
+                      heading: t('consumption.newPurposesCard.thresholdHeading'),
+                      value: dailyCallsPerConsumer,
+                      label: t('consumption.newPurposesCard.thresholdUnit'),
+                    }
+                  : undefined,
+            }
+          : {
+              kind: 'metric',
+              metric: {
+                value: data.waitingForApprovalNewPurposes,
+                label: t('consumption.newPurposesCard.unit'),
+              },
+            },
+      action:
+        data.waitingForApprovalNewPurposes === 0
+          ? undefined
+          : unavailablePurposesAction(t('consumption.newPurposesCard.action')),
     },
     {
       id: 'quotaChanges',
       heading: t('consumption.quotaChangesCard.heading'),
       locale,
-      content: {
-        kind: 'metric',
-        metric: {
-          value: data.waitingForApprovalQuotaChanges,
-          label: t('consumption.quotaChangesCard.unit'),
-        },
-      },
-      action: unavailablePurposesAction(t('consumption.quotaChangesCard.action')),
+      content:
+        data.waitingForApprovalQuotaChanges === 0
+          ? { kind: 'empty', message: t('consumption.quotaChangesCard.empty') }
+          : {
+              kind: 'metric',
+              metric: {
+                value: data.waitingForApprovalQuotaChanges,
+                label: t('consumption.quotaChangesCard.unit'),
+              },
+            },
+      action:
+        data.waitingForApprovalQuotaChanges === 0
+          ? undefined
+          : unavailablePurposesAction(t('consumption.quotaChangesCard.action')),
     },
   ]
 
@@ -126,12 +152,12 @@ export function ProviderEServiceMonitoringTab({
         locale,
         content: {
           kind: 'status',
-          statuses,
+          statuses: consumersByVersion.total === 0 ? [] : statuses,
           total: consumersByVersion.total,
           totalLabel: t('versions.byVersionCard.totalLabel'),
         },
         footer:
-          consumersByVersion.medianUpgradeDays !== undefined
+          consumersByVersion.total > 0 && consumersByVersion.medianUpgradeDays !== undefined
             ? t('versions.byVersionCard.medianUpgradeDays', {
                 count: consumersByVersion.medianUpgradeDays,
               })
@@ -157,23 +183,33 @@ export function ProviderEServiceMonitoringTab({
             },
           ],
         },
-        footer: t('versions.byKindCard.total', {
-          total: new Intl.NumberFormat(locale).format(consumersByKind.total),
-        }),
+        footer:
+          consumersByKind.total === 0
+            ? undefined
+            : t('versions.byKindCard.total', {
+                total: new Intl.NumberFormat(locale).format(consumersByKind.total),
+              }),
       },
       {
         id: 'pendingAgreements',
         heading: t('versions.pendingAgreementsCard.heading'),
         locale,
-        content: {
-          kind: 'metric',
-          metric: {
-            value: data.pendingAgreements,
-            label: t('versions.pendingAgreementsCard.unit'),
-          },
-        },
+        content:
+          data.pendingAgreements === 0
+            ? {
+                kind: 'empty',
+                message: t('versions.pendingAgreementsCard.empty'),
+                icon: 'success',
+              }
+            : {
+                kind: 'metric',
+                metric: {
+                  value: data.pendingAgreements,
+                  label: t('versions.pendingAgreementsCard.unit'),
+                },
+              },
         action:
-          canViewAgreements && eserviceName
+          data.pendingAgreements > 0 && canViewAgreements && eserviceName
             ? {
                 type: 'link',
                 text: t('versions.pendingAgreementsCard.action'),

@@ -13,6 +13,7 @@ import type {
 import { PageContainer } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
 import { useFilters } from '@/hooks/useFilters'
 import { usePagination } from '@/hooks/usePagination'
 import { useSorting } from '@/hooks/useSorting'
@@ -188,32 +189,33 @@ export default function ProviderDashboardConsumerDetail() {
             </Alert>
           ) : (
             <Box aria-busy={isFetching}>
-              <MITable
-                columns={columns}
-                rows={data?.results ?? []}
-                isLoading={isPending}
-                getRowId={(row) => `${row.eservice.id}-${row.descriptorId}`}
-                desktopTableProps={{
-                  'aria-label': consumer?.name ?? t('fallbackTitle'),
-                  'aria-busy': isFetching,
-                }}
-                mobileTableProps={{
-                  'aria-label': consumer?.name ?? t('fallbackTitle'),
-                  'aria-busy': isFetching,
-                }}
-                pagination={
-                  data && data.pagination.totalCount > 0
-                    ? {
-                        page: paginationProps.page,
-                        itemsPerPageOptions: paginationProps.itemsPerPageOptions,
-                        count: getTotalPageCount(data.pagination.totalCount),
-                        onChange: (_, page) => paginationProps.onPageChange(page),
-                      }
-                    : undefined
-                }
-              />
-              {!isPending && data?.results.length === 0 && (
-                <Typography role="status">{t('empty')}</Typography>
+              {!isPending && data?.results.length === 0 ? (
+                <EmptyTableState message={t('empty')} />
+              ) : (
+                <MITable
+                  columns={columns}
+                  rows={data?.results ?? []}
+                  isLoading={isPending}
+                  getRowId={(row) => `${row.eservice.id}-${row.descriptorId}`}
+                  desktopTableProps={{
+                    'aria-label': consumer?.name ?? t('fallbackTitle'),
+                    'aria-busy': isFetching,
+                  }}
+                  mobileTableProps={{
+                    'aria-label': consumer?.name ?? t('fallbackTitle'),
+                    'aria-busy': isFetching,
+                  }}
+                  pagination={
+                    data && data.pagination.totalCount > 0
+                      ? {
+                          page: paginationProps.page,
+                          itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+                          count: getTotalPageCount(data.pagination.totalCount),
+                          onChange: (_, page) => paginationProps.onPageChange(page),
+                        }
+                      : undefined
+                  }
+                />
               )}
             </Box>
           )}

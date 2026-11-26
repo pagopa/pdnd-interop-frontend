@@ -249,7 +249,7 @@ describe('ProviderDashboardConsumerDetail', () => {
     try {
       const user = userEvent.setup()
       await renderPage({ search: '?offset=10&q=isee' })
-      const group = await screen.findByRole('group', { name: 'Regione Lombardia' })
+      await screen.findByText(copy.empty)
       await user.click(screen.getByRole('button', { name: itFilters.remove }))
       await waitFor(() =>
         expect(getConsumer).toHaveBeenLastCalledWith(
@@ -262,6 +262,7 @@ describe('ProviderDashboardConsumerDetail', () => {
         limit: 10,
         sortBy: 'NAME_ASC',
       }).results[0]
+      const group = await screen.findByRole('group', { name: 'Regione Lombardia' })
       const row = (await within(group).findByText(first.eservice.name)).closest(
         'dl'
       )!.parentElement!
@@ -352,11 +353,19 @@ describe('ProviderDashboardConsumerDetail', () => {
   })
 
   it('shows the empty table label when the search has no matches', async () => {
+    const user = userEvent.setup()
     await renderPage({ search: '?q=missing' })
-    await screen.findByText(copy.empty)
+    const message = await screen.findByText(copy.empty)
+    expect(message.closest('[role="status"]')).toContainElement(
+      screen.getByTestId('ErrorOutlineIcon')
+    )
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    expect(screen.queryByRole('columnheader')).not.toBeInTheDocument()
     expect(summaryValue()).toHaveTextContent('15')
     expect(resultCount(0)).toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: itFilters.remove }))
+    expect(await screen.findByRole('table')).toBeInTheDocument()
   })
 
   it('preserves previous rows only while the same consumer next page is loading', async () => {

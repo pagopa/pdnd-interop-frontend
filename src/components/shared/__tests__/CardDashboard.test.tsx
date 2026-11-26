@@ -280,6 +280,29 @@ describe('CardDashboard', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
 
+  it.each([
+    ['it-IT', 2000, '2000'],
+    ['en-US', 2000, '2,000'],
+    ['it-IT', 0, '0'],
+  ] as const)('keeps a secondary metric in %s', (locale, value, formatted) => {
+    renderCard({
+      heading: 'Purposes',
+      locale,
+      content: {
+        kind: 'empty',
+        message: 'No purposes to approve',
+        icon: 'success',
+        secondaryMetric: { heading: 'Threshold per consumer', value, label: 'API calls/day' },
+      },
+    })
+    expect(screen.getByText('No purposes to approve')).toBeVisible()
+    expect(screen.getByText('Threshold per consumer')).toBeVisible()
+    expect(screen.getByText(formatted)).toBeVisible()
+    expect(screen.getByText('API calls/day')).toBeVisible()
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+  })
+
   it('renders a contained primary action with a start Add icon and click handler', async () => {
     const user = userEvent.setup()
     const onClick = vi.fn()

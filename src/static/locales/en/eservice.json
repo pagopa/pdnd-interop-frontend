@@ -743,16 +743,21 @@
         "description": "Keep track of the estimated consumption of the e-service.",
         "export": "Export",
         "consumptionCard": {
-          "heading": "Expected threshold consumption",
-          "unit": "approved / total daily API calls"
+          "heading": "Expected total threshold consumption",
+          "description": "The percentage of API calls requested by all purposes relative to the total threshold.",
+          "unit": "API calls/day"
         },
         "newPurposesCard": {
-          "heading": "New purposes awaiting approval",
+          "heading": "Purposes awaiting approval",
+          "empty": "You have no purposes to approve",
+          "thresholdHeading": "Threshold defined per consumer",
+          "thresholdUnit": "API calls/day",
           "unit": "purposes",
           "action": "View purposes"
         },
         "quotaChangesCard": {
-          "heading": "Estimate changes awaiting approval",
+          "heading": "Estimate change requests awaiting approval",
+          "empty": "You have no estimate change requests to approve",
           "unit": "requests",
           "action": "View requests"
         }
@@ -775,13 +780,13 @@
         "loading": "Loading expected consumption per consumer",
         "loadError": "Expected consumption per consumer could not be loaded.",
         "retry": "Retry",
-        "empty": "There are no consumers with expected consumption for this version."
+        "empty": "There are no consumers with active purposes for this e-service"
       },
       "versions": {
         "title": "E-service versions and agreement requests",
         "description": "View how consumers are distributed across versions and how many agreement requests are pending.",
         "byVersionCard": {
-          "heading": "Consumers by version",
+          "heading": "E-service consumers",
           "totalLabel": "consumers",
           "version": "Version {{version}}",
           "olderVersions": "Older versions",
@@ -789,14 +794,15 @@
           "medianUpgradeDays_other": "Median upgrade time: {{count}} days"
         },
         "byKindCard": {
-          "heading": "Consumers by type",
+          "heading": "Consumer breakdown by type",
           "pa": "Public administrations",
           "gspScp": "Public service operators and publicly controlled companies",
           "private": "Private entities",
           "total": "Total consumers: {{total}}"
         },
         "pendingAgreementsCard": {
-          "heading": "Pending agreement requests",
+          "heading": "Agreement requests awaiting approval",
+          "empty": "You have no agreement requests to approve",
           "unit": "requests",
           "action": "View agreement requests"
         }
@@ -822,7 +828,7 @@
         "loading": "Loading versions being archived",
         "loadError": "Versions being archived could not be loaded.",
         "retry": "Retry",
-        "empty": "There are no versions of this e-service being archived."
+        "empty": "There are no versions being archived"
       }
     },
     "alert": {

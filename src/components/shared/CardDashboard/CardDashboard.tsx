@@ -35,7 +35,12 @@ export type CardDashboardContent =
       /** Backend-provided percentage (0-100+); takes precedence over `used / limit`. */
       percentage?: number
     }
-  | { kind: 'empty'; message: string; icon?: 'success' }
+  | {
+      kind: 'empty'
+      message: string
+      icon?: 'success'
+      secondaryMetric?: CardDashboardMetric & { heading: string }
+    }
 
 export type CardDashboardAction = {
   type: 'primary' | 'link'
@@ -321,6 +326,19 @@ export function CardDashboard({
                 {content.message}
               </Typography>
             </Stack>
+          )}
+          {content.kind === 'empty' && content.secondaryMetric && (
+            <Box>
+              <Typography sx={{ fontWeight: 600 }}>{content.secondaryMetric.heading}</Typography>
+              <Stack direction="row" spacing={1} alignItems="baseline" flexWrap="wrap">
+                <Typography color="text.secondary" sx={{ fontWeight: 600, fontSize: 18 }}>
+                  {numberFormatter.format(content.secondaryMetric.value)}
+                </Typography>
+                <Typography color="text.secondary" variant="body2">
+                  {content.secondaryMetric.label}
+                </Typography>
+              </Stack>
+            </Box>
           )}
         </Stack>
       </Box>

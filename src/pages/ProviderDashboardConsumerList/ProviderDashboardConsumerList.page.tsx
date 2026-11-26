@@ -11,6 +11,7 @@ import type {
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '@/components/layout/containers'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
 import { useFilters } from '@/hooks/useFilters'
 import { usePagination } from '@/hooks/usePagination'
 import { useSorting } from '@/hooks/useSorting'
@@ -128,26 +129,27 @@ export default function ProviderDashboardConsumerList() {
         </Alert>
       ) : (
         <Box aria-busy={isFetching}>
-          <MITable
-            columns={columns}
-            rows={data?.results ?? []}
-            isLoading={isPending}
-            getRowId={(row) => row.consumer.id}
-            desktopTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
-            mobileTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
-            pagination={
-              data && data.pagination.totalCount > 0
-                ? {
-                    page: paginationProps.page,
-                    itemsPerPageOptions: paginationProps.itemsPerPageOptions,
-                    count: getTotalPageCount(data.pagination.totalCount),
-                    onChange: (_, page) => paginationProps.onPageChange(page),
-                  }
-                : undefined
-            }
-          />
-          {!isPending && data?.results.length === 0 && (
-            <Typography role="status">{t('empty')}</Typography>
+          {!isPending && data?.results.length === 0 ? (
+            <EmptyTableState message={t('empty')} />
+          ) : (
+            <MITable
+              columns={columns}
+              rows={data?.results ?? []}
+              isLoading={isPending}
+              getRowId={(row) => row.consumer.id}
+              desktopTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
+              mobileTableProps={{ 'aria-label': t('title'), 'aria-busy': isFetching }}
+              pagination={
+                data && data.pagination.totalCount > 0
+                  ? {
+                      page: paginationProps.page,
+                      itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+                      count: getTotalPageCount(data.pagination.totalCount),
+                      onChange: (_, page) => paginationProps.onPageChange(page),
+                    }
+                  : undefined
+              }
+            />
           )}
         </Box>
       )}

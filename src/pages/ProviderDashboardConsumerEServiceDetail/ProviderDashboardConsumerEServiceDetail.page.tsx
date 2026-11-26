@@ -17,6 +17,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { useFilters } from '@/hooks/useFilters'
 import { usePagination } from '@/hooks/usePagination'
@@ -306,30 +307,33 @@ export default function ProviderDashboardConsumerEServiceDetail({
             }}
           />
           <Box aria-busy={isFetching}>
-            <MITable
-              columns={columns}
-              rows={data.results}
-              getRowId={(row) => row.purposeId}
-              desktopTableProps={{
-                'aria-label': t('tableAriaLabel', { name: consumer.name }),
-                'aria-busy': isFetching,
-              }}
-              mobileTableProps={{
-                'aria-label': t('tableAriaLabel', { name: consumer.name }),
-                'aria-busy': isFetching,
-              }}
-              pagination={
-                data.pagination.totalCount > 0
-                  ? {
-                      page: paginationProps.page,
-                      itemsPerPageOptions: paginationProps.itemsPerPageOptions,
-                      count: getTotalPageCount(data.pagination.totalCount),
-                      onChange: (_, page) => paginationProps.onPageChange(page),
-                    }
-                  : undefined
-              }
-            />
-            {data.results.length === 0 && <Typography role="status">{t('empty')}</Typography>}
+            {data.results.length === 0 ? (
+              <EmptyTableState message={t('empty')} />
+            ) : (
+              <MITable
+                columns={columns}
+                rows={data.results}
+                getRowId={(row) => row.purposeId}
+                desktopTableProps={{
+                  'aria-label': t('tableAriaLabel', { name: consumer.name }),
+                  'aria-busy': isFetching,
+                }}
+                mobileTableProps={{
+                  'aria-label': t('tableAriaLabel', { name: consumer.name }),
+                  'aria-busy': isFetching,
+                }}
+                pagination={
+                  data.pagination.totalCount > 0
+                    ? {
+                        page: paginationProps.page,
+                        itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+                        count: getTotalPageCount(data.pagination.totalCount),
+                        onChange: (_, page) => paginationProps.onPageChange(page),
+                      }
+                    : undefined
+                }
+              />
+            )}
           </Box>
         </Box>
       </>

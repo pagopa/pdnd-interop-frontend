@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ProducerQueries } from '@/api/producer'
 import type { MonitoringArchivingRow } from '@/api/api.generatedTypes'
 import { ArchivingDateCell } from '@/components/shared/ArchivingDateCell'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
 import { formatThousands } from '@/utils/format.utils'
 import { DashboardEServiceAction } from './DashboardEServiceAction'
 
@@ -88,15 +89,18 @@ export function ProviderDashboardArchivingTable() {
       role={isPending ? 'status' : undefined}
       aria-label={isPending ? t('loading') : undefined}
     >
-      <MITable
-        columns={columns}
-        rows={data?.results ?? []}
-        isLoading={isPending}
-        getRowId={(row, index) => `${row.eservice.id}-${row.descriptorId ?? 'eservice'}-${index}`}
-        desktopTableProps={{ 'aria-label': t('columns.eservice'), 'aria-busy': isFetching }}
-        mobileTableProps={{ 'aria-label': t('columns.eservice'), 'aria-busy': isFetching }}
-      />
-      {!isPending && data?.results.length === 0 && <Typography>{t('empty')}</Typography>}
+      {!isPending && data?.results.length === 0 ? (
+        <EmptyTableState message={t('empty')} />
+      ) : (
+        <MITable
+          columns={columns}
+          rows={data?.results ?? []}
+          isLoading={isPending}
+          getRowId={(row, index) => `${row.eservice.id}-${row.descriptorId ?? 'eservice'}-${index}`}
+          desktopTableProps={{ 'aria-label': t('columns.eservice'), 'aria-busy': isFetching }}
+          mobileTableProps={{ 'aria-label': t('columns.eservice'), 'aria-busy': isFetching }}
+        />
+      )}
     </Box>
   )
 }

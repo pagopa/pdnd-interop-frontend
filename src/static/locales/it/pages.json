@@ -1,5 +1,13 @@
 {
   "dashboard": {
+    "empty": {
+      "eservices": "Il tuo ente non ha e-service",
+      "createEservice": "Crea e-service",
+      "pendingAgreements": "Non hai richieste di fruizione da approvare",
+      "purposesAwaitingApproval": "Non hai finalità da approvare",
+      "consumersHeading": "Fruitori dei tuoi e-service",
+      "consumers": "I tuoi e-service non hanno fruitori"
+    },
     "title": "Panoramica",
     "description": "In questa pagina trovi una visione completa di come stanno andando i tuoi e-service e se ci sono delle azioni da fare.",
     "headings": {
@@ -47,7 +55,7 @@
         "loading": "Caricamento dei consumi previsti per e-service",
         "loadError": "Non è stato possibile caricare i consumi previsti per e-service.",
         "retry": "Riprova",
-        "empty": "Non ci sono versioni di e-service con consumi previsti da mostrare.",
+        "empty": "Non ci sono dati disponibili per il tuo ente",
         "viewVersion": "Vedi versione",
         "viewVersionAriaLabel": "Vedi la versione {{version}} di {{name}}"
       },
@@ -66,7 +74,7 @@
         "loading": "Caricamento degli e-service in fase di archiviazione",
         "loadError": "Non è stato possibile caricare gli e-service in fase di archiviazione.",
         "retry": "Riprova",
-        "empty": "Non ci sono versioni di e-service in fase di archiviazione.",
+        "empty": "Non ci sono e-service o versioni in fase di archiviazione",
         "viewVersion": "Vedi versione",
         "viewVersionAriaLabel": "Vedi la versione {{version}} di {{name}}",
         "viewUnnumberedVersionAriaLabel": "Vedi la versione di {{name}}",

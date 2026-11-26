@@ -316,11 +316,20 @@ describe('ProviderDashboardConsumerList', () => {
   })
 
   it('shows an empty state and filtered zero results without losing the overall total', async () => {
+    const user = userEvent.setup()
     await renderPage('it', '?q=missing')
-    await screen.findByText(copy.empty)
+    const message = await screen.findByText(copy.empty)
+    expect(message.closest('[role="status"]')).toContainElement(
+      screen.getByTestId('ErrorOutlineIcon')
+    )
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    expect(screen.queryByRole('columnheader')).not.toBeInTheDocument()
     expect(screen.getByText('30')).toBeInTheDocument()
     expect(resultCount(0)).toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: itFilters.remove }))
+    expect(await screen.findByText('Consumer 00')).toBeInTheDocument()
+    expect(screen.getByRole('table')).toBeInTheDocument()
   })
 
   it('renders a genuine overall zero total after a successful empty response', async () => {

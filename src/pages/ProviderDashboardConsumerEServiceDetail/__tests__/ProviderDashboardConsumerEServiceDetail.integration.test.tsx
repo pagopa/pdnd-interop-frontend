@@ -648,7 +648,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     async ({ path }) => {
       const search = `?offset=10&q=${encodeURIComponent(LAZIO.name)}&sortBy=NAME_ASC`
       const { user } = await renderApp(`${path}${search}`)
-      await screen.findByRole('table')
+      await screen.findByText(copy.empty)
       await screen.findByText(copy.waitingApproval.title)
 
       await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
@@ -787,7 +787,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     { origin: 'monitoring', path: monitoringPath(FIRST_CONSUMER.id) },
   ])('restores applied filters on browser back and forward from $origin', async ({ path }) => {
     const { user } = await renderApp(`${path}?states=SUSPENDED&offset=10`)
-    await screen.findByRole('table')
+    await screen.findByText(copy.empty)
     await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
     const drawer = await screen.findByRole('dialog')
     const archived = within(drawer).getByLabelText(copy.filters.includeArchived)

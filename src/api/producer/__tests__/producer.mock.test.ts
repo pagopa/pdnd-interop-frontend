@@ -365,6 +365,10 @@ describe('consumer detail mock contract', () => {
     expect(first).not.toBe(second)
     expect(first.consumer).not.toBe(second.consumer)
     expect(first.results[0].agreement).not.toBe(second.results[0].agreement)
+    const unknownParams = { ...params, consumerId: 'unknown-consumer' }
+    expect(await service.getDashboardConsumer(unknownParams)).toEqual(
+      getMockProducerDashboardConsumer(unknownParams)
+    )
     expect(adapter).not.toHaveBeenCalled()
   })
 
@@ -410,6 +414,22 @@ describe('development-only producer dashboard consumers mock', () => {
     expect(result.totalConsumers).toBe(16)
     expect(result.pagination).toStrictEqual({ offset: 0, limit: 10, totalCount: 16 })
     expect(result.results).toHaveLength(10)
+    expect(adapter).not.toHaveBeenCalled()
+  })
+
+  it('uses fixture filtering and pagination in dashboard responses', async () => {
+    const service = await loadService()
+    const params = { offset: 20, limit: 5, q: 'Roma' }
+    const detailParams = { ...params, consumerId: id(1) }
+    expect(await service.getDashboardConsumers(params)).toEqual(
+      getMockProducerDashboardConsumers(params)
+    )
+    expect(await service.getDashboardSaturation(params)).toEqual(
+      getMockProducerDashboardSaturation(params)
+    )
+    expect(await service.getDashboardConsumer(detailParams)).toEqual(
+      getMockProducerDashboardConsumer(detailParams)
+    )
     expect(adapter).not.toHaveBeenCalled()
   })
 

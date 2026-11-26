@@ -552,13 +552,30 @@ describe('ProviderDashboardConsumerEServiceDetail', () => {
     expect(screen.queryByText(copy.waitingApproval.title)).not.toBeInTheDocument()
   })
 
-  it('shows the empty state when no purpose matches', async () => {
-    getPurposes.mockImplementation(async (params) =>
-      buildResponse(params, { results: [], pagination: { offset: 0, limit: 10, totalCount: 0 } })
-    )
-    await renderPage()
-    expect(await screen.findByText(copy.empty)).toBeInTheDocument()
-  })
+  it.each(['dashboard', 'monitoring'] as const)(
+    'shows an empty purposes panel and recovers after clearing search from %s',
+    async (origin) => {
+      const user = userEvent.setup()
+      getPurposes.mockImplementation(async (params) =>
+        params.q
+          ? buildResponse(params, {
+              results: [],
+              pagination: { offset: 0, limit: 10, totalCount: 0 },
+            })
+          : buildResponse(params)
+      )
+      await renderPage({ origin, search: '?q=missing' })
+      const message = await screen.findByText(copy.empty)
+      expect(message.closest('[role="status"]')).toContainElement(
+        screen.getByTestId('ErrorOutlineIcon')
+      )
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
+      expect(screen.queryByRole('columnheader')).not.toBeInTheDocument()
+      expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: itFilters.remove }))
+      expect(await screen.findByRole('table')).toBeInTheDocument()
+    }
+  )
 
   it('does not show the previous consumer data when the consumer changes', async () => {
     const user = userEvent.setup()

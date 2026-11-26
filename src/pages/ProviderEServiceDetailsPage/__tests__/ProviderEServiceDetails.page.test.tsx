@@ -72,8 +72,18 @@ vi.mock('../components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab
 }))
 
 vi.mock('../components/ProviderEServiceMonitoringTab/ProviderEServiceMonitoringTab', () => ({
-  ProviderEServiceMonitoringTab: ({ eserviceName }: { eserviceName?: string }) => (
-    <div data-testid="eservice-monitoring-tab" data-eservice-name={eserviceName} />
+  ProviderEServiceMonitoringTab: ({
+    eserviceName,
+    dailyCallsPerConsumer,
+  }: {
+    eserviceName?: string
+    dailyCallsPerConsumer?: number
+  }) => (
+    <div
+      data-testid="eservice-monitoring-tab"
+      data-eservice-name={eserviceName}
+      data-daily-calls-per-consumer={dailyCallsPerConsumer}
+    />
   ),
 }))
 
@@ -109,6 +119,7 @@ describe('ProviderEServiceDetailsPage', () => {
         id: 'descriptor-id',
         version: '1',
         state: 'PUBLISHED',
+        dailyCallsPerConsumer: 2000,
         eservice: {
           name: 'E-Service Name',
           descriptors: [{ id: 'descriptor-id', state: 'PUBLISHED', version: '1' }],
@@ -117,11 +128,15 @@ describe('ProviderEServiceDetailsPage', () => {
     })
   })
 
-  it('passes the loaded e-service name to monitoring', () => {
+  it('passes the loaded e-service name and configured threshold to monitoring', () => {
     renderPage('?tab=monitoring')
     expect(screen.getByTestId('eservice-monitoring-tab')).toHaveAttribute(
       'data-eservice-name',
       'E-Service Name'
+    )
+    expect(screen.getByTestId('eservice-monitoring-tab')).toHaveAttribute(
+      'data-daily-calls-per-consumer',
+      '2000'
     )
   })
 
