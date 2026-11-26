@@ -1,5 +1,4 @@
 import type { AgreementListEntry, CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
-import { AgreementMutations } from '@/api/agreement'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import { mockUseJwt, mockUseParams, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { useDialogStore } from '@/stores/dialog.store'
@@ -24,9 +23,6 @@ const ACTIVE_DESCRIPTOR_ID = 'active-descriptor-id'
 const AGREEMENT_ID = 'agreement-id'
 
 const navigate = vi.fn()
-const createAgreementDraft = vi.fn()
-const submitToOwnEService = vi.fn()
-const upgradeAgreement = vi.fn()
 
 type QueryFixtures = {
   descriptor?: CatalogEServiceDescriptor
@@ -118,15 +114,6 @@ beforeEach(() => {
       organizationId: TENANT_ID,
     },
   })
-  vi.spyOn(AgreementMutations, 'useCreateDraft').mockReturnValue({
-    mutate: createAgreementDraft,
-  } as never)
-  vi.spyOn(AgreementMutations, 'useSubmitToOwnEService').mockReturnValue({
-    mutate: submitToOwnEService,
-  } as never)
-  vi.spyOn(AgreementMutations, 'useUpgrade').mockReturnValue({
-    mutate: upgradeAgreement,
-  } as never)
   useDialogStore.setState({ dialog: null })
   mockQueryResults()
 })
@@ -149,7 +136,7 @@ describe('useActions', () => {
     expect(result.current.secondary).toBeUndefined()
   })
 
-  it('offers subscribing when the tenant has no agreement and creates its draft directly', () => {
+  it('offers subscribing when the tenant has no agreement and opens the confirmation dialog', () => {
     const { result } = renderUseActions()
 
     expect(result.current.primary?.variant).toBe('contained')
@@ -157,18 +144,16 @@ describe('useActions', () => {
 
     result.current.primary?.action()
 
-    expect(createAgreementDraft).toHaveBeenCalledWith(
-      {
-        eserviceName: 'Test e-service',
-        eserviceId: ESERVICE_ID,
-        eserviceVersion: '1',
-        descriptorId: DESCRIPTOR_ID,
-      },
-      expect.any(Object)
-    )
+    expect(useDialogStore.getState().dialog).toMatchObject({
+      type: 'confirmCreateAgreement',
+      eserviceId: ESERVICE_ID,
+      consumerId: TENANT_ID,
+      descriptorId: DESCRIPTOR_ID,
+      producerId: 'producer-tenant-id',
+    })
   })
 
-  it('submits the agreement directly when the consumer owns the e-service', () => {
+  it('opens the confirmation dialog when the consumer owns the e-service', () => {
     mockQueryResults({
       descriptor: createDescriptor({
         eservice: { producer: { id: TENANT_ID } },
@@ -178,10 +163,13 @@ describe('useActions', () => {
     const { result } = renderUseActions()
     result.current.primary?.action()
 
-    expect(submitToOwnEService).toHaveBeenCalledWith(
-      { eserviceId: ESERVICE_ID, descriptorId: DESCRIPTOR_ID },
-      expect.any(Object)
-    )
+    expect(useDialogStore.getState().dialog).toMatchObject({
+      type: 'confirmCreateAgreement',
+      eserviceId: ESERVICE_ID,
+      consumerId: TENANT_ID,
+      descriptorId: DESCRIPTOR_ID,
+      producerId: TENANT_ID,
+    })
   })
 
   it('navigates directly to the agreement editor for a single draft agreement', () => {
@@ -221,6 +209,32 @@ describe('useActions', () => {
 
     expect(navigate).toHaveBeenCalledWith('SUBSCRIBE_AGREEMENT_READ', {
       params: { agreementId: AGREEMENT_ID },
+    })
+  })
+
+  it('opens the update confirmation dialog for a single upgradable agreement', () => {
+    mockQueryResults({
+      agreements: [
+        createMockAgreementListingItem({
+          id: AGREEMENT_ID,
+          state: 'ACTIVE',
+          consumer: { id: TENANT_ID, name: TENANT_NAME },
+          descriptor: { id: DESCRIPTOR_ID, version: '1' },
+        }),
+      ],
+    })
+
+    const { result } = renderUseActions()
+    result.current.primary?.action()
+
+    expect(useDialogStore.getState().dialog).toMatchObject({
+      type: 'confirmUpdateAgreement',
+      agreement: {
+        id: AGREEMENT_ID,
+        consumerId: TENANT_ID,
+        descriptorId: DESCRIPTOR_ID,
+      },
+      descriptor: { id: DESCRIPTOR_ID },
     })
   })
 

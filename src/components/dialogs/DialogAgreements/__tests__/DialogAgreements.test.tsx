@@ -10,6 +10,8 @@ import { queryClient } from '@/config/query-client'
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { DialogCreateAgreement } from '../DialogCreateAgreement'
+import { DialogConfirmCreateAgreement } from '../DialogConfirmCreateAgreement'
+import { DialogConfirmUpdateAgreement } from '../DialogConfirmUpdateAgreement'
 import { DialogEditAgreement } from '../DialogEditAgreement'
 import { DialogInspectAgreement } from '../DialogInspectAgreement'
 import { DialogUpdateAgreement } from '../DialogUpdateAgreement'
@@ -21,12 +23,14 @@ type MutationOptions<T> = {
 
 const {
   closeDialogMock,
+  openDialogMock,
   navigateMock,
   createDraftMock,
   submitToOwnEServiceMock,
   upgradeAgreementMock,
 } = vi.hoisted(() => ({
   closeDialogMock: vi.fn(),
+  openDialogMock: vi.fn(),
   navigateMock: vi.fn(),
   createDraftMock:
     vi.fn<
@@ -44,13 +48,14 @@ const {
 vi.mock('@/router', () => ({
   useNavigate: () => navigateMock,
   useParams: () => ({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' }),
+  Link: ({ children }: { children: React.ReactNode }) => <a>{children}</a>,
 }))
 
 vi.mock('@/stores', async () => {
   const actual = await vi.importActual<typeof Stores>('@/stores')
   return {
     ...actual,
-    useDialog: () => ({ closeDialog: closeDialogMock }),
+    useDialog: () => ({ closeDialog: closeDialogMock, openDialog: openDialogMock }),
   }
 })
 
@@ -187,6 +192,64 @@ describe('DialogCreateAgreement', () => {
   })
 })
 
+describe('DialogConfirmCreateAgreement', () => {
+  it('creates a draft and navigates to its edit page when confirmed', async () => {
+    renderDialog(
+      <DialogConfirmCreateAgreement
+        type="confirmCreateAgreement"
+        consumerId="organizationId"
+        producerId="producer-id"
+        eserviceId="eservice-id"
+        descriptorId="descriptor-id"
+      />
+    )
+
+    await userEvent.setup().click(screen.getByRole('button', { name: 'actions.confirm' }))
+
+    expect(createDraftMock).toHaveBeenCalledWith(
+      {
+        eserviceId: 'eservice-id',
+        descriptorId: 'descriptor-id',
+        eserviceName: '',
+        eserviceVersion: '',
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_AGREEMENT_EDIT', {
+      params: { agreementId: 'created-agreement-id' },
+    })
+    expect(closeDialogMock).toHaveBeenCalledOnce()
+    expect(submitToOwnEServiceMock).not.toHaveBeenCalled()
+  })
+
+  it('submits directly and navigates to read mode when the consumer is the producer', async () => {
+    renderDialog(
+      <DialogConfirmCreateAgreement
+        type="confirmCreateAgreement"
+        consumerId="producer-id"
+        producerId="producer-id"
+        eserviceId="eservice-id"
+        descriptorId="descriptor-id"
+      />
+    )
+
+    await userEvent.setup().click(screen.getByRole('button', { name: 'actions.confirm' }))
+
+    expect(submitToOwnEServiceMock).toHaveBeenCalledWith(
+      {
+        eserviceId: 'eservice-id',
+        descriptorId: 'descriptor-id',
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_AGREEMENT_READ', {
+      params: { agreementId: 'submitted-agreement-id' },
+    })
+    expect(closeDialogMock).toHaveBeenCalledOnce()
+    expect(createDraftMock).not.toHaveBeenCalled()
+  })
+})
+
 describe('DialogEditAgreement', () => {
   it('opens the selected consumer agreement in edit mode and closes the dialog', async () => {
     renderDialog(
@@ -232,7 +295,7 @@ describe('DialogInspectAgreement', () => {
   })
 })
 
-describe('DialogUpdateAgreement', () => {
+describe('DialogConfirmUpdateAgreement', () => {
   it.each([
     { state: 'DRAFT' as const, route: 'SUBSCRIBE_AGREEMENT_EDIT' },
     { state: 'ACTIVE' as const, route: 'SUBSCRIBE_AGREEMENT_READ' },
@@ -241,12 +304,24 @@ describe('DialogUpdateAgreement', () => {
       options.onSuccess(createMockAgreement({ id: 'upgraded-agreement-id', state }))
     )
     renderDialog(
-      <DialogUpdateAgreement type="updateAgreement" consumers={consumers} agreements={agreements} />
+      <DialogConfirmUpdateAgreement
+        type="confirmUpdateAgreement"
+        agreement={agreements[0]}
+        descriptor={descriptor}
+      />
     )
 
-    const user = await selectConsumer()
-    const confirmButton = await screen.findByRole('button', { name: 'actions.confirm' })
-    expect(confirmButton).toBeEnabled()
+    const user = userEvent.setup()
+    const checkboxes = screen.getAllByRole('checkbox')
+    const confirmButton = screen.getByRole('button', { name: 'actions.upgrade' })
+
+    expect(checkboxes).toHaveLength(3)
+    await user.click(confirmButton)
+    expect(upgradeAgreementMock).not.toHaveBeenCalled()
+
+    for (const checkbox of checkboxes) {
+      await user.click(checkbox)
+    }
     await user.click(confirmButton)
 
     expect(upgradeAgreementMock).toHaveBeenCalledWith(
@@ -257,6 +332,27 @@ describe('DialogUpdateAgreement', () => {
       params: { agreementId: 'upgraded-agreement-id' },
     })
     expect(closeDialogMock).toHaveBeenCalledOnce()
+  })
+})
+
+describe('DialogUpdateAgreement', () => {
+  it('opens the confirmation dialog for the selected consumer', async () => {
+    renderDialog(
+      <DialogUpdateAgreement type="updateAgreement" consumers={consumers} agreements={agreements} />
+    )
+
+    const user = await selectConsumer()
+    const confirmButton = await screen.findByRole('button', { name: 'actions.confirm' })
+    expect(confirmButton).toBeEnabled()
+    await user.click(confirmButton)
+
+    expect(openDialogMock).toHaveBeenCalledWith({
+      type: 'confirmUpdateAgreement',
+      agreement: agreements[0],
+      descriptor,
+    })
+    expect(closeDialogMock).toHaveBeenCalledOnce()
+    expect(upgradeAgreementMock).not.toHaveBeenCalled()
   })
 
   it('disables the upgrade when the consumer lacks required certified attributes', async () => {
