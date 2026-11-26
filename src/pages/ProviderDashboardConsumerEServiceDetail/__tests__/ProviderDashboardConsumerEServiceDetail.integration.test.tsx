@@ -640,6 +640,20 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     expect(new URLSearchParams(window.location.search).get('states')).toBe('SUSPENDED')
   })
 
+  it('keeps pagination available when the current purpose page is out of range', async () => {
+    getPurposes.mockImplementation(async (params) => buildPagedResponse(params, 15))
+    const { user } = await renderApp(`${dashboardPath(FIRST_CONSUMER.id)}?offset=20`)
+
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(screen.queryByText(copy.empty)).not.toBeInTheDocument()
+    expect(mainCalls()[0]).toEqual(expect.objectContaining({ offset: 20, limit: 10 }))
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    expect(await screen.findByText('Finalità 11')).toBeInTheDocument()
+    expect(screen.queryByText('Finalità 01')).not.toBeInTheDocument()
+    expect(mainCalls().at(-1)).toEqual(expect.objectContaining({ offset: 10, limit: 10 }))
+  })
+
   it.each([
     { origin: 'dashboard', path: dashboardPath(LAZIO.id) },
     { origin: 'monitoring', path: monitoringPath(LAZIO.id) },
@@ -648,7 +662,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     async ({ path }) => {
       const search = `?offset=10&q=${encodeURIComponent(LAZIO.name)}&sortBy=NAME_ASC`
       const { user } = await renderApp(`${path}${search}`)
-      await screen.findByText(copy.empty)
+      await screen.findByRole('table')
       await screen.findByText(copy.waitingApproval.title)
 
       await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
@@ -787,7 +801,7 @@ describe('ProviderDashboardConsumerEServiceDetail (integration)', () => {
     { origin: 'monitoring', path: monitoringPath(FIRST_CONSUMER.id) },
   ])('restores applied filters on browser back and forward from $origin', async ({ path }) => {
     const { user } = await renderApp(`${path}?states=SUSPENDED&offset=10`)
-    await screen.findByText(copy.empty)
+    await screen.findByRole('table')
     await user.click(screen.getByRole('button', { name: itFilters.additionals.trigger }))
     const drawer = await screen.findByRole('dialog')
     const archived = within(drawer).getByLabelText(copy.filters.includeArchived)

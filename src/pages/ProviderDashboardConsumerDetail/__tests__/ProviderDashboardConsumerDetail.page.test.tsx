@@ -248,7 +248,7 @@ describe('ProviderDashboardConsumerDetail', () => {
     }))
     try {
       const user = userEvent.setup()
-      await renderPage({ search: '?offset=10&q=isee' })
+      await renderPage({ search: '?q=missing' })
       await screen.findByText(copy.empty)
       await user.click(screen.getByRole('button', { name: itFilters.remove }))
       await waitFor(() =>
@@ -344,6 +344,24 @@ describe('ProviderDashboardConsumerDetail', () => {
     await screen.findByRole('heading', { level: 1, name: 'Regione Lombardia' })
     expect(resultCount(15)).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(
+        expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 10, limit: 10 })
+      )
+    )
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(6))
+  })
+
+  it('keeps pagination available when the current page is empty but results remain on previous pages', async () => {
+    const user = userEvent.setup()
+    await renderPage({ search: '?offset=20' })
+
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(screen.getAllByRole('row')).toHaveLength(1)
+    expect(summaryValue()).toHaveTextContent('15')
+    expect(screen.queryByText(copy.empty)).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
     await waitFor(() =>
       expect(getConsumer).toHaveBeenLastCalledWith(
         expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 10, limit: 10 })

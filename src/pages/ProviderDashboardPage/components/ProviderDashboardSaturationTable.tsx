@@ -180,7 +180,7 @@ export function ProviderDashboardSaturationTable({
     )
   }
 
-  const isEmpty = !isLoading && saturationItems.length === 0
+  const isEmpty = !isLoading && saturationItems.length === 0 && !pagination?.count
   const ariaLabel =
     tableAriaLabel ??
     (dashboard ? tDashboard('columns.eservice') : t('headlabels.eserviceAndVersion'))

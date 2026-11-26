@@ -345,6 +345,29 @@ describe('ProviderDashboardConsumerList', () => {
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
   })
 
+  it('keeps pagination available when the current consumer page is out of range', async () => {
+    const user = userEvent.setup()
+    getConsumers.mockImplementation(async ({ offset, limit }) => ({
+      totalConsumers: 15,
+      results: offset >= 15 ? [] : consumers.slice(offset, Math.min(offset + limit, 15)),
+      pagination: { offset, limit, totalCount: 15 },
+    }))
+    await renderPage('it', '?offset=20')
+
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(screen.queryByText(copy.empty)).not.toBeInTheDocument()
+    expect(getConsumers).toHaveBeenLastCalledWith(
+      expect.objectContaining({ offset: 20, limit: 10 })
+    )
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    await screen.findByText('Consumer 10')
+    expect(screen.getByText('Consumer 14')).toBeInTheDocument()
+    expect(getConsumers).toHaveBeenLastCalledWith(
+      expect.objectContaining({ offset: 10, limit: 10 })
+    )
+  })
+
   it('shows initial loading skeletons without a false zero result', async () => {
     getConsumers.mockImplementation(() => new Promise(() => undefined))
     const { container } = await renderPage()

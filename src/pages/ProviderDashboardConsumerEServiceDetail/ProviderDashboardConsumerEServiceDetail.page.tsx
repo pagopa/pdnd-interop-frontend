@@ -307,7 +307,7 @@ export default function ProviderDashboardConsumerEServiceDetail({
             }}
           />
           <Box aria-busy={isFetching}>
-            {data.results.length === 0 ? (
+            {data.pagination.totalCount === 0 ? (
               <EmptyTableState message={t('empty')} />
             ) : (
               <MITable

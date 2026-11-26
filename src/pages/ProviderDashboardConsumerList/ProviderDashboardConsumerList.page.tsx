@@ -129,7 +129,7 @@ export default function ProviderDashboardConsumerList() {
         </Alert>
       ) : (
         <Box aria-busy={isFetching}>
-          {!isPending && data?.results.length === 0 ? (
+          {!isPending && data?.pagination.totalCount === 0 ? (
             <EmptyTableState message={t('empty')} />
           ) : (
             <MITable

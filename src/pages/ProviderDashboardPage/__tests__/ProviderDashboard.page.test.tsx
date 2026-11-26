@@ -663,6 +663,24 @@ describe('ProviderDashboardPage loaded-empty presentation', () => {
     }
   )
 
+  it('keeps saturation pagination available when the current dashboard page is out of range', async () => {
+    const user = userEvent.setup()
+    vi.mocked(ProducerServices.getDashboardSaturation).mockImplementation(async (params) => ({
+      ...saturationResponse(params.offset >= 10 ? [] : [saturationRow(params.offset + 1)]),
+      pagination: { ...params, totalCount: 12 },
+    }))
+    await renderDashboard('it', true, '?offset=10')
+
+    const table = await getSectionTable('thresholds')
+    expect(getBodyRows(table)).toHaveLength(0)
+    expect(screen.queryByText(itPages.dashboard.sections.thresholds.empty)).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /page 2/i })).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /page 2/i }))
+    await screen.findByText('E-service 6')
+    expect(getBodyRows(await getSectionTable('thresholds'))).toHaveLength(1)
+  })
+
   it.each(['admin', 'api', 'support', 'security', 'viewer', 'reviewer', 'none'] as const)(
     'gates empty-state creation for %s without exposing normal card actions',
     async (role) => {
