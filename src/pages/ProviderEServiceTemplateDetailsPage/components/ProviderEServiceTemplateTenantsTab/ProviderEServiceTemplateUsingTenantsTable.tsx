@@ -14,7 +14,8 @@ import type {
 import { getTemplateVersionNumber } from '@/components/shared/EserviceTemplate/eserviceTemplate.utils'
 import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Filters, useFilters } from '@pagopa/interop-fe-commons'
+import { useFilters } from '@/hooks/useFilters'
+import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
 import { usePagination } from '@/hooks/usePagination'
 import { Link } from '@/router'
 import { formatHierarchyWithoutParentRoot, getRootTenantFromHierarchy } from '@/utils/tenant.utils'
@@ -36,7 +37,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t: tActions } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const { filtersParams, ...filtersHandlers } = useFilters<
+  const { filters, ...filtersHandlers } = useFilters<
     Omit<GetEServiceTemplateInstancesParams, 'limit' | 'offset'>
   >([
     { name: 'producerName', label: tTemplate('tenantField'), type: 'freetext' },
@@ -52,6 +53,11 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
       ],
     },
   ])
+
+  const filtersParams = {
+    producerName: filters.producerName || undefined,
+    states: filters.states?.length ? (filters.states as EServiceDescriptorState[]) : undefined,
+  } as Omit<GetEServiceTemplateInstancesParams, 'limit' | 'offset'>
 
   const queryParams = { ...paginationParams, ...filtersParams }
 
@@ -151,7 +157,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
       filtersParams.producerName === undefined && filtersParams.states === undefined
     return (
       <>
-        {!areFiltersEmpty && <Filters {...filtersHandlers} />}
+        {!areFiltersEmpty && <FiltersSection filters={filters} {...filtersHandlers} />}
         <NoItemResults>
           {areFiltersEmpty
             ? t('list.usingTenantTable.noDataLabel')
@@ -163,7 +169,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 
   return (
     <>
-      <Filters {...filtersHandlers} />
+      <FiltersSection filters={filters} results={totalCount} {...filtersHandlers} />
       <MITable
         columns={columns}
         rows={instances}
