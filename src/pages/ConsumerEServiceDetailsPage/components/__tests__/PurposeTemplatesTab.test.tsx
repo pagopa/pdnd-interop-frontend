@@ -56,7 +56,8 @@ describe('PurposeTemplatesTab', () => {
 
     expect(screen.getByText('title')).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'filters.name.label' })).toBeInTheDocument()
-    expect(screen.getAllByRole('combobox')).toHaveLength(2)
+    expect(screen.getAllByRole('combobox')).toHaveLength(1)
+    expect(screen.getByRole('button', { name: /trigger/ })).toBeInTheDocument()
     expect(mockedGetCatalogPurposeTemplates).toHaveBeenCalledWith(
       expect.objectContaining({ eserviceIds: ['eservice-id'] })
     )
