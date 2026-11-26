@@ -7,6 +7,7 @@ import type {
   GetProducerEServiceMonitoringArchivingParams,
   GetProducerEServiceMonitoringSaturationParams,
   GetProducerEServiceMonitoringConsumerPurposesParams,
+  GetProducerEServiceMonitoringArchivingAgreementsParams,
 } from '../api.generatedTypes'
 import { ProducerServices } from './producer.services'
 
@@ -60,6 +61,15 @@ function getEServiceMonitoringArchiving(params: GetProducerEServiceMonitoringArc
   })
 }
 
+function getProducerEServiceMonitoringArchivingAgreements(
+  params: GetProducerEServiceMonitoringArchivingAgreementsParams
+) {
+  return queryOptions({
+    queryKey: ['ProducerGetProducerEServiceMonitoringArchivingAgreements', params],
+    queryFn: () => ProducerServices.getProducerEServiceMonitoringArchivingAgreements(params),
+  })
+}
+
 function getEServiceMonitoringSaturation(params: GetProducerEServiceMonitoringSaturationParams) {
   return queryOptions({
     queryKey: ['ProducerGetEServiceMonitoringSaturation', params],
@@ -86,4 +96,5 @@ export const ProducerQueries = {
   getEServiceMonitoringArchiving,
   getEServiceMonitoringSaturation,
   getEServiceMonitoringConsumerPurposes,
+  getProducerEServiceMonitoringArchivingAgreements,
 }

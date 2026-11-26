@@ -1,17 +1,20 @@
 import type {
   GetProducerEServiceMonitoringArchivingParams,
+  GetProducerEServiceMonitoringArchivingAgreementsParams,
   GetProducerEServiceMonitoringConsumerPurposesParams,
   GetProducerEServiceMonitoringParams,
   GetProducerEServiceMonitoringSaturationParams,
   DateNameSortBy,
   MonitoringArchiving,
   ProducerEServiceMonitoring,
+  ProducerEServiceMonitoringArchivingAgreements,
   ProducerEServiceMonitoringConsumerPurposes,
   ProducerEServiceMonitoringSaturation,
   ProducerEServiceDescriptor,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   mockProducerDashboardConsumerEServices,
   mockProducerDashboardConsumers,
@@ -219,6 +222,73 @@ export function getMockProducerEServiceMonitoringArchiving({
   eserviceId,
 }: GetProducerEServiceMonitoringArchivingParams): MonitoringArchiving {
   return structuredClone(eserviceId === eservice.id ? archiving : { results: [] })
+}
+
+export async function loadMockProducerEServiceMonitoringArchivingAgreements({
+  eserviceId,
+  descriptorId: requestedDescriptorId,
+  offset,
+  limit,
+  q,
+  sortBy = 'DATE_DESC',
+}: GetProducerEServiceMonitoringArchivingAgreementsParams): Promise<ProducerEServiceMonitoringArchivingAgreements> {
+  const { results: versions } = await loadMockProducerEServiceMonitoringArchiving({ eserviceId })
+  const version = versions.find((item) => item.descriptorId === requestedDescriptorId)
+  if (!version || version.version === undefined) {
+    throw new NotFoundError('Mock monitoring archiving resource not found')
+  }
+
+  const fixture = eserviceId === eservice.id ? fixtures[requestedDescriptorId] : undefined
+  if (eserviceId === eservice.id && !fixture) {
+    throw new NotFoundError('Mock monitoring resource not found')
+  }
+  const consumers = fixture?.saturation.results ?? saturation.results
+  const query = q?.toLocaleLowerCase('it') ?? ''
+  const results = consumers
+    .map(({ consumer }, index) => ({
+      agreement: {
+        id: `${(index + 1).toString(16).padStart(8, '0')}${requestedDescriptorId.slice(8)}`,
+        state: 'ACTIVE' as const,
+      },
+      consumer,
+      submittedAt: new Date(Date.UTC(2026, 9, 1 + index)).toISOString(),
+    }))
+    .filter(({ consumer }) => consumer.name.toLocaleLowerCase('it').includes(query))
+
+  results.sort((a, b) => {
+    const nameComparison = a.consumer.name.localeCompare(b.consumer.name, 'it')
+    let comparison: number
+    switch (sortBy) {
+      case 'DATE_ASC':
+        comparison = a.submittedAt.localeCompare(b.submittedAt)
+        break
+      case 'NAME_ASC':
+        comparison = nameComparison
+        break
+      case 'NAME_DESC':
+        comparison = -nameComparison
+        break
+      default:
+        comparison = b.submittedAt.localeCompare(a.submittedAt)
+    }
+    return comparison || nameComparison || a.agreement.id.localeCompare(b.agreement.id)
+  })
+
+  return structuredClone({
+    eservice: version.eservice,
+    version: version.version,
+    archivableOn: formatDateStringNumeric(version.archivableOn),
+    otherVersions: versions.flatMap((item) =>
+      item.descriptorId && item.version !== undefined && item.descriptorId !== requestedDescriptorId
+        ? [{ descriptorId: item.descriptorId, version: item.version }]
+        : []
+    ),
+    results: results.slice(offset, offset + limit).map((item) => ({
+      ...item,
+      submittedAt: formatDateStringNumeric(item.submittedAt),
+    })),
+    pagination: { offset, limit, totalCount: results.length },
+  })
 }
 
 export function getMockProducerEServiceMonitoringSaturation(

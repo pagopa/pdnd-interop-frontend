@@ -87,6 +87,7 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
 import { ProviderSaturationRatePage } from '@/pages/ProviderSaturationRatePage'
+import { ProviderEServiceMonitoringArchivingVersionsConsumersPage } from '@/pages/ProviderEServiceMonitoringArchivingVersionsConsumersPage'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
@@ -235,6 +236,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_SATURATION_RATE',
     path: '/erogazione/panoramica/tasso-di-saturazione',
     element: <ProviderSaturationRatePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_MONITORING_ARCHIVING_VERSIONS_CONSUMERS',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/monitoraggio/versioni-in-archiviazione',
+    element: <ProviderEServiceMonitoringArchivingVersionsConsumersPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],

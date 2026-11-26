@@ -26,7 +26,9 @@
       "percentageAtDesc": "Percentuale (decrescente)",
       "percentageAtAsc": "Percentuale (crescente)",
       "nameAsc": "Nome e-service A-Z",
-      "nameDesc": "Nome e-service Z-A"
+      "nameDesc": "Nome e-service Z-A",
+      "dateAsc": "Dal meno recente",
+      "dateDesc": "Dal più recente"
     }
   }
 }

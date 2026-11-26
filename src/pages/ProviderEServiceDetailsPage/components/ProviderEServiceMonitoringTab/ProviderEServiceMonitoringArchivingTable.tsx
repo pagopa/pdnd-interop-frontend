@@ -7,6 +7,7 @@ import { ProducerQueries } from '@/api/producer'
 import type { MonitoringArchivingRow } from '@/api/api.generatedTypes'
 import { ArchivingDateCell } from '@/components/shared/ArchivingDateCell'
 import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
+import { useNavigate } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
 
 type ProviderEServiceMonitoringArchivingTableProps = {
@@ -18,6 +19,7 @@ export function ProviderEServiceMonitoringArchivingTable({
   eserviceId,
 }: Readonly<ProviderEServiceMonitoringArchivingTableProps>) {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.monitoring.archiving' })
+  const navigate = useNavigate()
   const { data, isPending, isError, isFetching, refetch } = useQuery(
     ProducerQueries.getEServiceMonitoringArchiving({ eserviceId })
   )
@@ -49,19 +51,29 @@ export function ProviderEServiceMonitoringArchivingTable({
       id: 'actions',
       header: t('columns.actions'),
       isAction: true,
-      // TODO: Link the chevron to the consumer list for the selected version.
-      renderCell: (row) => (
-        <MIIconButton
-          aria-label={
-            row.version
-              ? t('viewConsumersAriaLabel', { version: getVersionLabel(row) })
-              : t('viewConsumersUnnumberedAriaLabel')
-          }
-          disabled
-        >
-          <ChevronRightIcon />
-        </MIIconButton>
-      ),
+      renderCell: (row) => {
+        const descriptorId = row.descriptorId
+        return (
+          <MIIconButton
+            aria-label={
+              row.version
+                ? t('viewConsumersAriaLabel', { version: getVersionLabel(row) })
+                : t('viewConsumersUnnumberedAriaLabel')
+            }
+            disabled={!descriptorId}
+            onClick={
+              descriptorId
+                ? () =>
+                    navigate('PROVIDE_ESERVICE_MONITORING_ARCHIVING_VERSIONS_CONSUMERS', {
+                      params: { eserviceId, descriptorId },
+                    })
+                : undefined
+            }
+          >
+            <ChevronRightIcon />
+          </MIIconButton>
+        )
+      },
     },
   ]
 
