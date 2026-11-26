@@ -3,6 +3,7 @@ import type {
   DatepickerFilterFieldOptions,
   NumericFilterFieldOptions,
   SelectFilterFieldOptions,
+  TenantAutocompleteFilterFieldOptions,
   FilterField as TFilterField,
 } from '@/types/filters.types'
 import { match } from 'ts-pattern'
@@ -12,6 +13,7 @@ import {
   RHFNewSelect,
   RHFNewSwitch,
   RHFNewTextField,
+  RHFTenantAutoCompleteMultipleField,
 } from '../react-hook-form-inputs'
 import { RHFDatePicker } from '../react-hook-form-inputs/RHFDatePicker'
 import { theme } from '@pagopa/interop-fe-commons'
@@ -117,6 +119,23 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
           options={(field as AutocompleteFilterFieldOptions).options}
           onInputChange={(value) => {
             ;(field as AutocompleteFilterFieldOptions).onTextInputChange?.(value)
+          }}
+        />
+      )
+    })
+    .with('autocomplete-tenant-multiple', () => {
+      return (
+        <RHFTenantAutoCompleteMultipleField
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              backgroundColor: `${theme.palette.background.paper} !important`,
+            },
+          }}
+          name={field.name}
+          label={field.label}
+          options={(field as TenantAutocompleteFilterFieldOptions).options}
+          onInputChange={(value) => {
+            ;(field as TenantAutocompleteFilterFieldOptions).onTextInputChange?.(value)
           }}
         />
       )

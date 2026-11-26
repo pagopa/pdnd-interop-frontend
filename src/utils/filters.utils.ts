@@ -21,6 +21,9 @@ const getDefaultValue = (type: string) => {
     .with('autocomplete-multiple', () => {
       return []
     })
+    .with('autocomplete-tenant-multiple', () => {
+      return []
+    })
     .with('numeric', () => {
       return ''
     })

@@ -4,6 +4,7 @@ import type {
   TenantKind,
   TargetTenantKind,
   ParentTenant,
+  CompactTenant,
 } from '@/api/api.generatedTypes'
 
 export function isTenantCertifier(tenant: Tenant) {
@@ -41,7 +42,7 @@ export function formatTenantHierarchy(tenantName: string, parentTenants?: Parent
 }
 
 export function formatHierarchyWithoutParentRoot(
-  tenant: Tenant,
+  tenant: Tenant | CompactTenant,
   parentTenants?: ParentTenant[]
 ): string {
   /* Case root: gets the tenant name only */

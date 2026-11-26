@@ -11,6 +11,7 @@ const mocks = vi.hoisted(() => ({
   switchMock: vi.fn(),
   autoSingle: vi.fn(),
   autoMultiple: vi.fn(),
+  tenantAutoMultiple: vi.fn(),
   datePicker: vi.fn(),
 }))
 
@@ -34,6 +35,10 @@ vi.mock('../../react-hook-form-inputs', () => ({
   RHFNewAutocompleteMultiple: (props: unknown) => {
     mocks.autoMultiple(props)
     return <div data-testid="autocomplete-multiple" />
+  },
+  RHFTenantAutoCompleteMultipleField: (props: unknown) => {
+    mocks.tenantAutoMultiple(props)
+    return <div data-testid="autocomplete-tenant-multiple" />
   },
 }))
 
@@ -149,6 +154,33 @@ describe('FilterField', () => {
     expect(props).toMatchObject({ options, showSelectionCountOnly: true })
     props.onInputChange('xyz')
     expect(onTextInputChange).toHaveBeenCalledWith('xyz')
+  })
+
+  it('renders tenant autocomplete multiple and forwards correctly text input changes', () => {
+    const onTextInputChange = vi.fn()
+    const tenantOptions = [
+      {
+        id: 'tenant-id',
+        name: 'Comune di Milano',
+        logoUrl: 'https://example.test/logo.png',
+      },
+    ]
+
+    renderField({
+      type: 'autocomplete-tenant-multiple',
+      options: tenantOptions,
+      onTextInputChange,
+    })
+
+    expect(screen.getByTestId('autocomplete-tenant-multiple')).toBeInTheDocument()
+    const props = mocks.tenantAutoMultiple.mock.calls[0][0]
+    expect(props).toMatchObject({
+      name: 'f',
+      label: 'Label',
+      options: tenantOptions,
+    })
+    props.onInputChange('Milano')
+    expect(onTextInputChange).toHaveBeenCalledWith('Milano')
   })
 
   it('does not throw when onTextInputChange is missing', () => {
