@@ -15,6 +15,8 @@ import { catalogCardStyles, skeletonStyles } from '../style/eserviceCatalogCardS
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { commonTitleTextStyle, commonDescTextStyle } from '../style/commonStyle'
 import { EServiceCatalogCardActionButton } from './EServiceCatalogCardActionButton'
+import { useOptimisticSearchParams } from 'nuqs/adapters/react-router/v6'
+import { PARENT_QUERY_PARAMS_STATE_KEY } from '@/router'
 
 export const EServiceCatalogCard: React.FC<{
   eservice: CatalogEService
@@ -24,6 +26,8 @@ export const EServiceCatalogCard: React.FC<{
 }> = ({ eservice, disabled, prefetchFn, avatarUrl }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
+
+  const searchParams = useOptimisticSearchParams()
 
   return (
     <Card sx={{ ...catalogCardStyles.card, opacity: disabled ? 0.5 : 1 }}>
@@ -58,6 +62,7 @@ export const EServiceCatalogCard: React.FC<{
       <Box sx={{ minHeight: 6.5 }} />
       <CardActions sx={catalogCardStyles.actions}>
         <EServiceCatalogCardActionButton
+          state={{ [PARENT_QUERY_PARAMS_STATE_KEY]: searchParams.toString() }}
           prefetchFn={prefetchFn}
           disabled={disabled}
           to="SUBSCRIBE_CATALOG_VIEW"

@@ -1,5 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { Breadcrumbs as CommonBreadcrumbs, type RouteKey } from '@/router'
+import {
+  Breadcrumbs as CommonBreadcrumbs,
+  PARENT_QUERY_PARAMS_STATE_KEY,
+  type RouteKey,
+} from '@/router'
 import { useCurrentRoute } from '@/router/hooks/useCurrentRoute'
 import type sharedComponentsNs from '@/static/locales/en/shared-components.json'
 
@@ -82,5 +86,10 @@ export function Breadcrumbs() {
         : routeLabels.SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE,
   }
 
-  return <CommonBreadcrumbs routeLabels={labels} />
+  return (
+    <CommonBreadcrumbs
+      parentQueryParamsStateKey={PARENT_QUERY_PARAMS_STATE_KEY}
+      routeLabels={labels}
+    />
+  )
 }
