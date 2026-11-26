@@ -22,6 +22,10 @@ import {
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
 import { AuthHooks } from '@/api/auth'
 import { ProviderEServiceDelegatorArchivingAlert } from './components/ProviderEServiceDelegatorArchivingAlert'
+import {
+  PROVIDER_ESERVICE_MONITORING_TAB,
+  ProviderEServiceMonitoringTab,
+} from './components/ProviderEServiceMonitoringTab'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -30,7 +34,18 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
   const canViewKeychains = isAdmin || isSupport || isOperatorSecurity
-  const selectedTab = canViewKeychains ? activeTab : 'eserviceDetails'
+  // Monitoring is available to every role of this route (viewer included); keychains keep their
+  // existing role restriction. Unknown or unauthorized `?tab=` values fall back to the details.
+  const availableTabs = React.useMemo(
+    () => [
+      'eserviceDetails',
+      PROVIDER_ESERVICE_MONITORING_TAB,
+      ...(canViewKeychains ? ['keychains'] : []),
+    ],
+    [canViewKeychains]
+  )
+  const isActiveTabAvailable = availableTabs.includes(activeTab)
+  const selectedTab = isActiveTabAvailable ? activeTab : 'eserviceDetails'
   const { openDialog } = useDialog()
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -45,10 +60,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   React.useEffect(() => {
-    if (!canViewKeychains && activeTab === 'keychains') {
+    if (!isActiveTabAvailable) {
       updateActiveTab(null, 'eserviceDetails')
     }
-  }, [activeTab, canViewKeychains, updateActiveTab])
+  }, [isActiveTabAvailable, updateActiveTab])
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
@@ -151,26 +166,30 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
       {!isViewer && <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />}
-      {!isViewer ? (
-        <TabContext value={selectedTab}>
-          <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
-            <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
-            {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
-          </TabList>
+      <TabContext value={selectedTab}>
+        <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
+          <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
+          {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
+          <Tab label={t('tabs.monitoring')} value={PROVIDER_ESERVICE_MONITORING_TAB} />
+        </TabList>
 
-          <TabPanel value="eserviceDetails">
-            <ProviderEserviceDetailsTab />
+        <TabPanel value="eserviceDetails">
+          <ProviderEserviceDetailsTab />
+        </TabPanel>
+
+        {canViewKeychains && (
+          <TabPanel value="keychains">
+            <ProviderEserviceKeychainsTab />
           </TabPanel>
+        )}
 
-          {canViewKeychains && (
-            <TabPanel value="keychains">
-              <ProviderEserviceKeychainsTab />
-            </TabPanel>
-          )}
-        </TabContext>
-      ) : (
-        <ProviderEserviceDetailsTab />
-      )}
+        <TabPanel value={PROVIDER_ESERVICE_MONITORING_TAB}>
+          <ProviderEServiceMonitoringTab
+            eserviceName={descriptor?.eservice.name}
+            dailyCallsPerConsumer={descriptor?.dailyCallsPerConsumer}
+          />
+        </TabPanel>
+      </TabContext>
       {descriptor && (
         <EServiceVersionSelectorDrawer
           isOpen={isVersionSelectorDrawerOpen}

@@ -280,6 +280,29 @@ describe('CardDashboard', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
 
+  it.each([
+    ['it-IT', 2000, '2000'],
+    ['en-US', 2000, '2,000'],
+    ['it-IT', 0, '0'],
+  ] as const)('keeps a secondary metric in %s', (locale, value, formatted) => {
+    renderCard({
+      heading: 'Purposes',
+      locale,
+      content: {
+        kind: 'empty',
+        message: 'No purposes to approve',
+        icon: 'success',
+        secondaryMetric: { heading: 'Threshold per consumer', value, label: 'API calls/day' },
+      },
+    })
+    expect(screen.getByText('No purposes to approve')).toBeVisible()
+    expect(screen.getByText('Threshold per consumer')).toBeVisible()
+    expect(screen.getByText(formatted)).toBeVisible()
+    expect(screen.getByText('API calls/day')).toBeVisible()
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+  })
+
   it('renders a contained primary action with a start Add icon and click handler', async () => {
     const user = userEvent.setup()
     const onClick = vi.fn()
@@ -325,6 +348,61 @@ describe('CardDashboard', () => {
     expect(button.querySelector('.MuiButton-startIcon')).not.toBeInTheDocument()
     await user.click(button)
     expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it.each(['primary', 'link'] as const)(
+    'renders a disabled %s action described by its visible reason',
+    async (type) => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      renderCard({
+        heading: 'Finalità',
+        content: { kind: 'metric', metric: { value: 4, label: 'finalità' } },
+        action: {
+          type,
+          text: 'Vedi finalità',
+          action: onClick,
+          disabled: true,
+          disabledReason: 'Destinazione non disponibile.',
+        },
+      })
+
+      const button = screen.getByRole('button', { name: 'Vedi finalità' })
+      expect(button).toBeDisabled()
+      expect(button).toHaveAccessibleDescription('Destinazione non disponibile.')
+      expect(screen.getByText('Destinazione non disponibile.')).toBeVisible()
+      await user.click(button).catch(() => undefined)
+      expect(onClick).not.toHaveBeenCalled()
+    }
+  )
+
+  it('does not describe an enabled action', () => {
+    renderCard({
+      heading: 'Accordi',
+      content: { kind: 'metric', metric: { value: 1, label: 'richieste' } },
+      action: { type: 'link', text: 'Vedi richieste', disabledReason: 'ignorata' },
+    })
+
+    const button = screen.getByRole('button', { name: 'Vedi richieste' })
+    expect(button).toBeEnabled()
+    expect(button).not.toHaveAttribute('aria-describedby')
+    expect(screen.queryByText('ignorata')).not.toBeInTheDocument()
+  })
+
+  it('prefers the backend percentage over the used / limit ratio', () => {
+    renderCard({
+      heading: 'Consumi',
+      content: {
+        kind: 'consumption',
+        used: 38500,
+        limit: 50000,
+        percentage: 120,
+        unitLabel: 'Chiamate',
+      },
+    })
+
+    expect(screen.getByText('120%')).toBeVisible()
+    expect(screen.getByText('38.500 / 50.000')).toBeVisible()
   })
 
   it.each(['primary', 'link'] as const)(

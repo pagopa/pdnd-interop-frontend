@@ -5,7 +5,7 @@ import { createInstance } from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
-import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { NuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type * as LayoutContainers from '@/components/layout/containers'
@@ -71,6 +71,11 @@ const resultCount = (count: number) =>
   )
 const summaryValue = (label: string = copy.summary) => screen.getByText(label).nextElementSibling
 
+const VersionDestination = () => {
+  const { pathname, search } = useLocation()
+  return <p>{`Version destination ${pathname}${search}`}</p>
+}
+
 const GoToConsumer = ({ consumerId }: { consumerId: string }) => {
   const navigate = useNavigate()
   return <button onClick={() => navigate(`/fruitori/${consumerId}`)}>switch consumer</button>
@@ -108,8 +113,8 @@ const renderPage = async ({
                   }
                 />
                 <Route
-                  path="/:language/erogazione/e-service/:eserviceId/:descriptorId"
-                  element={<p>Version destination</p>}
+                  path="/:language/erogazione/panoramica/fruitori/:consumerId/e-service/:eserviceId/:descriptorId"
+                  element={<VersionDestination />}
                 />
               </Routes>
             </NuqsTestingAdapter>
@@ -174,7 +179,7 @@ describe('ProviderDashboardConsumerDetail', () => {
       })
       expect(eserviceLink).toHaveAttribute(
         'href',
-        `/${language}/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
+        `/${language}/erogazione/panoramica/fruitori/${LOMBARDIA_ID}/e-service/${first.eservice.id}/${first.descriptorId}`
       )
       expect(eserviceLink).toHaveClass('MuiIconButton-colorInherit')
       expect(eserviceLink).not.toHaveClass('MuiIconButton-colorPrimary')
@@ -201,11 +206,21 @@ describe('ProviderDashboardConsumerDetail', () => {
   it('opens the version link using the keyboard', async () => {
     const user = userEvent.setup()
     await renderPage()
-    const link = (await screen.findAllByRole('link', { name: /^Vedi e-service /i }))[0]
+    const link = (
+      await screen.findAllByRole('link', {
+        name: /^Vedi consumi previsti e finalità per l'e-service /i,
+      })
+    )[0]
     link.focus()
     expect(link).toHaveFocus()
     await user.keyboard('{Enter}')
-    expect(await screen.findByText('Version destination')).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        new RegExp(
+          `^Version destination /it/erogazione/panoramica/fruitori/${LOMBARDIA_ID}/e-service/[^/]+/[^/?]+$`
+        )
+      )
+    ).toBeInTheDocument()
   })
 
   it('shows loading skeletons without a false zero or a stale title', async () => {
@@ -233,8 +248,8 @@ describe('ProviderDashboardConsumerDetail', () => {
     }))
     try {
       const user = userEvent.setup()
-      await renderPage({ search: '?offset=10&q=isee' })
-      const group = await screen.findByRole('group', { name: 'Regione Lombardia' })
+      await renderPage({ search: '?q=missing' })
+      await screen.findByText(copy.empty)
       await user.click(screen.getByRole('button', { name: itFilters.remove }))
       await waitFor(() =>
         expect(getConsumer).toHaveBeenLastCalledWith(
@@ -247,6 +262,7 @@ describe('ProviderDashboardConsumerDetail', () => {
         limit: 10,
         sortBy: 'NAME_ASC',
       }).results[0]
+      const group = await screen.findByRole('group', { name: 'Regione Lombardia' })
       const row = (await within(group).findByText(first.eservice.name)).closest(
         'dl'
       )!.parentElement!
@@ -265,7 +281,7 @@ describe('ProviderDashboardConsumerDetail', () => {
         })
       ).toHaveAttribute(
         'href',
-        `/it/erogazione/e-service/${first.eservice.id}/${first.descriptorId}`
+        `/it/erogazione/panoramica/fruitori/${LOMBARDIA_ID}/e-service/${first.eservice.id}/${first.descriptorId}`
       )
       expect(group).toHaveAttribute('aria-busy', 'false')
       expect(screen.getByRole('textbox', { name: copy.searchPlaceholder })).toHaveValue('')
@@ -336,12 +352,38 @@ describe('ProviderDashboardConsumerDetail', () => {
     await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(6))
   })
 
+  it('keeps pagination available when the current page is empty but results remain on previous pages', async () => {
+    const user = userEvent.setup()
+    await renderPage({ search: '?offset=20' })
+
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(screen.getAllByRole('row')).toHaveLength(1)
+    expect(summaryValue()).toHaveTextContent('15')
+    expect(screen.queryByText(copy.empty)).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /previous page/i }))
+    await waitFor(() =>
+      expect(getConsumer).toHaveBeenLastCalledWith(
+        expect.objectContaining({ consumerId: LOMBARDIA_ID, offset: 10, limit: 10 })
+      )
+    )
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(6))
+  })
+
   it('shows the empty table label when the search has no matches', async () => {
+    const user = userEvent.setup()
     await renderPage({ search: '?q=missing' })
-    await screen.findByText(copy.empty)
+    const message = await screen.findByText(copy.empty)
+    expect(message.closest('[role="status"]')).toContainElement(
+      screen.getByTestId('ErrorOutlineIcon')
+    )
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    expect(screen.queryByRole('columnheader')).not.toBeInTheDocument()
     expect(summaryValue()).toHaveTextContent('15')
     expect(resultCount(0)).toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: itFilters.remove }))
+    expect(await screen.findByRole('table')).toBeInTheDocument()
   })
 
   it('preserves previous rows only while the same consumer next page is loading', async () => {

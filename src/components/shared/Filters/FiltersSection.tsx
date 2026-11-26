@@ -28,6 +28,7 @@ type FiltersSectionProps = {
   results?: number
   showResults?: boolean
   submitButtonVariant?: 'text' | 'contained' | 'outlined'
+  additionalFiltersLayout?: 'default' | 'compact'
 }
 
 export const FiltersSection: React.FC<FiltersSectionProps> = ({
@@ -40,6 +41,7 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
   results,
   showResults = true,
   submitButtonVariant,
+  additionalFiltersLayout,
 }) => {
   const { t } = useTranslation('filters')
 
@@ -69,6 +71,7 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
             <Stack direction={'row'} gap={3} alignItems={'center'}>
               {additionals && additionals.length > 0 && (
                 <AdditionalFilters
+                  layout={additionalFiltersLayout}
                   fields={additionals}
                   filters={filters}
                   onChangeActiveFilters={onChangeActiveFilters}

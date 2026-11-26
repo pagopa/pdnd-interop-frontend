@@ -153,4 +153,66 @@ describe('StatusChip', () => {
     const { baseElement } = render(<StatusChip for="eservice" state="DEPRECATED" />)
     expect(baseElement).toHaveTextContent('status.eservice.DEPRECATED')
   })
+
+  describe('purposeState', () => {
+    it('renders the plain purpose state label when not suspended', () => {
+      renderWithApplicationContext(<StatusChip for="purposeState" state="ACTIVE" />, {})
+      expect(screen.getByText('status.purpose.ACTIVE')).toBeInTheDocument()
+    })
+
+    it('ignores suspension flags when the state is not SUSPENDED', () => {
+      renderWithApplicationContext(
+        <StatusChip for="purposeState" state="ACTIVE" suspendedByConsumer suspendedByProducer />,
+        {}
+      )
+      expect(screen.getByText('status.purpose.ACTIVE')).toBeInTheDocument()
+      expect(
+        screen.queryByText('status.agreement.frontendStatus.suspendedByProducer')
+      ).not.toBeInTheDocument()
+    })
+
+    it('falls back to the purpose label when SUSPENDED without reasons', () => {
+      renderWithApplicationContext(<StatusChip for="purposeState" state="SUSPENDED" />, {})
+      expect(screen.getByText('status.purpose.SUSPENDED')).toBeInTheDocument()
+    })
+
+    it('renders only the producer chip when suspended by producer', () => {
+      renderWithApplicationContext(
+        <StatusChip for="purposeState" state="SUSPENDED" suspendedByProducer />,
+        {}
+      )
+      expect(
+        screen.getByText('status.agreement.frontendStatus.suspendedByProducer')
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText('status.agreement.frontendStatus.suspendedByConsumer')
+      ).not.toBeInTheDocument()
+      expect(screen.queryByText('status.purpose.SUSPENDED')).not.toBeInTheDocument()
+    })
+
+    it('renders only the consumer chip when suspended by consumer', () => {
+      renderWithApplicationContext(
+        <StatusChip for="purposeState" state="SUSPENDED" suspendedByConsumer />,
+        {}
+      )
+      expect(
+        screen.getByText('status.agreement.frontendStatus.suspendedByConsumer')
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText('status.agreement.frontendStatus.suspendedByProducer')
+      ).not.toBeInTheDocument()
+    })
+
+    it('renders both chips, producer first, when suspended by both', () => {
+      renderWithApplicationContext(
+        <StatusChip for="purposeState" state="SUSPENDED" suspendedByConsumer suspendedByProducer />,
+        {}
+      )
+      const chips = screen.getAllByText(/status\.agreement\.frontendStatus\./)
+      expect(chips.map((c) => c.textContent)).toEqual([
+        'status.agreement.frontendStatus.suspendedByProducer',
+        'status.agreement.frontendStatus.suspendedByConsumer',
+      ])
+    })
+  })
 })

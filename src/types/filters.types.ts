@@ -92,6 +92,8 @@ export type AutocompleteFilterFieldOptions<TName extends string = string> =
 
 export type SelectFilterFieldOptions<TName extends string = string> = FilterFieldCommon<TName> & {
   type: 'select-multiple' | 'select-single'
+  /** Opt in to checkbox options and a select-all action for a multiple select. */
+  selectAllLabel?: string
   /**
    * The options of the select filter.
    * The values must be unique.

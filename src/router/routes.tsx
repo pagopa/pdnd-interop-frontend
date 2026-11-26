@@ -8,6 +8,7 @@ import {
   ProviderDashboardPage,
   ProviderDashboardConsumerList,
   ProviderDashboardConsumerDetail,
+  ProviderDashboardConsumerEServiceDetail,
   ProviderEServiceListPage,
   ProviderAgreementsListPage,
   ConsumerAgreementsListPage,
@@ -181,6 +182,15 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
+    // Monitoring-origin alias: nested under PROVIDE_ESERVICE_MANAGE so breadcrumbs derive from the URL.
+    key: 'PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/monitoraggio/fruitori/:consumerId',
+    element: <ProviderDashboardConsumerEServiceDetail origin="monitoring" />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
     key: 'PROVIDE_DASHBOARD',
     path: '/erogazione/panoramica',
     element: <ProviderDashboardPage />,
@@ -208,6 +218,15 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_DASHBOARD_CONSUMER_DETAIL',
     path: '/erogazione/panoramica/fruitori/:consumerId',
     element: <ProviderDashboardConsumerDetail />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+  })
+  .addRoute({
+    // Dashboard-origin alias: nested under PROVIDE_DASHBOARD_CONSUMER_DETAIL so breadcrumbs derive from the URL.
+    key: 'PROVIDE_DASHBOARD_CONSUMER_ESERVICE_DETAIL',
+    path: '/erogazione/panoramica/fruitori/:consumerId/e-service/:eserviceId/:descriptorId',
+    element: <ProviderDashboardConsumerEServiceDetail origin="dashboard" />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security', 'viewer'],

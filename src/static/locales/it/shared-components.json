@@ -620,6 +620,8 @@
     "PROVIDE_DASHBOARD_CONSUMER_DETAIL": "Dettaglio fruitore",
     "PROVIDE_DASHBOARD_CONSUMER_DETAIL_LEGACY": "Dettaglio fruitore",
     "PROVIDE_SATURATION_RATE": "Consumi previsti",
+    "PROVIDE_DASHBOARD_CONSUMER_ESERVICE_DETAIL": "Consumi previsti e finalità",
+    "PROVIDE_ESERVICE_MONITORING_CONSUMER_DETAIL": "Consumi previsti e finalità",
     "PROVIDE_ESERVICE_LIST": "I miei e-service",
     "PROVIDE_AGREEMENT_READ": "Gestisci richiesta",
     "PROVIDE_AGREEMENT_LIST": "Richieste ricevute",

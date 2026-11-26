@@ -1,0 +1,358 @@
+import React from 'react'
+import ArrowForward from '@mui/icons-material/ArrowForward'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
+import { Alert, AlertTitle, Box, Button, IconButton, Skeleton, Typography } from '@mui/material'
+import { MIButton, MITable, type MITableColumn } from '@pagopa/mui-italia'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import { Link as RouterLink } from 'react-router-dom'
+import { AuthHooks } from '@/api/auth'
+import { ProducerQueries } from '@/api/producer'
+import type {
+  DateNameSortBy,
+  GetProducerEServiceMonitoringConsumerPurposesParams,
+  ProducerEServiceMonitoringConsumerPurposesItem,
+  PurposeVersionState,
+} from '@/api/api.generatedTypes'
+import { PageContainer } from '@/components/layout/containers'
+import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
+import { EmptyTableState } from '@/components/shared/EmptyTableState/EmptyTableState'
+import { StatusChip } from '@/components/shared/StatusChip'
+import { useFilters } from '@/hooks/useFilters'
+import { usePagination } from '@/hooks/usePagination'
+import { useSorting } from '@/hooks/useSorting'
+import type { FilterFieldsValues } from '@/types/filters.types'
+import { routes, useGeneratePath, useParams, type RouteKey } from '@/router'
+import { formatDateStringNumeric, formatThousands } from '@/utils/format.utils'
+import { ConsumerEServiceSummary } from './components/ConsumerEServiceSummary'
+import {
+  buildWaitingPurposesListSearch,
+  PURPOSE_STATE_FILTER_OPTIONS,
+  PURPOSES_DEFAULT_SORT,
+  PURPOSES_SORT_OPTIONS,
+  ROUTE_KEY_BY_ORIGIN,
+  type ConsumerEServiceDetailOrigin,
+} from './consumerEServiceDetail.utils'
+
+type Identity = Pick<
+  GetProducerEServiceMonitoringConsumerPurposesParams,
+  'eserviceId' | 'descriptorId' | 'consumerId'
+>
+
+const isSameIdentity = (a: Partial<Identity> | undefined, b: Identity) =>
+  a?.eserviceId === b.eserviceId &&
+  a?.descriptorId === b.descriptorId &&
+  a?.consumerId === b.consumerId
+
+type ProviderDashboardConsumerEServiceDetailProps = {
+  origin: ConsumerEServiceDetailOrigin
+}
+
+/**
+ * Projected consumption and purposes of one consumer for one e-service version.
+ * Reached from the dashboard consumer detail or from the e-service monitoring tab: each entry point
+ * has its own route alias so breadcrumbs are derived from the URL and survive refresh/sharing.
+ */
+export default function ProviderDashboardConsumerEServiceDetail({
+  origin,
+}: Readonly<ProviderDashboardConsumerEServiceDetailProps>) {
+  const { t } = useTranslation('pages', { keyPrefix: 'providerDashboardConsumerEServiceDetail' })
+  const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list.filters.statusField' })
+  const routeKey = ROUTE_KEY_BY_ORIGIN[origin]
+  const { eserviceId, descriptorId, consumerId } = useParams<typeof routeKey>()
+  const identity: Identity = { eserviceId, descriptorId, consumerId }
+  const generatePath = useGeneratePath()
+  const { currentRoles } = AuthHooks.useJwt()
+
+  const canAccess = (key: RouteKey) =>
+    routes[key].authLevels.some((role) => currentRoles.includes(role))
+  const canViewPurposeDetails = canAccess('PROVIDE_PURPOSE_DETAILS')
+  const canViewPurposeList = canAccess('PROVIDE_PURPOSE_LIST')
+
+  const filtersHandlers = useFilters<{ q: string; states: string[]; includeArchived: boolean }>(
+    [{ name: 'q', label: t('searchPlaceholder'), type: 'freetext' }],
+    [
+      {
+        title: t('filters.title'),
+        fields: [
+          {
+            name: 'states',
+            label: t('filters.states'),
+            type: 'select-multiple',
+            selectAllLabel: t('filters.selectAll'),
+            options: PURPOSE_STATE_FILTER_OPTIONS.map((value) => ({
+              value,
+              label: t(`filters.stateOptions.${value}`),
+            })),
+          },
+          {
+            name: 'includeArchived',
+            label: t('filters.includeArchived'),
+            type: 'boolean',
+          },
+        ],
+      },
+    ]
+  )
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const sorting = useSorting(
+    PURPOSES_SORT_OPTIONS.map((value) => ({ value, label: t(`sorting.${value}`) })),
+    PURPOSES_DEFAULT_SORT
+  )
+
+  const states = (filtersHandlers.filters.states ?? []).filter(
+    (state): state is PurposeVersionState =>
+      (PURPOSE_STATE_FILTER_OPTIONS as string[]).includes(state)
+  )
+
+  const { data, isPending, isFetching, isError, refetch } = useQuery({
+    ...ProducerQueries.getEServiceMonitoringConsumerPurposes({
+      ...identity,
+      ...paginationParams,
+      q: filtersHandlers.filters.q || undefined,
+      sortBy: sorting.sortBy as DateNameSortBy,
+      states: states.length > 0 ? states : undefined,
+      includeArchived: filtersHandlers.filters.includeArchived ?? false,
+    }),
+    throwOnError: false,
+    // Keep rows only while paging/filtering the same consumer/e-service version.
+    placeholderData: (previous, previousQuery) =>
+      isSameIdentity(previousQuery?.queryKey[1] as Partial<Identity> | undefined, identity)
+        ? previous
+        : undefined,
+  })
+
+  const consumer = isError ? undefined : data?.consumer
+  const isNoRelationship = !isError && Boolean(data) && !data?.consumer
+
+  const eserviceName = isError ? undefined : data?.eservice.name
+  const title = (origin === 'dashboard' ? eserviceName : consumer?.name) ?? t('fallbackTitle')
+
+  const breadcrumbRouteLabelOverrides: Partial<Record<RouteKey, string | false>> = {
+    ...(origin === 'dashboard'
+      ? {
+          // Erogazione > Panoramica > Lista fruitori > {consumer} > {e-service}. Until the consumer
+          // is known (loading/error/no relationship) the parent keeps its generic route label.
+          ...(consumer && { PROVIDE_DASHBOARD_CONSUMER_DETAIL: consumer.name }),
+          ...(eserviceName && { [routeKey]: eserviceName }),
+        }
+      : {
+          PROVIDE_ESERVICE_MANAGE: false,
+          ...(consumer && { [routeKey]: consumer.name }),
+        }),
+  }
+
+  const getVersionPath = (otherDescriptorId: string) =>
+    generatePath(routeKey, { ...identity, descriptorId: otherDescriptorId })
+
+  const columns: MITableColumn<ProducerEServiceMonitoringConsumerPurposesItem>[] = [
+    {
+      id: 'title',
+      header: t('columns.title'),
+      renderCell: (row) => (
+        <Typography component="span" variant="body2" fontWeight={600}>
+          {row.title}
+        </Typography>
+      ),
+    },
+    {
+      id: 'dailyCalls',
+      header: t('columns.dailyCalls'),
+      renderCell: (row) => formatThousands(row.dailyCalls),
+    },
+    {
+      id: 'state',
+      header: t('columns.state'),
+      renderCell: (row) => (
+        <StatusChip
+          for="purposeState"
+          state={row.state}
+          suspendedByConsumer={row.suspendedByConsumer}
+          suspendedByProducer={row.suspendedByProducer}
+        />
+      ),
+    },
+    {
+      id: 'updatedAt',
+      header: t('columns.updatedAt'),
+      renderCell: (row) => formatDateStringNumeric(row.updatedAt),
+    },
+    {
+      id: 'actions',
+      header: t('columns.actions'),
+      isAction: true,
+      renderCell: (row) =>
+        canViewPurposeDetails ? (
+          <IconButton
+            component={RouterLink}
+            color="inherit"
+            to={generatePath('PROVIDE_PURPOSE_DETAILS', { purposeId: row.purposeId })}
+            aria-label={t('goToPurpose', { title: row.title })}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        ) : null,
+    },
+  ]
+
+  const exportAction = (
+    // Never shrink/wrap the action and keep it right-aligned even when it is the only header item
+    // (no title while loading); the title is the flexible item and wraps instead.
+    <Box sx={{ ml: 'auto', flexShrink: 0, whiteSpace: 'nowrap' }}>
+      {/* TODO: Implement export for the consumer's purposes. */}
+      <MIButton
+        type="button"
+        variant="outlined"
+        size="small"
+        color="primary"
+        startIcon={<FileDownloadOutlinedIcon />}
+        disabled
+      >
+        {t('export')}
+      </MIButton>
+    </Box>
+  )
+
+  const renderBody = () => {
+    if (isError) {
+      return (
+        <Alert
+          severity="error"
+          sx={{ mt: 3 }}
+          action={
+            <Button color="inherit" size="small" onClick={() => refetch()} disabled={isFetching}>
+              {t('retry')}
+            </Button>
+          }
+        >
+          {t('loadError')}
+        </Alert>
+      )
+    }
+
+    if (isPending || !data) {
+      return (
+        <Box role="status" aria-busy="true" sx={{ mt: 3 }}>
+          <Skeleton width="60%" />
+          <Skeleton width="40%" />
+          <Skeleton width="50%" />
+          <Skeleton variant="rectangular" height={240} sx={{ mt: 4 }} />
+        </Box>
+      )
+    }
+
+    if (isNoRelationship || !consumer) {
+      return (
+        <Alert severity="info" sx={{ mt: 3 }}>
+          {t('noRelationship')}
+        </Alert>
+      )
+    }
+
+    return (
+      <>
+        <ConsumerEServiceSummary
+          data={data}
+          consumerName={consumer.name}
+          origin={origin}
+          getVersionPath={getVersionPath}
+        />
+
+        {(data.waitingForApprovalPurposes ?? 0) > 0 && (
+          <Alert
+            severity="warning"
+            sx={{ mt: 4, alignItems: 'center' }}
+            action={
+              canViewPurposeList ? (
+                <Button
+                  component={RouterLink}
+                  to={`${generatePath('PROVIDE_PURPOSE_LIST')}?${buildWaitingPurposesListSearch({
+                    eservice: data.eservice,
+                    consumer,
+                    waitingForApprovalLabel: tPurpose('optionLabels.WAITING_FOR_APPROVAL'),
+                  })}`}
+                  variant="text"
+                  size="small"
+                  color="primary"
+                  endIcon={<ArrowForward />}
+                >
+                  {t('waitingApproval.action')}
+                </Button>
+              ) : undefined
+            }
+          >
+            <AlertTitle>{t('waitingApproval.title')}</AlertTitle>
+            {/* Only state that the threshold is exceeded when the approved estimate really exceeds it. */}
+            {data.approvedDailyCalls > data.dailyCallsPerConsumer
+              ? t('waitingApproval.descriptionThresholdExceeded')
+              : t('waitingApproval.description')}
+          </Alert>
+        )}
+
+        <Box sx={{ mt: 4 }}>
+          <FiltersSection
+            {...filtersHandlers}
+            // `select-multiple` values are string[] at runtime; the shared value type predates them.
+            filters={filtersHandlers.filters as FilterFieldsValues}
+            results={data.pagination.totalCount}
+            submitButtonVariant="outlined"
+            additionalFiltersLayout="compact"
+            sorting={{
+              ...sorting,
+              onSortingChange: (value) => {
+                sorting.onSortingChange(value)
+                paginationProps.onPageChange(1)
+              },
+            }}
+          />
+          <Box aria-busy={isFetching}>
+            {data.pagination.totalCount === 0 ? (
+              <EmptyTableState message={t('empty')} />
+            ) : (
+              <MITable
+                columns={columns}
+                rows={data.results}
+                getRowId={(row) => row.purposeId}
+                desktopTableProps={{
+                  'aria-label': t('tableAriaLabel', { name: consumer.name }),
+                  'aria-busy': isFetching,
+                }}
+                mobileTableProps={{
+                  'aria-label': t('tableAriaLabel', { name: consumer.name }),
+                  'aria-busy': isFetching,
+                }}
+                pagination={
+                  data.pagination.totalCount > 0
+                    ? {
+                        page: paginationProps.page,
+                        itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+                        count: getTotalPageCount(data.pagination.totalCount),
+                        onChange: (_, page) => paginationProps.onPageChange(page),
+                      }
+                    : undefined
+                }
+              />
+            )}
+          </Box>
+        </Box>
+      </>
+    )
+  }
+
+  return (
+    // `isLoading` is intentionally not forwarded: PageContainer would replace the whole intro
+    // (subtitle and export action included) with a skeleton. Only the title depends on the data,
+    // so it is omitted while pending (avoids a stale/fallback heading) and the body shows its own
+    // busy skeleton.
+    <PageContainer
+      dashboardFlow
+      title={isPending ? undefined : title}
+      description={t('description')}
+      titleAction={exportAction}
+      breadcrumbRouteLabelOverrides={breadcrumbRouteLabelOverrides}
+    >
+      {renderBody()}
+    </PageContainer>
+  )
+}

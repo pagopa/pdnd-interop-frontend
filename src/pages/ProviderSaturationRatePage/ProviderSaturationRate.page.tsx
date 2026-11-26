@@ -1,6 +1,6 @@
 import { PageContainer } from '@/components/layout/containers/PageContainer'
-import ProviderSaturationRateTable from './components/ProviderSaturationRateTable'
-import { InformationContainer, theme } from '@pagopa/interop-fe-commons'
+import { ProviderDashboardSaturationTable } from '@/pages/ProviderDashboardPage/components/ProviderDashboardSaturationTable'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import type { ProducerDashboardSaturation, SaturationSortBy } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
 import { useFilters } from '@/hooks/useFilters'
@@ -9,9 +9,7 @@ import type { MIPaginationProps } from '@pagopa/mui-italia'
 import { useSorting } from '@/hooks/useSorting'
 import { usePagination } from '@/hooks/usePagination'
 import { Stack } from '@mui/system'
-import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
-import { ErrorIcon } from '@/icons/ErrorIcon'
-import { Alert, Box, Button, Skeleton, Typography } from '@mui/material'
+import { Skeleton } from '@mui/material'
 import { MIButton } from '@pagopa/mui-italia'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -119,62 +117,15 @@ const ProviderSaturationRatePage: React.FC = () => {
         showResults={false}
         submitButtonVariant="outlined"
       />
-      {isError ? (
-        <Alert
-          severity="error"
-          action={
-            <Button color="inherit" size="small" onClick={() => refetch()} disabled={isFetching}>
-              {t('retry')}
-            </Button>
-          }
-        >
-          {t('loadError')}
-        </Alert>
-      ) : (
-        <Box
-          aria-busy={isFetching}
-          role={isPending ? 'status' : undefined}
-          aria-label={isPending ? t('loading') : undefined}
-        >
-          {!isPending && data?.results.length === 0 ? (
-            <ProviderSaturationRateEmptyState />
-          ) : (
-            <ProviderSaturationRateTable
-              saturationItems={data?.results ?? []}
-              pagination={tablePagination}
-              isLoading={isPending}
-              isFetching={isFetching}
-            />
-          )}
-        </Box>
-      )}
+      <ProviderDashboardSaturationTable
+        saturationItems={data?.results ?? []}
+        pagination={tablePagination}
+        isLoading={isPending}
+        isFetching={isFetching}
+        isError={isError}
+        onRetry={() => refetch()}
+      />
     </PageContainer>
-  )
-}
-
-const ProviderSaturationRateEmptyState: React.FC = () => {
-  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'table' })
-
-  return (
-    <NoItemResults padding={1} borderRadius={0}>
-      <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>
-        <ErrorIcon />
-        <Stack alignItems="center">
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              color: theme.colors.neutral.grey[650],
-            }}
-          >
-            {tShared('noResultsTitle')}
-          </Typography>
-          <Typography variant="caption" sx={{ color: theme.colors.neutral.grey[650] }}>
-            {tShared('noResultsDescription')}
-          </Typography>
-        </Stack>
-      </Stack>
-    </NoItemResults>
   )
 }
 

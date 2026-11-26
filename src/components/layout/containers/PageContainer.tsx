@@ -69,6 +69,9 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   )
 }
 
+/** Lets long titles wrap (even unbreakable words) instead of overflowing or squeezing `titleAction`. */
+const titleSx: SxProps = { minWidth: 0, overflowWrap: 'anywhere' }
+
 const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
   title,
   description,
@@ -80,12 +83,12 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
       <Box sx={{ flex: 1 }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
           {title && dashboardFlow ? (
-            <Typography component="h1" variant="h6">
+            <Typography component="h1" variant="h6" sx={titleSx}>
               {title}
             </Typography>
           ) : (
             title && (
-              <Typography component="h1" variant="h4">
+              <Typography component="h1" variant="h4" sx={titleSx}>
                 {title}
               </Typography>
             )
