@@ -2,7 +2,9 @@ import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
-import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
+import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import { useFilters } from '@/hooks/useFilters'
+import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
 import { usePagination } from '@/hooks/usePagination'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -47,7 +49,7 @@ const ConsumerPurposesListPage: React.FC = () => {
   })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
-  const { filtersParams, ...filtersHandlers } = useFilters<
+  const { filters, ...filtersHandlers } = useFilters<
     Omit<GetConsumerPurposesParams, 'limit' | 'offset'>
   >([
     { name: 'q', label: tPurpose('filters.nameField.label'), type: 'freetext' },
@@ -81,6 +83,13 @@ const ConsumerPurposesListPage: React.FC = () => {
       ],
     },
   ])
+
+  const filtersParams: Omit<GetConsumerPurposesParams, 'limit' | 'offset'> = {
+    q: filters.q || undefined,
+    eservicesIds: filters.eservicesIds?.length ? filters.eservicesIds : undefined,
+    producersIds: filters.producersIds?.length ? filters.producersIds : undefined,
+    states: filters.states?.length ? filters.states : undefined,
+  }
 
   const params = {
     ...filtersParams,
@@ -131,7 +140,7 @@ const ConsumerPurposesListPage: React.FC = () => {
       description={t('description')}
       topSideActions={isAdmin ? topSideActions : undefined}
     >
-      <Filters {...filtersHandlers} />
+      <FiltersSection filters={filters} results={totalCount} {...filtersHandlers} />
       <ConsumerPurposesTable
         purposes={data?.results ?? []}
         isLoading={isLoading}
