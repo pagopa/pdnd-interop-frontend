@@ -37,7 +37,7 @@ export const DialogEditAgreement: React.FC<DialogEditAgreementProps> = ({
   }, [agreements, consumerId, navigate, closeDialog])
   return (
     <Dialog
-      aria-labelledby={ariaLabelId}
+      id={ariaLabelId}
       onClose={closeDialog}
       onCloseButtonClick={closeDialog}
       closeButtonAriaLabel={tCommon('closeBtn')}

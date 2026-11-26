@@ -39,7 +39,7 @@ export const DialogInspectAgreement: React.FC<DialogInspectAgreementProps> = ({
 
   return (
     <Dialog
-      aria-labelledby={ariaLabelId}
+      id={ariaLabelId}
       onClose={closeDialog}
       onCloseButtonClick={closeDialog}
       closeButtonAriaLabel={tCommon('closeBtn')}

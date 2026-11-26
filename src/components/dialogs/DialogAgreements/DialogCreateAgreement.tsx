@@ -133,7 +133,7 @@ export const DialogCreateAgreement: React.FC<DialogCreateAgreementProps> = ({ co
   ])
   return (
     <Dialog
-      aria-labelledby={ariaLabelId}
+      id={ariaLabelId}
       onClose={closeDialog}
       onCloseButtonClick={closeDialog}
       closeButtonAriaLabel={tCommon('closeBtn')}

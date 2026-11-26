@@ -1,3 +1,4 @@
+import React from 'react'
 import { AgreementMutations } from '@/api/agreement'
 import { useDialog } from '@/stores'
 import type { DialogConfirmCreateAgreementProps } from '@/types/dialog.types'
@@ -15,6 +16,8 @@ export const DialogConfirmCreateAgreement: React.FC<DialogConfirmCreateAgreement
   const { t } = useTranslation('eservice', {
     keyPrefix: 'consumer.detail.dialogs.agreements.subscribeConfirm',
   })
+
+  const ariaLabelId = React.useId()
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
 
@@ -61,6 +64,7 @@ export const DialogConfirmCreateAgreement: React.FC<DialogConfirmCreateAgreement
 
   return (
     <Dialog
+      id={ariaLabelId}
       onClose={closeDialog}
       onCloseButtonClick={closeDialog}
       closeButtonAriaLabel={tCommon('closeBtn')}

@@ -72,7 +72,7 @@ export const DialogConfirmUpdateAgreement: React.FC<DialogConfirmUpdateAgreement
   return (
     <FormProvider {...form}>
       <Dialog
-        aria-labelledby={ariaLabelId}
+        id={ariaLabelId}
         onClose={closeDialog}
         onCloseButtonClick={closeDialog}
         closeButtonAriaLabel={tCommon('closeBtn')}
