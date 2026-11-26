@@ -402,9 +402,9 @@ describe('ProviderEServiceMonitoringTab', () => {
       [1, currentRow, '1'],
     ] as const) {
       const button = within(row).getByRole('button', {
-        name: labels.archiving.viewConsumersAriaLabel.replace(
+        name: copy.archiving.viewConsumersAriaLabel.replace(
           '{{version}}',
-          labels.archiving.version.replace('{{version}}', version)
+          copy.archiving.version.replace('{{version}}', version)
         ),
       })
       expect(button).toBeEnabled()
