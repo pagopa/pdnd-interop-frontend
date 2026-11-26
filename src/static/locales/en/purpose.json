@@ -352,6 +352,8 @@
     "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the producer. Access the purpose for more details",
     "riskAnalysisApproved": "Risk analysis approved",
     "riskAnalysisRejected": "Risk analysis rejected",
+    "noResultsLabel": "No results found",
+    "tableLabel": "Submitted purposes",
     "filters": {
       "nameField": {
         "label": "Find by purpose name"

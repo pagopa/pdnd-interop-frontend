@@ -352,6 +352,8 @@
     "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
     "riskAnalysisApproved": "Analisi del rischio approvata",
     "riskAnalysisRejected": "Analisi del rischio rifiutata",
+    "noResultsLabel": "Nessun risultato trovato",
+    "tableLabel": "Finalità inoltrate",
     "filters": {
       "nameField": {
         "label": "Cerca per nome finalità"

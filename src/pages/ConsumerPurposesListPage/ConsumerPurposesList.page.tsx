@@ -2,16 +2,11 @@ import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
-import {
-  Filters,
-  Pagination,
-  useAutocompleteTextInput,
-  useFilters,
-  usePagination,
-} from '@pagopa/interop-fe-commons'
+import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
+import { usePagination } from '@/hooks/usePagination'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
+import { ConsumerPurposesTable } from './components'
 import type { GetConsumerPurposesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
@@ -51,8 +46,7 @@ const ConsumerPurposesListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
-    usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetConsumerPurposesParams, 'limit' | 'offset'>
   >([
@@ -123,12 +117,13 @@ const ConsumerPurposesListPage: React.FC = () => {
     },
   ]
 
-  const { data: totalPages = 0 } = useQuery({
+  const { data, isFetching } = useQuery({
     ...PurposeQueries.getConsumersList(params),
-    placeholderData: keepPreviousData,
     enabled: Boolean(jwt?.organizationId),
-    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
+
+  const isLoading = !data && isFetching
+  const totalCount = data?.pagination.totalCount ?? 0
 
   return (
     <PageContainer
@@ -137,26 +132,19 @@ const ConsumerPurposesListPage: React.FC = () => {
       topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
-      <PurposesTableWrapper params={params} />
-      <Pagination
-        {...paginationProps}
-        rowPerPageOptions={rowPerPageOptions}
-        totalPages={totalPages}
+      <ConsumerPurposesTable
+        purposes={data?.results ?? []}
+        isLoading={isLoading}
+        totalCount={totalCount}
+        pagination={{
+          page: paginationProps.page,
+          itemsPerPageOptions: paginationProps.itemsPerPageOptions,
+          count: getTotalPageCount(totalCount),
+          onChange: (_, page) => paginationProps.onPageChange(page),
+        }}
       />
     </PageContainer>
   )
-}
-
-const PurposesTableWrapper: React.FC<{ params: GetConsumerPurposesParams }> = ({ params }) => {
-  const { jwt } = AuthHooks.useJwt()
-
-  const { data, isFetching } = useQuery({
-    ...PurposeQueries.getConsumersList(params),
-    enabled: Boolean(jwt?.organizationId),
-  })
-
-  if (!data && isFetching) return <ConsumerPurposesTableSkeleton />
-  return <ConsumerPurposesTable purposes={data?.results ?? []} />
 }
 
 export default ConsumerPurposesListPage
