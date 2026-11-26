@@ -26,7 +26,6 @@ import type {
   DialogRevokeDelegationProps,
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
-  DialogSelectAgreementConsumerProps,
   DialogRequestPurposeApprovalProps,
   DialogRequestRiskAnalysisCompilationProps,
   DialogEditRiskAnalysisAssignmentProps,
@@ -44,6 +43,12 @@ import type {
   DialogBlockArchivingRequestProps,
   DialogDelegatorConfirmArchivingProps,
   DialogDelegatorRejectArchivingProps,
+  DialogCreateAgreementProps,
+  DialogEditAgreementProps,
+  DialogInspectAgreementProps,
+  DialogUpdateAgreementProps,
+  DialogConfirmUpdateAgreementProps,
+  DialogConfirmCreateAgreementProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -64,7 +69,6 @@ import { DialogRevokeDelegation } from './DialogRevokeDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
-import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
 import { DialogRequestPurposeApproval } from './DialogRequestPurposeApproval'
 import { DialogRequestRiskAnalysisCompilation } from './DialogRequestRiskAnalysisCompilation'
 import { DialogEditRiskAnalysisAssignment } from './DialogEditRiskAnalysisAssignment'
@@ -82,6 +86,12 @@ import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 import { DialogBlockArchivingRequest } from './DialogBlockArchivingRequest'
 import DialogDelegatorConfirmArchiving from './DialogDelegatorConfirmArchiving'
 import DialogDelegatorRejectArchiving from './DialogDelegatorRejectArchiving'
+import { DialogCreateAgreement } from './DialogAgreements/DialogCreateAgreement'
+import { DialogEditAgreement } from './DialogAgreements/DialogEditAgreement'
+import { DialogInspectAgreement } from './DialogAgreements/DialogInspectAgreement'
+import { DialogUpdateAgreement } from './DialogAgreements/DialogUpdateAgreement'
+import { DialogConfirmUpdateAgreement } from './DialogAgreements/DialogConfirmUpdateAgreement'
+import { DialogConfirmCreateAgreement } from './DialogAgreements/DialogConfirmCreateAgreement'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -105,7 +115,6 @@ function match<T>(
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
-  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
   onRequestPurposeApproval: (props: DialogRequestPurposeApprovalProps) => T,
   onRequestRiskAnalysisCompilation: (props: DialogRequestRiskAnalysisCompilationProps) => T,
   onEditRiskAnalysisAssignment: (props: DialogEditRiskAnalysisAssignmentProps) => T,
@@ -122,7 +131,13 @@ function match<T>(
   onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T,
   onBlockArchivingRequest: (props: DialogBlockArchivingRequestProps) => T,
   onDelegatorConfirmArchiving: (props: DialogDelegatorConfirmArchivingProps) => T,
-  onDelegatorRejectArchiving: (props: DialogDelegatorRejectArchivingProps) => T
+  onDelegatorRejectArchiving: (props: DialogDelegatorRejectArchivingProps) => T,
+  onCreateAgreement: (props: DialogCreateAgreementProps) => T,
+  onEditAgreement: (props: DialogEditAgreementProps) => T,
+  onInspectAgreement: (props: DialogInspectAgreementProps) => T,
+  onUpdateAgreement: (props: DialogUpdateAgreementProps) => T,
+  onConfirmUpdateAgreement: (props: DialogConfirmUpdateAgreementProps) => T,
+  onConfirmCreateAgreement: (props: DialogConfirmCreateAgreementProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -168,8 +183,6 @@ function match<T>(
         return onDialogTenantKindEserviceTemplate(props)
       case 'tenantKindPurposeTemplate':
         return onDialogTenantKindPurposeTemplate(props)
-      case 'selectAgreementConsumer':
-        return onSelectAgreementConsumer(props)
       case 'requestPurposeApproval':
         return onRequestPurposeApproval(props)
       case 'requestRiskAnalysisCompilation':
@@ -204,6 +217,18 @@ function match<T>(
         return onDelegatorConfirmArchiving(props)
       case 'delegatorRejectArchiving':
         return onDelegatorRejectArchiving(props)
+      case 'createAgreement':
+        return onCreateAgreement(props)
+      case 'editAgreement':
+        return onEditAgreement(props)
+      case 'inspectAgreement':
+        return onInspectAgreement(props)
+      case 'updateAgreement':
+        return onUpdateAgreement(props)
+      case 'confirmUpdateAgreement':
+        return onConfirmUpdateAgreement(props)
+      case 'confirmCreateAgreement':
+        return onConfirmCreateAgreement(props)
     }
   }
 }
@@ -230,7 +255,6 @@ const _Dialog = match(
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
-  (props) => <DialogSelectAgreementConsumer {...props} />,
   (props) => <DialogRequestPurposeApproval {...props} />,
   (props) => <DialogRequestRiskAnalysisCompilation {...props} />,
   (props) => <DialogEditRiskAnalysisAssignment {...props} />,
@@ -247,7 +271,13 @@ const _Dialog = match(
   (props) => <DialogCancelVersionArchiving {...props} />,
   () => <DialogBlockArchivingRequest />,
   (props) => <DialogDelegatorConfirmArchiving {...props} />,
-  (props) => <DialogDelegatorRejectArchiving {...props} />
+  (props) => <DialogDelegatorRejectArchiving {...props} />,
+  (props) => <DialogCreateAgreement {...props} />,
+  (props) => <DialogEditAgreement {...props} />,
+  (props) => <DialogInspectAgreement {...props} />,
+  (props) => <DialogUpdateAgreement {...props} />,
+  (props) => <DialogConfirmUpdateAgreement {...props} />,
+  (props) => <DialogConfirmCreateAgreement {...props} />
 )
 
 export const Dialog: React.FC = () => {

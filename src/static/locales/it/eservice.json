@@ -1,6 +1,90 @@
 {
   "consumer": {
     "detail": {
+      "actions": {
+        "version": {
+          "change": "Vedi ultima versione"
+        },
+        "agreements": {
+          "update": "Aggiorna a nuova versione",
+          "subscribe": "Richiedi fruizione",
+          "inspect": "Visualizza richiesta",
+          "edit": "Completa richiesta"
+        }
+      },
+      "dialogs": {
+        "agreements": {
+          "common": {
+            "fields": {
+              "consumer": {
+                "label": "Seleziona ente",
+                "placeholder": "Ente fruitore",
+                "error": "Seleziona un altro ente"
+              }
+            }
+          },
+          "subscribe": {
+            "title": "Richiedi fruizione dell’e-service",
+            "description": {
+              "base": "Seleziona il tuo ente o un ente da cui hai ricevuto una delega. L’ente deve possedere gli attributi certificati richiesti dall’e-service.",
+              "owned": "Seleziona l’ente per cui vuoi fare una richiesta di fruizione."
+            },
+            "alerts": {
+              "missingAttributes": "Il tuo ente non possiede gli attributi certificati richiesti dall’e-service. Puoi fare richiesta per un ente che ti ha delegato, se possiede gli attributi richiesti.",
+              "missingAttributesDelegated": "L’ente selezionato non possiede gli attributi certificati richiesti dall’e-service, seleziona un altro ente.",
+              "delegated": "L’ente selezionato possiede gli attributi certificati richiesti dall’e-service. Per l’approvazione saranno verificati anche gli altri requisiti di accesso.",
+              "owned": "Il tuo ente ha creato questo e-service: la richiesta di fruizione sarà approvata automaticamente, anche senza possedere gli attributi necessari.",
+              "ownedDelegated": "Stai facendo richiesta di fruizione del tuo e-service per un ente che ti ha delegato: per l’approvazione saranno considerati i suoi attributi. "
+            }
+          },
+          "update": {
+            "title": "Aggiorna richiesta di fruizione",
+            "description": "Seleziona l’ente per cui vuoi aggiornare la richiesta di fruizione.",
+            "actions": {
+              "confirm": "Aggiorna richiesta"
+            },
+            "alerts": {
+              "missingAttributes": "Il tuo ente non possiede gli attributi certificati richiesti dalla nuova versione dell’e-service. Puoi fare richiesta per un ente che ti ha delegato, se possiede gli attributi richiesti.",
+              "missingAttributesDelegated": "L’ente selezionato non possiede gli attributi certificati richiesti dalla nuova versione dell'e-service, seleziona un altro ente.",
+              "delegated": "L’ente selezionato possiede gli attributi certificati richiesti dalla nuova versione dell’e-service. Per l’approvazione saranno verificati anche gli altri requisiti di accesso."
+            }
+          },
+          "inspect": {
+            "title": "Visualizza richiesta di fruizione",
+            "description": "Seleziona l’ente per cui vuoi visualizzare la richiesta di fruizione.",
+            "actions": {
+              "confirm": "Visualizza richiesta"
+            }
+          },
+          "edit": {
+            "title": "Completa richiesta di fruizione",
+            "description": "Seleziona l’ente per cui vuoi completare una richiesta di fruizione."
+          },
+          "updateConfirm": {
+            "title": "Aggiornamento richiesta di fruizione",
+            "description": "È stata pubblicata una versione più recente dell’e-service <1>{{eservice}}, versione {{version}}</1>, erogata da {{producer}}.",
+            "paragraph": {
+              "title": "Cosa significa?",
+              "content": "Quando un erogatore pubblica una nuova versione di un e-service, ci sono variazioni rispetto alla precedente. Queste modifiche possono essere di natura amministrativa, tecnica, o entrambe. Hai dubbi? <1>Consulta la guida</1>."
+            },
+            "checkboxes": {
+              "title": "Cosa è consigliato di fare prima di aggiornare?",
+              "items": {
+                "check1": "Gli amministrativi hanno verificato l’aderenza ai requisiti (attributi) richiesti dall’erogatore.",
+                "check2": "I tecnici hanno verificato che la tua integrazione corrisponda all’API aggiornata dell’e-service.",
+                "check3": "I tecnici hanno testato l’integrazione con l’e-service aggiornato in ambiente di collaudo (se disponibile)."
+              }
+            }
+          },
+          "subscribeConfirm": {
+            "title": "Richiedi fruizione dell’e-service",
+            "description": {
+              "base": "Conferma per procedere con la richiesta di fruizione.",
+              "owned": "Il tuo ente ha creato questo e-service: la richiesta di fruizione sarà approvata automaticamente, anche senza possedere gli attributi necessari."
+            }
+          }
+        }
+      },
       "version": "Versione",
       "tabs": {
         "ariaLabel": "Quattro tabs differenti per la gestione dei dettagli dell’e-service",

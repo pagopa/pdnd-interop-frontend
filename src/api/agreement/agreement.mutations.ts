@@ -112,7 +112,7 @@ function useSubmitDraft(isDelegated = false) {
   })
 }
 
-function useSubmitToOwnEService() {
+function useSubmitToOwnEService(hasConfirmationDialog = true) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.submitToOwnEService',
   })
@@ -123,10 +123,12 @@ function useSubmitToOwnEService() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: hasConfirmationDialog
+        ? {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          }
+        : undefined,
     },
   })
 }

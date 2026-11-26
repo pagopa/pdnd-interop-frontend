@@ -6,11 +6,14 @@ import type {
   DelegationKind,
   TenantKind,
   TargetTenantKind,
-  CompactAgreement,
   CompactUser,
-  DelegationTenant,
   RiskAnalysisReviewMode,
+  CatalogEServiceDescriptor,
 } from '@/api/api.generatedTypes'
+import type {
+  EServiceAgreement,
+  EServiceConsumer,
+} from '@/pages/ConsumerEServiceDetailsPage/hooks/useActions'
 import type { NavigationTarget, RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -49,7 +52,6 @@ export type DialogProps =
   | DialogRejectDelegatedVersionDraftProps
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
-  | DialogSelectAgreementConsumerProps
   | DialogRequestPurposeApprovalProps
   | DialogRequestRiskAnalysisCompilationProps
   | DialogEditRiskAnalysisAssignmentProps
@@ -67,6 +69,12 @@ export type DialogProps =
   | DialogBlockArchivingRequestProps
   | DialogDelegatorConfirmArchivingProps
   | DialogDelegatorRejectArchivingProps
+  | DialogCreateAgreementProps
+  | DialogEditAgreementProps
+  | DialogInspectAgreementProps
+  | DialogUpdateAgreementProps
+  | DialogConfirmUpdateAgreementProps
+  | DialogConfirmCreateAgreementProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -185,36 +193,6 @@ export type DialogRejectDelegatedVersionDraftProps = {
   type: 'rejectDelegatedVersionDraft'
   eserviceId: string
   descriptorId: string
-}
-
-export type DialogSelectAgreementConsumerProps = {
-  type: 'selectAgreementConsumer'
-  action: 'inspect' | 'edit' | 'create'
-  initialSelectedConsumer?: DelegationTenant
-  eservice: {
-    id: string
-    name: string
-    producerId: string
-  }
-  descriptor: {
-    id: string
-    version: string
-  }
-  agreements: CompactAgreement[]
-  onSubmitCreate?: ({
-    isOwnEService,
-    delegationId,
-  }: {
-    isOwnEService: boolean
-    delegationId?: string
-  }) => void | Promise<void>
-  /**
-   * Lifetime of the flow that opened this dialog, provided by the originating hook.
-   * Aborted permanently on pathname change, owner unmount, or a subsequent flow opening.
-   * Only gates restoration after a failed `onSubmitCreate`; never cancels HTTP requests.
-   * When omitted the flow is considered active.
-   */
-  flowSignal?: AbortSignal
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
@@ -349,4 +327,41 @@ export type DialogDelegatorRejectArchivingProps = {
   eserviceId: string
   descriptorId?: string
   delegatedName: string
+}
+
+export type DialogCreateAgreementProps = {
+  type: 'createAgreement'
+  consumers: EServiceConsumer[]
+}
+
+export type DialogEditAgreementProps = {
+  type: 'editAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
+}
+
+export type DialogInspectAgreementProps = {
+  type: 'inspectAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
+}
+
+export type DialogUpdateAgreementProps = {
+  type: 'updateAgreement'
+  consumers: EServiceConsumer[]
+  agreements: EServiceAgreement[]
+}
+
+export type DialogConfirmUpdateAgreementProps = {
+  type: 'confirmUpdateAgreement'
+  agreement: EServiceAgreement
+  descriptor: CatalogEServiceDescriptor
+}
+
+export type DialogConfirmCreateAgreementProps = {
+  type: 'confirmCreateAgreement'
+  eserviceId: string
+  consumerId: string
+  descriptorId: string
+  producerId: string
 }
