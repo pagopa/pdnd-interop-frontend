@@ -1,4 +1,4 @@
-import { AgreementMutations, AgreementQueries } from '@/api/agreement'
+import { AgreementQueries } from '@/api/agreement'
 import { AttributeQueries } from '@/api/attribute'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
@@ -78,16 +78,6 @@ export const useActions = (): {
   })
 
   /*
-   * MUTATIONS
-   * */
-
-  const isAsyncExchange = descriptor?.eservice.asyncExchange ?? false
-
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
-  const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
-  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
-
-  /*
    * ESERVICE AGREEMENTS (OWN/ DELEGATED) DATA
    * */
 
@@ -135,6 +125,7 @@ export const useActions = (): {
 
   const upgrade = useCallback(
     (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
+      if (!descriptor) return
       if (
         consumers.length === 1 &&
         agreements.length === 1 &&
@@ -146,27 +137,11 @@ export const useActions = (): {
         // NOTE: The first condition will imply that the others are true, they are just for clarity and to avoid mistakes in the future if the code is modified
         const agreement = agreements[0]
 
-        upgradeAgreement(
-          { agreementId: agreement.id },
-          {
-            onSuccess(data) {
-              /**
-               * When the subscriber is missing one or more verified/declared attributes,
-               * the new agreement is created as a DRAFT instead of being submitted to
-               * the provider. When this happens, the subscriber should be presented with
-               * the "draft edit" view of the agreement.
-               */
-              const agreementView =
-                data.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
-
-              navigate(agreementView, {
-                params: {
-                  agreementId: data.id,
-                },
-              })
-            },
-          }
-        )
+        openDialog({
+          type: 'confirmUpdateAgreement',
+          agreement,
+          descriptor,
+        })
         return
       }
 
@@ -182,7 +157,7 @@ export const useActions = (): {
         consumers: consumers.filter((consumer) => subscribers[consumer.id]),
       })
     },
-    [tenantId, navigate, openDialog, upgradeAgreement]
+    [tenantId, descriptor, openDialog]
   )
   const inspect = useCallback(
     (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
@@ -253,41 +228,20 @@ export const useActions = (): {
   )
   const subscribe = useCallback(
     (agreements: EServiceAgreement[], consumers: EServiceConsumer[]) => {
+      console.log('subscribe', { agreements, consumers, descriptor, tenantId })
       if (!descriptor) return
 
       if (consumers.length === 1 && consumers[0].id === tenantId) {
-        // EDIT DIRECTLY IF THERE IS ONLY ONE POSSIBLE CONSUMER
+        // SUBSCRIBE DIRECTLY IF THERE IS ONLY ONE POSSIBLE CONSUMER VIA DIALOG
         // This case implies that the consumers length is 1 and the only consumer is the current user organization
 
-        if (descriptor.eservice.producer.id === tenantId) {
-          // If the subscriber is the owner of the e-service, create and submit the agreement without passing through the draft
-          submitToOwnEService(
-            {
-              eserviceId: descriptor.eservice.id,
-              descriptorId: descriptor.id,
-            },
-            {
-              onSuccess({ id }) {
-                navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
-              },
-            }
-          )
-          return
-        }
-
-        createAgreementDraft(
-          {
-            eserviceName: descriptor.eservice.name,
-            eserviceId: descriptor.eservice.id,
-            eserviceVersion: descriptor.version,
-            descriptorId: descriptor.id,
-          },
-          {
-            onSuccess({ id }) {
-              navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
-            },
-          }
-        )
+        openDialog({
+          type: 'confirmCreateAgreement',
+          eserviceId: descriptor.eservice.id,
+          consumerId: consumers[0].id,
+          descriptorId: descriptor.id,
+          producerId: descriptor.eservice.producer.id,
+        })
         return
       }
 
@@ -302,7 +256,7 @@ export const useActions = (): {
         consumers: consumers.filter((consumer) => !subscribers[consumer.id]),
       })
     },
-    [descriptor, tenantId, openDialog, submitToOwnEService, createAgreementDraft, navigate]
+    [descriptor, tenantId, openDialog]
   )
 
   if (

@@ -47,6 +47,8 @@ import type {
   DialogEditAgreementProps,
   DialogInspectAgreementProps,
   DialogUpdateAgreementProps,
+  DialogConfirmUpdateAgreementProps,
+  DialogConfirmCreateAgreementProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -88,6 +90,8 @@ import { DialogCreateAgreement } from './DialogAgreements/DialogCreateAgreement'
 import { DialogEditAgreement } from './DialogAgreements/DialogEditAgreement'
 import { DialogInspectAgreement } from './DialogAgreements/DialogInspectAgreement'
 import { DialogUpdateAgreement } from './DialogAgreements/DialogUpdateAgreement'
+import { DialogConfirmUpdateAgreement } from './DialogAgreements/DialogConfirmUpdateAgreement'
+import { DialogConfirmCreateAgreement } from './DialogAgreements/DialogConfirmCreateAgreement'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -131,7 +135,9 @@ function match<T>(
   onCreateAgreement: (props: DialogCreateAgreementProps) => T,
   onEditAgreement: (props: DialogEditAgreementProps) => T,
   onInspectAgreement: (props: DialogInspectAgreementProps) => T,
-  onUpdateAgreement: (props: DialogUpdateAgreementProps) => T
+  onUpdateAgreement: (props: DialogUpdateAgreementProps) => T,
+  onConfirmUpdateAgreement: (props: DialogConfirmUpdateAgreementProps) => T,
+  onConfirmCreateAgreement: (props: DialogConfirmCreateAgreementProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -219,6 +225,10 @@ function match<T>(
         return onInspectAgreement(props)
       case 'updateAgreement':
         return onUpdateAgreement(props)
+      case 'confirmUpdateAgreement':
+        return onConfirmUpdateAgreement(props)
+      case 'confirmCreateAgreement':
+        return onConfirmCreateAgreement(props)
     }
   }
 }
@@ -265,7 +275,9 @@ const _Dialog = match(
   (props) => <DialogCreateAgreement {...props} />,
   (props) => <DialogEditAgreement {...props} />,
   (props) => <DialogInspectAgreement {...props} />,
-  (props) => <DialogUpdateAgreement {...props} />
+  (props) => <DialogUpdateAgreement {...props} />,
+  (props) => <DialogConfirmUpdateAgreement {...props} />,
+  (props) => <DialogConfirmCreateAgreement {...props} />
 )
 
 export const Dialog: React.FC = () => {

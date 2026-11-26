@@ -59,6 +59,29 @@
           "edit": {
             "title": "Complete the access request",
             "description": "Select the organization for which you wish to complete a request for access or use."
+          },
+          "updateConfirm": {
+            "title": "Update to usage request",
+            "description": "A more recent version of the e-service <1>{{eservice}}, version {{version}}</1>, provided by {{producer}}, has been published.",
+            "paragraph": {
+              "title": "What does it mean?",
+              "content": "When a provider releases a new version of an e-service, there are changes compared to the previous one. These modifications may be administrative, technical, or both. Have questions? <1>Consult the guide</1>."
+            },
+            "checkboxes": {
+              "title": "What is recommended to do before updating?",
+              "items": {
+                "check1": "The administrative staff verified compliance with the requirements (attributes) specified by the provider.",
+                "check2": "The technicians have verified that your integration aligns with the updated API of the e-service.",
+                "check3": "The technicians tested the integration with the updated e-service in a testing environment (if available)."
+              }
+            }
+          },
+          "subscribeConfirm": {
+            "title": "Request access to the e-service",
+            "description": {
+              "base": "Confirm to proceed with the request for access.",
+              "owned": "Your organization has created this e-service: the request for access will be approved automatically, even if you do not possess the necessary attributes."
+            }
           }
         }
       },

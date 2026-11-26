@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from '@/router'
+import { useParams } from '@/router'
 import { useDialog } from '@/stores'
 import type { DialogUpdateAgreementProps } from '@/types/dialog.types'
 import { Stack } from '@mui/system'
@@ -6,7 +6,6 @@ import { MIDialog as Dialog, MIAlert as Alert } from '@pagopa/mui-italia'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerSelector } from './components/ConsumerSelector'
-import { AgreementMutations } from '@/api/agreement'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { TenantQueries } from '@/api/tenant'
@@ -24,8 +23,7 @@ export const DialogUpdateAgreement: React.FC<DialogUpdateAgreementProps> = ({
     keyPrefix: 'consumer.detail.dialogs.agreements.update',
   })
   const ariaLabelId = React.useId()
-  const { closeDialog } = useDialog()
-  const navigate = useNavigate()
+  const { closeDialog, openDialog } = useDialog()
 
   const tenantId = AuthHooks.useJwt().jwt?.organizationId ?? ''
 
@@ -44,8 +42,6 @@ export const DialogUpdateAgreement: React.FC<DialogUpdateAgreementProps> = ({
     enabled: Boolean(consumerId) && Boolean(descriptor?.eservice.activeDescriptor),
     select: ({ hasCertifiedAttributes }) => hasCertifiedAttributes,
   })
-
-  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
 
   const error = useMemo(() => {
     return (
@@ -89,29 +85,13 @@ export const DialogUpdateAgreement: React.FC<DialogUpdateAgreementProps> = ({
     const agreement = agreements.find((agreement) => agreement.consumerId === consumerId)
 
     if (!agreement) return
+    closeDialog()
 
-    upgradeAgreement(
-      { agreementId: agreement.id },
-      {
-        onSuccess(data) {
-          /**
-           * When the subscriber is missing one or more verified/declared attributes,
-           * the new agreement is created as a DRAFT instead of being submitted to
-           * the provider. When this happens, the subscriber should be presented with
-           * the "draft edit" view of the agreement.
-           */
-          const agreementView =
-            data.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
-
-          navigate(agreementView, {
-            params: {
-              agreementId: data.id,
-            },
-          })
-          closeDialog()
-        },
-      }
-    )
+    openDialog({
+      type: 'confirmUpdateAgreement',
+      agreement,
+      descriptor,
+    })
   }, [
     agreements,
     consumerId,
@@ -119,9 +99,8 @@ export const DialogUpdateAgreement: React.FC<DialogUpdateAgreementProps> = ({
     isFetchingAttributes,
     isFetchingDescriptor,
     hasTenantCertifiedAttributes,
-    navigate,
     closeDialog,
-    upgradeAgreement,
+    openDialog,
   ])
 
   return (

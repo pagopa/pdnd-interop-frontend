@@ -8,6 +8,7 @@ import type {
   TargetTenantKind,
   CompactUser,
   RiskAnalysisReviewMode,
+  CatalogEServiceDescriptor,
 } from '@/api/api.generatedTypes'
 import type {
   EServiceAgreement,
@@ -72,6 +73,8 @@ export type DialogProps =
   | DialogEditAgreementProps
   | DialogInspectAgreementProps
   | DialogUpdateAgreementProps
+  | DialogConfirmUpdateAgreementProps
+  | DialogConfirmCreateAgreementProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -347,4 +350,18 @@ export type DialogUpdateAgreementProps = {
   type: 'updateAgreement'
   consumers: EServiceConsumer[]
   agreements: EServiceAgreement[]
+}
+
+export type DialogConfirmUpdateAgreementProps = {
+  type: 'confirmUpdateAgreement'
+  agreement: EServiceAgreement
+  descriptor: CatalogEServiceDescriptor
+}
+
+export type DialogConfirmCreateAgreementProps = {
+  type: 'confirmCreateAgreement'
+  eserviceId: string
+  consumerId: string
+  descriptorId: string
+  producerId: string
 }
