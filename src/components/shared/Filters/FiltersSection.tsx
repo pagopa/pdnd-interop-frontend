@@ -6,7 +6,7 @@ import type {
   FiltersHandler,
 } from '@/types/filters.types'
 import { Stack, Typography } from '@mui/material'
-import { MIButton as Button } from '@pagopa/mui-italia'
+import { MIButton as Button, type MIButtonProps } from '@pagopa/mui-italia'
 import { AdditionalFilters } from './AdditionalFilters'
 import { Filters } from './Filters'
 import { SortBy } from '../SortBy'
@@ -26,6 +26,7 @@ type FiltersSectionProps = {
     onSortingChange: (value: string) => void
   }
   results?: number
+  submitButtonVariant?: MIButtonProps['variant']
 }
 
 export const FiltersSection: React.FC<FiltersSectionProps> = ({
@@ -36,6 +37,7 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
   onResetActiveFilters,
   sorting,
   results,
+  submitButtonVariant,
 }) => {
   const { t } = useTranslation('filters')
 
@@ -46,7 +48,12 @@ export const FiltersSection: React.FC<FiltersSectionProps> = ({
   return (
     <Stack>
       <Stack mb={2}>
-        <Filters fields={fields} filters={filters} onChangeActiveFilters={onChangeActiveFilters} />
+        <Filters
+          fields={fields}
+          filters={filters}
+          onChangeActiveFilters={onChangeActiveFilters}
+          submitButtonVariant={submitButtonVariant}
+        />
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           justifyContent={'space-between'}

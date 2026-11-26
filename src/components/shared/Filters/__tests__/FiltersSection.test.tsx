@@ -69,9 +69,19 @@ describe('FiltersSection', () => {
         fields: defaultProps.fields,
         filters,
         onChangeActiveFilters: defaultProps.onChangeActiveFilters,
+        submitButtonVariant: undefined,
       })
     )
   })
+
+  it.each(['contained', 'outlined', 'text'] as const)(
+    'passes the %s submit button variant to Filters',
+    (submitButtonVariant) => {
+      render(<FiltersSection {...defaultProps} submitButtonVariant={submitButtonVariant} />)
+
+      expect(filtersMock).toHaveBeenCalledWith(expect.objectContaining({ submitButtonVariant }))
+    }
+  )
 
   it('shows 0 results by default and the given number when provided', () => {
     const { rerender } = render(<FiltersSection {...defaultProps} />)

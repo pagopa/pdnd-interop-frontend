@@ -109,9 +109,7 @@ export function getRequesterObsoleteVersionAgreement(
     hasBlockingAgreement: ownAgreements.some(
       (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
     ),
-    upgradeableAgreementId: ownAgreements.find(
-      (agreement) => agreement.canBeUpgraded && ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
-    )?.id,
+    upgradeableAgreementId: ownAgreements.find((agreement) => agreement.canBeUpgraded)?.id,
   }
 }
 
