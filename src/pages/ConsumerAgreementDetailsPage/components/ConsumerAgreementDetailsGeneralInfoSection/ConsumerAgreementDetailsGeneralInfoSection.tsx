@@ -13,6 +13,7 @@ import { AgreementDownloads } from '@/api/agreement'
 import { ConsumerAgreementDetailsContactDrawer } from './ConsumerAgreementDetailsContactDrawer'
 import { ConsumerAgreementDetailsCertifiedAttributesDrawer } from './ConsumerAgreementDetailsCertifiedAttributesDrawer'
 import { IconLink } from '@/components/shared/IconLink'
+import { formatTenantHierarchy } from '@/utils/tenant.utils'
 
 export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
@@ -76,11 +77,17 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
           />
           <InformationContainer
             label={t('providerField.label')}
-            content={agreement.producer.name}
+            content={formatTenantHierarchy(
+              agreement.producer.name,
+              agreement.producer.parentTenants
+            )}
           />
           <InformationContainer
             label={t('consumerField.label')}
-            content={agreement.consumer.name}
+            content={formatTenantHierarchy(
+              agreement.consumer.name,
+              agreement.consumer.parentTenants
+            )}
           />
           {isDelegated && (
             <InformationContainer

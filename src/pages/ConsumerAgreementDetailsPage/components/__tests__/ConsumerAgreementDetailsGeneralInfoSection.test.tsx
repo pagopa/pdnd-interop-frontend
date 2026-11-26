@@ -95,25 +95,83 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   })
 
   it('should display provider(erogatore)', () => {
-    mockUseConsumerAgreementDetailsContext()
+    const agreementWithParentTenants = createMockAgreement({
+      producer: {
+        ...agreementMock.producer,
+        parentTenants: [{ id: 'producer-parent-id', name: 'Producer Parent' }],
+      },
+    })
+    mockUseConsumerAgreementDetailsContext(agreementWithParentTenants)
     const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
 
-    const producerAgreementName = screen.getByText(agreementMock.producer.name)
+    const producerAgreementName = screen.getByText(
+      `${agreementMock.producer.name} - Producer Parent`
+    )
     expect(producerAgreementName).toBeInTheDocument()
   })
 
   it('should display consumer (fruitore)', () => {
+    const agreementWithParentTenants = createMockAgreement({
+      consumer: {
+        ...agreementMock.consumer,
+        parentTenants: [{ id: 'consumer-parent-id', name: 'Consumer Parent' }],
+      },
+    })
+    mockUseConsumerAgreementDetailsContext(agreementWithParentTenants)
+    const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const consumerAgreementName = screen.getByText(
+      `${agreementMock.consumer.name} - Consumer Parent`
+    )
+    expect(consumerAgreementName).toBeInTheDocument()
+  })
+
+  it('should display producer and consumer without parent tenants', () => {
     mockUseConsumerAgreementDetailsContext()
     const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
 
-    const consumerAgreementName = screen.getByText(agreementMock.consumer.name)
-    expect(consumerAgreementName).toBeInTheDocument()
+    expect(screen.getByText(agreementMock.producer.name)).toBeInTheDocument()
+    expect(screen.getByText(agreementMock.consumer.name)).toBeInTheDocument()
+  })
+
+  it('should display producer and consumer with two parent tenants', () => {
+    const agreementWithTwoParentTenants = createMockAgreement({
+      producer: {
+        ...agreementMock.producer,
+        parentTenants: [
+          { id: 'producer-parent-1-id', name: 'Producer Parent 1' },
+          { id: 'producer-parent-2-id', name: 'Producer Parent 2' },
+        ],
+      },
+      consumer: {
+        ...agreementMock.consumer,
+        parentTenants: [
+          { id: 'consumer-parent-1-id', name: 'Consumer Parent 1' },
+          { id: 'consumer-parent-2-id', name: 'Consumer Parent 2' },
+        ],
+      },
+    })
+    mockUseConsumerAgreementDetailsContext(agreementWithTwoParentTenants)
+    const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(
+      screen.getByText(`${agreementMock.producer.name} - Producer Parent 1 - Producer Parent 2`)
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(`${agreementMock.consumer.name} - Consumer Parent 1 - Consumer Parent 2`)
+    ).toBeInTheDocument()
   })
 
   it('should not show signed agreement download while the agreement is pending', () => {
