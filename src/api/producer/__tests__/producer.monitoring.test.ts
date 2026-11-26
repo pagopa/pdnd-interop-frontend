@@ -3,6 +3,7 @@ import { AxiosError, type AxiosAdapter } from 'axios'
 import { QueryClient } from '@tanstack/react-query'
 import type { ProducerEServiceMonitoring, MonitoringArchiving } from '@/api/api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 import { createMockEServiceDescriptorProvider } from '../../../../__mocks__/data/eservice.mocks'
 import {
   mockProducerDashboardConsumerEServices,
@@ -12,11 +13,13 @@ import {
   getMockProducerEServiceMonitoring,
   getMockProducerEServiceMonitoringArchiving,
   getMockProducerEServiceMonitoringSaturation,
+  loadMockProducerEServiceMonitoringArchivingAgreements,
 } from '../../../../__mocks__/data/producer-monitoring.mocks'
 
 const row = mockProducerDashboardConsumerEServices[mockProducerDashboardConsumers[0].consumer.id][0]
 const ids = { eserviceId: row.eservice.id, descriptorId: row.descriptorId }
 const preview = { ...ids, offset: 0, limit: 5, sortBy: 'PERCENTAGE_DESC' } as const
+const agreementsRequest = { ...ids, offset: 0, limit: 5 }
 const adapter = vi.fn<AxiosAdapter>()
 const originalFlag = process.env.REACT_APP_MOCK_PRODUCER_DASHBOARD
 const originalStorage = Object.getOwnPropertyDescriptor(window, 'localStorage')!
@@ -48,7 +51,111 @@ async function load(dev: boolean, mode: string, flag: string) {
   return { ProducerServices, ProducerQueries, BACKEND_FOR_FRONTEND_URL }
 }
 
+describe('archiving agreements service', () => {
+  it('uses the offline fixture in development without a monitoring request', async () => {
+    const { ProducerServices } = await load(true, 'development', 'true')
+    const response =
+      await ProducerServices.getProducerEServiceMonitoringArchivingAgreements(agreementsRequest)
+    expect(response.pagination.totalCount).toBe(25)
+    expect(response.results).toHaveLength(5)
+    expect(response.archivableOn).toBe('15/01/2027')
+    expect(response.results.map(({ submittedAt }) => submittedAt)).toEqual(
+      [25, 24, 23, 22, 21].map((day) => formatDateStringNumeric(new Date(Date.UTC(2026, 9, day))))
+    )
+    expect(
+      response.results.every(({ submittedAt }) => /^\d{2}\/\d{2}\/\d{4}$/.test(submittedAt))
+    ).toBe(true)
+    expect(adapter).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    [true, 'development', 'false'],
+    [true, 'test', 'true'],
+    [false, 'production', 'true'],
+  ])('uses the real endpoint with DEV=%s MODE=%s flag=%s', async (dev, mode, flag) => {
+    const { ProducerServices, BACKEND_FOR_FRONTEND_URL } = await load(dev, mode, flag)
+    const body = await loadMockProducerEServiceMonitoringArchivingAgreements(agreementsRequest)
+    adapter.mockImplementation(async (config) => ({
+      config,
+      data: body,
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+    }))
+    await expect(
+      ProducerServices.getProducerEServiceMonitoringArchivingAgreements(agreementsRequest)
+    ).resolves.toBe(body)
+    expect(adapter.mock.calls[0][0]).toMatchObject({
+      url: `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${ids.eserviceId}/descriptors/${ids.descriptorId}/monitoring/archivingAgreements`,
+      params: agreementsRequest,
+    })
+    const error = new AxiosError('network failure', AxiosError.ERR_NETWORK)
+    adapter.mockRejectedValue(error)
+    await expect(
+      ProducerServices.getProducerEServiceMonitoringArchivingAgreements(agreementsRequest)
+    ).rejects.toBe(error)
+  })
+})
+
 describe('e-service monitoring fixtures', () => {
+  it.each(['DATE_DESC', 'DATE_ASC', 'NAME_ASC', 'NAME_DESC'] as const)(
+    'filters, sorts and paginates archiving agreements by %s',
+    async (sortBy) => {
+      const request = { ...agreementsRequest, q: 'comune', sortBy }
+      const all = await loadMockProducerEServiceMonitoringArchivingAgreements({
+        ...request,
+        limit: 50,
+      })
+      const page = await loadMockProducerEServiceMonitoringArchivingAgreements({
+        ...request,
+        offset: 1,
+        limit: 1,
+      })
+      expect(all.results.length).toBeGreaterThan(1)
+      expect(
+        all.results.every(({ consumer }) => consumer.name.toLowerCase().includes('comune'))
+      ).toBe(true)
+      const values = all.results.map(({ consumer, submittedAt }) =>
+        sortBy.startsWith('NAME') ? consumer.name : submittedAt.split('/').reverse().join('-')
+      )
+      const sorted = [...values].sort((a, b) => a.localeCompare(b, 'it'))
+      expect(values).toEqual(sortBy.endsWith('DESC') ? sorted.reverse() : sorted)
+      expect(page.results).toEqual(all.results.slice(1, 2))
+      expect(page.pagination).toEqual({ offset: 1, limit: 1, totalCount: all.results.length })
+    }
+  )
+
+  it('matches each archived version and its consumer count', async () => {
+    const archived = getMockProducerEServiceMonitoringArchiving(ids)
+    for (const version of archived.results) {
+      const response = await loadMockProducerEServiceMonitoringArchivingAgreements({
+        ...agreementsRequest,
+        descriptorId: version.descriptorId!,
+        limit: 50,
+      })
+      expect(response).toMatchObject({
+        eservice: version.eservice,
+        version: version.version,
+        archivableOn: formatDateStringNumeric(version.archivableOn),
+        pagination: { totalCount: version.consumersCount },
+      })
+      expect(response.otherVersions).toEqual(
+        archived.results
+          .filter((item) => item.descriptorId !== version.descriptorId)
+          .map(({ descriptorId, version: otherVersion }) => ({
+            descriptorId,
+            version: otherVersion,
+          }))
+      )
+    }
+    await expect(
+      loadMockProducerEServiceMonitoringArchivingAgreements({
+        ...agreementsRequest,
+        descriptorId: 'unknown',
+      })
+    ).rejects.toBeInstanceOf(NotFoundError)
+  })
+
   it('uses the selected resource and coherent generated counters and preview', () => {
     const data = getMockProducerEServiceMonitoring(ids)
     const page = getMockProducerEServiceMonitoringSaturation(preview)
@@ -238,6 +345,27 @@ describe('monitoring service and query options', () => {
       'real-older-descriptor',
     ])
     expect(archiving.results[1].archivableOn).toBe('2027-01-01T00:00:00Z')
+    const agreements = await ProducerServices.getProducerEServiceMonitoringArchivingAgreements({
+      ...realIds,
+      descriptorId: 'real-older-descriptor',
+      offset: 0,
+      limit: 5,
+    })
+    expect(agreements).toMatchObject({
+      eservice: { id: realIds.eserviceId, name: descriptor.eservice.name },
+      version: '2',
+      archivableOn: formatDateStringNumeric('2027-01-01T00:00:00Z'),
+      otherVersions: [{ descriptorId: descriptor.id, version: descriptor.version }],
+      pagination: { totalCount: 25 },
+    })
+    await expect(
+      ProducerServices.getProducerEServiceMonitoringArchivingAgreements({
+        ...realIds,
+        descriptorId: 'unknown',
+        offset: 0,
+        limit: 5,
+      })
+    ).rejects.toThrow('Mock monitoring archiving resource not found')
     for (const row of archiving.results) {
       expect(row.eservice.id).toBe(realIds.eserviceId)
       await expect(
@@ -272,6 +400,13 @@ describe('monitoring service and query options', () => {
       })
     ).rejects.toBe(error)
     await expect(ProducerServices.getEServiceMonitoringArchiving(realIds)).rejects.toBe(error)
+    await expect(
+      ProducerServices.getProducerEServiceMonitoringArchivingAgreements({
+        ...realIds,
+        offset: 0,
+        limit: 5,
+      })
+    ).rejects.toBe(error)
   })
 
   it('has no synthetic archiving destinations when the real service has no active descriptor', async () => {

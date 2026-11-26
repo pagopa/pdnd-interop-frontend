@@ -828,7 +828,19 @@
         "loading": "Loading versions being archived",
         "loadError": "Versions being archived could not be loaded.",
         "retry": "Retry",
-        "empty": "There are no versions being archived"
+        "empty": "There are no versions being archived",
+        "archivingVersionConsumersPage": {
+          "title": "Consumers of this version",
+          "description": "See which consumers are in this version being archived.",
+          "eserviceVersion": "Version",
+          "archivingDate": "Archiving date",
+          "goToAnotherVersion": "Go to another version",
+          "table": {
+            "consumer": "Consumer name",
+            "agreementState": "Agreement status",
+            "submittedAt": "Request submission date"
+          }
+        }
       }
     },
     "alert": {

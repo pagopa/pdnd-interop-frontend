@@ -385,35 +385,36 @@ describe('ProviderEServiceMonitoringTab', () => {
     ).not.toBeInTheDocument()
   })
 
-  it.each([
-    ['it', itEservice],
-    ['en', enEservice],
-  ] as const)('keeps both numbered version chevrons disabled in %s', async (language, resource) => {
-    const labels = resource.read.monitoring
-    await renderTab({ language })
-    await waitForData(labels)
+  it('opens the archiving consumers page for each selected version', async () => {
+    const user = userEvent.setup()
+    await renderTab()
+    await waitForData()
 
-    const [oldestRow, currentRow] = within(getArchivingTable(labels)).getAllByRole('row').slice(1)
-    expect(
-      within(oldestRow).getByText(labels.archiving.version.replace('{{version}}', '0'))
-    ).toBeInTheDocument()
+    const [oldestRow, currentRow] = within(getArchivingTable()).getAllByRole('row').slice(1)
+    const results = getMockProducerEServiceMonitoringArchiving({ eserviceId: ESERVICE_ID }).results
+    expect(within(oldestRow).getByText('Versione 0')).toBeInTheDocument()
     expect(
       within(oldestRow).getByText(formatDateStringNumeric('2026-12-01T00:00:00Z'))
     ).toBeInTheDocument()
 
-    for (const [row, version] of [
-      [oldestRow, '0'],
-      [currentRow, '1'],
+    for (const [index, row, version] of [
+      [0, oldestRow, '0'],
+      [1, currentRow, '1'],
     ] as const) {
       const button = within(row).getByRole('button', {
-        name: labels.archiving.viewConsumersAriaLabel.replace(
+        name: copy.archiving.viewConsumersAriaLabel.replace(
           '{{version}}',
-          labels.archiving.version.replace('{{version}}', version)
+          copy.archiving.version.replace('{{version}}', version)
         ),
       })
-      expect(button).toBeDisabled()
+      expect(button).toBeEnabled()
+      await user.click(button)
+      expect(navigateMock).toHaveBeenLastCalledWith(
+        'PROVIDE_ESERVICE_MONITORING_ARCHIVING_VERSIONS_CONSUMERS',
+        { params: { eserviceId: ESERVICE_ID, descriptorId: results[index].descriptorId } }
+      )
     }
-    expect(navigateMock).not.toHaveBeenCalled()
+    expect(navigateMock).toHaveBeenCalledTimes(2)
   })
 
   it.each([
@@ -526,7 +527,7 @@ describe('ProviderEServiceMonitoringTab', () => {
           copy.archiving.version.replace('{{version}}', '0')
         ),
       })
-    ).toBeDisabled()
+    ).toBeEnabled()
   })
 
   it('shows loading states without stale or zero values', async () => {

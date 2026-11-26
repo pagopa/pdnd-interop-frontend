@@ -16,6 +16,8 @@ import type {
   ProducerEServiceMonitoring,
   ProducerEServiceMonitoringSaturation,
   ProducerEServiceMonitoringConsumerPurposes,
+  ProducerEServiceMonitoringArchivingAgreements,
+  GetProducerEServiceMonitoringArchivingAgreementsParams,
 } from '../api.generatedTypes'
 
 async function getDashboard(): Promise<ProducerDashboard> {
@@ -96,6 +98,22 @@ async function getDashboardArchiving(): Promise<MonitoringArchiving> {
     `${BACKEND_FOR_FRONTEND_URL}/producers/dashboard/archiving`
   )
 
+  return response.data
+}
+
+async function getProducerEServiceMonitoringArchivingAgreements(
+  params: GetProducerEServiceMonitoringArchivingAgreementsParams
+): Promise<ProducerEServiceMonitoringArchivingAgreements> {
+  if (import.meta.env.DEV && APP_MODE === 'development' && MOCK_PRODUCER_DASHBOARD) {
+    const { loadMockProducerEServiceMonitoringArchivingAgreements } =
+      await import('../../../__mocks__/data/producer-monitoring.mocks')
+    return loadMockProducerEServiceMonitoringArchivingAgreements(params)
+  }
+
+  const response = await axiosInstance.get<ProducerEServiceMonitoringArchivingAgreements>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${params.eserviceId}/descriptors/${params.descriptorId}/monitoring/archivingAgreements`,
+    { params }
+  )
   return response.data
 }
 
@@ -186,4 +204,5 @@ export const ProducerServices = {
   getEServiceMonitoringArchiving,
   getEServiceMonitoringSaturation,
   getEServiceMonitoringConsumerPurposes,
+  getProducerEServiceMonitoringArchivingAgreements,
 }

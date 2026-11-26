@@ -12,12 +12,14 @@ type EServiceVersionSelectorDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
+  onVersionChange?: (descriptorId: string) => void
 }
 
 export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDrawerProps> = ({
   isOpen,
   onClose,
   descriptor,
+  onVersionChange,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.versionSelectorDrawer' })
   const { mode } = useCurrentRoute()
@@ -43,11 +45,15 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
     )
 
     if (selectedDescriptor) {
-      const path: RouteKey =
-        mode === 'provider' ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'
-      navigate(path, {
-        params: { eserviceId: descriptor.eservice.id, descriptorId: selectedDescriptor.id },
-      })
+      if (onVersionChange) {
+        onVersionChange(selectedDescriptor.id)
+      } else {
+        const path: RouteKey =
+          mode === 'provider' ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'
+        navigate(path, {
+          params: { eserviceId: descriptor.eservice.id, descriptorId: selectedDescriptor.id },
+        })
+      }
     }
 
     onClose()

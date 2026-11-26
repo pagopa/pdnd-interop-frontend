@@ -828,7 +828,19 @@
         "loading": "Caricamento delle versioni in fase di archiviazione",
         "loadError": "Non è stato possibile caricare le versioni in fase di archiviazione.",
         "retry": "Riprova",
-        "empty": "Non ci sono versioni in fase di archiviazione"
+        "empty": "Non ci sono versioni in fase di archiviazione",
+        "archivingVersionConsumersPage": {
+          "title": "Fruitori di questa versione",
+          "description": "Vedi quali fruitori ci sono in questa versione in fase di archiviazione.",
+          "eserviceVersion": "Versione",
+          "archivingDate": "Data di archiviazione",
+          "goToAnotherVersion": "Vai a un'altra versione",
+          "table": {
+            "consumer": "Nome fruitore",
+            "agreementState": "Stato richiesta",
+            "submittedAt": "Data ricezione richiesta"
+          }
+        }
       }
     },
     "alert": {
