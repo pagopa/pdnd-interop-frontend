@@ -17,7 +17,7 @@
           "common": {
             "fields": {
               "consumer": {
-                "label": "Seleziona entity",
+                "label": "Select entity",
                 "placeholder": "Consumer entity",
                 "error": "Select another entity"
               }
@@ -34,7 +34,7 @@
               "missingAttributesDelegated": "The selected entity does not possess the certified attributes required by the e-service; please select another entity.",
               "delegated": "The selected entity possesses the certified attributes required by the e-service. Other access requirements will also be verified for the purpose of approval.",
               "owned": "Your organization has created this e-service: the request for access will be approved automatically, even if you do not possess the necessary attributes.",
-              "ownedDelegated": "Stai facendo richiesta di fruizione del tuo e-service per un ente che ti ha delegato: per l’approvazione saranno considerati i suoi attributi. "
+              "ownedDelegated": "You are requesting access to your e-service on behalf of an entity that has delegated you; its attributes will be taken into account for the approval process."
             }
           },
           "update": {
