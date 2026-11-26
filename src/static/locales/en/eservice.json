@@ -1,6 +1,24 @@
 {
   "consumer": {
     "detail": {
+      "alerts": {
+        "deprecated": "This version of the e-service is obsolete, but it is still active. A new version is available.",
+        "deprecatedArchivingDescriptorWithAgreements": "This version of the e-service will be archived on {{date}}. After this date, you will only be able to use the new version to exchange data with the e-service.",
+        "deprecatedArchivingDescriptorWithoutAgreements": "This version is being archived. It will be archived on {{date}} and cannot accept new access requests.",
+        "deprecatedArchivingEServiceWithAgreements": "This e-service is being archived and will be archived on {{date}}.",
+        "deprecatedArchivingEServiceWithoutAgreements": "This e-service is being archived. It will be archived on {{date}} and cannot accept new access requests.",
+        "suspended": "This version is currently suspended. Until it is reactivated, it cannot accept new access requests.",
+        "suspendedWithAgreements": "This version is currently suspended. You will not be able to exchange data until it is reactivated.",
+        "archivingEService": "This e-service is being archived. It will be archived on {{date}} and cannot accept new access requests.",
+        "archivingEServiceWithAgreements": "This e-service is being archived and will be archived on {{date}}.",
+        "missingProducerKeychain": "The service provider has not yet linked the key fob to this asynchronous e-service. Data exchange is currently unavailable.",
+        "missingProducerKeychainKeys": "The provider has not yet linked the keys to the keyring for this asynchronous e-service. Data exchange is currently unavailable.",
+        "viewProducerKeychains": "Connect keychain",
+        "missingCertifiedAttribute": {
+          "content": "Your organization does not possess the necessary attributes to request access.",
+          "action": "Check the entry requirements"
+        }
+      },
       "actions": {
         "version": {
           "change": "View last version"
