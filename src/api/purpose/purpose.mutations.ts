@@ -32,13 +32,13 @@ function usePatchUpdatePurpose({ isReceive }: { isReceive: boolean }) {
   })
 }
 
-function useRiskAnalysisErrorToastLabel(defaultLabel: string, includeVersionChanged = false) {
+function useRiskAnalysisErrorToastMeta(defaultLabel: string, includeVersionChanged = false) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
 
-  return (error: unknown) => {
-    if (!isAxiosError<Problem>(error) || error.response?.status !== 409) return defaultLabel
+  const getConflictLabel = (error: unknown) => {
+    if (!isAxiosError<Problem>(error) || error.response?.status !== 409) return undefined
 
     for (const { code } of error.response.data?.errors ?? []) {
       const label = match(code)
@@ -51,8 +51,11 @@ function useRiskAnalysisErrorToastLabel(defaultLabel: string, includeVersionChan
 
       if (label !== undefined) return label
     }
+  }
 
-    return defaultLabel
+  return {
+    errorToastLabel: (error: unknown) => getConflictLabel(error) ?? defaultLabel,
+    skipErrorToastDetails: (error: unknown) => getConflictLabel(error) !== undefined,
   }
 }
 
@@ -327,11 +330,11 @@ function useSubmitRiskAnalysis() {
 
 function useSignRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('outcome.error'), true)
+  const errorToastMeta = useRiskAnalysisErrorToastMeta(t('outcome.error'), true)
   return useMutation({
     mutationFn: PurposeServices.signRiskAnalysis,
     meta: {
-      errorToastLabel,
+      ...errorToastMeta,
       loadingLabel: t('loading'),
     },
   })
@@ -339,11 +342,11 @@ function useSignRiskAnalysis() {
 
 function useRejectRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('rejectRiskAnalysis.outcome.error'))
+  const errorToastMeta = useRiskAnalysisErrorToastMeta(t('rejectRiskAnalysis.outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.rejectRiskAnalysis,
     meta: {
-      errorToastLabel,
+      ...errorToastMeta,
       loadingLabel: t('rejectRiskAnalysis.loading'),
     },
   })
@@ -351,11 +354,11 @@ function useRejectRiskAnalysis() {
 
 function useUpdateRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
-  const errorToastLabel = useRiskAnalysisErrorToastLabel(t('updateRiskAnalysis.outcome.error'))
+  const errorToastMeta = useRiskAnalysisErrorToastMeta(t('updateRiskAnalysis.outcome.error'))
   return useMutation({
     mutationFn: PurposeServices.updateRiskAnalysis,
     meta: {
-      errorToastLabel,
+      ...errorToastMeta,
       loadingLabel: t('updateRiskAnalysis.loading'),
     },
   })

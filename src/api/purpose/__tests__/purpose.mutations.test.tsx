@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react'
+import { act, screen, within } from '@testing-library/react'
 import { queryClient } from '@/config/query-client'
 import { PurposeQueries } from '../purpose.queries'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
@@ -10,6 +10,7 @@ import { AxiosError, AxiosHeaders } from 'axios'
 import userEvent from '@testing-library/user-event'
 import { useErrorDataStore } from '@/stores/error-data.store'
 import { DialogApproveRiskAnalysis } from '@/components/dialogs/DialogApproveRiskAnalysis'
+import { DialogRejectRiskAnalysis } from '@/components/dialogs/DialogRejectRiskAnalysis'
 import * as router from '@/router'
 import { PurposeMutations } from '../purpose.mutations'
 import { PurposeServices } from '../purpose.services'
@@ -185,7 +186,7 @@ describe.each([
   },
 ])('$action risk analysis', ({ useMutation, service, genericFeedback, conflicts }) => {
   it.each(conflictCases)(
-    'shows specific feedback only for a supported HTTP 409 code $code',
+    'shows specific feedback without support details only for a supported HTTP 409 code $code',
     async ({ code }) => {
       vi.mocked(service).mockRejectedValueOnce(makeApiError(409, code))
       const { result } = renderHookWithApplicationContext(useMutation, {
@@ -196,6 +197,16 @@ describe.each([
 
       const feedback = conflicts.find((conflict) => conflict.code === code)?.feedback
       expect(await screen.findByText(feedback ?? genericFeedback)).toBeInTheDocument()
+      const alert = within(screen.getByRole('alert'))
+      if (feedback) {
+        expect(alert.queryByText('axiosError.correlationIdText')).not.toBeInTheDocument()
+        expect(alert.queryByRole('textbox')).not.toBeInTheDocument()
+        expect(alert.getAllByRole('button')).toHaveLength(1)
+      } else {
+        expect(alert.getByText('axiosError.correlationIdText')).toBeInTheDocument()
+        expect(alert.getByRole('textbox')).toHaveValue('correlation-id')
+        expect(alert.getAllByRole('button')).toHaveLength(2)
+      }
       expect(useErrorDataStore.getState()).toMatchObject({
         correlationId: 'correlation-id',
         errorCode: code,
@@ -225,6 +236,11 @@ describe.each([
     act(() => result.current())
 
     expect(await screen.findByText(genericFeedback)).toBeInTheDocument()
+    if (error instanceof AxiosError && error.response?.data?.correlationId) {
+      const alert = within(screen.getByRole('alert'))
+      expect(alert.getByText('axiosError.correlationIdText')).toBeInTheDocument()
+      expect(alert.getByRole('textbox')).toHaveValue('correlation-id')
+    }
   })
 
   it('recognizes supported conflicts after another problem code', async () => {
@@ -238,6 +254,44 @@ describe.each([
     const feedback = conflicts.find(({ code }) => code === '008-0052')?.feedback
     expect(await screen.findByText(feedback ?? genericFeedback)).toBeInTheDocument()
   })
+})
+
+describe('risk analysis rejection conflict', () => {
+  it.each(['004-0066', '008-0052'])(
+    'shows only the conflict message and keeps the dialog open without retrying or navigating for %s',
+    async (code) => {
+      const user = userEvent.setup()
+      const navigate = vi.fn()
+      vi.spyOn(router, 'useNavigate').mockReturnValue(navigate)
+      vi.mocked(PurposeServices.rejectRiskAnalysis)
+        .mockClear()
+        .mockRejectedValueOnce(makeApiError(409, code))
+
+      renderWithApplicationContext(
+        <DialogRejectRiskAnalysis type="rejectRiskAnalysis" purposeId="purpose-id" />,
+        { withReactQueryContext: true }
+      )
+
+      await user.type(
+        screen.getByRole('textbox', { name: /reasonField\.label/ }),
+        'A valid rejection reason'
+      )
+      await user.click(screen.getByRole('button', { name: 'actions.confirm' }))
+
+      const alert = within(await screen.findByRole('alert', { hidden: true }))
+      expect(alert.getByText('alreadyApproved')).toBeInTheDocument()
+      expect(alert.queryByText('axiosError.correlationIdText')).not.toBeInTheDocument()
+      expect(alert.queryByRole('textbox', { hidden: true })).not.toBeInTheDocument()
+      expect(alert.getAllByRole('button', { hidden: true })).toHaveLength(1)
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'actions.confirm' })).toBeEnabled()
+      expect(PurposeServices.rejectRiskAnalysis).toHaveBeenCalledExactlyOnceWith({
+        purposeId: 'purpose-id',
+        rejectionReason: 'A valid rejection reason',
+      })
+      expect(navigate).not.toHaveBeenCalled()
+    }
+  )
 })
 
 describe('risk analysis approval conflict', () => {

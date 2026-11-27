@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useMutation } from '@tanstack/react-query'
 import { CancellationError, queryClient, queryClientConfig } from '../query-client'
@@ -33,6 +33,48 @@ vi.mock('@/utils/common.utils', async () => {
     setExponentialInterval: mockedSetExponentialInterval,
     clearExponentialInterval: mockedClearExponentialInterval,
   }
+})
+
+describe('queryClient error toast details', () => {
+  it.each([true, false, undefined])(
+    'preserves diagnostic data and respects skipErrorToastDetails=%s',
+    async (skipErrorToastDetails) => {
+      const user = userEvent.setup()
+      const error = new AxiosError('Request failed', undefined, undefined, undefined, {
+        status: 500,
+        statusText: 'Request failed',
+        data: { correlationId: 'correlation-id', errors: [{ code: 'error-code' }] },
+        headers: {},
+        config: { headers: new AxiosHeaders() },
+      })
+
+      renderWithApplicationContext(
+        <TestMutation
+          mutationFn={vi.fn().mockRejectedValueOnce(error)}
+          meta={{ errorToastLabel: 'mutation.error', skipErrorToastDetails }}
+        />,
+        { withReactQueryContext: true }
+      )
+
+      await user.click(screen.getByRole('button', { name: 'submit' }))
+
+      expect(await screen.findByText('mutation.error')).toBeInTheDocument()
+      const alert = within(screen.getByRole('alert'))
+      if (skipErrorToastDetails) {
+        expect(alert.queryByText('axiosError.correlationIdText')).not.toBeInTheDocument()
+        expect(alert.queryByRole('textbox')).not.toBeInTheDocument()
+        expect(alert.getAllByRole('button')).toHaveLength(1)
+      } else {
+        expect(alert.getByText('axiosError.correlationIdText')).toBeInTheDocument()
+        expect(alert.getByRole('textbox')).toHaveValue('correlation-id')
+        expect(alert.getAllByRole('button')).toHaveLength(2)
+      }
+      expect(useErrorDataStore.getState()).toMatchObject({
+        correlationId: 'correlation-id',
+        errorCode: 'error-code',
+      })
+    }
+  )
 })
 
 describe('queryClient mutation cache lifecycle', () => {
