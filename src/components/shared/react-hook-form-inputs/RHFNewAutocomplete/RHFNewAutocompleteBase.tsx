@@ -76,7 +76,7 @@ const RHFNewAutocompleteBase = <T, Multiple extends boolean | undefined>({
               '&:hover': {
                 backgroundColor: `${theme.palette.action.hover} !important`,
               },
-              '&:has(> .MuiListItemButton-root[aria-selected="true"])': {
+              '& > .MuiListItemButton-root[aria-selected="true"]': {
                 backgroundColor: `${selectedBackground} !important`,
               },
             },
