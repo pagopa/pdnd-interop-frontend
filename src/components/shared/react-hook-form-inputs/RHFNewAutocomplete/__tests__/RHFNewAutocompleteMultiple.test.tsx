@@ -231,6 +231,48 @@ describe('RHFNewAutocompleteMultiple', () => {
     })
   })
 
+  it('reconciles a selected placeholder when its option arrives asynchronously', async () => {
+    const user = userEvent.setup()
+    const handleSubmit = vi.fn()
+    const { rerender } = renderWithAppContext(
+      <TestWrapper defaultValues={{ selectedOptions: ['alpha'] }} onSubmit={handleSubmit}>
+        <RHFNewAutocompleteMultiple
+          name="selectedOptions"
+          label="Select multiple options"
+          options={[mockOptions[1]]}
+        />
+        <button type="submit">Submit</button>
+      </TestWrapper>
+    )
+
+    const selectedOptions = await screen.findByRole('list', { name: 'Selected options' })
+    expect(within(selectedOptions).getByText('alpha')).toBeInTheDocument()
+
+    rerender(
+      <TestWrapper defaultValues={{ selectedOptions: ['alpha'] }} onSubmit={handleSubmit}>
+        <RHFNewAutocompleteMultiple
+          name="selectedOptions"
+          label="Select multiple options"
+          options={mockOptions}
+        />
+        <button type="submit">Submit</button>
+      </TestWrapper>
+    )
+
+    await waitFor(() => {
+      expect(within(selectedOptions).queryByText('alpha')).not.toBeInTheDocument()
+      expect(within(selectedOptions).getByText('Option Alpha')).toBeInTheDocument()
+    })
+
+    await user.click(screen.getByRole('combobox'))
+    await user.click(await screen.findByRole('option', { name: 'Option Alpha' }))
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledWith({ selectedOptions: [] })
+    })
+  })
+
   it('displays validation error when required rule fails on submit', async () => {
     const user = userEvent.setup()
     const handleSubmit = vi.fn()

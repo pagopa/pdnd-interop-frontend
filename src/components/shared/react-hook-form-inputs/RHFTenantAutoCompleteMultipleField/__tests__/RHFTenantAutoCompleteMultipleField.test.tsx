@@ -164,8 +164,7 @@ describe('RHFTenantAutoCompleteMultipleField', () => {
     await user.keyboard('{ArrowDown}')
     await user.click(screen.getByRole('option', { name: 'PagoPA S.p.A.' }))
 
-    const selectedOptions = screen.getByRole('list', { name: 'Selected options' })
-    expect(within(selectedOptions).getByText('PagoPA S.p.A.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Delete 2' })).toBeInTheDocument()
     expect(onValueChange).toHaveBeenLastCalledWith([
       expect.objectContaining({ id: 'direzione-mobilita-id', name: 'Direzione Mobilità' }),
       expect.objectContaining({ id: 'pagopa-id', name: 'PagoPA S.p.A.' }),
