@@ -1,6 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import { usePagination } from '@/hooks/usePagination'
-import { Box } from '@mui/material'
+import { Stack } from '@mui/material'
 import { MIPagination } from '@pagopa/mui-italia'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
@@ -9,6 +9,7 @@ import type { CatalogFilterPayload } from '@/api/api.generatedTypes'
 import EmptyStateBanner from './components/EmptyStateBanner'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
+import UseCasesSection from './components/UseCasesSection'
 
 type FeaturedTabProps = {
   onGoToCatalog: () => void
@@ -26,12 +27,19 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
   const { data, isError } = useQuery({
     ...EServiceQueries.getFeaturedEServicesCatalog(),
     placeholderData: keepPreviousData,
+    throwOnError: false,
+  })
+
+  const { data: useCases, isError: isUseCasesError } = useQuery({
+    ...EServiceQueries.getCatalogUseCases(),
+    placeholderData: keepPreviousData,
+    throwOnError: false,
   })
 
   const eservicesEmptyState =
     isError && !data ? 'error' : data && data.length === 0 ? 'noResults' : undefined
 
-  const useCasesEmptyState = isError // TODO
+  const useCasesEmptyState = !useCases || useCases.length === 0 || isUseCasesError
 
   const emptyState = match([eservicesEmptyState, useCasesEmptyState] as const)
     .returnType<EmptyStateKey | undefined>()
@@ -43,7 +51,7 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
     .exhaustive()
 
   return (
-    <>
+    <Stack gap={3}>
       {emptyState && (
         <EmptyStateBanner
           title={t(`emptyStateBanner.${emptyState}.title`)}
@@ -55,22 +63,25 @@ const FeaturedTab: React.FC<FeaturedTabProps> = ({ onGoToCatalog }) => {
       {!eservicesEmptyState && <EServiceCatalogWrapper params={paginationParams} />}
 
       {data && data.length !== 0 && (
-        <Box mt={3}>
-          <MIPagination
-            page={paginationProps.page}
-            count={getTotalPageCount(data?.length)}
-            onChange={(_, page) => paginationProps.onPageChange(page)}
-          />
-        </Box>
+        <MIPagination
+          page={paginationProps.page}
+          count={getTotalPageCount(data?.length)}
+          onChange={(_, page) => paginationProps.onPageChange(page)}
+        />
       )}
-    </>
+
+      {!useCasesEmptyState && <UseCasesSection useCases={useCases} />}
+    </Stack>
   )
 }
 
 const EServiceCatalogWrapper: React.FC<{
   params: Pick<CatalogFilterPayload, 'offset' | 'limit'>
 }> = ({ params: { offset, limit } }) => {
-  const { data, isFetching } = useQuery(EServiceQueries.getFeaturedEServicesCatalog())
+  const { data, isFetching } = useQuery({
+    ...EServiceQueries.getFeaturedEServicesCatalog(),
+    throwOnError: false,
+  })
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
   return <EServiceCatalogGrid eservices={data?.slice(offset, offset + limit)} />
