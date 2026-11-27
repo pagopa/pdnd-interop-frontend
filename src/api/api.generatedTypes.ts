@@ -143,12 +143,21 @@ export type EServiceProducerCategory =
   | "ISTITUTI_RICERCA"
   | "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI";
 
-/** Sort criteria for the catalog query */
+/** Sort criteria for the catalog query; defaults to CREATED_AT_DESC, including RELEVANCE without a non-empty keyword */
 export type EServiceSortBy =
   | "NAME_ASC"
   | "NAME_DESC"
   | "CREATED_AT_ASC"
-  | "CREATED_AT_DESC";
+  | "CREATED_AT_DESC"
+  | "RELEVANCE";
+
+/** Category of the use case */
+export type CatalogUseCaseField =
+  | "CITIZEN_SERVICES"
+  | "WELFARE"
+  | "MOBILITY"
+  | "EDUCATION"
+  | "HEALTHCARE";
 
 /**
  * EService Descriptor policy for new Agreements approval.
@@ -200,6 +209,14 @@ export type LinkableResourceRequest =
   | ({
       resourceKind: "ESERVICE_TEMPLATE";
     } & LinkableEServiceTemplateRequest);
+
+export type CatalogQueryResult =
+  | ({
+      resultType: "eservice";
+    } & CatalogEServiceQueryResult)
+  | ({
+      resultType: "template";
+    } & CatalogTemplateInstancesGroupQueryResult);
 
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
@@ -918,6 +935,19 @@ export interface CatalogEServices {
   pagination: Pagination;
 }
 
+export interface CatalogUseCase {
+  name: string;
+  description?: string;
+  /** Identifier of the use case page on api.gov.it */
+  slug: string;
+  /** Category of the use case */
+  fieldId: CatalogUseCaseField;
+  /** EServices with a valid agreement of the requester */
+  subscribedEservices: CatalogEService[];
+  /** EServices without a valid agreement of the requester */
+  unsubscribedEservices: CatalogEService[];
+}
+
 export interface CatalogEService {
   /** @format uuid */
   id: string;
@@ -947,7 +977,7 @@ export interface CatalogFilterPayload {
   limit: number;
   /** Case-insensitive text search on e-service name, description and producer name */
   keyword?: string;
-  /** Sort criteria for the catalog query */
+  /** Sort criteria for the catalog query; defaults to CREATED_AT_DESC, including RELEVANCE without a non-empty keyword */
   sortBy?: EServiceSortBy;
   /** If true, excludes e-services whose relevant descriptor is SUSPENDED */
   onlyActiveEservices?: boolean;
@@ -967,6 +997,8 @@ export interface CatalogFilterPayload {
   mode?: EServiceMode;
   /** If true, returns only e-services with Signal Hub enabled */
   onlySignalHubEnabled?: boolean;
+  /** If true, returns only consumer delegable e-services; if false, only non consumer delegable ones */
+  isConsumerDelegable?: boolean;
   /**
    * Returns only e-services belonging to the given template collection
    * @format uuid
@@ -974,6 +1006,45 @@ export interface CatalogFilterPayload {
   templateId?: string;
   /** Filter by producer tenant ids */
   producersIds?: string[];
+  /** If true, groups the instances of the same template into a single result, when the other filters allow it */
+  groupByTemplate?: boolean;
+}
+
+export interface CatalogQueryResults {
+  results: CatalogQueryResult[];
+  pagination: Pagination;
+}
+
+export interface CatalogEServiceQueryResult {
+  resultType: "eservice";
+  /** @format uuid */
+  id: string;
+  name: string;
+  description: string;
+  producer: CatalogTenant;
+  isMine: boolean;
+  activeDescriptor?: CompactDescriptor;
+  /** Indicates if there are unread notifications for this e-service */
+  hasUnreadNotifications?: boolean;
+  personalData?: boolean;
+  asyncExchange?: boolean;
+}
+
+/** The catalog instances of an e-service template, shown as a single result */
+export interface CatalogTemplateInstancesGroupQueryResult {
+  resultType: "template";
+  /**
+   * The e-service template id
+   * @format uuid
+   */
+  id: string;
+  name: string;
+  description: string;
+  /**
+   * Number of template instances available in the catalog that match the filters
+   * @format int32
+   */
+  numInstances: number;
 }
 
 export interface CompactClients {
@@ -7711,7 +7782,39 @@ export namespace Catalog {
     export type RequestQuery = {};
     export type RequestBody = CatalogFilterPayload;
     export type RequestHeaders = {};
-    export type ResponseBody = CatalogEServices;
+    export type ResponseBody = CatalogQueryResults;
+  }
+
+  /**
+   * @description Retrieves at most 12 EServices of the catalog. The most recent EService is first. The requester has the certified attributes that each EService requires. The requester has no active or suspended agreement for these EServices.
+   * @tags eservices
+   * @name GetFeaturedEServicesCatalog
+   * @summary Retrieves the featured EServices of the catalog
+   * @request GET:/catalog/featured
+   * @secure
+   */
+  export namespace GetFeaturedEServicesCatalog {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogEService[];
+  }
+
+  /**
+   * @description Retrieves the use cases of the catalog in the language of the Accept-Language header, with italian as fallback. The EServices of each use case are split between the EServices with a valid agreement of the requester and the others. The EServices that are not found are ignored.
+   * @tags eservices
+   * @name GetCatalogUseCases
+   * @summary Retrieves the use cases of the catalog
+   * @request GET:/catalog/use-cases
+   * @secure
+   */
+  export namespace GetCatalogUseCases {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogUseCase[];
   }
 
   /**
