@@ -127,7 +127,9 @@ describe('ProviderPurposesListPage table', () => {
     expect(history.location.pathname).toBe('/it/erogazione/finalita/purpose-id')
   })
 
-  it('tells that the purpose has a new version waiting for approval in the link name', async () => {
+  it('shows the waiting for approval state in the status cell when a new version waits for approval', async () => {
+    const user = userEvent.setup()
+
     mockQueries({
       results: [
         createMockPurpose({
@@ -135,14 +137,29 @@ describe('ProviderPurposesListPage table', () => {
           currentVersion: { state: 'ACTIVE' },
           waitingForApprovalVersion: { state: 'WAITING_FOR_APPROVAL' },
         }),
+        createMockPurpose({
+          title: 'Regular',
+          currentVersion: { state: 'ACTIVE' },
+        }),
       ],
-      pagination: { offset: 0, limit: 10, totalCount: 1 },
+      pagination: { offset: 0, limit: 10, totalCount: 2 },
     })
+
     renderPage()
 
-    expect(
-      await screen.findByRole('link', { name: 'actions.inspect. newVersionAvailableTooltip' })
-    ).toBeInTheDocument()
+    await screen.findByText('Waiting')
+
+    const [, waitingRow, regularRow] = screen.getAllByRole('row')
+    expect(within(waitingRow).getByText('status.purpose.ACTIVE')).toBeInTheDocument()
+
+    const errorIcon = within(waitingRow).getByTestId('ErrorIconNext')
+    expect(errorIcon).toBeInTheDocument()
+
+    expect(within(regularRow).queryByTestId('ErrorIconNext')).not.toBeInTheDocument()
+
+    await user.hover(errorIcon)
+
+    expect(await screen.findByRole('tooltip')).toHaveTextContent('newVersionAvailableTooltip')
   })
 
   it('shows the consumer sub-unit name with its root tenant below, and the root tenant name alone', async () => {
@@ -227,7 +244,7 @@ describe('ProviderPurposesListPage table', () => {
     expect(screen.queryByText('noResultsLabel')).not.toBeInTheDocument()
   })
 
-  it('keeps the pagination and its keyboard focus while the next page loads', async () => {
+  it('shows the loading table while the next page loads', async () => {
     const spy = mockQueries({
       results: [createMockPurpose({ title: 'First page', currentVersion: { state: 'ACTIVE' } })],
       pagination: { offset: 0, limit: 10, totalCount: 25 },
@@ -258,19 +275,16 @@ describe('ProviderPurposesListPage table', () => {
     renderPage()
 
     await screen.findByText('First page')
-    const nextPageButton = screen.getByRole('button', { name: /2/ })
-    nextPageButton.focus()
-    await user.keyboard('{Enter}')
+    await user.click(screen.getByRole('button', { name: /2/ }))
 
-    await vi.waitFor(() => expect(nextPageButton).toHaveAttribute('aria-current', 'true'))
-    expect(screen.getByText('First page')).toBeInTheDocument()
-    expect(screen.getByRole('navigation')).toBeVisible()
-    expect(nextPageButton).toHaveFocus()
+    await vi.waitFor(() => expect(screen.getByRole('table')).toHaveAttribute('aria-busy', 'true'))
+    expect(screen.queryByText('First page')).not.toBeInTheDocument()
 
     resolveSecondPage()
 
     expect(await screen.findByText('Second page')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /2/ })).toHaveFocus()
+    expect(screen.getByRole('navigation')).toBeVisible()
+    expect(screen.getByRole('table')).not.toHaveAttribute('aria-busy', 'true')
   })
 
   it('renders pagination when there are more purposes than the page size', async () => {

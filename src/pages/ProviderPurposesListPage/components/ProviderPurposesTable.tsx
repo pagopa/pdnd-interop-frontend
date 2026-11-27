@@ -12,6 +12,7 @@ import { StatusChip } from '@/components/shared/StatusChip'
 import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { Link } from '@/router'
 import { formatHierarchyWithoutParentRoot, getRootTenantFromHierarchy } from '@/utils/tenant.utils'
+import { ErrorIconNext } from '@/icons/ErrorIconNext/ErrorIconNext'
 
 type ProviderPurposesTableProps = {
   purposes: Array<Purpose>
@@ -68,18 +69,26 @@ export const ProviderPurposesTable: React.FC<ProviderPurposesTableProps> = ({
     {
       id: 'status',
       header: tHead('purposeStatus'),
-      renderCell: (purpose) => <StatusChip for="purpose" purpose={purpose} />,
+      renderCell: (purpose) => {
+        const hasWaitingForApprovalVersion =
+          purpose.currentVersion && purpose.waitingForApprovalVersion
+        return (
+          <Stack direction="row" spacing={1} alignItems="center">
+            <StatusChip for="purpose" purpose={purpose} />
+            {hasWaitingForApprovalVersion && (
+              <Tooltip arrow title={t('newVersionAvailableTooltip')}>
+                <ErrorIconNext />
+              </Tooltip>
+            )}
+          </Stack>
+        )
+      },
     },
     {
       id: 'details',
       header: '',
       isAction: true,
       renderCell: (purpose) => {
-        const hasWaitingForApprovalVersion = Boolean(
-          purpose.currentVersion && purpose.waitingForApprovalVersion
-        )
-        const actionLabel = tCommon('actions.inspect')
-
         const handlePrefetch = () => {
           queryClient.prefetchQuery({
             ...PurposeQueries.getSingle(purpose.id),
@@ -88,27 +97,18 @@ export const ProviderPurposesTable: React.FC<ProviderPurposesTableProps> = ({
         }
 
         return (
-          <Tooltip
-            open={hasWaitingForApprovalVersion ? undefined : false}
-            title={t('newVersionAvailableTooltip')}
+          <Link
+            as="button"
+            variant="naked"
+            size="small"
+            onPointerEnter={handlePrefetch}
+            onFocusVisible={handlePrefetch}
+            to="PROVIDE_PURPOSE_DETAILS"
+            params={{ purposeId: purpose.id }}
+            aria-label={tCommon('actions.inspect')}
           >
-            <Link
-              as="button"
-              variant="naked"
-              size="small"
-              onPointerEnter={handlePrefetch}
-              onFocusVisible={handlePrefetch}
-              to="PROVIDE_PURPOSE_DETAILS"
-              params={{ purposeId: purpose.id }}
-              aria-label={
-                hasWaitingForApprovalVersion
-                  ? `${actionLabel}. ${t('newVersionAvailableTooltip')}`
-                  : actionLabel
-              }
-            >
-              <ChevronRightIcon />
-            </Link>
-          </Tooltip>
+            <ChevronRightIcon />
+          </Link>
         )
       },
     },
