@@ -1,5 +1,6 @@
-import { act, renderHook } from '@testing-library/react'
+import { act } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { useRiskAnalysisSummaryPage } from '../useRiskAnalysisSummaryPage'
 
 const navigateMock = vi.fn()
@@ -21,7 +22,12 @@ vi.mock('@tanstack/react-query', async () => {
 
   return {
     ...actual,
-    useQuery: () => useQueryMock(),
+    useQuery: () => ({
+      isFetchedAfterMount: true,
+      isSuccess: true,
+      isFetching: false,
+      ...useQueryMock(),
+    }),
     queryOptions: actual.queryOptions,
   }
 })
@@ -35,6 +41,12 @@ vi.mock('../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
   useGetConsumerPurposeAlertProps: () => undefined,
 }))
 
+function renderReview() {
+  return renderHookWithApplicationContext(() => useRiskAnalysisSummaryPage(), {
+    withRouterContext: true,
+  })
+}
+
 describe('useRiskAnalysisSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -46,7 +58,7 @@ describe('useRiskAnalysisSummaryPage', () => {
       isLoading: false,
     })
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result } = renderReview()
 
     expect(result.current.purposeId).toBe('test-purpose-id')
     expect(result.current.isLoading).toBe(false)
@@ -71,7 +83,7 @@ describe('useRiskAnalysisSummaryPage', () => {
       isLoading: false,
     })
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result } = renderReview()
 
     expect(result.current.isPublishButtonDisabled).toBe(true)
   })
@@ -95,7 +107,7 @@ describe('useRiskAnalysisSummaryPage', () => {
       isLoading: false,
     })
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result } = renderReview()
 
     expect(result.current.isPublishButtonDisabled).toBe(false)
   })
@@ -119,7 +131,7 @@ describe('useRiskAnalysisSummaryPage', () => {
       isLoading: false,
     })
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result } = renderReview()
 
     expect(result.current.isPublishButtonDisabled).toBe(true)
   })
@@ -130,22 +142,7 @@ describe('useRiskAnalysisSummaryPage', () => {
       isLoading: false,
     })
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
-
-    result.current.handleEditDraft()
-
-    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_COMPILE', {
-      params: { purposeId: 'test-purpose-id' },
-    })
-  })
-
-  it('should navigate on edit draft', () => {
-    useQueryMock.mockReturnValue({
-      data: null,
-      isLoading: false,
-    })
-
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result } = renderReview()
 
     result.current.handleEditDraft()
 
@@ -170,7 +167,7 @@ describe('useRiskAnalysisSummaryPage', () => {
         refetch: refetchGetPurpose,
       })
 
-      const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+      const { result } = renderReview()
 
       await act(() => result.current.handleApproveDraft())
 
@@ -196,7 +193,7 @@ describe('useRiskAnalysisSummaryPage', () => {
     })
     useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
 
-    const { result, rerender } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result, rerender } = renderReview()
 
     await act(() => result.current.handleApproveDraft())
 
@@ -216,6 +213,37 @@ describe('useRiskAnalysisSummaryPage', () => {
     expect(showToastMock).not.toHaveBeenCalled()
   })
 
+  it('should keep the reviewed content and version while applying live archival guards', () => {
+    const purpose = {
+      currentVersion: {},
+      metadataVersion: 3,
+      title: 'Reviewed title',
+      eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
+      agreement: { state: 'ACTIVE' },
+    }
+    useQueryMock.mockReturnValue({ data: purpose, isLoading: false })
+    const { result, rerender } = renderReview()
+
+    const updatedPurpose = {
+      ...purpose,
+      title: 'Updated title',
+      metadataVersion: 4,
+      agreement: { state: 'ARCHIVED' },
+    }
+    useQueryMock.mockReturnValue({ data: updatedPurpose, isLoading: false })
+    rerender()
+
+    expect(result.current.reviewedPurpose).toEqual(purpose)
+    expect(result.current.purpose).toEqual(updatedPurpose)
+    expect(result.current.arePublishOrEditButtonsDisabled).toBe(true)
+    act(() => result.current.handleApproveDraft())
+    expect(openDialogMock).toHaveBeenCalledWith({
+      type: 'approveRiskAnalysis',
+      purposeId: 'test-purpose-id',
+      metadataVersionToSign: 3,
+    })
+  })
+
   it('should keep the generic error when the displayed metadata version is missing', async () => {
     const purpose = {
       currentVersion: {},
@@ -226,7 +254,7 @@ describe('useRiskAnalysisSummaryPage', () => {
     const refetch = vi.fn().mockRejectedValue(new Error('No extra request expected'))
     useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
 
-    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+    const { result } = renderReview()
 
     await act(() => result.current.handleApproveDraft())
 
@@ -254,7 +282,7 @@ describe('useRiskAnalysisSummaryPage', () => {
       })
       useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
 
-      const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+      const { result } = renderReview()
 
       await act(() => result.current.handleApproveDraft())
 

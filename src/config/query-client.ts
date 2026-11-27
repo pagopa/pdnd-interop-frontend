@@ -55,6 +55,10 @@ const resolveMeta = (query: {
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
 
+  const skipErrorToastDetails =
+    typeof meta.skipErrorToastDetails === 'function'
+      ? meta.skipErrorToastDetails(error, variables, context)
+      : meta.skipErrorToastDetails
   const errorToastLabel = getBackendErrorLabel(error) ?? fallbackLabel
 
   const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
@@ -87,6 +91,7 @@ const resolveMeta = (query: {
     loadingLabel,
     successToastLabel,
     errorToastLabel,
+    skipErrorToastDetails,
     confirmationDialog,
     skipActiveQueriesPolling: meta.skipActiveQueriesPolling,
   }
@@ -208,7 +213,7 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   if (correlationId && errorCode) {
     getSetErrorData()(correlationId, errorCode)
   }
-  getShowToast()(errorToastLabel, 'error', correlationId)
+  getShowToast()(errorToastLabel, 'error', meta.skipErrorToastDetails ? undefined : correlationId)
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {
