@@ -12,11 +12,21 @@ type FormValues = {
   selectedOptions: Array<string>
 }
 
+type FalsyValueFormValues = {
+  selectedOptions: Array<number>
+  otherField: string
+}
+
 const mockOptions = [
   { label: 'Option Alpha', value: 'alpha' },
   { label: 'Option Beta', value: 'beta' },
   { label: 'Option Gamma', value: 'gamma' },
   { label: 'Delta Item', value: 'delta' },
+]
+
+const mockNumericOptions = [
+  { label: 'Option Zero', value: 0 },
+  { label: 'Option One', value: 1 },
 ]
 
 function TestWrapper({
@@ -36,6 +46,32 @@ function TestWrapper({
     <FormProvider {...methods}>
       <form noValidate onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
         {children}
+      </form>
+    </FormProvider>
+  )
+}
+
+function FalsyValueTestWrapper({ onSubmit }: { onSubmit: (data: FalsyValueFormValues) => void }) {
+  const methods = useForm<FalsyValueFormValues>({
+    defaultValues: {
+      selectedOptions: [0],
+      otherField: '',
+    },
+  })
+
+  return (
+    <FormProvider {...methods}>
+      <form noValidate onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
+        <RHFNewAutocompleteMultiple
+          name="selectedOptions"
+          label="Select numeric options"
+          options={mockNumericOptions}
+        />
+        <label>
+          Other field
+          <input {...methods.register('otherField')} />
+        </label>
+        <button type="submit">Submit</button>
       </form>
     </FormProvider>
   )
@@ -228,6 +264,31 @@ describe('RHFNewAutocompleteMultiple', () => {
     await waitFor(() => {
       expect(within(selectedOptions).getByText('Option Beta')).toBeInTheDocument()
       expect(within(selectedOptions).getByText('Delta Item')).toBeInTheDocument()
+    })
+  })
+
+  it('retains a falsy selection when another form field changes', async () => {
+    const user = userEvent.setup()
+    const handleSubmit = vi.fn()
+
+    renderWithAppContext(<FalsyValueTestWrapper onSubmit={handleSubmit} />)
+
+    const selectedOptions = await screen.findByRole('list', { name: 'Selected options' })
+    expect(within(selectedOptions).getByText('Option Zero')).toBeInTheDocument()
+
+    await user.type(screen.getByLabelText('Other field'), 'changed')
+
+    expect(within(selectedOptions).getByText('Option Zero')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('combobox'))
+    await user.click(await screen.findByRole('option', { name: 'Option One' }))
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledWith({
+        selectedOptions: [0, 1],
+        otherField: 'changed',
+      })
     })
   })
 

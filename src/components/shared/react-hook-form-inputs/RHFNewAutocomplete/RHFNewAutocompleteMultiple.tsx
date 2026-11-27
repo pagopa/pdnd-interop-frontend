@@ -52,24 +52,6 @@ export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleP
     })
   }, [selectedValues, props.options])
 
-  /**
-   * Keeps in sync RHF with the autocomplete's internal state in case
-   * a value is deleted manually from the RHF state.
-   */
-  React.useEffect(() => {
-    const subscription = watch((formValues) => {
-      const values = formValues[props.name] as Array<T>
-      setInternalState((prev) =>
-        prev.filter(
-          ({ value: internalStateValue }) =>
-            !!values.find((value) => isEqual(value, internalStateValue))
-        )
-      )
-    })
-
-    return subscription.unsubscribe
-  }, [watch, props.name])
-
   return (
     <RHFNewAutocompleteBase
       multiple
