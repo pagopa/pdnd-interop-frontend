@@ -90,10 +90,6 @@ describe('EServiceServices.queryCatalogList', () => {
 })
 
 describe('EServiceServices.downloadConsumerList', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   it('uses the decoded UTF-8 filename* value from Content-Disposition', async () => {
     const file = new File(['content'], 'consumers.csv')
     vi.mocked(axiosInstance.get).mockResolvedValue({
@@ -143,5 +139,29 @@ describe('EServiceServices.downloadConsumerList', () => {
       file,
       filename: '2026-11-05T13_17_47-lista-fruitori-eservice.csv',
     })
+  })
+})
+
+describe('EServiceServices.getFeaturedEServicesCatalog', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('GETs the featured catalog endpoint and returns the response data', async () => {
+    const data: Awaited<ReturnType<typeof EServiceServices.getFeaturedEServicesCatalog>> = []
+    vi.mocked(axiosInstance.get).mockResolvedValue({ data })
+
+    const result = await EServiceServices.getFeaturedEServicesCatalog()
+
+    expect(axiosInstance.get).toHaveBeenCalledTimes(1)
+    expect(axiosInstance.get).toHaveBeenCalledWith(`${BACKEND_FOR_FRONTEND_URL}/catalog/featured`)
+    expect(result).toBe(data)
+  })
+
+  it('propagates request errors', async () => {
+    const error = new Error('network error')
+    vi.mocked(axiosInstance.get).mockRejectedValue(error)
+
+    await expect(EServiceServices.getFeaturedEServicesCatalog()).rejects.toBe(error)
   })
 })

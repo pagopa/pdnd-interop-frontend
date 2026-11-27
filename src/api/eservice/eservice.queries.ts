@@ -37,6 +37,13 @@ function getCompactCatalogList(params: GetCompactCatalogEServicesParams) {
   })
 }
 
+function getFeaturedEServicesCatalog() {
+  return queryOptions({
+    queryKey: ['EServiceGetFeaturedEServicesCatalog'],
+    queryFn: () => EServiceServices.getFeaturedEServicesCatalog(),
+  })
+}
+
 function getProviderList(params: GetProducerEServicesParams) {
   return queryOptions({
     queryKey: ['EServiceGetProviderList', params],
@@ -110,4 +117,5 @@ export const EServiceQueries = {
   getEServiceRiskAnalysis,
   getIsEServiceNameAvailable,
   queryCatalogList,
+  getFeaturedEServicesCatalog,
 }

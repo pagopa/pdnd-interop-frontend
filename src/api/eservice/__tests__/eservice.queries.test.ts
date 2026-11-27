@@ -6,6 +6,7 @@ import { EServiceQueries } from '../eservice.queries'
 vi.mock('../eservice.services', () => ({
   EServiceServices: {
     queryCatalogList: vi.fn(),
+    getFeaturedEServicesCatalog: vi.fn(),
   },
 }))
 
@@ -38,6 +39,29 @@ describe('EServiceQueries.queryCatalogList', () => {
     const result = await (options.queryFn as () => Promise<unknown>)()
 
     expect(EServiceServices.queryCatalogList).toHaveBeenCalledWith(payload)
+    expect(result).toBe(response)
+  })
+})
+
+describe('EServiceQueries.getFeaturedEServicesCatalog', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('builds the query key', () => {
+    const options = EServiceQueries.getFeaturedEServicesCatalog()
+
+    expect(options.queryKey).toEqual(['EServiceGetFeaturedEServicesCatalog'])
+  })
+
+  it('calls EServiceServices.getFeaturedEServicesCatalog without parameters and returns its result', async () => {
+    const response: Awaited<ReturnType<typeof EServiceServices.getFeaturedEServicesCatalog>> = []
+    vi.mocked(EServiceServices.getFeaturedEServicesCatalog).mockResolvedValue(response)
+
+    const options = EServiceQueries.getFeaturedEServicesCatalog()
+    const result = await (options.queryFn as () => Promise<unknown>)()
+
+    expect(EServiceServices.getFeaturedEServicesCatalog).toHaveBeenCalledWith()
     expect(result).toBe(response)
   })
 })
