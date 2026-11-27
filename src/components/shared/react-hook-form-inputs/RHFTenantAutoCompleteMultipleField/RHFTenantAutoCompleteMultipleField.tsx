@@ -27,6 +27,14 @@ export type RHFTenantAutoCompleteMultipleFieldProps = Omit<
   options: CompactTenant[]
 }
 
+const tenantLevelClampSx = {
+  display: '-webkit-box',
+  overflow: 'hidden',
+  overflowWrap: 'anywhere',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 2,
+} as const
+
 function TenantOption({ tenant }: { tenant: CompactTenant }) {
   const title = formatHierarchyWithoutParentRoot(tenant, tenant.parentTenants)
   const tenantRoot = getRootTenantFromHierarchy(tenant.parentTenants)
@@ -44,11 +52,15 @@ function TenantOption({ tenant }: { tenant: CompactTenant }) {
           <Typography
             component="span"
             variant="body1"
-            sx={(theme) => ({
-              fontSize: theme.typography.pxToRem(16),
-              lineHeight: theme.typography.pxToRem(22),
-              fontWeight: theme.typography.fontWeightMedium,
-            })}
+            title={title}
+            sx={[
+              tenantLevelClampSx,
+              (theme) => ({
+                fontSize: theme.typography.pxToRem(16),
+                lineHeight: theme.typography.pxToRem(22),
+                fontWeight: theme.typography.fontWeightMedium,
+              }),
+            ]}
           >
             {title}
           </Typography>
@@ -56,12 +68,16 @@ function TenantOption({ tenant }: { tenant: CompactTenant }) {
             <Typography
               component="span"
               variant="caption"
-              sx={(theme) => ({
-                color: theme.palette.text.secondary,
-                fontSize: theme.typography.pxToRem(14),
-                fontWeight: theme.typography.fontWeightRegular,
-                lineHeight: theme.typography.pxToRem(20),
-              })}
+              title={tenantRoot}
+              sx={[
+                tenantLevelClampSx,
+                (theme) => ({
+                  color: theme.palette.text.secondary,
+                  fontSize: theme.typography.pxToRem(14),
+                  fontWeight: theme.typography.fontWeightRegular,
+                  lineHeight: theme.typography.pxToRem(20),
+                }),
+              ]}
             >
               {tenantRoot}
             </Typography>
