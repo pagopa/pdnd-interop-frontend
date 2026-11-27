@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { describe, expect, it, vi } from 'vitest'
 import type { CompactTenant } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
@@ -56,6 +56,21 @@ function TestForm({
         <button type="submit">Submit</button>
       </form>
     </FormProvider>
+  )
+}
+
+function ResetActions() {
+  const { reset } = useFormContext<FormValues>()
+
+  return (
+    <>
+      <button type="button" onClick={() => reset({ tenantIds: [] })}>
+        Clear tenants
+      </button>
+      <button type="button" onClick={() => reset({ tenantIds: ['ufficio-permessi-id'] })}>
+        Replace tenant
+      </button>
+    </>
   )
 }
 
@@ -178,5 +193,137 @@ describe('RHFTenantAutoCompleteMultipleField', () => {
     expect(onSubmit.mock.calls[0][0]).toEqual({
       tenantIds: ['direzione-mobilita-id', 'pagopa-id'],
     })
+  })
+
+  it('reconciles a preselected tenant when its option arrives asynchronously', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    const { rerender } = renderWithApplicationContext(
+      <TestForm defaultValues={{ tenantIds: ['pagopa-id'] }} onSubmit={onSubmit}>
+        <RHFTenantAutoCompleteMultipleField
+          name="tenantIds"
+          label="Cerca per erogatore"
+          options={[]}
+        />
+      </TestForm>,
+      {}
+    )
+
+    expect(screen.getByRole('button', { name: 'Delete 1' })).toBeInTheDocument()
+
+    rerender(
+      <TestForm defaultValues={{ tenantIds: ['pagopa-id'] }} onSubmit={onSubmit}>
+        <RHFTenantAutoCompleteMultipleField
+          name="tenantIds"
+          label="Cerca per erogatore"
+          options={[tenants[2]]}
+        />
+      </TestForm>
+    )
+
+    const input = screen.getByRole('combobox', { name: 'Cerca per erogatore' })
+    await user.click(input)
+
+    const option = await screen.findByRole('option', { name: 'PagoPA S.p.A.' })
+    expect(option).toHaveAttribute('aria-selected', 'true')
+
+    await user.click(option)
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+
+    // After clicking submit, the form should have cleared the tenantIds because the selected option was removed.
+    await waitFor(() => expect(onSubmit.mock.calls.at(-1)?.[0]).toEqual({ tenantIds: [] }))
+  })
+
+  it('keeps selected tenants when search options change', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    const onValueChange = vi.fn()
+    const { rerender } = renderWithApplicationContext(
+      <TestForm defaultValues={{ tenantIds: ['direzione-mobilita-id'] }} onSubmit={onSubmit}>
+        <RHFTenantAutoCompleteMultipleField
+          name="tenantIds"
+          label="Cerca per erogatore"
+          options={[tenants[0]]}
+          onValueChange={onValueChange}
+        />
+      </TestForm>,
+      {}
+    )
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Delete 1' })).toBeInTheDocument()
+    )
+
+    rerender(
+      <TestForm defaultValues={{ tenantIds: ['direzione-mobilita-id'] }} onSubmit={onSubmit}>
+        <RHFTenantAutoCompleteMultipleField
+          name="tenantIds"
+          label="Cerca per erogatore"
+          options={[tenants[2]]}
+          onValueChange={onValueChange}
+        />
+      </TestForm>
+    )
+
+    await user.click(screen.getByRole('combobox', { name: 'Cerca per erogatore' }))
+    await user.click(await screen.findByRole('option', { name: 'PagoPA S.p.A.' }))
+
+    expect(screen.getByRole('button', { name: 'Delete 2' })).toBeInTheDocument()
+    expect(onValueChange).toHaveBeenLastCalledWith([tenants[0], tenants[2]])
+
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+    await waitFor(() =>
+      expect(onSubmit.mock.calls.at(-1)?.[0]).toEqual({
+        tenantIds: ['direzione-mobilita-id', 'pagopa-id'],
+      })
+    )
+  })
+
+  it('synchronizes clearing and same-length replacements from form.reset', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+
+    renderWithApplicationContext(
+      <TestForm defaultValues={{ tenantIds: ['pagopa-id'] }} onSubmit={onSubmit}>
+        <RHFTenantAutoCompleteMultipleField
+          name="tenantIds"
+          label="Cerca per erogatore"
+          options={tenants}
+        />
+        <ResetActions />
+      </TestForm>,
+      {}
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Replace tenant' }))
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Delete 1' })).toBeInTheDocument()
+    )
+    await user.click(screen.getByRole('combobox', { name: 'Cerca per erogatore' }))
+    expect(
+      screen.getByRole('option', {
+        name: 'Ufficio permessi ZTL - Direzione Mobilità Comune di Milano',
+      })
+    ).toHaveAttribute('aria-selected', 'true')
+
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+    await waitFor(() =>
+      expect(onSubmit.mock.calls.at(-1)?.[0]).toEqual({ tenantIds: ['ufficio-permessi-id'] })
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Clear tenants' }))
+    await waitFor(() =>
+      expect(screen.queryByRole('button', { name: 'Delete 1' })).not.toBeInTheDocument()
+    )
+    await user.click(screen.getByRole('combobox', { name: 'Cerca per erogatore' }))
+    expect(
+      screen.getByRole('option', {
+        name: 'Ufficio permessi ZTL - Direzione Mobilità Comune di Milano',
+      })
+    ).toHaveAttribute('aria-selected', 'false')
+
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+    await waitFor(() => expect(onSubmit.mock.calls.at(-1)?.[0]).toEqual({ tenantIds: [] }))
   })
 })
