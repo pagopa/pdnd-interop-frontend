@@ -8,6 +8,7 @@ import type {
   EServiceProducerCategory,
   EServiceMode,
   EServiceSortBy,
+  CompactOrganization,
 } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -21,6 +22,121 @@ import { match } from 'ts-pattern'
 import { MIPagination } from '@pagopa/mui-italia'
 import { usePagination } from '@/hooks/usePagination'
 import { Box } from '@mui/material'
+
+// TODO: REMOVED THIS JUST A PLACEHOLDER
+// const mockCompactOrganizations: CompactOrganization[] = [
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f001',
+//     name: 'Comune di Milano',
+//     kind: 'PA',
+
+//     contactMail: {
+//       address: 'protocollo@comune.milano.it',
+//       description: 'Protocollo generale',
+//     },
+//     hasUnreadNotifications: true,
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f002',
+//     name: 'Direzione Mobilità',
+//     subUnitType: 'AOO',
+//     parentTenants: [
+//       {
+//         id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f001',
+//         name: 'Comune di Milano',
+//       },
+//     ],
+//     kind: 'PA',
+//     hasUnreadNotifications: false,
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f003',
+//     name: 'Ufficio permessi ZTL',
+//     subUnitType: 'UO',
+//     parentTenants: [
+//       {
+//         id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f002',
+//         name: 'Direzione Mobilità',
+//         subUnitType: 'AOO',
+//       },
+//       {
+//         id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f001',
+//         name: 'Comune di Milano',
+//       },
+//     ],
+//     kind: 'PA',
+//     contactMail: {
+//       address: 'permessi.ztl@comune.milano.it',
+//     },
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f004',
+//     name: 'PagoPA S.p.A.',
+//     kind: 'GSP',
+//     contactMail: {
+//       address: 'interop@pagopa.it',
+//       description: 'Supporto interoperabilità',
+//     },
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f005',
+//     name: 'Ministero dell’Interno',
+//     kind: 'PA',
+//     hasUnreadNotifications: true,
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f006',
+//     name: 'Regione Lombardia',
+//     kind: 'PA',
+//     contactMail: {
+//       address: 'protocollo@pec.regione.lombardia.it',
+//     },
+//     hasUnreadNotifications: false,
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f007',
+//     name: 'Azienda Trasporti Milanesi S.p.A.',
+//     kind: 'SCP',
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f008',
+//     name: 'Acme Digital S.r.l.',
+//     kind: 'PRIVATE',
+//     contactMail: {
+//       address: 'interoperabilita@acme.example',
+//     },
+//     hasUnreadNotifications: true,
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f009',
+//     name: 'Area Pianificazione Strategica',
+//     subUnitType: 'AOO',
+//     parentTenants: [
+//       {
+//         id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f005',
+//         name: 'Ministero dell’Interno',
+//       },
+//     ],
+//   },
+//   {
+//     id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f010',
+//     name: 'Ufficio Servizi Demografici',
+//     subUnitType: 'UO',
+//     parentTenants: [
+//       {
+//         id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f009',
+//         name: 'Area Pianificazione Strategica',
+//         subUnitType: 'AOO',
+//       },
+//       {
+//         id: '2edccf9d-c4f3-4f9a-b6f7-4c9b2b25f005',
+//         name: 'Ministero dell’Interno',
+//       },
+//     ],
+//     kind: 'PA',
+//     hasUnreadNotifications: false,
+//   },
+// ]
 
 const producerCategoriesOptions: EServiceProducerCategory[] = [
   'ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI',
@@ -78,6 +194,12 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
         options: producersOptions,
         onTextInputChange: setProducersAutocompleteInput,
       },
+      // {
+      //   name: 'producersIds',
+      //   label: tEservice('filters.providerField.label'),
+      //   type: 'autocomplete-tenant-multiple',
+      //   options: mockCompactOrganizations,
+      // },
     ],
     [
       {

@@ -95,6 +95,7 @@ export function RHFNewAutocompleteSingle<T>(props: RHFNewAutocompleteSingleProps
     <RHFNewAutocompleteBase
       multiple={false}
       getOptionValue={(d) => d?.value ?? d}
+      isOptionEqualToValue={(option, value) => isEqual(option.value, value.value)}
       getOptionLabel={(value) => {
         if (!value) return ''
         if (value?.label) return value.label

@@ -23,10 +23,9 @@ type RHFNewAutocompleteMultipleProps<T> = Omit<
 
 export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleProps<T>) {
   const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T>[]>([])
-  // const hasSetOptions = React.useRef(false)
 
   const { watch } = useFormContext()
-  const selectedValues = watch(props.name) as Array<T>
+  const selectedValues = watch(props.name) as Array<T> | undefined
 
   /**
    * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
@@ -38,47 +37,26 @@ export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleP
    * */
 
   React.useEffect(() => {
-    // if (hasSetOptions.current) return
-    if (selectedValues.length !== internalState.length && props.options.length > 0) {
-      // hasSetOptions.current = true
-      const selectedOptions = props.options.filter((option) =>
-        selectedValues.some((value) => isEqual(value, option.value))
-      )
+    setInternalState((currentState) => {
+      const nextState = (selectedValues ?? []).map((selectedValue) => {
+        const availableOption = props.options.find((option) => isEqual(option.value, selectedValue))
+        const previousOption = currentState.find((option) => isEqual(option.value, selectedValue))
 
-      // When the selected values are not found in the options, it means that the options are not loaded or not available
-      const missingValues: Array<T> = selectedValues.filter(
-        (option) => !selectedOptions.some((selectedOption) => isEqual(selectedOption.value, option))
-      )
-
-      setInternalState([
-        ...selectedOptions,
-        ...missingValues.map((value) => ({ label: String(value), value })),
-      ])
-    }
-  }, [selectedValues, props.options, internalState])
-
-  /**
-   * Keeps in sync RHF with the autocomplete's internal state in case
-   * a value is deleted manually from the RHF state.
-   */
-  React.useEffect(() => {
-    const subscription = watch((formValues) => {
-      const values = formValues[props.name] as Array<T>
-      setInternalState((prev) =>
-        prev.filter(
-          ({ value: internalStateValue }) =>
-            !!values.find((value) => isEqual(value, internalStateValue))
+        return (
+          availableOption ??
+          previousOption ?? { label: String(selectedValue), value: selectedValue }
         )
-      )
-    })
+      })
 
-    return subscription.unsubscribe
-  }, [watch, props.name])
+      return isEqual(currentState, nextState) ? currentState : nextState
+    })
+  }, [selectedValues, props.options])
 
   return (
     <RHFNewAutocompleteBase
       multiple
       getOptionValue={(data) => data.map((d) => d?.value ?? d)}
+      isOptionEqualToValue={(option, value) => isEqual(option.value, value.value)}
       {...props}
       rules={props.rules}
       onValueChange={props.onValueChange}

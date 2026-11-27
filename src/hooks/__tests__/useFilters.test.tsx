@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react'
 import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
 import { useFilters } from '../useFilters'
 import type { FilterFields, AdditionalFiltersSection } from '@/types/filters.types'
+import { createMockCompactTenant } from '@/../__mocks__/data/tenant.mocks'
 
 type TestFiltersParams = {
   keyword: string
@@ -12,6 +13,7 @@ type TestFiltersParams = {
   tags: string
   category: string
   status: string
+  tenants: string
 }
 
 const mainFields: FilterFields<keyof TestFiltersParams> = [
@@ -36,6 +38,12 @@ const mainFields: FilterFields<keyof TestFiltersParams> = [
       { label: 'TAG-1', value: 'tag-1' },
       { label: 'TAG-2', value: 'tag-2' },
     ],
+  },
+  {
+    name: 'tenants',
+    label: 'Tenants',
+    type: 'autocomplete-tenant-multiple',
+    options: [createMockCompactTenant({ id: 'tenant-1', name: 'Tenant 1' })],
   },
 ]
 
@@ -87,6 +95,7 @@ describe('useFilters', () => {
       createdAt: null,
       mode: null,
       tags: null,
+      tenants: null,
       category: null,
       status: null,
     })
@@ -96,7 +105,7 @@ describe('useFilters', () => {
     const { result } = renderHook(() => useFilters(mainFields, additionalsSections), {
       wrapper: withNuqsTestingAdapter({
         searchParams:
-          '?keyword=keyword-1&num=42&isActive=true&status=state-1,state-2&tags=tag-1,tag-2&category=cat-1&mode=mode-1',
+          '?keyword=keyword-1&num=42&isActive=true&status=state-1,state-2&tags=tag-1,tag-2&category=cat-1&mode=mode-1&tenants=tenant-1,tenant-2',
       }),
     })
 
@@ -108,6 +117,7 @@ describe('useFilters', () => {
       tags: ['tag-1', 'tag-2'],
       category: 'cat-1',
       mode: 'mode-1',
+      tenants: ['tenant-1', 'tenant-2'],
     })
   })
 
@@ -161,6 +171,7 @@ describe('useFilters', () => {
       createdAt: null,
       status: null,
       tags: null,
+      tenants: null,
       category: null,
       mode: null,
     })
@@ -179,6 +190,7 @@ describe('useFilters', () => {
       createdAt: null,
       mode: null,
       tags: null,
+      tenants: null,
     })
   })
 })

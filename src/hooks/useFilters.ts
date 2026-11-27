@@ -66,6 +66,9 @@ const getParsers = <T>(
         // This is because parseAsStringLiteral only allows values that are in the options list. So we are using parseAsString here to allow any value to be passed in the query param.
         parsers[field.name] = parseAsArrayOf(parseAsString)
       })
+      .with('autocomplete-tenant-multiple', () => {
+        parsers[field.name] = parseAsArrayOf(parseAsString)
+      })
 
       .with('select-single', () => {
         parsers[field.name] = parseAsStringLiteral(

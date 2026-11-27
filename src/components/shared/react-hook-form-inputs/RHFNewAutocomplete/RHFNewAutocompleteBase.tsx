@@ -1,4 +1,5 @@
 import { mapValidationErrorMessages } from '@/utils/form.utils'
+import { alpha, GlobalStyles } from '@mui/material'
 import { Autocomplete } from '@pagopa/mui-italia'
 import identity from 'lodash/identity'
 import React from 'react'
@@ -39,14 +40,16 @@ const RHFNewAutocompleteBase = <T, Multiple extends boolean | undefined>({
   infoLabel,
   onValueChange,
   setInternalState,
+  sx,
   ...props
-}: RHFNewAutocompleteBaseProps<RHFAutocompleteInput<T>, Multiple>) => {
+}: RHFNewAutocompleteBaseProps<T, Multiple>) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
   const { t: tCommon } = useTranslation()
   const { formState, watch, setValue } = useFormContext()
   const labelId = React.useId()
+  const autocompleteId = props.id ?? `rhf-autocomplete-${labelId.replaceAll(':', '')}`
 
   const value = watch(name)
 
@@ -60,32 +63,54 @@ const RHFNewAutocompleteBase = <T, Multiple extends boolean | undefined>({
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <Controller
-      name={name}
-      rules={mapValidationErrorMessages(rules, tCommon)}
-      render={({ field: { onChange: _onChange } }) => (
-        <Autocomplete
-          id={labelId}
-          options={options}
-          isOptionEqualToValue={(option, { value }) => isEqual(option.value, value)}
-          loading={loading}
-          noResultsText={props.noResultsText || t('noDataLabel')}
-          defaultValue={defaultValue}
-          {...props}
-          onChange={(data) => {
-            _onChange(getOptionValue(data))
-            setInternalState(data)
-            if (onValueChange) onValueChange(data)
-          }}
-          error={Boolean(error)}
-          helperText={Boolean(error) ? error : infoLabel}
-          required={Boolean(rules?.required)}
-          placeholder={placeholder}
-          autoFocus={focusOnMount}
-          label={label}
-        />
-      )}
-    />
+    <>
+      <GlobalStyles
+        styles={(theme) => {
+          const selectedBackground = alpha(theme.colors.blue[500], 0.08)
+
+          return {
+            [`[id="${autocompleteId}-listbox"] > .MuiListItem-root`]: {
+              '& > .MuiListItemButton-root, & .MuiMenuItem-root': {
+                backgroundColor: 'inherit !important',
+              },
+              '&:hover': {
+                backgroundColor: `${theme.palette.action.hover} !important`,
+              },
+              '& > .MuiListItemButton-root[aria-selected="true"]': {
+                backgroundColor: `${selectedBackground} !important`,
+              },
+            },
+          }
+        }}
+      />
+      <Controller
+        name={name}
+        rules={mapValidationErrorMessages(rules, tCommon)}
+        render={({ field: { onChange: _onChange } }) => (
+          <Autocomplete
+            id={autocompleteId}
+            options={options}
+            isOptionEqualToValue={isEqual}
+            loading={loading}
+            noResultsText={props.noResultsText || t('noDataLabel')}
+            defaultValue={defaultValue}
+            {...props}
+            onChange={(data) => {
+              _onChange(getOptionValue(data))
+              setInternalState(data)
+              if (onValueChange) onValueChange(data)
+            }}
+            error={Boolean(error)}
+            helperText={Boolean(error) ? error : infoLabel}
+            required={Boolean(rules?.required)}
+            placeholder={placeholder}
+            autoFocus={focusOnMount}
+            label={label}
+            sx={sx}
+          />
+        )}
+      />
+    </>
   )
 }
 

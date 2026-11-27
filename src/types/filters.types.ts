@@ -1,3 +1,5 @@
+import type { CompactTenant } from '@/api/api.generatedTypes'
+
 export type ActiveFilters = Array<FilterOption & { type: FilterFieldType; filterKey: string }>
 export type FilterFieldValue =
   | Array<FilterOption>
@@ -10,6 +12,7 @@ export type FilterFieldValue =
 export type FilterFieldsValues = Record<string, FilterFieldValue>
 export type FilterFieldType =
   | 'autocomplete-multiple'
+  | 'autocomplete-tenant-multiple'
   | 'autocomplete-single'
   | 'numeric'
   | 'freetext'
@@ -90,6 +93,13 @@ export type AutocompleteFilterFieldOptions<TName extends string = string> =
     onTextInputChange?: (value: string) => void
   }
 
+export type TenantAutocompleteFilterFieldOptions<TName extends string = string> =
+  FilterFieldCommon<TName> & {
+    type: 'autocomplete-tenant-multiple'
+    options: CompactTenant[]
+    onTextInputChange?: (value: string) => void
+  }
+
 export type SelectFilterFieldOptions<TName extends string = string> = FilterFieldCommon<TName> & {
   type: 'select-multiple' | 'select-single'
   /**
@@ -104,6 +114,7 @@ export type FilterField<TName extends string = string> =
   | DatepickerFilterFieldOptions<TName>
   | NumericFilterFieldOptions<TName>
   | AutocompleteFilterFieldOptions<TName>
+  | TenantAutocompleteFilterFieldOptions<TName>
   | SelectFilterFieldOptions<TName>
   | BooleanFilterFieldOptions<TName>
 
