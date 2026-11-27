@@ -38,13 +38,9 @@ export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleP
 
   React.useEffect(() => {
     setInternalState((currentState) => {
-      console.log('cambiato il selected values', selectedValues)
       const nextState = (selectedValues ?? []).map((selectedValue) => {
-        console.log('sto cambiando:', selectedValue)
         const availableOption = props.options.find((option) => isEqual(option.value, selectedValue))
         const previousOption = currentState.find((option) => isEqual(option.value, selectedValue))
-
-        console.log('availableOption:', availableOption, 'previousOption:', previousOption)
 
         return (
           availableOption ??
